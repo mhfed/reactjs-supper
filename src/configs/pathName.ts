@@ -1,0 +1,18 @@
+export const PATH_NAME = {
+  ROOT: '/',
+  ERROR_404: '/404',
+  ERROR_403: '/403',
+  USER: '/user',
+  USER_MANAGEMENT: '/user/user_management',
+  CREATE_NEW_USER: '/user/create_user',
+  NOTIFICATION: '/notification',
+  NOTIFICATIONS: '/notification/notification_management',
+  CREATE_NEW_NOTIFICATION: '/notification/create_notification',
+  SEGMENTS: '/notification/segments',
+  SUBSCRIBERS: '/notification/subscribers',
+  LOGIN: '/login',
+  ARTICLE: '/article',
+  CREATE_NEW_ARTICLE: '/article/create_article',
+  ARTICLES: '/article/articles',
+  REPORT: '/report',
+};
