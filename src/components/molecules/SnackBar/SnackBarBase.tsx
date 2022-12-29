@@ -1,11 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
-
-// selectors
+import { useTranslation } from 'react-i18next';
 import { notificationsSelector } from 'selectors/app.selector';
-
-// actions
 import { removeSnackbar } from 'actions/app.action';
 
 let displayed: any[] = [];
@@ -14,6 +11,7 @@ const Notifier = () => {
   const dispatch = useDispatch();
   const notifications = useSelector(notificationsSelector);
   const { enqueueSnackbar } = useSnackbar();
+  const { t } = useTranslation();
 
   const storeDisplayed = (id: string | number) => {
     displayed = [...displayed, id];
@@ -29,7 +27,7 @@ const Notifier = () => {
       if (displayed.includes(ele.key)) return;
 
       // display snackbar using notistack
-      enqueueSnackbar(ele.message, {
+      enqueueSnackbar(t(ele.message), {
         key: ele.key,
         variant: ele.variant,
         onExited: (_, keySnackBar) => {

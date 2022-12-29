@@ -27,15 +27,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export type ErrortHandle = React.ElementRef<typeof ErrorCollapse>;
-type ErrorHandle = {
-  setError: (err: string) => void;
-};
 type ErrorCollapseProps = {
   error?: string | null;
 };
 
-const ErrorCollapse: React.ForwardRefRenderFunction<ErrorHandle, ErrorCollapseProps> = ({ error = '' }, ref) => {
+const ErrorCollapse: React.FC<ErrorCollapseProps> = ({ error = '' }) => {
   const classes = useStyles();
   const errorRef = React.useRef<HTMLDivElement>(null);
 
