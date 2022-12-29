@@ -1,25 +1,15 @@
 import React, { memo } from 'react';
-
-// libs
 import clsx from 'clsx';
-
-// material core
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
-
-// material icon
 import HomeIcon from '@mui/icons-material/Home';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-
-// components
 import Account from './components/Account';
 import Language from './components/Language';
 import DarkMode from './components/DarkMode';
-
-// styles
 import useStyles from './styles';
 
 type IProps = {

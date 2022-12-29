@@ -24,13 +24,13 @@ const lightTheme = createTheme({
       active: colors.blueGrey[600],
     },
     background: {
-      default: '#fafafa',
+      default: '#d8d8d8',
       paper: '#fff',
     },
     primary: {
-      light: '#1976d2 ',
+      light: '#fff ',
       main: '#00C77F',
-      dark: '#303f9f',
+      dark: '#fafafa',
       contrastText: '#fff',
     },
     secondary: {
