@@ -20,12 +20,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexGrow: 1,
     minHeight: '100vh',
     padding: theme.spacing(3, 3, 0, 3),
-    background: theme.palette.background.paper,
+    background: theme.palette.primary.light,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: `-${process.env.REACT_APP_DRAWER_WIDTH}px`,
+    width: '100vw',
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
@@ -33,6 +34,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginLeft: 0,
+    width: `calc(100vw - ${process.env.REACT_APP_DRAWER_WIDTH}px)`,
   },
   toolbar: {
     display: 'flex',

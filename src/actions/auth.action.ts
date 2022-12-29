@@ -8,7 +8,7 @@ import { NavigateFunction } from 'react-router-dom';
 const updateAxiosAuthConfig = (baseUrl: string, accessToken: string, refreshToken?: string) => {
   const lastEmailLogin = window.localStorage.getItem('lastEmailLogin');
   refreshToken && window.localStorage.setItem(`${lastEmailLogin}_refreshToken`, refreshToken);
-  axiosInstance.defaults.baseURL = baseUrl;
+  axiosInstance.defaults.baseURL = `https://${baseUrl}`;
   axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 };
 

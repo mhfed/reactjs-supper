@@ -17,7 +17,7 @@ import { setPinAfterChangePass, changePasswordRequest } from 'actions/auth.actio
 
 const useStyles = makeStyles((theme) => ({
   title: {
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.primary.dark,
     padding: theme.spacing(2),
     display: 'flex',
     width: '100%',

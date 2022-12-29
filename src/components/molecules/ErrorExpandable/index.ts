@@ -1,1 +1,1 @@
-export { default, type ErrortHandle } from './ErrorExpandable';
+export { default } from './ErrorExpandable';

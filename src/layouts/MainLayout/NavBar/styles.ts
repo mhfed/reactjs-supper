@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme: Theme) =>
       width: `${process.env.REACT_APP_DRAWER_WIDTH}px`,
       paddingBottom: 50,
       background: theme.palette.background.default,
+      // '& .MuiList-root': {
+      //   background: theme.palette.primary.dark,
+      // },
     },
     drawerHeader: {
       display: 'flex',

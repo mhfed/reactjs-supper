@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     height: theme.typography.fontSize * 2.5,
     borderRadius: theme.spacing(0.5),
     fontSize: theme.typography.h5.fontSize,
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.primary.dark,
     margin: theme.spacing(0.5),
     width: `calc(100%/3 - ${theme.spacing(1)})`,
     textAlign: 'center',
@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    background: theme.palette.background.default,
+    background: theme.palette.primary.dark,
     padding: theme.spacing(2),
     '& button': {
       '&:hover': {

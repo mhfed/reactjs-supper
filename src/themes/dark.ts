@@ -22,13 +22,13 @@ const darkTheme = createTheme({
       white: '#fff',
     },
     background: {
-      default: '#1F2332',
+      default: '#13161F',
       paper: '#272B3B',
     },
     primary: {
-      light: '#333',
+      light: '#272B3B',
       main: '#00C77F',
-      dark: '#303f9f',
+      dark: '#1F2332',
       contrastText: '#fff',
     },
     secondary: {
