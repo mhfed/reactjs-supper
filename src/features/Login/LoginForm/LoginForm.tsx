@@ -17,10 +17,11 @@ import { Trans } from 'react-i18next';
 import ErrorCollapse from 'components/molecules/ErrorExpandable';
 import { InputField, PasswordField } from 'components/fields';
 import React from 'react';
+import { ILoginValues } from 'models/ICommon';
 
 const useStyles = makeStyles((theme) => ({
   title: {
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme.palette.primary.light,
     padding: theme.spacing(2),
     display: 'flex',
     width: '100%',
@@ -54,10 +55,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface ILoginValues {
-  email: string;
-  password: string;
-}
 export default function SignIn() {
   const classes = useStyles();
   const error = useSelector(errorSelector);

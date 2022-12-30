@@ -13,7 +13,7 @@ import { logout } from 'actions/auth.action';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme.palette.background.default,
     minHeight: '100vh',
     display: 'flex',
     alignItems: 'center',

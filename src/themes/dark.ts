@@ -14,6 +14,13 @@ const darkTheme = createTheme({
         },
       },
     },
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          height: 24,
+        },
+      },
+    },
   },
   palette: {
     mode: 'dark',
@@ -26,19 +33,30 @@ const darkTheme = createTheme({
       paper: '#272B3B',
     },
     primary: {
-      light: '#272B3B',
+      dark: '#262B3E',
       main: '#00C77F',
-      dark: '#1F2332',
+      light: '#1F2332',
       contrastText: '#fff',
     },
     secondary: {
-      light: '#ff4081',
+      light: '#1F2332',
       main: '#27A6E7',
-      dark: '#c51162',
+      contrastText: '#fff',
+    },
+    success: {
+      main: '#00C77F',
+      light: '#E1FFF4',
+      contrastText: '#fff',
+    },
+    warning: {
+      main: '#D89C01',
+      light: '#FFFCD4',
       contrastText: '#fff',
     },
     error: {
       main: '#FF435F',
+      light: '#FFDCE2',
+      contrastText: '#fff',
     },
     text: {
       primary: '#fff',

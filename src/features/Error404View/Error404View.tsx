@@ -6,7 +6,7 @@ import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme.palette.background.default,
     minHeight: '100vh',
     display: 'flex',
     alignItems: 'center',

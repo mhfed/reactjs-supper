@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingBottom: 50,
       background: theme.palette.background.default,
       // '& .MuiList-root': {
-      //   background: theme.palette.primary.dark,
+      //   background: theme.palette.background.default,
       // },
     },
     drawerHeader: {

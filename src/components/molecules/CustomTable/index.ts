@@ -1,1 +1,2 @@
-export { default, type TableData, type ResponseDataPaging, COLUMN_TYPE } from './CustomTable';
+export { default } from './CustomTable';
+export { COLUMN_TYPE } from './TableConstants';

@@ -13,6 +13,7 @@ import PinInput from './PinInput';
 import { verifyPin, setPinFirstTime, forceSetPin } from 'actions/auth.action';
 import { isLoadingSelector } from 'selectors/auth.selector';
 import { useNavigate } from 'react-router-dom';
+import { LIST_KEYBOARD, PIN_STEP, LIST_STEP_ENTER_PIN, LIST_STEP_SET_PIN } from './PinConstants';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -45,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     height: theme.typography.fontSize * 2.5,
     borderRadius: theme.spacing(0.5),
     fontSize: theme.typography.h5.fontSize,
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme.palette.primary.light,
     margin: theme.spacing(0.5),
     width: `calc(100%/3 - ${theme.spacing(1)})`,
     textAlign: 'center',
@@ -71,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    background: theme.palette.primary.dark,
+    background: theme.palette.primary.light,
     padding: theme.spacing(2),
     '& button': {
       '&:hover': {
@@ -81,20 +82,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LIST_KEYBOARD = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '', '0', 'Backspace'];
 type PinInputHandle = React.ElementRef<typeof PinInput>;
 type PinFormProps = {
   password?: string;
   isSetPin?: boolean;
   isFirstTime?: boolean;
 };
-const PIN_STEP = {
-  ENTER_YOUR_PIN: 'ENTER_YOUR_PIN',
-  SET_YOUR_PIN: 'SET_YOUR_PIN',
-  CONFIRM_YOUR_NEW_PIN: 'CONFIRM_YOUR_NEW_PIN',
-};
-const LIST_STEP_SET_PIN = [PIN_STEP.SET_YOUR_PIN, PIN_STEP.CONFIRM_YOUR_NEW_PIN];
-const LIST_STEP_ENTER_PIN = [PIN_STEP.ENTER_YOUR_PIN];
 
 const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false, password = '' }) => {
   const classes = useStyles();

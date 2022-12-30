@@ -1,9 +1,15 @@
 import React from 'react';
 import MUIDataTable, { debounceSearchRender, MUIDataTableColumnDef, MUIDataTableState } from 'mui-datatables';
 import makeStyles from '@mui/styles/makeStyles';
-// import { ExportCSV } from 'assets/icons/';
+import Chip from '@mui/material/Chip';
+import Typography from '@mui/material/Typography';
 import { getFilterObj, GridConfig } from 'helpers';
 import { Trans, useTranslation } from 'react-i18next';
+import CustomFooter from './CustomFooter';
+import { IColumn, ResponseDataPaging, ITableData } from 'models/ICommon';
+import { TABLE_ACTION, COLUMN_TYPE, DATA_DEFAULT } from './TableConstants';
+import clsx from 'clsx';
+import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -12,9 +18,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     height: '100%',
     width: '100%',
+    background: theme.palette.primary.light,
     minHeight: 0,
     '& .MuiToolbar-root': {
-      background: theme.palette.primary.light,
+      background: theme.palette.background.paper,
       padding: 0,
     },
     '& > div:first-child': {
@@ -30,10 +37,10 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     '& .MuiTablePagination-root': {
-      background: theme.palette.primary.light,
+      background: theme.palette.background.paper,
     },
     '& .MuiTableCell-footer': {
-      background: theme.palette.primary.light,
+      background: theme.palette.background.paper,
       border: 'none',
     },
     '& .MuiTableCell-root': {
@@ -42,8 +49,9 @@ const useStyles = makeStyles((theme) => ({
     },
     '& .MuiTableCell-head': {
       borderRadius: 8,
+      overflow: 'hidden',
       background: theme.palette.background.default,
-      borderRight: `2px solid ${theme.palette.primary.light}`,
+      borderRight: '2px solid transparent',
       '& button': {
         width: '100%',
         marginLeft: 0,
@@ -52,34 +60,29 @@ const useStyles = makeStyles((theme) => ({
     },
     '& .MuiTableRow-root': {
       '&:nth-child(odd)': {
-        background: theme.palette.primary.light,
+        background: theme.palette.primary.dark,
       },
       '&:nth-child(even)': {
-        background: theme.palette.primary.dark,
+        background: theme.palette.primary.light,
       },
     },
   },
+  uppercase: {
+    textTransform: 'uppercase',
+  },
+  warning: {
+    background: theme.palette.warning.light,
+    color: theme.palette.warning.main,
+  },
+  error: {
+    background: theme.palette.error.light,
+    color: theme.palette.error.main,
+  },
+  success: {
+    background: theme.palette.success.light,
+    color: theme.palette.success.main,
+  },
 }));
-
-export const TABLE_ACTION = {
-  SORT: 'sort',
-  FILTER_CHANGE: 'filterChange',
-  PAGE_CHANGE: 'changePage',
-  SEARCH: 'search',
-  SEARCH_CLOSE: 'onSearchClose',
-  PAGE_SIZE_CHANGE: 'changeRowsPerPage',
-};
-
-export const COLUMN_TYPE = {
-  DROPDOWN: 'dropdown',
-};
-
-export type TableData = {
-  data: object[];
-  page: number;
-  count: number;
-  rowsPerPage: number;
-};
 
 type TableHandle = {
   setEditMode: (state: boolean) => void;
@@ -88,32 +91,19 @@ type TableHandle = {
   getQuery: any;
 };
 
-export type ResponseDataPaging = {
-  current_page: number;
-  total_count: number;
-  total_pages: number;
-  data: object[];
-};
-
-const DATA_DEFAULT = {
-  data: [],
-  page: 1,
-  count: 0,
-  rowsPerPage: 25,
-};
-
 type TableProps = {
   onTableChange: (state: any, config: object) => void;
   onRowDbClick: (index: number) => void;
   columns: MUIDataTableColumnDef[];
   rowsPerPageOptions?: number[];
-  data?: TableData;
+  data?: ITableData;
+  editable?: boolean;
 };
 
 const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, ref) => {
   const classes = useStyles();
-  const { columns = [], onTableChange, onRowDbClick = null, rowsPerPageOptions = [10, 25, 100] } = props;
-  const [data, setData] = React.useState<TableData>(props.data || DATA_DEFAULT);
+  const { columns = [], onTableChange, onRowDbClick = null, rowsPerPageOptions = [10, 25, 100], editable = false } = props;
+  const [data, setData] = React.useState<ITableData>(props.data || DATA_DEFAULT);
   const [isEditMode, setEditMode] = React.useState(false);
   const timeoutId = React.useRef<number | null>(null);
   const config = React.useRef<(MUIDataTableState & GridConfig) | null>(null);
@@ -182,12 +172,12 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
   };
 
   const listColumn: MUIDataTableColumnDef[] = React.useMemo(() => {
-    return columns.reduce((acc: MUIDataTableColumnDef[], cur: ColumnSchema) => {
+    return columns.reduce((acc: MUIDataTableColumnDef[], cur: IColumn) => {
       if (isEditMode) {
         acc.push(cur);
         return acc;
       } else {
-        const columnConvert = convertColumn(cur, isEditMode, t);
+        const columnConvert = convertColumn(cur, isEditMode, t, classes);
         acc.push(columnConvert);
         return acc;
       }
@@ -210,6 +200,17 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
             },
           }),
           customSearchRender: debounceSearchRender(500),
+          customFooter: (count, page, rowsPerPage, changeRowsPerPage, changePage, textLabels) => {
+            return (
+              <CustomFooter
+                count={count}
+                page={page}
+                rowsPerPage={rowsPerPage}
+                changeRowsPerPage={changeRowsPerPage}
+                changePage={changePage}
+              />
+            );
+          },
           onTableChange: _onTableChange,
           filter: false,
           count: data.count,
@@ -233,25 +234,64 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
 
 export default React.forwardRef(Table);
 
-type Option = {
-  label: string;
-  value: string | number;
-};
-export type ColumnSchema = {
-  name: string;
-  label: string;
-  type?: string;
-  dataOptions?: Option[];
-};
-
-function convertColumn(column: ColumnSchema, isEditMode?: boolean, translate?: any): MUIDataTableColumnDef {
+function convertColumn(column: IColumn, isEditMode?: boolean, translate?: any, classes?: any): MUIDataTableColumnDef {
   const res: MUIDataTableColumnDef = {
     name: column.name,
     label: translate ? translate(column.label) : column.label,
+    options: {},
   };
   switch (column.type) {
+    case COLUMN_TYPE.DROPDOWN_WITH_BG:
+      res.options = {
+        customBodyRender: (value) => {
+          const option = column.dataOptions?.find((e) => e.value === value);
+          return (
+            <Chip className={clsx(classes[option?.color || ''], classes.uppercase)} label={<Trans>{option?.label}</Trans>} />
+          );
+        },
+      };
+      break;
     case COLUMN_TYPE.DROPDOWN:
+      res.options = {
+        customBodyRender: (value) => {
+          const option = column.dataOptions?.find((e) => e.value === value);
+          return (
+            <Typography component="span" noWrap>
+              <Trans>{option?.label}</Trans>
+            </Typography>
+          );
+        },
+      };
+      break;
+    case COLUMN_TYPE.DATETIME:
+      res.options = {
+        customBodyRender: (value) => {
+          const displayValue = moment(value).format('DD/MMM/YYYY HH:mm:ss');
+          return (
+            <Typography component="span" noWrap>
+              <Trans>{displayValue}</Trans>
+            </Typography>
+          );
+        },
+      };
+      break;
+    case COLUMN_TYPE.ACTION:
+      res.options = {
+        customBodyRender: (value) => {
+          return '';
+        },
+      };
+      break;
     default:
+      res.options = {
+        customBodyRender: (value) => {
+          return (
+            <Typography component="span" noWrap>
+              {[null, undefined].includes(value) ? process.env.REACT_APP_DEFAULT_VALUE : value}
+            </Typography>
+          );
+        },
+      };
       break;
   }
   return res;
