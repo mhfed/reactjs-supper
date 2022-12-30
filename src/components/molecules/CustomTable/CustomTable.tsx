@@ -11,6 +11,7 @@ import { IColumn, ResponseDataPaging, ITableData, ITableConfig } from 'models/IC
 import { TABLE_ACTION, COLUMN_TYPE, DATA_DEFAULT } from './TableConstants';
 import clsx from 'clsx';
 import moment from 'moment';
+import Kebab from 'components/atoms/Kebab';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -64,6 +65,16 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         marginLeft: 0,
         marginRight: 0,
+      },
+      '&:nth-last-child(2)': {
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
+        border: 'none',
+      },
+      '&:last-child': {
+        borderTopLeftRadius: 0,
+        borderBottomLeftRadius: 0,
+        border: 'none',
       },
     },
     '& .MuiTableRow-root': {
@@ -141,8 +152,9 @@ function convertColumn(column: IColumn, isEditMode?: boolean, translate?: any, c
       break;
     case COLUMN_TYPE.ACTION:
       res.options = {
-        customBodyRender: (value) => {
-          return '';
+        setCellProps: () => ({ style: { width: 30, position: 'sticky', right: 0, padding: 0 } }),
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return <Kebab items={column.actions} />;
         },
       };
       break;
@@ -252,14 +264,9 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
 
   const listColumn: MUIDataTableColumnDef[] = React.useMemo(() => {
     return columns.reduce((acc: MUIDataTableColumnDef[], cur: IColumn) => {
-      if (isEditMode) {
-        acc.push(cur);
-        return acc;
-      } else {
-        const columnConvert = convertColumn(cur, isEditMode, t, classes);
-        acc.push(columnConvert);
-        return acc;
-      }
+      const columnConvert = convertColumn(cur, isEditMode, t, classes);
+      acc.push(columnConvert);
+      return acc;
     }, []);
   }, [columns, isEditMode]);
 

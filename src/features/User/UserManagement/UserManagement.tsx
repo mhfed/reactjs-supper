@@ -50,6 +50,23 @@ const UserManagement: React.FC<UserManagementProps> = () => {
     getData();
   }, []);
 
+  const actions = React.useMemo(() => {
+    return [
+      {
+        label: 'lang_user_detail',
+        onClick: () => console.log('YOLO: lang_user_detail'),
+      },
+      {
+        label: 'lang_reset_password',
+        onClick: () => console.log('YOLO: lang_reset_password'),
+      },
+      {
+        label: 'lang_force_to_change_password',
+        onClick: () => console.log('YOLO: lang_force_to_change_password'),
+      },
+    ];
+  }, []);
+
   const getColumns = () => {
     return [
       {
@@ -98,6 +115,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
       {
         name: FIELD.ACTION,
         type: COLUMN_TYPE.ACTION,
+        actions: actions,
         label: ' ',
       },
     ];

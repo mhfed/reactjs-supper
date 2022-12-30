@@ -114,7 +114,7 @@ export default function SignIn() {
             helperText={touched.password && errors.password}
           />
           <FormControlLabel onChange={onStaySignedIn} control={<Checkbox />} label={<Trans>lang_stay_sign_in</Trans>} />
-          <Button type="submit" fullWidth variant="contained" color="primary" sx={{ my: 2 }}>
+          <Button type="submit" fullWidth variant="contained" color="primary" sx={{ my: 2 }} onClick={() => handleSubmit()}>
             <Trans>lang_sign_in</Trans>
             {isLoading && <CircularProgress color="secondary" size={24} sx={{ position: 'absolute' }} />}
           </Button>

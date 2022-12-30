@@ -28,11 +28,17 @@ export type DropdownOption = {
   color?: 'semantic';
 };
 
+export type IKebabItem = {
+  onClick: () => void;
+  label: string;
+};
+
 export type IColumn = {
   name: string;
   label: string;
   type?: string;
   dataOptions?: DropdownOption[];
+  actions?: IKebabItem[];
 };
 
 type SortConfig = {
