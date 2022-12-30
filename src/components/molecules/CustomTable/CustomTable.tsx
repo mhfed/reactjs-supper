@@ -299,7 +299,9 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           },
           onTableChange: _onTableChange,
           customSearchRender: (searchText: string, handleSearch, hideSearch, options) => {
-            return <CustomSearch searchText={searchText} handleSearch={handleSearch} handleEdit={handleEdit} />;
+            return (
+              <CustomSearch searchText={searchText} handleSearch={handleSearch} isEditMode={isEditMode} handleEdit={handleEdit} />
+            );
           },
           filter: false,
           search: false,

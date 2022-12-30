@@ -28,9 +28,10 @@ type CustomSearchProps = {
   searchText: string;
   handleSearch: (text: string) => void;
   handleEdit: () => void;
+  isEditMode: boolean;
 };
 
-const CustomSearch: React.FC<CustomSearchProps> = ({ searchText = '', handleSearch, handleEdit }) => {
+const CustomSearch: React.FC<CustomSearchProps> = ({ searchText = '', handleSearch, handleEdit, isEditMode }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(searchText);
   const { t } = useTranslation();
@@ -45,9 +46,20 @@ const CustomSearch: React.FC<CustomSearchProps> = ({ searchText = '', handleSear
 
   return (
     <div className={classes.container}>
-      <Button variant="contained" startIcon={<ModeEditIcon />} onClick={handleEdit}>
-        <Trans>lang_edit</Trans>
-      </Button>
+      {isEditMode ? (
+        <div>
+          <Button variant="outlined" startIcon={<ModeEditIcon />} onClick={handleEdit} sx={{ mr: 1 }}>
+            <Trans>lang_cancel</Trans>
+          </Button>
+          <Button variant="contained" startIcon={<ModeEditIcon />} onClick={handleEdit}>
+            <Trans>lang_save</Trans>
+          </Button>
+        </div>
+      ) : (
+        <Button variant="contained" startIcon={<ModeEditIcon />} onClick={handleEdit}>
+          <Trans>lang_edit</Trans>
+        </Button>
+      )}
       <TextField
         variant="outlined"
         name="search"
