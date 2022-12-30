@@ -64,6 +64,9 @@ const lightTheme = createTheme({
       disabled: 'rgba(0, 0, 0, 0.38)',
     },
   },
+  typography: {
+    fontFamily: ['Roboto'].join(','),
+  },
 });
 
 export default lightTheme;
