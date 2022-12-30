@@ -7,6 +7,9 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     listItemActive: {
       background: theme.palette.primary.main,
+      '&:hover': {
+        background: theme.palette.hover.main,
+      },
     },
     navBarItemActive: {
       '& span': {

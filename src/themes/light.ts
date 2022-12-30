@@ -21,6 +21,15 @@ const lightTheme = createTheme({
         },
       },
     },
+    MuiButton: {
+      styleOverrides: {
+        contained: {
+          '&:hover': {
+            background: '#08D98D !important',
+          },
+        },
+      },
+    },
   },
   palette: {
     mode: 'light',
@@ -56,6 +65,10 @@ const lightTheme = createTheme({
     error: {
       main: '#FF435F',
       light: '#FFDCE2',
+      contrastText: '#fff',
+    },
+    hover: {
+      main: '#21F5A8',
       contrastText: '#fff',
     },
     text: {

@@ -6,14 +6,14 @@ import dark from './dark';
 import typography from './typography';
 
 // Override Mui's theme typings to include the new theme property
-// declare module '@mui/material/styles/createPalette' {
-//   interface Palette {
-//     ascend: Palette['primary'];
-//   }
-//   interface PaletteOptions {
-//     ascend: PaletteOptions['primary'];
-//   }
-// }
+declare module '@mui/material/styles/createPalette' {
+  interface Palette {
+    hover: Palette['primary'];
+  }
+  interface PaletteOptions {
+    hover: PaletteOptions['primary'];
+  }
+}
 
 const typeTheme = [light, dark];
 

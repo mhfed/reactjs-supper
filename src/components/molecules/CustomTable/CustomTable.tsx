@@ -26,9 +26,6 @@ const useStyles = makeStyles((theme) => ({
       background: theme.palette.background.paper,
       padding: 0,
       justifyContent: 'flex-end',
-      '& > div:first-child': {
-        maxWidth: 336,
-      },
       '& > div:last-child': {
         flex: 'initial',
       },
@@ -198,6 +195,10 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
   const config = React.useRef<ITableConfig | null>(null);
   const { t } = useTranslation();
 
+  const handleEdit = () => {
+    setEditMode((old) => !old);
+  };
+
   const getPaginate = () => {
     return {
       page: data.page,
@@ -273,7 +274,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
   return (
     <div className={classes.container}>
       <MUIDataTable
-        title=""
+        title=" "
         data={data.data}
         columns={listColumn}
         components={{}}
@@ -297,9 +298,8 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
             );
           },
           onTableChange: _onTableChange,
-          // customSearchRender: debounceSearchRender(500),
           customSearchRender: (searchText: string, handleSearch, hideSearch, options) => {
-            return <CustomSearch searchText={searchText} handleSearch={handleSearch} />;
+            return <CustomSearch searchText={searchText} handleSearch={handleSearch} handleEdit={handleEdit} />;
           },
           filter: false,
           search: false,

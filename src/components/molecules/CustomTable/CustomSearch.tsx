@@ -3,12 +3,20 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import makeStyles from '@mui/styles/makeStyles';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { alpha } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 
 const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    '& .MuiTextField-root': {
+      maxWidth: 336,
+    },
     '& input': {
       padding: theme.spacing(1),
       background: alpha(theme.palette.background.paper, 0.5),
@@ -19,9 +27,10 @@ const useStyles = makeStyles((theme) => ({
 type CustomSearchProps = {
   searchText: string;
   handleSearch: (text: string) => void;
+  handleEdit: () => void;
 };
 
-const CustomSearch: React.FC<CustomSearchProps> = ({ searchText = '', handleSearch }) => {
+const CustomSearch: React.FC<CustomSearchProps> = ({ searchText = '', handleSearch, handleEdit }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(searchText);
   const { t } = useTranslation();
@@ -36,6 +45,9 @@ const CustomSearch: React.FC<CustomSearchProps> = ({ searchText = '', handleSear
 
   return (
     <div className={classes.container}>
+      <Button variant="contained" startIcon={<ModeEditIcon />} onClick={handleEdit}>
+        <Trans>lang_edit</Trans>
+      </Button>
       <TextField
         variant="outlined"
         name="search"

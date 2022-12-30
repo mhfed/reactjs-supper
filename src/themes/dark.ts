@@ -21,6 +21,15 @@ const darkTheme = createTheme({
         },
       },
     },
+    MuiButton: {
+      styleOverrides: {
+        contained: {
+          '&:hover': {
+            background: '#08D98D !important',
+          },
+        },
+      },
+    },
   },
   palette: {
     mode: 'dark',
@@ -56,6 +65,10 @@ const darkTheme = createTheme({
     error: {
       main: '#FF435F',
       light: '#FFDCE2',
+      contrastText: '#fff',
+    },
+    hover: {
+      main: '#08D98D',
       contrastText: '#fff',
     },
     text: {
