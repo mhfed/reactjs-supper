@@ -6,7 +6,7 @@ import httpRequest from 'services/httpRequest';
 import CustomTable, { COLUMN_TYPE } from 'components/molecules/CustomTable';
 import makeStyles from '@mui/styles/makeStyles';
 import { FIELD, USER_STATUS_OPTIONS, SITE_NAME_OPTIONS } from './UserConstants';
-import { ITableData } from 'models/ICommon';
+import { ITableData, ITableConfig } from 'models/ICommon';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -40,6 +40,10 @@ const UserManagement: React.FC<UserManagementProps> = () => {
         }),
       );
     }
+  };
+
+  const onTableChange = () => {
+    getData();
   };
 
   React.useEffect(() => {
@@ -98,7 +102,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
       },
     ];
   };
-  const onTableChange = () => {};
+
   const onRowDbClick = () => {};
 
   return (

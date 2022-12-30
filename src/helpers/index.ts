@@ -6,4 +6,4 @@ export { default as openNewTab } from './openNewTab';
 export { stableSort, getComparator } from './stableSort';
 export { timeConvert, secondToTime } from './timeConvert';
 export { default as canAction } from './canAction';
-export { getFilterObj, type GridConfig } from './table';
+export { getFilterObj } from './table';

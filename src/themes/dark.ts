@@ -21,6 +21,13 @@ const darkTheme = createTheme({
         },
       },
     },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          paddingRight: 0,
+        },
+      },
+    },
   },
   palette: {
     mode: 'dark',

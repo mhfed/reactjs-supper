@@ -1,3 +1,5 @@
+import { MUIDataTableState } from 'mui-datatables';
+
 export type HeadCell = {
   id: string;
   label: string;
@@ -32,6 +34,17 @@ export type IColumn = {
   type?: string;
   dataOptions?: DropdownOption[];
 };
+
+type SortConfig = {
+  sortField: string;
+  sortType: string;
+};
+
+export type IGridConfig = {
+  sort: SortConfig | null;
+};
+
+export type ITableConfig = MUIDataTableState & IGridConfig;
 
 export type ResponseDataPaging = {
   current_page: number;

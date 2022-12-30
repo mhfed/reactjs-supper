@@ -1,12 +1,13 @@
 import React from 'react';
-import MUIDataTable, { debounceSearchRender, MUIDataTableColumnDef, MUIDataTableState } from 'mui-datatables';
+import MUIDataTable, { MUIDataTableColumnDef, MUIDataTableState } from 'mui-datatables';
 import makeStyles from '@mui/styles/makeStyles';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
-import { getFilterObj, GridConfig } from 'helpers';
+import { getFilterObj } from 'helpers';
 import { Trans, useTranslation } from 'react-i18next';
 import CustomFooter from './CustomFooter';
-import { IColumn, ResponseDataPaging, ITableData } from 'models/ICommon';
+import CustomSearch from './CustomSearch';
+import { IColumn, ResponseDataPaging, ITableData, ITableConfig } from 'models/ICommon';
 import { TABLE_ACTION, COLUMN_TYPE, DATA_DEFAULT } from './TableConstants';
 import clsx from 'clsx';
 import moment from 'moment';
@@ -23,9 +24,16 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiToolbar-root': {
       background: theme.palette.background.paper,
       padding: 0,
+      justifyContent: 'flex-end',
+      '& > div:first-child': {
+        maxWidth: 336,
+      },
+      '& > div:last-child': {
+        flex: 'initial',
+      },
     },
     '& > div:first-child': {
-      background: 'transparent',
+      background: theme.palette.background.paper,
       display: 'flex',
       flex: 1,
       flexDirection: 'column',
@@ -66,6 +74,12 @@ const useStyles = makeStyles((theme) => ({
         background: theme.palette.primary.light,
       },
     },
+    '& .MuiTable-root': {
+      marginTop: 4,
+      '& .MuiTablePagination-actions': {
+        flex: 'none !important',
+      },
+    },
   },
   uppercase: {
     textTransform: 'uppercase',
@@ -83,156 +97,6 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.success.main,
   },
 }));
-
-type TableHandle = {
-  setEditMode: (state: boolean) => void;
-  setData: (data: ResponseDataPaging) => void;
-  getPaginate: any;
-  getQuery: any;
-};
-
-type TableProps = {
-  onTableChange: (state: any, config: object) => void;
-  onRowDbClick: (index: number) => void;
-  columns: MUIDataTableColumnDef[];
-  rowsPerPageOptions?: number[];
-  data?: ITableData;
-  editable?: boolean;
-};
-
-const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, ref) => {
-  const classes = useStyles();
-  const { columns = [], onTableChange, onRowDbClick = null, rowsPerPageOptions = [10, 25, 100], editable = false } = props;
-  const [data, setData] = React.useState<ITableData>(props.data || DATA_DEFAULT);
-  const [isEditMode, setEditMode] = React.useState(false);
-  const timeoutId = React.useRef<number | null>(null);
-  const config = React.useRef<(MUIDataTableState & GridConfig) | null>(null);
-  const { t } = useTranslation();
-
-  const getPaginate = () => {
-    return {
-      page: data.page - 1,
-      rowsPerPage: data.rowsPerPage,
-    };
-  };
-
-  const getQuery = () => {
-    const query: any = { query: { bool: { must: [] } }, sort: [] };
-    if (config.current?.searchText) query.query.bool.must.push({ query_string: { query: `*${config.current.searchText}*` } });
-    if (config.current?.sort) {
-      const { sortField, sortType } = config.current.sort || {};
-      query.sort = [{ [sortField]: { order: sortType.toLowerCase() } }];
-    }
-    return query;
-  };
-
-  const setDataTable = (response: ResponseDataPaging) => {
-    setData((old) => ({
-      data: response.data || [],
-      page: response.current_page,
-      count: response.total_count,
-      rowsPerPage: old.rowsPerPage,
-    }));
-  };
-
-  React.useImperativeHandle(
-    ref,
-    () => ({
-      setEditMode: setEditMode,
-      setData: setDataTable,
-      getPaginate: getPaginate,
-      getQuery: getQuery,
-    }),
-    [],
-  );
-
-  const _onTableChange = (action: string, tableState: MUIDataTableState) => {
-    if (['propsUpdate', 'onFilterDialogOpen', 'onFilterDialogClose'].includes(action)) return;
-    timeoutId.current && window.clearTimeout(timeoutId.current);
-    timeoutId.current = window.setTimeout(() => {
-      const filterObj = getFilterObj(tableState);
-      config.current = { ...tableState, ...filterObj };
-      switch (action) {
-        case TABLE_ACTION.SEARCH:
-        case TABLE_ACTION.SORT:
-          onTableChange({ ...config.current, page: 0 }, filterObj);
-          break;
-        case TABLE_ACTION.PAGE_SIZE_CHANGE:
-        case TABLE_ACTION.PAGE_CHANGE:
-          onTableChange(config.current, filterObj);
-          break;
-        case TABLE_ACTION.SEARCH_CLOSE:
-          if (!tableState.searchText) return;
-          onTableChange(config.current, filterObj);
-          break;
-        default:
-          break;
-      }
-    }, 500);
-  };
-
-  const listColumn: MUIDataTableColumnDef[] = React.useMemo(() => {
-    return columns.reduce((acc: MUIDataTableColumnDef[], cur: IColumn) => {
-      if (isEditMode) {
-        acc.push(cur);
-        return acc;
-      } else {
-        const columnConvert = convertColumn(cur, isEditMode, t, classes);
-        acc.push(columnConvert);
-        return acc;
-      }
-    }, []);
-  }, [columns, isEditMode]);
-
-  return (
-    <div className={classes.container}>
-      <MUIDataTable
-        title=""
-        data={data.data}
-        columns={listColumn}
-        components={{}}
-        options={{
-          serverSide: true,
-          pagination: true,
-          setRowProps: (row, dataIndex) => ({
-            onDoubleClick: () => {
-              onRowDbClick?.(dataIndex);
-            },
-          }),
-          customSearchRender: debounceSearchRender(500),
-          customFooter: (count, page, rowsPerPage, changeRowsPerPage, changePage, textLabels) => {
-            return (
-              <CustomFooter
-                count={count}
-                page={page}
-                rowsPerPage={rowsPerPage}
-                changeRowsPerPage={changeRowsPerPage}
-                changePage={changePage}
-              />
-            );
-          },
-          onTableChange: _onTableChange,
-          filter: false,
-          count: data.count,
-          page: data.page,
-          rowsPerPageOptions,
-          rowsPerPage: data.rowsPerPage,
-          filterType: 'textField',
-          fixedHeader: false,
-          draggableColumns: {
-            enabled: true,
-          },
-          selectableRows: 'single',
-          selectableRowsOnClick: false,
-          selectableRowsHideCheckboxes: true,
-          responsive: 'standard',
-        }}
-      />
-    </div>
-  );
-};
-
-export default React.forwardRef(Table);
 
 function convertColumn(column: IColumn, isEditMode?: boolean, translate?: any, classes?: any): MUIDataTableColumnDef {
   const res: MUIDataTableColumnDef = {
@@ -296,3 +160,160 @@ function convertColumn(column: IColumn, isEditMode?: boolean, translate?: any, c
   }
   return res;
 }
+
+type TableHandle = {
+  setEditMode: (state: boolean) => void;
+  setData: (data: ResponseDataPaging) => void;
+  getPaginate: any;
+  getQuery: any;
+};
+
+type TableProps = {
+  onTableChange: () => void;
+  onRowDbClick: (index: number) => void;
+  columns: MUIDataTableColumnDef[];
+  rowsPerPageOptions?: number[];
+  data?: ITableData;
+  editable?: boolean;
+};
+
+const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, ref) => {
+  const classes = useStyles();
+  const { columns = [], onTableChange, onRowDbClick = null, rowsPerPageOptions = [10, 25, 100], editable = false } = props;
+  const [data, setData] = React.useState<ITableData>(props.data || DATA_DEFAULT);
+  const [isEditMode, setEditMode] = React.useState(false);
+  const timeoutId = React.useRef<number | null>(null);
+  const config = React.useRef<ITableConfig | null>(null);
+  const { t } = useTranslation();
+
+  const getPaginate = () => {
+    return {
+      page: data.page,
+      rowsPerPage: data.rowsPerPage,
+    };
+  };
+
+  const getQuery = () => {
+    const query: any = { query: { bool: { must: [] } }, sort: [] };
+    if (config.current?.searchText) query.query.bool.must.push({ query_string: { query: `*${config.current.searchText}*` } });
+    if (config.current?.sort) {
+      const { sortField, sortType } = config.current.sort || {};
+      query.sort = [{ [sortField]: { order: sortType.toLowerCase() } }];
+    }
+    return query;
+  };
+
+  const setDataTable = (response: ResponseDataPaging) => {
+    setData((old) => ({
+      data: response.data || [],
+      page: response.current_page,
+      count: response.total_count,
+      rowsPerPage: old.rowsPerPage,
+    }));
+  };
+
+  React.useImperativeHandle(
+    ref,
+    () => ({
+      setEditMode: setEditMode,
+      setData: setDataTable,
+      getPaginate: getPaginate,
+      getQuery: getQuery,
+    }),
+    [],
+  );
+
+  const _onTableChange = (action: string, tableState: MUIDataTableState) => {
+    if (['propsUpdate', 'onFilterDialogOpen', 'onFilterDialogClose'].includes(action)) return;
+    timeoutId.current && window.clearTimeout(timeoutId.current);
+    timeoutId.current = window.setTimeout(() => {
+      const filterObj = getFilterObj(tableState);
+      config.current = { ...tableState, ...filterObj };
+      switch (action) {
+        case TABLE_ACTION.SEARCH:
+          if (!tableState.searchText || tableState.searchText.length > 1) {
+            config.current.page = 1;
+            onTableChange();
+          }
+          break;
+        case TABLE_ACTION.SORT:
+          config.current.page = 1;
+          onTableChange();
+          break;
+        case TABLE_ACTION.PAGE_SIZE_CHANGE:
+        case TABLE_ACTION.PAGE_CHANGE:
+          onTableChange();
+          break;
+        default:
+          break;
+      }
+    }, 500);
+  };
+
+  const listColumn: MUIDataTableColumnDef[] = React.useMemo(() => {
+    return columns.reduce((acc: MUIDataTableColumnDef[], cur: IColumn) => {
+      if (isEditMode) {
+        acc.push(cur);
+        return acc;
+      } else {
+        const columnConvert = convertColumn(cur, isEditMode, t, classes);
+        acc.push(columnConvert);
+        return acc;
+      }
+    }, []);
+  }, [columns, isEditMode]);
+
+  return (
+    <div className={classes.container}>
+      <MUIDataTable
+        title=""
+        data={data.data}
+        columns={listColumn}
+        components={{}}
+        options={{
+          serverSide: true,
+          pagination: true,
+          setRowProps: (row, dataIndex) => ({
+            onDoubleClick: () => {
+              onRowDbClick?.(dataIndex);
+            },
+          }),
+          customFooter: (count, page, rowsPerPage, changeRowsPerPage, changePage, textLabels) => {
+            return (
+              <CustomFooter
+                count={count}
+                page={page}
+                rowsPerPage={rowsPerPage}
+                changeRowsPerPage={changeRowsPerPage}
+                changePage={changePage}
+              />
+            );
+          },
+          onTableChange: _onTableChange,
+          // customSearchRender: debounceSearchRender(500),
+          customSearchRender: (searchText: string, handleSearch, hideSearch, options) => {
+            return <CustomSearch searchText={searchText} handleSearch={handleSearch} />;
+          },
+          filter: false,
+          search: false,
+          searchOpen: true,
+          count: data.count,
+          page: data.page,
+          rowsPerPageOptions,
+          rowsPerPage: data.rowsPerPage,
+          filterType: 'textField',
+          fixedHeader: false,
+          draggableColumns: {
+            enabled: true,
+          },
+          selectableRows: 'single',
+          selectableRowsOnClick: false,
+          selectableRowsHideCheckboxes: true,
+          responsive: 'standard',
+        }}
+      />
+    </div>
+  );
+};
+
+export default React.forwardRef(Table);

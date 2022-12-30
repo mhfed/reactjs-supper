@@ -1,13 +1,7 @@
 import { MUIDataTableState } from 'mui-datatables';
+import { IGridConfig } from 'models/ICommon';
 
-type SortConfig = {
-  sortField: string;
-  sortType: string;
-};
-export type GridConfig = {
-  sort: SortConfig | null;
-};
-function getFilterObj(tableState: MUIDataTableState): GridConfig {
+function getFilterObj(tableState: MUIDataTableState): IGridConfig {
   const sortObj = {
     sortField: tableState.sortOrder?.name,
     sortType: tableState.sortOrder?.direction?.toUpperCase(),
