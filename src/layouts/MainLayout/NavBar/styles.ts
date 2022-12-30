@@ -79,6 +79,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       marginRight: 'auto',
+      fontSize: '1rem',
     },
     active: {
       color: theme.palette.secondary.main,
