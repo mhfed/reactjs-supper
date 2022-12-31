@@ -34,7 +34,11 @@ export const navBarCommon = [
         href: PATH_NAME.NOTIFICATIONS,
       },
       {
-        title: 'lang_segments',
+        title: 'lang_create_new_segments',
+        href: PATH_NAME.CREATE_NEW_SEGMENT,
+      },
+      {
+        title: 'lang_segments_management',
         href: PATH_NAME.SEGMENTS,
       },
       {
