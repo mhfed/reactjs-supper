@@ -3,17 +3,17 @@ import { createTheme } from '@mui/material';
 const darkTheme = createTheme({
   components: {
     // Name of the component
-    MuiInputBase: {
-      styleOverrides: {
-        root: {
-          '&.Mui-error': {
-            '& input': {
-              color: '#FF435F',
-            },
-          },
-        },
-      },
-    },
+    // MuiInputBase: {
+    //   styleOverrides: {
+    //     root: {
+    //       '&.Mui-error': {
+    //         '& input': {
+    //           color: '#FF435F',
+    //         },
+    //       },
+    //     },
+    //   },
+    // },
     MuiChip: {
       styleOverrides: {
         root: {

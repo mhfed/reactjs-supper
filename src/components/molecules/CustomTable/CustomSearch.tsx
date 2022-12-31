@@ -7,6 +7,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import { ACTIONS } from './TableConstants';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -27,11 +28,12 @@ const useStyles = makeStyles((theme) => ({
 type CustomSearchProps = {
   searchText: string;
   handleSearch: (text: string) => void;
-  handleEdit: () => void;
+  handleEdit: (action: string) => void;
   isEditMode: boolean;
+  editable: boolean;
 };
 
-const CustomSearch: React.FC<CustomSearchProps> = ({ searchText = '', handleSearch, handleEdit, isEditMode }) => {
+const CustomSearch: React.FC<CustomSearchProps> = ({ editable, searchText = '', handleSearch, handleEdit, isEditMode }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(searchText);
   const { t } = useTranslation();
@@ -46,19 +48,23 @@ const CustomSearch: React.FC<CustomSearchProps> = ({ searchText = '', handleSear
 
   return (
     <div className={classes.container}>
-      {isEditMode ? (
-        <div>
-          <Button variant="outlined" startIcon={<ModeEditIcon />} onClick={handleEdit} sx={{ mr: 1 }}>
-            <Trans>lang_cancel</Trans>
+      {editable ? (
+        isEditMode ? (
+          <div>
+            <Button variant="outlined" startIcon={<ModeEditIcon />} onClick={() => handleEdit(ACTIONS.CANCEL)} sx={{ mr: 1 }}>
+              <Trans>lang_cancel</Trans>
+            </Button>
+            <Button variant="contained" startIcon={<ModeEditIcon />} onClick={() => handleEdit(ACTIONS.SAVE)}>
+              <Trans>lang_save</Trans>
+            </Button>
+          </div>
+        ) : (
+          <Button variant="contained" startIcon={<ModeEditIcon />} onClick={() => handleEdit(ACTIONS.EDIT)}>
+            <Trans>lang_edit</Trans>
           </Button>
-          <Button variant="contained" startIcon={<ModeEditIcon />} onClick={handleEdit}>
-            <Trans>lang_save</Trans>
-          </Button>
-        </div>
+        )
       ) : (
-        <Button variant="contained" startIcon={<ModeEditIcon />} onClick={handleEdit}>
-          <Trans>lang_edit</Trans>
-        </Button>
+        <React.Fragment />
       )}
       <TextField
         variant="outlined"

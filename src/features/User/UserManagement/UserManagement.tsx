@@ -6,7 +6,9 @@ import httpRequest from 'services/httpRequest';
 import CustomTable, { COLUMN_TYPE } from 'components/molecules/CustomTable';
 import makeStyles from '@mui/styles/makeStyles';
 import { FIELD, USER_STATUS_OPTIONS, SITE_NAME_OPTIONS } from './UserConstants';
-import { ITableData, ITableConfig } from 'models/ICommon';
+import { ITableData, LooseObject } from 'models/ICommon';
+import { useGlobalModalContext } from 'containers/Modal';
+import ConfirmEditUserModal from './ConfirmEditUserModal';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -24,6 +26,13 @@ const UserManagement: React.FC<UserManagementProps> = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
+  const { showModal } = useGlobalModalContext();
+
+  React.useEffect(() => {
+    window.setTimeout(() => {
+      showModal({ title: 'lang_confirm', component: ConfirmEditUserModal });
+    }, 2000);
+  }, []);
 
   const getData = async () => {
     try {
@@ -123,9 +132,23 @@ const UserManagement: React.FC<UserManagementProps> = () => {
 
   const onRowDbClick = () => {};
 
+  const getRowId = (data: any) => {
+    return data[FIELD.USER_ID];
+  };
+
+  const onSaveUser = (dicDataChanged: LooseObject, cb: any) => {};
+
   return (
     <div className={classes.container}>
-      <CustomTable ref={gridRef} onTableChange={onTableChange} onRowDbClick={onRowDbClick} columns={getColumns()} />
+      <CustomTable
+        editable
+        fnKey={getRowId}
+        ref={gridRef}
+        onSave={onSaveUser}
+        onTableChange={onTableChange}
+        onRowDbClick={onRowDbClick}
+        columns={getColumns()}
+      />
     </div>
   );
 };

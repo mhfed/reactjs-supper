@@ -23,7 +23,7 @@ const DenyView = lazy(() => import('features/DenyView'));
 
 const routesConfig: IRoutes[] = [
   {
-    path: '/',
+    path: PATH_NAME.ROOT,
     component: () => <Navigate to={PATH_NAME.USER_MANAGEMENT} replace />,
   },
   {

@@ -1,3 +1,4 @@
+import React from 'react';
 import { MUIDataTableState } from 'mui-datatables';
 
 export type HeadCell = {
@@ -83,4 +84,9 @@ export type ILoginValues = {
 export type IChangePassValues = {
   password: string;
   re_password: string;
+};
+
+export type IModalProps = {
+  title: string;
+  component?: any;
 };

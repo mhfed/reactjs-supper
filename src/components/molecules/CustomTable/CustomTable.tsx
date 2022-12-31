@@ -1,5 +1,5 @@
 import React from 'react';
-import MUIDataTable, { MUIDataTableColumnDef, MUIDataTableState } from 'mui-datatables';
+import MUIDataTable, { MUIDataTableColumnDef, MUIDataTableState, MUIDataTableMeta } from 'mui-datatables';
 import makeStyles from '@mui/styles/makeStyles';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
@@ -7,11 +7,12 @@ import { getFilterObj } from 'helpers';
 import { Trans, useTranslation } from 'react-i18next';
 import CustomFooter from './CustomFooter';
 import CustomSearch from './CustomSearch';
-import { IColumn, ResponseDataPaging, ITableData, ITableConfig } from 'models/ICommon';
-import { TABLE_ACTION, COLUMN_TYPE, DATA_DEFAULT } from './TableConstants';
+import { IColumn, ResponseDataPaging, ITableData, ITableConfig, LooseObject } from 'models/ICommon';
+import { TABLE_ACTION, COLUMN_TYPE, DATA_DEFAULT, ACTIONS } from './TableConstants';
 import clsx from 'clsx';
 import moment from 'moment';
 import Kebab from 'components/atoms/Kebab';
+import DropdownCell from './DropdownCell';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -22,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     background: theme.palette.primary.light,
     minHeight: 0,
+    '& .MuiSelect-select': {
+      padding: theme.spacing(0.5, 4, 0.5, 1.5),
+    },
     '& .MuiToolbar-root': {
       background: theme.palette.background.paper,
       padding: 0,
@@ -106,7 +110,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function convertColumn(column: IColumn, isEditMode?: boolean, translate?: any, classes?: any): MUIDataTableColumnDef {
+function convertColumn({
+  column,
+  isEditMode,
+  translate,
+  classes,
+  onChange,
+}: {
+  column: IColumn;
+  isEditMode?: boolean;
+  translate?: any;
+  classes?: any;
+  onChange?: (objValue: LooseObject, rowIndex: number) => void;
+}): MUIDataTableColumnDef {
   const res: MUIDataTableColumnDef = {
     name: column.name,
     label: translate ? translate(column.label) : column.label,
@@ -115,7 +131,16 @@ function convertColumn(column: IColumn, isEditMode?: boolean, translate?: any, c
   switch (column.type) {
     case COLUMN_TYPE.DROPDOWN_WITH_BG:
       res.options = {
-        customBodyRender: (value) => {
+        customBodyRender: (value, tableMeta: MUIDataTableMeta) => {
+          if (isEditMode) {
+            return (
+              <DropdownCell
+                value={value}
+                options={column.dataOptions!}
+                onChange={(v) => onChange?.({ [tableMeta.columnData.name]: v }, tableMeta.rowIndex)}
+              />
+            );
+          }
           const option = column.dataOptions?.find((e) => e.value === value);
           return (
             <Chip className={clsx(classes[option?.color || ''], classes.uppercase)} label={<Trans>{option?.label}</Trans>} />
@@ -125,7 +150,16 @@ function convertColumn(column: IColumn, isEditMode?: boolean, translate?: any, c
       break;
     case COLUMN_TYPE.DROPDOWN:
       res.options = {
-        customBodyRender: (value) => {
+        customBodyRender: (value, tableMeta: MUIDataTableMeta) => {
+          if (isEditMode) {
+            return (
+              <DropdownCell
+                value={value}
+                options={column.dataOptions!}
+                onChange={(v) => onChange?.({ [tableMeta.columnData.name]: v }, tableMeta.rowIndex)}
+              />
+            );
+          }
           const option = column.dataOptions?.find((e) => e.value === value);
           return (
             <Typography component="span" noWrap>
@@ -184,19 +218,44 @@ type TableProps = {
   rowsPerPageOptions?: number[];
   data?: ITableData;
   editable?: boolean;
+  onSave?: (dataChanged: LooseObject, cb: any) => void;
+  fnKey: (data: any) => string;
 };
 
 const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, ref) => {
   const classes = useStyles();
-  const { columns = [], onTableChange, onRowDbClick = null, rowsPerPageOptions = [10, 25, 100], editable = false } = props;
+  const {
+    columns = [],
+    onTableChange,
+    onRowDbClick = null,
+    onSave,
+    rowsPerPageOptions = [10, 25, 100],
+    editable = false,
+    fnKey,
+  } = props;
   const [data, setData] = React.useState<ITableData>(props.data || DATA_DEFAULT);
   const [isEditMode, setEditMode] = React.useState(false);
   const timeoutId = React.useRef<number | null>(null);
   const config = React.useRef<ITableConfig | null>(null);
+  const tempDataByKey = React.useRef<LooseObject>({});
   const { t } = useTranslation();
 
-  const handleEdit = () => {
-    setEditMode((old) => !old);
+  const handleEdit = (action: string) => {
+    switch (action) {
+      case ACTIONS.EDIT:
+        setEditMode(true);
+        break;
+      case ACTIONS.CANCEL:
+        tempDataByKey.current = {};
+        setEditMode(false);
+        break;
+      case ACTIONS.SAVE:
+        onSave?.(tempDataByKey.current, () => {
+          tempDataByKey.current = {};
+          setEditMode(false);
+        });
+        break;
+    }
   };
 
   const getPaginate = () => {
@@ -253,7 +312,6 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           config.current.page = 1;
           onTableChange();
           break;
-        case TABLE_ACTION.PAGE_SIZE_CHANGE:
         case TABLE_ACTION.PAGE_CHANGE:
           onTableChange();
           break;
@@ -264,12 +322,18 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
   };
 
   const listColumn: MUIDataTableColumnDef[] = React.useMemo(() => {
+    const onChange = (objValue: LooseObject, rowIndex: number) => {
+      const row = data.data[rowIndex];
+      const key = fnKey(row);
+      if (!tempDataByKey.current[key]) tempDataByKey.current[key] = {};
+      Object.assign(tempDataByKey.current[key], objValue);
+    };
     return columns.reduce((acc: MUIDataTableColumnDef[], cur: IColumn) => {
-      const columnConvert = convertColumn(cur, isEditMode, t, classes);
+      const columnConvert = convertColumn({ column: cur, isEditMode, translate: t, classes, onChange });
       acc.push(columnConvert);
       return acc;
     }, []);
-  }, [columns, isEditMode]);
+  }, [columns, isEditMode, data]);
 
   return (
     <div className={classes.container}>
@@ -300,7 +364,13 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           onTableChange: _onTableChange,
           customSearchRender: (searchText: string, handleSearch, hideSearch, options) => {
             return (
-              <CustomSearch searchText={searchText} handleSearch={handleSearch} isEditMode={isEditMode} handleEdit={handleEdit} />
+              <CustomSearch
+                editable={editable}
+                searchText={searchText}
+                handleSearch={handleSearch}
+                isEditMode={isEditMode}
+                handleEdit={handleEdit}
+              />
             );
           },
           filter: false,

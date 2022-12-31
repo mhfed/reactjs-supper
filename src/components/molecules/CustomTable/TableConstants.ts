@@ -20,3 +20,9 @@ export const DATA_DEFAULT = {
   count: 0,
   rowsPerPage: 25,
 };
+
+export const ACTIONS = {
+  EDIT: 'edit',
+  CANCEL: 'cancel',
+  SAVE: 'save',
+};
