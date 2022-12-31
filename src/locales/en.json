@@ -1,4 +1,12 @@
 {
+  "lang_full_name_required": "Full name is required",
+  "lang_status": "Status",
+  "lang_sitename": "Sitename",
+  "lang_description": "Description",
+  "lang_notes": "notes",
+  "lang_user_login": "User Login",
+  "lang_full_name": "Full Name",
+  "lang_user_details": "user details",
   "lang_report": "Report",
   "lang_articles": "Articles",
   "lang_create_new_article": "Create New Articles",
