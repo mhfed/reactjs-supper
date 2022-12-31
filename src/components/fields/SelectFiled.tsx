@@ -23,15 +23,13 @@ type SelectFieldProps = {
   sx?: any;
   inputProps?: any;
   required?: boolean;
-  onChange?: (e: string) => void;
+  onChange?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   options?: Array<Options>;
   // multiple?: boolean;
 };
 
 const SelectField: React.FC<SelectFieldProps> = ({ label, helperText, value, ...props }) => {
-  const [val, setVal] = React.useState('');
-
   function _renderHelperText() {
     if (props.error) {
       return (
@@ -42,11 +40,6 @@ const SelectField: React.FC<SelectFieldProps> = ({ label, helperText, value, ...
     }
   }
 
-  const handleChange = (event: SelectChangeEvent) => {
-    props.onChange?.(event.target.value);
-    setVal(event.target.value);
-    console.log(event);
-  };
   return (
     <FormControl required sx={{ minWidth: 120, width: props.fullWidth ? '100%' : '' }}>
       <InputLabel id={props.id}>
@@ -57,8 +50,7 @@ const SelectField: React.FC<SelectFieldProps> = ({ label, helperText, value, ...
         labelId={props.id}
         id={props.id}
         label={label}
-        value={val}
-        onChange={handleChange}
+        value={value}
         // multiple={!!props.multiple}
       >
         {props.options?.map((e, i) => {

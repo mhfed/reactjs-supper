@@ -30,7 +30,6 @@ type TextFieldProps = {
 
 const PasswordField: React.FC<TextFieldProps> = ({ label, helperText, value, ...props }) => {
   const [visibility, setVisibility] = React.useState(false);
-  const [val, setVal] = React.useState('');
 
   const handleClickShowPassword = () => {
     setVisibility((state) => !state);
@@ -38,11 +37,9 @@ const PasswordField: React.FC<TextFieldProps> = ({ label, helperText, value, ...
 
   const handleGenPass = () => {
     const pass = autogenPass();
-    setVal(pass);
     props.onChange?.(pass);
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setVal(e.target.value);
     props.onChange?.(e.target.value);
   };
   return (
@@ -50,7 +47,7 @@ const PasswordField: React.FC<TextFieldProps> = ({ label, helperText, value, ...
       {...props}
       label={<Trans>{label}</Trans>}
       helperText={<Trans>{helperText}</Trans>}
-      value={val}
+      value={value}
       type={visibility ? 'text' : 'password'}
       onChange={handleChange}
       inputProps={{
@@ -62,7 +59,7 @@ const PasswordField: React.FC<TextFieldProps> = ({ label, helperText, value, ...
       InputProps={{
         endAdornment: (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {val ? (
+            {value ? (
               <InputAdornment position="end">
                 <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} edge="end">
                   {visibility ? <VisibilityOff /> : <Visibility />}

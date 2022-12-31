@@ -45,13 +45,15 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
   const handleFormSubmit = async (values: any) => {
     console.log('values', values);
   };
-  const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue } = useFormik({
+  const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, resetForm } = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,
   });
-  console.log('Error', errors);
-  console.log('Touched', touched);
+
+  const handleClearData = () => {
+    resetForm();
+  };
   React.useEffect(() => {}, []);
 
   return (
@@ -71,7 +73,6 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
               label="lang_full_name"
               required
               fullWidth
-              autoFocus
               value={values.full_name}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -83,15 +84,15 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                 { label: 'sitename A', value: 'sitename A' },
                 { label: 'sitename B', value: 'sitename B' },
               ]}
-              name="sitename"
-              label="lang_sitename"
-              id="sitename"
+              name="site_name"
+              label="lang_site_name"
+              id="site_name"
               fullWidth={true}
               onBlur={handleBlur}
-              value={values.sitename}
-              onChange={(value) => setFieldValue('sitename', value)}
-              error={touched.sitename && Boolean(errors.sitename)}
-              helperText={touched.sitename && errors.sitename}
+              value={values.site_name}
+              onChange={handleChange}
+              error={touched.site_name && Boolean(errors.site_name)}
+              helperText={touched.site_name && errors.site_name}
             />
           </Stack>
           <Stack direction="row" sx={{ margin: '12px 0' }}>
@@ -102,7 +103,6 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
               label="lang_user_login"
               required
               fullWidth
-              autoFocus
               value={values.user_login}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -120,7 +120,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
               fullWidth={true}
               onBlur={handleBlur}
               value={values.status}
-              onChange={(value) => setFieldValue('status', value)}
+              onChange={handleChange}
               error={touched.status && Boolean(errors.status)}
               helperText={touched.status && errors.status}
             />
@@ -134,7 +134,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
               required
               fullWidth
               value={values.password}
-              onChange={(value) => setFieldValue('password', value)}
+              onChange={(p: string) => setFieldValue('password', p)}
               onBlur={handleBlur}
               error={touched.password && Boolean(errors.password)}
               generate={true}
@@ -154,7 +154,6 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
               label="lang_description"
               required
               fullWidth
-              autoFocus
               value={values.description}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -165,7 +164,9 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
             />
           </Stack>
           <Stack direction="row" justifyContent="end" alignItems="center" spacing={2} sx={{ margin: '12px 0' }}>
-            <Button variant="outlined">Clear Data</Button>
+            <Button variant="outlined" onClick={handleClearData}>
+              Clear Data
+            </Button>
             <Button variant="contained" type="submit">
               Create
             </Button>
@@ -177,7 +178,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
 };
 const initialValues = {
   full_name: '',
-  sitename: '',
+  site_name: '',
   user_login: '',
   status: '',
   password: '',
@@ -186,11 +187,10 @@ const initialValues = {
 
 const validationSchema = yup.object().shape({
   full_name: yup.string().required('lang_full_name_required'),
-  sitename: yup.string().required('lang_full_name_required'),
+  site_name: yup.string().required('lang_full_name_required'),
   user_login: yup.string().required('lang_full_name_required'),
   status: yup.string().required('lang_full_name_required'),
   password: yup.string().required('lang_full_name_required'),
-  description: yup.string().required('lang_full_name_required'),
 });
 
 export default CreateNewUser;
