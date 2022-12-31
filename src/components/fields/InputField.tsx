@@ -1,6 +1,7 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
 import { Trans } from 'react-i18next';
+import { FormikErrors } from 'formik';
 
 type TextFieldProps = {
   id?: string;
@@ -9,7 +10,7 @@ type TextFieldProps = {
   type?: string;
   error?: boolean;
   value?: string;
-  helperText?: string | boolean | undefined;
+  helperText?: string | boolean | undefined | FormikErrors<any>[] | FormikErrors<any> | string[];
   fullWidth?: boolean;
   sx?: any;
   inputProps?: any;
@@ -17,6 +18,9 @@ type TextFieldProps = {
   required?: boolean;
   autoFocus?: boolean;
   autoComplete?: string;
+  multiline?: boolean;
+  defaultValue?: string;
+  rows?: number;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 };
