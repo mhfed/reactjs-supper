@@ -1,7 +1,31 @@
 import React, { useState, createContext, useContext } from 'react';
 import Modal from '@mui/material/Modal';
-import Card from '@mui/material/Card';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { LooseObject, IModalProps } from 'models/ICommon';
+import { Trans } from 'react-i18next';
+import makeStyles from '@mui/styles/makeStyles';
+
+const useStyles = makeStyles((theme) => ({
+  modal: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  container: {
+    borderRadius: 8,
+    overflow: 'hidden',
+    minWidth: '40vw',
+    minHeight: 200,
+  },
+  header: {
+    display: 'flex',
+    width: '100%',
+    padding: theme.spacing(1),
+    background: theme.palette.primary.dark,
+  },
+}));
 
 type GlobalModalContextProps = {
   showModal: (modalProps: IModalProps) => void;
@@ -29,6 +53,7 @@ type GlobalModalProps = {
 const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
   const [store, setStore] = useState<LooseObject>({});
   const { modalProps } = store || {};
+  const classes = useStyles();
 
   const showModal = (modalProps: IModalProps) => {
     setStore({
@@ -48,8 +73,15 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
   const renderComponent = () => {
     const Component = store.component;
     return (
-      <Modal sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} open={store.open} onClose={hideModal}>
-        <Component />
+      <Modal className={classes.modal} open={store.open} onClose={hideModal}>
+        <Paper className={classes.container}>
+          <Box className={classes.header}>
+            <Typography>
+              <Trans>{store.title}</Trans>
+            </Typography>
+          </Box>
+          <Component />
+        </Paper>
       </Modal>
     );
   };
