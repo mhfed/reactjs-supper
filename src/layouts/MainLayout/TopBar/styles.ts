@@ -4,11 +4,17 @@ import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme: Theme) => ({
   appBar: {
-    backgroundColor: theme.palette.primary.light,
+    background: theme.palette.background.default,
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    '& svg': {
+      fill: theme.palette.text.primary,
+    },
+    '& > *': {
+      color: theme.palette.text.primary,
+    },
   },
   appBarShift: {
     width: `calc(100% - ${process.env.REACT_APP_DRAWER_WIDTH}px)`,
@@ -24,9 +30,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    background: alpha(theme.palette.common.white, 0.15),
     '&:hover': {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
+      background: alpha(theme.palette.common.white, 0.25),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
@@ -59,7 +65,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexGrow: 1,
   },
   menuLanguage: {
-    color: '#fff',
+    color: theme.palette.text.primary,
   },
   menuProfile: {
     minWidth: 115,

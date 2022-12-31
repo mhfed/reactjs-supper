@@ -14,10 +14,11 @@ import { isLoadingSelector } from 'selectors/auth.selector';
 import httpRequest from 'services/httpRequest';
 import { getCreatePasswordUrl } from 'apis/request.url';
 import { setPinAfterChangePass, changePasswordRequest } from 'actions/auth.action';
+import { IChangePassValues } from 'models/ICommon';
 
 const useStyles = makeStyles((theme) => ({
   title: {
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.primary.light,
     padding: theme.spacing(2),
     display: 'flex',
     width: '100%',
@@ -46,10 +47,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface IChangePassValues {
-  password: string;
-  re_password: string;
-}
 type SetPasswordProps = {
   setNewPassord: (pw: string) => void;
 };

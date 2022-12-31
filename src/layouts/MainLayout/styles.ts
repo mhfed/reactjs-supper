@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: `-${process.env.REACT_APP_DRAWER_WIDTH}px`,
+    width: '100vw',
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
@@ -33,6 +34,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginLeft: 0,
+    width: `calc(100vw - ${process.env.REACT_APP_DRAWER_WIDTH}px)`,
   },
   toolbar: {
     display: 'flex',

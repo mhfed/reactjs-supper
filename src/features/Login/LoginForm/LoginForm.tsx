@@ -17,10 +17,11 @@ import { Trans } from 'react-i18next';
 import ErrorCollapse from 'components/molecules/ErrorExpandable';
 import { InputField, PasswordField } from 'components/fields';
 import React from 'react';
+import { ILoginValues } from 'models/ICommon';
 
 const useStyles = makeStyles((theme) => ({
   title: {
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.primary.light,
     padding: theme.spacing(2),
     display: 'flex',
     width: '100%',
@@ -54,10 +55,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface ILoginValues {
-  email: string;
-  password: string;
-}
 export default function SignIn() {
   const classes = useStyles();
   const error = useSelector(errorSelector);
@@ -117,7 +114,7 @@ export default function SignIn() {
             helperText={touched.password && errors.password}
           />
           <FormControlLabel onChange={onStaySignedIn} control={<Checkbox />} label={<Trans>lang_stay_sign_in</Trans>} />
-          <Button type="submit" fullWidth variant="contained" color="primary" sx={{ my: 2 }}>
+          <Button type="submit" fullWidth variant="contained" color="primary" sx={{ my: 2 }} onClick={() => handleSubmit()}>
             <Trans>lang_sign_in</Trans>
             {isLoading && <CircularProgress color="secondary" size={24} sx={{ position: 'absolute' }} />}
           </Button>

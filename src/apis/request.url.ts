@@ -15,11 +15,11 @@ export const getRefreshUrl = () => {
 export const getPinUrl = () => {
   return `/v1/auth/pin`;
 };
-export function getCreatePasswordUrl() {
+export const getCreatePasswordUrl = () => {
   return `v1/auth/create-password`;
-}
+};
 
 // User - v1
-export function getSearchUserUrl(pageId = 1, pageSize = 50) {
-  return `v1/search/user?page_id=${pageId}&page_size=${pageSize}`;
-}
+export const getSearchUserUrl = (pageId = 1, pageSize = 50) => {
+  return `/v1/search/user?page_id=${pageId}&page_size=${pageSize}`;
+};

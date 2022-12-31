@@ -1,4 +1,4 @@
-import { colors, createTheme } from '@mui/material';
+import { createTheme } from '@mui/material';
 
 const lightTheme = createTheme({
   components: {
@@ -14,39 +14,71 @@ const lightTheme = createTheme({
         },
       },
     },
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          height: 24,
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        contained: {
+          '&:hover': {
+            background: '#08D98D !important',
+          },
+        },
+      },
+    },
   },
   palette: {
     mode: 'light',
     common: {
+      black: '#000',
       white: '#fff',
     },
-    action: {
-      active: colors.blueGrey[600],
-    },
     background: {
-      default: '#fafafa',
-      paper: '#fff',
+      default: '#758695',
+      paper: '#C5CBCE',
     },
     primary: {
-      light: '#1976d2 ',
+      light: '#fff',
       main: '#00C77F',
-      dark: '#303f9f',
+      dark: '#F2F8FF',
       contrastText: '#fff',
     },
     secondary: {
-      light: '#ff4081',
+      light: '#fff',
       main: '#1976d2',
-      dark: '#c51162',
+      contrastText: '#fff',
+    },
+    success: {
+      main: '#00C77F',
+      light: '#E1FFF4',
+      contrastText: '#fff',
+    },
+    warning: {
+      main: '#D89C01',
+      light: '#FFFCD4',
       contrastText: '#fff',
     },
     error: {
       main: '#FF435F',
+      light: '#FFDCE2',
+      contrastText: '#fff',
+    },
+    hover: {
+      main: '#21F5A8',
+      contrastText: '#fff',
     },
     text: {
       primary: 'rgba(0, 0, 0, 0.87)',
       secondary: 'rgba(0, 0, 0, 0.54)',
       disabled: 'rgba(0, 0, 0, 0.38)',
     },
+  },
+  typography: {
+    fontFamily: ['Roboto'].join(','),
   },
 });
 
