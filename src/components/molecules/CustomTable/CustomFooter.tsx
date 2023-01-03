@@ -5,22 +5,23 @@ import TableCell from '@mui/material/TableCell';
 import MuiTablePagination from '@mui/material/TablePagination';
 import { Trans, useTranslation } from 'react-i18next';
 
-type TextLabels = {
-  rowsPerPage: string;
-  displayRows: string;
-  previous: string;
-  next: string;
-};
-
 type CustomFooterProps = {
   changeRowsPerPage: (s: string) => void;
   changePage: (s: number) => void;
   count: number;
   rowsPerPage: number;
   page: number;
+  rowsPerPageOptions: number[];
 };
 
-const CustomFooter: React.FC<CustomFooterProps> = ({ changeRowsPerPage, changePage, count, rowsPerPage, page }) => {
+const CustomFooter: React.FC<CustomFooterProps> = ({
+  changeRowsPerPage,
+  changePage,
+  count,
+  rowsPerPage,
+  page,
+  rowsPerPageOptions,
+}) => {
   const { t } = useTranslation();
 
   const handleRowChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -47,13 +48,13 @@ const CustomFooter: React.FC<CustomFooterProps> = ({ changeRowsPerPage, changePa
             showFirstButton
             showLastButton
             rowsPerPage={rowsPerPage}
-            page={page}
+            page={Math.min(page, count)}
             labelRowsPerPage={<Trans>lang_rows_per_page</Trans>}
             getItemAriaLabel={(type) => t(`lang_go_to_${type}_page`) as string}
             labelDisplayedRows={({ from, to, count }) => (
               <Trans values={{ from, to, count }}>lang_displayed_rows_pagination</Trans>
             )}
-            rowsPerPageOptions={[10, 20, 100]}
+            rowsPerPageOptions={rowsPerPageOptions}
             onPageChange={handlePageChange}
             onRowsPerPageChange={handleRowChange}
           />

@@ -8,6 +8,7 @@ import { alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { ACTIONS } from './TableConstants';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -23,6 +24,10 @@ const useStyles = makeStyles((theme) => ({
       background: alpha(theme.palette.background.paper, 0.5),
     },
   },
+  hidden: {
+    visibility: 'hidden',
+    width: 0,
+  },
 }));
 
 type CustomSearchProps = {
@@ -31,11 +36,18 @@ type CustomSearchProps = {
   handleEdit: (action: string) => void;
   isEditMode: boolean;
   editable: boolean;
+  isNodata: boolean;
 };
 
-const CustomSearch: React.FC<CustomSearchProps> = ({ editable, searchText = '', handleSearch, handleEdit, isEditMode }) => {
+const CustomSearch: React.FC<CustomSearchProps> = ({
+  isNodata,
+  editable,
+  searchText = '',
+  handleSearch,
+  handleEdit,
+  isEditMode,
+}) => {
   const classes = useStyles();
-  const [value, setValue] = React.useState(searchText);
   const { t } = useTranslation();
   const timeoutId = React.useRef<number | null>(null);
 
@@ -48,25 +60,28 @@ const CustomSearch: React.FC<CustomSearchProps> = ({ editable, searchText = '', 
 
   return (
     <div className={classes.container}>
-      {editable ? (
-        isEditMode ? (
-          <div>
-            <Button variant="outlined" startIcon={<ModeEditIcon />} onClick={() => handleEdit(ACTIONS.CANCEL)} sx={{ mr: 1 }}>
-              <Trans>lang_cancel</Trans>
-            </Button>
-            <Button variant="contained" startIcon={<ModeEditIcon />} onClick={() => handleEdit(ACTIONS.SAVE)}>
-              <Trans>lang_save</Trans>
-            </Button>
-          </div>
-        ) : (
-          <Button variant="contained" startIcon={<ModeEditIcon />} onClick={() => handleEdit(ACTIONS.EDIT)}>
-            <Trans>lang_edit</Trans>
+      {isEditMode ? (
+        <div className={clsx(!editable && classes.hidden)}>
+          <Button variant="outlined" startIcon={<ModeEditIcon />} onClick={() => handleEdit(ACTIONS.CANCEL)} sx={{ mr: 1 }}>
+            <Trans>lang_cancel</Trans>
           </Button>
-        )
+          <Button variant="contained" startIcon={<ModeEditIcon />} onClick={() => handleEdit(ACTIONS.SAVE)}>
+            <Trans>lang_save</Trans>
+          </Button>
+        </div>
       ) : (
-        <React.Fragment />
+        <Button
+          variant="contained"
+          className={clsx(!editable && classes.hidden)}
+          disabled={isNodata}
+          startIcon={<ModeEditIcon />}
+          onClick={() => handleEdit(ACTIONS.EDIT)}
+        >
+          <Trans>lang_edit</Trans>
+        </Button>
       )}
       <TextField
+        disabled={isEditMode}
         variant="outlined"
         name="search"
         placeholder={t('lang_quick_filter') + ''}
@@ -74,14 +89,14 @@ const CustomSearch: React.FC<CustomSearchProps> = ({ editable, searchText = '', 
           shrink: false,
         }}
         InputProps={{
-          endAdornment: value ? (
+          endAdornment: searchText ? (
             <InputAdornment position="start">
               <CancelIcon style={{ width: 16, height: 16 }} />
             </InputAdornment>
           ) : null,
         }}
         fullWidth
-        value={value}
+        value={searchText || ''}
         onChange={onChange}
       />
     </div>

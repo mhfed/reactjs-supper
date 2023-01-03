@@ -1,11 +1,10 @@
 import React from 'react';
 import * as yup from 'yup';
-import { getSearchUserUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { InputField, PasswordField, SelectField } from 'components/fields';
 import { useFormik } from 'formik';
-import { Box, Button, Grid, InputAdornment, Stack, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Trans } from 'react-i18next';
 
@@ -85,7 +84,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                 { label: 'sitename B', value: 'sitename B' },
               ]}
               name="site_name"
-              label="lang_site_name"
+              label="lang_sitename"
               id="site_name"
               fullWidth={true}
               onBlur={handleBlur}
@@ -137,7 +136,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
               onChange={(p: string) => setFieldValue('password', p)}
               onBlur={handleBlur}
               error={touched.password && Boolean(errors.password)}
-              generate={true}
+              generate
               helperText={touched.password && errors.password}
             />
           </Stack>

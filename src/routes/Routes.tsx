@@ -11,9 +11,9 @@ import RoleRoute from './RoleRoute';
 const Error404View = lazy(() => import('features/Error404View'));
 const UserManagement = lazy(() => import('features/User/UserManagement'));
 const CreateNewUser = lazy(() => import('features/User/CreateNewUser'));
-const Notifications = lazy(() => import('features/Notification/Notifications'));
+const NotificationManagement = lazy(() => import('features/Notification/NotificationManagement'));
 const CreateNewNotification = lazy(() => import('features/Notification/CreateNewNotification'));
-const Segments = lazy(() => import('features/Notification/Segments'));
+const SegmentManagement = lazy(() => import('features/Notification/SegmentManagement'));
 const CreateNewSegment = lazy(() => import('features/Notification/CreateNewSegment'));
 const Subscribers = lazy(() => import('features/Notification/Subscribers'));
 const Articles = lazy(() => import('features/Article/Articles'));
@@ -61,13 +61,13 @@ const routesConfig: IRoutes[] = [
         requireRoles: [],
       },
       {
-        path: PATH_NAME.NOTIFICATIONS,
-        component: Notifications,
+        path: PATH_NAME.NOTIFICATION_MANAGEMENT,
+        component: NotificationManagement,
         requireRoles: [],
       },
       {
-        path: PATH_NAME.SEGMENTS,
-        component: Segments,
+        path: PATH_NAME.SEGMENT_MANAGEMENT,
+        component: SegmentManagement,
         requireRoles: [],
       },
       {

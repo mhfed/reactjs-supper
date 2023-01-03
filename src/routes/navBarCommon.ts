@@ -31,7 +31,7 @@ export const navBarCommon = [
       },
       {
         title: 'lang_notifications_management',
-        href: PATH_NAME.NOTIFICATIONS,
+        href: PATH_NAME.NOTIFICATION_MANAGEMENT,
       },
       {
         title: 'lang_create_new_segments',
@@ -39,7 +39,7 @@ export const navBarCommon = [
       },
       {
         title: 'lang_segments_management',
-        href: PATH_NAME.SEGMENTS,
+        href: PATH_NAME.SEGMENT_MANAGEMENT,
       },
       {
         title: 'lang_subscribers',

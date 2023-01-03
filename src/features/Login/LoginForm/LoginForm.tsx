@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { IValidator } from 'models/ICommon';
+import { validate } from 'helpers';
 import CircularProgress from '@mui/material/CircularProgress';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
@@ -69,7 +69,7 @@ export default function SignIn() {
     window.localStorage.setItem('isStaySignedIn', e.target.checked + '');
   };
 
-  const { values, errors, touched, handleChange, handleBlur, handleSubmit } = useFormik({
+  const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue } = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,
@@ -108,7 +108,7 @@ export default function SignIn() {
             required
             fullWidth
             value={values.password}
-            onChange={handleChange}
+            onChange={(v: string) => setFieldValue('password', v)}
             onBlur={handleBlur}
             error={(touched.password && Boolean(errors.password)) || !!error}
             helperText={touched.password && errors.password}
@@ -121,20 +121,8 @@ export default function SignIn() {
           <div className={classes.termsContainer}>
             <Trans
               components={[
-                <Link
-                  key="termsOfService"
-                  className="link"
-                  color="secondary"
-                  target="_blank"
-                  href={`/novus-fintech-privacy-policy.pdf?${+new Date()}`}
-                />,
-                <Link
-                  key="privacyPolicy"
-                  className="link"
-                  color="secondary"
-                  target="_blank"
-                  href={`/novus-fintech-privacy-policy.pdf?${+new Date()}`}
-                />,
+                <Link key="termsOfService" target="_blank" href={`/novus-fintech-privacy-policy.pdf?${+new Date()}`} />,
+                <Link key="privacyPolicy" target="_blank" href={`/novus-fintech-privacy-policy.pdf?${+new Date()}`} />,
               ]}
             >
               lang_terms_of_service_and_privacy_policy
@@ -153,5 +141,5 @@ const initialValues = {
 
 const validationSchema = yup.object().shape({
   email: yup.string().nullable(true).email('lang_email_invalid').required('lang_email_required'),
-  password: yup.string().required('lang_password_required').matches(IValidator.PASSWORD, 'lang_password_required'),
+  password: yup.string().required('lang_password_required').matches(validate.getPasswordPattern(), 'lang_password_required'),
 });

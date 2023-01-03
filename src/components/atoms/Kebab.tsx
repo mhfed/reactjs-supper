@@ -4,13 +4,28 @@ import MenuItem from '@mui/material/MenuItem';
 import { useTheme } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import KebabIcon from '@mui/icons-material/MoreVert';
-import { IKebabItem } from 'models/ICommon';
+import { IKebabItem, LooseObject } from 'models/ICommon';
 import { Trans } from 'react-i18next';
+import makeStyles from '@mui/styles/makeStyles';
+
+const useStyles = makeStyles((theme) => ({
+  icon: {
+    padding: 0,
+    background: theme.palette.primary.light,
+    '&:hover': {
+      '& svg': {
+        fill: theme.palette.primary.main,
+      },
+    },
+  },
+}));
 
 type KebabProps = {
   items?: IKebabItem[];
+  data?: LooseObject;
 };
-const Kebab: React.FC<KebabProps> = ({ items = [] }) => {
+const Kebab: React.FC<KebabProps> = ({ items = [], data = {} }) => {
+  const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<any>(null);
   const open = Boolean(anchorEl);
   const theme = useTheme();
@@ -25,12 +40,11 @@ const Kebab: React.FC<KebabProps> = ({ items = [] }) => {
   return (
     <div>
       <IconButton
-        id="basic-button"
         aria-controls="basic-menu"
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        style={{ padding: 0, background: theme.palette.primary.light }}
+        className={classes.icon}
       >
         <KebabIcon />
       </IconButton>
@@ -48,7 +62,7 @@ const Kebab: React.FC<KebabProps> = ({ items = [] }) => {
             <MenuItem
               key={`kebab_MenuItem_${i}`}
               onClick={() => {
-                e?.onClick();
+                e?.onClick(data);
                 handleClose();
               }}
             >

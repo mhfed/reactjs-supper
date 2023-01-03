@@ -1,8 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
-
-// actions
-import { setLoading } from 'actions/app.action';
-import { logout } from 'actions/auth.action';
+import { enqueueSnackbarAction, setLoading } from 'actions/app.action';
 
 export type IConfig = AxiosRequestConfig & {
   showSpinner?: boolean;
@@ -97,6 +94,13 @@ export default function initRequest(store: any) {
       // handle request timeout
       if (error.code === 'ECONNABORTED') {
         store.dispatch(setLoading(false));
+        store.dispatch(
+          enqueueSnackbarAction({
+            message: 'lang_timeout_cannot_be_connected_server',
+            key: new Date().getTime() + Math.random(),
+            variant: 'error',
+          }),
+        );
       }
 
       // access token expired

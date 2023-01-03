@@ -2,18 +2,22 @@ import { createTheme } from '@mui/material';
 
 const darkTheme = createTheme({
   components: {
-    // Name of the component
-    // MuiInputBase: {
-    //   styleOverrides: {
-    //     root: {
-    //       '&.Mui-error': {
-    //         '& input': {
-    //           color: '#FF435F',
-    //         },
-    //       },
-    //     },
-    //   },
-    // },
+    MuiCssBaseline: {
+      styleOverrides: (themeParam) => ({
+        '#tooltip': {
+          pointerEvents: 'none',
+          transition: 'opacity 0.3s',
+          zIndex: 999999,
+          fontFamily: 'Roboto',
+          fontSize: '0.875rem',
+          padding: '5px 8px',
+          borderRadius: 4,
+          boxShadow: '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
+          border: 'solid 1px #363c4e',
+          backgroundColor: '#272B3B',
+        },
+      }),
+    },
     MuiChip: {
       styleOverrides: {
         root: {
@@ -65,6 +69,11 @@ const darkTheme = createTheme({
     error: {
       main: '#FF435F',
       light: '#FFDCE2',
+      contrastText: '#fff',
+    },
+    info: {
+      main: '#27A6E7',
+      light: '#E3EFFD',
       contrastText: '#fff',
     },
     hover: {

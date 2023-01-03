@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 8,
     overflow: 'hidden',
     minWidth: '40vw',
-    minHeight: 200,
   },
   header: {
     display: 'flex',
@@ -73,14 +72,14 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
   const renderComponent = () => {
     const Component = store.component;
     return (
-      <Modal className={classes.modal} open={store.open} onClose={hideModal}>
+      <Modal className={classes.modal} open={!!store.open} onClose={hideModal}>
         <Paper className={classes.container}>
           <Box className={classes.header}>
             <Typography>
               <Trans>{store.title}</Trans>
             </Typography>
           </Box>
-          <Component />
+          {Component && <Component {...(store.props || {})} onClose={hideModal} />}
         </Paper>
       </Modal>
     );

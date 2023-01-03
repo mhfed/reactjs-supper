@@ -30,7 +30,7 @@ export type DropdownOption = {
 };
 
 export type IKebabItem = {
-  onClick: () => void;
+  onClick: (data: any) => void;
   label: string;
 };
 
@@ -40,15 +40,17 @@ export type IColumn = {
   type?: string;
   dataOptions?: DropdownOption[];
   actions?: IKebabItem[];
+  formatter?: (data: any) => string;
+  getActions?: (data: any) => any;
 };
 
-type SortConfig = {
+export type ISortConfig = {
   sortField: string;
   sortType: string;
 };
 
 export type IGridConfig = {
-  sort: SortConfig | null;
+  sort: ISortConfig | null;
 };
 
 export type ITableConfig = MUIDataTableState & IGridConfig;
@@ -72,10 +74,6 @@ export type IHistory = {
   replace(url: string): void;
 };
 
-export const IValidator = {
-  PASSWORD: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
-};
-
 export type ILoginValues = {
   email: string;
   password: string;
@@ -89,4 +87,5 @@ export type IChangePassValues = {
 export type IModalProps = {
   title: string;
   component?: any;
+  props: LooseObject;
 };

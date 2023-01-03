@@ -1,5 +1,6 @@
 import React from 'react';
 import BackspaceIcon from '@mui/icons-material/BackspaceOutlined';
+import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import FormHelperText from '@mui/material/FormHelperText';
@@ -234,7 +235,7 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
   };
 
   return (
-    <div className={classes.wrapper}>
+    <Paper className={classes.wrapper}>
       {renderHeader()}
       <div className={classes.pinBody}>
         <PinInput ref={pinInputRef} data={number} />
@@ -250,7 +251,7 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
         )}
         <div className={classes.keyboardContainer}>{mapKeyBoard()}</div>
       </div>
-    </div>
+    </Paper>
   );
 };
 

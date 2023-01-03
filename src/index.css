@@ -68,3 +68,7 @@ select:-webkit-autofill:focus {
     url(./assets/images/background.jpg) no-repeat center center fixed;
   background-size: cover;
 }
+
+.SnackbarContent-root {
+  border-radius: 24px !important;
+}

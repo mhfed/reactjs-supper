@@ -25,7 +25,7 @@ function Footer({ color, style }: { color: string; style?: React.CSSProperties }
         Customer support:&nbsp;&nbsp;&nbsp;
         {<MailIcon style={{ fill: color, marginBottom: -2, fontSize: 16 }} />}
         &nbsp;
-        <Link color="secondary" target="_blank" href="mailto:support@iress.app">
+        <Link target="_blank" href="mailto:support@iress.app">
           support@iress.app
         </Link>
       </Typography>

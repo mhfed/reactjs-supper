@@ -9,7 +9,6 @@ import { PATH_NAME } from 'configs';
 import { IChildNavBar } from 'models/INavBar';
 import NavBarItem from './NavBarItem';
 import useStyles from './styles';
-import { Trans } from 'react-i18next';
 
 type IProps = {
   isDrawer: boolean;

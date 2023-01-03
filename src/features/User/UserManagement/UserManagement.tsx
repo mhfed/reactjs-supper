@@ -5,10 +5,12 @@ import { enqueueSnackbarAction } from 'actions/app.action';
 import httpRequest from 'services/httpRequest';
 import CustomTable, { COLUMN_TYPE } from 'components/molecules/CustomTable';
 import makeStyles from '@mui/styles/makeStyles';
-import { FIELD, USER_STATUS_OPTIONS, SITE_NAME_OPTIONS } from './UserConstants';
+import { FIELD, USER_STATUS_OPTIONS, SITE_NAME_OPTIONS } from '../UserConstants';
 import { ITableData, LooseObject } from 'models/ICommon';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditUserModal from './ConfirmEditUserModal';
+import ConfirmResetPassword from './ConfirmResetPassword';
+import ConfirmForceChangePassword from './ConfirmForceChangePassword';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -28,17 +30,14 @@ const UserManagement: React.FC<UserManagementProps> = () => {
   const gridRef = React.useRef<TableHandle>(null);
   const { showModal } = useGlobalModalContext();
 
-  React.useEffect(() => {
-    window.setTimeout(() => {
-      showModal({ title: 'lang_confirm', component: ConfirmEditUserModal });
-    }, 2000);
-  }, []);
-
   const getData = async () => {
     try {
       const curPage: Partial<ITableData> = gridRef?.current?.getPaginate?.();
       const queryBody: any = gridRef?.current?.getQuery?.();
-      const response: any = await httpRequest.post(getSearchUserUrl(curPage.page, curPage.rowsPerPage), queryBody);
+      const response: any = await httpRequest.post(
+        getSearchUserUrl({ pageId: curPage.page, pageSize: curPage.rowsPerPage }),
+        queryBody,
+      );
       gridRef?.current?.setData?.(response);
     } catch (error) {
       dispatch(
@@ -67,16 +66,32 @@ const UserManagement: React.FC<UserManagementProps> = () => {
       },
       {
         label: 'lang_reset_password',
-        onClick: () => console.log('YOLO: lang_reset_password'),
+        onClick: (data: any) =>
+          showModal({
+            title: 'lang_confirm',
+            component: ConfirmResetPassword,
+            props: {
+              userLoginId: data[FIELD.USER_LOGIN],
+            },
+          }),
       },
       {
         label: 'lang_force_to_change_password',
-        onClick: () => console.log('YOLO: lang_force_to_change_password'),
+        onClick: (data: any) =>
+          showModal({
+            title: 'lang_confirm',
+            component: ConfirmForceChangePassword,
+            props: {
+              userId: data[FIELD.USER_ID],
+              userLoginId: data[FIELD.USER_LOGIN],
+              isChangingPassword: data.change_password,
+            },
+          }),
       },
     ];
   }, []);
 
-  const getColumns = () => {
+  const columns = React.useMemo(() => {
     return [
       {
         name: FIELD.USER_LOGIN,
@@ -88,7 +103,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
       },
       {
         name: FIELD.SITE_NAME,
-        label: 'lang_site_name',
+        label: 'lang_sitename',
         dataOptions: SITE_NAME_OPTIONS,
         type: COLUMN_TYPE.DROPDOWN,
       },
@@ -118,7 +133,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
       },
       {
         name: FIELD.UPDATED,
-        label: 'lang_last_updated',
+        label: 'lang_last_update',
         type: COLUMN_TYPE.DATETIME,
       },
       {
@@ -128,15 +143,23 @@ const UserManagement: React.FC<UserManagementProps> = () => {
         label: ' ',
       },
     ];
-  };
+  }, []);
 
   const onRowDbClick = () => {};
 
   const getRowId = (data: any) => {
-    return data[FIELD.USER_ID];
+    return data[FIELD.USER_LOGIN];
   };
 
-  const onSaveUser = (dicDataChanged: LooseObject, cb: any) => {};
+  const onSaveUser = (dicDataChanged: LooseObject, cb: any) => {
+    showModal({
+      title: 'lang_confirm',
+      component: ConfirmEditUserModal,
+      props: {
+        dicDataChanged,
+      },
+    });
+  };
 
   return (
     <div className={classes.container}>
@@ -147,7 +170,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
         onSave={onSaveUser}
         onTableChange={onTableChange}
         onRowDbClick={onRowDbClick}
-        columns={getColumns()}
+        columns={columns}
       />
     </div>
   );

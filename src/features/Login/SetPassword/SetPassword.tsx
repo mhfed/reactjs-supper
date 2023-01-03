@@ -2,7 +2,7 @@ import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
-import { IValidator } from 'models/ICommon';
+import { validate } from 'helpers';
 import CircularProgress from '@mui/material/CircularProgress';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
@@ -127,7 +127,7 @@ const initialValues = {
 };
 
 const validationSchema = yup.object().shape({
-  password: yup.string().required('lang_password_required').matches(IValidator.PASSWORD, 'lang_password_required'),
+  password: yup.string().required('lang_password_required').matches(validate.getPasswordPattern(), 'lang_password_required'),
   re_password: yup
     .string()
     .required('lang_input_confirm_password')

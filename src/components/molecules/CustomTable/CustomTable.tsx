@@ -2,6 +2,7 @@ import React from 'react';
 import MUIDataTable, { MUIDataTableColumnDef, MUIDataTableState, MUIDataTableMeta } from 'mui-datatables';
 import makeStyles from '@mui/styles/makeStyles';
 import Chip from '@mui/material/Chip';
+import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { getFilterObj } from 'helpers';
 import { Trans, useTranslation } from 'react-i18next';
@@ -13,6 +14,7 @@ import clsx from 'clsx';
 import moment from 'moment';
 import Kebab from 'components/atoms/Kebab';
 import DropdownCell from './DropdownCell';
+import CustomStack from './CustomStack';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -44,6 +46,11 @@ const useStyles = makeStyles((theme) => ({
       boxShadow: 'none',
       '& > div:nth-child(3)': {
         boxShadow: theme.shadows[1],
+        flex: 1,
+        overflowY: 'hidden',
+        '& table': {
+          height: '100%',
+        },
       },
     },
     '& .MuiTablePagination-root': {
@@ -56,12 +63,18 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiTableCell-root': {
       padding: theme.spacing(1),
       border: 'none',
+      '&:not(.MuiTableCell-footer)': {
+        maxWidth: 600,
+      },
     },
     '& .MuiTableCell-head': {
       borderRadius: 8,
       overflow: 'hidden',
       background: theme.palette.background.default,
       borderRight: '2px solid transparent',
+      '& *': {
+        textTransform: 'uppercase !important',
+      },
       '& button': {
         width: '100%',
         marginLeft: 0,
@@ -97,31 +110,53 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'uppercase',
   },
   warning: {
-    background: theme.palette.warning.light,
+    '&.bg': {
+      background: theme.palette.warning.light,
+    },
     color: theme.palette.warning.main,
   },
   error: {
-    background: theme.palette.error.light,
+    '&.bg': {
+      background: theme.palette.error.light,
+    },
     color: theme.palette.error.main,
   },
   success: {
-    background: theme.palette.success.light,
+    '&.bg': {
+      background: theme.palette.success.light,
+    },
     color: theme.palette.success.main,
+  },
+  noAction: {
+    '& .MuiTableCell-head': {
+      '&:nth-last-child(2)': {
+        borderTopRightRadius: 8,
+        borderBottomRightRadius: 8,
+        borderRight: '2px solid transparent',
+      },
+      '&:last-child': {
+        borderTopLeftRadius: 8,
+        borderBottomLeftRadius: 8,
+        border: '2px solid transparent',
+      },
+    },
   },
 }));
 
 function convertColumn({
+  data,
   column,
   isEditMode,
   translate,
   classes,
   onChange,
 }: {
+  data: LooseObject[];
   column: IColumn;
   isEditMode?: boolean;
   translate?: any;
   classes?: any;
-  onChange?: (objValue: LooseObject, rowIndex: number) => void;
+  onChange?: (name: string, value: string | number, rowIndex: number) => void;
 }): MUIDataTableColumnDef {
   const res: MUIDataTableColumnDef = {
     name: column.name,
@@ -137,13 +172,16 @@ function convertColumn({
               <DropdownCell
                 value={value}
                 options={column.dataOptions!}
-                onChange={(v) => onChange?.({ [tableMeta.columnData.name]: v }, tableMeta.rowIndex)}
+                onChange={(v) => onChange?.(tableMeta.columnData.name, v, tableMeta.rowIndex)}
               />
             );
           }
           const option = column.dataOptions?.find((e) => e.value === value);
           return (
-            <Chip className={clsx(classes[option?.color || ''], classes.uppercase)} label={<Trans>{option?.label}</Trans>} />
+            <Chip
+              className={clsx(classes[option?.color || ''], classes.bg, classes.uppercase)}
+              label={<Trans>{option?.label}</Trans>}
+            />
           );
         },
       };
@@ -156,13 +194,13 @@ function convertColumn({
               <DropdownCell
                 value={value}
                 options={column.dataOptions!}
-                onChange={(v) => onChange?.({ [tableMeta.columnData.name]: v }, tableMeta.rowIndex)}
+                onChange={(v) => onChange?.(tableMeta.columnData.name, v, tableMeta.rowIndex)}
               />
             );
           }
           const option = column.dataOptions?.find((e) => e.value === value);
           return (
-            <Typography component="span" noWrap>
+            <Typography component="span" noWrap className={classes[option?.color || '']}>
               <Trans>{option?.label}</Trans>
             </Typography>
           );
@@ -181,20 +219,43 @@ function convertColumn({
         },
       };
       break;
+    case COLUMN_TYPE.LINK:
+      res.options = {
+        customBodyRender: (value) => {
+          return (
+            <Link noWrap target="_blank" href={`${value}`}>
+              <Trans>{value}</Trans>
+            </Link>
+          );
+        },
+      };
+      break;
+    case COLUMN_TYPE.MULTIPLE_TAG:
+      res.options = {
+        customBodyRender: (value = []) => {
+          return <CustomStack data={value} />;
+        },
+      };
+      break;
     case COLUMN_TYPE.ACTION:
       res.options = {
         setCellProps: () => ({ style: { width: 30, position: 'sticky', right: 0, padding: 0 } }),
         customBodyRender: (value, tableMeta, updateValue) => {
-          return <Kebab items={column.actions} />;
+          const rowData = data[tableMeta.rowIndex];
+          const actions = column.getActions ? column.getActions(rowData) : column.actions;
+          return <Kebab items={actions} data={rowData} />;
         },
       };
       break;
     default:
       res.options = {
-        customBodyRender: (value) => {
+        customBodyRender: (value, tableMeta) => {
+          let formatValue = value;
+          const rowData = data[tableMeta.rowIndex];
+          if (column.formatter) formatValue = column.formatter(rowData);
           return (
             <Typography component="span" noWrap>
-              {[null, undefined].includes(value) ? process.env.REACT_APP_DEFAULT_VALUE : value}
+              {[null, undefined].includes(value) ? process.env.REACT_APP_DEFAULT_VALUE : formatValue}
             </Typography>
           );
         },
@@ -209,6 +270,7 @@ type TableHandle = {
   setData: (data: ResponseDataPaging) => void;
   getPaginate: any;
   getQuery: any;
+  getConfig: any;
 };
 
 type TableProps = {
@@ -218,6 +280,7 @@ type TableProps = {
   rowsPerPageOptions?: number[];
   data?: ITableData;
   editable?: boolean;
+  noAction?: boolean;
   onSave?: (dataChanged: LooseObject, cb: any) => void;
   fnKey: (data: any) => string;
 };
@@ -229,8 +292,9 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     onTableChange,
     onRowDbClick = null,
     onSave,
-    rowsPerPageOptions = [10, 25, 100],
+    rowsPerPageOptions = [15, 25, 50, 100],
     editable = false,
+    noAction = false,
     fnKey,
   } = props;
   const [data, setData] = React.useState<ITableData>(props.data || DATA_DEFAULT);
@@ -265,6 +329,10 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     };
   };
 
+  const getConfig = () => {
+    return config.current || {};
+  };
+
   const getQuery = () => {
     const query: any = { query: { bool: { must: [] } }, sort: [] };
     if (config.current?.searchText) query.query.bool.must.push({ query_string: { query: `*${config.current.searchText}*` } });
@@ -290,6 +358,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
       setEditMode: setEditMode,
       setData: setDataTable,
       getPaginate: getPaginate,
+      getConfig: getConfig,
       getQuery: getQuery,
     }),
     [],
@@ -322,21 +391,27 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
   };
 
   const listColumn: MUIDataTableColumnDef[] = React.useMemo(() => {
-    const onChange = (objValue: LooseObject, rowIndex: number) => {
-      const row = data.data[rowIndex];
+    const onChange = (name: string, value: string | number, rowIndex: number) => {
+      const row: any = data.data[rowIndex];
       const key = fnKey(row);
       if (!tempDataByKey.current[key]) tempDataByKey.current[key] = {};
-      Object.assign(tempDataByKey.current[key], objValue);
+      if (row[name] === value) {
+        delete tempDataByKey.current[key][name];
+        if (!Object.keys(tempDataByKey.current[key]).length) delete tempDataByKey.current[key];
+      } else {
+        Object.assign(tempDataByKey.current[key], { [name]: value });
+      }
     };
     return columns.reduce((acc: MUIDataTableColumnDef[], cur: IColumn) => {
-      const columnConvert = convertColumn({ column: cur, isEditMode, translate: t, classes, onChange });
+      const columnConvert = convertColumn({ data: data.data, column: cur, isEditMode, translate: t, classes, onChange });
       acc.push(columnConvert);
       return acc;
     }, []);
   }, [columns, isEditMode, data]);
 
+  const isNodata = !data.data.length;
   return (
-    <div className={classes.container}>
+    <div className={clsx(classes.container, noAction && classes.noAction)}>
       <MUIDataTable
         title=" "
         data={data.data}
@@ -356,6 +431,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
                 count={count}
                 page={page}
                 rowsPerPage={rowsPerPage}
+                rowsPerPageOptions={rowsPerPageOptions}
                 changeRowsPerPage={changeRowsPerPage}
                 changePage={changePage}
               />
@@ -365,6 +441,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           customSearchRender: (searchText: string, handleSearch, hideSearch, options) => {
             return (
               <CustomSearch
+                isNodata={isNodata}
                 editable={editable}
                 searchText={searchText}
                 handleSearch={handleSearch}
@@ -389,6 +466,20 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           selectableRowsOnClick: false,
           selectableRowsHideCheckboxes: true,
           responsive: 'standard',
+          textLabels: {
+            body: {
+              noMatch: <Trans>lang_no_data</Trans>,
+            },
+            toolbar: {
+              downloadCsv: t('lang_download_csv') as string,
+              print: t('lang_print') as string,
+              viewColumns: t('lang_view_columns') as string,
+            },
+            viewColumns: {
+              title: t('lang_show_columns') as string,
+              titleAria: t('lang_show_hide_table_columns') as string,
+            },
+          },
         }}
       />
     </div>

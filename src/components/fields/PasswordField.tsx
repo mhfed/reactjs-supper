@@ -28,7 +28,7 @@ type TextFieldProps = {
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 };
 
-const PasswordField: React.FC<TextFieldProps> = ({ label, helperText, value, ...props }) => {
+const PasswordField: React.FC<TextFieldProps> = ({ label, helperText, value, generate, ...props }) => {
   const [visibility, setVisibility] = React.useState(false);
 
   const handleClickShowPassword = () => {
@@ -51,9 +51,9 @@ const PasswordField: React.FC<TextFieldProps> = ({ label, helperText, value, ...
       type={visibility ? 'text' : 'password'}
       onChange={handleChange}
       inputProps={{
-        autocomplete: 'new-password',
+        autoComplete: 'new-password',
         form: {
-          autocomplete: 'off',
+          autoComplete: 'off',
         },
       }}
       InputProps={{
@@ -66,13 +66,13 @@ const PasswordField: React.FC<TextFieldProps> = ({ label, helperText, value, ...
                 </IconButton>
               </InputAdornment>
             ) : null}
-            {props.generate ? (
+            {generate ? (
               <Button
                 // className={classes.btnGenerate}
                 onClick={handleGenPass}
                 sx={{ ml: 1 }}
               >
-                Generate
+                <Trans>lang_generate</Trans>
               </Button>
             ) : null}
           </Box>

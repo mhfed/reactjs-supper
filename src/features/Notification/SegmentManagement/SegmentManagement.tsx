@@ -1,5 +1,5 @@
 import React from 'react';
-import { getListSubscribertUrl } from 'apis/request.url';
+import { getListSegmentUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import httpRequest from 'services/httpRequest';
@@ -19,9 +19,9 @@ const useStyles = makeStyles(() => ({
 }));
 
 type TableHandle = React.ElementRef<typeof CustomTable>;
-type SubscribersProps = {};
+type SegmentManagementProps = {};
 
-const Subscribers: React.FC<SubscribersProps> = () => {
+const SegmentManagement: React.FC<SegmentManagementProps> = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
@@ -31,7 +31,7 @@ const Subscribers: React.FC<SubscribersProps> = () => {
     try {
       const config: ITableConfig = gridRef?.current?.getConfig?.();
       const response: any = await httpRequest.get(
-        getListSubscribertUrl({
+        getListSegmentUrl({
           pageId: config.page,
           pageSize: config.rowsPerPage,
           searchText: config.searchText,
@@ -58,28 +58,51 @@ const Subscribers: React.FC<SubscribersProps> = () => {
     getData();
   }, []);
 
+  const getActions = (data: any) => {
+    return [
+      {
+        label: 'lang_view_detail',
+        onClick: () => console.log('YOLO: lang_view_detail'),
+      },
+      {
+        label: 'lang_edit',
+        onClick: (data: any) => {},
+      },
+      {
+        label: 'lang_delete',
+        onClick: (data: any) => {},
+      },
+    ];
+  };
+
   const columns = React.useMemo(() => {
     return [
       {
-        name: FIELD.USERNAME,
-        label: 'lang_username',
+        name: FIELD.ACTOR,
+        label: 'lang_actor',
       },
       {
-        name: FIELD.ENTITY_ID,
-        label: 'lang_entity_id',
-      },
-      {
-        name: FIELD.FULL_NAME,
-        label: 'lang_full_name',
-      },
-      {
-        name: FIELD.SITENAME,
-        label: 'lang_sitename',
-      },
-      {
-        name: FIELD.SEGMENT_REGISTER,
+        name: FIELD.SEGMENT_ID,
         label: 'lang_segment_id',
-        type: COLUMN_TYPE.MULTIPLE_TAG,
+      },
+      {
+        name: FIELD.SEGMENT_NAME,
+        label: 'lang_segment_name',
+      },
+      {
+        name: FIELD.NUMBER_OF_SUBSCRIBERS,
+        label: 'lang_number_of_subscribers',
+      },
+      {
+        name: FIELD.LAST_UPDATE,
+        label: 'lang_last_update',
+        type: COLUMN_TYPE.DATETIME,
+      },
+      {
+        name: FIELD.ACTION,
+        type: COLUMN_TYPE.ACTION,
+        getActions,
+        label: ' ',
       },
     ];
   }, []);
@@ -92,16 +115,9 @@ const Subscribers: React.FC<SubscribersProps> = () => {
 
   return (
     <div className={classes.container}>
-      <CustomTable
-        noAction
-        fnKey={getRowId}
-        ref={gridRef}
-        onTableChange={onTableChange}
-        onRowDbClick={onRowDbClick}
-        columns={columns}
-      />
+      <CustomTable fnKey={getRowId} ref={gridRef} onTableChange={onTableChange} onRowDbClick={onRowDbClick} columns={columns} />
     </div>
   );
 };
 
-export default Subscribers;
+export default SegmentManagement;

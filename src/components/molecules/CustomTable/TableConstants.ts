@@ -11,6 +11,8 @@ export const COLUMN_TYPE = {
   DROPDOWN: 'dropdown',
   DROPDOWN_WITH_BG: 'dropdown_with_bg',
   DATETIME: 'datetime',
+  LINK: 'link',
+  MULTIPLE_TAG: 'multiple_tag',
   ACTION: 'action',
 };
 
