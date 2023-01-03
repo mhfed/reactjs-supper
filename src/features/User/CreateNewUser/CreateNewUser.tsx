@@ -7,6 +7,10 @@ import { useFormik } from 'formik';
 import { Button, Paper, Stack, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Trans } from 'react-i18next';
+import { validate } from 'helpers';
+import { USER_STATUS_OPTIONS, SITE_NAME_OPTIONS } from '../UserConstants';
+import httpRequest from 'services/httpRequest';
+import { getUserDetailUrl } from 'apis/request.url';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -40,11 +44,34 @@ const STATE_FORM = {
 const CreateNewUser: React.FC<CreateNewUserProps> = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-
   const [stateForm, setStateForm] = React.useState(STATE_FORM.CREATE);
 
-  const getData = async () => {
+  const handleShowPreSubmit = async (values: any) => {
+    setStateForm(STATE_FORM.PREVIEW);
+  };
+
+  // Handle Submit Form
+  const handleFormSubmit = async () => {
     try {
+      console.log('values', values);
+      const body = {
+        status: values.status,
+        site_name: values.site_name,
+        full_name: values.full_name,
+        note: values.description,
+        password: values.password,
+        user_login_id: values.user_login,
+      };
+
+      const response: any = await httpRequest.post(getUserDetailUrl(), body);
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_create_user_successfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
+      setStateForm(STATE_FORM.CREATE);
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({
@@ -53,16 +80,8 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
           variant: 'error',
         }),
       );
+      console.error('Create user handleFormSubmit error: ', error);
     }
-  };
-
-  const handleShowPreSubmit = async (values: any) => {
-    setStateForm(STATE_FORM.PREVIEW);
-  };
-
-  // Handle Submit Form
-  const handleFormSubmit = () => {
-    console.log('values', values);
   };
 
   const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, resetForm } = useFormik({
@@ -82,8 +101,6 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
   React.useEffect(() => {}, []);
 
   const renderContent = (stateForm: string) => {
-    console.log('stateForm', stateForm);
-
     switch (stateForm) {
       case STATE_FORM.PREVIEW:
         return (
@@ -95,7 +112,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
             </div>
             <Stack direction="row" sx={{ margin: '12px 0' }}>
               <PreviewField sx={{ mb: 2, mr: 4 }} label="lang_full_name" value={values.full_name} />
-              <PreviewField label="lang_site_name" value={values.site_name} />
+              <PreviewField label="lang_sitename" value={values.site_name} />
             </Stack>
             <Stack direction="row" sx={{ margin: '12px 0' }}>
               <PreviewField sx={{ mb: 2, mr: 4 }} label="lang_user_login" value={values.user_login} />
@@ -104,16 +121,11 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
             <Stack direction="row" sx={{ margin: '12px 0', width: '50%' }}>
               <PreviewField sx={{ mb: 2, mr: 2 }} label="lang_password" value={values.user_login} />
             </Stack>
-            <div className={classes.title}>
-              <Typography variant="h4">
-                <Trans>lang_notes</Trans>
-              </Typography>
-            </div>
             <Stack direction="row" sx={{ margin: '12px 0', width: '50%' }}>
               <PreviewField
                 sx={{ mb: 2, mr: 2 }}
                 variant="outlined"
-                label="lang_description"
+                label="lang_notes"
                 value={values.description}
                 multiline
                 rows={4}
@@ -121,10 +133,10 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
             </Stack>
             <Stack direction="row" justifyContent="end" alignItems="center" spacing={2} sx={{ margin: '12px 0' }}>
               <Button variant="outlined" onClick={handleReturn}>
-                Return
+                <Trans>lang_return</Trans>
               </Button>
               <Button variant="contained" onClick={handleFormSubmit}>
-                Confirm
+                <Trans>lang_confirm</Trans>
               </Button>
             </Stack>
           </form>
@@ -151,12 +163,10 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                 onBlur={handleBlur}
                 error={touched.full_name && Boolean(errors.full_name)}
                 helperText={touched.full_name && errors.full_name}
+                inputProps={{ maxLength: 64 }}
               />
               <SelectField
-                options={[
-                  { label: 'sitename A', value: 'sitename A' },
-                  { label: 'sitename B', value: 'sitename B' },
-                ]}
+                options={SITE_NAME_OPTIONS}
                 name="site_name"
                 label="lang_sitename"
                 id="site_name"
@@ -181,12 +191,10 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                 onBlur={handleBlur}
                 error={touched.user_login && Boolean(errors.user_login)}
                 helperText={touched.user_login && errors.user_login}
+                inputProps={{ maxLength: 255 }}
               />
               <SelectField
-                options={[
-                  { label: 'status aa', value: 'status aa' },
-                  { label: 'status bb', value: 'status bb' },
-                ]}
+                options={USER_STATUS_OPTIONS}
                 name="status"
                 label="lang_status"
                 id="status"
@@ -231,17 +239,18 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={touched.description && Boolean(errors.description)}
-                helperText={touched.password && errors.password}
+                helperText={touched.description && errors.description}
                 multiline
                 rows={4}
+                inputProps={{ maxLength: 255 }}
               />
             </Stack>
             <Stack direction="row" justifyContent="end" alignItems="center" spacing={2} sx={{ margin: '12px 0' }}>
               <Button variant="outlined" onClick={handleClearData}>
-                Clear Data
+                <Trans>lang_clear_data</Trans>
               </Button>
               <Button variant="contained" type="submit">
-                Create
+                <Trans>lang_create</Trans>
               </Button>
             </Stack>
           </form>
@@ -261,11 +270,12 @@ const initialValues = {
 };
 
 const validationSchema = yup.object().shape({
-  full_name: yup.string().required('lang_full_name_required').max(64, 'Must be 15 characters or less'),
-  site_name: yup.string().required('lang_full_name_required'),
-  user_login: yup.string().required('lang_full_name_required'),
-  status: yup.string().required('lang_full_name_required'),
-  password: yup.string().required('lang_full_name_required'),
+  full_name: yup.string().required('lang_full_name_required').max(64, 'lang_full_name_max_length'),
+  site_name: yup.string().required('lang_site_name_required'),
+  user_login: yup.string().required('lang_user_login_required').matches(validate.getEmailPattern(), 'lang_password_required'),
+  status: yup.string().required('lang_status_required'),
+  password: yup.string().required('lang_password_required').matches(validate.getPasswordPattern(), 'lang_password_required'),
+  description: yup.string().max(255, 'lang_description_max_length'),
 });
 
 export default CreateNewUser;

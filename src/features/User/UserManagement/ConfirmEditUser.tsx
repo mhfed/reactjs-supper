@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import { validate } from 'helpers';
 import { Trans } from 'react-i18next';
 import { userSelector } from 'selectors/auth.selector';
-import { getUserDetaillUrl } from 'apis/request.url';
+import { getUserDetailUrl } from 'apis/request.url';
 import httpRequest from 'services/httpRequest';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { useDispatch } from 'react-redux';
@@ -73,7 +73,7 @@ const ConfirmEditUserModal: React.FC<ConfirmEditUserModalProps> = ({ data = [], 
         setError('lang_email_did_not_match');
         return;
       }
-      await httpRequest.put(getUserDetaillUrl(), { data });
+      await httpRequest.put(getUserDetailUrl(), { data });
       dispatch(
         enqueueSnackbarAction({
           message: 'lang_update_user_information_successfully',
