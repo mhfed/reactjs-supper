@@ -8,7 +8,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import { FIELD, USER_STATUS_OPTIONS, SITE_NAME_OPTIONS } from '../UserConstants';
 import { ITableData, LooseObject } from 'models/ICommon';
 import { useGlobalModalContext } from 'containers/Modal';
-import ConfirmEditUserModal from './ConfirmEditUserModal';
+import ConfirmEditUser from './ConfirmEditUser';
 import ConfirmResetPassword from './ConfirmResetPassword';
 import ConfirmForceChangePassword from './ConfirmForceChangePassword';
 
@@ -29,6 +29,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
   const { showModal } = useGlobalModalContext();
+  const dicUser = React.useRef<any>({});
 
   const getData = async () => {
     try {
@@ -39,6 +40,10 @@ const UserManagement: React.FC<UserManagementProps> = () => {
         queryBody,
       );
       response.current_page -= 1;
+      dicUser.current = response.data.reduce((acc: any, cur: any) => {
+        acc[cur[FIELD.USER_ID]] = cur;
+        return acc;
+      }, {});
       gridRef?.current?.setData?.(response);
     } catch (error) {
       dispatch(
@@ -149,15 +154,20 @@ const UserManagement: React.FC<UserManagementProps> = () => {
   const onRowDbClick = () => {};
 
   const getRowId = (data: any) => {
-    return data[FIELD.USER_LOGIN];
+    return data[FIELD.USER_ID];
   };
 
   const onSaveUser = (dicDataChanged: LooseObject, cb: any) => {
+    const data = Object.keys(dicDataChanged).map((k) => ({
+      ...dicDataChanged[k],
+      [FIELD.USER_LOGIN]: dicUser.current[k][FIELD.USER_LOGIN],
+      [FIELD.USER_ID]: k,
+    }));
     showModal({
       title: 'lang_confirm',
-      component: ConfirmEditUserModal,
+      component: ConfirmEditUser,
       props: {
-        dicDataChanged,
+        data,
       },
     });
   };

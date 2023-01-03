@@ -33,6 +33,9 @@ export function getUserDetailByIdUrl(userId: string) {
 export function getUserDetailByEmailUrl(email: string) {
   return `/v1/user/user-details?user_login_id=${email}`;
 }
+export function getUserDetailUrl() {
+  return '/v1/user/user-details';
+}
 
 // Notification - v1
 export const getListNotificationUrl = ({

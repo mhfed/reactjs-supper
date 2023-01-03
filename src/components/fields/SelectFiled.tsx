@@ -9,7 +9,7 @@ import { FormikErrors } from 'formik';
 
 type Options = {
   label: string;
-  value: string;
+  value: string | number;
 };
 type SelectFieldProps = {
   id?: string;

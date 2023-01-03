@@ -12,8 +12,8 @@ export const navBarTitle = {
   [PATH_NAME.CREATE_NEW_SEGMENT]: 'lang_create_new_segments',
   [PATH_NAME.SEGMENT_MANAGEMENT]: 'lang_segments_management',
   [PATH_NAME.SUBSCRIBERS]: 'lang_subscribers',
-  [PATH_NAME.CREATE_NEW_ARTICLE]: 'lang_create_new_article',
-  [PATH_NAME.ARTICLES]: 'lang_articles',
+  [PATH_NAME.CREATE_NEW_ARTICLES]: 'lang_create_new_article',
+  [PATH_NAME.ARTICLES_MANAGEMENT]: 'lang_articles_management',
   [PATH_NAME.REPORT]: 'lang_report',
 };
 
@@ -67,11 +67,11 @@ export const navBarCommon = [
     items: [
       {
         title: 'lang_create_new_article',
-        href: PATH_NAME.CREATE_NEW_ARTICLE,
+        href: PATH_NAME.CREATE_NEW_ARTICLES,
       },
       {
-        title: 'lang_articles',
-        href: PATH_NAME.ARTICLES,
+        title: 'lang_articles_management',
+        href: PATH_NAME.ARTICLES_MANAGEMENT,
       },
     ],
   },
