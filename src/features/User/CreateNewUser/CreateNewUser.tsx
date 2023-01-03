@@ -56,12 +56,14 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
     try {
       console.log('values', values);
       const body = {
-        status: values.status,
-        site_name: values.site_name,
-        full_name: values.full_name,
-        note: values.description,
-        password: values.password,
-        user_login_id: values.user_login,
+        data: {
+          status: values.status,
+          site_name: values.site_name,
+          full_name: values.full_name,
+          note: values.description,
+          password: values.password,
+          user_login_id: values.user_login,
+        },
       };
 
       const response: any = await httpRequest.post(getUserDetailUrl(), body);
@@ -123,7 +125,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                 <PreviewField label="lang_status" value={status} />
               </Stack>
               <Stack direction="row" sx={{ margin: '12px 0', width: '50%' }}>
-                <PreviewField sx={{ mb: 2, mr: 2 }} label="lang_password" value={values.user_login} />
+                <PreviewField sx={{ mb: 2, mr: 2 }} label="lang_password" value={values.password} />
               </Stack>
               <Stack direction="row" sx={{ margin: '12px 0', width: '50%' }}>
                 <PreviewField
