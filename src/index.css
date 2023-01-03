@@ -86,5 +86,6 @@ select:-webkit-autofill:focus {
   flex: 1;
   background-repeat: no-repeat;
   background-position-x: right;
+  background-position-y: center;
   min-width: 40px;
 }
