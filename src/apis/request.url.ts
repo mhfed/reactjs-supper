@@ -86,3 +86,16 @@ export function getListSubscribertUrl({
   if (sort?.sortType) url += `&sort_type=${sort.sortType}`;
   return url;
 }
+export function getListSubscriberSegmenttUrl({
+  pageId = 1,
+  pageSize = 50,
+  searchText = '',
+}: {
+  pageId: number;
+  pageSize: number;
+  searchText: string | null;
+}) {
+  let url = `v1/subscriber/subscribers/query?page_id=${pageId}&page_size=${pageSize}`;
+  if (searchText) url += `&search=${searchText}`;
+  return url;
+}
