@@ -4,6 +4,19 @@ import ArticleIcon from '@mui/icons-material/Article';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import { PATH_NAME } from 'configs';
 
+export const navBarTitle = {
+  [PATH_NAME.CREATE_NEW_USER]: 'lang_create_new_user',
+  [PATH_NAME.USER_MANAGEMENT]: 'lang_user_management',
+  [PATH_NAME.CREATE_NEW_NOTIFICATION]: 'lang_create_new_notification',
+  [PATH_NAME.NOTIFICATION_MANAGEMENT]: 'lang_notifications_management',
+  [PATH_NAME.CREATE_NEW_SEGMENT]: 'lang_create_new_segments',
+  [PATH_NAME.SEGMENT_MANAGEMENT]: 'lang_segments_management',
+  [PATH_NAME.SUBSCRIBERS]: 'lang_subscribers',
+  [PATH_NAME.CREATE_NEW_ARTICLE]: 'lang_create_new_article',
+  [PATH_NAME.ARTICLES]: 'lang_articles',
+  [PATH_NAME.REPORT]: 'lang_report',
+};
+
 export const navBarCommon = [
   {
     title: 'lang_user_management',
