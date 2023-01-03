@@ -10,7 +10,8 @@ const updateAxiosAuthConfig = (baseUrl: string, accessToken: string, refreshToke
   refreshToken && window.localStorage.setItem(`${lastEmailLogin}_refreshToken`, refreshToken);
   axiosInstance.defaults.baseURL = `https://${baseUrl}`;
   axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-  axiosInstance.defaults.headers.common['environment'] = 'equix';
+  axiosInstance.defaults.headers.common['environment'] = 'iress-wealth-app';
+  authService.getUserDetail(lastEmailLogin as string);
 };
 
 const clearAxiosAuthConfig = () => {
@@ -75,6 +76,11 @@ export const setPinAfterChangePass = () => async (dispatch: Dispatch<any>) => {
     type: IAuthActionTypes.FORCE_SET_PIN,
   });
 };
+
+export const setUserInfo = (userInfo: any) => ({
+  type: IAuthActionTypes.SET_USER_INFO,
+  payload: userInfo,
+});
 
 export const login = (email: string, password: string) => async (dispatch: Dispatch<any>) => {
   dispatch({ type: IAuthActionTypes.LOGIN_REQUEST });

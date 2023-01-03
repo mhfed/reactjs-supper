@@ -38,6 +38,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
         getSearchUserUrl({ pageId: curPage.page, pageSize: curPage.rowsPerPage }),
         queryBody,
       );
+      response.current_page -= 1;
       gridRef?.current?.setData?.(response);
     } catch (error) {
       dispatch(

@@ -11,10 +11,16 @@ const initialState: IAuthState = {
   baseUrl: '',
   step: IAuthStep.LOGIN,
   roles: [],
+  user: {},
 };
 
 const reducer = (state = initialState, { type, payload }: IAuthActionCreator) => {
   switch (type) {
+    case IAuthActionTypes.SET_USER_INFO:
+      return {
+        ...state,
+        user: payload,
+      };
     case IAuthActionTypes.LOGIN_REQUEST:
     case IAuthActionTypes.CHANGE_PASSWORD:
     case IAuthActionTypes.PIN_REQUEST:

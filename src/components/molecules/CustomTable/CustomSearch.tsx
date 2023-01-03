@@ -96,7 +96,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
           ) : null,
         }}
         fullWidth
-        value={searchText || ''}
+        // value={searchText || ''}
         onChange={onChange}
       />
     </div>

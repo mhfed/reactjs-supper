@@ -38,6 +38,7 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
           sort: config.sort,
         }),
       );
+      response.current_page -= 1;
       gridRef?.current?.setData?.(response);
     } catch (error) {
       dispatch(

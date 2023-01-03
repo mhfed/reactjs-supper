@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import { Trans } from 'react-i18next';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { useDispatch } from 'react-redux';
-import { getUserDetailUrl } from 'apis/request.url';
+import { getUserDetailByIdUrl } from 'apis/request.url';
 import httpRequest from 'services/httpRequest';
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +45,7 @@ const ConfirmForceChangePassword: React.FC<ConfirmForceChangePasswordProps> = ({
 
   const handleConfirm = async () => {
     try {
-      await httpRequest.put(getUserDetailUrl(userId), {
+      await httpRequest.put(getUserDetailByIdUrl(userId), {
         data: { change_password: isChangingPassword ? 0 : 1 },
       });
       dispatch(

@@ -210,10 +210,9 @@ function convertColumn({
     case COLUMN_TYPE.DATETIME:
       res.options = {
         customBodyRender: (value) => {
-          const displayValue = moment(value).format('DD/MMM/YYYY HH:mm:ss');
           return (
             <Typography component="span" noWrap>
-              <Trans>{displayValue}</Trans>
+              <Trans>{value ? moment(value).format('DD/MMM/YYYY HH:mm:ss') : process.env.REACT_APP_DEFAULT_VALUE}</Trans>
             </Typography>
           );
         },

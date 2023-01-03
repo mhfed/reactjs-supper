@@ -1,16 +1,17 @@
 import React, { memo } from 'react';
 import clsx from 'clsx';
+import { useLocation } from 'react-router';
 import AppBar from '@mui/material/AppBar';
+import Typography from '@mui/material/Typography';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import InputBase from '@mui/material/InputBase';
-import HomeIcon from '@mui/icons-material/Home';
 import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
 import Account from './components/Account';
 import Language from './components/Language';
 import DarkMode from './components/DarkMode';
 import useStyles from './styles';
+import { navBarTitle } from 'routes/navBarCommon';
+import { Trans } from 'react-i18next';
 
 type IProps = {
   handleToogleDrawer: () => void;
@@ -19,13 +20,12 @@ type IProps = {
 
 function TopBar({ isDrawer, handleToogleDrawer }: IProps) {
   const classes = useStyles();
+  const location = useLocation();
 
+  const title = navBarTitle[location.pathname];
   return (
     <AppBar position="fixed" className={clsx(classes.appBar, isDrawer && classes.appBarShift)}>
       <Toolbar>
-        <IconButton color="inherit" aria-label="open drawer" edge="start" className={clsx(classes.menuButton)} size="large">
-          <HomeIcon />
-        </IconButton>
         <IconButton
           color="inherit"
           aria-label="open drawer"
@@ -36,19 +36,9 @@ function TopBar({ isDrawer, handleToogleDrawer }: IProps) {
         >
           <MenuIcon />
         </IconButton>
-        <div className={classes.search}>
-          <div className={classes.searchIcon}>
-            <SearchIcon />
-          </div>
-          <InputBase
-            placeholder="Search…"
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput,
-            }}
-            inputProps={{ 'aria-label': 'search' }}
-          />
-        </div>
+        <Typography variant="h3">
+          <Trans>{title}</Trans>
+        </Typography>
         <div className={classes.grow} />
         <div className={classes.topBar_setting}>
           <Language {...classes} />

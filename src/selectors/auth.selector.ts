@@ -23,6 +23,11 @@ export const stepSelector = createSelector(
   (auth) => auth.step,
 );
 
+export const userSelector = createSelector(
+  (state: IRootState) => state.auth,
+  (auth) => auth.user,
+);
+
 export const errorSelector = createSelector(
   (state: IRootState) => state.auth,
   (auth) => auth.error,
