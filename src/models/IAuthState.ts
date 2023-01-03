@@ -10,6 +10,7 @@ export enum IAuthActionTypes {
   FORCE_SET_PIN = 'AUTH/FORCE_SET_PIN',
   LOGOUT = 'AUTH/LOGOUT',
   REGISTER = 'AUTH/REGISTER',
+  SET_USER_INFO = 'AUTH/SET_USER_INFO',
 }
 
 export enum IAuthStep {
@@ -36,6 +37,7 @@ export type IAuthState = {
   error: string | null;
   step: number;
   roles: string[] | null;
+  user: any;
 };
 
 export type IAuthActionCreator = {

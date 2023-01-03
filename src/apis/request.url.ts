@@ -27,8 +27,11 @@ export const getSearchUserUrl = ({ pageId = 1, pageSize = process.env.REACT_APP_
 export function getResetUserPasswordUrl() {
   return '/v1/auth/send-verify-username';
 }
-export function getUserDetailUrl(userId: string) {
-  return `/user/${userId}`;
+export function getUserDetailByIdUrl(userId: string) {
+  return `/v1/user/${userId}`;
+}
+export function getUserDetailByEmailUrl(email: string) {
+  return `/v1/user/user-details?user_login_id=${email}`;
 }
 
 // Notification - v1

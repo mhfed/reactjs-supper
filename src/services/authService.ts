@@ -1,9 +1,19 @@
 import httpRequest from 'services/httpRequest';
-import { getSessionUrl, getAuthUrl, getDecodeUrl, getRefreshUrl, getPinUrl } from 'apis/request.url';
+import { getSessionUrl, getAuthUrl, getDecodeUrl, getRefreshUrl, getPinUrl, getUserDetailByEmailUrl } from 'apis/request.url';
 import CryptoJS from 'react-native-crypto-js';
 import store from 'stores';
 import { IAuthType } from 'models/IAuthState';
+import { setUserInfo } from 'actions/auth.action';
 class AuthService {
+  getUserDetail = async (email: string) => {
+    try {
+      const response = await httpRequest.get(getUserDetailByEmailUrl(email));
+      store.dispatch(setUserInfo(response));
+    } catch (error) {
+      console.error(`getUserDetail for ${email} error: `, error);
+    }
+  };
+
   loginWithEmailAndPassword = async (email: string, password: string) => {
     try {
       const sessionId = +new Date();

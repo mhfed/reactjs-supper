@@ -1,4 +1,5 @@
 {
+  "lang_email_did_not_match": "The confirmation email does not match the login email",
   "lang_hide": "Hide",
   "lang_show_more": "Show more",
   "lang_number_of_subscribers": "Number of Subscribers",
