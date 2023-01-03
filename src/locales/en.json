@@ -1,4 +1,7 @@
 {
+  "lang_there_is_nothing_to_change": "There is nothing to change",
+  "lang_update_user_information_successfully": "Update user information successfully.",
+  "lang_update_user_information_unsuccessfully": "Update user information unsuccessfully.",
   "lang_email_did_not_match": "The confirmation email does not match the login email",
   "lang_hide": "Hide",
   "lang_show_more": "Show more",

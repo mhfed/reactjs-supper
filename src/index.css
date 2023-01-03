@@ -72,3 +72,19 @@ select:-webkit-autofill:focus {
 .SnackbarContent-root {
   border-radius: 24px !important;
 }
+
+.MuiAutocomplete-option[aria-selected='true'] {
+  position: relative;
+}
+
+.MuiMenuItem-root[aria-selected='true']::after,
+.MuiAutocomplete-option[aria-selected='true']::after {
+  background-image: url('./assets/icons/check.svg');
+  content: '';
+  height: 24px;
+  display: flex;
+  flex: 1;
+  background-repeat: no-repeat;
+  background-position-x: right;
+  min-width: 40px;
+}

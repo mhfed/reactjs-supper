@@ -8,6 +8,10 @@ import Button from '@mui/material/Button';
 import { validate } from 'helpers';
 import { Trans } from 'react-i18next';
 import { userSelector } from 'selectors/auth.selector';
+import { getUserDetaillUrl } from 'apis/request.url';
+import httpRequest from 'services/httpRequest';
+import { enqueueSnackbarAction } from 'actions/app.action';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -25,12 +29,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type ConfirmEditUserModalProps = {
-  dicDataChanged: LooseObject;
+  data: LooseObject[];
   onClose: () => void;
 };
 
-const ConfirmEditUserModal: React.FC<ConfirmEditUserModalProps> = ({ dicDataChanged = {}, onClose }) => {
+const ConfirmEditUserModal: React.FC<ConfirmEditUserModalProps> = ({ data = [], onClose }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [email, setEmail] = React.useState('');
   const [error, setError] = React.useState('');
   const user = useSelector(userSelector);
@@ -62,30 +67,47 @@ const ConfirmEditUserModal: React.FC<ConfirmEditUserModalProps> = ({ dicDataChan
   const handleCancel = () => {
     onClose();
   };
-  const handleConfirm = () => {
-    if (email !== user.user_login_id) {
-      setError('lang_email_did_not_match');
-      return;
+  const handleConfirm = async () => {
+    try {
+      if (email !== user.user_login_id) {
+        setError('lang_email_did_not_match');
+        return;
+      }
+      await httpRequest.put(getUserDetaillUrl(), { data });
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_update_user_information_successfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
+      onClose();
+    } catch (error) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_update_user_information_unsuccessfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        }),
+      );
     }
-    onClose();
   };
 
-  const listChangeUser = Object.keys(dicDataChanged);
-  // if (!listChangeUser.length) return <></>;
-  const isLess = listChangeUser.length < 6;
+  // if (!data.length) return <></>;
+  const isLess = data.length < 6;
   return (
     <div className={classes.container}>
       <Typography sx={{ mb: 1 }}>
         {isLess ? (
           <Trans>lang_enter_your_email_to_edit_user_login</Trans>
         ) : (
-          <Trans values={{ count: listChangeUser.length }}>lang_enter_your_email_to_edit_count_user_logins</Trans>
+          <Trans values={{ count: data.length }}>lang_enter_your_email_to_edit_count_user_logins</Trans>
         )}
       </Typography>
       {isLess ? (
-        listChangeUser.map((useLoginId) => (
-          <Typography fontWeight="bold" key={useLoginId}>
-            {useLoginId}
+        data.map((e) => (
+          <Typography fontWeight="bold" key={e.user_id}>
+            {e.user_login_id}
           </Typography>
         ))
       ) : (

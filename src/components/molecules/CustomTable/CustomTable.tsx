@@ -15,6 +15,8 @@ import moment from 'moment';
 import Kebab from 'components/atoms/Kebab';
 import DropdownCell from './DropdownCell';
 import CustomStack from './CustomStack';
+import { enqueueSnackbarAction } from 'actions/app.action';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -302,6 +304,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
   const config = React.useRef<ITableConfig | null>(null);
   const tempDataByKey = React.useRef<LooseObject>({});
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const handleEdit = (action: string) => {
     switch (action) {
@@ -313,10 +316,21 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
         setEditMode(false);
         break;
       case ACTIONS.SAVE:
-        onSave?.(tempDataByKey.current, () => {
-          tempDataByKey.current = {};
+        if (!Object.keys(tempDataByKey.current).length) {
+          dispatch(
+            enqueueSnackbarAction({
+              message: 'lang_there_is_nothing_to_change',
+              key: new Date().getTime() + Math.random(),
+              variant: 'warning',
+            }),
+          );
           setEditMode(false);
-        });
+        } else {
+          onSave?.(tempDataByKey.current, () => {
+            tempDataByKey.current = {};
+            setEditMode(false);
+          });
+        }
         break;
     }
   };
