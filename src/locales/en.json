@@ -122,6 +122,7 @@
   "lang_set_your_pin": "Set Your PIN",
   "lang_pin_not_match": "PIN did not match. Please try again",
   "lang_confirm_your_new_pin": "Confirm Your New PIN",
+  "error_code_undefined": "Something went wrong from systems!",
   "error_code_TOKEN_WAS_CHANGED": "You have been signed out due to changing password!",
   "error_code_INVALID_PARAM": "Invalid information, please try again",
   "error_code_SPAM_OTP": "Verification code can only be re-acquired after 60s",
