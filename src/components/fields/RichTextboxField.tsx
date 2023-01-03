@@ -4,6 +4,23 @@ import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import { Editor } from 'react-draft-wysiwyg';
+import makeStyles from '@mui/styles/makeStyles';
+
+const useStyles = makeStyles((theme) => ({
+  container: {
+    border: `1px solid ${theme.palette.primary.light}`,
+    borderRadius: 4,
+    minHeight: 200,
+    '.rdw-editor-toolbar': {
+      border: 'none',
+      borderBottom: `1px solid ${theme.palette.primary.light}`,
+      background: 'transparent',
+    },
+    '.DraftEditor-editorContainer': {
+      padding: theme.spacing(0, 1),
+    },
+  },
+}));
 
 type RichTextboxProps = {
   placeholder: string;
@@ -15,6 +32,8 @@ type RichTextboxHandle = {
 };
 
 const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props, ref) => {
+  const classes = useStyles();
+
   const convertData = (data: any) => {
     if (!data) return EditorState.createEmpty();
     if (typeof data === 'string') {
@@ -72,21 +91,23 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
   }
 
   return (
-    <Editor
-      editorState={editorState}
-      toolbarClassName="toolbarClassName"
-      wrapperClassName="wrapperClassName"
-      editorClassName="editorClassName"
-      onEditorStateChange={onChange}
-      toolbar={{
-        image: {
-          uploadCallback: uploadImageCallBack,
-          alt: { present: false, mandatory: false },
-          previewImage: false,
-          defaultSize: { maxWidth: '100%', minHeight: '200px' },
-        },
-      }}
-    />
+    <div className={classes.container}>
+      <Editor
+        editorState={editorState}
+        toolbarClassName="toolbarClassName"
+        wrapperClassName="wrapperClassName"
+        editorClassName="editorClassName"
+        onEditorStateChange={onChange}
+        toolbar={{
+          image: {
+            uploadCallback: uploadImageCallBack,
+            alt: { present: false, mandatory: false },
+            previewImage: false,
+            defaultSize: { maxWidth: '100%', minHeight: '200px' },
+          },
+        }}
+      />
+    </div>
   );
 });
 
