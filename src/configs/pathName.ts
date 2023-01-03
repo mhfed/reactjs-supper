@@ -13,7 +13,7 @@ export const PATH_NAME = {
   SUBSCRIBERS: '/notification/subscribers',
   LOGIN: '/login',
   ARTICLE: '/article',
-  CREATE_NEW_ARTICLE: '/article/create_article',
-  ARTICLES: '/article/articles',
+  CREATE_NEW_ARTICLES: '/article/create_article',
+  ARTICLES_MANAGEMENT: '/article/articles_management',
   REPORT: '/report',
 };

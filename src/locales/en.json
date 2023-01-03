@@ -1,4 +1,5 @@
 {
+  "lang_type_your_articles": "Type your Articles...",
   "lang_there_is_nothing_to_change": "There is nothing to change",
   "lang_update_user_information_successfully": "Update user information successfully.",
   "lang_update_user_information_unsuccessfully": "Update user information unsuccessfully.",
@@ -89,6 +90,7 @@
   "lang_pending_email_verification": "Pending Email Verification",
   "lang_active": "Active",
   "lang_articles": "Articles",
+  "lang_articles_management": "Articles Management",
   "lang_create_new_article": "Create New Articles",
   "lang_segments": "Segments",
   "lang_create_new_segments": "Create New Segment",

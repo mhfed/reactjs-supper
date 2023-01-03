@@ -14,7 +14,7 @@ type AuthGuardProps = {
 const AuthGuard: FC<AuthGuardProps> = ({ children }) => {
   const isAuth = authService.getAccessToken();
 
-  // if (!isAuth) return <Navigate to={PATH_NAME.LOGIN} />;
+  if (!isAuth) return <Navigate to={PATH_NAME.LOGIN} />;
 
   return <>{children}</>;
 };

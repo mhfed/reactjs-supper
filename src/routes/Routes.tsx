@@ -16,8 +16,8 @@ const CreateNewNotification = lazy(() => import('features/Notification/CreateNew
 const SegmentManagement = lazy(() => import('features/Notification/SegmentManagement'));
 const CreateNewSegment = lazy(() => import('features/Notification/CreateNewSegment'));
 const Subscribers = lazy(() => import('features/Notification/Subscribers'));
-const Articles = lazy(() => import('features/Article/Articles'));
-const CreateNewArticle = lazy(() => import('features/Article/CreateNewArticle'));
+const ArticlesManagement = lazy(() => import('features/Articles/ArticlesManagement'));
+const CreateNewArticles = lazy(() => import('features/Articles/CreateNewArticles'));
 const Report = lazy(() => import('features/Report'));
 const Login = lazy(() => import('features/Login'));
 const DenyView = lazy(() => import('features/DenyView'));
@@ -81,13 +81,13 @@ const routesConfig: IRoutes[] = [
         requireRoles: [],
       },
       {
-        path: PATH_NAME.ARTICLES,
-        component: Articles,
+        path: PATH_NAME.ARTICLES_MANAGEMENT,
+        component: ArticlesManagement,
         requireRoles: [],
       },
       {
-        path: PATH_NAME.CREATE_NEW_ARTICLE,
-        component: CreateNewArticle,
+        path: PATH_NAME.CREATE_NEW_ARTICLES,
+        component: CreateNewArticles,
         requireRoles: [],
       },
       {
