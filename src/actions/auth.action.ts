@@ -10,7 +10,7 @@ const updateAxiosAuthConfig = (baseUrl: string, accessToken: string, refreshToke
   refreshToken && window.localStorage.setItem(`${lastEmailLogin}_refreshToken`, refreshToken);
   axiosInstance.defaults.baseURL = `https://${baseUrl}`;
   axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-  axiosInstance.defaults.headers.common['environment'] = 'equix';
+  axiosInstance.defaults.headers.common['environment'] = 'iress-wealth-app';
 };
 
 const clearAxiosAuthConfig = () => {
