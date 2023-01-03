@@ -23,9 +23,6 @@ function TopBar({ isDrawer, handleToogleDrawer }: IProps) {
   return (
     <AppBar position="fixed" className={clsx(classes.appBar, isDrawer && classes.appBarShift)}>
       <Toolbar>
-        <IconButton color="inherit" aria-label="open drawer" edge="start" className={clsx(classes.menuButton)} size="large">
-          <HomeIcon />
-        </IconButton>
         <IconButton
           color="inherit"
           aria-label="open drawer"
@@ -36,19 +33,6 @@ function TopBar({ isDrawer, handleToogleDrawer }: IProps) {
         >
           <MenuIcon />
         </IconButton>
-        <div className={classes.search}>
-          <div className={classes.searchIcon}>
-            <SearchIcon />
-          </div>
-          <InputBase
-            placeholder="Search…"
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput,
-            }}
-            inputProps={{ 'aria-label': 'search' }}
-          />
-        </div>
         <div className={classes.grow} />
         <div className={classes.topBar_setting}>
           <Language {...classes} />
