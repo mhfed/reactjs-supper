@@ -1,9 +1,12 @@
-import { Autocomplete, TextField } from '@mui/material';
 import React from 'react';
+import { Autocomplete, TextField } from '@mui/material';
 import { FormikErrors } from 'formik';
+import httpRequest from 'services/httpRequest';
 import { Trans } from 'react-i18next';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
+import { getListSubscriberSegmenttUrl } from 'apis/request.url';
+import { debounce } from '@mui/material/utils';
 
 type Options = {
   label: string;
@@ -16,18 +19,19 @@ type AutocompleteAsyncFieldProps = {
   autoWidth?: boolean;
   error?: boolean;
   value?: string | number;
+  setFieldValue?: any;
   helperText?: string | boolean | undefined | FormikErrors<any>[] | FormikErrors<any> | string[];
   fullWidth?: boolean;
   sx?: any;
   inputProps?: any;
   required?: boolean;
-  onChange?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onChange?: (e: any) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   options?: Array<Options>;
   // multiple?: boolean;
 };
 
-const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({ label, helperText, value, ...props }) => {
+const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({ label, helperText, value, setFieldValue, ...props }) => {
   // const [options, setOptions] = React.useState([]);
   function _renderHelperText() {
     if (props.error) {
@@ -40,18 +44,47 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({ label, 
       );
     }
   }
-
+  const getData = async (SearchKey: string) => {
+    try {
+      const response: any = await httpRequest.get(
+        getListSubscriberSegmenttUrl({
+          pageId: 1,
+          pageSize: 50,
+          searchText: SearchKey,
+        }),
+      );
+      console.log('du lieu tra ve tu api search la:', response);
+    } catch (error) {
+      console.log('Search error:', error);
+    }
+  };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, value: any) => {
+    console.log('e.target', e.target.value);
+    props.onChange?.(value);
+  };
+  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('character in autocomplete box is:', e.target.value);
+    getData(e.target.value);
+  };
   return (
     <FormControl required sx={{ minWidth: 120, width: props.fullWidth ? '100%' : '' }}>
       <Autocomplete
         onBlur={props.onBlur}
         multiple
         id={props.id}
+        onChange={handleChange}
         options={top100Films}
         getOptionLabel={(option) => option.title}
         renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
         renderInput={(params) => (
-          <TextField required={props.required} {...params} label="Subscribers" error={props.error}></TextField>
+          <TextField
+            required={props.required}
+            {...params}
+            label="Subscribers"
+            error={props.error}
+            value={value}
+            onChange={handleTextChange}
+          ></TextField>
         )}
       />
       {props.error && _renderHelperText()}

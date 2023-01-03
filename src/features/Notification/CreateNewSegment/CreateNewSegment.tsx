@@ -54,6 +54,7 @@ const Sample = () => {
       />
       <AutocompleteAsyncField
         onBlur={handleBlur}
+        onChange={(v: string) => setFieldValue('segment_subscribers', v)}
         error={touched.segment_subscribers && Boolean(errors.segment_subscribers)}
         helperText={touched.segment_subscribers && errors.segment_subscribers}
         value={values.segment_subscribers}
@@ -65,7 +66,7 @@ const Sample = () => {
         <Button variant="outlined">
           <Trans>lang_cancel</Trans>
         </Button>
-        <Button variant="contained" type="submit" onClick={() => handleSubmit()}>
+        <Button variant="contained" type="submit">
           <Trans>lang_create</Trans>
         </Button>
       </Stack>
@@ -74,10 +75,11 @@ const Sample = () => {
 };
 const initialValues = {
   segment_name: '',
+  segment_subscribers: '',
 };
 
 const validationSchema = yup.object().shape({
   segment_name: yup.string().required('lang_segment_name_is_required'),
-  segment_subscribers: yup.string().required('lang_select_segment_subcriber'),
+  segment_subscribers: yup.array().min(1, 'lang_select_segment_subcriber').required('lang_select_segment_subcriber'),
 });
 export default Sample;

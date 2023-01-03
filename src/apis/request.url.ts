@@ -33,7 +33,7 @@ export function getUserDetailByIdUrl(userId: string) {
 export function getUserDetailByEmailUrl(email: string) {
   return `/v1/user/user-details?user_login_id=${email}`;
 }
-export function getUserDetaillUrl() {
+export function getUserDetailUrl() {
   return '/v1/user/user-details';
 }
 
@@ -87,5 +87,18 @@ export function getListSubscribertUrl({
   if (searchText) url += `&search=${searchText}`;
   if (sort?.sortField) url += `&sort_field=${sort.sortField}`;
   if (sort?.sortType) url += `&sort_type=${sort.sortType}`;
+  return url;
+}
+export function getListSubscriberSegmenttUrl({
+  pageId = 1,
+  pageSize = 50,
+  searchText = '',
+}: {
+  pageId: number;
+  pageSize: number;
+  searchText: string | null;
+}) {
+  let url = `v1/subscriber/subscribers/query?page_id=${pageId}&page_size=${pageSize}`;
+  if (searchText) url += `&search=${searchText}`;
   return url;
 }
