@@ -1,0 +1,1 @@
+echo "console.log('%c$(date +"%H:%M %d/%m/%Y")', 'color: #0f0;font-size:36px')" > public/build-version.js

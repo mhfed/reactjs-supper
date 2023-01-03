@@ -1,11 +1,13 @@
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
+import { useSelector } from 'react-redux';
 import { LooseObject } from 'models/ICommon';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { validate } from 'helpers';
 import { Trans } from 'react-i18next';
+import { userSelector } from 'selectors/auth.selector';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -31,12 +33,14 @@ const ConfirmEditUserModal: React.FC<ConfirmEditUserModalProps> = ({ dicDataChan
   const classes = useStyles();
   const [email, setEmail] = React.useState('');
   const [error, setError] = React.useState('');
+  const user = useSelector(userSelector);
   const timeoutId = React.useRef<number | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
     timeoutId.current && window.clearTimeout(timeoutId.current);
     timeoutId.current = window.setTimeout(() => {
-      setEmail(e.target.value);
+      setEmail(value);
     }, process.env.REACT_APP_DEBOUNCE_TIME);
   };
 
@@ -59,6 +63,10 @@ const ConfirmEditUserModal: React.FC<ConfirmEditUserModalProps> = ({ dicDataChan
     onClose();
   };
   const handleConfirm = () => {
+    if (email !== user.user_login_id) {
+      setError('lang_email_did_not_match');
+      return;
+    }
     onClose();
   };
 
@@ -91,7 +99,7 @@ const ConfirmEditUserModal: React.FC<ConfirmEditUserModalProps> = ({ dicDataChan
         required
         fullWidth
         autoComplete="email"
-        value={email}
+        // value={email}
         onChange={handleChange}
         onBlur={handleBlur}
         error={!!error}

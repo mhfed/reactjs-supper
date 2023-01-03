@@ -3,4 +3,5 @@ import PasswordField from './PasswordField';
 import SelectField from './SelectFiled';
 import AutocompleteAsyncField from './AutocompleteAsyncField';
 
-export { InputField, PasswordField, SelectField, AutocompleteAsyncField };
+import PreviewField from './PreviewField';
+export { InputField, PasswordField, SelectField, AutocompleteAsyncField, PreviewField };

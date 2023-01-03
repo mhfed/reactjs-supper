@@ -1,6 +1,7 @@
 {
   "lang_select_segment_subcriber": "Please select subscribers",
   "lang_create": "Create",
+  "lang_email_did_not_match": "The confirmation email does not match the login email",
   "lang_hide": "Hide",
   "lang_show_more": "Show more",
   "lang_number_of_subscribers": "Number of Subscribers",
@@ -64,6 +65,9 @@
   "lang_user_login": "User Login",
   "lang_full_name": "Full Name",
   "lang_sitename": "Sitename",
+  "lang__required": "Full name is required",
+  "lang_user_login_required": "User login is required",
+  "lang_site_name_required": "Sitename is required",
   "lang_full_name_required": "Full name is required",
   "lang_description": "Description",
   "lang_notes": "notes",
