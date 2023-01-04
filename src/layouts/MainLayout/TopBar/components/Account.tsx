@@ -10,7 +10,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import { PATH_NAME } from 'configs';
 import { logout } from 'actions/auth.action';
 import { roleSelector } from 'selectors/auth.selector';
-import { AlertConfirm } from 'components/molecules/AlertBase';
+import ConfirmModal from 'components/molecules/ConfirmModal';
 import { userSelector } from 'selectors/auth.selector';
 
 function Account({ ...classes }) {
@@ -81,7 +81,7 @@ function Account({ ...classes }) {
           {translate('LOGOUT')}
         </MenuItem>
       </Menu>
-      <AlertConfirm
+      <ConfirmModal
         open={open}
         alertTitle="lang_sign_out"
         alertContent="lang_confirm_logout"

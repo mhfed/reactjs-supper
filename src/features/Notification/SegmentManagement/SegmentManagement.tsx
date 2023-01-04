@@ -8,6 +8,10 @@ import makeStyles from '@mui/styles/makeStyles';
 import { FIELD } from '../NotificationConstants';
 import { ITableConfig } from 'models/ICommon';
 import { useGlobalModalContext } from 'containers/Modal';
+import { Navigate } from 'react-router-dom';
+import { PATH_NAME } from 'configs';
+import { useNavigate } from 'react-router-dom';
+import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -26,6 +30,7 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
   const { showModal } = useGlobalModalContext();
+  const navigate = useNavigate();
 
   const getData = async () => {
     try {
@@ -59,19 +64,32 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
     getData();
   }, []);
 
+  const confirmDeleteSegment = React.useCallback(async (segmentId: string) => {
+    alert('delete segment');
+  }, []);
+
   const getActions = (data: any) => {
     return [
       {
         label: 'lang_view_detail',
-        onClick: () => console.log('YOLO: lang_view_detail'),
+        onClick: (data: any) => navigate(PATH_NAME.EDIT_SEGMENT, { state: { typePage: 'DETAIL', data: data } }),
       },
       {
         label: 'lang_edit',
-        onClick: (data: any) => {},
+        onClick: (data: any) => navigate(PATH_NAME.EDIT_SEGMENT, { state: { typePage: 'EDIT', data: data } }),
       },
       {
         label: 'lang_delete',
-        onClick: (data: any) => {},
+        onClick: (data: any) =>
+          showModal({
+            title: 'lang_confirm',
+            component: ConfirmEditModal,
+            props: {
+              title: 'lang_confirm_delete_segment',
+              titleTransValues: { segment: data[FIELD.SEGMENT_ID] },
+              onSubmit: () => confirmDeleteSegment(data[FIELD.SEGMENT_ID]),
+            },
+          }),
       },
     ];
   };
