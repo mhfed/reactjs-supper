@@ -327,7 +327,13 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           setEditMode(false);
         } else {
           onSave?.(tempDataByKey.current, () => {
+            const updatedData = data?.data.map((e) => {
+              const key = fnKey(e);
+              const newData = tempDataByKey.current[key];
+              return { ...e, ...newData };
+            });
             tempDataByKey.current = {};
+            setData((old) => ({ ...old, data: updatedData }));
             setEditMode(false);
           });
         }
