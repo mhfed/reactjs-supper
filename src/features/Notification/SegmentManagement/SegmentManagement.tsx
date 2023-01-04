@@ -8,6 +8,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import { FIELD } from '../NotificationConstants';
 import { ITableConfig } from 'models/ICommon';
 import { useGlobalModalContext } from 'containers/Modal';
+import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -59,6 +60,10 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
     getData();
   }, []);
 
+  const confirmDeleteSegment = React.useCallback(async (segmentId: string) => {
+    alert('delete segment');
+  }, []);
+
   const getActions = (data: any) => {
     return [
       {
@@ -71,7 +76,17 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
       },
       {
         label: 'lang_delete',
-        onClick: (data: any) => {},
+        onClick: (data: any) =>
+          showModal({
+            title: 'lang_confirm',
+            component: ConfirmEditModal,
+            props: {
+              emailConfirm: false,
+              title: 'lang_confirm_delete_segment',
+              titleTransValues: { segment: data[FIELD.SEGMENT_ID] },
+              onSubmit: () => confirmDeleteSegment(data[FIELD.SEGMENT_ID]),
+            },
+          }),
       },
     ];
   };

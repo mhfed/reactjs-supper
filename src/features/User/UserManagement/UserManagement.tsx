@@ -110,6 +110,10 @@ const UserManagement: React.FC<UserManagementProps> = () => {
     }
   }, []);
 
+  const confirmDeleteUser = React.useCallback(async (userId: string) => {
+    alert('chua mapping api delete user');
+  }, []);
+
   const actions = React.useMemo(() => {
     return [
       {
@@ -123,6 +127,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
             title: 'lang_confirm',
             component: ConfirmEditModal,
             props: {
+              emailConfirm: false,
               title: 'lang_confirm_reset_password_for_user',
               titleTransValues: { user: data[FIELD.USER_LOGIN] },
               onSubmit: () => confirmResetPassword(data[FIELD.USER_LOGIN]),
@@ -136,9 +141,24 @@ const UserManagement: React.FC<UserManagementProps> = () => {
             title: 'lang_confirm',
             component: ConfirmEditModal,
             props: {
+              emailConfirm: false,
               title: data.change_password ? 'lang_confirm_cancel_force_change_password' : 'lang_confirm_force_change_password',
               titleTransValues: { user: data[FIELD.USER_LOGIN] },
               onSubmit: () => confirmForceChangePassword(data[FIELD.USER_ID], data.change_password),
+            },
+          }),
+      },
+      {
+        label: 'lang_delete_user',
+        onClick: (data: any) =>
+          showModal({
+            title: 'lang_confirm',
+            component: ConfirmEditModal,
+            props: {
+              emailConfirm: false,
+              title: 'lang_confirm_delete_user',
+              titleTransValues: { user: data[FIELD.USER_LOGIN] },
+              onSubmit: () => confirmDeleteUser(data[FIELD.USER_ID]),
             },
           }),
       },
