@@ -1,6 +1,6 @@
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import { Button, Stack } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import { Trans } from 'react-i18next';
 import { InputField, AutocompleteAsyncField, PreviewField } from 'components/fields';
 import { useFormik } from 'formik';
@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'flex-start',
     padding: '40px',
     gap: '20px',
-    color: 'black',
     borderRadius: '8px',
   },
   buttonWrapper: {
@@ -29,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'flex-end',
     flex: '1',
     width: '100%',
+  },
+  title: {
+    textTransform: 'uppercase',
   },
 }));
 
@@ -41,8 +43,9 @@ const Sample = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [stateForm, setStateForm] = React.useState(STATE_FORM.CREATE);
-
+  const [trigger, setTrigger] = React.useState(false);
   const handleClearData = () => {
+    setTrigger((e) => !e);
     resetForm();
   };
   const handleReturn = () => {
@@ -66,6 +69,8 @@ const Sample = () => {
             variant: 'success',
           }),
         );
+        handleClearData();
+        setStateForm(STATE_FORM.CREATE);
       }
     } catch (error) {
       dispatch(
@@ -79,32 +84,25 @@ const Sample = () => {
     }
   };
   const renderContent = (stateForm: string) => {
+    let defaultArray = Array.isArray(values.segment_subscribers) ? values.segment_subscribers.map((x: any) => x.username) : [];
     switch (stateForm) {
       case STATE_FORM.PREVIEW:
         return (
           <form className={classes.container} noValidate onSubmit={handleSubmit}>
-            <InputField
-              id="segment_name"
-              name="segment_name"
-              sx={{ mb: 2, mr: 4 }}
-              label="lang_segment_name"
-              required
-              fullWidth
-              value={values.segment_name}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={touched.segment_name && Boolean(errors.segment_name)}
-              helperText={touched.segment_name && errors.segment_name}
-            />
+            <Typography className={classes.title} variant="h4">
+              <Trans>lang_preview_new_segment</Trans>
+            </Typography>
             <PreviewField sx={{ mb: 2, mr: 4 }} label="lang_segment_name" value={values.segment_name} />
-            <FormControl required sx={{ minWidth: 120, width: '100%' }}>
+            <FormControl style={{ pointerEvents: 'none' }} sx={{ minWidth: 120, width: '100%' }}>
               <Autocomplete
                 multiple
                 id="tags-readOnly"
                 options={values.segment_subscribers}
-                defaultValue={values.segment_subscribers}
+                defaultValue={defaultArray}
+                readOnly
+                freeSolo
                 // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
-                renderInput={(params) => <TextField required={true} {...params} label="readOnly"></TextField>}
+                renderInput={(params) => <TextField {...params} label="readOnly"></TextField>}
               />
             </FormControl>
             <Stack className={classes.buttonWrapper} direction="row" spacing={2} sx={{ margin: '12px 0' }}>
@@ -118,6 +116,7 @@ const Sample = () => {
           </form>
         );
       default:
+        defaultArray = Array.isArray(values.segment_subscribers) ? values.segment_subscribers : [];
         return (
           <form className={classes.container} noValidate onSubmit={handleSubmit}>
             <InputField
@@ -135,11 +134,13 @@ const Sample = () => {
             />
             <AutocompleteAsyncField
               onBlur={handleBlur}
+              trigger={trigger}
               onChange={(v: string) => setFieldValue('segment_subscribers', v)}
               error={touched.segment_subscribers && Boolean(errors.segment_subscribers)}
               helperText={touched.segment_subscribers && errors.segment_subscribers}
               value={values.segment_subscribers}
               required={true}
+              defaultValue={defaultArray}
               fullWidth={true}
               id="segment_subscribers"
             />
@@ -164,11 +165,15 @@ const Sample = () => {
 };
 const initialValues = {
   segment_name: '',
-  segment_subscribers: '',
+  segment_subscribers: [],
 };
 
 const validationSchema = yup.object().shape({
-  segment_name: yup.string().required('lang_segment_name_is_required'),
+  segment_name: yup
+    .string()
+    .required('lang_segment_name_is_required')
+    .min(3, 'lang_segment_name_min_max_characters')
+    .max(64, 'lang_segment_name_min_max_characters'),
   segment_subscribers: yup.array().min(1, 'lang_select_segment_subcriber').required('lang_select_segment_subcriber'),
 });
 export default Sample;
