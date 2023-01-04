@@ -81,7 +81,6 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
             title: 'lang_confirm',
             component: ConfirmEditModal,
             props: {
-              emailConfirm: false,
               title: 'lang_confirm_delete_segment',
               titleTransValues: { segment: data[FIELD.SEGMENT_ID] },
               onSubmit: () => confirmDeleteSegment(data[FIELD.SEGMENT_ID]),
