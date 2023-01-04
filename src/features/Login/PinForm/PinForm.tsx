@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 336,
     flexDirection: 'column',
     alignItems: 'center',
-    background: theme.palette.background.paper,
   },
   pinBody: {
     display: 'flex',
@@ -46,15 +45,13 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     height: theme.typography.fontSize * 2.5,
     borderRadius: theme.spacing(0.5),
+    color: theme.palette.text.primary,
     fontSize: theme.typography.h5.fontSize,
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.background.default,
     margin: theme.spacing(0.5),
     width: `calc(100%/3 - ${theme.spacing(1)})`,
     textAlign: 'center',
     cursor: 'pointer',
-    '&:hover': {
-      background: theme.palette.primary.main,
-    },
   },
   hiddenButton: {
     backgroundColor: 'transparent',
@@ -73,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    background: theme.palette.primary.light,
+    background: theme.palette.background.default,
     padding: theme.spacing(2),
     '& button': {
       '&:hover': {
@@ -174,7 +171,7 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
   const mapKeyBoard = () => {
     const keyboard = LIST_KEYBOARD.map((item, index) => {
       return (
-        <div
+        <Button
           className={clsx(
             classes.keyboardButton,
             item === '' && classes.hiddenButton,
@@ -184,7 +181,7 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
           key={index}
         >
           {item === 'Backspace' ? <BackspaceIcon /> : item}
-        </div>
+        </Button>
       );
     });
     return keyboard;

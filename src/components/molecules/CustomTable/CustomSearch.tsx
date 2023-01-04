@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
     },
     '& input': {
       padding: theme.spacing(1),
-      background: alpha(theme.palette.background.paper, 0.5),
     },
   },
   hidden: {

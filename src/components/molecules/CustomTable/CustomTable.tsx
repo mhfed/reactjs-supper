@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     height: '100%',
     width: '100%',
-    background: theme.palette.primary.light,
+    background: theme.palette.background.paper,
     minHeight: 0,
     '& .MuiSelect-select': {
       padding: theme.spacing(0.5, 4, 0.5, 1.5),
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     '& > div:first-child': {
-      background: theme.palette.background.paper,
+      borderRadius: 8,
       display: 'flex',
       flex: 1,
       flexDirection: 'column',
@@ -47,13 +47,12 @@ const useStyles = makeStyles((theme) => ({
       minHeight: 0,
       boxShadow: 'none',
       '& > div:nth-child(3)': {
+        background: theme.palette.background.other1,
+        borderRadius: 8,
         boxShadow: theme.shadows[1],
         flex: 1,
         overflowY: 'hidden',
       },
-    },
-    '& .MuiTablePagination-root': {
-      background: theme.palette.background.paper,
     },
     '& .MuiTableCell-footer': {
       background: theme.palette.background.paper,
@@ -92,37 +91,43 @@ const useStyles = makeStyles((theme) => ({
     },
     '& .MuiTableRow-root': {
       '&:nth-child(odd)': {
-        background: theme.palette.primary.dark,
+        background: theme.palette.background.other1,
       },
       '&:nth-child(even)': {
-        background: theme.palette.primary.light,
+        background: theme.palette.background.other2,
+      },
+      '&:hover': {
+        background: theme.palette.hover.success,
       },
     },
     '& .MuiTable-root': {
-      marginTop: 4,
+      '& .MuiTablePagination-root': {
+        marginTop: 4,
+      },
       '& .MuiTablePagination-actions': {
         flex: 'none !important',
       },
     },
   },
+  bg: {},
   uppercase: {
     textTransform: 'uppercase',
   },
   warning: {
-    '&.bg': {
-      background: theme.palette.warning.light,
+    '&$bg': {
+      background: theme.palette.hover.warning,
     },
     color: theme.palette.warning.main,
   },
   error: {
-    '&.bg': {
-      background: theme.palette.error.light,
+    '&$bg': {
+      background: theme.palette.hover.error,
     },
     color: theme.palette.error.main,
   },
   success: {
-    '&.bg': {
-      background: theme.palette.success.light,
+    '&$bg': {
+      background: theme.palette.hover.success,
     },
     color: theme.palette.success.main,
   },

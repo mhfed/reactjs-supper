@@ -4,7 +4,7 @@ import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
   contentRoot: {
-    backgroundColor: `${theme.palette.info.main} !important`,
+    // backgroundColor: `${theme.palette.info.main} !important`,
   },
   variantSuccess: {
     backgroundColor: `${theme.palette.success.main} !important`,

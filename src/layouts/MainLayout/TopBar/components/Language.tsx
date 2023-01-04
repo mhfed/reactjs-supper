@@ -47,6 +47,7 @@ function Language({ ...classes }) {
   return (
     <>
       <Button
+        color="inherit"
         className={classes.menuLanguage}
         aria-controls="simple-menu"
         title="Change Language"

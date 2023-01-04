@@ -15,18 +15,17 @@ import FormControl from '@mui/material/FormControl';
 const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
-    background: theme.palette.background.default,
-    height: 'calc(100% - 100px)',
+    flex: 1,
+    background: theme.palette.background.other2,
     flexDirection: 'column',
     alignItems: 'flex-start',
-    padding: '40px',
-    gap: '20px',
-    borderRadius: '8px',
+    padding: theme.spacing(2),
+    borderRadius: 8,
   },
   buttonWrapper: {
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
-    flex: '1',
+    flex: 1,
     width: '100%',
   },
   title: {

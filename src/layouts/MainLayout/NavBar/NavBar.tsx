@@ -42,7 +42,6 @@ function NavBar({ isDrawer }: IProps) {
           open={true}
           title={curr.title}
           href={curr.href}
-          isExternalLink={curr.isExternalLink}
         >
           {renderNavItems({
             depth: depth + 1,
@@ -53,15 +52,7 @@ function NavBar({ isDrawer }: IProps) {
       );
     } else {
       acc.push(
-        <NavBarItem
-          active={active}
-          key={`alone-${key}`}
-          depth={depth}
-          href={curr.href}
-          icon={curr.icon}
-          title={curr.title}
-          isExternalLink={curr.isExternalLink}
-        />,
+        <NavBarItem active={active} key={`alone-${key}`} depth={depth} href={curr.href} icon={curr.icon} title={curr.title} />,
       );
     }
     return acc;

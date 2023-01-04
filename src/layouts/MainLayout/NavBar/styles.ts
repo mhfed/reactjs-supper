@@ -7,9 +7,6 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     listItemActive: {
       background: theme.palette.primary.main,
-      '&:hover': {
-        background: theme.palette.hover.main,
-      },
     },
     navBarItemActive: {
       '& span': {
@@ -17,16 +14,16 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     drawer: {
+      '& *': {
+        color: theme.palette.text.primary,
+      },
       width: `${process.env.REACT_APP_DRAWER_WIDTH}px`,
       flexShrink: 0,
     },
     drawerPaper: {
+      background: theme.palette.background.default,
       width: `${process.env.REACT_APP_DRAWER_WIDTH}px`,
       paddingBottom: 50,
-      background: theme.palette.background.default,
-      // '& .MuiList-root': {
-      //   background: theme.palette.background.default,
-      // },
     },
     drawerHeader: {
       display: 'flex',
@@ -48,9 +45,9 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       paddingTop: 0,
       paddingBottom: 0,
+      '&:hover': {},
     },
     button: {
-      color: theme.palette.text.secondary,
       padding: '10px 8px',
       justifyContent: 'flex-start',
       textTransform: 'none',
@@ -59,7 +56,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     buttonLeaf: {
       display: 'flex',
-      color: theme.palette.text.secondary,
       padding: '10px 8px',
       justifyContent: 'flex-start',
       textTransform: 'none',
@@ -83,15 +79,6 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       marginRight: 'auto',
       fontSize: '1rem',
-    },
-    active: {
-      color: theme.palette.secondary.main,
-      '& $title': {
-        fontWeight: theme.typography.fontWeightMedium,
-      },
-      '& $icon': {
-        color: theme.palette.secondary.main,
-      },
     },
     navBar_link: {
       color: 'inherit',
