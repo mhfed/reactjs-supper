@@ -1,4 +1,6 @@
 {
+  "lang_sign_out": "Sign Out",
+  "lang_confirm_logout": "Are you sure that you want to sign out?",
   "lang_preview_new_segment": "preview new segment",
   "lang_create_segment_successfully": "Create segment successfully",
   "lang_create_segment_unsuccessfully": "Create segment unsuccessfully",

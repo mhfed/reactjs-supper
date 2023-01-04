@@ -12,8 +12,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 300,
   },
   collapseBtn: {
-    background: 'transparent',
-    color: theme.palette.primary.main,
+    border: 'none',
   },
 }));
 
@@ -44,6 +43,8 @@ const CustomStack: React.FC<CustomStackProps> = ({ data = [] }) => {
           className={classes.collapseBtn}
           key={`MULTIPLE_TAG_expand_collapse_icon`}
           onClick={handleShow}
+          variant="outlined"
+          color="primary"
           label={<Trans>{show ? 'lang_hide' : 'lang_show_more'}</Trans>}
         />
       )}

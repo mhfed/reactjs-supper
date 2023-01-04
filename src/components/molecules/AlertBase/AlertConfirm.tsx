@@ -1,16 +1,13 @@
 import React from 'react';
-
-// material cores
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-
-// material icons
-import WarningIcon from '@mui/icons-material/Warning';
-
-// styles
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import useStyles from './styles';
+import { Trans } from 'react-i18next';
+import { Typography } from '@mui/material';
 
 export type IStyles = {
   backgroundColor?: string;
@@ -25,39 +22,39 @@ type IProps = IStyles & {
   alertContent: React.ReactNode | string;
   onClose: () => void;
   onSubmit: () => void;
-  idBtnCancel?: string;
-  idBtnSubmit?: string;
 };
 
 const AlertConfirm = ({
   open,
   type = 'warning',
-  textSubmit = 'Yes',
-  textCancel = 'Cancel',
+  textSubmit = 'lang_confirm',
+  textCancel = 'lang_cancel',
   alertTitle,
   alertContent,
   onClose,
   onSubmit,
-  idBtnCancel = 'button-cancel-alert',
-  idBtnSubmit = 'button-submit-alert',
   ...styles
 }: IProps) => {
   const classes = useStyles(styles)();
 
   return (
-    <Dialog open={open} fullWidth maxWidth="sm" onClose={onClose}>
-      <div className={classes.title}>
-        {type === 'warning' && <WarningIcon />}
-        {alertTitle}
-      </div>
-
-      <DialogContent id="alert-dialog-content">{alertContent}</DialogContent>
+    <Dialog open={open} fullWidth maxWidth="sm" onClose={onClose} className={classes.container}>
+      <DialogTitle>
+        <Typography variant="h3">
+          <Trans>{alertTitle}</Trans>
+        </Typography>
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          <Trans>{alertContent}</Trans>
+        </DialogContentText>
+      </DialogContent>
       <DialogActions>
-        <Button id={idBtnCancel} onClick={onClose}>
-          {textCancel}
+        <Button onClick={onClose} variant="outlined">
+          <Trans>{textCancel}</Trans>
         </Button>
-        <Button id={idBtnSubmit} onClick={onSubmit} color="primary" autoFocus>
-          {textSubmit}
+        <Button onClick={onSubmit} variant="contained" autoFocus>
+          <Trans>{textSubmit}</Trans>
         </Button>
       </DialogActions>
     </Dialog>

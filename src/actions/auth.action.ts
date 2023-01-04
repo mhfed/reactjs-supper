@@ -73,8 +73,8 @@ export const setPinAfterChangePass = () => async (dispatch: Dispatch<any>) => {
   });
 };
 
-export const setUserInfo = (userInfo: any) => ({
-  type: IAuthActionTypes.SET_USER_INFO,
+export const updateUserInfo = (userInfo: any) => ({
+  type: IAuthActionTypes.UPDATE_USER_INFO,
   payload: userInfo,
 });
 

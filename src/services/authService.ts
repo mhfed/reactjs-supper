@@ -1,14 +1,24 @@
 import httpRequest from 'services/httpRequest';
-import { getSessionUrl, getAuthUrl, getDecodeUrl, getRefreshUrl, getPinUrl, getUserDetailByEmailUrl } from 'apis/request.url';
+import {
+  getSessionUrl,
+  getAuthUrl,
+  getDecodeUrl,
+  getRefreshUrl,
+  getPinUrl,
+  getUserDetailByEmailUrl,
+  getUserGroupUrl,
+} from 'apis/request.url';
 import CryptoJS from 'react-native-crypto-js';
 import store from 'stores';
 import { IAuthType } from 'models/IAuthState';
-import { setUserInfo } from 'actions/auth.action';
+import { updateUserInfo } from 'actions/auth.action';
 class AuthService {
   getUserDetail = async (email: string) => {
     try {
-      const response = await httpRequest.get(getUserDetailByEmailUrl(email));
-      store.dispatch(setUserInfo(response));
+      const userDetailResponse: any = await httpRequest.get(getUserDetailByEmailUrl(email));
+      const { data: roleGroupresponse } = await httpRequest.get(getUserGroupUrl(userDetailResponse.role_group));
+      userDetailResponse.group_name = roleGroupresponse?.[0]?.group_name;
+      store.dispatch(updateUserInfo(userDetailResponse));
     } catch (error) {
       console.error(`getUserDetail for ${email} error: `, error);
     }
