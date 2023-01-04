@@ -1,4 +1,5 @@
 {
+  "lang_segment_details": "segment details",
   "lang_sign_out": "Sign Out",
   "lang_confirm_logout": "Are you sure that you want to sign out?",
   "lang_segment_name_min_max_characters": "Segment name must include 3 - 64 characters",
