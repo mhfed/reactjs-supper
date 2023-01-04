@@ -1,4 +1,7 @@
 {
+  "lang_preview_new_segment": "preview new segment",
+  "lang_create_segment_successfully": "Create segment successfully",
+  "lang_create_segment_unsuccessfully": "Create segment unsuccessfully",
   "lang_notes": "Notes",
   "lang_full_name_max_length": "Full name must include less than 64 characters",
   "lang_description_max_length": "Description must include less than 255 characters",
