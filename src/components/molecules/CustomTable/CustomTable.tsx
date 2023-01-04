@@ -50,9 +50,6 @@ const useStyles = makeStyles((theme) => ({
         boxShadow: theme.shadows[1],
         flex: 1,
         overflowY: 'hidden',
-        '& table': {
-          height: '100%',
-        },
       },
     },
     '& .MuiTablePagination-root': {
@@ -234,7 +231,13 @@ function convertColumn({
     case COLUMN_TYPE.MULTIPLE_TAG:
       res.options = {
         customBodyRender: (value = []) => {
-          return <CustomStack data={value} />;
+          return value.length ? (
+            <CustomStack data={value} />
+          ) : (
+            <Typography component="span" noWrap>
+              {process.env.REACT_APP_DEFAULT_VALUE}
+            </Typography>
+          );
         },
       };
       break;

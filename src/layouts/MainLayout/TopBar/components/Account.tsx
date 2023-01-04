@@ -2,31 +2,24 @@ import React, { useState, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
-
-// material core
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
-
-// material icon
 import AccountCircle from '@mui/icons-material/AccountCircle';
-
-// configs
 import { PATH_NAME } from 'configs';
-
-// actions
 import { logout } from 'actions/auth.action';
-
-// selectors
 import { roleSelector } from 'selectors/auth.selector';
+import { AlertConfirm } from 'components/molecules/AlertBase';
+import { userSelector } from 'selectors/auth.selector';
 
 function Account({ ...classes }) {
   const { t: translate } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const role = useSelector(roleSelector);
+  const user = useSelector(userSelector);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [open, setOpen] = React.useState(false);
 
   const _handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -40,6 +33,18 @@ function Account({ ...classes }) {
     dispatch(logout() as any);
     navigate(PATH_NAME.LOGIN);
     setAnchorEl(null);
+  };
+
+  const onCloseLogout = () => {
+    setOpen(false);
+  };
+
+  const onShowLogoutConfirm = () => {
+    setOpen(true);
+  };
+
+  const onConfirmLogout = () => {
+    _handleLogout();
   };
 
   return (
@@ -69,13 +74,20 @@ function Account({ ...classes }) {
         open={Boolean(anchorEl)}
         onClose={_handleClose}
       >
-        <div className={classes.textRole}>{role}</div>
+        <div className={classes.textRole}>{user.group_name}</div>
         <Divider />
         <MenuItem>My account</MenuItem>
-        <MenuItem className={classes.menuProfile} onClick={_handleLogout}>
+        <MenuItem className={classes.menuProfile} onClick={onShowLogoutConfirm}>
           {translate('LOGOUT')}
         </MenuItem>
       </Menu>
+      <AlertConfirm
+        open={open}
+        alertTitle="lang_sign_out"
+        alertContent="lang_confirm_logout"
+        onClose={onCloseLogout}
+        onSubmit={onConfirmLogout}
+      />
     </>
   );
 }

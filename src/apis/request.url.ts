@@ -39,6 +39,10 @@ export function getUserDetailUrl() {
 export function postCreateSegment() {
   return '/v1/dynamic-push/segment/create';
 }
+export function getUserGroupUrl(roleGroupId: string) {
+  return `/v1/user/role-group/${roleGroupId}`;
+}
+
 // Notification - v1
 export const getListNotificationUrl = ({
   pageId = 1,

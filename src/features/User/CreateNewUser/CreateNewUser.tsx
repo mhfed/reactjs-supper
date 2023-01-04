@@ -131,7 +131,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                 <PreviewField
                   sx={{ mb: 2, mr: 2 }}
                   variant="outlined"
-                  label="lang_notes"
+                  label="lang_description"
                   value={values.description}
                   multiline
                   rows={4}
@@ -230,11 +230,6 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                   helperText={touched.password && errors.password}
                 />
               </Stack>
-              <div className={classes.title}>
-                <Typography variant="h4">
-                  <Trans>lang_notes</Trans>
-                </Typography>
-              </div>
               <Stack direction="row" sx={{ margin: '12px 0', width: '50%' }}>
                 <InputField
                   id="description"

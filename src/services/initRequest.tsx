@@ -72,7 +72,7 @@ export default function initRequest(store: any) {
       return config;
     },
     (error: IAxiosResponse) => {
-      if (error.config.showSpinner) {
+      if (error.config?.showSpinner) {
         decreaseRequestCount();
       }
       return Promise.reject(error);

@@ -49,6 +49,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
   const timeoutId = React.useRef<number | null>(null);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,6 +57,11 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
     timeoutId.current = window.setTimeout(() => {
       handleSearch(e.target.value);
     }, process.env.REACT_APP_DEBOUNCE_TIME);
+  };
+
+  const clearSearch = () => {
+    inputRef.current && (inputRef.current.value = '');
+    handleSearch('');
   };
 
   return (
@@ -81,6 +87,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
         </Button>
       )}
       <TextField
+        inputRef={inputRef}
         disabled={isEditMode}
         variant="outlined"
         name="search"
@@ -90,8 +97,8 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
         }}
         InputProps={{
           endAdornment: searchText ? (
-            <InputAdornment position="start">
-              <CancelIcon style={{ width: 16, height: 16 }} />
+            <InputAdornment position="end">
+              <CancelIcon style={{ width: 16, height: 16, cursor: 'pointer' }} onClick={clearSearch} />
             </InputAdornment>
           ) : null,
         }}

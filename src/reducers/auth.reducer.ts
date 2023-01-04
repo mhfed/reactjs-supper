@@ -17,10 +17,10 @@ const initialState: IAuthState = {
 
 const reducer = (state = initialState, { type, payload }: IAuthActionCreator) => {
   switch (type) {
-    case IAuthActionTypes.SET_USER_INFO:
+    case IAuthActionTypes.UPDATE_USER_INFO:
       return {
         ...state,
-        user: payload,
+        user: { ...state.user, ...payload },
       };
     case IAuthActionTypes.LOGIN_REQUEST:
     case IAuthActionTypes.PIN_REQUEST:
