@@ -1,6 +1,6 @@
 import makeStyles from '@mui/styles/makeStyles';
 
-import { IStyles } from './AlertConfirm';
+import { IStyles } from './ConfirmModal';
 
 const useStyles = (props: IStyles) =>
   makeStyles((theme) => ({
