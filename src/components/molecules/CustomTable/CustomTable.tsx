@@ -50,9 +50,6 @@ const useStyles = makeStyles((theme) => ({
         boxShadow: theme.shadows[1],
         flex: 1,
         overflowY: 'hidden',
-        '& table': {
-          height: '100%',
-        },
       },
     },
     '& .MuiTablePagination-root': {
