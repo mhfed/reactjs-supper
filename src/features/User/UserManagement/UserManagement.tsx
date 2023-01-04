@@ -168,6 +168,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
       component: ConfirmEditUser,
       props: {
         data,
+        callback: cb,
       },
     });
   };

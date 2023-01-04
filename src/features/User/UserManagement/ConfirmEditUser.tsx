@@ -30,10 +30,11 @@ const useStyles = makeStyles((theme) => ({
 
 type ConfirmEditUserModalProps = {
   data: LooseObject[];
+  callback: () => void;
   onClose: () => void;
 };
 
-const ConfirmEditUserModal: React.FC<ConfirmEditUserModalProps> = ({ data = [], onClose }) => {
+const ConfirmEditUserModal: React.FC<ConfirmEditUserModalProps> = ({ data = [], onClose, callback }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [email, setEmail] = React.useState('');
@@ -73,7 +74,12 @@ const ConfirmEditUserModal: React.FC<ConfirmEditUserModalProps> = ({ data = [], 
         setError('lang_email_did_not_match');
         return;
       }
-      await httpRequest.put(getUserDetailUrl(), { data });
+      const bodyData = data.map((e) => {
+        const { user_login_id, ...rest } = e;
+        return rest;
+      });
+      await httpRequest.put(getUserDetailUrl(), { data: bodyData });
+      callback?.();
       dispatch(
         enqueueSnackbarAction({
           message: 'lang_update_user_information_successfully',

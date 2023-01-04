@@ -17,7 +17,7 @@ type DropdownCellProps = {
 
 const DropdownCell: React.FC<DropdownCellProps> = ({ value: initialValue, onChange, options = [] }) => {
   const classes = useStyles();
-  const [value, setValue] = React.useState(initialValue || '');
+  const [value, setValue] = React.useState(initialValue);
 
   const handleChange = (e: SelectChangeEvent) => {
     onChange(e.target.value);
