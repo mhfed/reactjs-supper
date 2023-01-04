@@ -5,18 +5,29 @@ import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import { Editor } from 'react-draft-wysiwyg';
 import makeStyles from '@mui/styles/makeStyles';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import Box from '@mui/material/Box';
+import { Trans } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    border: `1px solid ${theme.palette.primary.light}`,
+    border: `1px solid rgba(255, 255, 255, 0.23)`,
     borderRadius: 4,
     minHeight: 200,
-    '.rdw-editor-toolbar': {
+    '& *': {
+      boxSizing: 'initial',
+      color: theme.palette.common.black,
+    },
+    '& br': {
+      color: theme.palette.text.primary,
+    },
+    '& .rdw-editor-toolbar': {
       border: 'none',
-      borderBottom: `1px solid ${theme.palette.primary.light}`,
+      borderBottom: `1px solid rgba(255, 255, 255, 0.23)`,
       background: 'transparent',
     },
-    '.DraftEditor-editorContainer': {
+    '& .DraftEditor-editorContainer': {
       padding: theme.spacing(0, 1),
     },
   },
@@ -24,6 +35,8 @@ const useStyles = makeStyles((theme) => ({
 
 type RichTextboxProps = {
   placeholder: string;
+  label: string;
+  required?: boolean;
   value?: any;
   onChange: (a: any) => void;
 };
@@ -32,6 +45,7 @@ type RichTextboxHandle = {
 };
 
 const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props, ref) => {
+  const { required = false, label, value, onChange } = props;
   const classes = useStyles();
 
   const convertData = (data: any) => {
@@ -47,7 +61,7 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
     return data;
   };
 
-  const [editorState, setEditorState] = React.useState(() => convertData(props.value));
+  const [editorState, setEditorState] = React.useState(() => convertData(value));
 
   const reset = () => {
     setEditorState(EditorState.createEmpty());
@@ -61,9 +75,9 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
     [],
   );
 
-  function onChange(v: any) {
+  function handleChange(v: any) {
     setEditorState(v);
-    props?.onChange?.(draftToHtml(convertToRaw(v.getCurrentContent())));
+    onChange?.(draftToHtml(convertToRaw(v.getCurrentContent())));
   }
 
   function uploadImageCallBack(file: File) {
@@ -91,23 +105,29 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
   }
 
   return (
-    <div className={classes.container}>
-      <Editor
-        editorState={editorState}
-        toolbarClassName="toolbarClassName"
-        wrapperClassName="wrapperClassName"
-        editorClassName="editorClassName"
-        onEditorStateChange={onChange}
-        toolbar={{
-          image: {
-            uploadCallback: uploadImageCallBack,
-            alt: { present: false, mandatory: false },
-            previewImage: false,
-            defaultSize: { maxWidth: '100%', minHeight: '200px' },
-          },
-        }}
-      />
-    </div>
+    <FormControl fullWidth>
+      <FormLabel sx={{ mb: 0.5 }}>
+        <Trans>{label}</Trans>
+        {required ? ' *' : ''}
+      </FormLabel>
+      <Box className={classes.container}>
+        <Editor
+          editorState={editorState}
+          toolbarClassName="toolbarClassName"
+          wrapperClassName="wrapperClassName"
+          editorClassName="editorClassName"
+          onEditorStateChange={handleChange}
+          toolbar={{
+            image: {
+              uploadCallback: uploadImageCallBack,
+              alt: { present: false, mandatory: false },
+              previewImage: false,
+              defaultSize: { maxWidth: '100%', minHeight: '200px' },
+            },
+          }}
+        />
+      </Box>
+    </FormControl>
   );
 });
 

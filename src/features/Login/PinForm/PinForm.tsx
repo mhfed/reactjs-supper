@@ -102,7 +102,7 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
   const pinInputRef = React.useRef<PinInputHandle>(null);
   const timeoutId = React.useRef<number | null>(null);
   const isLoading = useSelector(isLoadingSelector);
-  const stepName = listStep.current[step];
+  const stepName = React.useRef(listStep.current[step]);
   const navigate = useNavigate();
 
   const clearPin = () => {
@@ -110,15 +110,20 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
     setNumber([]);
   };
 
+  const setStepInfo = (value: number) => {
+    setStep(value);
+    stepName.current = listStep.current[value];
+  };
+
   const checkPin = () => {
     const pin = pinRef.current.join('');
     const oldPin = oldPinRef.current.join('');
     if (isSetPin) {
-      if (stepName === PIN_STEP.SET_YOUR_PIN) {
+      if (stepName.current === PIN_STEP.SET_YOUR_PIN) {
         oldPinRef.current = [...pinRef.current];
-        setNumber([]);
-        setStep((step) => step + 1);
-      } else if (stepName === PIN_STEP.SET_YOUR_PIN) {
+        clearPin();
+        setStepInfo(step + 1);
+      } else if (stepName.current === PIN_STEP.CONFIRM_YOUR_NEW_PIN) {
         if (pin === oldPin) {
           if (isFirstTime) {
             dispatch(setPinFirstTime(pin, navigate) as any);
@@ -140,17 +145,18 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
     if (item === 'Backspace') {
       pinRef.current.splice(-1, 1);
       pinInputRef.current?.setShowNumber?.(false);
+      setNumber([...pinRef.current]);
     } else if (pinRef.current.length < 6) {
       pinRef.current.push(item);
       pinInputRef.current?.setShowNumber?.(true);
       timeoutId.current = window.setTimeout(() => {
         pinInputRef.current?.setShowNumber?.(false);
       }, 2000);
+      setNumber([...pinRef.current]);
       if (pinRef.current.length === 6) {
         checkPin();
       }
     }
-    setNumber([...pinRef.current]);
   }, []); // eslint-disable-line
 
   React.useEffect(() => {
@@ -188,11 +194,12 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
     errorMessage && setError('');
     pinRef.current = [...oldPinRef.current];
     oldPinRef.current = [];
+    setStepInfo(step - 1);
     setNumber([...pinRef.current]);
   };
 
   const renderHeader = () => {
-    switch (stepName) {
+    switch (stepName.current) {
       case PIN_STEP.SET_YOUR_PIN:
         return (
           <div className={classes.header}>
@@ -239,11 +246,11 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
       {renderHeader()}
       <div className={classes.pinBody}>
         <PinInput ref={pinInputRef} data={number} />
-        <FormHelperText error sx={{ pt: 1 }}>
+        <FormHelperText error sx={{ pt: 1, textAlign: 'center' }}>
           <Trans>{errorMessage}</Trans>
         </FormHelperText>
-        {stepName === PIN_STEP.SET_YOUR_PIN ? (
-          <Typography sx={{ width: '100%', py: 2 }}>
+        {stepName.current === PIN_STEP.SET_YOUR_PIN ? (
+          <Typography variant="body2" align="center" sx={{ width: '100%', py: 2 }}>
             <Trans>lang_set_pin_tip</Trans>
           </Typography>
         ) : (

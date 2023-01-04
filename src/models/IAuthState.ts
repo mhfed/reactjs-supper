@@ -1,5 +1,4 @@
 export enum IAuthActionTypes {
-  CHANGE_PASSWORD = 'AUTH/CHANGE_PASSWORD',
   LOGIN_REQUEST = 'AUTH/LOGIN_REQUEST',
   LOGIN_SUCCESS = 'AUTH/LOGIN_SUCESS',
   LOGIN_FAILURE = 'AUTH/LOGIN_FAILURE',
@@ -8,6 +7,7 @@ export enum IAuthActionTypes {
   PIN_SUCCESS = 'AUTH/PIN_SUCCESS',
   PIN_FAILURE = 'AUTH/PIN_FAILURE',
   FORCE_SET_PIN = 'AUTH/FORCE_SET_PIN',
+  SET_PASSWORD = 'AUTH/SET_PASSWORD',
   LOGOUT = 'AUTH/LOGOUT',
   REGISTER = 'AUTH/REGISTER',
   SET_USER_INFO = 'AUTH/SET_USER_INFO',
@@ -18,6 +18,7 @@ export enum IAuthStep {
   SET_PIN = 2,
   ENTER_PIN = 3,
   FORCE_SET_PIN = 4,
+  SET_PASSWORD = 5,
 }
 
 export enum IAuthType {
@@ -35,6 +36,7 @@ export type IAuthState = {
   userType: string | null;
   baseUrl: string | null;
   error: string | null;
+  createPasswordToken: string | null;
   step: number;
   roles: string[] | null;
   user: any;

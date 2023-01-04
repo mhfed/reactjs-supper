@@ -134,9 +134,10 @@ export default function initRequest(store: any) {
         default:
           break;
       }
-      const errorCode = error.response?.data?.errorCode || error.response?.data?.error_code;
+      const errorCode = error.response?.data?.errorCode || error.response?.data?.error_code || '';
       const error_lang_key = `error_code_${errorCode}`;
-      return Promise.reject(error_lang_key);
+      const finalError: any = { ...(error.response?.data || {}), errorCode: +errorCode, errorCodeLang: error_lang_key };
+      return Promise.reject(finalError);
     },
   );
 }

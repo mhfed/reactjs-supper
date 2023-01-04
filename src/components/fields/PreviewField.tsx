@@ -1,6 +1,6 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { makeStyles } from '@mui/styles';
 type TextFieldProps = {
   label?: string;
@@ -26,10 +26,18 @@ const useStyles = makeStyles((theme) => ({
     // },
   },
 }));
-const PreviewField: React.FC<TextFieldProps> = ({ label, ...props }) => {
+const PreviewField: React.FC<TextFieldProps> = ({ label, value, ...props }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   return (
-    <TextField className={classes.preview} variant="standard" {...props} fullWidth label={<Trans>{label}</Trans>}></TextField>
+    <TextField
+      className={classes.preview}
+      variant="standard"
+      {...props}
+      value={value ? t(value) : '--'}
+      fullWidth
+      label={<Trans>{label}</Trans>}
+    ></TextField>
   );
 };
 
