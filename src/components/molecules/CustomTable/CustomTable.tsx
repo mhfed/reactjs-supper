@@ -64,6 +64,27 @@ const useStyles = makeStyles((theme) => ({
       '&:not(.MuiTableCell-footer)': {
         maxWidth: 600,
       },
+      $uppercase: {
+        textTransform: 'uppercase',
+      },
+      '& .warning': {
+        '&.bg': {
+          background: theme.palette.hover.warning,
+        },
+        color: theme.palette.warning.main,
+      },
+      '& .error': {
+        '&.bg': {
+          background: theme.palette.hover.error,
+        },
+        color: theme.palette.error.main,
+      },
+      '& .success': {
+        '&.bg': {
+          background: theme.palette.hover.success,
+        },
+        color: theme.palette.success.main,
+      },
     },
     '& .MuiTableCell-head': {
       borderRadius: 8,
@@ -109,28 +130,6 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-  bg: {},
-  uppercase: {
-    textTransform: 'uppercase',
-  },
-  warning: {
-    '&$bg': {
-      background: theme.palette.hover.warning,
-    },
-    color: theme.palette.warning.main,
-  },
-  error: {
-    '&$bg': {
-      background: theme.palette.hover.error,
-    },
-    color: theme.palette.error.main,
-  },
-  success: {
-    '&$bg': {
-      background: theme.palette.hover.success,
-    },
-    color: theme.palette.success.main,
-  },
   noAction: {
     '& .MuiTableCell-head': {
       '&:nth-last-child(2)': {
@@ -165,11 +164,14 @@ function convertColumn({
   const res: MUIDataTableColumnDef = {
     name: column.name,
     label: translate ? translate(column.label) : column.label,
-    options: {},
+    options: {
+      sortThirdClickReset: true,
+    },
   };
   switch (column.type) {
     case COLUMN_TYPE.DROPDOWN_WITH_BG:
       res.options = {
+        ...res.options,
         customBodyRender: (value, tableMeta: MUIDataTableMeta) => {
           if (isEditMode) {
             return (
@@ -181,17 +183,13 @@ function convertColumn({
             );
           }
           const option = column.dataOptions?.find((e) => e.value === value);
-          return (
-            <Chip
-              className={clsx(classes[option?.color || ''], classes.bg, classes.uppercase)}
-              label={<Trans>{option?.label}</Trans>}
-            />
-          );
+          return <Chip className={clsx(option?.color || '', 'bg', 'uppercase')} label={<Trans>{option?.label}</Trans>} />;
         },
       };
       break;
     case COLUMN_TYPE.DROPDOWN:
       res.options = {
+        ...res.options,
         customBodyRender: (value, tableMeta: MUIDataTableMeta) => {
           if (isEditMode) {
             return (
@@ -213,6 +211,7 @@ function convertColumn({
       break;
     case COLUMN_TYPE.DATETIME:
       res.options = {
+        ...res.options,
         customBodyRender: (value) => {
           return (
             <Typography component="span" noWrap>
@@ -224,6 +223,7 @@ function convertColumn({
       break;
     case COLUMN_TYPE.LINK:
       res.options = {
+        ...res.options,
         customBodyRender: (value) => {
           return (
             <Link noWrap target="_blank" href={`${value}`}>
@@ -235,6 +235,7 @@ function convertColumn({
       break;
     case COLUMN_TYPE.MULTIPLE_TAG:
       res.options = {
+        ...res.options,
         customBodyRender: (value = []) => {
           return value.length ? (
             <CustomStack data={value} />
@@ -248,6 +249,7 @@ function convertColumn({
       break;
     case COLUMN_TYPE.ACTION:
       res.options = {
+        ...res.options,
         setCellProps: () => ({ style: { width: 30, position: 'sticky', right: 0, padding: 0 } }),
         customBodyRender: (value, tableMeta, updateValue) => {
           const rowData = data[tableMeta.rowIndex];
@@ -258,6 +260,7 @@ function convertColumn({
       break;
     default:
       res.options = {
+        ...res.options,
         customBodyRender: (value, tableMeta) => {
           let formatValue = value;
           const rowData = data[tableMeta.rowIndex];

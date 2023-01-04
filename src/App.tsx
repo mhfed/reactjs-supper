@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import SnackbarProvider from 'components/molecules/SnackbarProvider';
-import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import { ThemeProvider, StyledEngineProvider, responsiveFontSizes } from '@mui/material/styles';
 import { useGlobalContext } from 'context/GlobalContext';
 import Auth from 'containers/Auth';
 import Dialog from 'components/molecules/Dialog';
@@ -109,7 +109,7 @@ function App() {
 
   return (
     <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={themes(type)}>
+      <ThemeProvider theme={responsiveFontSizes(themes(type))}>
         <Router>
           <Auth>
             <SnackbarProvider>

@@ -1,6 +1,5 @@
 // material core
-import { Color, createTheme } from '@mui/material';
-
+import { createTheme } from '@mui/material';
 import light from './light';
 import dark from './dark';
 import typography from './typography';

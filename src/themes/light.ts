@@ -54,11 +54,11 @@ const lightTheme = createTheme({
       white: '#fff',
     },
     background: {
-      default: '#FFFFFF',
+      default: '#F2F8FF',
       paper: '#FFFFFF',
-      other1: '#262B3E',
-      other2: '#262B3E',
-      other3: '#758695',
+      other1: '#E8ECEF',
+      other2: '#C5CBCE',
+      other3: '#FFFFFF',
     },
     primary: {
       main: '#00C77F',
