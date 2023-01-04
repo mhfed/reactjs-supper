@@ -76,7 +76,9 @@ select:-webkit-autofill:focus {
 .MuiAutocomplete-option[aria-selected='true'] {
   position: relative;
 }
-
+.MuiAutocomplete-listbox {
+  max-height: 175px;
+}
 .MuiMenuItem-root[aria-selected='true']::after,
 .MuiAutocomplete-option[aria-selected='true']::after {
   background-image: url('./assets/icons/check.svg');

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Autocomplete, TextField } from '@mui/material';
-import { FormikErrors, useFormikContext } from 'formik';
+import { FormikErrors } from 'formik';
 import httpRequest from 'services/httpRequest';
 import { Trans } from 'react-i18next';
 import FormHelperText from '@mui/material/FormHelperText';
@@ -61,9 +61,8 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({ label, 
       if (!response.data) {
         setOptions([]);
       } else {
-        setOptions(response.data.concat(topFilms));
+        setOptions(response.data);
       }
-      console.log('mang gia lap la:', options);
     } catch (error) {
       console.log('Search error:', error);
     }
@@ -87,7 +86,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({ label, 
         freeSolo
         id={props.id}
         onChange={handleChange}
-        options={topFilms}
+        options={options}
         defaultValue={defaultArray}
         getOptionLabel={(option) => option.username}
         renderOption={(props, option, { selected }) => <li {...props}>{option.username + ' (' + option.site_name + ')'}</li>}
@@ -108,17 +107,3 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({ label, 
 };
 
 export default AutocompleteAsyncField;
-const topFilms = [
-  { username: 'The Shawshank Redemption', site_name: 1994 },
-  { username: 'The Godfather', site_name: 1972 },
-  { username: 'The Godfather: Part II', site_name: 1974 },
-  { username: 'The Dark Knight', site_name: 2008 },
-  { username: '12 Angry Men', site_name: 1957 },
-  { username: "Schindler's List", site_name: 1993 },
-  { username: 'Pulp Fiction', site_name: 1994 },
-  {
-    username: 'The Lord of the Rings: The Return of the King',
-    site_name: 2003,
-  },
-  { username: 'The Good, the Bad and the Ugly', site_name: 1966 },
-];
