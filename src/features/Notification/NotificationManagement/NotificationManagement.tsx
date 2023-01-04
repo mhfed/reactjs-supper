@@ -43,7 +43,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({
-          message: error,
+          message: error?.errorCodeLang,
           key: new Date().getTime() + Math.random(),
           variant: 'error',
         }),

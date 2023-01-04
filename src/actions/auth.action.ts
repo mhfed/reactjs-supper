@@ -19,16 +19,12 @@ const clearAxiosAuthConfig = () => {
   delete axiosInstance.defaults.headers.common['Authorization'];
 };
 
-export const changePasswordRequest = () => async (dispatch: Dispatch<any>) => {
-  dispatch({ type: IAuthActionTypes.CHANGE_PASSWORD });
-};
-
 export const setPinFirstTime = (pin: string, navigate: NavigateFunction) => async (dispatch: Dispatch<any>) => {
   dispatch({ type: IAuthActionTypes.PIN_REQUEST });
 
   const { refreshToken, accessToken, baseUrl, error } = await authService.setPinFirstTime(pin);
   if (error) {
-    dispatch({ type: IAuthActionTypes.PIN_FAILURE, payload: { error } });
+    dispatch({ type: IAuthActionTypes.PIN_FAILURE, payload: { error: error?.errorCodeLang } });
   } else {
     updateAxiosAuthConfig(baseUrl, accessToken, refreshToken);
     dispatch({
@@ -44,7 +40,7 @@ export const forceSetPin = (pin: string, password: string, navigate: NavigateFun
 
   const { refreshToken, accessToken, baseUrl, error } = await authService.forceSetPin(pin, password);
   if (error) {
-    dispatch({ type: IAuthActionTypes.PIN_FAILURE, payload: { error } });
+    dispatch({ type: IAuthActionTypes.PIN_FAILURE, payload: { error: error?.errorCodeLang } });
   } else {
     updateAxiosAuthConfig(baseUrl, accessToken, refreshToken);
     dispatch({
@@ -60,7 +56,7 @@ export const verifyPin = (pin: string, navigate: NavigateFunction) => async (dis
 
   const { refreshToken, accessToken, baseUrl, error } = await authService.verifyPin(pin);
   if (error) {
-    dispatch({ type: IAuthActionTypes.PIN_FAILURE, payload: { error } });
+    dispatch({ type: IAuthActionTypes.PIN_FAILURE, payload: { error: error?.errorCodeLang } });
   } else {
     updateAxiosAuthConfig(baseUrl, accessToken);
     dispatch({
@@ -93,7 +89,12 @@ export const login = (email: string, password: string) => async (dispatch: Dispa
     accessToken,
   } = await authService.loginWithEmailAndPassword(email, password);
   if (error) {
-    dispatch({ type: IAuthActionTypes.LOGIN_FAILURE, payload: { error } });
+    const { errorCode, errorCodeLang, token } = error;
+    if (errorCode === 2059 || (errorCode === 2057 && token)) {
+      dispatch({ type: IAuthActionTypes.SET_PASSWORD, payload: { createPasswordToken: token, email } });
+    } else {
+      dispatch({ type: IAuthActionTypes.LOGIN_FAILURE, payload: { error: errorCodeLang, token } });
+    }
   } else {
     window.localStorage.setItem('lastEmailLogin', email);
     window.localStorage.setItem('lastDeviceId', deviceID);

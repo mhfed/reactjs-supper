@@ -15,6 +15,13 @@ const useStyles = makeStyles((theme) => ({
     border: `1px solid rgba(255, 255, 255, 0.23)`,
     borderRadius: 4,
     minHeight: 200,
+    '& *': {
+      boxSizing: 'initial',
+      color: theme.palette.common.black,
+    },
+    '& br': {
+      color: theme.palette.text.primary,
+    },
     '& .rdw-editor-toolbar': {
       border: 'none',
       borderBottom: `1px solid rgba(255, 255, 255, 0.23)`,

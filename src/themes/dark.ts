@@ -25,6 +25,17 @@ const darkTheme = createTheme({
         },
       },
     },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          '&.Mui-error': {
+            '& input': {
+              color: '#FF435F',
+            },
+          },
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         contained: {

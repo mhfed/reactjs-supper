@@ -8,10 +8,10 @@ export const isLoadingSelector = createSelector(
   (app) => app.isLoading,
 );
 
-// export const userSelector = createSelector(
-//   (state: IRootState) => state.auth,
-//   (auth) => auth.user,
-// );
+export const createPasswordTokenSelector = createSelector(
+  (state: IRootState) => state.auth,
+  (auth) => auth.createPasswordToken,
+);
 
 export const roleSelector = createSelector(
   (state: IRootState) => state.auth,
@@ -21,6 +21,11 @@ export const roleSelector = createSelector(
 export const stepSelector = createSelector(
   (state: IRootState) => state.auth,
   (auth) => auth.step,
+);
+
+export const userLoginSelector = createSelector(
+  (state: IRootState) => state.auth,
+  (auth) => auth.email,
 );
 
 export const userSelector = createSelector(

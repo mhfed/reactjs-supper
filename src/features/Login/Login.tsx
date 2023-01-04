@@ -78,8 +78,10 @@ export default function SignIn() {
           <PinForm />
         ) : [IAuthStep.SET_PIN, IAuthStep.FORCE_SET_PIN].includes(step) ? (
           <PinForm isSetPin isFirstTime={step === IAuthStep.SET_PIN} password={password.current} />
-        ) : (
+        ) : step === IAuthStep.SET_PASSWORD ? (
           <SetPassword setNewPassord={(pw) => (password.current = pw)} />
+        ) : (
+          <Typography>Page not found</Typography>
         )}
         <div className={classes.loginLogo}>
           <img alt="loginLogo" src="/assets/images/login-logo.svg" />

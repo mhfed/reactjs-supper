@@ -66,7 +66,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
         },
       };
 
-      const response: any = await httpRequest.post(getUserDetailUrl(), body);
+      await httpRequest.post(getUserDetailUrl(), body);
       dispatch(
         enqueueSnackbarAction({
           message: 'lang_create_user_successfully',
@@ -78,7 +78,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({
-          message: error,
+          message: error?.errorCodeLang,
           key: new Date().getTime() + Math.random(),
           variant: 'error',
         }),

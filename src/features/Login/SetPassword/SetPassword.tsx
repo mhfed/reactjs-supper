@@ -6,14 +6,14 @@ import { validate } from 'helpers';
 import CircularProgress from '@mui/material/CircularProgress';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import makeStyles from '@mui/styles/makeStyles';
-import { Trans, useTranslation } from 'react-i18next';
-import { isLoadingSelector } from 'selectors/auth.selector';
+import { Trans } from 'react-i18next';
+import { isLoadingSelector, createPasswordTokenSelector, userLoginSelector } from 'selectors/auth.selector';
 import httpRequest from 'services/httpRequest';
 import { getCreatePasswordUrl } from 'apis/request.url';
-import { setPinAfterChangePass, changePasswordRequest } from 'actions/auth.action';
+import { PasswordField } from 'components/fields';
+import { setPinAfterChangePass } from 'actions/auth.action';
 import { IChangePassValues } from 'models/ICommon';
 
 const useStyles = makeStyles((theme) => ({
@@ -53,15 +53,20 @@ type SetPasswordProps = {
 
 const SetPassword: React.FC<SetPasswordProps> = ({ setNewPassord }) => {
   const classes = useStyles();
-  const { t } = useTranslation();
   const dispatch = useDispatch();
   const isLoading = useSelector(isLoadingSelector);
+  const token = useSelector(createPasswordTokenSelector);
+  const email = useSelector(userLoginSelector);
 
   const handleFormSubmit = async (values: IChangePassValues) => {
     try {
-      dispatch(changePasswordRequest() as any);
-      await httpRequest.get(getCreatePasswordUrl(), {
-        showSpinner: true,
+      setNewPassord(values.password);
+      await httpRequest.post(getCreatePasswordUrl(), {
+        data: {
+          token,
+          user_login_id: email,
+          password: values.password,
+        },
       });
       dispatch(setPinAfterChangePass() as any);
     } catch (error) {
@@ -69,7 +74,7 @@ const SetPassword: React.FC<SetPasswordProps> = ({ setNewPassord }) => {
     }
   };
 
-  const { values, errors, touched, handleChange, handleBlur, handleSubmit } = useFormik({
+  const { values, errors, touched, handleBlur, handleSubmit, setFieldValue } = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,
@@ -79,38 +84,38 @@ const SetPassword: React.FC<SetPasswordProps> = ({ setNewPassord }) => {
     <Paper className={classes.loginForm}>
       <div className={classes.title}>
         <Typography variant="h5">
-          <Trans>lang_sign_in_to_your_account</Trans>
+          <Trans>lang_choose_a_password</Trans>
         </Typography>
       </div>
-      <Typography sx={{ width: '100%', py: 2 }}>
+      <Typography variant="body2" align="center" sx={{ width: '100%', px: 3, pt: 3 }}>
         <Trans>lang_password_required</Trans>
       </Typography>
       <form className={classes.form} noValidate onSubmit={handleSubmit}>
-        <TextField
+        <PasswordField
           id="password"
           name="password"
           sx={{ mb: 2 }}
-          label={<Trans>lang_password</Trans>}
+          label="lang_password"
           required
           fullWidth
           value={values.password}
-          onChange={handleChange}
+          onChange={(v: string) => setFieldValue('password', v)}
           onBlur={handleBlur}
           error={touched.password && Boolean(errors.password)}
-          helperText={touched.password && errors.password && t(errors.password)}
+          helperText={touched.password && errors.password}
         />
-        <TextField
-          id="password"
-          name="password"
+        <PasswordField
+          id="re_password"
+          name="re_password"
           sx={{ mb: 2 }}
-          label={<Trans>lang_password</Trans>}
+          label="lang_confirm_password"
           required
           fullWidth
-          value={values.password}
-          onChange={handleChange}
+          value={values.re_password}
+          onChange={(v: string) => setFieldValue('re_password', v)}
           onBlur={handleBlur}
-          error={touched.password && Boolean(errors.password)}
-          helperText={touched.password && errors.password && t(errors.password)}
+          error={touched.re_password && Boolean(errors.re_password)}
+          helperText={touched.re_password && errors.re_password}
         />
         <Button type="submit" fullWidth variant="contained" color="primary" sx={{ my: 2 }}>
           <Trans>lang_change_password</Trans>
