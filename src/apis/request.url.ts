@@ -36,7 +36,9 @@ export function getUserDetailByEmailUrl(email: string) {
 export function getUserDetailUrl() {
   return '/v1/user/user-details';
 }
-
+export function postCreateSegment() {
+  return '/v1/dynamic-push/segment/create';
+}
 // Notification - v1
 export const getListNotificationUrl = ({
   pageId = 1,
