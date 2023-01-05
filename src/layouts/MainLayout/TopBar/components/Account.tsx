@@ -78,7 +78,7 @@ function Account({ ...classes }) {
         <Divider />
         <MenuItem>My account</MenuItem>
         <MenuItem className={classes.menuProfile} onClick={onShowLogoutConfirm}>
-          {translate('LOGOUT')}
+          {translate('lang_logout')}
         </MenuItem>
       </Menu>
       <ConfirmModal

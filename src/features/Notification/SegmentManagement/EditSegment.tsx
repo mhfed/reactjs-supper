@@ -6,12 +6,15 @@ import { InputField, AutocompleteAsyncField, PreviewField } from 'components/fie
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import httpRequest from 'services/httpRequest';
-import { postCreateSegment } from 'apis/request.url';
+import { postCreateSegment, putDataUpdateSegmentByID } from 'apis/request.url';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { useDispatch } from 'react-redux';
 import { Autocomplete, TextField } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import { useLocation } from 'react-router';
+import { useGlobalModalContext } from 'containers/Modal';
+import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
+
 const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
@@ -19,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.background.other2,
     flexDirection: 'column',
     alignItems: 'flex-start',
-    padding: theme.spacing(2),
+    padding: theme.spacing(5),
+    gap: theme.spacing(2),
     borderRadius: 8,
   },
   buttonWrapper: {
@@ -30,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     textTransform: 'uppercase',
+    marginBottom: theme.spacing(2),
   },
 }));
 
@@ -44,12 +49,13 @@ type EditSegmentProps = {
 const EditSegment: React.FC<EditSegmentProps> = () => {
   const classes = useStyles();
   const location = useLocation();
+  const { showModal, hideModal } = useGlobalModalContext();
   const formData = location.state.data;
-  console.log('loaction:', location.state.data);
+  formData.listSubscribers = location?.state?.listSubscribers || [];
   const initialValues = {
-    segment_name: formData?.name ? formData?.name : '',
-    segment_subscribers: [],
-    segment_id: formData?.segment_id ? formData?.segment_id : '',
+    segment_name: formData?.name || '',
+    segment_subscribers: formData?.listSubscribers,
+    segment_id: formData?.segment_id || '',
   };
   const dispatch = useDispatch();
   const [stateForm, setStateForm] = React.useState(location?.state?.typePage ? location?.state?.typePage : STATE_FORM.DETAIL);
@@ -65,7 +71,7 @@ const EditSegment: React.FC<EditSegmentProps> = () => {
         name: values.segment_name,
         subscribers: subcribersArray,
       };
-      const response: any = await httpRequest.post(postCreateSegment(), body);
+      const response: any = await httpRequest.put(putDataUpdateSegmentByID(values.segment_id), body);
       dispatch(
         enqueueSnackbarAction({
           message: 'lang_create_segment_successfully',
@@ -74,6 +80,7 @@ const EditSegment: React.FC<EditSegmentProps> = () => {
         }),
       );
       handleClearData();
+      hideModal();
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({
@@ -82,7 +89,29 @@ const EditSegment: React.FC<EditSegmentProps> = () => {
           variant: 'error',
         }),
       );
+      hideModal();
       console.error('Create new segment handleFormSubmit error: ', error);
+    }
+  };
+  const onSave = () => {
+    if (JSON.stringify(values) === JSON.stringify(initialValues)) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_there_is_no_change_in_the_segment_information',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
+    } else {
+      showModal({
+        title: 'lang_confirm',
+        component: ConfirmEditModal,
+        props: {
+          title: 'lang_confirm_edit_segment',
+          titleTransValues: { segment: values.segment_id },
+          onSubmit: () => handleFormSubmit(values),
+        },
+      });
     }
   };
   const renderContent = (stateForm: string) => {
@@ -162,7 +191,7 @@ const EditSegment: React.FC<EditSegmentProps> = () => {
               <Button variant="outlined" onClick={handleClearData}>
                 <Trans>lang_cancel</Trans>
               </Button>
-              <Button variant="contained" type="submit">
+              <Button variant="contained" onClick={onSave}>
                 <Trans>lang_save</Trans>
               </Button>
             </Stack>
