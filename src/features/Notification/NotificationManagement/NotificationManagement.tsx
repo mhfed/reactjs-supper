@@ -1,5 +1,5 @@
 import React from 'react';
-import { getListNotificationUrl } from 'apis/request.url';
+import { getListNotificationUrl, getNotificationUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import httpRequest from 'services/httpRequest';
@@ -8,6 +8,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import { FIELD, NOTIFICATION_STATUS, NOTIFICATION_STATUS_OPTIONS } from '../NotificationConstants';
 import { ITableConfig } from 'models/ICommon';
 import { useGlobalModalContext } from 'containers/Modal';
+import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -61,6 +62,27 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     getData();
   }, []);
 
+  const confirmDeleteNotification = React.useCallback(async (notificationId: string) => {
+    try {
+      await httpRequest.delete(getNotificationUrl(notificationId));
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_delete_notification_successfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
+    } catch (error) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_delete_notification_unsuccessfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        }),
+      );
+    }
+  }, []);
+
   const getActions = (data: any) => {
     const actions = [];
     actions.push({
@@ -75,7 +97,16 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     }
     actions.push({
       label: 'lang_delete',
-      onClick: (data: any) => {},
+      onClick: (data: any) =>
+        showModal({
+          title: 'lang_confirm',
+          component: ConfirmEditModal,
+          props: {
+            title: 'lang_confirm_delete_notification',
+            titleTransValues: { notification: data[FIELD.NOTIFICATION_ID] },
+            onSubmit: () => confirmDeleteNotification(data[FIELD.NOTIFICATION_ID]),
+          },
+        }),
     });
     return actions;
   };

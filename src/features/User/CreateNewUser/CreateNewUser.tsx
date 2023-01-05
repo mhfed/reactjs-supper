@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { InputField, PasswordField, PreviewField, SelectField } from 'components/fields';
 import { useFormik } from 'formik';
-import { Box, Button, Paper, Stack, Typography } from '@mui/material';
+import { Box, Button, Grid, Paper, Stack, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Trans } from 'react-i18next';
 import { validate } from 'helpers';
@@ -21,11 +21,11 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     background: theme.palette.background.other2,
-    padding: theme.spacing(2),
+    padding: theme.spacing(5),
   },
   title: {
     textTransform: 'uppercase',
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(3),
   },
   form: {
     width: '100%',
@@ -111,34 +111,33 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
         return (
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <Box>
-              <div className={classes.title}>
-                <Typography variant="h4">
-                  <Trans>lang_user_details</Trans>
-                </Typography>
-              </div>
-              <Stack direction="row" sx={{ margin: '12px 0' }}>
-                <PreviewField sx={{ mb: 2, mr: 4 }} label="lang_full_name" value={values.full_name} />
-                <PreviewField label="lang_sitename" value={site_name} />
-              </Stack>
-              <Stack direction="row" sx={{ margin: '12px 0' }}>
-                <PreviewField sx={{ mb: 2, mr: 4 }} label="lang_user_login" value={values.user_login} />
-                <PreviewField label="lang_status" value={status} />
-              </Stack>
-              <Stack direction="row" sx={{ margin: '12px 0', width: '50%' }}>
-                <PreviewField sx={{ mb: 2, mr: 2 }} label="lang_password" value={values.password} />
-              </Stack>
-              <Stack direction="row" sx={{ margin: '12px 0', width: '50%' }}>
-                <PreviewField
-                  sx={{ mb: 2, mr: 2 }}
-                  variant="outlined"
-                  label="lang_description"
-                  value={values.description}
-                  multiline
-                  rows={4}
-                />
-              </Stack>
+              <Typography className={classes.title} variant="h4">
+                <Trans>lang_user_details</Trans>
+              </Typography>
+              <Grid container spacing={4}>
+                <Grid item xs={6}>
+                  <PreviewField label="lang_full_name" value={values.full_name} />
+                </Grid>
+                <Grid item xs={6}>
+                  <PreviewField label="lang_sitename" value={site_name} />
+                </Grid>
+                <Grid item xs={6}>
+                  <PreviewField label="lang_user_login" value={values.user_login} />
+                </Grid>
+                <Grid item xs={6}>
+                  <PreviewField label="lang_status" value={status} />
+                </Grid>
+                <Grid item xs={6}>
+                  <PreviewField label="lang_password" value={values.password} />
+                </Grid>
+                <Grid container item spacing={4}>
+                  <Grid item xs={6}>
+                    <PreviewField label="lang_description" value={values.description} />
+                  </Grid>
+                </Grid>
+              </Grid>
             </Box>
-            <Stack direction="row" justifyContent="end" alignItems="center" spacing={2} sx={{ margin: '12px 0' }}>
+            <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
               <Button variant="outlined" onClick={handleReturn}>
                 <Trans>lang_return</Trans>
               </Button>
@@ -153,105 +152,106 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
         return (
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <Box>
-              <div className={classes.title}>
-                <Typography variant="h4">
-                  <Trans>lang_user_details</Trans>
-                </Typography>
-              </div>
-              <Stack direction="row" sx={{ margin: '12px 0' }}>
-                <InputField
-                  id="full_name"
-                  name="full_name"
-                  sx={{ mb: 2, mr: 4 }}
-                  label="lang_full_name"
-                  required
-                  fullWidth
-                  value={values.full_name}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched.full_name && Boolean(errors.full_name)}
-                  helperText={touched.full_name && errors.full_name}
-                  inputProps={{ maxLength: 64 }}
-                />
-                <SelectField
-                  options={SITE_NAME_OPTIONS}
-                  name="site_name"
-                  label="lang_sitename"
-                  id="site_name"
-                  fullWidth={true}
-                  onBlur={handleBlur}
-                  value={values.site_name}
-                  onChange={handleChange}
-                  error={touched.site_name && Boolean(errors.site_name)}
-                  helperText={touched.site_name && errors.site_name}
-                />
-              </Stack>
-              <Stack direction="row" sx={{ margin: '12px 0' }}>
-                <InputField
-                  id="user_login"
-                  name="user_login"
-                  sx={{ mb: 2, mr: 4 }}
-                  label="lang_user_login"
-                  required
-                  fullWidth
-                  value={values.user_login}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched.user_login && Boolean(errors.user_login)}
-                  helperText={touched.user_login && errors.user_login}
-                  inputProps={{ maxLength: 255 }}
-                />
-                <SelectField
-                  options={USER_STATUS_OPTIONS}
-                  name="status"
-                  label="lang_status"
-                  id="status"
-                  fullWidth={true}
-                  onBlur={handleBlur}
-                  value={values.status}
-                  onChange={handleChange}
-                  error={touched.status && Boolean(errors.status)}
-                  helperText={touched.status && errors.status}
-                />
-              </Stack>
-              <Stack direction="row" sx={{ margin: '12px 0', width: '50%' }}>
-                <PasswordField
-                  id="password"
-                  name="password"
-                  sx={{ mb: 2, mr: 2 }}
-                  label="lang_password"
-                  required
-                  fullWidth
-                  value={values.password}
-                  onChange={(p: string) => setFieldValue('password', p)}
-                  onBlur={handleBlur}
-                  error={touched.password && Boolean(errors.password)}
-                  generate
-                  helperText={touched.password && errors.password}
-                />
-              </Stack>
-              <Stack direction="row" sx={{ margin: '12px 0', width: '50%' }}>
-                <InputField
-                  id="description"
-                  name="description"
-                  sx={{ mb: 2, mr: 2 }}
-                  label="lang_description"
-                  required
-                  fullWidth
-                  value={values.description}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched.description && Boolean(errors.description)}
-                  helperText={touched.description && errors.description}
-                  multiline
-                  rows={4}
-                  inputProps={{ maxLength: 255 }}
-                />
-              </Stack>
+              <Typography variant="h4" className={classes.title}>
+                <Trans>lang_user_details</Trans>
+              </Typography>
+              <Grid container spacing={4}>
+                <Grid item xs={6}>
+                  <InputField
+                    id="full_name"
+                    name="full_name"
+                    label="lang_full_name"
+                    required
+                    fullWidth
+                    value={values.full_name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.full_name && Boolean(errors.full_name)}
+                    helperText={touched.full_name && errors.full_name}
+                    inputProps={{ maxLength: 64 }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <SelectField
+                    options={SITE_NAME_OPTIONS}
+                    name="site_name"
+                    label="lang_sitename"
+                    id="site_name"
+                    fullWidth={true}
+                    onBlur={handleBlur}
+                    value={values.site_name}
+                    onChange={handleChange}
+                    error={touched.site_name && Boolean(errors.site_name)}
+                    helperText={touched.site_name && errors.site_name}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <InputField
+                    id="user_login"
+                    name="user_login"
+                    label="lang_user_login"
+                    required
+                    fullWidth
+                    value={values.user_login}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.user_login && Boolean(errors.user_login)}
+                    helperText={touched.user_login && errors.user_login}
+                    inputProps={{ maxLength: 255 }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <SelectField
+                    options={USER_STATUS_OPTIONS}
+                    name="status"
+                    label="lang_status"
+                    id="status"
+                    fullWidth={true}
+                    onBlur={handleBlur}
+                    value={values.status}
+                    onChange={handleChange}
+                    error={touched.status && Boolean(errors.status)}
+                    helperText={touched.status && errors.status}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <PasswordField
+                    id="password"
+                    name="password"
+                    label="lang_password"
+                    required
+                    fullWidth
+                    value={values.password}
+                    onChange={(p: string) => setFieldValue('password', p)}
+                    onBlur={handleBlur}
+                    error={touched.password && Boolean(errors.password)}
+                    generate
+                    helperText={touched.password && errors.password}
+                  />
+                </Grid>
+                <Grid container item spacing={4}>
+                  <Grid item xs={6}>
+                    <InputField
+                      id="description"
+                      name="description"
+                      label="lang_description"
+                      fullWidth
+                      value={values.description}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.description && Boolean(errors.description)}
+                      helperText={touched.description && errors.description}
+                      multiline
+                      rows={4}
+                      inputProps={{ maxLength: 255 }}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
             </Box>
-            <Stack direction="row" justifyContent="end" alignItems="center" spacing={2} sx={{ margin: '12px 0' }}>
+            <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
               <Button variant="outlined" onClick={handleClearData}>
-                <Trans>lang_clear_data</Trans>
+                <Trans>lang_clear</Trans>
               </Button>
               <Button variant="contained" type="submit">
                 <Trans>lang_create</Trans>
@@ -276,7 +276,7 @@ const initialValues = {
 const validationSchema = yup.object().shape({
   full_name: yup.string().required('lang_full_name_required').max(64, 'lang_full_name_max_length'),
   site_name: yup.string().required('lang_site_name_required'),
-  user_login: yup.string().required('lang_user_login_required').matches(validate.getEmailPattern(), 'lang_password_required'),
+  user_login: yup.string().required('lang_user_login_required').matches(validate.getEmailPattern(), 'lang_user_login_is_invalid'),
   status: yup.string().required('lang_status_required'),
   password: yup.string().required('lang_password_required').matches(validate.getPasswordPattern(), 'lang_password_required'),
   description: yup.string().max(255, 'lang_description_max_length'),

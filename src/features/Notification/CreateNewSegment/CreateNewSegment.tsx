@@ -11,6 +11,8 @@ import { enqueueSnackbarAction } from 'actions/app.action';
 import { useDispatch } from 'react-redux';
 import { Autocomplete, TextField } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
+import { FIELD } from '../NotificationConstants';
+import { LooseObject } from 'models/ICommon';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -44,9 +46,7 @@ const Sample = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [stateForm, setStateForm] = React.useState(STATE_FORM.CREATE);
-  const [trigger, setTrigger] = React.useState(false);
   const handleClearData = () => {
-    setTrigger((e) => !e);
     resetForm();
   };
   const handleReturn = () => {
@@ -62,7 +62,7 @@ const Sample = () => {
           name: values.segment_name,
           subscribers: subcribersArray,
         };
-        const response: any = await httpRequest.post(postCreateSegment(), body);
+        await httpRequest.post(postCreateSegment(), body);
         dispatch(
           enqueueSnackbarAction({
             message: 'lang_create_segment_successfully',
@@ -84,6 +84,11 @@ const Sample = () => {
       console.error('Create new segment handleFormSubmit error: ', error);
     }
   };
+
+  const isOptionEqualToValue = React.useCallback((option: LooseObject, value: LooseObject) => {
+    return option.username === value.username;
+  }, []);
+
   const renderContent = (stateForm: string) => {
     let defaultArray = Array.isArray(values.segment_subscribers) ? values.segment_subscribers.map((x: any) => x.username) : [];
     switch (stateForm) {

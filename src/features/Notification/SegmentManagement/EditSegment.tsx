@@ -66,7 +66,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
         name: values.segment_name,
         subscribers: subcribersArray,
       };
-      const response: any = await httpRequest.put(putDataUpdateSegmentByID(values.segment_id), body);
+      await httpRequest.put(putDataUpdateSegmentByID(values.segment_id), body);
       dispatch(
         enqueueSnackbarAction({
           message: 'lang_create_segment_successfully',

@@ -119,3 +119,6 @@ export function getListSubscriberSegmenttUrl({
 export function getSegmentUrl(segmentId?: string) {
   return `v1/dynamic-push/segment/${segmentId || ''}`;
 }
+export function getNotificationUrl(notificationId: string) {
+  return `v1/dynamic-push/notifications/${notificationId || ''}`;
+}
