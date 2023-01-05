@@ -212,7 +212,7 @@ function convertColumn({
           }
           const option = column.dataOptions?.find((e) => e.value === value);
           return (
-            <Typography component="span" noWrap className={classes[option?.color || '']}>
+            <Typography component="span" noWrap className={option?.color || ''}>
               <Trans>{option?.label}</Trans>
             </Typography>
           );

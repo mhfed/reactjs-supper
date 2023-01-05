@@ -1,5 +1,7 @@
 {
   "lang_logout": "Logout",
+  "lang_delete_notification_successfully": "Delete notification successfully",
+  "lang_delete_notification_unsuccessfully": "Delete notification unsuccessfully",
   "lang_delete_segment_successfully": "Delete segment successfully",
   "lang_delete_segment_unsuccessfully": "Delete segment unsuccessfully",
   "lang_delete_user_successfully": "Delete user successfully",
@@ -61,6 +63,7 @@
   "lang_timeout_cannot_be_connected_server": "Timeout, cannot be connected server",
   "lang_sending_reset_password_success": "Send reset password request successfully",
   "lang_sending_reset_password_request": "Sending reset password request...",
+  "lang_confirm_delete_notification": "Enter your email to delete notification <0>{{notification}}</0>?",
   "lang_confirm_delete_user": "Enter your email to delete user <0>{{user}}</0>?",
   "lang_confirm_delete_segment": "Enter your email to delete segment <0>{{segment}}</0>?",
   "lang_confirm_reset_password_for_user": "Do you want to reset password for user login <0>{{user}}</0>?",
