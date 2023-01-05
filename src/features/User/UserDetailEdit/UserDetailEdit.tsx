@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     textTransform: 'uppercase',
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(1),
   },
   form: {
     width: '100%',
@@ -109,12 +109,12 @@ const UserDetail: React.FC<UserDetailProps> = () => {
     if (!editMode) {
       return (
         <Box>
-          <div className={classes.title}>
-            <Typography variant="h4">
-              <Trans>lang_user_details</Trans>
-            </Typography>
-          </div>
           <Grid container spacing={4}>
+            <Grid item xs={12}>
+              <Typography variant="h4" className={classes.title}>
+                <Trans>lang_user_details</Trans>
+              </Typography>
+            </Grid>
             <Grid item xs={6}>
               <PreviewField label="lang_full_name" value={values.full_name} />
             </Grid>
@@ -142,10 +142,12 @@ const UserDetail: React.FC<UserDetailProps> = () => {
     } else {
       return (
         <Box>
-          <Typography variant="h4" className={classes.title}>
-            <Trans>lang_user_details</Trans>
-          </Typography>
           <Grid container spacing={4} rowSpacing={1}>
+            <Grid item xs={12}>
+              <Typography variant="h4" className={classes.title}>
+                <Trans>lang_user_details</Trans>
+              </Typography>
+            </Grid>
             <Grid item xs={6}>
               <InputField
                 id="full_name"
