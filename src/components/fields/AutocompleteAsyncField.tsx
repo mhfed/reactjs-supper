@@ -105,7 +105,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
             required={props.required}
             {...params}
             ref={params.InputProps.ref}
-            label="Subscribers"
+            label={<Trans>{label}</Trans>}
             error={props.error}
             onChange={handleTextChange}
           ></TextField>

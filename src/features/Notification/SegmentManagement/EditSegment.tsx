@@ -154,7 +154,17 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
                     readOnly
                     freeSolo
                     // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
-                    renderInput={(params) => <TextField {...params}></TextField>}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="standard"
+                        label={
+                          <Typography variant="h4">
+                            <Trans>lang_subscribers</Trans>
+                          </Typography>
+                        }
+                      ></TextField>
+                    )}
                   />
                 </FormControl>
               </Grid>
@@ -215,6 +225,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
                   required={true}
                   defaultValue={defaultArray}
                   fullWidth={true}
+                  label="lang_subscribers"
                   id="segment_subscribers"
                 />
               </Grid>
