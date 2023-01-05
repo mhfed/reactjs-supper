@@ -89,4 +89,5 @@ export type IModalProps = {
   title: string;
   component?: any;
   props: LooseObject;
+  fullScreen?: boolean;
 };

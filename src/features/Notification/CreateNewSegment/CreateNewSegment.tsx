@@ -11,18 +11,17 @@ import { enqueueSnackbarAction } from 'actions/app.action';
 import { useDispatch } from 'react-redux';
 import { Autocomplete, TextField } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
-import { FIELD } from '../NotificationConstants';
 import { LooseObject } from 'models/ICommon';
 
 const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
     flex: 1,
+    height: '100%',
     background: theme.palette.background.other2,
     flexDirection: 'column',
     alignItems: 'flex-start',
     padding: theme.spacing(5),
-    gap: theme.spacing(2),
     borderRadius: 8,
   },
   buttonWrapper: {
@@ -122,7 +121,7 @@ const Sample = () => {
                 </FormControl>
               </Grid>
             </Grid>
-            <Stack className={classes.buttonWrapper} direction="row" spacing={2} sx={{ margin: '12px 0' }}>
+            <Stack className={classes.buttonWrapper} direction="row" spacing={2}>
               <Button variant="outlined" onClick={handleReturn}>
                 <Trans>lang_return</Trans>
               </Button>
@@ -167,7 +166,7 @@ const Sample = () => {
                 />
               </Grid>
             </Grid>
-            <Stack className={classes.buttonWrapper} direction="row" spacing={2} sx={{ margin: '12px 0' }}>
+            <Stack className={classes.buttonWrapper} direction="row" spacing={2}>
               <Button variant="outlined" onClick={handleClearData}>
                 <Trans>lang_cancel</Trans>
               </Button>

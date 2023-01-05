@@ -93,6 +93,7 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
           showModal({
             title: 'lang_segment_details',
             component: EditSegment,
+            fullScreen: true,
             props: {
               typePage: 'DETAIL',
               dataForm: data,
@@ -108,6 +109,7 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
           showModal({
             title: 'lang_segment_details',
             component: EditSegment,
+            fullScreen: true,
             props: {
               typePage: 'EDIT',
               dataForm: data,
