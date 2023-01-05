@@ -225,7 +225,7 @@ function convertColumn({
         customBodyRender: (value) => {
           return (
             <Typography component="span" noWrap>
-              <Trans>{value ? moment(value).format('DD/MM/YYYY HH:mm:ss') : process.env.REACT_APP_DEFAULT_VALUE}</Trans>
+              {value ? moment(value).format('DD/MM/YYYY HH:mm:ss') : process.env.REACT_APP_DEFAULT_VALUE}
             </Typography>
           );
         },

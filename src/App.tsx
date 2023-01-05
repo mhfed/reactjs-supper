@@ -65,7 +65,7 @@ function App() {
           }
           div.style.position = 'absolute';
           div.style.opacity = '1';
-          div.style.top = event.clientY + 10 + 'px';
+          div.style.top = event.clientY + 10 + (window.pageYOffset || 0) + 'px';
           div.style.left = event.clientX + 10 + 'px';
           div.innerText = title;
           event.stopPropagation();
