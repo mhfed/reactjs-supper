@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
       '&:not(.MuiTableCell-footer)': {
         maxWidth: 600,
       },
-      $uppercase: {
+      '& .uppercase': {
         textTransform: 'uppercase',
       },
       '& .warning': {
