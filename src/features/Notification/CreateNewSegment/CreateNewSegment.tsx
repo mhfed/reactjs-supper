@@ -19,7 +19,8 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.background.other2,
     flexDirection: 'column',
     alignItems: 'flex-start',
-    padding: theme.spacing(2),
+    padding: theme.spacing(5),
+    gap: theme.spacing(2),
     borderRadius: 8,
   },
   buttonWrapper: {
@@ -30,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     textTransform: 'uppercase',
+    marginBottom: theme.spacing(2),
   },
 }));
 
@@ -91,7 +93,7 @@ const Sample = () => {
             <Typography className={classes.title} variant="h4">
               <Trans>lang_preview_new_segment</Trans>
             </Typography>
-            <PreviewField sx={{ mb: 2, mr: 4 }} label="lang_segment_name" value={values.segment_name} />
+            <PreviewField sx={{ mb: 2, mr: 4, width: '50%' }} label="lang_segment_name" value={values.segment_name} />
             <FormControl style={{ pointerEvents: 'none' }} sx={{ minWidth: 120, width: '100%' }}>
               <Typography sx={{ mb: '12px' }} variant="h5">
                 <Trans>lang_subscribers</Trans>
@@ -124,16 +126,18 @@ const Sample = () => {
             <InputField
               id="segment_name"
               name="segment_name"
-              sx={{ mb: 2, mr: 4 }}
+              sx={{ mb: 2, mr: 4, width: '50%' }}
               label="lang_segment_name"
               required
-              fullWidth
+              // fullWidth
+
               value={values.segment_name}
               onChange={handleChange}
               onBlur={handleBlur}
               error={touched.segment_name && Boolean(errors.segment_name)}
               helperText={touched.segment_name && errors.segment_name}
             />
+
             <AutocompleteAsyncField
               onBlur={handleBlur}
               trigger={trigger}

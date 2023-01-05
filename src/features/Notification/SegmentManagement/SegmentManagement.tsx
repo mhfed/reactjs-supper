@@ -1,5 +1,5 @@
 import React from 'react';
-import { getListSegmentUrl } from 'apis/request.url';
+import { getListSegmentUrl, getUserSubcriberByID } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import httpRequest from 'services/httpRequest';
@@ -8,7 +8,6 @@ import makeStyles from '@mui/styles/makeStyles';
 import { FIELD } from '../NotificationConstants';
 import { ITableConfig } from 'models/ICommon';
 import { useGlobalModalContext } from 'containers/Modal';
-import { Navigate } from 'react-router-dom';
 import { PATH_NAME } from 'configs';
 import { useNavigate } from 'react-router-dom';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
@@ -72,11 +71,17 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
     return [
       {
         label: 'lang_view_detail',
-        onClick: (data: any) => navigate(PATH_NAME.EDIT_SEGMENT, { state: { typePage: 'DETAIL', data: data } }),
+        onClick: async (data: any) => {
+          const response: any = await httpRequest.get(getUserSubcriberByID(data.segment_id));
+          navigate(PATH_NAME.EDIT_SEGMENT, { state: { typePage: 'DETAIL', data: data, listSubscribers: response.subscribers } });
+        },
       },
       {
         label: 'lang_edit',
-        onClick: (data: any) => navigate(PATH_NAME.EDIT_SEGMENT, { state: { typePage: 'EDIT', data: data } }),
+        onClick: async (data: any) => {
+          const response: any = await httpRequest.get(getUserSubcriberByID(data.segment_id));
+          navigate(PATH_NAME.EDIT_SEGMENT, { state: { typePage: 'EDIT', data: data, listSubscribers: response.subscribers } });
+        },
       },
       {
         label: 'lang_delete',
