@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     padding: theme.spacing(3),
   },
+  paddingTop: {
+    paddingTop: theme.spacing(5),
+  },
   keyboardContainer: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -241,7 +244,7 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
   return (
     <Paper className={classes.wrapper}>
       {renderHeader()}
-      <div className={classes.pinBody}>
+      <div className={clsx(classes.pinBody, stepName.current !== PIN_STEP.SET_YOUR_PIN && classes.paddingTop)}>
         <PinInput ref={pinInputRef} data={number} />
         <FormHelperText error sx={{ pt: 1, textAlign: 'center' }}>
           <Trans>{errorMessage}</Trans>

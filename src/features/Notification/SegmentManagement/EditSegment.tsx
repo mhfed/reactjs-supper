@@ -59,9 +59,7 @@ const EditSegment: React.FC<EditSegmentProps> = () => {
   };
   const dispatch = useDispatch();
   const [stateForm, setStateForm] = React.useState(location?.state?.typePage ? location?.state?.typePage : STATE_FORM.DETAIL);
-  const [trigger, setTrigger] = React.useState(false);
   const handleClearData = () => {
-    setTrigger((e) => !e);
     resetForm();
   };
   const handleFormSubmit = async (values: any) => {
@@ -71,7 +69,7 @@ const EditSegment: React.FC<EditSegmentProps> = () => {
         name: values.segment_name,
         subscribers: subcribersArray,
       };
-      const response: any = await httpRequest.put(putDataUpdateSegmentByID(values.segment_id), body);
+      await httpRequest.put(putDataUpdateSegmentByID(values.segment_id), body);
       dispatch(
         enqueueSnackbarAction({
           message: 'lang_create_segment_successfully',
@@ -177,7 +175,6 @@ const EditSegment: React.FC<EditSegmentProps> = () => {
 
             <AutocompleteAsyncField
               onBlur={handleBlur}
-              trigger={trigger}
               onChange={(v: string) => setFieldValue('segment_subscribers', v)}
               error={touched.segment_subscribers && Boolean(errors.segment_subscribers)}
               helperText={touched.segment_subscribers && errors.segment_subscribers}
