@@ -1,5 +1,5 @@
 import React from 'react';
-import { getListSegmentUrl } from 'apis/request.url';
+import { getListSegmentUrl, getSegmentUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import httpRequest from 'services/httpRequest';
@@ -8,7 +8,6 @@ import makeStyles from '@mui/styles/makeStyles';
 import { FIELD } from '../NotificationConstants';
 import { ITableConfig } from 'models/ICommon';
 import { useGlobalModalContext } from 'containers/Modal';
-import { Navigate } from 'react-router-dom';
 import { PATH_NAME } from 'configs';
 import { useNavigate } from 'react-router-dom';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
@@ -67,7 +66,24 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
   }, []);
 
   const confirmDeleteSegment = React.useCallback(async (segmentId: string) => {
-    alert('delete segment');
+    try {
+      await httpRequest.delete(getSegmentUrl(segmentId));
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_delete_segment_successfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
+    } catch (error) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_delete_segment_unsuccessfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        }),
+      );
+    }
   }, []);
 
   const getActions = (data: any) => {

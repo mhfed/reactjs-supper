@@ -113,7 +113,24 @@ const UserManagement: React.FC<UserManagementProps> = () => {
   }, []);
 
   const confirmDeleteUser = React.useCallback(async (userId: string) => {
-    alert('chua mapping api delete user');
+    try {
+      await httpRequest.delete(getUserDetailUrl(userId));
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_delete_user_successfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
+    } catch (error) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_delete_user_unsuccessfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        }),
+      );
+    }
   }, []);
 
   const actions = React.useMemo(() => {
