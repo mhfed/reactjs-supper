@@ -1,6 +1,7 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
 import { Trans, useTranslation } from 'react-i18next';
+import { Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 type TextFieldProps = {
   label?: string;
@@ -36,7 +37,11 @@ const PreviewField: React.FC<TextFieldProps> = ({ label, value, ...props }) => {
       {...props}
       value={value ? t(value) : '--'}
       fullWidth
-      label={<Trans>{label}</Trans>}
+      label={
+        <Typography variant="h4">
+          <Trans>{label}</Trans>
+        </Typography>
+      }
     ></TextField>
   );
 };

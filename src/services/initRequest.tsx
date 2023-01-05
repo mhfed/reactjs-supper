@@ -57,7 +57,7 @@ export default function initRequest(store: any) {
       });
 
       // show loading
-      if (config.showSpinner) {
+      if (config?.showSpinner) {
         requestCount += 1;
         store.dispatch(setLoading(true));
       }
@@ -81,13 +81,13 @@ export default function initRequest(store: any) {
 
   axiosInstance.interceptors.response.use(
     (res: any) => {
-      if (res.config.showSpinner) {
+      if (res.config?.showSpinner) {
         decreaseRequestCount();
       }
       return res.data;
     },
     (error: IAxiosResponse) => {
-      if ((error && error.config.showSpinner) || error.code === 'ECONNABORTED') {
+      if ((error && error.config?.showSpinner) || error.code === 'ECONNABORTED') {
         decreaseRequestCount();
       }
 

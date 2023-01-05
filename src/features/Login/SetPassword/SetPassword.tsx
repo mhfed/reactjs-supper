@@ -18,7 +18,7 @@ import { IChangePassValues } from 'models/ICommon';
 
 const useStyles = makeStyles((theme) => ({
   title: {
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.background.default,
     padding: theme.spacing(2),
     display: 'flex',
     width: '100%',

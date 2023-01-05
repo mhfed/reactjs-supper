@@ -10,6 +10,7 @@ export const PATH_NAME = {
   NOTIFICATION_MANAGEMENT: '/notification/notification_management',
   CREATE_NEW_NOTIFICATION: '/notification/create_notification',
   CREATE_NEW_SEGMENT: '/notification/create_new_segment',
+  EDIT_SEGMENT: '/notification/edit_segment',
   SEGMENT_MANAGEMENT: '/notification/segment_management',
   SUBSCRIBERS: '/notification/subscribers',
   LOGIN: '/login',

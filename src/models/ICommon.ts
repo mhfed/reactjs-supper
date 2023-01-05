@@ -64,6 +64,7 @@ export type ResponseDataPaging = {
 
 export type ITableData = {
   data: object[];
+  isLoading: boolean;
   page: number;
   count: number;
   rowsPerPage: number;

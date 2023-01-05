@@ -1,17 +1,9 @@
 import React, { useState, useCallback, FC } from 'react';
 import { useTheme } from '@mui/material';
-
-// libs
 import clsx from 'clsx';
 import { Outlet } from 'react-router-dom';
-
-// material core
 import CssBaseline from '@mui/material/CssBaseline';
-
-// containers
 import ErrorBoundary from 'containers/ErrorBoundary';
-
-// components
 import NavBar from './NavBar';
 import TopBar from './TopBar';
 import Footer from './Footer';
@@ -43,7 +35,7 @@ const MainLayout: FC = () => {
             <Outlet />
           </ErrorBoundary>
         </div>
-        <Footer color={theme.palette.text.primary} style={{ position: 'relative' }} />
+        <Footer style={{ position: 'relative' }} />
       </main>
     </div>
   );

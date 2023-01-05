@@ -10,13 +10,8 @@ import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
-    padding: 0,
-    background: theme.palette.primary.light,
-    '&:hover': {
-      '& svg': {
-        fill: theme.palette.primary.main,
-      },
-    },
+    padding: 2,
+    background: theme.palette.background.other3,
   },
 }));
 

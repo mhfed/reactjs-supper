@@ -20,12 +20,12 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    background: theme.palette.background.paper,
-    padding: 40,
+    background: theme.palette.background.other2,
+    padding: theme.spacing(2),
   },
   title: {
     textTransform: 'uppercase',
-    marginBottom: 20,
+    marginBottom: theme.spacing(2),
   },
   form: {
     width: '100%',

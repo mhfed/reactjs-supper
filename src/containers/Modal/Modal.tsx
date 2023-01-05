@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     width: '100%',
     padding: theme.spacing(1),
-    background: theme.palette.primary.dark,
+    background: theme.palette.background.default,
   },
 }));
 

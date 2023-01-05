@@ -1,5 +1,5 @@
 import React from 'react';
-import { getSearchUserUrl } from 'apis/request.url';
+import { getSearchUserUrl, getUserDetailUrl, getResetUserPasswordUrl, getUserDetailByIdUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import httpRequest from 'services/httpRequest';
@@ -8,13 +8,11 @@ import makeStyles from '@mui/styles/makeStyles';
 import { FIELD, USER_STATUS_OPTIONS, SITE_NAME_OPTIONS } from '../UserConstants';
 import { ITableData, LooseObject } from 'models/ICommon';
 import { useGlobalModalContext } from 'containers/Modal';
-import ConfirmEditUser from './ConfirmEditUser';
-import ConfirmResetPassword from './ConfirmResetPassword';
-import ConfirmForceChangePassword from './ConfirmForceChangePassword';
+import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import { PATH_NAME } from 'configs';
 import { useNavigate } from 'react-router';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
     flex: 1,
@@ -31,11 +29,12 @@ const UserManagement: React.FC<UserManagementProps> = () => {
   const navigate = useNavigate();
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
-  const { showModal } = useGlobalModalContext();
+  const { showModal, hideModal } = useGlobalModalContext();
   const dicUser = React.useRef<any>({});
 
   const getData = async () => {
     try {
+      gridRef?.current?.setLoading?.(true);
       const curPage: Partial<ITableData> = gridRef?.current?.getPaginate?.();
       const queryBody: any = gridRef?.current?.getQuery?.();
       const response: any = await httpRequest.post(
@@ -49,6 +48,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
       }, {});
       gridRef?.current?.setData?.(response);
     } catch (error) {
+      gridRef?.current?.setData?.();
       dispatch(
         enqueueSnackbarAction({
           message: error?.errorCodeLang,
@@ -67,6 +67,75 @@ const UserManagement: React.FC<UserManagementProps> = () => {
     getData();
   }, []);
 
+  const confirmResetPassword = React.useCallback(async (userLoginId: string) => {
+    try {
+      await httpRequest.post(getResetUserPasswordUrl(), {
+        data: { user_login_id: userLoginId, type: 'forgot_password' },
+      });
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_sending_reset_password_success',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
+      hideModal();
+    } catch (error) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: error?.errorCodeLang,
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        }),
+      );
+    }
+  }, []);
+
+  const confirmForceChangePassword = React.useCallback(async (userId: string, isChangingPassword: boolean | number) => {
+    try {
+      await httpRequest.put(getUserDetailByIdUrl(userId), {
+        data: { change_password: isChangingPassword ? 0 : 1 },
+      });
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_force_to_change_password_successfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
+      hideModal();
+    } catch (error) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_force_to_change_password_unsuccessfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        }),
+      );
+    }
+  }, []);
+
+  const confirmDeleteUser = React.useCallback(async (userId: string) => {
+    try {
+      await httpRequest.delete(getUserDetailUrl(userId));
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_delete_user_successfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
+    } catch (error) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_delete_user_unsuccessfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        }),
+      );
+    }
+  }, []);
+
   const actions = React.useMemo(() => {
     return [
       {
@@ -78,9 +147,12 @@ const UserManagement: React.FC<UserManagementProps> = () => {
         onClick: (data: any) =>
           showModal({
             title: 'lang_confirm',
-            component: ConfirmResetPassword,
+            component: ConfirmEditModal,
             props: {
-              userLoginId: data[FIELD.USER_LOGIN],
+              emailConfirm: false,
+              title: 'lang_confirm_reset_password_for_user',
+              titleTransValues: { user: data[FIELD.USER_LOGIN] },
+              onSubmit: () => confirmResetPassword(data[FIELD.USER_LOGIN]),
             },
           }),
       },
@@ -89,11 +161,26 @@ const UserManagement: React.FC<UserManagementProps> = () => {
         onClick: (data: any) =>
           showModal({
             title: 'lang_confirm',
-            component: ConfirmForceChangePassword,
+            component: ConfirmEditModal,
             props: {
-              userId: data[FIELD.USER_ID],
-              userLoginId: data[FIELD.USER_LOGIN],
-              isChangingPassword: data.change_password,
+              emailConfirm: false,
+              title: data.change_password ? 'lang_confirm_cancel_force_change_password' : 'lang_confirm_force_change_password',
+              titleTransValues: { user: data[FIELD.USER_LOGIN] },
+              onSubmit: () => confirmForceChangePassword(data[FIELD.USER_ID], data.change_password),
+            },
+          }),
+      },
+      {
+        label: 'lang_delete_user',
+        onClick: (data: any) =>
+          showModal({
+            title: 'lang_confirm',
+            component: ConfirmEditModal,
+            props: {
+              emailConfirm: false,
+              title: 'lang_confirm_delete_user',
+              titleTransValues: { user: data[FIELD.USER_LOGIN] },
+              onSubmit: () => confirmDeleteUser(data[FIELD.USER_ID]),
             },
           }),
       },
@@ -160,6 +247,33 @@ const UserManagement: React.FC<UserManagementProps> = () => {
     return data[FIELD.USER_ID];
   };
 
+  const confirmEditUser = React.useCallback(async (data: any, callback: () => void) => {
+    try {
+      const bodyData = data?.map((e: LooseObject) => {
+        const { user_login_id, ...rest } = e;
+        return rest;
+      });
+      await httpRequest.put(getUserDetailUrl(), { data: bodyData });
+      callback?.();
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_update_user_information_successfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
+      hideModal();
+    } catch (error) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_update_user_information_unsuccessfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        }),
+      );
+    }
+  }, []);
+
   const onSaveUser = (dicDataChanged: LooseObject, cb: any) => {
     const data = Object.keys(dicDataChanged).map((k) => ({
       ...dicDataChanged[k],
@@ -168,10 +282,12 @@ const UserManagement: React.FC<UserManagementProps> = () => {
     }));
     showModal({
       title: 'lang_confirm',
-      component: ConfirmEditUser,
+      component: ConfirmEditModal,
       props: {
+        title: data.length < 6 ? 'lang_enter_your_email_to_edit_user_login' : 'lang_enter_your_email_to_edit_count_user_logins',
+        titleTransValues: { count: data.length },
         data,
-        callback: cb,
+        onSubmit: () => confirmEditUser(data, cb),
       },
     });
   };

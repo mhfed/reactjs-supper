@@ -33,8 +33,8 @@ export function getUserDetailByIdUrl(userId: string) {
 export function getUserDetailByEmailUrl(email: string) {
   return `/v1/user/user-details?user_login_id=${email}`;
 }
-export function getUserDetailUrl() {
-  return '/v1/user/user-details';
+export function getUserDetailUrl(userId?: string) {
+  return `/v1/user/user-details/${userId || ''}`;
 }
 export function getUserDetailByUserIdUrl(userId: string) {
   return `/v1/user/user-details/${userId}`;
@@ -110,4 +110,7 @@ export function getListSubscriberSegmenttUrl({
   let url = `v1/subscriber/subscribers/query?page_id=${pageId}&page_size=${pageSize}`;
   if (searchText) url += `&search=${searchText}`;
   return url;
+}
+export function getSegmentUrl(segmentId?: string) {
+  return `v1/dynamic-push/segment/${segmentId || ''}`;
 }

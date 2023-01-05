@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material';
+import { createTheme, alpha } from '@mui/material';
 
 const lightTheme = createTheme({
   components: {
@@ -25,22 +25,23 @@ const lightTheme = createTheme({
         },
       },
     },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundImage: 'none',
+        },
+      },
+    },
     MuiInputBase: {
       styleOverrides: {
         root: {
           '&.Mui-error': {
             '& input': {
               color: '#FF435F',
+              '&:-webkit-autofill': {
+                '-webkit-text-fill-color': '#FF435F',
+              },
             },
-          },
-        },
-      },
-    },
-    MuiButton: {
-      styleOverrides: {
-        contained: {
-          '&:hover': {
-            background: '#08D98D !important',
           },
         },
       },
@@ -53,47 +54,47 @@ const lightTheme = createTheme({
       white: '#fff',
     },
     background: {
-      default: '#758695',
-      paper: '#C5CBCE',
+      default: '#F2F8FF',
+      paper: '#FFFFFF',
+      other1: '#E8ECEF',
+      other2: '#C5CBCE',
+      other3: '#FFFFFF',
     },
     primary: {
-      light: '#fff',
       main: '#00C77F',
-      dark: '#F2F8FF',
       contrastText: '#fff',
     },
     secondary: {
-      light: '#fff',
       main: '#1976d2',
+      contrastText: '#fff',
+    },
+    hover: {
+      main: '#00C77F',
+      success: alpha('#00C77F', 0.08),
+      warning: alpha('#D89C01', 0.08),
+      error: alpha('#FF435F', 0.08),
+      info: alpha('#27A6E7', 0.08),
       contrastText: '#fff',
     },
     success: {
       main: '#00C77F',
-      light: '#E1FFF4',
       contrastText: '#fff',
     },
     warning: {
       main: '#D89C01',
-      light: '#FFFCD4',
       contrastText: '#fff',
     },
     error: {
       main: '#FF435F',
-      light: '#FFDCE2',
       contrastText: '#fff',
     },
     info: {
       main: '#27A6E7',
-      light: '#E3EFFD',
-      contrastText: '#fff',
-    },
-    hover: {
-      main: '#21F5A8',
       contrastText: '#fff',
     },
     text: {
       primary: 'rgba(0, 0, 0, 0.87)',
-      secondary: 'rgba(0, 0, 0, 0.54)',
+      secondary: 'rgba(0, 0, 0, 0.6)',
       disabled: 'rgba(0, 0, 0, 0.38)',
     },
   },

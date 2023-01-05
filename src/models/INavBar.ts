@@ -29,7 +29,6 @@ export type INavBarItem = {
   active?: boolean;
   href: string;
   label?: string;
-  isExternalLink: boolean;
   children?: any;
 };
 

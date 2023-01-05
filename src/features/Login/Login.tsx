@@ -90,7 +90,7 @@ export default function SignIn() {
           </Typography>
         </div>
       </Box>
-      <Footer color="white" />
+      <Footer />
     </Container>
   );
 }

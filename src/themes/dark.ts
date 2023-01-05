@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material';
+import { createTheme, alpha } from '@mui/material';
 
 const darkTheme = createTheme({
   components: {
@@ -25,22 +25,23 @@ const darkTheme = createTheme({
         },
       },
     },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundImage: 'none',
+        },
+      },
+    },
     MuiInputBase: {
       styleOverrides: {
         root: {
           '&.Mui-error': {
             '& input': {
               color: '#FF435F',
+              '&:-webkit-autofill': {
+                '-webkit-text-fill-color': '#FF435F',
+              },
             },
-          },
-        },
-      },
-    },
-    MuiButton: {
-      styleOverrides: {
-        contained: {
-          '&:hover': {
-            background: '#08D98D !important',
           },
         },
       },
@@ -55,45 +56,45 @@ const darkTheme = createTheme({
     background: {
       default: '#13161F',
       paper: '#272B3B',
+      other1: '#262B3E',
+      other2: '#1F2332',
+      other3: '#758695',
     },
     primary: {
-      dark: '#262B3E',
       main: '#00C77F',
-      light: '#1F2332',
       contrastText: '#fff',
     },
     secondary: {
-      light: '#1F2332',
       main: '#27A6E7',
+      contrastText: '#fff',
+    },
+    hover: {
+      main: '#00C77F',
+      success: alpha('#00C77F', 0.08),
+      warning: alpha('#D89C01', 0.08),
+      error: alpha('#FF435F', 0.08),
+      info: alpha('#27A6E7', 0.08),
       contrastText: '#fff',
     },
     success: {
       main: '#00C77F',
-      light: '#E1FFF4',
       contrastText: '#fff',
     },
     warning: {
       main: '#D89C01',
-      light: '#FFFCD4',
       contrastText: '#fff',
     },
     error: {
       main: '#FF435F',
-      light: '#FFDCE2',
       contrastText: '#fff',
     },
     info: {
       main: '#27A6E7',
-      light: '#E3EFFD',
-      contrastText: '#fff',
-    },
-    hover: {
-      main: '#08D98D',
       contrastText: '#fff',
     },
     text: {
       primary: '#fff',
-      secondary: '#fff',
+      secondary: 'rgba(255, 255, 255, 0.7)',
       disabled: 'rgba(255, 255, 255, 0.5)',
     },
   },

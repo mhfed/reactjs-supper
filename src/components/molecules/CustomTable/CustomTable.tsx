@@ -4,6 +4,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import Chip from '@mui/material/Chip';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
 import { getFilterObj } from 'helpers';
 import { Trans, useTranslation } from 'react-i18next';
 import CustomFooter from './CustomFooter';
@@ -22,10 +23,11 @@ const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
     flex: 1,
+    position: 'relative',
     flexDirection: 'column',
     height: '100%',
     width: '100%',
-    background: theme.palette.primary.light,
+    background: theme.palette.background.paper,
     minHeight: 0,
     '& .MuiSelect-select': {
       padding: theme.spacing(0.5, 4, 0.5, 1.5),
@@ -39,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     '& > div:first-child': {
-      background: theme.palette.background.paper,
+      borderRadius: 8,
       display: 'flex',
       flex: 1,
       flexDirection: 'column',
@@ -47,13 +49,12 @@ const useStyles = makeStyles((theme) => ({
       minHeight: 0,
       boxShadow: 'none',
       '& > div:nth-child(3)': {
+        background: theme.palette.background.other1,
+        borderRadius: 8,
         boxShadow: theme.shadows[1],
         flex: 1,
         overflowY: 'hidden',
       },
-    },
-    '& .MuiTablePagination-root': {
-      background: theme.palette.background.paper,
     },
     '& .MuiTableCell-footer': {
       background: theme.palette.background.paper,
@@ -64,6 +65,27 @@ const useStyles = makeStyles((theme) => ({
       border: 'none',
       '&:not(.MuiTableCell-footer)': {
         maxWidth: 600,
+      },
+      $uppercase: {
+        textTransform: 'uppercase',
+      },
+      '& .warning': {
+        '&.bg': {
+          background: theme.palette.hover.warning,
+        },
+        color: theme.palette.warning.main,
+      },
+      '& .error': {
+        '&.bg': {
+          background: theme.palette.hover.error,
+        },
+        color: theme.palette.error.main,
+      },
+      '& .success': {
+        '&.bg': {
+          background: theme.palette.hover.success,
+        },
+        color: theme.palette.success.main,
       },
     },
     '& .MuiTableCell-head': {
@@ -92,39 +114,23 @@ const useStyles = makeStyles((theme) => ({
     },
     '& .MuiTableRow-root': {
       '&:nth-child(odd)': {
-        background: theme.palette.primary.dark,
+        background: theme.palette.background.other1,
       },
       '&:nth-child(even)': {
-        background: theme.palette.primary.light,
+        background: theme.palette.background.other2,
+      },
+      '&:hover': {
+        background: theme.palette.hover.success,
       },
     },
     '& .MuiTable-root': {
-      marginTop: 4,
+      '& .MuiTablePagination-root': {
+        marginTop: 4,
+      },
       '& .MuiTablePagination-actions': {
         flex: 'none !important',
       },
     },
-  },
-  uppercase: {
-    textTransform: 'uppercase',
-  },
-  warning: {
-    '&.bg': {
-      background: theme.palette.warning.light,
-    },
-    color: theme.palette.warning.main,
-  },
-  error: {
-    '&.bg': {
-      background: theme.palette.error.light,
-    },
-    color: theme.palette.error.main,
-  },
-  success: {
-    '&.bg': {
-      background: theme.palette.success.light,
-    },
-    color: theme.palette.success.main,
   },
   noAction: {
     '& .MuiTableCell-head': {
@@ -139,6 +145,14 @@ const useStyles = makeStyles((theme) => ({
         border: '2px solid transparent',
       },
     },
+  },
+  spinner: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    margin: 'auto',
   },
 }));
 
@@ -160,11 +174,14 @@ function convertColumn({
   const res: MUIDataTableColumnDef = {
     name: column.name,
     label: translate ? translate(column.label) : column.label,
-    options: {},
+    options: {
+      sortThirdClickReset: true,
+    },
   };
   switch (column.type) {
     case COLUMN_TYPE.DROPDOWN_WITH_BG:
       res.options = {
+        ...res.options,
         customBodyRender: (value, tableMeta: MUIDataTableMeta) => {
           if (isEditMode) {
             return (
@@ -176,17 +193,13 @@ function convertColumn({
             );
           }
           const option = column.dataOptions?.find((e) => e.value === value);
-          return (
-            <Chip
-              className={clsx(classes[option?.color || ''], classes.bg, classes.uppercase)}
-              label={<Trans>{option?.label}</Trans>}
-            />
-          );
+          return <Chip className={clsx(option?.color || '', 'bg', 'uppercase')} label={<Trans>{option?.label}</Trans>} />;
         },
       };
       break;
     case COLUMN_TYPE.DROPDOWN:
       res.options = {
+        ...res.options,
         customBodyRender: (value, tableMeta: MUIDataTableMeta) => {
           if (isEditMode) {
             return (
@@ -208,6 +221,7 @@ function convertColumn({
       break;
     case COLUMN_TYPE.DATETIME:
       res.options = {
+        ...res.options,
         customBodyRender: (value) => {
           return (
             <Typography component="span" noWrap>
@@ -219,6 +233,7 @@ function convertColumn({
       break;
     case COLUMN_TYPE.LINK:
       res.options = {
+        ...res.options,
         customBodyRender: (value) => {
           return (
             <Link noWrap target="_blank" href={`${value}`}>
@@ -230,6 +245,7 @@ function convertColumn({
       break;
     case COLUMN_TYPE.MULTIPLE_TAG:
       res.options = {
+        ...res.options,
         customBodyRender: (value = []) => {
           return value.length ? (
             <CustomStack data={value} />
@@ -243,6 +259,7 @@ function convertColumn({
       break;
     case COLUMN_TYPE.ACTION:
       res.options = {
+        ...res.options,
         setCellProps: () => ({ style: { width: 30, position: 'sticky', right: 0, padding: 0 } }),
         customBodyRender: (value, tableMeta, updateValue) => {
           const rowData = data[tableMeta.rowIndex];
@@ -253,6 +270,7 @@ function convertColumn({
       break;
     default:
       res.options = {
+        ...res.options,
         customBodyRender: (value, tableMeta) => {
           let formatValue = value;
           const rowData = data[tableMeta.rowIndex];
@@ -271,7 +289,8 @@ function convertColumn({
 
 type TableHandle = {
   setEditMode: (state: boolean) => void;
-  setData: (data: ResponseDataPaging) => void;
+  setLoading: (state: boolean) => void;
+  setData: (data?: ResponseDataPaging) => void;
   getPaginate: any;
   getQuery: any;
   getConfig: any;
@@ -367,11 +386,16 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
 
   const setDataTable = (response: ResponseDataPaging) => {
     setData((old) => ({
-      data: response.data || [],
-      page: response.current_page,
-      count: response.total_count,
-      rowsPerPage: old.rowsPerPage,
+      data: response ? response.data : [],
+      isLoading: false,
+      page: response ? response.current_page : data.page,
+      count: response ? response.total_count : data.count,
+      rowsPerPage: old?.rowsPerPage,
     }));
+  };
+
+  const setLoading = (isLoading: boolean) => {
+    setData((old) => ({ ...old, isLoading }));
   };
 
   React.useImperativeHandle(
@@ -379,6 +403,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     () => ({
       setEditMode: setEditMode,
       setData: setDataTable,
+      setLoading: setLoading,
       getPaginate: getPaginate,
       getConfig: getConfig,
       getQuery: getQuery,
@@ -490,7 +515,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           responsive: 'standard',
           textLabels: {
             body: {
-              noMatch: <Trans>lang_no_data</Trans>,
+              noMatch: data.isLoading ? '' : <Trans>lang_no_data</Trans>,
             },
             toolbar: {
               downloadCsv: t('lang_download_csv') as string,
@@ -504,6 +529,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           },
         }}
       />
+      {data.isLoading && <CircularProgress className={classes.spinner} size={24} />}
     </div>
   );
 };

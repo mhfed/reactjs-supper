@@ -1,5 +1,5 @@
 import React from 'react';
-import { getListSegmentUrl } from 'apis/request.url';
+import { getListSegmentUrl, getSegmentUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import httpRequest from 'services/httpRequest';
@@ -8,6 +8,9 @@ import makeStyles from '@mui/styles/makeStyles';
 import { FIELD } from '../NotificationConstants';
 import { ITableConfig } from 'models/ICommon';
 import { useGlobalModalContext } from 'containers/Modal';
+import { PATH_NAME } from 'configs';
+import { useNavigate } from 'react-router-dom';
+import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -26,9 +29,11 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
   const { showModal } = useGlobalModalContext();
+  const navigate = useNavigate();
 
   const getData = async () => {
     try {
+      gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
       const response: any = await httpRequest.get(
         getListSegmentUrl({
@@ -41,6 +46,7 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
       response.current_page -= 1;
       gridRef?.current?.setData?.(response);
     } catch (error) {
+      gridRef?.current?.setData?.();
       dispatch(
         enqueueSnackbarAction({
           message: error?.errorCodeLang,
@@ -59,19 +65,49 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
     getData();
   }, []);
 
+  const confirmDeleteSegment = React.useCallback(async (segmentId: string) => {
+    try {
+      await httpRequest.delete(getSegmentUrl(segmentId));
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_delete_segment_successfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
+    } catch (error) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_delete_segment_unsuccessfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        }),
+      );
+    }
+  }, []);
+
   const getActions = (data: any) => {
     return [
       {
         label: 'lang_view_detail',
-        onClick: () => console.log('YOLO: lang_view_detail'),
+        onClick: (data: any) => navigate(PATH_NAME.EDIT_SEGMENT, { state: { typePage: 'DETAIL', data: data } }),
       },
       {
         label: 'lang_edit',
-        onClick: (data: any) => {},
+        onClick: (data: any) => navigate(PATH_NAME.EDIT_SEGMENT, { state: { typePage: 'EDIT', data: data } }),
       },
       {
         label: 'lang_delete',
-        onClick: (data: any) => {},
+        onClick: (data: any) =>
+          showModal({
+            title: 'lang_confirm',
+            component: ConfirmEditModal,
+            props: {
+              title: 'lang_confirm_delete_segment',
+              titleTransValues: { segment: data[FIELD.SEGMENT_ID] },
+              onSubmit: () => confirmDeleteSegment(data[FIELD.SEGMENT_ID]),
+            },
+          }),
       },
     ];
   };
