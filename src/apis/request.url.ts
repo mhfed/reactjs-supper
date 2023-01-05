@@ -21,8 +21,8 @@ export const getCreatePasswordUrl = () => {
 };
 
 // User - v1
-export const getSearchUserUrl = ({ pageId = 1, pageSize = process.env.REACT_APP_DEFAULT_PAGE_SIZE }) => {
-  return `/v1/search/user?page_id=${pageId}&page_size=${pageSize}`;
+export const getSearchUserUrl = ({ page = 1, rowsPerPage = process.env.REACT_APP_DEFAULT_PAGE_SIZE }) => {
+  return `/v1/search/user?page_id=${page}&page_size=${rowsPerPage}`;
 };
 export function getResetUserPasswordUrl() {
   return '/v1/auth/send-verify-username';
@@ -53,66 +53,66 @@ export function putDataUpdateSegmentByID(segmentID: string) {
 }
 // Notification - v1
 export const getListNotificationUrl = ({
-  pageId = 1,
-  pageSize = process.env.REACT_APP_DEFAULT_PAGE_SIZE,
+  page = 1,
+  rowsPerPage = process.env.REACT_APP_DEFAULT_PAGE_SIZE,
   searchText = '',
   sort,
 }: {
-  pageId: number;
-  pageSize: number;
+  page: number;
+  rowsPerPage: number;
   searchText: string | null;
   sort: ISortConfig | null;
 }) => {
-  let url = `/v1/dynamic-push/notifications/query?page_id=${pageId}&page_size=${pageSize}`;
+  let url = `/v1/dynamic-push/notifications/query?page_id=${page}&page_size=${rowsPerPage}`;
   if (searchText) url += `&search=${searchText}`;
   if (sort?.sortField) url += `&sort_field=${sort.sortField}`;
   if (sort?.sortType) url += `&sort_type=${sort.sortType}`;
   return url;
 };
 export function getListSegmentUrl({
-  pageId = 1,
-  pageSize = process.env.REACT_APP_DEFAULT_PAGE_SIZE,
+  page = 1,
+  rowsPerPage = process.env.REACT_APP_DEFAULT_PAGE_SIZE,
   searchText = '',
   sort,
 }: {
-  pageId: number;
-  pageSize: number;
+  page: number;
+  rowsPerPage: number;
   searchText: string | null;
   sort: ISortConfig | null;
 }) {
-  let url = `v1/dynamic-push/segment/query?page_id=${pageId}&page_size=${pageSize}`;
+  let url = `v1/dynamic-push/segment/query?page_id=${page}&page_size=${rowsPerPage}`;
   if (searchText) url += `&search=${searchText}`;
   if (sort?.sortField) url += `&sort_field=${sort.sortField}`;
   if (sort?.sortType) url += `&sort_type=${sort.sortType}`;
   return url;
 }
 export function getListSubscribertUrl({
-  pageId = 1,
-  pageSize = process.env.REACT_APP_DEFAULT_PAGE_SIZE,
+  page = 1,
+  rowsPerPage = process.env.REACT_APP_DEFAULT_PAGE_SIZE,
   searchText = '',
   sort,
 }: {
-  pageId: number;
-  pageSize: number;
+  page: number;
+  rowsPerPage: number;
   searchText: string | null;
   sort: ISortConfig | null;
 }) {
-  let url = `v1/subscriber/subscribers/query?page_id=${pageId}&page_size=${pageSize}`;
+  let url = `v1/subscriber/subscribers/query?page_id=${page}&page_size=${rowsPerPage}`;
   if (searchText) url += `&search=${searchText}`;
   if (sort?.sortField) url += `&sort_field=${sort.sortField}`;
   if (sort?.sortType) url += `&sort_type=${sort.sortType}`;
   return url;
 }
 export function getListSubscriberSegmenttUrl({
-  pageId = 1,
-  pageSize = 50,
+  page = 1,
+  rowsPerPage = 50,
   searchText = '',
 }: {
-  pageId: number;
-  pageSize: number;
+  page: number;
+  rowsPerPage: number;
   searchText: string | null;
 }) {
-  let url = `v1/subscriber/subscribers/query?page_id=${pageId}&page_size=${pageSize}`;
+  let url = `v1/subscriber/subscribers/query?page_id=${page}&page_size=${rowsPerPage}`;
   if (searchText) url += `&search=${searchText}`;
   return url;
 }

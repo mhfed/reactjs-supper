@@ -11,7 +11,8 @@ import httpRequest from 'services/httpRequest';
 import { getUserDetailByUserIdUrl } from 'apis/request.url';
 import EditIcon from '@mui/icons-material/Edit';
 import { SITE_NAME_OPTIONS, USER_STATUS_OPTIONS } from '../UserConstants';
-import moment from 'moment';
+import { useLocation } from 'react-router';
+import moment from 'moment-timezone';
 
 const useStyles = makeStyles((theme) => ({
   title: {
