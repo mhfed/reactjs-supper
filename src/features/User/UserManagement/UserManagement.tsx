@@ -11,6 +11,7 @@ import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import { PATH_NAME } from 'configs';
 import { useNavigate } from 'react-router';
+import UserDetailEdit from '../UserDetailEdit';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -140,7 +141,16 @@ const UserManagement: React.FC<UserManagementProps> = () => {
     return [
       {
         label: 'lang_user_detail',
-        onClick: (data: any) => navigate(PATH_NAME.USER_DETAIL, { state: data }),
+        onClick: (data: any) => {
+          showModal({
+            title: 'lang_user_details',
+            component: UserDetailEdit,
+            fullScreen: true,
+            props: {
+              dataForm: data,
+            },
+          });
+        },
       },
       {
         label: 'lang_reset_password',
