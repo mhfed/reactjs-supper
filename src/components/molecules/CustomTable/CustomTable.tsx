@@ -353,11 +353,13 @@ type TableProps = {
   noAction?: boolean;
   onSave?: (dataChanged: LooseObject, cb: any) => void;
   fnKey: (data: any) => string;
+  noChangeKey?: string;
 };
 
 const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, ref) => {
   const classes = useStyles();
   const {
+    noChangeKey,
     columns = [],
     onTableChange,
     onRowDbClick = null,
@@ -388,7 +390,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
         if (!Object.keys(tempDataByKey.current).length) {
           dispatch(
             enqueueSnackbarAction({
-              message: 'lang_there_is_nothing_to_change',
+              message: noChangeKey || 'lang_there_is_nothing_to_change',
               key: new Date().getTime() + Math.random(),
               variant: 'warning',
             }),

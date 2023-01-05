@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@mui/styles';
 import { Paper, Grid, Stack, Button } from '@mui/material';
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
-import * as yup from 'yup';
+import { yup } from 'helpers';
 import {
   DELIVERY_TYPE_OPTION,
   NOTIFICATION_TYPE_OPTION,

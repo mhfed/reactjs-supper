@@ -34,6 +34,11 @@ const reducer = (state = initialState, { type, payload }: IAuthActionCreator) =>
         ...state,
         isLoading: true,
       };
+    case IAuthActionTypes.CLEAR_ERROR:
+      return {
+        ...state,
+        error: '',
+      };
     case IAuthActionTypes.LOGIN_SUCCESS:
       return {
         ...state,

@@ -301,6 +301,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
         onTableChange={onTableChange}
         onRowDbClick={onRowDbClick}
         columns={columns}
+        noChangeKey="lang_there_is_no_change_in_the_user_information"
       />
     </div>
   );

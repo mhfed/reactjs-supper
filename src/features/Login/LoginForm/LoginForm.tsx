@@ -1,8 +1,7 @@
 import { useFormik } from 'formik';
-import * as yup from 'yup';
+import { yup } from 'helpers';
 import { useDispatch, useSelector } from 'react-redux';
 import { validate } from 'helpers';
-import CircularProgress from '@mui/material/CircularProgress';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import Button from 'components/atoms/ButtonBase';
@@ -11,7 +10,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Typography from '@mui/material/Typography';
 import makeStyles from '@mui/styles/makeStyles';
-import { login } from 'actions/auth.action';
+import { clearError, login } from 'actions/auth.action';
 import { isLoadingSelector, errorSelector } from 'selectors/auth.selector';
 import { Trans } from 'react-i18next';
 import ErrorCollapse from 'components/molecules/ErrorExpandable';
@@ -62,7 +61,7 @@ export default function SignIn() {
   const isLoading = useSelector(isLoadingSelector);
 
   const handleFormSubmit = async (values: ILoginValues) => {
-    dispatch(login((values.email + '').trim().toLocaleLowerCase(), values.password) as any);
+    dispatch(login((values.email + '').replace(/\s/g, '').toLocaleLowerCase(), values.password) as any);
   };
 
   const onStaySignedIn = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,6 +73,13 @@ export default function SignIn() {
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,
   });
+
+  const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFieldValue('email', e.target.value);
+    if (error) {
+      dispatch(clearError());
+    }
+  };
 
   return (
     <Paper className={classes.container}>
@@ -95,7 +101,7 @@ export default function SignIn() {
             autoComplete="email"
             autoFocus
             value={values.email}
-            onChange={handleChange}
+            onChange={handleChangeEmail}
             onBlur={handleBlur}
             error={(touched.email && Boolean(errors.email)) || !!error}
             helperText={touched.email && errors.email}
@@ -139,6 +145,6 @@ const initialValues = {
 };
 
 const validationSchema = yup.object().shape({
-  email: yup.string().nullable(true).email('lang_email_invalid').required('lang_email_required'),
+  email: yup.string().nullable(true).checkEmail('lang_email_invalid').required('lang_email_required'),
   password: yup.string().required('lang_password_required').matches(validate.getPasswordPattern(), 'lang_password_required'),
 });

@@ -54,10 +54,10 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
       if (value === '') {
         setError('lang_email_required');
       } else {
-        const isValid = validate.isValidEmail(value);
-        if (!isValid && (!error || error !== 'lang_email_invalid')) {
-          setError('lang_email_invalid');
-        } else if (isValid) {
+        const errorCodeLang = validate.isValidEmail(value);
+        if (errorCodeLang && errorCodeLang !== error) {
+          setError(errorCodeLang);
+        } else if (!errorCodeLang) {
           if (error) setError('');
           setEmail(value);
         }

@@ -1,9 +1,8 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
+import { yup } from 'helpers';
 import { useSelector, useDispatch } from 'react-redux';
 import { validate } from 'helpers';
-import CircularProgress from '@mui/material/CircularProgress';
 import Paper from '@mui/material/Paper';
 import Button from 'components/atoms/ButtonBase';
 import Typography from '@mui/material/Typography';
@@ -117,9 +116,8 @@ const SetPassword: React.FC<SetPasswordProps> = ({ setNewPassord }) => {
           error={touched.re_password && Boolean(errors.re_password)}
           helperText={touched.re_password && errors.re_password}
         />
-        <Button network type="submit" fullWidth variant="contained" color="primary" sx={{ my: 2 }}>
+        <Button network isLoading={!!isLoading} type="submit" fullWidth variant="contained" color="primary" sx={{ my: 2 }}>
           <Trans>lang_change_password</Trans>
-          {isLoading && <CircularProgress color="secondary" size={24} sx={{ position: 'absolute' }} />}
         </Button>
       </form>
     </Paper>
