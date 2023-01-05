@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     textTransform: 'uppercase',
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(2),
   },
   form: {
     width: '100%',
@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    '& .MuiGrid-item': {
+      paddingTop: theme.spacing(2),
+    },
   },
 }));
 type CreateNewUserProps = {};
@@ -106,34 +109,31 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
   const renderContent = (stateForm: string) => {
     switch (stateForm) {
       case STATE_FORM.PREVIEW:
-        const site_name = SITE_NAME_OPTIONS.find((s) => s.value === values.site_name)?.label;
-        const status = USER_STATUS_OPTIONS.find((s) => s.value === values.status)?.label;
         return (
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <Box>
               <Typography className={classes.title} variant="h4">
-                <Trans>lang_user_details</Trans>
+                <Trans>lang_preview_create_new_user</Trans>
               </Typography>
-              <Grid container spacing={4}>
+              <Grid container spacing={4} rowSpacing={0.5}>
                 <Grid item xs={6}>
                   <PreviewField label="lang_full_name" value={values.full_name} />
                 </Grid>
                 <Grid item xs={6}>
-                  <PreviewField label="lang_sitename" value={site_name} />
+                  <PreviewField label="lang_sitename" value={values.site_name} options={SITE_NAME_OPTIONS} />
                 </Grid>
                 <Grid item xs={6}>
                   <PreviewField label="lang_user_login" value={values.user_login} />
                 </Grid>
                 <Grid item xs={6}>
-                  <PreviewField label="lang_status" value={status} />
+                  <PreviewField label="lang_status" value={values.status} options={USER_STATUS_OPTIONS} />
                 </Grid>
                 <Grid item xs={6}>
                   <PreviewField label="lang_password" value={values.password} />
                 </Grid>
-                <Grid container item spacing={4}>
-                  <Grid item xs={6}>
-                    <PreviewField label="lang_description" value={values.description} />
-                  </Grid>
+                <Grid item xs={6}></Grid>
+                <Grid item xs={6}>
+                  <PreviewField label="lang_description" value={values.description} />
                 </Grid>
               </Grid>
             </Box>
@@ -229,23 +229,22 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                     helperText={touched.password && errors.password}
                   />
                 </Grid>
-                <Grid container item spacing={4}>
-                  <Grid item xs={6}>
-                    <InputField
-                      id="description"
-                      name="description"
-                      label="lang_description"
-                      fullWidth
-                      value={values.description}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={touched.description && Boolean(errors.description)}
-                      helperText={touched.description && errors.description}
-                      multiline
-                      rows={4}
-                      inputProps={{ maxLength: 255 }}
-                    />
-                  </Grid>
+                <Grid item xs={6}></Grid>
+                <Grid item xs={6}>
+                  <InputField
+                    id="description"
+                    name="description"
+                    label="lang_description"
+                    fullWidth
+                    value={values.description}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.description && Boolean(errors.description)}
+                    helperText={touched.description && errors.description}
+                    multiline
+                    rows={4}
+                    inputProps={{ maxLength: 255 }}
+                  />
                 </Grid>
               </Grid>
             </Box>
