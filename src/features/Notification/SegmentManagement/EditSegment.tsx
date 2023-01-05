@@ -13,6 +13,7 @@ import { Autocomplete, TextField } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
+import { LooseObject } from 'models/ICommon';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -42,6 +43,7 @@ type EditSegmentProps = {
   typePage?: string;
   dataForm?: any;
   listSubscribers?: any;
+  // GoByDetail?: boolean;
 };
 const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubscribers }) => {
   const classes = useStyles();
@@ -54,8 +56,13 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
   const dispatch = useDispatch();
   const [stateForm, setStateForm] = React.useState(typePage || STATE_FORM.DETAIL);
   const handleCancel = () => {
-    hideModal();
+    if (typePage === STATE_FORM.DETAIL && stateForm === STATE_FORM.EDIT) {
+      setStateForm(STATE_FORM.DETAIL);
+    } else {
+      hideModal();
+    }
   };
+
   const handleFormSubmit = async (values: any) => {
     try {
       const subcribersArray = values.segment_subscribers.map((x: any) => x.username);
@@ -72,6 +79,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
         }),
       );
       hideSubModal();
+      hideModal();
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({
@@ -117,6 +125,9 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
       });
     }
   };
+  const isOptionEqualToValue = React.useCallback((option: LooseObject, value: LooseObject) => {
+    return option.username === value.username;
+  }, []);
   const renderContent = (stateForm: string) => {
     let defaultArray = Array.isArray(values.segment_subscribers) ? values.segment_subscribers.map((x: any) => x.username) : [];
     switch (stateForm) {
@@ -196,6 +207,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
               <Grid item xs={12}>
                 <AutocompleteAsyncField
                   onBlur={handleBlur}
+                  isOptionEqualToValue={isOptionEqualToValue}
                   onChange={(v: string) => setFieldValue('segment_subscribers', v)}
                   error={touched.segment_subscribers && Boolean(errors.segment_subscribers)}
                   helperText={touched.segment_subscribers && errors.segment_subscribers}
@@ -209,7 +221,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
             </Grid>
             <Stack className={classes.buttonWrapper} direction="row" spacing={2}>
               <Button variant="outlined" onClick={handleCancel}>
-                <Trans>lang_cancel</Trans>
+                {typePage === STATE_FORM.DETAIL ? <Trans>lang_back</Trans> : <Trans>lang_cancel</Trans>}
               </Button>
               <Button variant="contained" onClick={onSave}>
                 <Trans>lang_save</Trans>
