@@ -168,7 +168,7 @@ const Sample = () => {
             </Grid>
             <Stack className={classes.buttonWrapper} direction="row" spacing={2}>
               <Button variant="outlined" onClick={handleClearData}>
-                <Trans>lang_cancel</Trans>
+                <Trans>lang_clear</Trans>
               </Button>
               <Button variant="contained" type="submit">
                 <Trans>lang_create</Trans>
