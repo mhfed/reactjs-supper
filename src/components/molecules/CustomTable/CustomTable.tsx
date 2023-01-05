@@ -379,7 +379,9 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     if (config.current?.searchText) query.query.bool.must.push({ query_string: { query: `*${config.current.searchText}*` } });
     if (config.current?.sort) {
       const { sortField, sortType } = config.current.sort || {};
-      query.sort = [{ [sortField]: { order: sortType.toLowerCase() } }];
+      if (sortType && sortType !== 'NONE') {
+        query.sort = [{ [sortField]: { order: sortType.toLowerCase() } }];
+      }
     }
     return query;
   };
