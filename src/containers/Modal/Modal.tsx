@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import { LooseObject, IModalProps } from 'models/ICommon';
 import { Trans } from 'react-i18next';
 import makeStyles from '@mui/styles/makeStyles';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -13,7 +14,13 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  fullScreenModal: {
+    width: '80vw',
+    height: '80vh',
+  },
   container: {
+    display: 'flex',
+    flexDirection: 'column',
     borderRadius: 8,
     overflow: 'hidden',
     minWidth: '40vw',
@@ -100,7 +107,7 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
     return (
       <>
         <Modal className={classes.modal} open={!!store.open} onClose={hideModal}>
-          <Paper className={classes.container}>
+          <Paper className={clsx(classes.container, store.fullScreen && classes.fullScreenModal)}>
             <Box className={classes.header}>
               <Typography>
                 <Trans>{store.title}</Trans>

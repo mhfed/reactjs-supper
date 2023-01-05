@@ -18,17 +18,14 @@ const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
     flex: 1,
-    background: theme.palette.background.other2,
     flexDirection: 'column',
-    alignItems: 'flex-start',
+    justifyContent: 'space-between',
     padding: theme.spacing(5),
-    gap: theme.spacing(2),
     borderRadius: 8,
   },
   buttonWrapper: {
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
-    flex: 1,
     width: '100%',
   },
   title: {
@@ -48,7 +45,7 @@ type EditSegmentProps = {
 };
 const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubscribers }) => {
   const classes = useStyles();
-  const { showModal, hideModal } = useGlobalModalContext();
+  const { showSubModal, hideModal, hideSubModal } = useGlobalModalContext();
   let initialValues = {
     segment_name: dataForm?.name || '',
     segment_subscribers: listSubscribers || [],
@@ -74,7 +71,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
           variant: 'success',
         }),
       );
-      hideModal();
+      hideSubModal();
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({
@@ -83,7 +80,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
           variant: 'error',
         }),
       );
-      hideModal();
+      hideSubModal();
       console.error('Create new segment handleFormSubmit error: ', error);
     }
   };
@@ -109,7 +106,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
         }),
       );
     } else {
-      showModal({
+      showSubModal({
         title: 'lang_confirm',
         component: ConfirmEditModal,
         props: {
@@ -127,13 +124,8 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
         return (
           <form className={classes.container} noValidate onSubmit={handleSubmit}>
             <Grid container spacing={2}>
-              <Grid item xs={8}>
-                <Typography className={classes.title} variant="h4">
-                  <Trans>lang_segment_details</Trans>
-                </Typography>
-              </Grid>
               <Grid item xs={6}>
-                <PreviewField sx={{ mb: 2, mr: 4 }} label="lang_segment_name" value={values.segment_name} />
+                <PreviewField sx={{ mb: 2 }} label="lang_segment_name" value={values.segment_name} />
               </Grid>
               <Grid item xs={6}>
                 <PreviewField sx={{ mb: 2 }} label="lang_segment_id" value={values.segment_id} />
@@ -156,7 +148,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
                 </FormControl>
               </Grid>
             </Grid>
-            <Stack className={classes.buttonWrapper} direction="row" spacing={2} sx={{ margin: '12px 0' }}>
+            <Stack className={classes.buttonWrapper} direction="row" spacing={2}>
               <Button variant="outlined" onClick={handleCancel}>
                 <Trans>lang_cancel</Trans>
               </Button>
@@ -185,7 +177,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
                 <InputField
                   id="segment_name"
                   name="segment_name"
-                  sx={{ mb: 2, mr: 4 }}
+                  sx={{ mb: 2 }}
                   label="lang_segment_name"
                   required
                   fullWidth
@@ -220,7 +212,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
                 />
               </Grid>
             </Grid>
-            <Stack className={classes.buttonWrapper} direction="row" spacing={2} sx={{ margin: '12px 0' }}>
+            <Stack className={classes.buttonWrapper} direction="row" spacing={2}>
               <Button variant="outlined" onClick={handleCancel}>
                 <Trans>lang_cancel</Trans>
               </Button>
