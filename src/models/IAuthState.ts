@@ -11,6 +11,7 @@ export enum IAuthActionTypes {
   LOGOUT = 'AUTH/LOGOUT',
   REGISTER = 'AUTH/REGISTER',
   UPDATE_USER_INFO = 'AUTH/UPDATE_USER_INFO',
+  UPDATE_TOKEN = 'AUTH/UPDATE_TOKEN',
 }
 
 export enum IAuthStep {

@@ -11,8 +11,34 @@ import {
 import CryptoJS from 'react-native-crypto-js';
 import store from 'stores';
 import { IAuthType } from 'models/IAuthState';
-import { updateUserInfo } from 'actions/auth.action';
+import { updateUserInfo, updateToken } from 'actions/auth.action';
+import { axiosInstance } from 'services/initRequest';
+
 class AuthService {
+  intervalId = 0;
+
+  autoRenewToken = () => {
+    this.intervalId && clearInterval(this.intervalId);
+    this.intervalId = window.setInterval(() => {
+      const refreshToken = store.getState().auth.refreshToken || '';
+      const deviceID = store.getState().auth.deviceID || '';
+      httpRequest
+        .post(getRefreshUrl(), {
+          data: {
+            refreshToken,
+            deviceID,
+          },
+        })
+        .then((res: any) => {
+          store.dispatch(updateToken(res));
+          res.accessToken && (axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${res.accessToken}`);
+        })
+        .catch((error) => {
+          console.error('autoRenewToken error: ', error);
+        });
+    }, process.env.REACT_APP_REFRESH_TOKEN_TIME);
+  };
+
   getUserDetail = async (email: string) => {
     try {
       const userDetailResponse: any = await httpRequest.get(getUserDetailByEmailUrl(email));

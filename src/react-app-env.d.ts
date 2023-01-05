@@ -11,6 +11,7 @@ declare namespace NodeJS {
     REACT_APP_MAX_SNACKBAR: number;
     REACT_APP_DEFAULT_VALUE: string;
     REACT_APP_DEFAULT_PAGE_SIZE: number;
+    REACT_APP_REFRESH_TOKEN_TIME: number;
     REACT_APP_AUTO_HIDE_SNACKBAR: number;
 
     REACT_APP_KEY_TOKEN: string;
