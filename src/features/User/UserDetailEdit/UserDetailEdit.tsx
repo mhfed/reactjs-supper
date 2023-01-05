@@ -123,13 +123,13 @@ const UserDetail: React.FC<UserDetailProps> = () => {
               <PreviewField label="lang_user_login" value={values.user_login} />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField label="lang_last_active" value={moment(values.last_time).format('DD/MMM/YYYY HH:mm:ss')} />
+              <PreviewField label="lang_last_active" value={moment(values.last_time).format('DD/MM/YYYY HH:mm:ss')} />
             </Grid>
             <Grid item xs={6}>
               <PreviewField label="lang_sitename" value={values.site_name} options={SITE_NAME_OPTIONS} />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField label="lang_create_time" value={moment(values.create_time).format('DD/MMM/YYYY HH:mm:ss')} />
+              <PreviewField label="lang_create_time" value={moment(values.create_time).format('DD/MM/YYYY HH:mm:ss')} />
             </Grid>
             <Grid item xs={12}>
               <div className={classes.title}>
@@ -184,7 +184,7 @@ const UserDetail: React.FC<UserDetailProps> = () => {
               <PreviewField label="lang_user_login" value={values.user_login} />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField label="lang_last_active" value={moment(values.last_time).format('DD/MMM/YYYY HH:mm:ss')} />
+              <PreviewField label="lang_last_active" value={moment(values.last_time).format('DD/MM/YYYY HH:mm:ss')} />
             </Grid>
             <Grid item xs={6}>
               <SelectField
@@ -201,7 +201,7 @@ const UserDetail: React.FC<UserDetailProps> = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField label="lang_create_time" value={moment(values.create_time).format('DD/MMM/YYYY HH:mm:ss')} />
+              <PreviewField label="lang_create_time" value={moment(values.create_time).format('DD/MM/YYYY HH:mm:ss')} />
             </Grid>
             <Grid item xs={12}>
               <div className={classes.title}>
