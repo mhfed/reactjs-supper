@@ -65,7 +65,7 @@ function App() {
           }
           div.style.position = 'absolute';
           div.style.opacity = '1';
-          div.style.top = event.clientY + 10 + (window.pageYOffset || 0) + 'px';
+          div.style.top = event.clientY + 10 + 'px';
           div.style.left = event.clientX + 10 + 'px';
           div.innerText = title;
           event.stopPropagation();
@@ -87,7 +87,7 @@ function App() {
           if (div.clientHeight + event.clientY + 20 > document.body.scrollHeight) {
             div.style.top = event.clientY - div.clientHeight - 10 + 'px';
           } else {
-            div.style.top = event.clientY + 20 + 'px';
+            div.style.top = event.clientY + 20 + window.pageYOffset + 'px';
           }
         }
       });

@@ -103,6 +103,18 @@ export default function initRequest(store: any) {
         );
       }
 
+      // handle network err
+      if (error.code === 'ERR_NETWORK') {
+        store.dispatch(setLoading(false));
+        store.dispatch(
+          enqueueSnackbarAction({
+            message: 'lang_network_error',
+            key: new Date().getTime() + Math.random(),
+            variant: 'error',
+          }),
+        );
+      }
+
       // access token expired
       // if(error.response.status === 401 && error.config._retry) {
       //   error.config._retry = true;
@@ -124,8 +136,13 @@ export default function initRequest(store: any) {
       // }
 
       // handle errors
+      let errorCode = error.response?.data?.errorCode || error.response?.data?.error_code || '';
       switch (error.response?.status) {
         case 400: {
+          break;
+        }
+        case 429: {
+          errorCode = 'rate_limit';
           break;
         }
         case 500: {
@@ -134,7 +151,6 @@ export default function initRequest(store: any) {
         default:
           break;
       }
-      const errorCode = error.response?.data?.errorCode || error.response?.data?.error_code || '';
       const error_lang_key = `error_code_${errorCode}`;
       const finalError: any = { ...(error.response?.data || {}), errorCode: +errorCode, errorCodeLang: error_lang_key };
       return Promise.reject(finalError);

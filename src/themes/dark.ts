@@ -39,7 +39,7 @@ const darkTheme = createTheme({
             '& input': {
               color: '#FF435F',
               '&:-webkit-autofill': {
-                '-webkit-text-fill-color': '#FF435F',
+                WebkitTextFillColor: '#FF435F',
               },
             },
           },
