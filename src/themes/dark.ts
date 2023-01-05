@@ -32,6 +32,22 @@ const darkTheme = createTheme({
         },
       },
     },
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          fontSize: '0.875rem',
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          '&:hover': {
+            backgroundColor: alpha('#00C77F', 0.08),
+          },
+        },
+      },
+    },
     MuiInputBase: {
       styleOverrides: {
         root: {

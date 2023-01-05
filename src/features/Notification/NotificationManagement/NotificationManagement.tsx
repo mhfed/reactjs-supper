@@ -136,7 +136,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
       {
         name: FIELD.EXPIRATION_TIME,
         label: 'lang_expiration_time',
-        type: COLUMN_TYPE.DATETIME,
+        minWidth: 160,
       },
       {
         name: FIELD.SCHEDULE,
@@ -153,10 +153,11 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
         label: 'lang_status',
         dataOptions: NOTIFICATION_STATUS_OPTIONS,
         type: COLUMN_TYPE.DROPDOWN,
+        textTransform: 'unset',
       },
       {
-        name: FIELD.ATTEMPED,
-        label: 'lang_attemped',
+        name: FIELD.ATTEMPTED,
+        label: 'lang_attempted',
       },
       {
         name: FIELD.DELIVERED,
@@ -169,6 +170,11 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
       {
         name: FIELD.ACTOR,
         label: 'lang_actor',
+      },
+      {
+        name: FIELD.LAST_UPDATED,
+        label: 'lang_last_update',
+        type: COLUMN_TYPE.DATETIME,
       },
       {
         name: FIELD.ACTION,

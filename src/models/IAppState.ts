@@ -1,4 +1,5 @@
 export const IAppActionTypes = {
+  SET_CONNECTING: 'APP/SET_CONNECTING',
   SET_LOADING: 'APP/SET_LOADING',
   SET_DIALOG: 'APP/SET_DIALOG',
   ENQUEUE_SNACKBAR: 'APP/ENQUEUE_SNACKBAR',
@@ -12,6 +13,7 @@ type IDialog = {
 };
 
 export type IAppState = {
+  isConnecting: boolean;
   isLoading: boolean;
   dialog: IDialog;
   notifications: any;

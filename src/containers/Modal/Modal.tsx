@@ -109,7 +109,7 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
     const SubComponent = store.subComponent;
     return (
       <>
-        <Modal className={classes.modal} open={!!store.open} onClose={hideModal}>
+        <Modal className={classes.modal} open={!!store.open} onClose={hideModal} hideBackdrop>
           <Paper className={clsx(classes.container, store.fullScreen && classes.fullScreenModal)}>
             <Box className={classes.header}>
               <Typography>

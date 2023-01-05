@@ -1,4 +1,5 @@
 {
+  "lang_connecting": "Connecting...",
   "lang_view_user_detail": "View User Detail",
   "lang_edit_segment": "Edit segment",
   "lang_preview_create_new_user": "Preview Create New User",
@@ -56,7 +57,7 @@
   "lang_expiration_time": "Expiratio Time",
   "lang_schedule": "Schedule",
   "lang_trigger_time": "Trigger Time",
-  "lang_attemped": "Attemped",
+  "lang_attempted": "Attempted",
   "lang_delivered": "Delivered",
   "lang_clicked": "Clicked",
   "lang_delete": "Delete",

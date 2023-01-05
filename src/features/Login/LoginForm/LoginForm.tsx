@@ -5,7 +5,7 @@ import { validate } from 'helpers';
 import CircularProgress from '@mui/material/CircularProgress';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
-import Button from '@mui/material/Button';
+import Button from 'components/atoms/ButtonBase';
 import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -114,9 +114,8 @@ export default function SignIn() {
             helperText={touched.password && errors.password}
           />
           <FormControlLabel onChange={onStaySignedIn} control={<Checkbox />} label={<Trans>lang_stay_sign_in</Trans>} />
-          <Button type="submit" fullWidth variant="contained" color="primary" sx={{ my: 2 }}>
+          <Button network type="submit" fullWidth variant="contained" color="primary" sx={{ my: 2 }} isLoading={!!isLoading}>
             <Trans>lang_sign_in</Trans>
-            {isLoading && <CircularProgress color="secondary" size={24} sx={{ position: 'absolute' }} />}
           </Button>
           <div className={classes.termsContainer}>
             <Trans

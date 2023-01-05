@@ -146,7 +146,7 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
         label: 'lang_number_of_subscribers',
       },
       {
-        name: FIELD.LAST_UPDATE,
+        name: FIELD.LAST_UPDATED,
         label: 'lang_last_update',
         type: COLUMN_TYPE.DATETIME,
       },

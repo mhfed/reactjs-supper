@@ -160,7 +160,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
             title: 'lang_confirm',
             component: ConfirmEditModal,
             props: {
-              emailConfirm: false,
+              emailConfirm: true,
               title: data.change_password ? 'lang_confirm_cancel_force_change_password' : 'lang_confirm_force_change_password',
               titleTransValues: { user: data[FIELD.USER_LOGIN] },
               onSubmit: () => confirmForceChangePassword(data[FIELD.USER_ID], data.change_password),
@@ -174,7 +174,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
             title: 'lang_confirm',
             component: ConfirmEditModal,
             props: {
-              emailConfirm: false,
+              emailConfirm: true,
               title: 'lang_confirm_delete_user',
               titleTransValues: { user: data[FIELD.USER_LOGIN] },
               onSubmit: () => confirmDeleteUser(data[FIELD.USER_ID]),

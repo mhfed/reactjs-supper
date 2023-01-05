@@ -67,9 +67,6 @@ const useStyles = makeStyles((theme) => ({
       '&:not(.MuiTableCell-footer)': {
         maxWidth: 600,
       },
-      '& .uppercase': {
-        textTransform: 'uppercase',
-      },
       '& .warning': {
         '&.bg': {
           background: theme.palette.hover.warning,
@@ -148,6 +145,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   centerContent: {
+    pointerEvents: 'none',
     position: 'absolute',
     top: 0,
     left: 0,
@@ -196,6 +194,7 @@ function convertColumn({
           if (isEditMode) {
             return (
               <DropdownCell
+                style={{ textTransform: column.textTransform || 'uppercase' }}
                 value={value}
                 options={column.dataOptions!}
                 onChange={(v) => onChange?.(tableMeta.columnData.name, v, tableMeta.rowIndex)}
@@ -203,7 +202,13 @@ function convertColumn({
             );
           }
           const option = column.dataOptions?.find((e) => e.value === value);
-          return <Chip className={clsx(option?.color || '', 'bg', 'uppercase')} label={<Trans>{option?.label}</Trans>} />;
+          return (
+            <Chip
+              className={clsx(option?.color || '', 'bg')}
+              sx={{ textTransform: column.textTransform || 'uppercase' }}
+              label={<Trans>{option?.label}</Trans>}
+            />
+          );
         },
       };
       break;
@@ -214,6 +219,7 @@ function convertColumn({
           if (isEditMode) {
             return (
               <DropdownCell
+                style={{ textTransform: column.textTransform || 'uppercase' }}
                 value={value}
                 options={column.dataOptions!}
                 onChange={(v) => onChange?.(tableMeta.columnData.name, v, tableMeta.rowIndex)}
@@ -222,7 +228,12 @@ function convertColumn({
           }
           const option = column.dataOptions?.find((e) => e.value === value);
           return (
-            <Typography component="span" noWrap className={clsx(option?.color || '', 'uppercase')}>
+            <Typography
+              component="span"
+              noWrap
+              className={clsx(option?.color || '')}
+              sx={{ textTransform: column.textTransform || 'uppercase' }}
+            >
               <Trans>{option?.label}</Trans>
             </Typography>
           );
@@ -307,6 +318,7 @@ function convertColumn({
     default:
       res.options = {
         ...res.options,
+        setCellProps: () => ({ style: { minWidth: column.minWidth || 'unset' } }),
         customBodyRender: (value, tableMeta) => {
           let formatValue = value;
           const rowData = data[tableMeta.rowIndex];
@@ -452,12 +464,12 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
       switch (action) {
         case TABLE_ACTION.SEARCH:
           if (!tableState.searchText || tableState.searchText.length > 1) {
-            config.current.page = 1;
+            config.current.page = 0;
             onTableChange();
           }
           break;
         case TABLE_ACTION.SORT:
-          config.current.page = 1;
+          config.current.page = 0;
           onTableChange();
           break;
         case TABLE_ACTION.PAGE_CHANGE:
@@ -517,6 +529,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
               />
             );
           },
+          searchAlwaysOpen: true,
           onTableChange: _onTableChange,
           customSearchRender: (searchText: string, handleSearch, hideSearch, options) => {
             return (
