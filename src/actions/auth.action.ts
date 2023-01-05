@@ -12,6 +12,7 @@ const updateAxiosAuthConfig = (baseUrl: string, accessToken: string, refreshToke
   axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
   axiosInstance.defaults.headers.common['environment'] = 'iress-wealth-app';
   authService.getUserDetail(lastEmailLogin as string);
+  authService.autoRenewToken();
 };
 
 const clearAxiosAuthConfig = () => {
@@ -76,6 +77,11 @@ export const setPinAfterChangePass = () => async (dispatch: Dispatch<any>) => {
 export const updateUserInfo = (userInfo: any) => ({
   type: IAuthActionTypes.UPDATE_USER_INFO,
   payload: userInfo,
+});
+
+export const updateToken = (data: any) => ({
+  type: IAuthActionTypes.UPDATE_TOKEN,
+  payload: data,
 });
 
 export const login = (email: string, password: string) => async (dispatch: Dispatch<any>) => {

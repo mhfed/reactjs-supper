@@ -19,7 +19,6 @@ const CreateNewSegment = lazy(() => import('features/Notification/CreateNewSegme
 const Subscribers = lazy(() => import('features/Notification/Subscribers'));
 const ArticlesManagement = lazy(() => import('features/Articles/ArticlesManagement'));
 const CreateNewArticles = lazy(() => import('features/Articles/CreateNewArticles'));
-const EditSegment = lazy(() => import('features/Notification/SegmentManagement/EditSegment'));
 const Report = lazy(() => import('features/Report'));
 const Login = lazy(() => import('features/Login'));
 const DenyView = lazy(() => import('features/DenyView'));

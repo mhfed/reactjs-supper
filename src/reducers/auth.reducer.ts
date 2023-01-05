@@ -17,6 +17,12 @@ const initialState: IAuthState = {
 
 const reducer = (state = initialState, { type, payload }: IAuthActionCreator) => {
   switch (type) {
+    case IAuthActionTypes.UPDATE_TOKEN:
+      return {
+        ...state,
+        deviceID: payload.deviceID,
+        accessToken: payload.accessToken,
+      };
     case IAuthActionTypes.UPDATE_USER_INFO:
       return {
         ...state,

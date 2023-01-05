@@ -1,5 +1,6 @@
 {
   "lang_edit_segment": "Edit segment",
+  "lang_preview_create_new_user": "Preview Create New User",
   "lang_there_is_no_change_in_the_segment_information": "There is no change in the segment information",
   "lang_confirm_edit_segment": "Enter your email to edit segment <0>{{segment}}</0>?",
   "lang_logout": "Logout",

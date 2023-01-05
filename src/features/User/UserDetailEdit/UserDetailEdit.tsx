@@ -2,14 +2,13 @@ import React from 'react';
 import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
-import { InputField, PasswordField, PreviewField, SelectField } from 'components/fields';
+import { InputField, PreviewField, SelectField } from 'components/fields';
 import { useFormik } from 'formik';
 import { Box, Button, Grid, Paper, Stack, Typography } from '@mui/material';
-import { makeStyles, styled } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 import { Trans } from 'react-i18next';
-import { validate } from 'helpers';
 import httpRequest from 'services/httpRequest';
-import { getUserDetailByUserIdUrl, getUserDetailUrl } from 'apis/request.url';
+import { getUserDetailByUserIdUrl } from 'apis/request.url';
 import EditIcon from '@mui/icons-material/Edit';
 import { SITE_NAME_OPTIONS, USER_STATUS_OPTIONS } from '../UserConstants';
 import { useLocation } from 'react-router';
@@ -36,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    '& .MuiGrid-item': {
+      paddingTop: theme.spacing(3),
+    },
   },
 }));
 
@@ -132,12 +134,7 @@ const UserDetail: React.FC<UserDetailProps> = () => {
               <PreviewField label="lang_create_time" value={moment(values.create_time).format('DD/MM/YYYY HH:mm:ss')} />
             </Grid>
             <Grid item xs={12}>
-              <div className={classes.title}>
-                <Typography variant="h4">
-                  <Trans>lang_notes</Trans>
-                </Typography>
-              </div>
-              <PreviewField variant="outlined" label="lang_description" value={values.description} multiline rows={4} />
+              <PreviewField label="lang_description" value={values.description} />
             </Grid>
           </Grid>
         </Box>
@@ -145,12 +142,10 @@ const UserDetail: React.FC<UserDetailProps> = () => {
     } else {
       return (
         <Box>
-          <div className={classes.title}>
-            <Typography variant="h4">
-              <Trans>lang_user_details</Trans>
-            </Typography>
-          </div>
-          <Grid container spacing={4}>
+          <Typography variant="h4" className={classes.title}>
+            <Trans>lang_user_details</Trans>
+          </Typography>
+          <Grid container spacing={4} rowSpacing={1}>
             <Grid item xs={6}>
               <InputField
                 id="full_name"
@@ -204,11 +199,6 @@ const UserDetail: React.FC<UserDetailProps> = () => {
               <PreviewField label="lang_create_time" value={moment(values.create_time).format('DD/MM/YYYY HH:mm:ss')} />
             </Grid>
             <Grid item xs={12}>
-              <div className={classes.title}>
-                <Typography variant="h4">
-                  <Trans>lang_notes</Trans>
-                </Typography>
-              </div>
               <InputField
                 id="description"
                 name="description"
