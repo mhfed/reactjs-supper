@@ -297,6 +297,7 @@ function convertColumn({
         ...res.options,
         setCellProps: () => ({ style: { width: 30, position: 'sticky', right: 0, padding: 0 } }),
         customBodyRender: (value, tableMeta, updateValue) => {
+          if (isEditMode) return <></>;
           const rowData = data[tableMeta.rowIndex];
           const actions = column.getActions ? column.getActions(rowData) : column.actions;
           return <Kebab items={actions} data={rowData} />;
