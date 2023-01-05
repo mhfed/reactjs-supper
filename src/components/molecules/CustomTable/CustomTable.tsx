@@ -103,6 +103,9 @@ const useStyles = makeStyles((theme) => ({
         borderTopRightRadius: 0,
         borderBottomRightRadius: 0,
         border: 'none',
+        '& > span:first-child': {
+          marginLeft: theme.spacing(3),
+        },
       },
       '&:last-child': {
         borderTopLeftRadius: 0,
