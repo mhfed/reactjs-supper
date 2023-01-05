@@ -236,7 +236,6 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                   name="description"
                   sx={{ mb: 2, mr: 2 }}
                   label="lang_description"
-                  required
                   fullWidth
                   value={values.description}
                   onChange={handleChange}
@@ -251,7 +250,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
             </Box>
             <Stack direction="row" justifyContent="end" alignItems="center" spacing={2} sx={{ margin: '12px 0' }}>
               <Button variant="outlined" onClick={handleClearData}>
-                <Trans>lang_clear_data</Trans>
+                <Trans>lang_clear</Trans>
               </Button>
               <Button variant="contained" type="submit">
                 <Trans>lang_create</Trans>
@@ -276,7 +275,7 @@ const initialValues = {
 const validationSchema = yup.object().shape({
   full_name: yup.string().required('lang_full_name_required').max(64, 'lang_full_name_max_length'),
   site_name: yup.string().required('lang_site_name_required'),
-  user_login: yup.string().required('lang_user_login_required').matches(validate.getEmailPattern(), 'lang_password_required'),
+  user_login: yup.string().required('lang_user_login_required').matches(validate.getEmailPattern(), 'lang_user_login_is_invalid'),
   status: yup.string().required('lang_status_required'),
   password: yup.string().required('lang_password_required').matches(validate.getPasswordPattern(), 'lang_password_required'),
   description: yup.string().max(255, 'lang_description_max_length'),
