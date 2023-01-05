@@ -1,6 +1,6 @@
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import { Button, Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography, Grid } from '@mui/material';
 import { Trans } from 'react-i18next';
 import { InputField, AutocompleteAsyncField, PreviewField } from 'components/fields';
 import { useFormik } from 'formik';
@@ -90,25 +90,33 @@ const Sample = () => {
       case STATE_FORM.PREVIEW:
         return (
           <form className={classes.container} noValidate onSubmit={handleSubmit}>
-            <Typography className={classes.title} variant="h4">
-              <Trans>lang_preview_new_segment</Trans>
-            </Typography>
-            <PreviewField sx={{ mb: 2, mr: 4, width: '50%' }} label="lang_segment_name" value={values.segment_name} />
-            <FormControl style={{ pointerEvents: 'none' }} sx={{ minWidth: 120, width: '100%' }}>
-              <Typography sx={{ mb: '12px' }} variant="h5">
-                <Trans>lang_subscribers</Trans>
-              </Typography>
-              <Autocomplete
-                multiple
-                id="tags-readOnly"
-                options={values.segment_subscribers}
-                defaultValue={defaultArray}
-                readOnly
-                freeSolo
-                // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
-                renderInput={(params) => <TextField {...params}></TextField>}
-              />
-            </FormControl>
+            <Grid container spacing={2}>
+              <Grid item xs={8}>
+                <Typography className={classes.title} variant="h4">
+                  <Trans>lang_preview_new_segment</Trans>
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <PreviewField sx={{ mb: 2, mr: 4 }} label="lang_segment_name" value={values.segment_name} />
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl style={{ pointerEvents: 'none' }} sx={{ minWidth: 120, width: '100%' }}>
+                  <Typography sx={{ mb: '12px' }} variant="h5">
+                    <Trans>lang_subscribers</Trans>
+                  </Typography>
+                  <Autocomplete
+                    multiple
+                    id="tags-readOnly"
+                    options={values.segment_subscribers}
+                    defaultValue={defaultArray}
+                    readOnly
+                    freeSolo
+                    // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
+                    renderInput={(params) => <TextField {...params}></TextField>}
+                  />
+                </FormControl>
+              </Grid>
+            </Grid>
             <Stack className={classes.buttonWrapper} direction="row" spacing={2} sx={{ margin: '12px 0' }}>
               <Button variant="outlined" onClick={handleReturn}>
                 <Trans>lang_return</Trans>
@@ -123,33 +131,37 @@ const Sample = () => {
         defaultArray = Array.isArray(values.segment_subscribers) ? values.segment_subscribers : [];
         return (
           <form className={classes.container} noValidate onSubmit={handleSubmit}>
-            <InputField
-              id="segment_name"
-              name="segment_name"
-              sx={{ mb: 2, mr: 4, width: '50%' }}
-              label="lang_segment_name"
-              required
-              // fullWidth
-
-              value={values.segment_name}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={touched.segment_name && Boolean(errors.segment_name)}
-              helperText={touched.segment_name && errors.segment_name}
-            />
-
-            <AutocompleteAsyncField
-              onBlur={handleBlur}
-              trigger={trigger}
-              onChange={(v: string) => setFieldValue('segment_subscribers', v)}
-              error={touched.segment_subscribers && Boolean(errors.segment_subscribers)}
-              helperText={touched.segment_subscribers && errors.segment_subscribers}
-              value={values.segment_subscribers}
-              required={true}
-              defaultValue={defaultArray}
-              fullWidth={true}
-              id="segment_subscribers"
-            />
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <InputField
+                  id="segment_name"
+                  name="segment_name"
+                  sx={{ mb: 2, mr: 4 }}
+                  label="lang_segment_name"
+                  required
+                  fullWidth
+                  value={values.segment_name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.segment_name && Boolean(errors.segment_name)}
+                  helperText={touched.segment_name && errors.segment_name}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <AutocompleteAsyncField
+                  onBlur={handleBlur}
+                  trigger={trigger}
+                  onChange={(v: string) => setFieldValue('segment_subscribers', v)}
+                  error={touched.segment_subscribers && Boolean(errors.segment_subscribers)}
+                  helperText={touched.segment_subscribers && errors.segment_subscribers}
+                  value={values.segment_subscribers}
+                  required={true}
+                  defaultValue={defaultArray}
+                  fullWidth={true}
+                  id="segment_subscribers"
+                />
+              </Grid>
+            </Grid>
             <Stack className={classes.buttonWrapper} direction="row" spacing={2} sx={{ margin: '12px 0' }}>
               <Button variant="outlined" onClick={handleClearData}>
                 <Trans>lang_cancel</Trans>

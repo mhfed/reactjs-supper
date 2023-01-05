@@ -1,4 +1,5 @@
 {
+  "lang_edit_segment": "edit segment",
   "lang_confirm_edit_segment": "Enter your email to edit segment <0>{{segment}}</0>?",
   "lang_segment_name_min_max_characters": "Segment name must include 3 - 64 characters",
   "lang_preview_new_segment": "preview new segment",

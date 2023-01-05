@@ -1,17 +1,16 @@
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import { Button, Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography, Grid } from '@mui/material';
 import { Trans } from 'react-i18next';
 import { InputField, AutocompleteAsyncField, PreviewField } from 'components/fields';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import httpRequest from 'services/httpRequest';
-import { postCreateSegment, putDataUpdateSegmentByID } from 'apis/request.url';
+import { putDataUpdateSegmentByID } from 'apis/request.url';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { useDispatch } from 'react-redux';
 import { Autocomplete, TextField } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
-import { useLocation } from 'react-router';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 
@@ -44,25 +43,21 @@ const STATE_FORM = {
 };
 type EditSegmentProps = {
   typePage?: string;
-  // onClose: () => void;
+  dataForm?: any;
+  listSubscribers?: any;
 };
-const EditSegment: React.FC<EditSegmentProps> = () => {
+const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubscribers }) => {
   const classes = useStyles();
-  const location = useLocation();
   const { showModal, hideModal } = useGlobalModalContext();
-  const formData = location.state.data;
-  formData.listSubscribers = location?.state?.listSubscribers || [];
-  const initialValues = {
-    segment_name: formData?.name || '',
-    segment_subscribers: formData?.listSubscribers,
-    segment_id: formData?.segment_id || '',
+  let initialValues = {
+    segment_name: dataForm?.name || '',
+    segment_subscribers: listSubscribers || [],
+    segment_id: dataForm?.segment_id || '',
   };
   const dispatch = useDispatch();
-  const [stateForm, setStateForm] = React.useState(location?.state?.typePage ? location?.state?.typePage : STATE_FORM.DETAIL);
-  const [trigger, setTrigger] = React.useState(false);
-  const handleClearData = () => {
-    setTrigger((e) => !e);
-    resetForm();
+  const [stateForm, setStateForm] = React.useState(typePage || STATE_FORM.DETAIL);
+  const handleCancel = () => {
+    hideModal();
   };
   const handleFormSubmit = async (values: any) => {
     try {
@@ -79,7 +74,6 @@ const EditSegment: React.FC<EditSegmentProps> = () => {
           variant: 'success',
         }),
       );
-      handleClearData();
       hideModal();
     } catch (error) {
       dispatch(
@@ -93,8 +87,20 @@ const EditSegment: React.FC<EditSegmentProps> = () => {
       console.error('Create new segment handleFormSubmit error: ', error);
     }
   };
+  const compareArray = (array1: any, array2: any) => {
+    const arrayString1 = array1.map((x: any) => x.username);
+    const arrayString2 = array2.map((x: any) => x.username);
+    let isChange = false;
+    arrayString1.map((element: any) => {
+      if (!arrayString2.includes(element)) {
+        isChange = true;
+      }
+    });
+    return isChange;
+  };
   const onSave = () => {
-    if (JSON.stringify(values) === JSON.stringify(initialValues)) {
+    const isChangeSubscriber = compareArray(values.segment_subscribers, initialValues.segment_subscribers);
+    if (values.segment_name === initialValues.segment_name && !isChangeSubscriber) {
       dispatch(
         enqueueSnackbarAction({
           message: 'lang_there_is_no_change_in_the_segment_information',
@@ -120,29 +126,40 @@ const EditSegment: React.FC<EditSegmentProps> = () => {
       case STATE_FORM.DETAIL:
         return (
           <form className={classes.container} noValidate onSubmit={handleSubmit}>
-            <Typography className={classes.title} variant="h4">
-              <Trans>lang_segment_details</Trans>
-            </Typography>
-            <Stack direction="row" style={{ width: '100%' }}>
-              <PreviewField sx={{ mb: 2, mr: 2 }} label="lang_segment_name" value={values.segment_name} />
-              <PreviewField sx={{ mb: 2 }} label="lang_segment_id" value={values.segment_id} />
-            </Stack>
-            <FormControl style={{ pointerEvents: 'none' }} sx={{ minWidth: 120, width: '100%' }}>
-              <Typography sx={{ mb: '12px' }} variant="h5">
-                <Trans>lang_subscribers</Trans>
-              </Typography>
-              <Autocomplete
-                multiple
-                id="tags-readOnly"
-                options={values.segment_subscribers}
-                defaultValue={defaultArray}
-                readOnly
-                freeSolo
-                // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
-                renderInput={(params) => <TextField {...params}></TextField>}
-              />
-            </FormControl>
+            <Grid container spacing={2}>
+              <Grid item xs={8}>
+                <Typography className={classes.title} variant="h4">
+                  <Trans>lang_segment_details</Trans>
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <PreviewField sx={{ mb: 2, mr: 4 }} label="lang_segment_name" value={values.segment_name} />
+              </Grid>
+              <Grid item xs={6}>
+                <PreviewField sx={{ mb: 2 }} label="lang_segment_id" value={values.segment_id} />
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl style={{ pointerEvents: 'none' }} sx={{ minWidth: 120, width: '100%' }}>
+                  <Typography sx={{ mb: '12px' }} variant="h5">
+                    <Trans>lang_subscribers</Trans>
+                  </Typography>
+                  <Autocomplete
+                    multiple
+                    id="tags-readOnly"
+                    options={values.segment_subscribers}
+                    defaultValue={defaultArray}
+                    readOnly
+                    freeSolo
+                    // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
+                    renderInput={(params) => <TextField {...params}></TextField>}
+                  />
+                </FormControl>
+              </Grid>
+            </Grid>
             <Stack className={classes.buttonWrapper} direction="row" spacing={2} sx={{ margin: '12px 0' }}>
+              <Button variant="outlined" onClick={handleCancel}>
+                <Trans>lang_cancel</Trans>
+              </Button>
               <Button
                 variant="contained"
                 onClick={() => {
@@ -158,37 +175,46 @@ const EditSegment: React.FC<EditSegmentProps> = () => {
         defaultArray = Array.isArray(values.segment_subscribers) ? values.segment_subscribers : [];
         return (
           <form className={classes.container} noValidate onSubmit={handleSubmit}>
-            <Stack direction="row" style={{ width: '100%' }}>
-              <InputField
-                id="segment_name"
-                name="segment_name"
-                sx={{ mb: 2, mr: 2 }}
-                label="lang_segment_name"
-                required
-                fullWidth
-                value={values.segment_name}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.segment_name && Boolean(errors.segment_name)}
-                helperText={touched.segment_name && errors.segment_name}
-              />
-              <PreviewField sx={{ mb: 2, mr: 4 }} label="lang_segment_id" value={values.segment_id} />
-            </Stack>
-
-            <AutocompleteAsyncField
-              onBlur={handleBlur}
-              trigger={trigger}
-              onChange={(v: string) => setFieldValue('segment_subscribers', v)}
-              error={touched.segment_subscribers && Boolean(errors.segment_subscribers)}
-              helperText={touched.segment_subscribers && errors.segment_subscribers}
-              value={values.segment_subscribers}
-              required={true}
-              defaultValue={defaultArray}
-              fullWidth={true}
-              id="segment_subscribers"
-            />
+            <Grid container spacing={2}>
+              <Grid item xs={8}>
+                <Typography className={classes.title} variant="h4">
+                  <Trans>lang_edit_segment</Trans>
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <InputField
+                  id="segment_name"
+                  name="segment_name"
+                  sx={{ mb: 2, mr: 4 }}
+                  label="lang_segment_name"
+                  required
+                  fullWidth
+                  value={values.segment_name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.segment_name && Boolean(errors.segment_name)}
+                  helperText={touched.segment_name && errors.segment_name}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <PreviewField sx={{ mb: 2 }} label="lang_segment_id" value={values.segment_id} />
+              </Grid>
+              <Grid item xs={12}>
+                <AutocompleteAsyncField
+                  onBlur={handleBlur}
+                  onChange={(v: string) => setFieldValue('segment_subscribers', v)}
+                  error={touched.segment_subscribers && Boolean(errors.segment_subscribers)}
+                  helperText={touched.segment_subscribers && errors.segment_subscribers}
+                  value={values.segment_subscribers}
+                  required={true}
+                  defaultValue={defaultArray}
+                  fullWidth={true}
+                  id="segment_subscribers"
+                />
+              </Grid>
+            </Grid>
             <Stack className={classes.buttonWrapper} direction="row" spacing={2} sx={{ margin: '12px 0' }}>
-              <Button variant="outlined" onClick={handleClearData}>
+              <Button variant="outlined" onClick={handleCancel}>
                 <Trans>lang_cancel</Trans>
               </Button>
               <Button variant="contained" onClick={onSave}>
