@@ -45,7 +45,12 @@ export function postCreateSegment() {
 export function getUserGroupUrl(roleGroupId: string) {
   return `/v1/user/role-group/${roleGroupId}`;
 }
-
+export function getUserSubcriberByID(segmentID: string) {
+  return `/v1/dynamic-push/segment/get/${segmentID}`;
+}
+export function putDataUpdateSegmentByID(segmentID: string) {
+  return `/v1/dynamic-push/segment/${segmentID}/update`;
+}
 // Notification - v1
 export const getListNotificationUrl = ({
   pageId = 1,

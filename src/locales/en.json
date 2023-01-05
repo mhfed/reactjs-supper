@@ -1,4 +1,6 @@
 {
+  "lang_there_is_no_change_in_the_segment_information": "There is no change in the segment information",
+  "lang_confirm_edit_segment": "Enter your email to edit segment <0>{{segment}}</0>?",
   "lang_logout": "Logout",
   "lang_delete_notification_successfully": "Delete notification successfully",
   "lang_delete_notification_unsuccessfully": "Delete notification unsuccessfully",
