@@ -6,7 +6,7 @@ import httpRequest from 'services/httpRequest';
 import CustomTable, { COLUMN_TYPE } from 'components/molecules/CustomTable';
 import makeStyles from '@mui/styles/makeStyles';
 import { FIELD, USER_STATUS_OPTIONS, SITE_NAME_OPTIONS } from '../UserConstants';
-import { ITableData, LooseObject } from 'models/ICommon';
+import { ITableConfig, LooseObject } from 'models/ICommon';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import { PATH_NAME } from 'configs';
@@ -35,12 +35,9 @@ const UserManagement: React.FC<UserManagementProps> = () => {
   const getData = async () => {
     try {
       gridRef?.current?.setLoading?.(true);
-      const curPage: Partial<ITableData> = gridRef?.current?.getPaginate?.();
+      const config: ITableConfig = gridRef?.current?.getConfig?.();
       const queryBody: any = gridRef?.current?.getQuery?.();
-      const response: any = await httpRequest.post(
-        getSearchUserUrl({ pageId: curPage.page, pageSize: curPage.rowsPerPage }),
-        queryBody,
-      );
+      const response: any = await httpRequest.post(getSearchUserUrl(config), queryBody);
       response.current_page -= 1;
       dicUser.current = response.data.reduce((acc: any, cur: any) => {
         acc[cur[FIELD.USER_ID]] = cur;
@@ -139,23 +136,23 @@ const UserManagement: React.FC<UserManagementProps> = () => {
   const actions = React.useMemo(() => {
     return [
       {
-        label: 'lang_user_detail',
+        label: 'lang_view_user_detail',
         onClick: (data: any) => navigate(PATH_NAME.USER_DETAIL, { state: data }),
       },
-      {
-        label: 'lang_reset_password',
-        onClick: (data: any) =>
-          showModal({
-            title: 'lang_confirm',
-            component: ConfirmEditModal,
-            props: {
-              emailConfirm: false,
-              title: 'lang_confirm_reset_password_for_user',
-              titleTransValues: { user: data[FIELD.USER_LOGIN] },
-              onSubmit: () => confirmResetPassword(data[FIELD.USER_LOGIN]),
-            },
-          }),
-      },
+      // {
+      //   label: 'lang_reset_password',
+      //   onClick: (data: any) =>
+      //     showModal({
+      //       title: 'lang_confirm',
+      //       component: ConfirmEditModal,
+      //       props: {
+      //         emailConfirm: false,
+      //         title: 'lang_confirm_reset_password_for_user',
+      //         titleTransValues: { user: data[FIELD.USER_LOGIN] },
+      //         onSubmit: () => confirmResetPassword(data[FIELD.USER_LOGIN]),
+      //       },
+      //     }),
+      // },
       {
         label: 'lang_force_to_change_password',
         onClick: (data: any) =>
@@ -196,6 +193,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
       {
         name: FIELD.FULL_NAME,
         label: 'lang_full_name',
+        formatter: (data: any) => (data?.[FIELD.FULL_NAME] + '').toUpperCase(),
       },
       {
         name: FIELD.SITE_NAME,

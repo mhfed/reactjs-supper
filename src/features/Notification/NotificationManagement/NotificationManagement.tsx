@@ -32,14 +32,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     try {
       gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
-      const response: any = await httpRequest.get(
-        getListNotificationUrl({
-          pageId: config.page,
-          pageSize: config.rowsPerPage,
-          searchText: config.searchText,
-          sort: config.sort,
-        }),
-      );
+      const response: any = await httpRequest.get(getListNotificationUrl(config));
       response.current_page -= 1;
       gridRef?.current?.setData?.(response);
     } catch (error) {

@@ -12,7 +12,7 @@ import { getUserDetailByUserIdUrl } from 'apis/request.url';
 import EditIcon from '@mui/icons-material/Edit';
 import { SITE_NAME_OPTIONS, USER_STATUS_OPTIONS } from '../UserConstants';
 import { useLocation } from 'react-router';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {

@@ -1,5 +1,5 @@
 {
-  "lang_network_error": "Network Error",
+  "lang_view_user_detail": "View User Detail",
   "lang_edit_segment": "Edit segment",
   "lang_preview_create_new_user": "Preview Create New User",
   "lang_there_is_no_change_in_the_segment_information": "There is no change in the segment information",
@@ -87,7 +87,7 @@
   "lang_confirm": "Confirm",
   "lang_cancel": "Cancel",
   "lang_edit": "Edit",
-  "lang_force_to_change_password": "Force to Change Password",
+  "lang_force_to_change_password": "Force To Change Password",
   "lang_reset_password": "Reset Password",
   "lang_user_detail": "User Detail",
   "lang_quick_filter": "Quick filter",
@@ -159,6 +159,7 @@
   "lang_set_your_pin": "Set Your PIN",
   "lang_pin_not_match": "PIN did not match. Please try again",
   "lang_confirm_your_new_pin": "Confirm Your New PIN",
+  "error_code_ERR_NETWORK": "Network Error",
   "error_code_rate_limit": "API rate limit exceeded",
   "error_code_undefined": "Something went wrong from systems!",
   "error_code_TOKEN_WAS_CHANGED": "You have been signed out due to changing password!",

@@ -103,18 +103,6 @@ export default function initRequest(store: any) {
         );
       }
 
-      // handle network err
-      if (error.code === 'ERR_NETWORK') {
-        store.dispatch(setLoading(false));
-        store.dispatch(
-          enqueueSnackbarAction({
-            message: 'lang_network_error',
-            key: new Date().getTime() + Math.random(),
-            variant: 'error',
-          }),
-        );
-      }
-
       // access token expired
       // if(error.response.status === 401 && error.config._retry) {
       //   error.config._retry = true;
@@ -136,7 +124,7 @@ export default function initRequest(store: any) {
       // }
 
       // handle errors
-      let errorCode = error.response?.data?.errorCode || error.response?.data?.error_code || '';
+      let errorCode = error.response?.data?.errorCode || error.response?.data?.error_code || error.code || '';
       switch (error.response?.status) {
         case 400: {
           break;

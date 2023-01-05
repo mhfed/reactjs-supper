@@ -61,8 +61,8 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
       if (SearchKey.length < 2) return;
       const response: any = await httpRequest.get(
         getListSubscriberSegmenttUrl({
-          pageId: 1,
-          pageSize: 50,
+          page: 1,
+          rowsPerPage: 50,
           searchText: SearchKey,
         }),
       );
