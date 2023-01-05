@@ -47,7 +47,11 @@ const PreviewField: React.FC<PreviewFieldProps> = ({ label, value, options, ...p
       {...props}
       value={val ? t(val.toString()) : '--'}
       fullWidth
-      label={<Trans>{label}</Trans>}
+      label={
+        <Typography variant="h4">
+          <Trans>{label}</Trans>
+        </Typography>
+      }
     ></TextField>
   );
 };

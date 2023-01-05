@@ -108,9 +108,9 @@ const Sample = () => {
               </Grid>
               <Grid item xs={12}>
                 <FormControl style={{ pointerEvents: 'none' }} sx={{ minWidth: 120, width: '100%' }}>
-                  <Typography sx={{ mb: '12px' }} variant="h5">
+                  {/* <Typography sx={{ mb: '12px' }} variant="h6">
                     <Trans>lang_subscribers</Trans>
-                  </Typography>
+                  </Typography> */}
                   <Autocomplete
                     multiple
                     id="tags-readOnly"
@@ -119,7 +119,17 @@ const Sample = () => {
                     readOnly
                     freeSolo
                     // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
-                    renderInput={(params) => <TextField {...params}></TextField>}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="standard"
+                        label={
+                          <Typography variant="h4">
+                            <Trans>lang_subscribers</Trans>
+                          </Typography>
+                        }
+                      ></TextField>
+                    )}
                   />
                 </FormControl>
               </Grid>
@@ -165,6 +175,7 @@ const Sample = () => {
                   helperText={touched.segment_subscribers && errors.segment_subscribers}
                   value={values.segment_subscribers}
                   required={true}
+                  label="lang_subscribers"
                   defaultValue={defaultArray}
                   fullWidth={true}
                   id="segment_subscribers"
