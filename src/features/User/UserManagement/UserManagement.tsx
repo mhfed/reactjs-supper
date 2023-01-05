@@ -11,6 +11,8 @@ import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditUser from './ConfirmEditUser';
 import ConfirmResetPassword from './ConfirmResetPassword';
 import ConfirmForceChangePassword from './ConfirmForceChangePassword';
+import { PATH_NAME } from 'configs';
+import { useNavigate } from 'react-router';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -26,6 +28,7 @@ type UserManagementProps = {};
 
 const UserManagement: React.FC<UserManagementProps> = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
   const { showModal } = useGlobalModalContext();
@@ -68,7 +71,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
     return [
       {
         label: 'lang_user_detail',
-        onClick: () => console.log('YOLO: lang_user_detail'),
+        onClick: (data: any) => navigate(PATH_NAME.USER_DETAIL, { state: data }),
       },
       {
         label: 'lang_reset_password',
