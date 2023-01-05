@@ -9,6 +9,8 @@ import { FIELD, USER_STATUS_OPTIONS, SITE_NAME_OPTIONS } from '../UserConstants'
 import { ITableData, LooseObject } from 'models/ICommon';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
+import { PATH_NAME } from 'configs';
+import { useNavigate } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -24,6 +26,7 @@ type UserManagementProps = {};
 
 const UserManagement: React.FC<UserManagementProps> = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
   const { showModal, hideModal } = useGlobalModalContext();
@@ -137,7 +140,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
     return [
       {
         label: 'lang_user_detail',
-        onClick: () => console.log('YOLO: lang_user_detail'),
+        onClick: (data: any) => navigate(PATH_NAME.USER_DETAIL, { state: data }),
       },
       {
         label: 'lang_reset_password',

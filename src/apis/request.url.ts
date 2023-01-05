@@ -36,6 +36,9 @@ export function getUserDetailByEmailUrl(email: string) {
 export function getUserDetailUrl(userId?: string) {
   return `/v1/user/user-details/${userId || ''}`;
 }
+export function getUserDetailByUserIdUrl(userId: string) {
+  return `/v1/user/user-details/${userId}`;
+}
 export function postCreateSegment() {
   return '/v1/dynamic-push/segment/create';
 }

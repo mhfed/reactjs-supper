@@ -11,6 +11,7 @@ import RoleRoute from './RoleRoute';
 const Error404View = lazy(() => import('features/Error404View'));
 const UserManagement = lazy(() => import('features/User/UserManagement'));
 const CreateNewUser = lazy(() => import('features/User/CreateNewUser'));
+const UserDetailEdit = lazy(() => import('features/User/UserDetailEdit'));
 const NotificationManagement = lazy(() => import('features/Notification/NotificationManagement'));
 const CreateNewNotification = lazy(() => import('features/Notification/CreateNewNotification'));
 const SegmentManagement = lazy(() => import('features/Notification/SegmentManagement'));
@@ -54,6 +55,11 @@ const routesConfig: IRoutes[] = [
       {
         path: PATH_NAME.CREATE_NEW_USER,
         component: CreateNewUser,
+        requireRoles: [],
+      },
+      {
+        path: PATH_NAME.USER_DETAIL,
+        component: UserDetailEdit,
         requireRoles: [],
       },
       {
