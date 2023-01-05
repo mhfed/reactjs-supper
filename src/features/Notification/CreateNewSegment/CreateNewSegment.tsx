@@ -88,6 +88,9 @@ const Sample = () => {
     return option.username === value.username;
   }, []);
 
+  const handleBlurInput = (e: React.FocusEvent<HTMLInputElement>) => {
+    setFieldValue('segment_name', values.segment_name.trim());
+  };
   const renderContent = (stateForm: string) => {
     let defaultArray = Array.isArray(values.segment_subscribers) ? values.segment_subscribers.map((x: any) => x.username) : [];
     switch (stateForm) {
@@ -145,8 +148,10 @@ const Sample = () => {
                   required
                   fullWidth
                   value={values.segment_name}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setFieldValue('segment_name', e.target.value.trimStart());
+                  }}
+                  onBlur={handleBlurInput}
                   error={touched.segment_name && Boolean(errors.segment_name)}
                   helperText={touched.segment_name && errors.segment_name}
                 />

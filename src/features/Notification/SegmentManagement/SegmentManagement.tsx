@@ -33,14 +33,7 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
     try {
       gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
-      const response: any = await httpRequest.get(
-        getListSegmentUrl({
-          pageId: config.page,
-          pageSize: config.rowsPerPage,
-          searchText: config.searchText,
-          sort: config.sort,
-        }),
-      );
+      const response: any = await httpRequest.get(getListSegmentUrl(config));
       response.current_page -= 1;
       gridRef?.current?.setData?.(response);
     } catch (error) {

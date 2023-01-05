@@ -12,22 +12,12 @@ import { getUserDetailByUserIdUrl } from 'apis/request.url';
 import EditIcon from '@mui/icons-material/Edit';
 import { SITE_NAME_OPTIONS, USER_STATUS_OPTIONS } from '../UserConstants';
 import { useLocation } from 'react-router';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 const useStyles = makeStyles((theme) => ({
-  wrapper: {
-    display: 'flex',
-    borderRadius: 8,
-    overflow: 'hidden',
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    background: theme.palette.background.other2,
-    padding: theme.spacing(5),
-  },
   title: {
     textTransform: 'uppercase',
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(1),
   },
   form: {
     width: '100%',
@@ -35,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    padding: theme.spacing(5),
     '& .MuiGrid-item': {
       paddingTop: theme.spacing(3),
     },
@@ -43,20 +34,19 @@ const useStyles = makeStyles((theme) => ({
 
 type UserDetailProps = {};
 
-const UserDetail: React.FC<UserDetailProps> = () => {
+const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [editMode, setEditMode] = React.useState(false);
-  const location = useLocation();
 
   const initialValues = {
-    full_name: location.state.full_name,
-    status: location.state.status,
-    user_login: location.state.user_login_id,
-    site_name: location.state.site_name,
-    last_time: location.state.last_time,
-    create_time: location.state.create_time,
-    description: location.state.note,
+    full_name: dataForm.full_name,
+    status: dataForm.status,
+    user_login: dataForm.user_login_id,
+    site_name: dataForm.site_name,
+    last_time: dataForm.last_time,
+    create_time: dataForm.create_time,
+    description: dataForm.note,
   };
 
   // Handle Submit Form
@@ -70,7 +60,7 @@ const UserDetail: React.FC<UserDetailProps> = () => {
           note: values.description,
         },
       };
-      const user_id = location.state.user_id;
+      const user_id = dataForm.user_id;
       const response: any = await httpRequest.put(getUserDetailByUserIdUrl(user_id), body);
       dispatch(
         enqueueSnackbarAction({
@@ -109,11 +99,6 @@ const UserDetail: React.FC<UserDetailProps> = () => {
     if (!editMode) {
       return (
         <Box>
-          <div className={classes.title}>
-            <Typography variant="h4">
-              <Trans>lang_user_details</Trans>
-            </Typography>
-          </div>
           <Grid container spacing={4}>
             <Grid item xs={6}>
               <PreviewField label="lang_full_name" value={values.full_name} />
@@ -142,9 +127,6 @@ const UserDetail: React.FC<UserDetailProps> = () => {
     } else {
       return (
         <Box>
-          <Typography variant="h4" className={classes.title}>
-            <Trans>lang_user_details</Trans>
-          </Typography>
           <Grid container spacing={4} rowSpacing={1}>
             <Grid item xs={6}>
               <InputField
@@ -176,10 +158,15 @@ const UserDetail: React.FC<UserDetailProps> = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField label="lang_user_login" value={values.user_login} />
+              <PreviewField label="lang_user_login" value={values.user_login} variant={'outlined'} disabled />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField label="lang_last_active" value={moment(values.last_time).format('DD/MM/YYYY HH:mm:ss')} />
+              <PreviewField
+                label="lang_last_active"
+                value={moment(values.last_time).format('DD/MM/YYYY HH:mm:ss')}
+                variant={'outlined'}
+                disabled
+              />
             </Grid>
             <Grid item xs={6}>
               <SelectField
@@ -196,7 +183,12 @@ const UserDetail: React.FC<UserDetailProps> = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField label="lang_create_time" value={moment(values.create_time).format('DD/MM/YYYY HH:mm:ss')} />
+              <PreviewField
+                label="lang_create_time"
+                value={moment(values.create_time).format('DD/MM/YYYY HH:mm:ss')}
+                variant={'outlined'}
+                disabled
+              />
             </Grid>
             <Grid item xs={12}>
               <InputField
@@ -235,7 +227,7 @@ const UserDetail: React.FC<UserDetailProps> = () => {
     } else {
       return (
         <Stack direction="row" justifyContent="end" alignItems="center" sx={{ margin: '12px 0' }}>
-          <Button variant="outlined" startIcon={<EditIcon />} onClick={handleTurnOnEditMode}>
+          <Button variant="contained" startIcon={<EditIcon />} onClick={handleTurnOnEditMode}>
             <Trans>lang_edit</Trans>
           </Button>
         </Stack>
@@ -243,13 +235,10 @@ const UserDetail: React.FC<UserDetailProps> = () => {
     }
   };
   return (
-    <Paper className={classes.wrapper}>
-      <form className={classes.form} noValidate onSubmit={handleSubmit}>
-        {renderContent(editMode)}
-        {renderButton(editMode)}
-        <Box></Box>
-      </form>
-    </Paper>
+    <form className={classes.form} noValidate onSubmit={handleSubmit}>
+      {renderContent(editMode)}
+      {renderButton(editMode)}
+    </form>
   );
 };
 

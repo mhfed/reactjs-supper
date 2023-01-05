@@ -12,7 +12,7 @@ import CustomSearch from './CustomSearch';
 import { IColumn, ResponseDataPaging, ITableData, ITableConfig, LooseObject } from 'models/ICommon';
 import { TABLE_ACTION, COLUMN_TYPE, DATA_DEFAULT, ACTIONS } from './TableConstants';
 import clsx from 'clsx';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import Kebab from 'components/atoms/Kebab';
 import DropdownCell from './DropdownCell';
 import CustomStack from './CustomStack';
@@ -146,13 +146,16 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-  spinner: {
+  centerContent: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
     margin: 'auto',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 }));
 
@@ -212,7 +215,7 @@ function convertColumn({
           }
           const option = column.dataOptions?.find((e) => e.value === value);
           return (
-            <Typography component="span" noWrap className={option?.color || ''}>
+            <Typography component="span" noWrap className={clsx(option?.color || '', 'uppercase')}>
               <Trans>{option?.label}</Trans>
             </Typography>
           );
@@ -291,7 +294,6 @@ type TableHandle = {
   setEditMode: (state: boolean) => void;
   setLoading: (state: boolean) => void;
   setData: (data?: ResponseDataPaging) => void;
-  getPaginate: any;
   getQuery: any;
   getConfig: any;
 };
@@ -363,15 +365,11 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     }
   };
 
-  const getPaginate = () => {
-    return {
-      page: data.page,
-      rowsPerPage: data.rowsPerPage,
-    };
-  };
-
   const getConfig = () => {
-    return config.current || {};
+    return {
+      ...(config.current || {}),
+      page: typeof config.current?.page === 'number' ? config.current.page + 1 : 1,
+    };
   };
 
   const getQuery = () => {
@@ -392,7 +390,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
       isLoading: false,
       page: response ? response.current_page : data.page,
       count: response ? response.total_count : data.count,
-      rowsPerPage: old?.rowsPerPage,
+      rowsPerPage: config.current?.rowsPerPage || process.env.REACT_APP_DEFAULT_PAGE_SIZE,
     }));
   };
 
@@ -406,7 +404,6 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
       setEditMode: setEditMode,
       setData: setDataTable,
       setLoading: setLoading,
-      getPaginate: getPaginate,
       getConfig: getConfig,
       getQuery: getQuery,
     }),
@@ -431,6 +428,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           onTableChange();
           break;
         case TABLE_ACTION.PAGE_CHANGE:
+        case TABLE_ACTION.PAGE_SIZE_CHANGE:
           onTableChange();
           break;
         default:
@@ -503,9 +501,9 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           search: false,
           searchOpen: true,
           count: data.count,
-          page: data.page,
+          // page: data.page,
           rowsPerPageOptions,
-          rowsPerPage: data.rowsPerPage,
+          rowsPerPage: +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
           filterType: 'textField',
           fixedHeader: false,
           draggableColumns: {
@@ -517,7 +515,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           responsive: 'standard',
           textLabels: {
             body: {
-              noMatch: data.isLoading ? '' : <Trans>lang_no_data</Trans>,
+              noMatch: '',
             },
             toolbar: {
               downloadCsv: t('lang_download_csv') as string,
@@ -531,7 +529,12 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           },
         }}
       />
-      {data.isLoading && <CircularProgress className={classes.spinner} size={24} />}
+      {data.isLoading && <CircularProgress className={classes.centerContent} size={24} />}
+      {!data.data?.length && (
+        <div className={classes.centerContent}>
+          <Trans>lang_no_data</Trans>
+        </div>
+      )}
     </div>
   );
 };

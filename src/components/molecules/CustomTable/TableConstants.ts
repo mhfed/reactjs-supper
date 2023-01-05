@@ -21,7 +21,7 @@ export const DATA_DEFAULT = {
   isLoading: true,
   page: 1,
   count: 0,
-  rowsPerPage: 25,
+  rowsPerPage: process.env.REACT_APP_DEFAULT_PAGE_SIZE,
 };
 
 export const ACTIONS = {

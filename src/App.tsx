@@ -12,6 +12,7 @@ import { THEMES } from 'configs';
 import Routes from 'routes/Routes';
 import { Theme } from '@mui/material/styles';
 import GlobalModal from 'containers/Modal';
+import moment from 'moment-timezone';
 
 declare module '@mui/styles/defaultTheme' {
   interface DefaultTheme extends Theme {}
@@ -24,6 +25,7 @@ function App() {
   const type = modeTheme === THEMES.LIGHT ? 0 : 1;
 
   useEffect(() => {
+    moment.tz.setDefault('Australia/Sydney');
     const initTooltip = () => {
       const sheet = (function () {
         const style = document.createElement('style');
@@ -34,7 +36,7 @@ function App() {
       if (sheet?.insertRule) {
         sheet.insertRule('@keyframes hasTitle {from { opacity: 0.99; }to { opacity: 1; }}', 0);
         sheet.insertRule(
-          '[title], .MuiTypography-root, .MuiTableCell-root, span{animation-duration: 0.001s;animation-name: hasTitle;}',
+          '[title], .MuiTypography-root, .MuiTableCell-root, span, p{animation-duration: 0.001s;animation-name: hasTitle;}',
           0,
         );
       }
@@ -44,13 +46,19 @@ function App() {
       if (event.animationName !== 'hasTitle') return;
       const target = event.target;
       const targetCL = target.classList;
+      if (targetCL.contains('MuiTablePagination-root')) return;
       target.addEventListener('mouseover', function (event: React.MouseEvent<HTMLElement>) {
         let title = '';
         if (target.title) {
           target.titleH = target.title;
           target.title = '';
         }
-        if (targetCL.contains('MuiTypography-root') || targetCL.contains('MuiTableCell-root') || target.tagName === 'SPAN') {
+        if (
+          targetCL.contains('MuiTypography-root') ||
+          targetCL.contains('MuiTableCell-root') ||
+          target.tagName === 'SPAN' ||
+          target.tagName === 'P'
+        ) {
           if (target.tagName !== 'INPUT') title = target.innerText;
           else title = '';
         } else {
