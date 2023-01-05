@@ -18,6 +18,7 @@ export const COLUMN_TYPE = {
 
 export const DATA_DEFAULT = {
   data: [],
+  isLoading: true,
   page: 1,
   count: 0,
   rowsPerPage: 25,

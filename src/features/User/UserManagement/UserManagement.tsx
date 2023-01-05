@@ -31,6 +31,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
 
   const getData = async () => {
     try {
+      gridRef?.current?.setLoading?.(true);
       const curPage: Partial<ITableData> = gridRef?.current?.getPaginate?.();
       const queryBody: any = gridRef?.current?.getQuery?.();
       const response: any = await httpRequest.post(
@@ -44,6 +45,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
       }, {});
       gridRef?.current?.setData?.(response);
     } catch (error) {
+      gridRef?.current?.setData?.();
       dispatch(
         enqueueSnackbarAction({
           message: error?.errorCodeLang,
