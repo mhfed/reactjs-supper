@@ -11,7 +11,6 @@ import { enqueueSnackbarAction } from 'actions/app.action';
 import { useDispatch } from 'react-redux';
 import { Autocomplete, TextField } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
-import { FIELD } from '../NotificationConstants';
 import { LooseObject } from 'models/ICommon';
 
 const useStyles = makeStyles((theme) => ({

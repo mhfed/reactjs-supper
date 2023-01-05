@@ -42,10 +42,8 @@ const PreviewField: React.FC<PreviewFieldProps> = ({ label, value, options, ...p
 
   return (
     <TextField
-      required={props.required || false}
       className={classes.preview}
-      disabled={props.disabled || false}
-      variant={props.variant || 'standard'}
+      variant={'standard'}
       {...props}
       value={val ? t(val.toString()) : '--'}
       fullWidth
