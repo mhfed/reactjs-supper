@@ -7,7 +7,8 @@ import { LooseObject, IModalProps } from 'models/ICommon';
 import { Trans } from 'react-i18next';
 import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
-
+import CloseIcon from '@mui/icons-material/Close';
+import { Button } from '@mui/material';
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: 'flex',
@@ -27,9 +28,13 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     display: 'flex',
+    justifyContent: 'space-between',
     width: '100%',
     padding: theme.spacing(1),
     background: theme.palette.background.default,
+  },
+  iconClose: {
+    cursor: 'pointer',
   },
 }));
 
@@ -71,7 +76,6 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
 
   const showModal = (modalProps: IModalProps) => {
     setStore({
-      ...store,
       open: true,
       ...modalProps,
     });
@@ -79,7 +83,6 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
 
   const showSubModal = (modalProps: IModalProps) => {
     setStore({
-      ...store,
       subOpen: true,
       subTitle: modalProps.title,
       subComponent: modalProps.component,
@@ -112,6 +115,7 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
               <Typography>
                 <Trans>{store.title}</Trans>
               </Typography>
+              {store.showBtnClose && <CloseIcon className={classes.iconClose} onClick={() => hideModal()} />}
             </Box>
             {Component && <Component {...(store.props || {})} onClose={hideModal} />}
           </Paper>

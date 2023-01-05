@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     textTransform: 'uppercase',
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(1),
   },
   form: {
     width: '100%',
@@ -112,10 +112,12 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
         return (
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <Box>
-              <Typography className={classes.title} variant="h4">
-                <Trans>lang_preview_create_new_user</Trans>
-              </Typography>
               <Grid container spacing={4} rowSpacing={0.5}>
+                <Grid item xs={12}>
+                  <Typography className={classes.title} variant="h4">
+                    <Trans>lang_preview_create_new_user</Trans>
+                  </Typography>
+                </Grid>
                 <Grid item xs={6}>
                   <PreviewField label="lang_full_name" value={values.full_name} />
                 </Grid>
@@ -152,10 +154,12 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
         return (
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <Box>
-              <Typography variant="h4" className={classes.title}>
-                <Trans>lang_user_details</Trans>
-              </Typography>
               <Grid container spacing={4}>
+                <Grid item xs={12}>
+                  <Typography variant="h4" className={classes.title}>
+                    <Trans>lang_user_details</Trans>
+                  </Typography>
+                </Grid>
                 <Grid item xs={6}>
                   <InputField
                     id="full_name"
