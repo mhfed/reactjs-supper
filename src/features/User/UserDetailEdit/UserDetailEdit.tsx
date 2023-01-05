@@ -23,12 +23,12 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    background: theme.palette.background.paper,
-    padding: 40,
+    background: theme.palette.background.other2,
+    padding: theme.spacing(5),
   },
   title: {
     textTransform: 'uppercase',
-    marginBottom: 20,
+    marginBottom: theme.spacing(3),
   },
   form: {
     width: '100%',
@@ -36,15 +36,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-  },
-  stackItem: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '50%',
-  },
-  stackItemChild: {
-    width: '50%',
   },
 }));
 
