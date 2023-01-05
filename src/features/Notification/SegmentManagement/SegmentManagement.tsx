@@ -1,5 +1,5 @@
 import React from 'react';
-import { getListSegmentUrl, getUserSubcriberByID } from 'apis/request.url';
+import { getListSegmentUrl, getUserSubcriberByID, getSegmentUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import httpRequest from 'services/httpRequest';
@@ -33,6 +33,7 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
 
   const getData = async () => {
     try {
+      gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
       const response: any = await httpRequest.get(
         getListSegmentUrl({
@@ -45,6 +46,7 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
       response.current_page -= 1;
       gridRef?.current?.setData?.(response);
     } catch (error) {
+      gridRef?.current?.setData?.();
       dispatch(
         enqueueSnackbarAction({
           message: error?.errorCodeLang,
@@ -64,7 +66,24 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
   }, []);
 
   const confirmDeleteSegment = React.useCallback(async (segmentId: string) => {
-    alert('delete segment');
+    try {
+      await httpRequest.delete(getSegmentUrl(segmentId));
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_delete_segment_successfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
+    } catch (error) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_delete_segment_unsuccessfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        }),
+      );
+    }
   }, []);
 
   const getActions = (data: any) => {

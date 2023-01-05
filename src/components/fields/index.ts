@@ -1,7 +1,8 @@
 import InputField from './InputField';
 import PasswordField from './PasswordField';
-import SelectField from './SelectFiled';
+import SelectField from './SelectField';
 import AutocompleteAsyncField from './AutocompleteAsyncField';
 import RichTextboxField from './RichTextboxField';
 import PreviewField from './PreviewField';
-export { InputField, PasswordField, SelectField, AutocompleteAsyncField, PreviewField, RichTextboxField };
+import RadioGroupField from './RadioGroupField';
+export { InputField, PasswordField, SelectField, AutocompleteAsyncField, PreviewField, RichTextboxField, RadioGroupField };

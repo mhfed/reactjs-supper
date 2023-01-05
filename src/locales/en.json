@@ -1,6 +1,11 @@
 {
   "lang_there_is_no_change_in_the_segment_information": "There is no change in the segment information",
   "lang_confirm_edit_segment": "Enter your email to edit segment <0>{{segment}}</0>?",
+  "lang_logout": "Logout",
+  "lang_delete_segment_successfully": "Delete segment successfully",
+  "lang_delete_segment_unsuccessfully": "Delete segment unsuccessfully",
+  "lang_delete_user_successfully": "Delete user successfully",
+  "lang_delete_user_unsuccessfully": "Delete user unsuccessfully",
   "lang_customer_support_email": "Customer support: <0/> <1>{{email}}</1>",
   "lang_powered_by": "Powered by",
   "lang_segment_details": "segment details",

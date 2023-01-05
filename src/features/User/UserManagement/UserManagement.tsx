@@ -9,6 +9,8 @@ import { FIELD, USER_STATUS_OPTIONS, SITE_NAME_OPTIONS } from '../UserConstants'
 import { ITableData, LooseObject } from 'models/ICommon';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
+import { PATH_NAME } from 'configs';
+import { useNavigate } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -24,6 +26,7 @@ type UserManagementProps = {};
 
 const UserManagement: React.FC<UserManagementProps> = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
   const { showModal, hideModal } = useGlobalModalContext();
@@ -31,6 +34,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
 
   const getData = async () => {
     try {
+      gridRef?.current?.setLoading?.(true);
       const curPage: Partial<ITableData> = gridRef?.current?.getPaginate?.();
       const queryBody: any = gridRef?.current?.getQuery?.();
       const response: any = await httpRequest.post(
@@ -44,6 +48,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
       }, {});
       gridRef?.current?.setData?.(response);
     } catch (error) {
+      gridRef?.current?.setData?.();
       dispatch(
         enqueueSnackbarAction({
           message: error?.errorCodeLang,
@@ -111,14 +116,31 @@ const UserManagement: React.FC<UserManagementProps> = () => {
   }, []);
 
   const confirmDeleteUser = React.useCallback(async (userId: string) => {
-    alert('chua mapping api delete user');
+    try {
+      await httpRequest.delete(getUserDetailUrl(userId));
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_delete_user_successfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
+    } catch (error) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_delete_user_unsuccessfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        }),
+      );
+    }
   }, []);
 
   const actions = React.useMemo(() => {
     return [
       {
         label: 'lang_user_detail',
-        onClick: () => console.log('YOLO: lang_user_detail'),
+        onClick: (data: any) => navigate(PATH_NAME.USER_DETAIL, { state: data }),
       },
       {
         label: 'lang_reset_password',
