@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { InputField, PasswordField, PreviewField, SelectField } from 'components/fields';
 import { useFormik } from 'formik';
-import { Box, Button, Paper, Stack, Typography } from '@mui/material';
+import { Box, Button, Grid, Paper, Stack, Typography } from '@mui/material';
 import { makeStyles, styled } from '@mui/styles';
 import { Trans } from 'react-i18next';
 import { validate } from 'helpers';
@@ -121,33 +121,34 @@ const UserDetail: React.FC<UserDetailProps> = () => {
               <Trans>lang_user_details</Trans>
             </Typography>
           </div>
-          <Stack direction="row" sx={{ margin: '12px 0' }} spacing={4}>
-            <PreviewField label="lang_full_name" value={values.full_name} />
-            <PreviewField label="lang_status" value={values.status} />
-          </Stack>
-          <Stack direction="row" sx={{ margin: '12px 0' }} spacing={4}>
-            <PreviewField label="lang_user_login" value={values.user_login} />
-            <PreviewField label="lang_last_active" value={moment(values.last_time).format('DD/MMM/YYYY HH:mm:ss')} />
-          </Stack>
-          <Stack direction="row" sx={{ margin: '12px 0' }} spacing={4}>
-            <PreviewField label="lang_sitename" value={values.site_name} />
-            <PreviewField label="lang_create_time" value={moment(values.create_time).format('DD/MMM/YYYY HH:mm:ss')} />
-          </Stack>
-          <div className={classes.title}>
-            <Typography variant="h4">
-              <Trans>lang_notes</Trans>
-            </Typography>
-          </div>
-          <Stack direction="row" sx={{ margin: '12px 0' }}>
-            <PreviewField
-              sx={{ mb: 2, mr: 2 }}
-              variant="outlined"
-              label="lang_description"
-              value={values.description}
-              multiline
-              rows={4}
-            />
-          </Stack>
+          <Grid container spacing={4}>
+            <Grid item xs={6}>
+              <PreviewField label="lang_full_name" value={values.full_name} />
+            </Grid>
+            <Grid item xs={6}>
+              <PreviewField label="lang_status" value={values.status} options={USER_STATUS_OPTIONS} />
+            </Grid>
+            <Grid item xs={6}>
+              <PreviewField label="lang_user_login" value={values.user_login} />
+            </Grid>
+            <Grid item xs={6}>
+              <PreviewField label="lang_last_active" value={moment(values.last_time).format('DD/MMM/YYYY HH:mm:ss')} />
+            </Grid>
+            <Grid item xs={6}>
+              <PreviewField label="lang_sitename" value={values.site_name} options={SITE_NAME_OPTIONS} />
+            </Grid>
+            <Grid item xs={6}>
+              <PreviewField label="lang_create_time" value={moment(values.create_time).format('DD/MMM/YYYY HH:mm:ss')} />
+            </Grid>
+            <Grid item xs={12}>
+              <div className={classes.title}>
+                <Typography variant="h4">
+                  <Trans>lang_notes</Trans>
+                </Typography>
+              </div>
+              <PreviewField variant="outlined" label="lang_description" value={values.description} multiline rows={4} />
+            </Grid>
+          </Grid>
         </Box>
       );
     } else {
@@ -158,76 +159,105 @@ const UserDetail: React.FC<UserDetailProps> = () => {
               <Trans>lang_user_details</Trans>
             </Typography>
           </div>
-          <Stack direction="row" sx={{ margin: '12px 0' }} spacing={4}>
-            <InputField
-              id="full_name"
-              name="full_name"
-              label="lang_full_name"
-              required
-              fullWidth
-              value={values.full_name}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={touched.full_name && Boolean(errors.full_name)}
-              helperText={touched.full_name && errors.full_name}
-              inputProps={{ maxLength: 64 }}
-            />
-            <SelectField
-              options={USER_STATUS_OPTIONS}
-              name="status"
-              label="lang_status"
-              id="status"
-              fullWidth={true}
-              onBlur={handleBlur}
-              value={values.status}
-              onChange={handleChange}
-              error={touched.status && Boolean(errors.status)}
-              helperText={touched.status && errors.status}
-            />
-          </Stack>
-          <Stack direction="row" sx={{ margin: '12px 0' }} spacing={4}>
-            <PreviewField label="lang_user_login" value={values.user_login} />
-            <PreviewField label="lang_last_active" value={moment(values.last_time).format('DD/MMM/YYYY HH:mm:ss')} />
-          </Stack>
-          <Stack direction="row" sx={{ margin: '12px 0' }} spacing={4}>
-            <SelectField
-              options={SITE_NAME_OPTIONS}
-              name="site_name"
-              label="lang_sitename"
-              id="site_name"
-              fullWidth={true}
-              onBlur={handleBlur}
-              value={values.site_name}
-              onChange={handleChange}
-              error={touched.site_name && Boolean(errors.site_name)}
-              helperText={touched.site_name && errors.site_name}
-            />
-            <PreviewField label="lang_create_time" value={moment(values.create_time).format('DD/MMM/YYYY HH:mm:ss')} />
-          </Stack>
-          <div className={classes.title}>
-            <Typography variant="h4">
-              <Trans>lang_notes</Trans>
-            </Typography>
-          </div>
-          <Stack direction="row" sx={{ margin: '12px 0' }}>
-            <InputField
-              id="description"
-              name="description"
-              sx={{ mb: 2, mr: 2 }}
-              label="lang_description"
-              required
-              fullWidth
-              value={values.description}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={touched.description && Boolean(errors.description)}
-              helperText={touched.description && errors.description}
-              multiline
-              rows={4}
-              inputProps={{ maxLength: 255 }}
-            />
-          </Stack>
+          <Grid container spacing={4}>
+            <Grid item xs={6}>
+              <InputField
+                id="full_name"
+                name="full_name"
+                label="lang_full_name"
+                required
+                fullWidth
+                value={values.full_name}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.full_name && Boolean(errors.full_name)}
+                helperText={touched.full_name && errors.full_name}
+                inputProps={{ maxLength: 64 }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <SelectField
+                options={USER_STATUS_OPTIONS}
+                name="status"
+                label="lang_status"
+                id="status"
+                fullWidth={true}
+                onBlur={handleBlur}
+                value={values.status}
+                onChange={handleChange}
+                error={touched.status && Boolean(errors.status)}
+                helperText={touched.status && errors.status}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <PreviewField label="lang_user_login" value={values.user_login} />
+            </Grid>
+            <Grid item xs={6}>
+              <PreviewField label="lang_last_active" value={moment(values.last_time).format('DD/MMM/YYYY HH:mm:ss')} />
+            </Grid>
+            <Grid item xs={6}>
+              <SelectField
+                options={SITE_NAME_OPTIONS}
+                name="site_name"
+                label="lang_sitename"
+                id="site_name"
+                fullWidth={true}
+                onBlur={handleBlur}
+                value={values.site_name}
+                onChange={handleChange}
+                error={touched.site_name && Boolean(errors.site_name)}
+                helperText={touched.site_name && errors.site_name}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <PreviewField label="lang_create_time" value={moment(values.create_time).format('DD/MMM/YYYY HH:mm:ss')} />
+            </Grid>
+            <Grid item xs={12}>
+              <div className={classes.title}>
+                <Typography variant="h4">
+                  <Trans>lang_notes</Trans>
+                </Typography>
+              </div>
+              <InputField
+                id="description"
+                name="description"
+                label="lang_description"
+                required
+                fullWidth
+                value={values.description}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.description && Boolean(errors.description)}
+                helperText={touched.description && errors.description}
+                multiline
+                rows={4}
+                inputProps={{ maxLength: 255 }}
+              />
+            </Grid>
+          </Grid>
         </Box>
+      );
+    }
+  };
+  const renderButton = (editMode: boolean) => {
+    if (editMode) {
+      return (
+        <Stack direction="row" justifyContent="end" alignItems="center" spacing={2} sx={{ margin: '12px 0' }}>
+          <Button variant="outlined" onClick={handleTurnOffEditMode}>
+            <Trans>lang_cancel</Trans>
+          </Button>
+          <Button variant="contained" type="submit">
+            <Trans>lang_save</Trans>
+          </Button>
+        </Stack>
+      );
+    } else {
+      return (
+        <Stack direction="row" justifyContent="end" alignItems="center" sx={{ margin: '12px 0' }}>
+          <Button variant="outlined" startIcon={<EditIcon />} onClick={handleTurnOnEditMode}>
+            <Trans>lang_edit</Trans>
+          </Button>
+        </Stack>
       );
     }
   };
@@ -235,22 +265,8 @@ const UserDetail: React.FC<UserDetailProps> = () => {
     <Paper className={classes.wrapper}>
       <form className={classes.form} noValidate onSubmit={handleSubmit}>
         {renderContent(editMode)}
-        {editMode ? (
-          <Stack direction="row" justifyContent="end" alignItems="center" spacing={2} sx={{ margin: '12px 0' }}>
-            <Button variant="outlined" onClick={handleTurnOffEditMode}>
-              <Trans>lang_cancel</Trans>
-            </Button>
-            <Button variant="contained" type="submit">
-              <Trans>lang_save</Trans>
-            </Button>
-          </Stack>
-        ) : (
-          <Stack direction="row" justifyContent="end" alignItems="center" sx={{ margin: '12px 0' }}>
-            <Button variant="outlined" startIcon={<EditIcon />} onClick={handleTurnOnEditMode}>
-              <Trans>lang_edit</Trans>
-            </Button>
-          </Stack>
-        )}
+        {renderButton(editMode)}
+        <Box></Box>
       </form>
     </Paper>
   );

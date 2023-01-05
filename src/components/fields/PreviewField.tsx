@@ -3,14 +3,20 @@ import TextField from '@mui/material/TextField';
 import { Trans, useTranslation } from 'react-i18next';
 import { Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-type TextFieldProps = {
+
+type Options = {
+  label: string;
+  value: string | number;
+};
+type PreviewFieldProps = {
   label?: string;
-  value?: string;
+  value?: string | number;
   sx?: any;
   variant?: 'filled' | 'outlined' | 'standard';
   multiline?: boolean;
   autoFocus?: boolean;
   rows?: number;
+  options?: Array<Options>;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -27,15 +33,17 @@ const useStyles = makeStyles((theme) => ({
     // },
   },
 }));
-const PreviewField: React.FC<TextFieldProps> = ({ label, value, ...props }) => {
+const PreviewField: React.FC<PreviewFieldProps> = ({ label, value, options, ...props }) => {
   const classes = useStyles();
   const { t } = useTranslation();
+  const val = options ? options.find((o) => o.value === value)?.label : value;
+
   return (
     <TextField
       className={classes.preview}
       variant="standard"
       {...props}
-      value={value ? t(value) : '--'}
+      value={val ? t(val.toString()) : '--'}
       fullWidth
       label={
         <Typography variant="h4">
