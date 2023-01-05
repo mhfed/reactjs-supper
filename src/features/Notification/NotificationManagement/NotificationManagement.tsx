@@ -29,6 +29,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
 
   const getData = async () => {
     try {
+      gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
       const response: any = await httpRequest.get(
         getListNotificationUrl({
@@ -41,6 +42,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
       response.current_page -= 1;
       gridRef?.current?.setData?.(response);
     } catch (error) {
+      gridRef?.current?.setData?.();
       dispatch(
         enqueueSnackbarAction({
           message: error?.errorCodeLang,

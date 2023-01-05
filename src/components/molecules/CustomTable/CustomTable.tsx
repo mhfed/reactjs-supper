@@ -4,6 +4,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import Chip from '@mui/material/Chip';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
 import { getFilterObj } from 'helpers';
 import { Trans, useTranslation } from 'react-i18next';
 import CustomFooter from './CustomFooter';
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
     flex: 1,
+    position: 'relative',
     flexDirection: 'column',
     height: '100%',
     width: '100%',
@@ -143,6 +145,14 @@ const useStyles = makeStyles((theme) => ({
         border: '2px solid transparent',
       },
     },
+  },
+  spinner: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    margin: 'auto',
   },
 }));
 
@@ -279,7 +289,8 @@ function convertColumn({
 
 type TableHandle = {
   setEditMode: (state: boolean) => void;
-  setData: (data: ResponseDataPaging) => void;
+  setLoading: (state: boolean) => void;
+  setData: (data?: ResponseDataPaging) => void;
   getPaginate: any;
   getQuery: any;
   getConfig: any;
@@ -375,11 +386,16 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
 
   const setDataTable = (response: ResponseDataPaging) => {
     setData((old) => ({
-      data: response.data || [],
-      page: response.current_page,
-      count: response.total_count,
-      rowsPerPage: old.rowsPerPage,
+      data: response ? response.data : [],
+      isLoading: false,
+      page: response ? response.current_page : data.page,
+      count: response ? response.total_count : data.count,
+      rowsPerPage: old?.rowsPerPage,
     }));
+  };
+
+  const setLoading = (isLoading: boolean) => {
+    setData((old) => ({ ...old, isLoading }));
   };
 
   React.useImperativeHandle(
@@ -387,6 +403,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     () => ({
       setEditMode: setEditMode,
       setData: setDataTable,
+      setLoading: setLoading,
       getPaginate: getPaginate,
       getConfig: getConfig,
       getQuery: getQuery,
@@ -498,7 +515,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           responsive: 'standard',
           textLabels: {
             body: {
-              noMatch: <Trans>lang_no_data</Trans>,
+              noMatch: data.isLoading ? '' : <Trans>lang_no_data</Trans>,
             },
             toolbar: {
               downloadCsv: t('lang_download_csv') as string,
@@ -512,6 +529,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           },
         }}
       />
+      {data.isLoading && <CircularProgress className={classes.spinner} size={24} />}
     </div>
   );
 };

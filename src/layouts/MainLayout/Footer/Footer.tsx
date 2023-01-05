@@ -3,6 +3,7 @@ import { Link, Typography } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
 import { Trans } from 'react-i18next';
 import makeStyles from '@mui/styles/makeStyles';
+import { useTheme } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -18,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Footer({ style }: { style?: React.CSSProperties }) {
   const classes = useStyles();
+  const theme = useTheme();
 
   return (
     <div className={classes.container} style={style || {}}>
@@ -49,7 +51,11 @@ function Footer({ style }: { style?: React.CSSProperties }) {
         <Typography>
           <Trans>lang_powered_by</Trans>
         </Typography>
-        <img alt="footerLogo" style={{ height: 20, marginLeft: 8 }} src="/assets/images/novus-fintech.svg" />
+        <img
+          alt="footerLogo"
+          style={{ height: 20, marginLeft: 8 }}
+          src={theme.palette.mode === 'dark' ? '/assets/images/novus-fintech-dark.svg' : '/assets/images/novus-fintech-light.svg'}
+        />
       </div>
     </div>
   );

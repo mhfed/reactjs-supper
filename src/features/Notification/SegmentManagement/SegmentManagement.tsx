@@ -34,6 +34,7 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
 
   const getData = async () => {
     try {
+      gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
       const response: any = await httpRequest.get(
         getListSegmentUrl({
@@ -46,6 +47,7 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
       response.current_page -= 1;
       gridRef?.current?.setData?.(response);
     } catch (error) {
+      gridRef?.current?.setData?.();
       dispatch(
         enqueueSnackbarAction({
           message: error?.errorCodeLang,
