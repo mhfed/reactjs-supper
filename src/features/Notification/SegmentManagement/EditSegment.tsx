@@ -168,11 +168,6 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
         return (
           <form className={classes.container} noValidate onSubmit={handleSubmit}>
             <Grid container spacing={2}>
-              <Grid item xs={8}>
-                <Typography className={classes.title} variant="h4">
-                  <Trans>lang_edit_segment</Trans>
-                </Typography>
-              </Grid>
               <Grid item xs={6}>
                 <InputField
                   id="segment_name"
