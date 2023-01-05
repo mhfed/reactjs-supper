@@ -210,6 +210,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
       {
         name: FIELD.NOTE,
         label: 'lang_notes',
+        type: COLUMN_TYPE.INPUT,
       },
       {
         name: FIELD.ACTOR,

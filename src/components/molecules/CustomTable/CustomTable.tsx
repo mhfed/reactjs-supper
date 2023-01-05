@@ -2,6 +2,7 @@ import React from 'react';
 import MUIDataTable, { MUIDataTableColumnDef, MUIDataTableState, MUIDataTableMeta } from 'mui-datatables';
 import makeStyles from '@mui/styles/makeStyles';
 import Chip from '@mui/material/Chip';
+import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -157,6 +158,12 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  inputCell: {
+    minWidth: 200,
+    '& input': {
+      padding: theme.spacing(0.5, 1),
+    },
+  },
 }));
 
 function convertColumn({
@@ -217,6 +224,31 @@ function convertColumn({
           return (
             <Typography component="span" noWrap className={clsx(option?.color || '', 'uppercase')}>
               <Trans>{option?.label}</Trans>
+            </Typography>
+          );
+        },
+      };
+      break;
+    case COLUMN_TYPE.INPUT:
+      res.options = {
+        ...res.options,
+        customBodyRender: (value, tableMeta: MUIDataTableMeta) => {
+          if (isEditMode) {
+            return (
+              <TextField
+                className={classes.inputCell}
+                variant="outlined"
+                fullWidth
+                defaultValue={value || ''}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  onChange?.(tableMeta.columnData.name, e.target.value, tableMeta.rowIndex);
+                }}
+              />
+            );
+          }
+          return (
+            <Typography component="span" noWrap>
+              {value}
             </Typography>
           );
         },
@@ -530,7 +562,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
         }}
       />
       {data.isLoading && <CircularProgress className={classes.centerContent} size={24} />}
-      {!data.data?.length && (
+      {!data.isLoading && !data.data?.length && (
         <div className={classes.centerContent}>
           <Trans>lang_no_data</Trans>
         </div>
