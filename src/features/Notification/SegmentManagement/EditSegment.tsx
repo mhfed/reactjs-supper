@@ -197,7 +197,14 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
                 />
               </Grid>
               <Grid item xs={6}>
-                <PreviewField sx={{ mb: 2 }} label="lang_segment_id" value={values.segment_id} />
+                <PreviewField
+                  sx={{ mb: 2 }}
+                  label="lang_segment_id"
+                  value={values.segment_id}
+                  variant="outlined"
+                  disabled={true}
+                  required={true}
+                />
               </Grid>
               <Grid item xs={12}>
                 <AutocompleteAsyncField

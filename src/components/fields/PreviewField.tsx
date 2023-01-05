@@ -17,6 +17,8 @@ type PreviewFieldProps = {
   autoFocus?: boolean;
   rows?: number;
   options?: Array<Options>;
+  disabled?: boolean;
+  required?: boolean;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -40,16 +42,14 @@ const PreviewField: React.FC<PreviewFieldProps> = ({ label, value, options, ...p
 
   return (
     <TextField
+      required={props.required || false}
       className={classes.preview}
-      variant="standard"
+      disabled={props.disabled || false}
+      variant={props.variant || 'standard'}
       {...props}
       value={val ? t(val.toString()) : '--'}
       fullWidth
-      label={
-        <Typography variant="h4">
-          <Trans>{label}</Trans>
-        </Typography>
-      }
+      label={<Trans>{label}</Trans>}
     ></TextField>
   );
 };
