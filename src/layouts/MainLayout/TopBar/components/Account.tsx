@@ -9,7 +9,6 @@ import Divider from '@mui/material/Divider';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { PATH_NAME } from 'configs';
 import { logout } from 'actions/auth.action';
-import { roleSelector } from 'selectors/auth.selector';
 import ConfirmModal from 'components/molecules/ConfirmModal';
 import { userSelector } from 'selectors/auth.selector';
 
