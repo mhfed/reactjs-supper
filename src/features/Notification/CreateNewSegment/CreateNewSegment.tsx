@@ -155,6 +155,7 @@ const Sample = () => {
               <Grid item xs={12}>
                 <AutocompleteAsyncField
                   onBlur={handleBlur}
+                  isOptionEqualToValue={isOptionEqualToValue}
                   onChange={(v: string) => setFieldValue('segment_subscribers', v)}
                   error={touched.segment_subscribers && Boolean(errors.segment_subscribers)}
                   helperText={touched.segment_subscribers && errors.segment_subscribers}
