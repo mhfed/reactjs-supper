@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Trans } from 'react-i18next';
 import PinInput from './PinInput';
 import { verifyPin, setPinFirstTime, forceSetPin } from 'actions/auth.action';
-import { isLoadingSelector } from 'selectors/auth.selector';
+import { isLoadingSelector, errorSelector } from 'selectors/auth.selector';
 import { useNavigate } from 'react-router-dom';
 import { LIST_KEYBOARD, PIN_STEP, LIST_STEP_ENTER_PIN, LIST_STEP_SET_PIN } from './PinConstants';
 
@@ -96,6 +96,7 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
   const listStep = React.useRef(isSetPin ? LIST_STEP_SET_PIN : LIST_STEP_ENTER_PIN);
   const [step, setStep] = React.useState(0);
   const [number, setNumber] = React.useState<string[]>([]);
+  const errorAuth = useSelector(errorSelector);
   const [errorMessage, setError] = React.useState('');
   const pinRef = React.useRef<string[]>([]);
   const oldPinRef = React.useRef<string[]>([]);
@@ -109,6 +110,10 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
     pinRef.current = [];
     setNumber([]);
   };
+
+  React.useEffect(() => {
+    clearPin();
+  }, [errorAuth]);
 
   const setStepInfo = (value: number) => {
     setStep(value);
@@ -247,7 +252,7 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
       <div className={clsx(classes.pinBody, stepName.current !== PIN_STEP.SET_YOUR_PIN && classes.paddingTop)}>
         <PinInput ref={pinInputRef} data={number} />
         <FormHelperText error sx={{ pt: 1, textAlign: 'center' }}>
-          <Trans>{errorMessage}</Trans>
+          <Trans>{errorMessage || errorAuth}</Trans>
         </FormHelperText>
         {stepName.current === PIN_STEP.SET_YOUR_PIN ? (
           <Typography variant="body2" align="center" sx={{ width: '100%', py: 2 }}>
