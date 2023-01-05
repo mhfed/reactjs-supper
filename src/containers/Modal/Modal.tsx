@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import { LooseObject, IModalProps } from 'models/ICommon';
 import { Trans } from 'react-i18next';
 import makeStyles from '@mui/styles/makeStyles';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -13,7 +14,13 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  fullScreenModal: {
+    width: '80vw',
+    height: '80vh',
+  },
   container: {
+    display: 'flex',
+    flexDirection: 'column',
     borderRadius: 8,
     overflow: 'hidden',
     minWidth: '40vw',
@@ -29,6 +36,8 @@ const useStyles = makeStyles((theme) => ({
 type GlobalModalContextProps = {
   showModal: (modalProps: IModalProps) => void;
   hideModal: () => void;
+  showSubModal: (modalProps: IModalProps) => void;
+  hideSubModal: () => void;
   store: object;
 };
 
@@ -38,6 +47,12 @@ const initalState: GlobalModalContextProps = {
   },
   hideModal: () => {
     console.log('hideModal');
+  },
+  showSubModal: () => {
+    console.log('showSubModal');
+  },
+  hideSubModal: () => {
+    console.log('hideSubModal');
   },
   store: {},
 };
@@ -62,6 +77,16 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
     });
   };
 
+  const showSubModal = (modalProps: IModalProps) => {
+    setStore({
+      ...store,
+      subOpen: true,
+      subTitle: modalProps.title,
+      subComponent: modalProps.component,
+      subProps: modalProps.props,
+    });
+  };
+
   const hideModal = () => {
     setStore({
       ...store,
@@ -69,24 +94,44 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
     });
   };
 
+  const hideSubModal = () => {
+    setStore({
+      ...store,
+      subOpen: false,
+    });
+  };
+
   const renderComponent = () => {
     const Component = store.component;
+    const SubComponent = store.subComponent;
     return (
-      <Modal className={classes.modal} open={!!store.open} onClose={hideModal}>
-        <Paper className={classes.container}>
-          <Box className={classes.header}>
-            <Typography>
-              <Trans>{store.title}</Trans>
-            </Typography>
-          </Box>
-          {Component && <Component {...(store.props || {})} onClose={hideModal} />}
-        </Paper>
-      </Modal>
+      <>
+        <Modal className={classes.modal} open={!!store.open} onClose={hideModal}>
+          <Paper className={clsx(classes.container, store.fullScreen && classes.fullScreenModal)}>
+            <Box className={classes.header}>
+              <Typography>
+                <Trans>{store.title}</Trans>
+              </Typography>
+            </Box>
+            {Component && <Component {...(store.props || {})} onClose={hideModal} />}
+          </Paper>
+        </Modal>
+        <Modal className={classes.modal} open={!!store.subOpen} onClose={hideSubModal}>
+          <Paper className={classes.container}>
+            <Box className={classes.header}>
+              <Typography>
+                <Trans>{store.subTitle}</Trans>
+              </Typography>
+            </Box>
+            {SubComponent && <SubComponent {...(store.subProps || {})} onClose={hideSubModal} />}
+          </Paper>
+        </Modal>
+      </>
     );
   };
 
   return (
-    <GlobalModalContext.Provider value={{ store, showModal, hideModal }}>
+    <GlobalModalContext.Provider value={{ store, showModal, hideModal, showSubModal, hideSubModal }}>
       {renderComponent()}
       {children}
     </GlobalModalContext.Provider>

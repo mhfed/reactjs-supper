@@ -83,11 +83,6 @@ const routesConfig: IRoutes[] = [
         requireRoles: [],
       },
       {
-        path: PATH_NAME.EDIT_SEGMENT,
-        component: EditSegment,
-        requireRoles: [],
-      },
-      {
         path: PATH_NAME.SUBSCRIBERS,
         component: Subscribers,
         requireRoles: [],

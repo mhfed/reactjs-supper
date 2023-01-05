@@ -99,7 +99,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
         defaultValue={props.defaultValue || []}
         getOptionLabel={(option) => option.username}
         isOptionEqualToValue={isOptionEqualToValue}
-        renderOption={(props, option, { selected }) => <li {...props}>{option.username + ' (' + option.site_name + ')'}</li>}
+        renderOption={(props, option) => <li {...props}>{option.username + ' (' + option.site_name + ')'}</li>}
         renderInput={(params) => (
           <TextField
             required={props.required}

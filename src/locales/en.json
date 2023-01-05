@@ -1,4 +1,5 @@
 {
+  "lang_edit_segment": "Edit segment",
   "lang_preview_create_new_user": "Preview Create New User",
   "lang_there_is_no_change_in_the_segment_information": "There is no change in the segment information",
   "lang_confirm_edit_segment": "Enter your email to edit segment <0>{{segment}}</0>?",
@@ -11,7 +12,7 @@
   "lang_delete_user_unsuccessfully": "Delete user unsuccessfully",
   "lang_customer_support_email": "Customer support: <0/> <1>{{email}}</1>",
   "lang_powered_by": "Powered by",
-  "lang_segment_details": "segment details",
+  "lang_segment_details": "Segment Details",
   "lang_sign_out": "Sign Out",
   "lang_confirm_logout": "Are you sure that you want to sign out?",
   "lang_segment_name_min_max_characters": "Segment name must include 3 - 64 characters",

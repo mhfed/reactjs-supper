@@ -8,9 +8,8 @@ import makeStyles from '@mui/styles/makeStyles';
 import { FIELD } from '../NotificationConstants';
 import { ITableConfig } from 'models/ICommon';
 import { useGlobalModalContext } from 'containers/Modal';
-import { PATH_NAME } from 'configs';
-import { useNavigate } from 'react-router-dom';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
+import EditSegment from './EditSegment';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -29,7 +28,6 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
   const { showModal } = useGlobalModalContext();
-  const navigate = useNavigate();
 
   const getData = async () => {
     try {
@@ -92,14 +90,32 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
         label: 'lang_view_detail',
         onClick: async (data: any) => {
           const response: any = await httpRequest.get(getUserSubcriberByID(data.segment_id));
-          navigate(PATH_NAME.EDIT_SEGMENT, { state: { typePage: 'DETAIL', data: data, listSubscribers: response.subscribers } });
+          showModal({
+            title: 'lang_segment_details',
+            component: EditSegment,
+            fullScreen: true,
+            props: {
+              typePage: 'DETAIL',
+              dataForm: data,
+              listSubscribers: response.subscribers,
+            },
+          });
         },
       },
       {
         label: 'lang_edit',
         onClick: async (data: any) => {
           const response: any = await httpRequest.get(getUserSubcriberByID(data.segment_id));
-          navigate(PATH_NAME.EDIT_SEGMENT, { state: { typePage: 'EDIT', data: data, listSubscribers: response.subscribers } });
+          showModal({
+            title: 'lang_edit_segment',
+            component: EditSegment,
+            fullScreen: true,
+            props: {
+              typePage: 'EDIT',
+              dataForm: data,
+              listSubscribers: response.subscribers,
+            },
+          });
         },
       },
       {
