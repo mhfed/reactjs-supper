@@ -6,7 +6,12 @@ import { Trans } from 'react-i18next';
 import { DropdownOption } from 'models/ICommon';
 
 const useStyles = makeStyles((theme) => ({
-  container: {},
+  container: {
+    width: '100%',
+    '& > div:first-child': {
+      width: '100%',
+    },
+  },
 }));
 
 type DropdownCellProps = {

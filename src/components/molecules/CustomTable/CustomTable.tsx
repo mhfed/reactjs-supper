@@ -503,7 +503,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           count: data.count,
           // page: data.page,
           rowsPerPageOptions,
-          rowsPerPage: process.env.REACT_APP_DEFAULT_PAGE_SIZE,
+          rowsPerPage: +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
           filterType: 'textField',
           fixedHeader: false,
           draggableColumns: {
