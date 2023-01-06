@@ -58,7 +58,6 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   }
   const getData = async (SearchKey: string) => {
     try {
-      if (SearchKey.length < 2) return;
       const response: any = await httpRequest.get(
         getListSubscriberSegmenttUrl({
           page: 1,
@@ -68,6 +67,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
       );
       if (!response.data) {
         setOptions([]);
+        console.log('ko co respone');
       } else {
         setOptions(response.data);
       }
@@ -78,11 +78,16 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, options: LooseObject[], reason: string) => {
     props.onChange?.(options);
   };
+
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    timeoutId.current && window.clearTimeout(timeoutId.current);
-    timeoutId.current = window.setTimeout(() => {
-      getData(e.target.value);
-    }, 400);
+    const Searchkey = e.target.value.trim();
+    console.log('searchkey:', Searchkey, ',type of searchkey:', typeof Searchkey);
+    if (Searchkey.length > 1) {
+      timeoutId.current && window.clearTimeout(timeoutId.current);
+      timeoutId.current = window.setTimeout(() => {
+        getData(Searchkey);
+      }, 400);
+    }
   };
 
   return (
@@ -97,6 +102,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
         onChange={handleChange}
         options={options}
         defaultValue={props.defaultValue || []}
+        clearOnBlur={true}
         getOptionLabel={(option) => option.username}
         isOptionEqualToValue={isOptionEqualToValue}
         renderOption={(props, option) => <li {...props}>{option.username + ' (' + option.site_name + ')'}</li>}
@@ -104,7 +110,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
           <TextField
             required={props.required}
             {...params}
-            ref={params.InputProps.ref}
+            value={value}
             label={<Trans>{label}</Trans>}
             error={props.error}
             onChange={handleTextChange}

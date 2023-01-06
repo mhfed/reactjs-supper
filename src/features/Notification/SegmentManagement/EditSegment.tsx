@@ -55,12 +55,18 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
   };
   const dispatch = useDispatch();
   const [stateForm, setStateForm] = React.useState(typePage || STATE_FORM.DETAIL);
+
   const handleCancel = () => {
     if (typePage === STATE_FORM.DETAIL && stateForm === STATE_FORM.EDIT) {
       setStateForm(STATE_FORM.DETAIL);
     } else {
       hideModal();
     }
+  };
+
+  const handleBlurInput = (e: React.FocusEvent<HTMLInputElement>) => {
+    setFieldValue('segment_name', values.segment_name.trim());
+    handleBlur(e);
   };
 
   const handleFormSubmit = async (values: any) => {
@@ -198,8 +204,10 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
                   required
                   fullWidth
                   value={values.segment_name}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setFieldValue('segment_name', e.target.value.trimStart());
+                  }}
+                  onBlur={handleBlurInput}
                   error={touched.segment_name && Boolean(errors.segment_name)}
                   helperText={touched.segment_name && errors.segment_name}
                 />
