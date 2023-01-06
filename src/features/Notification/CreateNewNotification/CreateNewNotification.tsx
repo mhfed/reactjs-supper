@@ -221,6 +221,14 @@ const initialValues: initialValuesType = {
   schedule: '',
 };
 
-const validationSchema = yup.object().shape({});
+const validationSchema = yup.object().shape({
+  subscribers: yup.array().min(1, 'lang_select_segment_subcriber').required('lang_select_segment_subcriber'),
+  title: yup.string().required('lang_title_required').max(64, 'lang_validate_title'),
+  message: yup.string().required('lang_message_required').max(192, 'lang_validate_message'),
+  schedule: yup.string().when('delivery_type', {
+    is: (delivery_type: 'Instant' | 'Schedule') => delivery_type === DELIVERY_TYPE.Schedule,
+    then: yup.string().required('lang_schedule_time_required'),
+  })
+});
 
 export default CreateNewNotification;

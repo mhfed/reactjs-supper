@@ -154,8 +154,10 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                   {values?.delivery_type === DELIVERY_TYPE.Instant ? null :
                     <DatePickerField
                       name="schedule"
+                      required={true}
                       value={values.schedule}
-                      onChange={(v: string) => setFieldValue('schedule', new Date(v))}
+                      inputFormat={'MM/DD/YYYY HH:mm'}
+                      onChange={(v: string) => setFieldValue('schedule', v ? (new Date(v)) : v)}
                       onBlur={handleBlur}
                       error={touched.schedule && Boolean(errors.schedule)}
                       helperText={touched.schedule && errors.schedule}
