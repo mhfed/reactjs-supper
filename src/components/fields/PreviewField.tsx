@@ -32,14 +32,6 @@ const useStyles = makeStyles((theme) => ({
   preview: {
     pointerEvents: 'none',
     position: 'relative',
-    // '& ::before': {
-    //   content: '',
-    //   position: 'absolute',
-    //   zIndex: 10,
-    //   width: '100%',
-    //   height: '100%',
-    //   opacity: 0,
-    // },
   },
 }));
 const PreviewField: React.FC<PreviewFieldProps> = ({ label, value, options, ...props }) => {

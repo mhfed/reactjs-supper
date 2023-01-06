@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { InputField, PreviewField, SelectField } from 'components/fields';
 import { useFormik } from 'formik';
-import { Box, Button, Grid, Paper, Stack, Typography } from '@mui/material';
+import { Box, Button, Grid, Stack } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Trans } from 'react-i18next';
 import httpRequest from 'services/httpRequest';
@@ -42,6 +42,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type UserDetailProps = {};
+
+const formatDate = (valueFormat: number | string) => {
+  if (!valueFormat) return '--';
+  return moment(valueFormat).format('DD/MM/YYYY HH:mm:ss');
+};
 const compareChanges = (initialValues: any, values: any) => {
   const keys = Object.keys(initialValues);
   let isChange = false;
@@ -65,7 +70,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
     site_name: dataForm.site_name || '',
     last_time: dataForm.last_time || '',
     create_time: dataForm.create_time || '',
-    description: dataForm.note || '',
+    note: dataForm.note || '',
   };
 
   // Handle show modal confirm
@@ -101,7 +106,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
           full_name: values.full_name,
           status: values.status,
           site_name: values.site_name,
-          note: values.description,
+          note: values.note,
         },
       };
       const user_id = dataForm.user_id;
@@ -115,7 +120,6 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
         }),
       );
       hideModal();
-      hideSubModal();
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({
@@ -125,7 +129,6 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
         }),
       );
       hideModal();
-      hideSubModal();
       console.error('Update user handleFormSubmit error: ', error);
     }
   };
@@ -159,16 +162,16 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
               <PreviewField label="lang_user_login" value={values.user_login} />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField label="lang_last_active" value={moment(values.last_time).format('DD/MM/YYYY HH:mm:ss')} />
+              <PreviewField label="lang_last_active" value={formatDate(values.last_time)} />
             </Grid>
             <Grid item xs={6}>
               <PreviewField label="lang_sitename" value={values.site_name} options={SITE_NAME_OPTIONS} />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField label="lang_create_time" value={moment(values.create_time).format('DD/MM/YYYY HH:mm:ss')} />
+              <PreviewField label="lang_create_time" value={formatDate(values.create_time)} />
             </Grid>
             <Grid item xs={12}>
-              <PreviewField label="lang_description" value={values.description} />
+              <PreviewField label="lang_notes" value={values.note} />
             </Grid>
           </Grid>
         </Box>
@@ -210,12 +213,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
               <PreviewField label="lang_user_login" value={values.user_login} variant={'outlined'} disabled />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField
-                label="lang_last_active"
-                value={moment(values.last_time).format('DD/MM/YYYY HH:mm:ss')}
-                variant={'outlined'}
-                disabled
-              />
+              <PreviewField label="lang_last_active" value={formatDate(values.last_time)} variant={'outlined'} disabled />
             </Grid>
             <Grid item xs={6}>
               <SelectField
@@ -232,25 +230,20 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
               />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField
-                label="lang_create_time"
-                value={moment(values.create_time).format('DD/MM/YYYY HH:mm:ss')}
-                variant={'outlined'}
-                disabled
-              />
+              <PreviewField label="lang_create_time" value={formatDate(values.create_time)} variant={'outlined'} disabled />
             </Grid>
             <Grid item xs={12}>
               <InputField
-                id="description"
-                name="description"
-                label="lang_description"
+                id="note"
+                name="note"
+                label="lang_notes"
                 required
                 fullWidth
-                value={values.description}
+                value={values.note}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={touched.description && Boolean(errors.description)}
-                helperText={touched.description && errors.description}
+                error={touched.note && Boolean(errors.note)}
+                helperText={touched.note && errors.note}
                 multiline
                 rows={4}
                 inputProps={{ maxLength: 255 }}
