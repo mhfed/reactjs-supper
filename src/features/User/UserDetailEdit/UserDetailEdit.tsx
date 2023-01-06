@@ -207,6 +207,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
                 onChange={handleChange}
                 error={touched.status && Boolean(errors.status)}
                 helperText={touched.status && errors.status}
+                textTransform="uppercase"
               />
             </Grid>
             <Grid item xs={6}>
@@ -227,6 +228,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
                 onChange={handleChange}
                 error={touched.site_name && Boolean(errors.site_name)}
                 helperText={touched.site_name && errors.site_name}
+                textTransform="uppercase"
               />
             </Grid>
             <Grid item xs={6}>
