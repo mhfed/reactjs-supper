@@ -14,7 +14,7 @@ import {
   EXPIRE,
 } from './NotificationConstant';
 import RadioGroupField from 'components/fields/RadioGroupField';
-import { AutocompleteAsyncField, InputField, SelectField } from 'components/fields';
+import { AutocompleteAsyncField, InputField, SelectField, DatePickerField } from 'components/fields';
 import { LooseObject } from 'models/ICommon';
 import { Trans } from 'react-i18next';
 
@@ -61,7 +61,6 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
 
   const renderContent = (form: FormikProps<initialValuesType>) => {
     const { values, handleChange, handleBlur, touched, errors, setFieldValue } = form;
-    console.log(values);
     // FormikProps
     switch (stateForm) {
       default: {
@@ -179,7 +178,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
                 <React.Fragment>
                   <Grid item xs={12}>
                     <Grid item container xs={12}>
-                      <Grid item xs={6}>
+                      <Grid item xs={4}>
                         <RadioGroupField
                           name="delivery_type"
                           label="Delivery type"
@@ -193,8 +192,15 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
                           helperText={touched.delivery_type && errors.delivery_type}
                         />
                       </Grid>
-                      <Grid item xs={6}>
-                        date picker
+                      <Grid item xs={8}>
+                        <DatePickerField
+                          name="schedule"
+                          value={values.schedule}
+                          onChange={(v: string) => setFieldValue('schedule', new Date(v))}
+                          onBlur={handleBlur}
+                          error={touched.schedule && Boolean(errors.schedule)}
+                          helperText={touched.schedule && errors.schedule}
+                        />
                       </Grid>
                     </Grid>
                   </Grid>
@@ -258,6 +264,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
     <Paper className={classes.wrapper}>
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={submitForm}>
         {(form: FormikProps<initialValuesType>) => {
+          console.log(form.values);
           return (
             <React.Fragment>
               <Form className={classes.formContainer}>
@@ -282,6 +289,7 @@ interface initialValuesType {
   expire: string;
   type_expired: string;
   segment?: string;
+  schedule: string;
 }
 
 const initialValues: initialValuesType = {
@@ -294,6 +302,7 @@ const initialValues: initialValuesType = {
   expire: '0',
   type_expired: EXPIRE.Hours,
   segment: '',
+  schedule: '',
 };
 
 const validationSchema = yup.object().shape({});
