@@ -40,7 +40,7 @@ const AlertConfirm = ({
   return (
     <Dialog open={open} fullWidth maxWidth="sm" onClose={onClose} className={classes.container}>
       <DialogTitle>
-        <Typography variant="h3">
+        <Typography variant="h5">
           <Trans>{alertTitle}</Trans>
         </Typography>
       </DialogTitle>
