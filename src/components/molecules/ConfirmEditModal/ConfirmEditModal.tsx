@@ -90,7 +90,7 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
           {title}
         </Trans>
       </Typography>
-      {data.length && data.length > 5 ? (
+      {data.length && data.length < 6 ? (
         data.map((e) => (
           <Typography fontWeight="bold" key={e.user_id}>
             {e.user_login_id}

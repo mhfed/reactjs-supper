@@ -220,7 +220,7 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
             <Typography variant="h6">
               <Trans>lang_set_your_pin</Trans>
             </Typography>
-            <Button disabled={number.length < 6}>
+            <Button disabled={number.length < 6} onClick={checkPin}>
               <Trans>lang_next</Trans>
             </Button>
           </div>

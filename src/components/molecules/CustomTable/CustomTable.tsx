@@ -244,11 +244,13 @@ function convertColumn({
           if (isEditMode) {
             return (
               <TextField
+                title={value}
                 className={classes.inputCell}
                 variant="outlined"
                 fullWidth
                 defaultValue={value || ''}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  e.target.title = e.target.value;
                   onChange?.(tableMeta.columnData.name, e.target.value, tableMeta.rowIndex);
                 }}
               />
@@ -544,9 +546,9 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           search: false,
           searchOpen: true,
           count: data.count,
-          // page: data.page,
+          page: data.page,
           rowsPerPageOptions,
-          rowsPerPage: +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
+          rowsPerPage: data.rowsPerPage,
           filterType: 'textField',
           fixedHeader: false,
           draggableColumns: {

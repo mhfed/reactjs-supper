@@ -21,12 +21,17 @@ import {
   EXPIRE_OPTION,
   EXPIRE,
   NOTIFICATION_TYPE_OPTION_FILTER,
+  EXPIRE_OPTION_FILTER,
 } from './NotificationConstant';
 import RadioGroupField from 'components/fields/RadioGroupField';
 import { AutocompleteAsyncField, InputField, SelectField, DatePickerField } from 'components/fields';
 import { LooseObject } from 'models/ICommon';
 import { Trans } from 'react-i18next';
 import moment from 'moment';
+import httpRequest from 'services/httpRequest';
+import { postDataUpdateSegmentByID, postDirectSend } from 'apis/request.url';
+import { useDispatch } from 'react-redux';
+import { enqueueSnackbarAction } from 'actions/app.action';
 
 interface CreateNewNotificationProps {}
 
@@ -58,9 +63,61 @@ const useStyles = makeStyles((theme) => ({
 const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   const classes = useStyles();
   const [stateForm, setStateForm] = React.useState(STATE_FORM.CREATE);
+  const dispatch = useDispatch();
 
-  const submitForm = (values: {}, formikHelpers: FormikHelpers<{}>) => {
-    setStateForm(STATE_FORM.PREVIEW);
+  const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
+    if (stateForm === STATE_FORM.CREATE) return setStateForm(STATE_FORM.PREVIEW);
+    let urlSendNoti =
+      values.notification_type === NOTIFICATION_TYPE.Direct ? postDirectSend() : postDataUpdateSegmentByID(values?.segment || '');
+    let bodySendNoti = {};
+
+    if (values.notification_type === NOTIFICATION_TYPE.Direct) {
+      const { title, message, expire, type_expired } = values;
+      bodySendNoti = {
+        title,
+        message,
+        url: 'https://abc.com/',
+        mobile_push: true,
+        subscribers: (values?.subscribers || []).map((x) => x.username),
+        schedule_time: moment(values?.schedule).toDate().getTime(),
+        environment: 'iress-wealth-app',
+        expire_time: `${Number(expire)}${type_expired}`,
+      };
+    } else {
+      const { title, message } = values;
+      bodySendNoti = {
+        title,
+        message,
+        url: 'https://abc.com/',
+        icon: 'https://media.istockphoto.com/photos/hand-touching-virtual-world-with-connection-network-global-data-and-picture-id1250474241',
+        mobile_push: true,
+        desktop_push: true,
+        email_push: true,
+        environment: 'iress-wealth-app',
+      };
+    }
+
+    httpRequest
+      .post(urlSendNoti, bodySendNoti)
+      .then(() => {
+        dispatch(
+          enqueueSnackbarAction({
+            message: 'lang_send_notification_successfully',
+            key: new Date().getTime() + Math.random(),
+            variant: 'success',
+          }),
+        );
+      })
+      .catch((err) => {
+        dispatch(
+          enqueueSnackbarAction({
+            message: 'lang_send_notification_unsuccessfully',
+            key: new Date().getTime() + Math.random(),
+            variant: 'error',
+          }),
+        );
+        console.log(err);
+      });
   };
 
   const handleClearData = () => {};
@@ -80,7 +137,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
         const delivery_type_preview = `${values?.delivery_type || ''} ${moment(values?.schedule || '').format(
           'MM/DD/YYYY HH:MM',
         )}`;
-        const expired_preview = `${values?.expire || ''} ${values?.type_expired}`;
+        const expired_preview = `${values?.expire || ''} ${EXPIRE_OPTION_FILTER[values?.type_expired]}`;
 
         return (
           <Grid container spacing={2}>
