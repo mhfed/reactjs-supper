@@ -9,7 +9,7 @@ import httpRequest from 'services/httpRequest';
 import { putDataUpdateSegmentByID } from 'apis/request.url';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { useDispatch } from 'react-redux';
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, TextField, FormLabel } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
@@ -57,11 +57,31 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
   const dispatch = useDispatch();
   const [stateForm, setStateForm] = React.useState(typePage || STATE_FORM.DETAIL);
 
+  const handleCancelEdit = () => {
+    const isChangeSubscriber = compareArray(values.segment_subscribers, initialValues.segment_subscribers);
+    if (values.segment_name === initialValues.segment_name && !isChangeSubscriber) {
+      typePage === STATE_FORM.DETAIL ? setStateForm(STATE_FORM.DETAIL) : hideModal();
+    } else {
+      showSubModal({
+        title: 'lang_confirm_cancel',
+        component: ConfirmEditModal,
+        props: {
+          title: 'lang_confirm_cancel_text',
+          isCancelPage: true,
+          emailConfirm: false,
+          onSubmit: () => {
+            hideSubModal();
+            typePage === STATE_FORM.DETAIL ? setStateForm(STATE_FORM.DETAIL) : hideModal();
+          },
+        },
+      });
+    }
+  };
   const handleCancel = () => {
     if (typePage === STATE_FORM.DETAIL && stateForm === STATE_FORM.EDIT) {
-      setStateForm(STATE_FORM.DETAIL);
+      handleCancelEdit();
     } else {
-      hideModal();
+      typePage === STATE_FORM.EDIT ? handleCancelEdit() : hideModal();
     }
   };
 
@@ -150,9 +170,6 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
               </Grid>
               <Grid item xs={12}>
                 <FormControl style={{ pointerEvents: 'none' }} sx={{ minWidth: 120, width: '100%' }}>
-                  <Typography sx={{ mb: '12px' }} variant="h5">
-                    <Trans>lang_subscribers</Trans>
-                  </Typography>
                   <Autocomplete
                     multiple
                     id="tags-readOnly"
@@ -162,15 +179,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
                     freeSolo
                     // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
                     renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        variant="standard"
-                        label={
-                          <Typography variant="h4">
-                            <Trans>lang_subscribers</Trans>
-                          </Typography>
-                        }
-                      ></TextField>
+                      <TextField {...params} variant="standard" label={<Trans>lang_subscribers</Trans>}></TextField>
                     )}
                   />
                 </FormControl>

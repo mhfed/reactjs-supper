@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Common api url
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import { ISortConfig } from 'models/ICommon';
 
 // Auth - v1

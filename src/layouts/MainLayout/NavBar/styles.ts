@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
       justifyContent: 'center',
       ...theme.mixins.toolbar,
-      fontSize: 20,
       '& img': {
         width: '100%',
         height: '100%',
@@ -88,9 +87,6 @@ const useStyles = makeStyles((theme: Theme) =>
       flex: 1,
       height: '100%',
       width: '100%',
-    },
-    version: {
-      fontSize: 12,
     },
   }),
 );

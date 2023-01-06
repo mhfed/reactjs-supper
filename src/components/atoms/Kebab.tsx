@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Kebab icon with actions for table row
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import * as React from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';

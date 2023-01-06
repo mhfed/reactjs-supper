@@ -36,7 +36,7 @@ function TopBar({ isDrawer, handleToogleDrawer }: IProps) {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h3">
+        <Typography variant="h5">
           <Trans>{title}</Trans>
         </Typography>
         <div className={classes.grow} />
