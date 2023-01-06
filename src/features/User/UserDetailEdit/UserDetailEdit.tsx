@@ -11,8 +11,11 @@ import httpRequest from 'services/httpRequest';
 import { getUserDetailByUserIdUrl } from 'apis/request.url';
 import EditIcon from '@mui/icons-material/Edit';
 import { SITE_NAME_OPTIONS, USER_STATUS_OPTIONS } from '../UserConstants';
-import { useLocation } from 'react-router';
 import moment from 'moment-timezone';
+import { useGlobalModalContext } from 'containers/Modal';
+import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
+import { useSelector } from 'react-redux';
+import { userSelector } from 'selectors/auth.selector';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -38,6 +41,8 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [editMode, setEditMode] = React.useState(false);
+  const { showSubModal, hideModal, hideSubModal } = useGlobalModalContext();
+  const user = useSelector(userSelector);
 
   const initialValues = {
     full_name: dataForm.full_name,
@@ -47,6 +52,20 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
     last_time: dataForm.last_time,
     create_time: dataForm.create_time,
     description: dataForm.note,
+  };
+
+  // Handle show modal confirm
+  const handleBeforeSubmit = () => {
+    showSubModal({
+      title: 'lang_confirm',
+      component: ConfirmEditModal,
+      props: {
+        title: 'lang_confirm_edit_user',
+        emailConfirm: true,
+        titleTransValues: { user: values.user_login },
+        onSubmit: () => handleFormSubmit(),
+      },
+    });
   };
 
   // Handle Submit Form
@@ -69,6 +88,8 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
           variant: 'success',
         }),
       );
+      hideModal();
+      hideSubModal();
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({
@@ -77,6 +98,8 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
           variant: 'error',
         }),
       );
+      hideModal();
+      hideSubModal();
       console.error('Create user handleFormSubmit error: ', error);
     }
   };
@@ -84,7 +107,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
   const { values, errors, touched, handleChange, handleBlur, handleSubmit } = useFormik({
     initialValues: { ...initialValues },
     validationSchema: validationSchema,
-    onSubmit: handleFormSubmit,
+    onSubmit: handleBeforeSubmit,
   });
 
   const handleTurnOnEditMode = () => {
