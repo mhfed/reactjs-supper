@@ -114,6 +114,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
       {
         name: FIELD.DELIVERY_TYPE,
         label: 'lang_delivery_type',
+        minWidth: 160,
       },
       {
         name: FIELD.TITLE,

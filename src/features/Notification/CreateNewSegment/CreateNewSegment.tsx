@@ -91,7 +91,6 @@ const Sample = () => {
   const handleBlurInput = (e: React.FocusEvent<HTMLInputElement>) => {
     setFieldValue('segment_name', values.segment_name.trim());
     handleBlur(e);
-    console.log('value after blur:', values);
   };
   const renderContent = (stateForm: string) => {
     let defaultArray = Array.isArray(values.segment_subscribers) ? values.segment_subscribers.map((x: any) => x.username) : [];
