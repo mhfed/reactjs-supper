@@ -14,6 +14,7 @@ import FormControl from '@mui/material/FormControl';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import { LooseObject } from 'models/ICommon';
+import EditIcon from '@mui/icons-material/Edit';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -181,6 +182,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
               </Button>
               <Button
                 variant="contained"
+                startIcon={<EditIcon />}
                 onClick={() => {
                   setStateForm(STATE_FORM.EDIT);
                 }}
