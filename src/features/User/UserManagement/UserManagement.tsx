@@ -142,6 +142,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
           showModal({
             title: 'lang_user_details',
             component: UserDetailEdit,
+            showBtnClose: true,
             fullScreen: true,
             props: {
               dataForm: data,
