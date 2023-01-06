@@ -1,4 +1,9 @@
 {
+  "lang_please_generate_password": "Please generate password",
+  "lang_please_enter_full_name": "Please enter full name",
+  "lang_please_enter_user_login": "Please enter user login",
+  "lang_please_select_sitename": "Please select sitename",
+  "lang_please_select_status": "Please select status",
   "lang_no": "No",
   "lang_yes": "Yes",
   "lang_confirm_cancel": "Confirm Cancellation",
