@@ -33,6 +33,7 @@ type TextFieldProps = {
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   style?: React.CSSProperties | undefined;
   dir?: 'rtl';
+  variant?: 'standard' | 'filled' | 'outlined' | undefined;
 };
 
 const InputField: React.FC<TextFieldProps> = ({ label, helperText, ...props }) => {
