@@ -413,6 +413,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     return {
       ...(config.current || {}),
       page: typeof config.current?.page === 'number' ? config.current.page + 1 : 1,
+      sort: config.current?.sort?.sortType !== 'NONE' ? { ...config.current?.sort } : null,
     };
   };
 
@@ -500,7 +501,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     }, []);
   }, [columns, isEditMode, data]);
 
-  const isNodata = !data.data.length;
+  const isNodata = !data?.data?.length;
   return (
     <div className={classes.container}>
       <MUIDataTable
@@ -545,10 +546,10 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           filter: false,
           search: false,
           searchOpen: true,
-          count: data.count,
-          page: data.page,
+          count: data.count || 0,
+          page: data.page || 1,
           rowsPerPageOptions,
-          rowsPerPage: data.rowsPerPage,
+          rowsPerPage: data.rowsPerPage || +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
           filterType: 'textField',
           fixedHeader: false,
           draggableColumns: {
