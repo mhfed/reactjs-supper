@@ -1,7 +1,14 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Preview field for preview mode
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import TextField from '@mui/material/TextField';
 import { Trans, useTranslation } from 'react-i18next';
-import { Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 type Options = {

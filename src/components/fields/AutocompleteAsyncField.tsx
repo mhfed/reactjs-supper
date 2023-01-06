@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Autocomplete field with dynamic data from async request
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import { Autocomplete, TextField } from '@mui/material';
 import { FormikErrors } from 'formik';

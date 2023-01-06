@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Common field export
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import InputField from './InputField';
 import PasswordField from './PasswordField';
 import SelectField from './SelectField';

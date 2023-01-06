@@ -9,7 +9,7 @@ import httpRequest from 'services/httpRequest';
 import { putDataUpdateSegmentByID } from 'apis/request.url';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { useDispatch } from 'react-redux';
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, TextField, FormLabel } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
@@ -48,7 +48,7 @@ type EditSegmentProps = {
 };
 const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubscribers }) => {
   const classes = useStyles();
-  const { showSubModal, hideModal, hideSubModal } = useGlobalModalContext();
+  const { showSubModal, hideModal, hideSubModal, isClosing } = useGlobalModalContext();
   let initialValues = {
     segment_name: dataForm?.name || '',
     segment_subscribers: listSubscribers || [],
@@ -56,6 +56,10 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
   };
   const dispatch = useDispatch();
   const [stateForm, setStateForm] = React.useState(typePage || STATE_FORM.DETAIL);
+
+  React.useEffect(() => {
+    isClosing && alert('Closing');
+  }, [isClosing]);
 
   const handleCancel = () => {
     if (typePage === STATE_FORM.DETAIL && stateForm === STATE_FORM.EDIT) {
@@ -150,9 +154,6 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
               </Grid>
               <Grid item xs={12}>
                 <FormControl style={{ pointerEvents: 'none' }} sx={{ minWidth: 120, width: '100%' }}>
-                  <Typography sx={{ mb: '12px' }} variant="h5">
-                    <Trans>lang_subscribers</Trans>
-                  </Typography>
                   <Autocomplete
                     multiple
                     id="tags-readOnly"
@@ -162,15 +163,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
                     freeSolo
                     // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
                     renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        variant="standard"
-                        label={
-                          <Typography variant="h4">
-                            <Trans>lang_subscribers</Trans>
-                          </Typography>
-                        }
-                      ></TextField>
+                      <TextField {...params} variant="standard" label={<Trans>lang_subscribers</Trans>}></TextField>
                     )}
                   />
                 </FormControl>
