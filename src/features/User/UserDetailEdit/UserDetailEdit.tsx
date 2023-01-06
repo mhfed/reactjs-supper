@@ -34,6 +34,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type UserDetailProps = {};
+
+const formatDate = (valueFormat: number | string) => {
+  if (!valueFormat) return '--';
+  return moment(valueFormat).format('DD/MM/YYYY HH:mm:ss');
+};
 const compareChanges = (initialValues: any, values: any) => {
   const keys = Object.keys(initialValues);
   let isChange = false;
@@ -149,13 +154,13 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
               <PreviewField label="lang_user_login" value={values.user_login} />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField label="lang_last_active" value={moment(values.last_time).format('DD/MM/YYYY HH:mm:ss')} />
+              <PreviewField label="lang_last_active" value={formatDate(values.last_time)} />
             </Grid>
             <Grid item xs={6}>
               <PreviewField label="lang_sitename" value={values.site_name} options={SITE_NAME_OPTIONS} />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField label="lang_create_time" value={moment(values.create_time).format('DD/MM/YYYY HH:mm:ss')} />
+              <PreviewField label="lang_create_time" value={formatDate(values.create_time)} />
             </Grid>
             <Grid item xs={12}>
               <PreviewField label="lang_notes" value={values.note} />
@@ -200,12 +205,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
               <PreviewField label="lang_user_login" value={values.user_login} variant={'outlined'} disabled />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField
-                label="lang_last_active"
-                value={moment(values.last_time).format('DD/MM/YYYY HH:mm:ss')}
-                variant={'outlined'}
-                disabled
-              />
+              <PreviewField label="lang_last_active" value={formatDate(values.last_time)} variant={'outlined'} disabled />
             </Grid>
             <Grid item xs={6}>
               <SelectField
@@ -222,12 +222,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
               />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField
-                label="lang_create_time"
-                value={moment(values.create_time).format('DD/MM/YYYY HH:mm:ss')}
-                variant={'outlined'}
-                disabled
-              />
+              <PreviewField label="lang_create_time" value={formatDate(values.create_time)} variant={'outlined'} disabled />
             </Grid>
             <Grid item xs={12}>
               <InputField
