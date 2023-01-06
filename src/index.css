@@ -92,3 +92,25 @@ select:-webkit-autofill:focus {
   background-position-y: center;
   min-width: 40px;
 }
+
+fieldset.MuiFormControl-root {
+  padding: 16px 0;
+}
+fieldset.MuiFormControl-root > span {
+  padding: 0 24px;
+  margin: 0;
+}
+
+fieldset.MuiFormControl-root .MuiFormGroup-root > label {
+  padding: 0 24px 0 18px;
+  margin: 0;
+}
+
+.dark fieldset.MuiFormControl-root .MuiFormGroup-root > label:hover,
+.light fieldset.MuiFormControl-root .MuiFormGroup-root > label:hover {
+  background: rgba(0, 199, 127, 0.08);
+}
+
+fieldset.MuiFormControl-root .MuiFormGroup-root > label:last-child {
+  display: none;
+}

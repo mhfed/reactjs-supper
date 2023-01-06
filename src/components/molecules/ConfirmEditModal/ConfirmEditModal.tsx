@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 type ConfirmEditUserModalProps = {
   title: string;
+  isCancelPage?: boolean;
   titleTransValues?: LooseObject;
   emailConfirm?: boolean;
   data?: LooseObject[];
@@ -35,6 +36,7 @@ type ConfirmEditUserModalProps = {
 
 const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
   title,
+  isCancelPage = false,
   titleTransValues = {},
   emailConfirm = true,
   data = [],
@@ -66,7 +68,7 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
   };
 
   const handleConfirm = () => {
-    if (email !== user.user_login_id) {
+    if (emailConfirm && email !== user.user_login_id) {
       setError('lang_email_did_not_match');
     } else {
       onSubmit();
@@ -108,10 +110,10 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
       )}
       <div className={classes.btnContainer}>
         <Button variant="outlined" onClick={onClose} sx={{ mr: 2 }}>
-          <Trans>lang_cancel</Trans>
+          <Trans>{isCancelPage ? 'lang_no' : 'lang_cancel'}</Trans>
         </Button>
         <Button network variant="contained" disabled={emailConfirm && !email} onClick={handleConfirm}>
-          <Trans>lang_confirm</Trans>
+          <Trans>{isCancelPage ? 'lang_yes' : 'lang_confirm'}</Trans>
         </Button>
       </div>
     </div>

@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Redux action for auth
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import { Dispatch } from 'redux';
 import { IAuthActionTypes, IAuthStep } from 'models/IAuthState';
 import authService from 'services/authService';

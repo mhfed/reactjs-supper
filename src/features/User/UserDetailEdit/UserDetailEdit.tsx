@@ -11,8 +11,9 @@ import httpRequest from 'services/httpRequest';
 import { getUserDetailByUserIdUrl } from 'apis/request.url';
 import EditIcon from '@mui/icons-material/Edit';
 import { SITE_NAME_OPTIONS, USER_STATUS_OPTIONS } from '../UserConstants';
-import { useLocation } from 'react-router';
 import moment from 'moment-timezone';
+import { useGlobalModalContext } from 'containers/Modal';
+import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -38,15 +39,30 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [editMode, setEditMode] = React.useState(false);
+  const { showSubModal, hideModal, hideSubModal } = useGlobalModalContext();
 
   const initialValues = {
-    full_name: dataForm.full_name,
-    status: dataForm.status,
-    user_login: dataForm.user_login_id,
-    site_name: dataForm.site_name,
-    last_time: dataForm.last_time,
-    create_time: dataForm.create_time,
-    description: dataForm.note,
+    full_name: dataForm.full_name || '',
+    status: dataForm.status || '',
+    user_login: dataForm.user_login_id || '',
+    site_name: dataForm.site_name || '',
+    last_time: dataForm.last_time || '',
+    create_time: dataForm.create_time || '',
+    description: dataForm.note || '',
+  };
+
+  // Handle show modal confirm
+  const handleBeforeSubmit = () => {
+    showSubModal({
+      title: 'lang_confirm',
+      component: ConfirmEditModal,
+      props: {
+        title: 'lang_confirm_edit_user',
+        emailConfirm: true,
+        titleTransValues: { user: values.user_login },
+        onSubmit: () => handleFormSubmit(),
+      },
+    });
   };
 
   // Handle Submit Form
@@ -62,13 +78,16 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
       };
       const user_id = dataForm.user_id;
       const response: any = await httpRequest.put(getUserDetailByUserIdUrl(user_id), body);
+
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_create_user_successfully',
+          message: 'lang_update_user_successfully',
           key: new Date().getTime() + Math.random(),
           variant: 'success',
         }),
       );
+      hideModal();
+      hideSubModal();
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({
@@ -77,14 +96,16 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
           variant: 'error',
         }),
       );
-      console.error('Create user handleFormSubmit error: ', error);
+      hideModal();
+      hideSubModal();
+      console.error('Update user handleFormSubmit error: ', error);
     }
   };
 
   const { values, errors, touched, handleChange, handleBlur, handleSubmit } = useFormik({
     initialValues: { ...initialValues },
     validationSchema: validationSchema,
-    onSubmit: handleFormSubmit,
+    onSubmit: handleBeforeSubmit,
   });
 
   const handleTurnOnEditMode = () => {
