@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Handle sort
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 function descendingComparator(a: any, b: any, orderBy: string) {
   if (b[orderBy] < a[orderBy]) {
     return -1;

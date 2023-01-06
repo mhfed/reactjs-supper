@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * RichTextbox to create articles
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React, { useImperativeHandle, forwardRef } from 'react';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';

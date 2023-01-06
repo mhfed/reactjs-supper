@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Confirm popup with current user login (email) check
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { LooseObject } from 'models/ICommon';

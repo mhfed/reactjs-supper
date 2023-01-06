@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Auth models (redux action type, common type)
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 export enum IAuthActionTypes {
   LOGIN_REQUEST = 'AUTH/LOGIN_REQUEST',
   LOGIN_SUCCESS = 'AUTH/LOGIN_SUCESS',

@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Handle auth action
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import httpRequest from 'services/httpRequest';
 import {
   getSessionUrl,

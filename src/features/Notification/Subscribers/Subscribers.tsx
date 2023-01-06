@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * List subscriber
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import { getListSubscribertUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';

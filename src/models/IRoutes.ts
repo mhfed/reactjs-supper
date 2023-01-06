@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Common type for routers
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React, { ComponentType } from 'react';
 
 type ICommon = {

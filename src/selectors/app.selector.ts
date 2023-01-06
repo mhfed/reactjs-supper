@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * App store selector
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import { createSelector } from 'reselect';
 
 // types

@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Create new segment form
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { Button, Stack, Typography, Grid } from '@mui/material';
@@ -109,6 +117,7 @@ const Sample = () => {
     setFieldValue('segment_name', values.segment_name.trim());
     handleBlur(e);
   };
+
   const renderContent = (stateForm: string) => {
     let defaultArray = Array.isArray(values.segment_subscribers) ? values.segment_subscribers.map((x: any) => x.username) : [];
     switch (stateForm) {

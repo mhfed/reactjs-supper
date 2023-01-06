@@ -1,9 +1,16 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Menu item
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React, { FC } from 'react';
 import { NavLink as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import Button from '@mui/material/Button';
 import ListItem from '@mui/material/ListItem';
-import { canAction } from 'helpers';
 import { INavBarItem } from 'models/INavBar';
 import NavBarExpandItem from './NavBarExpandItem';
 import useStyles from './styles';
@@ -30,19 +37,17 @@ const NavBarItem: FC<INavBarItem> = ({ active, depth, icon: Icon, title, open: o
 
   return (
     <ListItem className={clsx(classes.itemLeaf)} disableGutters key={title}>
-      {canAction('view') ? (
-        <Button
-          className={clsx(classes.buttonLeaf, `depth-${depth}`, active && classes.navBarItemActive)}
-          component={RouterLink}
-          style={style}
-          to={href}
-        >
-          {Icon && <Icon className={classes.icon} size="20" />}
-          <span className={classes.title}>
-            <Trans>{title}</Trans>
-          </span>
-        </Button>
-      ) : null}
+      <Button
+        className={clsx(classes.buttonLeaf, `depth-${depth}`, active && classes.navBarItemActive)}
+        component={RouterLink}
+        style={style}
+        to={href}
+      >
+        {Icon && <Icon className={classes.icon} size="20" />}
+        <span className={classes.title}>
+          <Trans>{title}</Trans>
+        </span>
+      </Button>
     </ListItem>
   );
 };

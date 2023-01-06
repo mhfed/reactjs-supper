@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * User common constants
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 export const API_ACCESS_EDIT_OPTIONS = [
   {
     label: 'lang_retail',

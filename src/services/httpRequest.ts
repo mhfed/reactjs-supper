@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Request hub use axios instance
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import { AxiosInstance } from 'axios';
 import { axiosInstance, IConfig } from './initRequest';
 

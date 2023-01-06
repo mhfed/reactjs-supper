@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Pin common constants
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 export const LIST_KEYBOARD = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '', '0', 'Backspace'];
 export const PIN_STEP = {
   ENTER_YOUR_PIN: 'ENTER_YOUR_PIN',

@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Side menu
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router';

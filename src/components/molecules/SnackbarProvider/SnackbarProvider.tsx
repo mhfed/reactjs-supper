@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Snackbar provider with theme config
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import { SnackbarProvider } from 'notistack';
 import makeStyles from '@mui/styles/makeStyles';

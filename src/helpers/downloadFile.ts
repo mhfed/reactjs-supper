@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Excute download
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 const downloadFile = (name: string, url: string, filetype: string) => {
   return new Promise<void>((resolve, reject) => {
     fetch(url)

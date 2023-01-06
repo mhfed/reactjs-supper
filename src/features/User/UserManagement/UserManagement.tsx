@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * User management screen
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import { getSearchUserUrl, getUserDetailUrl, getResetUserPasswordUrl, getUserDetailByIdUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';

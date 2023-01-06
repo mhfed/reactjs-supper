@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Handle role for each router
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React, { FC, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
