@@ -56,7 +56,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
                 }}
                 fullWidth
                 variant={'standard'}
-                value={values.segment}
+                value={(values.segment as any)?.segment_id}
               />
             </React.Fragment>
           ) : (

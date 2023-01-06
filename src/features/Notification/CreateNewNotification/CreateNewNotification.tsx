@@ -69,7 +69,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
     if (stateForm === STATE_FORM.CREATE) return setStateForm(STATE_FORM.PREVIEW);
     let urlSendNoti =
-      values.notification_type === NOTIFICATION_TYPE.Direct ? postDirectSend() : postDataUpdateSegmentByID(values?.segment || '');
+      values.notification_type === NOTIFICATION_TYPE.Direct ? postDirectSend() : postDataUpdateSegmentByID((values?.segment as any)?.segment_id || '');
     let bodySendNoti = {};
 
     if (values.notification_type === NOTIFICATION_TYPE.Direct) {

@@ -13,6 +13,7 @@ import RadioGroupField from 'components/fields/RadioGroupField';
 import { AutocompleteAsyncField, InputField, SelectField, DatePickerField } from 'components/fields';
 import { initialValuesType, isOptionEqualToValue } from '../CreateNewNotification'
 import { ClassNameMap } from 'notistack';
+import SearchAsyncField from 'components/fields/SearchAsyncField';
 
 
 interface FormCreateNotifiactionProps {
@@ -42,13 +43,13 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
         {values.notification_type === NOTIFICATION_TYPE.Segment ? (
           <React.Fragment>
             <Grid item xs={12}>
-              <InputField
+              <SearchAsyncField
                 name="segment"
                 label="Segment"
                 required
                 fullWidth
                 value={values.segment}
-                onChange={handleChange}
+                onChange={(v: any) => setFieldValue('segment', v)}
                 onBlur={handleBlur}
                 error={touched.segment && Boolean(errors.segment)}
                 helperText={touched.segment && errors.segment}
