@@ -68,11 +68,13 @@ export const verifyPin = (pin: string, navigate: NavigateFunction) => async (dis
   }
 };
 
-export const setPinAfterChangePass = () => async (dispatch: Dispatch<any>) => {
-  dispatch({
-    type: IAuthActionTypes.FORCE_SET_PIN,
-  });
-};
+export const setPinAfterChangePass = () => ({
+  type: IAuthActionTypes.FORCE_SET_PIN,
+});
+
+export const clearError = () => ({
+  type: IAuthActionTypes.CLEAR_ERROR,
+});
 
 export const updateUserInfo = (userInfo: any) => ({
   type: IAuthActionTypes.UPDATE_USER_INFO,

@@ -18,9 +18,10 @@ type DropdownCellProps = {
   value: string | number;
   options: DropdownOption[];
   onChange: (value: string | number) => void;
+  style?: any;
 };
 
-const DropdownCell: React.FC<DropdownCellProps> = ({ value: initialValue, onChange, options = [] }) => {
+const DropdownCell: React.FC<DropdownCellProps> = ({ value: initialValue, onChange, options = [], style = {} }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(initialValue);
 
@@ -31,7 +32,7 @@ const DropdownCell: React.FC<DropdownCellProps> = ({ value: initialValue, onChan
 
   return (
     <div className={classes.container}>
-      <Select value={value} onChange={handleChange} displayEmpty>
+      <Select value={value} onChange={handleChange} displayEmpty sx={style}>
         {options.map((option, index) => (
           <MenuItem value={option.value} key={`MenuItem_${index}`}>
             <Trans>{option.label}</Trans>

@@ -2,6 +2,7 @@ import { IAppActionTypes, IAppActionCreator, IAppState } from 'models/IAppState'
 
 const initialState: IAppState = {
   isLoading: false,
+  isConnecting: false,
   dialog: {
     type: 'error',
     isShow: false,
@@ -16,6 +17,11 @@ const reducer = (state = initialState, { type, payload }: IAppActionCreator) => 
       return {
         ...state,
         isLoading: payload,
+      };
+    case IAppActionTypes.SET_CONNECTING:
+      return {
+        ...state,
+        isConnecting: payload,
       };
     case IAppActionTypes.SET_DIALOG:
       return {

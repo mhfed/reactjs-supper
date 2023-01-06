@@ -42,6 +42,8 @@ export type IColumn = {
   actions?: IKebabItem[];
   formatter?: (data: any) => string;
   getActions?: (data: any) => any;
+  minWidth?: number;
+  textTransform?: string;
 };
 
 export type ISortConfig = {

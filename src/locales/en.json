@@ -1,4 +1,6 @@
 {
+  "lang_email_too_long": "Your user login must use 3-255 characters and cannot contain spaces",
+  "lang_connecting": "Connecting...",
   "lang_view_user_detail": "View User Detail",
   "lang_edit_segment": "Edit segment",
   "lang_preview_create_new_user": "Preview Create New User",
@@ -32,6 +34,7 @@
   "lang_clear_data": "Clear Data",
   "lang_type_your_articles": "Type your Articles...",
   "lang_there_is_nothing_to_change": "There is nothing to change",
+  "lang_there_is_no_change_in_the_user_information": "There is no change in the user information",
   "lang_update_user_information_successfully": "Update user information successfully.",
   "lang_update_user_information_unsuccessfully": "Update user information unsuccessfully.",
   "lang_select_segment_subcriber": "Subscribers is required",
@@ -56,7 +59,7 @@
   "lang_expiration_time": "Expiratio Time",
   "lang_schedule": "Schedule",
   "lang_trigger_time": "Trigger Time",
-  "lang_attemped": "Attemped",
+  "lang_attempted": "Attempted",
   "lang_delivered": "Delivered",
   "lang_clicked": "Clicked",
   "lang_delete": "Delete",

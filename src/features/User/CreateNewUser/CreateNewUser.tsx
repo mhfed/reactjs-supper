@@ -1,5 +1,5 @@
 import React from 'react';
-import * as yup from 'yup';
+import { yup } from 'helpers';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { InputField, PasswordField, PreviewField, SelectField } from 'components/fields';

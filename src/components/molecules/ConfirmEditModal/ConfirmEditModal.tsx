@@ -3,7 +3,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import { LooseObject } from 'models/ICommon';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import Button from 'components/atoms/ButtonBase';
 import { validate } from 'helpers';
 import { Trans } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -51,23 +51,18 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
     const value = e.target.value;
     timeoutId.current && window.clearTimeout(timeoutId.current);
     timeoutId.current = window.setTimeout(() => {
-      setEmail(value);
+      if (value === '') {
+        setError('lang_email_required');
+      } else {
+        const errorCodeLang = validate.isValidEmail(value);
+        if (errorCodeLang && errorCodeLang !== error) {
+          setError(errorCodeLang);
+        } else if (!errorCodeLang) {
+          if (error) setError('');
+          setEmail(value);
+        }
+      }
     }, process.env.REACT_APP_DEBOUNCE_TIME);
-  };
-
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    if (e.target.value === '') {
-      setError('lang_email_required');
-      return;
-    }
-    const isValid = validate.isValidEmail(e.target.value);
-    if (isValid && error) {
-      setError('');
-      return;
-    }
-    if (!isValid) {
-      setError('lang_email_invalid');
-    }
   };
 
   const handleConfirm = () => {
@@ -85,7 +80,7 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
           {title}
         </Trans>
       </Typography>
-      {data.length ? (
+      {data.length && data.length > 5 ? (
         data.map((e) => (
           <Typography fontWeight="bold" key={e.user_id}>
             {e.user_login_id}
@@ -105,7 +100,6 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
           autoComplete="email"
           // value={email}
           onChange={handleChange}
-          onBlur={handleBlur}
           error={!!error}
           helperText={<Trans>{error}</Trans>}
         />
@@ -116,7 +110,7 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
         <Button variant="outlined" onClick={onClose} sx={{ mr: 2 }}>
           <Trans>lang_cancel</Trans>
         </Button>
-        <Button variant="contained" onClick={handleConfirm}>
+        <Button network variant="contained" disabled={emailConfirm && !email} onClick={handleConfirm}>
           <Trans>lang_confirm</Trans>
         </Button>
       </div>

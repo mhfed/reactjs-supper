@@ -12,6 +12,7 @@ export enum IAuthActionTypes {
   REGISTER = 'AUTH/REGISTER',
   UPDATE_USER_INFO = 'AUTH/UPDATE_USER_INFO',
   UPDATE_TOKEN = 'AUTH/UPDATE_TOKEN',
+  CLEAR_ERROR = 'AUTH/CLEAR_ERROR',
 }
 
 export enum IAuthStep {

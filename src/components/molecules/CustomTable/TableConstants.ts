@@ -13,6 +13,7 @@ export const COLUMN_TYPE = {
   DATETIME: 'datetime',
   LINK: 'link',
   MULTIPLE_TAG: 'multiple_tag',
+  INPUT: 'input',
   ACTION: 'action',
 };
 

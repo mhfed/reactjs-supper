@@ -5,6 +5,11 @@ export const setLoading = (isLoading: boolean) => ({
   payload: isLoading,
 });
 
+export const setConnecting = (isConnecting: boolean) => ({
+  type: IAppActionTypes.SET_CONNECTING,
+  payload: isConnecting,
+});
+
 export const setDialog = (isShow: boolean, type: string = 'error', content: React.ReactNode = '') => ({
   type: IAppActionTypes.SET_DIALOG,
   payload: {

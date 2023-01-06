@@ -5,7 +5,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { Trans, useTranslation } from 'react-i18next';
 import { alpha } from '@mui/material/styles';
-import Button from '@mui/material/Button';
+import Button from 'components/atoms/ButtonBase';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { ACTIONS } from './TableConstants';
 import clsx from 'clsx';
@@ -70,12 +70,13 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
           <Button variant="outlined" startIcon={<ModeEditIcon />} onClick={() => handleEdit(ACTIONS.CANCEL)} sx={{ mr: 1 }}>
             <Trans>lang_cancel</Trans>
           </Button>
-          <Button variant="contained" startIcon={<ModeEditIcon />} onClick={() => handleEdit(ACTIONS.SAVE)}>
+          <Button network variant="contained" startIcon={<ModeEditIcon />} onClick={() => handleEdit(ACTIONS.SAVE)}>
             <Trans>lang_save</Trans>
           </Button>
         </div>
       ) : (
         <Button
+          network
           variant="contained"
           className={clsx(!editable && classes.hidden)}
           disabled={isNodata}

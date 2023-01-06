@@ -28,6 +28,7 @@ const Notifier = () => {
 
       // display snackbar using notistack
       enqueueSnackbar(t(ele.message), {
+        autoHideDuration: 3000,
         key: ele.key,
         variant: ele.variant,
         onExited: (_, keySnackBar) => {

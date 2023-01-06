@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 import SnackbarProvider from 'components/molecules/SnackbarProvider';
 import { ThemeProvider, StyledEngineProvider, responsiveFontSizes } from '@mui/material/styles';
 import { useGlobalContext } from 'context/GlobalContext';
 import Auth from 'containers/Auth';
 import Dialog from 'components/molecules/Dialog';
+import NetworkLoading from 'components/atoms/NetworkLoading';
 import SnackBarBase from 'components/molecules/SnackBar';
 import themes from 'themes';
 import { THEMES } from 'configs';
@@ -13,6 +15,7 @@ import Routes from 'routes/Routes';
 import { Theme } from '@mui/material/styles';
 import GlobalModal from 'containers/Modal';
 import moment from 'moment-timezone';
+import { setConnecting } from 'actions/app.action';
 
 declare module '@mui/styles/defaultTheme' {
   interface DefaultTheme extends Theme {}
@@ -23,9 +26,16 @@ function App() {
   const { i18n } = useTranslation();
   const { modeTheme, language } = useGlobalContext();
   const type = modeTheme === THEMES.LIGHT ? 0 : 1;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     moment.tz.setDefault('Australia/Sydney');
+    window.addEventListener('online', () => {
+      dispatch(setConnecting(false));
+    });
+    window.addEventListener('offline', () => {
+      dispatch(setConnecting(true));
+    });
     const initTooltip = () => {
       const sheet = (function () {
         const style = document.createElement('style');
@@ -59,7 +69,7 @@ function App() {
           target.tagName === 'SPAN' ||
           target.tagName === 'P'
         ) {
-          if (target.tagName !== 'INPUT') title = target.innerText;
+          if (target.tagName !== 'INPUT') title = (target.innerText + '').replace(/\n/g, '');
           else title = '';
         } else {
           title = target.titleH;
@@ -122,6 +132,7 @@ function App() {
           <Auth>
             <SnackbarProvider>
               <GlobalModal>
+                <NetworkLoading />
                 <Dialog />
                 <Routes />
                 <SnackBarBase />
