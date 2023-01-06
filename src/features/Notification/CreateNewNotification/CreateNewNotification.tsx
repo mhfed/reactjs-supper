@@ -73,17 +73,19 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
     let bodySendNoti = {};
 
     if (values.notification_type === NOTIFICATION_TYPE.Direct) {
-      const { title, message, expire, type_expired } = values;
+      const { title, message, expire, type_expired, delivery_type } = values;
       bodySendNoti = {
         title,
         message,
         url: 'https://abc.com/',
         mobile_push: true,
         subscribers: (values?.subscribers || []).map((x) => x.username),
-        schedule_time: moment(values?.schedule).toDate().getTime(),
         environment: 'iress-wealth-app',
         expire_time: `${Number(expire)}${type_expired}`,
       };
+      if (delivery_type === DELIVERY_TYPE.Schedule) {
+        bodySendNoti = { ...bodySendNoti, schedule_time: moment(values?.schedule).toDate().getTime() }
+      }
     } else {
       const { title, message } = values;
       bodySendNoti = {

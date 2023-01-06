@@ -7,6 +7,7 @@ import {
   TYPE_URL_OPTIONS,
   NOTIFICATION_TYPE,
   EXPIRE_OPTION,
+  DELIVERY_TYPE,
 } from '../NotificationConstant';
 import RadioGroupField from 'components/fields/RadioGroupField';
 import { AutocompleteAsyncField, InputField, SelectField, DatePickerField } from 'components/fields';
@@ -150,14 +151,16 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                   />
                 </Grid>
                 <Grid item xs={8}>
-                  <DatePickerField
-                    name="schedule"
-                    value={values.schedule}
-                    onChange={(v: string) => setFieldValue('schedule', new Date(v))}
-                    onBlur={handleBlur}
-                    error={touched.schedule && Boolean(errors.schedule)}
-                    helperText={touched.schedule && errors.schedule}
-                  />
+                  {values?.delivery_type === DELIVERY_TYPE.Instant ? null :
+                    <DatePickerField
+                      name="schedule"
+                      value={values.schedule}
+                      onChange={(v: string) => setFieldValue('schedule', new Date(v))}
+                      onBlur={handleBlur}
+                      error={touched.schedule && Boolean(errors.schedule)}
+                      helperText={touched.schedule && errors.schedule}
+                    />}
+
                 </Grid>
               </Grid>
             </Grid>
