@@ -31,7 +31,7 @@
   "lang_content": "Content",
   "lang_notes": "Notes",
   "lang_full_name_max_length": "Full name must include less than 64 characters",
-  "lang_description_max_length": "Description must include less than 255 characters",
+  "lang_note_max_length": "Note must include less than 255 characters",
   "lang_status_required": "Status is required",
   "lang_update_user_successfully": "Update user information successfully",
   "lang_create_user_successfully": "Create user successfully",

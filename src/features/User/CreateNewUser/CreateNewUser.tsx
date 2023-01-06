@@ -63,7 +63,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
           status: values.status,
           site_name: values.site_name,
           full_name: values.full_name,
-          note: values.description,
+          note: values.note,
           password: values.password,
           user_login_id: values.user_login,
         },
@@ -135,7 +135,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                 </Grid>
                 <Grid item xs={6}></Grid>
                 <Grid item xs={6}>
-                  <PreviewField label="lang_description" value={values.description} />
+                  <PreviewField label="lang_notes" value={values.note} />
                 </Grid>
               </Grid>
             </Box>
@@ -236,15 +236,15 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                 <Grid item xs={6}></Grid>
                 <Grid item xs={6}>
                   <InputField
-                    id="description"
-                    name="description"
-                    label="lang_description"
+                    id="note"
+                    name="note"
+                    label="lang_notes"
                     fullWidth
-                    value={values.description}
+                    value={values.note}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={touched.description && Boolean(errors.description)}
-                    helperText={touched.description && errors.description}
+                    error={touched.note && Boolean(errors.note)}
+                    helperText={touched.note && errors.note}
                     multiline
                     rows={4}
                     inputProps={{ maxLength: 255 }}
@@ -273,7 +273,7 @@ const initialValues = {
   user_login: '',
   status: '',
   password: '',
-  description: '',
+  note: '',
 };
 
 const validationSchema = yup.object().shape({
@@ -282,7 +282,7 @@ const validationSchema = yup.object().shape({
   user_login: yup.string().required('lang_user_login_required').matches(validate.getEmailPattern(), 'lang_user_login_is_invalid'),
   status: yup.string().required('lang_status_required'),
   password: yup.string().required('lang_password_required').matches(validate.getPasswordPattern(), 'lang_password_required'),
-  description: yup.string().max(255, 'lang_description_max_length'),
+  note: yup.string().max(255, 'lang_note_max_length'),
 });
 
 export default CreateNewUser;

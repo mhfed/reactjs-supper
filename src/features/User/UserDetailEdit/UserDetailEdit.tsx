@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { InputField, PreviewField, SelectField } from 'components/fields';
 import { useFormik } from 'formik';
-import { Box, Button, Grid, Paper, Stack, Typography } from '@mui/material';
+import { Box, Button, Grid, Stack } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Trans } from 'react-i18next';
 import httpRequest from 'services/httpRequest';
@@ -57,7 +57,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
     site_name: dataForm.site_name || '',
     last_time: dataForm.last_time || '',
     create_time: dataForm.create_time || '',
-    description: dataForm.note || '',
+    note: dataForm.note || '',
   };
 
   // Handle show modal confirm
@@ -93,7 +93,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
           full_name: values.full_name,
           status: values.status,
           site_name: values.site_name,
-          note: values.description,
+          note: values.note,
         },
       };
       const user_id = dataForm.user_id;
@@ -158,7 +158,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
               <PreviewField label="lang_create_time" value={moment(values.create_time).format('DD/MM/YYYY HH:mm:ss')} />
             </Grid>
             <Grid item xs={12}>
-              <PreviewField label="lang_description" value={values.description} />
+              <PreviewField label="lang_notes" value={values.note} />
             </Grid>
           </Grid>
         </Box>
@@ -231,16 +231,16 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
             </Grid>
             <Grid item xs={12}>
               <InputField
-                id="description"
-                name="description"
-                label="lang_description"
+                id="note"
+                name="note"
+                label="lang_notes"
                 required
                 fullWidth
-                value={values.description}
+                value={values.note}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={touched.description && Boolean(errors.description)}
-                helperText={touched.description && errors.description}
+                error={touched.note && Boolean(errors.note)}
+                helperText={touched.note && errors.note}
                 multiline
                 rows={4}
                 inputProps={{ maxLength: 255 }}
