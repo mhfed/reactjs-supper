@@ -76,13 +76,17 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
 
   const showModal = (modalProps: IModalProps) => {
     setStore({
+      ...store,
       open: true,
       ...modalProps,
+      showBtnClose: 'showBtnClose' in modalProps ? modalProps.showBtnClose : false,
+      fullScreen: 'fullScreen' in modalProps ? modalProps.fullScreen : false,
     });
   };
 
   const showSubModal = (modalProps: IModalProps) => {
     setStore({
+      ...store,
       subOpen: true,
       subTitle: modalProps.title,
       subComponent: modalProps.component,
