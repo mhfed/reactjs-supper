@@ -1,6 +1,6 @@
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import { Button, Stack, Typography, Grid } from '@mui/material';
+import { Button, Stack, Typography, Grid, Box } from '@mui/material';
 import { Trans } from 'react-i18next';
 import { InputField, AutocompleteAsyncField, PreviewField } from 'components/fields';
 import { useFormik } from 'formik';
@@ -15,8 +15,14 @@ import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import { LooseObject } from 'models/ICommon';
 import EditIcon from '@mui/icons-material/Edit';
+import CloseIcon from '@mui/icons-material/Close';
 
 const useStyles = makeStyles((theme) => ({
+  divCointainer: {
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'column',
+  },
   container: {
     display: 'flex',
     flex: 1,
@@ -34,6 +40,16 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'uppercase',
     marginBottom: theme.spacing(2),
   },
+  iconClose: {
+    cursor: 'pointer',
+  },
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '100%',
+    padding: theme.spacing(1),
+    background: theme.palette.background.default,
+  },
 }));
 
 const STATE_FORM = {
@@ -44,7 +60,6 @@ type EditSegmentProps = {
   typePage?: string;
   dataForm?: any;
   listSubscribers?: any;
-  // GoByDetail?: boolean;
 };
 const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubscribers }) => {
   const classes = useStyles();
@@ -56,11 +71,17 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
   };
   const dispatch = useDispatch();
   const [stateForm, setStateForm] = React.useState(typePage || STATE_FORM.DETAIL);
-
-  const handleCancelEdit = () => {
+  const handleClose = () => {
+    if (stateForm === STATE_FORM.DETAIL) {
+      hideModal();
+    } else {
+      handleCancelEdit(true);
+    }
+  };
+  const handleCancelEdit = (isXbutton: boolean) => {
     const isChangeSubscriber = compareArray(values.segment_subscribers, initialValues.segment_subscribers);
     if (values.segment_name === initialValues.segment_name && !isChangeSubscriber) {
-      typePage === STATE_FORM.DETAIL ? setStateForm(STATE_FORM.DETAIL) : hideModal();
+      typePage === STATE_FORM.DETAIL ? (isXbutton ? hideModal() : setStateForm(STATE_FORM.DETAIL)) : hideModal();
     } else {
       showSubModal({
         title: 'lang_confirm_cancel',
@@ -71,7 +92,8 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
           emailConfirm: false,
           onSubmit: () => {
             hideSubModal();
-            typePage === STATE_FORM.DETAIL ? setStateForm(STATE_FORM.DETAIL) : hideModal();
+            resetForm();
+            typePage === STATE_FORM.DETAIL ? (isXbutton ? hideModal() : setStateForm(STATE_FORM.DETAIL)) : hideModal();
           },
         },
       });
@@ -79,9 +101,9 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
   };
   const handleCancel = () => {
     if (typePage === STATE_FORM.DETAIL && stateForm === STATE_FORM.EDIT) {
-      handleCancelEdit();
+      handleCancelEdit(false);
     } else {
-      typePage === STATE_FORM.EDIT ? handleCancelEdit() : hideModal();
+      typePage === STATE_FORM.EDIT ? handleCancelEdit(false) : hideModal();
     }
   };
 
@@ -155,7 +177,18 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
   const isOptionEqualToValue = React.useCallback((option: LooseObject, value: LooseObject) => {
     return option.username === value.username;
   }, []);
-  const renderContent = (stateForm: string) => {
+
+  const renderHeader = () => {
+    return (
+      <Box className={classes.header}>
+        <Typography>
+          <Trans>{stateForm === STATE_FORM.DETAIL ? 'lang_segment_details' : 'lang_edit_segment'}</Trans>
+        </Typography>
+        <CloseIcon className={classes.iconClose} onClick={handleClose} />
+      </Box>
+    );
+  };
+  const renderContent = () => {
     let defaultArray = Array.isArray(values.segment_subscribers) ? values.segment_subscribers.map((x: any) => x.username) : [];
     switch (stateForm) {
       case STATE_FORM.DETAIL:
@@ -266,7 +299,13 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,
   });
-  return renderContent(stateForm);
+
+  return (
+    <div className={classes.divCointainer}>
+      {renderHeader()}
+      {renderContent()}
+    </div>
+  );
 };
 
 const validationSchema = yup.object().shape({

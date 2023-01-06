@@ -88,7 +88,7 @@ export type IChangePassValues = {
 };
 
 export type IModalProps = {
-  title: string;
+  title?: string;
   component?: any;
   props: LooseObject;
   fullScreen?: boolean;
