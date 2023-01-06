@@ -48,7 +48,7 @@ type EditSegmentProps = {
 };
 const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubscribers }) => {
   const classes = useStyles();
-  const { showSubModal, hideModal, hideSubModal, isClosing } = useGlobalModalContext();
+  const { showSubModal, hideModal, hideSubModal } = useGlobalModalContext();
   let initialValues = {
     segment_name: dataForm?.name || '',
     segment_subscribers: listSubscribers || [],
@@ -56,10 +56,6 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
   };
   const dispatch = useDispatch();
   const [stateForm, setStateForm] = React.useState(typePage || STATE_FORM.DETAIL);
-
-  React.useEffect(() => {
-    isClosing && alert('Closing');
-  }, [isClosing]);
 
   const handleCancel = () => {
     if (typePage === STATE_FORM.DETAIL && stateForm === STATE_FORM.EDIT) {
