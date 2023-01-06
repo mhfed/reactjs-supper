@@ -50,6 +50,9 @@ export function getUserDetailByUserIdUrl(userId: string) {
 export function postCreateSegment() {
   return '/v1/dynamic-push/segment/create';
 }
+export function postDirectSend() {
+  return '/v1/dynamic-push/direct/send';
+}
 export function getUserGroupUrl(roleGroupId: string) {
   return `/v1/user/role-group/${roleGroupId}`;
 }
@@ -58,6 +61,9 @@ export function getUserSubcriberByID(segmentID: string) {
 }
 export function putDataUpdateSegmentByID(segmentID: string) {
   return `/v1/dynamic-push/segment/${segmentID}/update`;
+}
+export function postDataUpdateSegmentByID(segmentID: string) {
+  return `/v1/dynamic-push/segment/${segmentID}/send`;
 }
 // Notification - v1
 export const getListNotificationUrl = ({
