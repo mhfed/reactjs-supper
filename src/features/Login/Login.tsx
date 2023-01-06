@@ -85,7 +85,7 @@ export default function SignIn() {
         )}
         <div className={classes.loginLogo}>
           <img alt="loginLogo" src="/assets/images/login-logo.svg" />
-          <Typography variant="h1" sx={{ pt: 2 }}>
+          <Typography variant="h3" sx={{ pt: 2 }}>
             <Trans>lang_cms_portal</Trans>
           </Typography>
         </div>
