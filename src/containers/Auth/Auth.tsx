@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Auth parent component to handle auto login
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React, { useEffect, FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { autoLogin } from 'actions/auth.action';

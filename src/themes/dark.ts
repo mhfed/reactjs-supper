@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Dark theme config
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import { createTheme, alpha } from '@mui/material';
 
 const darkTheme = createTheme({

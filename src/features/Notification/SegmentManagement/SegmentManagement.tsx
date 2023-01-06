@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Segment management screen
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import { getListSegmentUrl, getUserSubcriberByID, getSegmentUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
@@ -84,7 +92,6 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
         onClick: async (data: any) => {
           const response: any = await httpRequest.get(getUserSubcriberByID(data.segment_id));
           showModal({
-            title: 'lang_segment_details',
             component: EditSegment,
             fullScreen: true,
             props: {
@@ -100,7 +107,6 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
         onClick: async (data: any) => {
           const response: any = await httpRequest.get(getUserSubcriberByID(data.segment_id));
           showModal({
-            title: 'lang_edit_segment',
             component: EditSegment,
             fullScreen: true,
             props: {

@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Custom table helper functions
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import { MUIDataTableState } from 'mui-datatables';
 import { IGridConfig } from 'models/ICommon';
 

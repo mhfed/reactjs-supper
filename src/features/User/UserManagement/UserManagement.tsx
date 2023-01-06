@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * User management screen
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import { getSearchUserUrl, getUserDetailUrl, getResetUserPasswordUrl, getUserDetailByIdUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
@@ -142,6 +150,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
           showModal({
             title: 'lang_user_details',
             component: UserDetailEdit,
+            showBtnClose: true,
             fullScreen: true,
             props: {
               dataForm: data,
@@ -149,20 +158,6 @@ const UserManagement: React.FC<UserManagementProps> = () => {
           });
         },
       },
-      // {
-      //   label: 'lang_reset_password',
-      //   onClick: (data: any) =>
-      //     showModal({
-      //       title: 'lang_confirm',
-      //       component: ConfirmEditModal,
-      //       props: {
-      //         emailConfirm: false,
-      //         title: 'lang_confirm_reset_password_for_user',
-      //         titleTransValues: { user: data[FIELD.USER_LOGIN] },
-      //         onSubmit: () => confirmResetPassword(data[FIELD.USER_LOGIN]),
-      //       },
-      //     }),
-      // },
       {
         label: 'lang_force_to_change_password',
         onClick: (data: any) =>
@@ -293,6 +288,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
       title: 'lang_confirm',
       component: ConfirmEditModal,
       props: {
+        emailConfirm: true,
         title: data.length < 6 ? 'lang_enter_your_email_to_edit_user_login' : 'lang_enter_your_email_to_edit_count_user_logins',
         titleTransValues: { count: data.length },
         data,

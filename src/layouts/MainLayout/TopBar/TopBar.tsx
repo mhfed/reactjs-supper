@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Topbar
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React, { memo } from 'react';
 import clsx from 'clsx';
 import { useLocation } from 'react-router';
@@ -36,7 +44,7 @@ function TopBar({ isDrawer, handleToogleDrawer }: IProps) {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h5">
+        <Typography variant="h5" sx={{ textTransform: 'uppercase' }}>
           <Trans>{title}</Trans>
         </Typography>
         <div className={classes.grow} />

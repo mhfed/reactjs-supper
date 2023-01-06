@@ -1,5 +1,12 @@
-import { Theme } from '@mui/material/styles';
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Styles for main layout
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
 
+import { Theme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme: Theme) => ({

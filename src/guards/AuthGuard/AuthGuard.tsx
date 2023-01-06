@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Handle auth guard, protect router
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React, { FC } from 'react';
 import { Navigate } from 'react-router-dom';
 

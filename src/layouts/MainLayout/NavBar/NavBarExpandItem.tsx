@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Menu item can expand
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React, { useState, memo } from 'react';
 import clsx from 'clsx';
 

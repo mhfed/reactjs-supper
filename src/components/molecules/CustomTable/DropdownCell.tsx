@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Dropdown cell for custom table
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import Select, { SelectChangeEvent } from '@mui/material/Select';

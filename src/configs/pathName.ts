@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Routers config
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 export const PATH_NAME = {
   ROOT: '/',
   ERROR_404: '/404',

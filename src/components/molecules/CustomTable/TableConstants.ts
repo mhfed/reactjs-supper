@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Custom table constants
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 export const TABLE_ACTION = {
   SORT: 'sort',
   FILTER_CHANGE: 'filterChange',

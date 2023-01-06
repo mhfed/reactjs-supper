@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Time convert
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 const padZero = (num: number, size: number) => {
   let s = String(num);
   while (s.length < size) {

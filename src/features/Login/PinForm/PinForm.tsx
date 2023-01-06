@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Pin form
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import BackspaceIcon from '@mui/icons-material/BackspaceOutlined';
 import Paper from '@mui/material/Paper';
@@ -212,7 +220,7 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
             <Typography variant="h6">
               <Trans>lang_set_your_pin</Trans>
             </Typography>
-            <Button disabled={number.length < 6}>
+            <Button disabled={number.length < 6} onClick={checkPin}>
               <Trans>lang_next</Trans>
             </Button>
           </div>

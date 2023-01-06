@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Global modal, support sub modal nested
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React, { useState, createContext, useContext } from 'react';
 import Modal from '@mui/material/Modal';
 import Paper from '@mui/material/Paper';
@@ -8,7 +16,7 @@ import { Trans } from 'react-i18next';
 import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import CloseIcon from '@mui/icons-material/Close';
-import { Button } from '@mui/material';
+
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: 'flex',
@@ -114,7 +122,7 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
     const SubComponent = store.subComponent;
     return (
       <>
-        <Modal className={classes.modal} open={!!store.open} onClose={hideModal} hideBackdrop>
+        <Modal className={classes.modal} open={!!store.open}>
           <Paper className={clsx(classes.container, store.fullScreen && classes.fullScreenModal)}>
             {store.title ? (
               <Box className={classes.header}>

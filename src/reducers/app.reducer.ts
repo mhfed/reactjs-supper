@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * App reducer redux
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import { IAppActionTypes, IAppActionCreator, IAppState } from 'models/IAppState';
 
 const initialState: IAppState = {

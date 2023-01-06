@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Notification common constants
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 export const NOTIFICATION_TYPE = { Direct: 'Direct', Segment: 'Segment' };
 export const DELIVERY_TYPE = { Instant: 'Instant', Schedule: 'Schedule' };
 export const EXPIRE = { Hours: 'H', Days: 'D', Weeks: 'W' };

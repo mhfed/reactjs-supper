@@ -1,7 +1,7 @@
 /*
  * Created on Fri Jan 06 2023
  *
- * Custom toobar for mui-datatables
+ * Custom toobar for custom table
  *
  * Copyright (c) 2023 - Novus Fintech
  */
@@ -12,7 +12,6 @@ import InputAdornment from '@mui/material/InputAdornment';
 import makeStyles from '@mui/styles/makeStyles';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { Trans, useTranslation } from 'react-i18next';
-import { alpha } from '@mui/material/styles';
 import Button from 'components/atoms/ButtonBase';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { ACTIONS } from './TableConstants';
@@ -96,7 +95,6 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
       )}
       <TextField
         inputRef={inputRef}
-        disabled={isEditMode}
         variant="outlined"
         name="search"
         placeholder={t('lang_quick_filter') + ''}

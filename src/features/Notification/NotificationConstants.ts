@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Notification common constants
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 export const FIELD = {
   AUDIENCES: 'subscribers',
   NOTIFICATION_ID: 'notification_id',

@@ -26,6 +26,7 @@ type PreviewFieldProps = {
   options?: Array<Options>;
   disabled?: boolean;
   required?: boolean;
+  textTransform?: string;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -34,17 +35,20 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
   },
 }));
-const PreviewField: React.FC<PreviewFieldProps> = ({ label, value, options, ...props }) => {
+const PreviewField: React.FC<PreviewFieldProps> = ({ label, value, options, textTransform, ...props }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const val = options ? options.find((o) => o.value === value)?.label : value;
-
+  let text = value;
+  if (options) {
+    text = val ? t(val.toString()).toUpperCase() : '--';
+  }
   return (
     <TextField
       className={classes.preview}
       variant={'standard'}
       {...props}
-      value={val ? t(val.toString()) : '--'}
+      value={text}
       fullWidth
       label={<Trans>{label}</Trans>}
     ></TextField>

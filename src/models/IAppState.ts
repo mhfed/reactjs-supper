@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Models for app (redux action, common type)
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 export const IAppActionTypes = {
   SET_CONNECTING: 'APP/SET_CONNECTING',
   SET_LOADING: 'APP/SET_LOADING',
