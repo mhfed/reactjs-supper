@@ -47,7 +47,6 @@ const UserManagement: React.FC<UserManagementProps> = () => {
       const config: ITableConfig = gridRef?.current?.getConfig?.();
       const queryBody: any = gridRef?.current?.getQuery?.();
       const response: any = await httpRequest.post(getSearchUserUrl(config), queryBody);
-      response.current_page -= 1;
       dicUser.current = response.data.reduce((acc: any, cur: any) => {
         acc[cur[FIELD.USER_ID]] = cur;
         return acc;

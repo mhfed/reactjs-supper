@@ -35,14 +35,13 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
-  const { showModal } = useGlobalModalContext();
+  const { showModal, hideModal } = useGlobalModalContext();
 
   const getData = async () => {
     try {
       gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
       const response: any = await httpRequest.get(getListSegmentUrl(config));
-      response.current_page -= 1;
       gridRef?.current?.setData?.(response);
     } catch (error) {
       gridRef?.current?.setData?.();
@@ -74,6 +73,7 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
           variant: 'success',
         }),
       );
+      hideModal();
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({

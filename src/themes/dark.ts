@@ -70,6 +70,16 @@ const darkTheme = createTheme({
         },
       },
     },
+    MuiButtonBase: {
+      styleOverrides: {
+        root: {
+          '&.Mui-disabled': {
+            pointerEvents: 'unset',
+            cursor: 'not-allowed',
+          },
+        },
+      },
+    },
   },
   palette: {
     mode: 'dark',

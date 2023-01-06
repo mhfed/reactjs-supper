@@ -40,7 +40,6 @@ const Subscribers: React.FC<SubscribersProps> = () => {
       gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
       const response: any = await httpRequest.get(getListSubscribertUrl(config));
-      response.current_page -= 1;
       gridRef?.current?.setData?.(response);
     } catch (error) {
       gridRef?.current?.setData?.();

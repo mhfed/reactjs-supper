@@ -99,6 +99,9 @@ const useStyles = makeStyles((theme) => ({
       overflow: 'hidden',
       background: theme.palette.background.default,
       borderRight: '2px solid transparent',
+      '& [class*="MUIDataTableHeadCell-data"]': {
+        whiteSpace: 'nowrap',
+      },
       '& *': {
         textTransform: 'uppercase !important',
       },
@@ -317,7 +320,6 @@ function convertColumn({
     default:
       res.options = {
         ...res.options,
-        setCellProps: () => ({ style: { minWidth: column.minWidth || 'unset' } }),
         customBodyRender: (value, tableMeta) => {
           let formatValue = value;
           const rowData = data[tableMeta.rowIndex];
@@ -433,9 +435,9 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     setData((old) => ({
       data: response ? response.data : [],
       isLoading: false,
-      page: response ? response.current_page : data.page,
+      page: response ? response.current_page - 1 : data.page,
       count: response ? response.total_count : data.count,
-      rowsPerPage: config.current?.rowsPerPage || process.env.REACT_APP_DEFAULT_PAGE_SIZE,
+      rowsPerPage: config.current?.rowsPerPage || +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
     }));
   };
 
@@ -547,7 +549,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           search: false,
           searchOpen: true,
           count: data.count || 0,
-          page: data.page || 1,
+          page: data.page || 0,
           rowsPerPageOptions,
           rowsPerPage: data.rowsPerPage || +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
           filterType: 'textField',
