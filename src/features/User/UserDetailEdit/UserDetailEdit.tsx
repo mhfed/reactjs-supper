@@ -87,7 +87,6 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
         }),
       );
       hideModal();
-      hideSubModal();
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({
@@ -97,7 +96,6 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
         }),
       );
       hideModal();
-      hideSubModal();
       console.error('Update user handleFormSubmit error: ', error);
     }
   };

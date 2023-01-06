@@ -98,6 +98,7 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
     setStore({
       ...store,
       open: false,
+      subOpen: false,
     });
   };
 

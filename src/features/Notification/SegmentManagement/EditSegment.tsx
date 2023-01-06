@@ -57,11 +57,31 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
   const dispatch = useDispatch();
   const [stateForm, setStateForm] = React.useState(typePage || STATE_FORM.DETAIL);
 
+  const handleCancelEdit = () => {
+    const isChangeSubscriber = compareArray(values.segment_subscribers, initialValues.segment_subscribers);
+    if (values.segment_name === initialValues.segment_name && !isChangeSubscriber) {
+      typePage === STATE_FORM.DETAIL ? setStateForm(STATE_FORM.DETAIL) : hideModal();
+    } else {
+      showSubModal({
+        title: 'lang_confirm_cancel',
+        component: ConfirmEditModal,
+        props: {
+          title: 'lang_confirm_cancel_text',
+          isCancelPage: true,
+          emailConfirm: false,
+          onSubmit: () => {
+            hideSubModal();
+            typePage === STATE_FORM.DETAIL ? setStateForm(STATE_FORM.DETAIL) : hideModal();
+          },
+        },
+      });
+    }
+  };
   const handleCancel = () => {
     if (typePage === STATE_FORM.DETAIL && stateForm === STATE_FORM.EDIT) {
-      setStateForm(STATE_FORM.DETAIL);
+      handleCancelEdit();
     } else {
-      hideModal();
+      typePage === STATE_FORM.EDIT ? handleCancelEdit() : hideModal();
     }
   };
 
