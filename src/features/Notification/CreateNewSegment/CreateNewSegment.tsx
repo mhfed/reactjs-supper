@@ -5,6 +5,7 @@ import { Trans } from 'react-i18next';
 import { InputField, AutocompleteAsyncField, PreviewField } from 'components/fields';
 import { useFormik } from 'formik';
 import { yup } from 'helpers';
+import { useGlobalModalContext } from 'containers/Modal';
 import httpRequest from 'services/httpRequest';
 import { postCreateSegment } from 'apis/request.url';
 import { enqueueSnackbarAction } from 'actions/app.action';
@@ -12,6 +13,7 @@ import { useDispatch } from 'react-redux';
 import { Autocomplete, TextField } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import { LooseObject } from 'models/ICommon';
+import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -44,10 +46,25 @@ const STATE_FORM = {
 const Sample = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { showModal, hideModal } = useGlobalModalContext();
   const [stateForm, setStateForm] = React.useState(STATE_FORM.CREATE);
   const handleClearData = () => {
-    resetForm();
+    if (JSON.stringify(values) !== JSON.stringify(initialValues))
+      showModal({
+        title: 'lang_confirm_cancel',
+        component: ConfirmEditModal,
+        props: {
+          title: 'lang_confirm_cancel_text',
+          isCancelPage: true,
+          emailConfirm: false,
+          onSubmit: () => {
+            resetForm();
+            hideModal();
+          },
+        },
+      });
   };
+
   const handleReturn = () => {
     setStateForm(STATE_FORM.CREATE);
   };
@@ -91,7 +108,6 @@ const Sample = () => {
   const handleBlurInput = (e: React.FocusEvent<HTMLInputElement>) => {
     setFieldValue('segment_name', values.segment_name.trim());
     handleBlur(e);
-    console.log('value after blur:', values);
   };
   const renderContent = (stateForm: string) => {
     let defaultArray = Array.isArray(values.segment_subscribers) ? values.segment_subscribers.map((x: any) => x.username) : [];

@@ -14,8 +14,6 @@ import { SITE_NAME_OPTIONS, USER_STATUS_OPTIONS } from '../UserConstants';
 import moment from 'moment-timezone';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
-import { useSelector } from 'react-redux';
-import { userSelector } from 'selectors/auth.selector';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -42,16 +40,15 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
   const dispatch = useDispatch();
   const [editMode, setEditMode] = React.useState(false);
   const { showSubModal, hideModal, hideSubModal } = useGlobalModalContext();
-  const user = useSelector(userSelector);
 
   const initialValues = {
-    full_name: dataForm.full_name,
-    status: dataForm.status,
-    user_login: dataForm.user_login_id,
-    site_name: dataForm.site_name,
-    last_time: dataForm.last_time,
-    create_time: dataForm.create_time,
-    description: dataForm.note,
+    full_name: dataForm.full_name || '',
+    status: dataForm.status || '',
+    user_login: dataForm.user_login_id || '',
+    site_name: dataForm.site_name || '',
+    last_time: dataForm.last_time || '',
+    create_time: dataForm.create_time || '',
+    description: dataForm.note || '',
   };
 
   // Handle show modal confirm
@@ -81,9 +78,10 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
       };
       const user_id = dataForm.user_id;
       const response: any = await httpRequest.put(getUserDetailByUserIdUrl(user_id), body);
+
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_create_user_successfully',
+          message: 'lang_update_user_successfully',
           key: new Date().getTime() + Math.random(),
           variant: 'success',
         }),
@@ -100,7 +98,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
       );
       hideModal();
       hideSubModal();
-      console.error('Create user handleFormSubmit error: ', error);
+      console.error('Update user handleFormSubmit error: ', error);
     }
   };
 

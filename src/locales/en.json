@@ -1,4 +1,8 @@
 {
+  "lang_no": "No",
+  "lang_yes": "Yes",
+  "lang_confirm_cancel": "Confirm Cancellation",
+  "lang_confirm_cancel_text": "Changes you made so far will not be saved.<br/> Are you sure you want to cancel?",
   "lang_email_too_long": "Your user login must use 3-255 characters and cannot contain spaces",
   "lang_connecting": "Connecting...",
   "lang_view_user_detail": "View User Detail",
@@ -29,6 +33,7 @@
   "lang_full_name_max_length": "Full name must include less than 64 characters",
   "lang_description_max_length": "Description must include less than 255 characters",
   "lang_status_required": "Status is required",
+  "lang_update_user_successfully": "Update user information successfully",
   "lang_create_user_successfully": "Create user successfully",
   "lang_return": "Return",
   "lang_clear": "Clear",
