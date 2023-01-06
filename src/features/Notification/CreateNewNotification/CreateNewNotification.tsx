@@ -32,6 +32,8 @@ import httpRequest from 'services/httpRequest';
 import { postDataUpdateSegmentByID, postDirectSend } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
+import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
+import { useGlobalModalContext } from 'containers/Modal';
 
 interface CreateNewNotificationProps {}
 
@@ -64,6 +66,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   const classes = useStyles();
   const [stateForm, setStateForm] = React.useState(STATE_FORM.CREATE);
   const dispatch = useDispatch();
+  const { showModal, hideModal } = useGlobalModalContext();
 
   const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
     if (stateForm === STATE_FORM.CREATE) return setStateForm(STATE_FORM.PREVIEW);
@@ -107,6 +110,8 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
             variant: 'success',
           }),
         );
+        // handleClearData();
+        setStateForm(STATE_FORM.CREATE);
       })
       .catch((err) => {
         dispatch(
@@ -120,7 +125,23 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
       });
   };
 
-  const handleClearData = () => {};
+  const handleClearData = (form: FormikProps<initialValuesType>) => {
+    const { resetForm, values } = form;
+    if (JSON.stringify(values) !== JSON.stringify(initialValues))
+      showModal({
+        title: 'lang_confirm_cancel',
+        component: ConfirmEditModal,
+        props: {
+          title: 'lang_confirm_cancel_text',
+          isCancelPage: true,
+          emailConfirm: false,
+          onSubmit: () => {
+            resetForm();
+            hideModal();
+          },
+        },
+      });
+  };
 
   const onReturnPreviousPage = () => setStateForm(STATE_FORM.CREATE);
 
@@ -466,7 +487,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
     }
   };
 
-  const submitButton = () => {
+  const submitButton = (form: FormikProps<initialValuesType>) => {
     return (
       <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
         {stateForm === STATE_FORM.PREVIEW ? (
@@ -474,7 +495,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
             <Trans>lang_return</Trans>
           </Button>
         ) : (
-          <Button variant="outlined" onClick={handleClearData}>
+          <Button variant="outlined" onClick={() => handleClearData(form)}>
             <Trans>lang_clear</Trans>
           </Button>
         )}
@@ -495,7 +516,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
             <React.Fragment>
               <Form noValidate className={classes.formContainer}>
                 {renderContent(form)}
-                {submitButton()}
+                {submitButton(form)}
               </Form>
             </React.Fragment>
           );
