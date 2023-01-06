@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Create new notification
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import { makeStyles } from '@mui/styles';
 import { Paper, Grid, Stack, Button } from '@mui/material';

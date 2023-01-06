@@ -1,6 +1,14 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Segment detail and edit segment
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import { Button, Stack, Typography, Grid } from '@mui/material';
+import { Button, Stack, Grid } from '@mui/material';
 import { Trans } from 'react-i18next';
 import { InputField, AutocompleteAsyncField, PreviewField } from 'components/fields';
 import { useFormik } from 'formik';

@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * App root
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -6,7 +14,6 @@ import SnackbarProvider from 'components/molecules/SnackbarProvider';
 import { ThemeProvider, StyledEngineProvider, responsiveFontSizes } from '@mui/material/styles';
 import { useGlobalContext } from 'context/GlobalContext';
 import Auth from 'containers/Auth';
-import Dialog from 'components/molecules/Dialog';
 import NetworkLoading from 'components/atoms/NetworkLoading';
 import SnackBarBase from 'components/molecules/SnackBar';
 import themes from 'themes';
@@ -133,7 +140,6 @@ function App() {
             <SnackbarProvider>
               <GlobalModal>
                 <NetworkLoading />
-                <Dialog />
                 <Routes />
                 <SnackBarBase />
               </GlobalModal>

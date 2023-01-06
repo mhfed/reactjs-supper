@@ -1,7 +1,7 @@
 /*
  * Created on Fri Jan 06 2023
  *
- * Custom toobar for mui-datatables
+ * Custom toobar for custom table
  *
  * Copyright (c) 2023 - Novus Fintech
  */

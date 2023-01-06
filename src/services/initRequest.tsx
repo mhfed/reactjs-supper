@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Init and config axios, handle request, response, error
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import { enqueueSnackbarAction, setLoading } from 'actions/app.action';
 

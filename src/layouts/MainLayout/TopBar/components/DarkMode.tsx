@@ -1,16 +1,16 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Switch theme component at topbar
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React, { memo } from 'react';
-
-// material core
 import IconButton from '@mui/material/IconButton';
-
-// material icon
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-
-// configs
 import { THEMES } from 'configs';
-
-// context
 import { useGlobalContext } from 'context/GlobalContext';
 
 function DarkMode() {

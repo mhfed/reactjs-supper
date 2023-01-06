@@ -1,10 +1,17 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Main routers
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React, { Fragment, lazy, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { PATH_NAME } from 'configs';
 import { IRoutes } from 'models/IRoutes';
 import MainLayout from 'layouts/MainLayout';
 import AuthGuard from 'guards/AuthGuard';
-import GuestGuard from 'guards/GuestGuard';
 import RoleRoute from './RoleRoute';
 
 // modules
@@ -33,7 +40,6 @@ const routesConfig: IRoutes[] = [
     component: Error404View,
   },
   {
-    guard: GuestGuard,
     path: PATH_NAME.LOGIN,
     component: Login,
   },

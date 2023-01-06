@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Custom footer, pagination for custom table
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import TableFooter from '@mui/material/TableFooter';
 import TableRow from '@mui/material/TableRow';

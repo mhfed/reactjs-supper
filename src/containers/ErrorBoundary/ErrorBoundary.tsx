@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Error boundary
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 /* eslint-disable react/jsx-no-bind */
 import React, { useState, useEffect, useCallback, FC } from 'react';
 

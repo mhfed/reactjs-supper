@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Theme config
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 // material core
 import { createTheme } from '@mui/material';
 import light from './light';

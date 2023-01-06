@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Pin form
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import BackspaceIcon from '@mui/icons-material/BackspaceOutlined';
 import Paper from '@mui/material/Paper';

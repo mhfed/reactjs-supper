@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Font config
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 const typography = {
   htmlFontSize: 14,
   fontFamily: [

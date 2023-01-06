@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Main layout for routers
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React, { useState, useCallback, FC } from 'react';
 import { useTheme } from '@mui/material';
 import clsx from 'clsx';

@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Global modal, support sub modal nested
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React, { useState, createContext, useContext } from 'react';
 import Modal from '@mui/material/Modal';
 import Paper from '@mui/material/Paper';

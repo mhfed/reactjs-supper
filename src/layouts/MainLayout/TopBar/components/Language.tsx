@@ -1,17 +1,17 @@
-import React, { useState, memo } from 'react';
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Change language component at topbar
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
 
-// material core
+import React, { useState, memo } from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
-
-// material icon
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
-// configs
 import { LANGUAGE } from 'configs';
-
-// context
 import { useGlobalContext } from 'context/GlobalContext';
 
 function Language({ ...classes }) {

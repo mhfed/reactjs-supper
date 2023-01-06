@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Error banner with slide down transition
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import makeStyles from '@mui/styles/makeStyles';

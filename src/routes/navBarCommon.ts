@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Side menu structure and constants
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import PeopleIcon from '@mui/icons-material/People';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import ArticleIcon from '@mui/icons-material/Article';

@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Style for side menu
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import { Theme } from '@mui/material/styles';
 
 import makeStyles from '@mui/styles/makeStyles';

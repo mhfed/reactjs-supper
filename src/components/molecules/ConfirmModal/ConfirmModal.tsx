@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Simple confirm popup with confirm and cancel button
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import Button from 'components/atoms/ButtonBase';
 import Dialog from '@mui/material/Dialog';
