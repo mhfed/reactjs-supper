@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Linear progress bar for network connecting
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { makeStyles, createStyles } from '@mui/styles';

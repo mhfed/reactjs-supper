@@ -116,12 +116,16 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
       <>
         <Modal className={classes.modal} open={!!store.open} onClose={hideModal} hideBackdrop>
           <Paper className={clsx(classes.container, store.fullScreen && classes.fullScreenModal)}>
-            <Box className={classes.header}>
-              <Typography>
-                <Trans>{store.title}</Trans>
-              </Typography>
-              {store.showBtnClose && <CloseIcon className={classes.iconClose} onClick={() => hideModal()} />}
-            </Box>
+            {store.title ? (
+              <Box className={classes.header}>
+                <Typography>
+                  <Trans>{store.title}</Trans>
+                </Typography>
+                {store.showBtnClose && <CloseIcon className={classes.iconClose} onClick={hideModal} />}
+              </Box>
+            ) : (
+              <></>
+            )}
             {Component && <Component {...(store.props || {})} onClose={hideModal} />}
           </Paper>
         </Modal>
