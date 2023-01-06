@@ -5,7 +5,7 @@ class Validate {
   };
 
   getPasswordPattern = () => {
-    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,25})/;
   };
 
   removeVietnamese = (str: string) => {

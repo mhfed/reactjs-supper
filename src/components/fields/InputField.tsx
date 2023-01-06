@@ -24,6 +24,7 @@ type TextFieldProps = {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   style?: React.CSSProperties | undefined;
+  dir?: 'rtl';
 };
 
 const InputField: React.FC<TextFieldProps> = ({ label, helperText, ...props }) => {

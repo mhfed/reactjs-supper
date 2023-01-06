@@ -48,6 +48,8 @@ const GlobalProvider = ({ children }: IProps) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const _handleSetModeTheme = (mode: string) => {
+    document.body.classList.remove('dark', 'light');
+    document.body.classList.add(mode);
     dispatch({
       type: 'SET_MODE_THEME',
       payload: mode,
