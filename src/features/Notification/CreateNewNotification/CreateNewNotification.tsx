@@ -36,6 +36,13 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
+  formContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    flex: 1,
+    width: '100%',
+  },
 }));
 
 const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
@@ -75,24 +82,46 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
                   helperText={touched.notification_type && errors.notification_type}
                 />
               </Grid>
-              <Grid item xs={12}>
-                <AutocompleteAsyncField
-                  onBlur={handleBlur}
-                  isOptionEqualToValue={isOptionEqualToValue}
-                  onChange={(v: string) => setFieldValue('subscribers', v)}
-                  error={touched.subscribers && Boolean(errors.subscribers)}
-                  helperText={touched.subscribers && errors.subscribers}
-                  value={values.subscribers}
-                  required={true}
-                  defaultValue={[]}
-                  fullWidth={true}
-                  id="subscribers"
-                />
-              </Grid>
+              {values.notification_type === NOTIFICATION_TYPE.Segment ? (
+                <React.Fragment>
+                  <Grid item xs={12}>
+                    <InputField
+                      name="segment"
+                      label="Segment"
+                      required
+                      fullWidth
+                      value={values.segment}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.segment && Boolean(errors.segment)}
+                      helperText={touched.segment && errors.segment}
+                    />
+                  </Grid>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <Grid item xs={12} style={{ paddingBottom: 3 }}>
+                    <AutocompleteAsyncField
+                      onBlur={handleBlur}
+                      isOptionEqualToValue={isOptionEqualToValue}
+                      onChange={(v: string) => setFieldValue('subscribers', v)}
+                      error={touched.subscribers && Boolean(errors.subscribers)}
+                      helperText={touched.subscribers && errors.subscribers}
+                      value={values.subscribers}
+                      required={true}
+                      label="lang_subscribers"
+                      defaultValue={[]}
+                      fullWidth={true}
+                      id="subscribers"
+                    />
+                  </Grid>
+                </React.Fragment>
+              )}
+
               <Grid item xs={12}>
                 <InputField
                   name="title"
-                  label="title"
+                  label="Title"
                   required
                   fullWidth
                   value={values.title}
@@ -105,7 +134,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
               <Grid item xs={12}>
                 <InputField
                   name="message"
-                  label="message"
+                  label="Message"
                   required
                   fullWidth
                   value={values.message}
@@ -113,6 +142,8 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
                   onBlur={handleBlur}
                   error={touched.message && Boolean(errors.message)}
                   helperText={touched.message && errors.message}
+                  multiline={true}
+                  rows={5}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -131,60 +162,78 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
               </Grid>
             </Grid>
             <Grid item container xs={12} md={6} spacing={2} style={{ height: 'fit-content' }}>
-              <Grid item xs={12}>
-                <Grid item container xs={12}>
-                  <Grid item xs={6}>
-                    <RadioGroupField
-                      name="delivery_type"
-                      label="Delivery type"
-                      data={DELIVERY_TYPE_OPTION}
-                      required={true}
-                      rowItems={true}
-                      value={values?.delivery_type}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={touched?.delivery_type && Boolean(errors?.delivery_type)}
-                      helperText={touched.delivery_type && errors.delivery_type}
+              {values.notification_type === NOTIFICATION_TYPE.Segment ? (
+                <React.Fragment>
+                  <Grid item xs={12}>
+                    <InputField
+                      name="expire"
+                      label="Expire"
+                      required
+                      fullWidth
+                      value={values.expire}
+                      style={{ visibility: 'hidden' }}
                     />
                   </Grid>
-                  <Grid item xs={6}>
-                    date picker
-                  </Grid>
-                </Grid>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Grid item container xs={12} spacing={2}>
-                  <Grid item xs={4}>
-                    <Grid item xs={12}>
-                      <InputField
-                        name="expire"
-                        label="Expire"
-                        required
-                        fullWidth
-                        value={values.expire}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.expire && Boolean(errors.expire)}
-                        helperText={touched.expire && errors.expire}
-                      />
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <Grid item xs={12}>
+                    <Grid item container xs={12}>
+                      <Grid item xs={6}>
+                        <RadioGroupField
+                          name="delivery_type"
+                          label="Delivery type"
+                          data={DELIVERY_TYPE_OPTION}
+                          required={true}
+                          rowItems={true}
+                          value={values?.delivery_type}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched?.delivery_type && Boolean(errors?.delivery_type)}
+                          helperText={touched.delivery_type && errors.delivery_type}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        date picker
+                      </Grid>
                     </Grid>
                   </Grid>
-                  <Grid item xs={8} className={classes.radioField}>
-                    <RadioGroupField
-                      name="type_expired"
-                      data={EXPIRE_OPTION}
-                      required={true}
-                      rowItems={true}
-                      value={values?.type_expired}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={touched?.type_expired && Boolean(errors?.type_expired)}
-                      helperText={touched.type_expired && errors.type_expired}
-                    />
+
+                  <Grid item xs={12}>
+                    <Grid item container xs={12} spacing={2}>
+                      <Grid item xs={4}>
+                        <Grid item xs={12}>
+                          <InputField
+                            name="expire"
+                            label="Expire"
+                            required
+                            fullWidth
+                            value={values.expire}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={touched.expire && Boolean(errors.expire)}
+                            helperText={touched.expire && errors.expire}
+                            dir="rtl"
+                          />
+                        </Grid>
+                      </Grid>
+                      <Grid item xs={8} className={classes.radioField}>
+                        <RadioGroupField
+                          name="type_expired"
+                          data={EXPIRE_OPTION}
+                          required={true}
+                          rowItems={true}
+                          value={values?.type_expired}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched?.type_expired && Boolean(errors?.type_expired)}
+                          helperText={touched.type_expired && errors.type_expired}
+                        />
+                      </Grid>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </Grid>
+                </React.Fragment>
+              )}
             </Grid>
           </Grid>
         );
@@ -211,8 +260,10 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
         {(form: FormikProps<initialValuesType>) => {
           return (
             <React.Fragment>
-              {renderContent(form)}
-              {submitButton()}
+              <Form className={classes.formContainer}>
+                {renderContent(form)}
+                {submitButton()}
+              </Form>
             </React.Fragment>
           );
         }}
@@ -230,6 +281,7 @@ interface initialValuesType {
   delivery_type: string;
   expire: string;
   type_expired: string;
+  segment?: string;
 }
 
 const initialValues: initialValuesType = {
@@ -241,6 +293,7 @@ const initialValues: initialValuesType = {
   delivery_type: DELIVERY_TYPE.Instant,
   expire: '0',
   type_expired: EXPIRE.Hours,
+  segment: '',
 };
 
 const validationSchema = yup.object().shape({});
