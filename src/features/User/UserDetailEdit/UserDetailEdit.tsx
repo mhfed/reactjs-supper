@@ -34,7 +34,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type UserDetailProps = {};
-
+const compareChanges = (initialValues: any, values: any) => {
+  const keys = Object.keys(initialValues);
+  let isChange = false;
+  keys.forEach((key) => {
+    if (initialValues[key] !== values[key]) {
+      isChange = true;
+    }
+  });
+  return isChange;
+};
 const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -53,16 +62,27 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
 
   // Handle show modal confirm
   const handleBeforeSubmit = () => {
-    showSubModal({
-      title: 'lang_confirm',
-      component: ConfirmEditModal,
-      props: {
-        title: 'lang_confirm_edit_user',
-        emailConfirm: true,
-        titleTransValues: { user: values.user_login },
-        onSubmit: () => handleFormSubmit(),
-      },
-    });
+    const isChanged = compareChanges(initialValues, values);
+    if (!isChanged) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_there_is_no_change_in_the_user_information',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
+    } else {
+      showSubModal({
+        title: 'lang_confirm',
+        component: ConfirmEditModal,
+        props: {
+          title: 'lang_confirm_edit_user',
+          emailConfirm: true,
+          titleTransValues: { user: values.user_login },
+          onSubmit: () => handleFormSubmit(),
+        },
+      });
+    }
   };
 
   // Handle Submit Form
