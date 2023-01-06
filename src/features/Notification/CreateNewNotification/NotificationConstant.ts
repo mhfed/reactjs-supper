@@ -19,6 +19,21 @@ export const NOTIFICATION_TYPE_OPTION = [
   },
 ];
 
+export const NOTIFICATION_TYPE_OPTION_FILTER = {
+  [Direct]: [
+    {
+      value: Direct,
+      label: Direct,
+    },
+  ],
+  [Segment]: [
+    {
+      value: Segment,
+      label: Segment,
+    },
+  ],
+};
+
 export const DELIVERY_TYPE_OPTION = [
   {
     value: Instant,

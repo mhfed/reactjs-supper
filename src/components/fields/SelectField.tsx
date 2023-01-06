@@ -23,13 +23,13 @@ type SelectFieldProps = {
   sx?: any;
   inputProps?: any;
   required?: boolean;
+  textTransform?: string;
   onChange?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   options?: Array<Options>;
-  // multiple?: boolean;
 };
 
-const SelectField: React.FC<SelectFieldProps> = ({ label, helperText, value, ...props }) => {
+const SelectField: React.FC<SelectFieldProps> = ({ label, helperText, value, textTransform, ...props }) => {
   function _renderHelperText() {
     if (props.error) {
       return (
@@ -41,7 +41,13 @@ const SelectField: React.FC<SelectFieldProps> = ({ label, helperText, value, ...
   }
 
   return (
-    <FormControl required sx={{ minWidth: 120, width: props.fullWidth ? '100%' : '' }}>
+    <FormControl
+      required
+      sx={{
+        minWidth: 120,
+        width: props.fullWidth ? '100%' : '',
+      }}
+    >
       <InputLabel id={props.id}>
         <Trans>{label}</Trans>
       </InputLabel>
@@ -51,11 +57,11 @@ const SelectField: React.FC<SelectFieldProps> = ({ label, helperText, value, ...
         id={props.id}
         label={label}
         value={value}
-        // multiple={!!props.multiple}
+        sx={{ textTransform: textTransform ? textTransform : 'none' }}
       >
         {props.options?.map((e, i) => {
           return (
-            <MenuItem key={i} value={e.value}>
+            <MenuItem key={i} value={e.value} sx={{ textTransform: textTransform ? textTransform : 'none' }}>
               <Trans>{e.label}</Trans>
             </MenuItem>
           );
