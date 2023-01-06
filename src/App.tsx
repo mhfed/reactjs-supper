@@ -77,7 +77,9 @@ function App() {
           target.tagName === 'P'
         ) {
           if (target.tagName !== 'INPUT') title = (target.innerText + '').replace(/\n/g, '');
-          else title = '';
+          else {
+            title = target.value;
+          }
         } else {
           title = target.titleH;
         }

@@ -72,7 +72,7 @@ const PasswordField: React.FC<TextFieldProps> = ({ label, helperText, value, gen
             {value ? (
               <InputAdornment position="end">
                 <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} edge="end">
-                  {visibility ? <VisibilityOff /> : <Visibility />}
+                  {!visibility ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
             ) : null}
