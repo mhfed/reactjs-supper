@@ -77,6 +77,12 @@ const Subscribers: React.FC<SubscribersProps> = () => {
         label: 'lang_segment_id',
         type: COLUMN_TYPE.MULTIPLE_TAG,
       },
+      {
+        name: FIELD.ACTION,
+        type: COLUMN_TYPE.ACTION,
+        actions: [],
+        label: ' ',
+      },
     ];
   }, []);
 
@@ -88,14 +94,7 @@ const Subscribers: React.FC<SubscribersProps> = () => {
 
   return (
     <div className={classes.container}>
-      <CustomTable
-        noAction
-        fnKey={getRowId}
-        ref={gridRef}
-        onTableChange={onTableChange}
-        onRowDbClick={onRowDbClick}
-        columns={columns}
-      />
+      <CustomTable fnKey={getRowId} ref={gridRef} onTableChange={onTableChange} onRowDbClick={onRowDbClick} columns={columns} />
     </div>
   );
 };

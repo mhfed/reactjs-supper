@@ -133,20 +133,6 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-  noAction: {
-    '& .MuiTableCell-head': {
-      '&:nth-last-child(2)': {
-        borderTopRightRadius: 8,
-        borderBottomRightRadius: 8,
-        borderRight: '2px solid transparent',
-      },
-      '&:last-child': {
-        borderTopLeftRadius: 8,
-        borderBottomLeftRadius: 8,
-        border: '2px solid transparent',
-      },
-    },
-  },
   centerContent: {
     pointerEvents: 'none',
     position: 'absolute',
@@ -311,9 +297,9 @@ function convertColumn({
         ...res.options,
         setCellProps: () => ({ style: { width: 30, position: 'sticky', right: 0, padding: 0 } }),
         customBodyRender: (value, tableMeta, updateValue) => {
-          if (isEditMode) return <></>;
           const rowData = data[tableMeta.rowIndex];
           const actions = column.getActions ? column.getActions(rowData) : column.actions;
+          if (isEditMode || !actions?.length) return <></>;
           return <Kebab items={actions} data={rowData} />;
         },
       };
@@ -353,7 +339,6 @@ type TableProps = {
   rowsPerPageOptions?: number[];
   data?: ITableData;
   editable?: boolean;
-  noAction?: boolean;
   onSave?: (dataChanged: LooseObject, cb: any) => void;
   fnKey: (data: any) => string;
   noChangeKey?: string;
@@ -369,7 +354,6 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     onSave,
     rowsPerPageOptions = [15, 25, 50, 100],
     editable = false,
-    noAction = false,
     fnKey,
   } = props;
   const [data, setData] = React.useState<ITableData>(props.data || DATA_DEFAULT);
@@ -508,7 +492,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
 
   const isNodata = !data.data.length;
   return (
-    <div className={clsx(classes.container, noAction && classes.noAction)}>
+    <div className={classes.container}>
       <MUIDataTable
         title=" "
         data={data.data}

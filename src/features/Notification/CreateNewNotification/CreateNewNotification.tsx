@@ -121,7 +121,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
               <Grid item xs={12}>
                 <InputField
                   name="title"
-                  label="title"
+                  label="Title"
                   required
                   fullWidth
                   value={values.title}
@@ -134,7 +134,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
               <Grid item xs={12}>
                 <InputField
                   name="message"
-                  label="message"
+                  label="Message"
                   required
                   fullWidth
                   value={values.message}
@@ -142,6 +142,8 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
                   onBlur={handleBlur}
                   error={touched.message && Boolean(errors.message)}
                   helperText={touched.message && errors.message}
+                  multiline={true}
+                  rows={5}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -211,6 +213,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
                             onBlur={handleBlur}
                             error={touched.expire && Boolean(errors.expire)}
                             helperText={touched.expire && errors.expire}
+                            dir="rtl"
                           />
                         </Grid>
                       </Grid>

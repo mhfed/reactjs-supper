@@ -18,6 +18,7 @@ type TextFieldProps = {
   helperText?: string | boolean | undefined | FormikErrors<any>[] | FormikErrors<any> | string[];
   fullWidth?: boolean;
   sx?: any;
+  maxLength?: number;
   inputProps?: any;
   InputProps?: any;
   required?: boolean;
@@ -28,7 +29,7 @@ type TextFieldProps = {
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 };
 
-const PasswordField: React.FC<TextFieldProps> = ({ label, helperText, value, generate, ...props }) => {
+const PasswordField: React.FC<TextFieldProps> = ({ label, helperText, value, generate, maxLength = 25, ...props }) => {
   const [visibility, setVisibility] = React.useState(false);
 
   const handleClickShowPassword = () => {
@@ -51,6 +52,7 @@ const PasswordField: React.FC<TextFieldProps> = ({ label, helperText, value, gen
       type={visibility ? 'text' : 'password'}
       onChange={handleChange}
       inputProps={{
+        maxLength,
         autoComplete: 'new-password',
         form: {
           autoComplete: 'off',
