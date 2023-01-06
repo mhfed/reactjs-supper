@@ -114,9 +114,6 @@ const darkTheme = createTheme({
       disabled: 'rgba(255, 255, 255, 0.5)',
     },
   },
-  typography: {
-    fontFamily: ['Roboto'].join(','),
-  },
 });
 
 export default darkTheme;

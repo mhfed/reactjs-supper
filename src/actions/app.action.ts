@@ -1,3 +1,10 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Redux actions for app
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
 import { IAppActionTypes, INotifer } from 'models/IAppState';
 
 export const setLoading = (isLoading: boolean) => ({
