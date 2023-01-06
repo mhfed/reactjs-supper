@@ -8,6 +8,11 @@ export const isLoadingSelector = createSelector(
   (app) => app.isLoading,
 );
 
+export const isConnectingSelector = createSelector(
+  (state: IRootState) => state.app,
+  (app) => app.isConnecting,
+);
+
 export const dialogSelector = createSelector(
   (state: IRootState) => state.app,
   (app) => app.dialog,

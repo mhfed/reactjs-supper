@@ -8,3 +8,4 @@ export { timeConvert, secondToTime } from './timeConvert';
 export { default as canAction } from './canAction';
 export { getFilterObj } from './table';
 export { default as validate } from './validate';
+export { default as yup } from './yup';

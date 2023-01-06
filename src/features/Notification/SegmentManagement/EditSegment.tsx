@@ -4,7 +4,7 @@ import { Button, Stack, Typography, Grid } from '@mui/material';
 import { Trans } from 'react-i18next';
 import { InputField, AutocompleteAsyncField, PreviewField } from 'components/fields';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
+import { yup } from 'helpers';
 import httpRequest from 'services/httpRequest';
 import { putDataUpdateSegmentByID } from 'apis/request.url';
 import { enqueueSnackbarAction } from 'actions/app.action';

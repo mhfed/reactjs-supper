@@ -10,7 +10,7 @@ export const FIELD = {
   SCHEDULE: 'schedule_time',
   TRIGGER_TIME: 'trigger_time',
   STATUS: 'status',
-  ATTEMPED: 'attemped',
+  ATTEMPTED: 'attempted',
   DELIVERED: 'delivered',
   CLICKED: 'clicked',
   ACTOR: 'actor',

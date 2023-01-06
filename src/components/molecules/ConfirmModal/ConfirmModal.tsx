@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '@mui/material/Button';
+import Button from 'components/atoms/ButtonBase';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -53,7 +53,7 @@ const AlertConfirm = ({
         <Button onClick={onClose} variant="outlined">
           <Trans>{textCancel}</Trans>
         </Button>
-        <Button onClick={onSubmit} variant="contained" autoFocus>
+        <Button network onClick={onSubmit} variant="contained" autoFocus>
           <Trans>{textSubmit}</Trans>
         </Button>
       </DialogActions>

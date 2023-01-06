@@ -1,11 +1,10 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
+import { yup } from 'helpers';
 import { useSelector, useDispatch } from 'react-redux';
 import { validate } from 'helpers';
-import CircularProgress from '@mui/material/CircularProgress';
 import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
+import Button from 'components/atoms/ButtonBase';
 import Typography from '@mui/material/Typography';
 import makeStyles from '@mui/styles/makeStyles';
 import { Trans } from 'react-i18next';
@@ -87,7 +86,7 @@ const SetPassword: React.FC<SetPasswordProps> = ({ setNewPassord }) => {
           <Trans>lang_choose_a_password</Trans>
         </Typography>
       </div>
-      <Typography variant="body2" align="center" sx={{ width: '100%', px: 3, pt: 3 }}>
+      <Typography variant="subtitle1" align="center" sx={{ width: '100%', px: 3, pt: 3 }}>
         <Trans>lang_password_required</Trans>
       </Typography>
       <form className={classes.form} noValidate onSubmit={handleSubmit}>
@@ -117,9 +116,8 @@ const SetPassword: React.FC<SetPasswordProps> = ({ setNewPassord }) => {
           error={touched.re_password && Boolean(errors.re_password)}
           helperText={touched.re_password && errors.re_password}
         />
-        <Button type="submit" fullWidth variant="contained" color="primary" sx={{ my: 2 }}>
+        <Button network isLoading={!!isLoading} type="submit" fullWidth variant="contained" color="primary" sx={{ my: 2 }}>
           <Trans>lang_change_password</Trans>
-          {isLoading && <CircularProgress color="secondary" size={24} sx={{ position: 'absolute' }} />}
         </Button>
       </form>
     </Paper>
