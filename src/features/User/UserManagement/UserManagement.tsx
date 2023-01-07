@@ -147,7 +147,6 @@ const UserManagement: React.FC<UserManagementProps> = () => {
         label: 'lang_view_user_detail',
         onClick: (data: any) => {
           showModal({
-            title: 'lang_user_details',
             component: UserDetailEdit,
             fullScreen: true,
             props: {
