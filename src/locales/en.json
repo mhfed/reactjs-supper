@@ -1,4 +1,6 @@
 {
+  "lang_update_segment_successfully": "The segment information has been updated successfully",
+  "lang_update_segment_unsuccessfully": "Unable to update segment information",
   "lang_field_required": "Please fill in this field",
   "lang_schedule_time_required": "Schedule time is required",
   "lang_validate_message": "Undefined must be 1 to 192 characters",

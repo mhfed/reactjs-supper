@@ -130,7 +130,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
       await httpRequest.put(putDataUpdateSegmentByID(values.segment_id), body);
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_create_segment_successfully',
+          message: 'lang_update_segment_successfully',
           key: new Date().getTime() + Math.random(),
           variant: 'success',
         }),
@@ -140,7 +140,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_create_segment_unsuccessfully',
+          message: 'lang_update_segment_unsuccessfully',
           key: new Date().getTime() + Math.random(),
           variant: 'error',
         }),
@@ -227,9 +227,9 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
               </Grid>
             </Grid>
             <Stack className={classes.buttonWrapper} direction="row" spacing={2}>
-              <Button variant="outlined" onClick={handleCancel}>
+              {/* <Button variant="outlined" onClick={handleCancel}>
                 <Trans>lang_cancel</Trans>
-              </Button>
+              </Button> */}
               <Button
                 variant="contained"
                 startIcon={<EditIcon />}

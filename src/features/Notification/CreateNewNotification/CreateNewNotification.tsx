@@ -226,7 +226,10 @@ const validationSchema = yup.object().shape({
     is: (delivery_type: 'Instant' | 'Schedule') => delivery_type === DELIVERY_TYPE.Schedule,
     then: yup.string().required('lang_schedule_time_required'),
   }),
-  segment: yup.mixed().required('lang_field_required'),
+  segment: yup.mixed().when('notification_type', {
+    is: (notification_type: 'Direct' | 'Segment') => notification_type === NOTIFICATION_TYPE.Segment,
+    then: yup.mixed().required('lang_field_required'),
+  }),
 });
 
 export default CreateNewNotification;

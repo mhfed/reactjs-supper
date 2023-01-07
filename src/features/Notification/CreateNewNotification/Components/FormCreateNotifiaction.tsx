@@ -11,14 +11,13 @@ import {
 } from '../NotificationConstant';
 import RadioGroupField from 'components/fields/RadioGroupField';
 import { AutocompleteAsyncField, InputField, SelectField, DatePickerField } from 'components/fields';
-import { initialValuesType, isOptionEqualToValue } from '../CreateNewNotification'
+import { initialValuesType, isOptionEqualToValue } from '../CreateNewNotification';
 import { ClassNameMap } from 'notistack';
 import SearchAsyncField from 'components/fields/SearchAsyncField';
 
-
 interface FormCreateNotifiactionProps {
   form: FormikProps<initialValuesType>;
-  classes: ClassNameMap<"wrapper" | "radioField" | "formContainer">
+  classes: ClassNameMap<'wrapper' | 'radioField' | 'formContainer'>;
 }
 
 const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, classes, ...rest }) => {
@@ -152,18 +151,19 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                   />
                 </Grid>
                 <Grid item xs={8}>
-                  {values?.delivery_type === DELIVERY_TYPE.Instant ? null :
+                  {values?.delivery_type === DELIVERY_TYPE.Instant ? null : (
                     <DatePickerField
                       name="schedule"
                       required={true}
                       value={values.schedule}
                       inputFormat={'MM/DD/YYYY HH:mm'}
-                      onChange={(v: string) => setFieldValue('schedule', v ? (new Date(v)) : v)}
+                      onChange={(v: string) => setFieldValue('schedule', v ? new Date(v) : v)}
                       onBlur={handleBlur}
+                      minDate={new Date()}
                       error={touched.schedule && Boolean(errors.schedule)}
                       helperText={touched.schedule && errors.schedule}
-                    />}
-
+                    />
+                  )}
                 </Grid>
               </Grid>
             </Grid>
@@ -182,7 +182,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                       onBlur={handleBlur}
                       error={touched.expire && Boolean(errors.expire)}
                       helperText={touched.expire && errors.expire}
-                      dir="rtl"
+                      // dir="rtl"
                     />
                   </Grid>
                 </Grid>
@@ -205,7 +205,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
         )}
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
-export default FormCreateNotifiaction
+export default FormCreateNotifiaction;
