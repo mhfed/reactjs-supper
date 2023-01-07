@@ -200,7 +200,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
   return (
     <div className={classes.container}>
       <CustomTable
-        name="notification_management"
+        name="notification"
         fnKey={getRowId}
         ref={gridRef}
         onTableChange={onTableChange}

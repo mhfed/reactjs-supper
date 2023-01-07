@@ -174,7 +174,7 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
   return (
     <div className={classes.container}>
       <CustomTable
-        name="segment_management"
+        name="segment"
         fnKey={getRowId}
         ref={gridRef}
         onTableChange={onTableChange}
