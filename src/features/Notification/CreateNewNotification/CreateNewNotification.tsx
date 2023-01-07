@@ -24,7 +24,7 @@ import { useGlobalModalContext } from 'containers/Modal';
 import FormCreateNotifiaction from './Components/FormCreateNotifiaction';
 import FormReviewNotification from './Components/FormReviewNotification';
 
-interface CreateNewNotificationProps {}
+interface CreateNewNotificationProps { }
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -82,12 +82,21 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
         message,
         url: 'https://abc.com/',
         mobile_push: true,
-        subscribers: (values?.subscribers || []).map((x) => x.username),
-        environment: 'iress-wealth-app',
-        expire_time: `${Number(expire)}${type_expired}`,
+        subscribers: (values?.subscribers || []).map((x) => {
+          const { username, site_name } = x || {};
+          return {
+            username,
+            site_name
+          }
+        }),
       };
+
       if (delivery_type === DELIVERY_TYPE.Schedule) {
         bodySendNoti = { ...bodySendNoti, schedule_time: moment(values?.schedule).toDate().getTime() };
+      } else {
+        let expireTime = Number(expire)
+        if (expireTime) bodySendNoti = { ...bodySendNoti, expire_time: `${expireTime}${type_expired}` };
+
       }
     } else {
       const { title, message } = values;
