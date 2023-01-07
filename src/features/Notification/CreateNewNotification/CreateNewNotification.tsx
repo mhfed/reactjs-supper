@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { makeStyles } from '@mui/styles';
-import { Paper, Stack, Button } from '@mui/material';
+import { Paper, Stack, Button, Typography } from '@mui/material';
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { yup } from 'helpers';
 import { STATE_FORM, NOTIFICATION_TYPE, DELIVERY_TYPE, EXPIRE, Notification_Type } from './NotificationConstant';
@@ -48,6 +48,12 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     flex: 1,
     width: '100%',
+  },
+  title: {
+    textTransform: 'uppercase',
+    marginBottom: theme.spacing(1),
+    width: '100%',
+    fontWeight: 700,
   },
 }));
 
@@ -173,6 +179,16 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
     );
   };
 
+  const HeaderTitle = () => {
+    return stateForm === STATE_FORM.PREVIEW ? (
+      <React.Fragment>
+        <Typography className={classes.title}>
+          <Trans>lang_preview_create_new_user</Trans>
+        </Typography>
+      </React.Fragment>
+    ) : null;
+  };
+
   return (
     <Paper className={classes.wrapper}>
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={submitForm}>
@@ -180,6 +196,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
           console.log(form.values);
           return (
             <React.Fragment>
+              {HeaderTitle()}
               <Form noValidate className={classes.formContainer}>
                 {renderContent(form)}
                 {submitButton(form)}

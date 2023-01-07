@@ -11,157 +11,161 @@ import moment from 'moment';
 
 interface FormReviewNotificationProps {
   form: FormikProps<initialValuesType>;
-  classes: ClassNameMap<'wrapper' | 'radioField' | 'formContainer'>;
+  classes: ClassNameMap<'wrapper' | 'radioField' | 'formContainer' | 'title'>;
 }
 
 const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, classes }) => {
   const { values, handleChange, handleBlur, touched, errors } = form || {};
 
-  const delivery_type_preview = `${values?.delivery_type || ''} ${moment(values?.schedule || '').format('MM/DD/YYYY HH:MM')}`;
-  const expired_preview = `${values?.expire || ''} ${EXPIRE_OPTION_FILTER[values?.type_expired]}`;
+  const delivery_type_preview = `${values?.delivery_type || ''} ${
+    values?.schedule ? moment(values?.schedule || '').format('MM/DD/YYYY HH:MM') : ''
+  }`;
+  const expired_preview = `${values?.expire || '0'} ${EXPIRE_OPTION_FILTER[values?.type_expired]}`;
   let defaultArray = Array.isArray(values.subscribers) ? values.subscribers.map((x: any) => x?.username) : [];
 
   return (
-    <Grid container spacing={2}>
-      <Grid item container xs={12} md={6} spacing={2}>
-        <Grid item xs={12}>
-          <RadioGroupField
-            name="notification_type"
-            label="lang_notification_type"
-            data={NOTIFICATION_TYPE_OPTION_FILTER[values.notification_type] || []}
-            rowItems={true}
-            value={values?.notification_type}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            disabled={true}
-            error={touched?.notification_type && Boolean(errors?.notification_type)}
-            helperText={touched.notification_type && errors.notification_type}
-          />
+    <React.Fragment>
+      <Grid container spacing={2}>
+        <Grid item container xs={12} md={6} spacing={2}>
+          <Grid item xs={12}>
+            <RadioGroupField
+              name="notification_type"
+              label="lang_notification_type"
+              data={NOTIFICATION_TYPE_OPTION_FILTER[values.notification_type] || []}
+              rowItems={true}
+              value={values?.notification_type}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              disabled={true}
+              error={touched?.notification_type && Boolean(errors?.notification_type)}
+              helperText={touched.notification_type && errors.notification_type}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            {values.notification_type === NOTIFICATION_TYPE.Segment ? (
+              <React.Fragment>
+                <InputField
+                  name="segment"
+                  label="lang_segment"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  fullWidth
+                  variant={'standard'}
+                  value={(values.segment as any)?.segment_id}
+                />
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <Autocomplete
+                  multiple
+                  id="tags-readOnly"
+                  options={values.subscribers}
+                  defaultValue={defaultArray}
+                  readOnly
+                  freeSolo
+                  // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant="standard"
+                      label={
+                        <Typography>
+                          <Trans>lang_subscribers</Trans>
+                        </Typography>
+                      }
+                    ></TextField>
+                  )}
+                />
+              </React.Fragment>
+            )}
+          </Grid>
+          <Grid item xs={12}>
+            <InputField
+              name="title"
+              label="lang_title"
+              InputProps={{
+                readOnly: true,
+              }}
+              fullWidth
+              variant={'standard'}
+              value={values.title}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <InputField
+              name="message"
+              label="lang_message"
+              InputProps={{
+                readOnly: true,
+              }}
+              fullWidth
+              variant={'standard'}
+              value={values.message}
+              multiline={true}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <InputField
+              name="type_url"
+              label="lang_type_url"
+              InputProps={{
+                readOnly: true,
+              }}
+              fullWidth
+              variant={'standard'}
+              value={values.type_url}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item container xs={12} md={6} spacing={2} style={{ height: 'fit-content' }}>
           {values.notification_type === NOTIFICATION_TYPE.Segment ? (
             <React.Fragment>
-              <InputField
-                name="segment"
-                label="lang_segment"
-                InputProps={{
-                  readOnly: true,
-                }}
-                fullWidth
-                variant={'standard'}
-                value={(values.segment as any)?.segment_id}
-              />
+              <Grid item xs={12} style={{ height: 81 }}>
+                <InputField
+                  // name="message"
+                  label="lang_delivery_type"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  fullWidth
+                  variant={'standard'}
+                  value={delivery_type_preview}
+                  style={{ visibility: 'hidden' }}
+                />
+              </Grid>
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <Autocomplete
-                multiple
-                id="tags-readOnly"
-                options={values.subscribers}
-                defaultValue={defaultArray}
-                readOnly
-                freeSolo
-                // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="standard"
-                    label={
-                      <Typography>
-                        <Trans>lang_subscribers</Trans>
-                      </Typography>
-                    }
-                  ></TextField>
-                )}
-              />
+              <Grid item xs={12} style={{ height: 81 }}>
+                <InputField
+                  // name="message"
+                  label="lang_delivery_type"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  fullWidth
+                  variant={'standard'}
+                  value={delivery_type_preview}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <InputField
+                  // name="message"
+                  label="lang_expire"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  fullWidth
+                  variant={'standard'}
+                  value={expired_preview}
+                />
+              </Grid>
             </React.Fragment>
           )}
         </Grid>
-        <Grid item xs={12}>
-          <InputField
-            name="title"
-            label="lang_title"
-            InputProps={{
-              readOnly: true,
-            }}
-            fullWidth
-            variant={'standard'}
-            value={values.title}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <InputField
-            name="message"
-            label="lang_message"
-            InputProps={{
-              readOnly: true,
-            }}
-            fullWidth
-            variant={'standard'}
-            value={values.message}
-            multiline={true}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <InputField
-            name="type_url"
-            label="lang_type_url"
-            InputProps={{
-              readOnly: true,
-            }}
-            fullWidth
-            variant={'standard'}
-            value={values.type_url}
-          />
-        </Grid>
       </Grid>
-      <Grid item container xs={12} md={6} spacing={2} style={{ height: 'fit-content' }}>
-        {values.notification_type === NOTIFICATION_TYPE.Segment ? (
-          <React.Fragment>
-            <Grid item xs={12} style={{ height: 81 }}>
-              <InputField
-                // name="message"
-                label="lang_delivery_type"
-                InputProps={{
-                  readOnly: true,
-                }}
-                fullWidth
-                variant={'standard'}
-                value={delivery_type_preview}
-                style={{ visibility: 'hidden' }}
-              />
-            </Grid>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <Grid item xs={12} style={{ height: 81 }}>
-              <InputField
-                // name="message"
-                label="lang_delivery_type"
-                InputProps={{
-                  readOnly: true,
-                }}
-                fullWidth
-                variant={'standard'}
-                value={delivery_type_preview}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <InputField
-                // name="message"
-                label="lang_expire"
-                InputProps={{
-                  readOnly: true,
-                }}
-                fullWidth
-                variant={'standard'}
-                value={expired_preview}
-              />
-            </Grid>
-          </React.Fragment>
-        )}
-      </Grid>
-    </Grid>
+    </React.Fragment>
   );
 };
 
