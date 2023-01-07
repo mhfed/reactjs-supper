@@ -14,7 +14,7 @@ import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
-import { getFilterObj } from 'helpers';
+import { getFilterObj, formatDataBeforeExportCsv } from 'helpers';
 import { Trans, useTranslation } from 'react-i18next';
 import CustomFooter from './CustomFooter';
 import CustomSearch from './CustomSearch';
@@ -22,6 +22,7 @@ import { IColumn, ResponseDataPaging, ITableData, ITableConfig, LooseObject } fr
 import { TABLE_ACTION, COLUMN_TYPE, DATA_DEFAULT, ACTIONS } from './TableConstants';
 import clsx from 'clsx';
 import moment from 'moment-timezone';
+import momentNormal from 'moment';
 import Kebab from 'components/atoms/Kebab';
 import DropdownCell from './DropdownCell';
 import CustomStack from './CustomStack';
@@ -355,11 +356,13 @@ type TableProps = {
   onSave?: (dataChanged: LooseObject, cb: any) => void;
   fnKey: (data: any) => string;
   noChangeKey?: string;
+  name: string;
 };
 
 const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, ref) => {
   const classes = useStyles();
   const {
+    name,
     noChangeKey,
     columns = [],
     onTableChange,
@@ -505,6 +508,11 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     }, []);
   }, [columns, isEditMode, data]);
 
+  const onDownload = (buildHead: (columns: any) => string, buildBody: (data: any) => string, curColumns: any, arrData: any) => {
+    const formatData = formatDataBeforeExportCsv(curColumns, columns, arrData, data.data, t);
+    return '\uFEFF' + buildHead(curColumns) + buildBody(formatData);
+  };
+
   const isNodata = !data?.data?.length;
   return (
     <div className={classes.container}>
@@ -559,6 +567,13 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           draggableColumns: {
             enabled: true,
           },
+          downloadOptions: {
+            filename: `${name}_${momentNormal().format('DD_MM_YY_HH_mm_ss')}`,
+            filterOptions: {
+              useDisplayedColumnsOnly: true,
+            },
+          },
+          onDownload: onDownload,
           selectableRows: 'single',
           selectableRowsOnClick: false,
           selectableRowsHideCheckboxes: true,

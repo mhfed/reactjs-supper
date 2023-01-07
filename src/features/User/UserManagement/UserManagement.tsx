@@ -298,6 +298,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
   return (
     <div className={classes.container}>
       <CustomTable
+        name="user_management"
         editable
         fnKey={getRowId}
         ref={gridRef}

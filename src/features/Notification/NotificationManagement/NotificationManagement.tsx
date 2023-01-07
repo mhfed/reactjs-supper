@@ -199,7 +199,14 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
 
   return (
     <div className={classes.container}>
-      <CustomTable fnKey={getRowId} ref={gridRef} onTableChange={onTableChange} onRowDbClick={onRowDbClick} columns={columns} />
+      <CustomTable
+        name="notification_management"
+        fnKey={getRowId}
+        ref={gridRef}
+        onTableChange={onTableChange}
+        onRowDbClick={onRowDbClick}
+        columns={columns}
+      />
     </div>
   );
 };
