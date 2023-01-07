@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Stack bar for success, warning, error notification
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';

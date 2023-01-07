@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Topbar
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React, { memo } from 'react';
 import clsx from 'clsx';
 import { useLocation } from 'react-router';

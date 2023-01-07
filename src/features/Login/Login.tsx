@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Login screen, contain Login form, pin form, set password form
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import Box from '@mui/material/Box';

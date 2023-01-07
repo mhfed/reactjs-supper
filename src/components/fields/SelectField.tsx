@@ -1,10 +1,18 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Select field to choose option
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import { Trans } from 'react-i18next';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import { FormikErrors } from 'formik';
 
 type Options = {

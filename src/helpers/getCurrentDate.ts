@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Get current date func
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 // format date: MM-DD-YYYY -> 02-18-2020
 export default function getCurrentDate() {
   const today = new Date();

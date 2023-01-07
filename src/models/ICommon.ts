@@ -1,4 +1,11 @@
-import React from 'react';
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Common type and interface
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import { MUIDataTableState } from 'mui-datatables';
 
 export type HeadCell = {

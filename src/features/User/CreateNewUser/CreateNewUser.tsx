@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Create new user form
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import { yup } from 'helpers';
 import { useDispatch } from 'react-redux';
@@ -279,11 +287,17 @@ const initialValues = {
 };
 
 const validationSchema = yup.object().shape({
-  full_name: yup.string().required('lang_full_name_required').max(64, 'lang_full_name_max_length'),
-  site_name: yup.string().required('lang_site_name_required'),
-  user_login: yup.string().required('lang_user_login_required').matches(validate.getEmailPattern(), 'lang_user_login_is_invalid'),
-  status: yup.string().required('lang_status_required'),
-  password: yup.string().required('lang_password_required').matches(validate.getPasswordPattern(), 'lang_password_required'),
+  full_name: yup.string().required('lang_please_enter_full_name').max(64, 'lang_full_name_max_length'),
+  site_name: yup.string().required('lang_please_select_sitename'),
+  user_login: yup
+    .string()
+    .required('lang_please_enter_user_login')
+    .matches(validate.getEmailPattern(), 'lang_user_login_is_invalid'),
+  status: yup.string().required('lang_please_select_status'),
+  password: yup
+    .string()
+    .required('lang_please_generate_password')
+    .matches(validate.getPasswordPattern(), 'lang_password_required'),
   note: yup.string().max(255, 'lang_note_max_length'),
 });
 

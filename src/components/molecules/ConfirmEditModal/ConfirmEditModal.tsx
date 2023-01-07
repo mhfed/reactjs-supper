@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Confirm popup with current user login (email) check
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { LooseObject } from 'models/ICommon';
@@ -82,7 +90,7 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
           {title}
         </Trans>
       </Typography>
-      {data.length && data.length > 5 ? (
+      {data.length && data.length < 6 ? (
         data.map((e) => (
           <Typography fontWeight="bold" key={e.user_id}>
             {e.user_login_id}

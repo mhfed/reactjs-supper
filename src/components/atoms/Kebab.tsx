@@ -58,6 +58,9 @@ const Kebab: React.FC<KebabProps> = ({ items = [], data = {} }) => {
         onClose={handleClose}
         MenuListProps={{
           'aria-labelledby': 'basic-button',
+          style: {
+            minWidth: 200,
+          },
         }}
       >
         {items.map((e: IKebabItem, i) => {

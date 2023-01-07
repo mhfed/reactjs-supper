@@ -1,12 +1,16 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Notification common constants
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 export const NOTIFICATION_TYPE = { Direct: 'Direct', Segment: 'Segment' };
 export const DELIVERY_TYPE = { Instant: 'Instant', Schedule: 'Schedule' };
-export const EXPIRE = { Hours: 'Hours', Days: 'Days', Weeks: 'Weeks' };
+export const EXPIRE = { Hours: 'H', Days: 'D', Weeks: 'W' };
 
 const { Direct, Segment } = NOTIFICATION_TYPE;
-
-const { Instant, Schedule } = DELIVERY_TYPE;
-
-const { Hours, Days, Weeks } = EXPIRE;
 
 export const NOTIFICATION_TYPE_OPTION = [
   {
@@ -34,6 +38,8 @@ export const NOTIFICATION_TYPE_OPTION_FILTER = {
   ],
 };
 
+const { Instant, Schedule } = DELIVERY_TYPE;
+
 export const DELIVERY_TYPE_OPTION = [
   {
     value: Instant,
@@ -45,20 +51,28 @@ export const DELIVERY_TYPE_OPTION = [
   },
 ];
 
+const { Hours, Days, Weeks } = EXPIRE;
+
 export const EXPIRE_OPTION = [
   {
     value: Hours,
-    label: Hours,
+    label: 'Hours',
   },
   {
     value: Days,
-    label: Days,
+    label: 'Days',
   },
   {
     value: Weeks,
-    label: Weeks,
+    label: 'Weeks',
   },
 ];
+
+export const EXPIRE_OPTION_FILTER = {
+  [Hours]: 'Hours',
+  [Days]: 'Days',
+  [Weeks]: 'Weeks',
+};
 
 export const TYPE_URL_OPTIONS = [
   {

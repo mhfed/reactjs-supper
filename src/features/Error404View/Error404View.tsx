@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * 404 screen
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Box, Button, Container, Typography, useTheme, useMediaQuery } from '@mui/material';

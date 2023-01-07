@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Footer
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import { Link, Typography } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';

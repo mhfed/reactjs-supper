@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Mui-datatables custom with column type, edit mode....
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import MUIDataTable, { MUIDataTableColumnDef, MUIDataTableState, MUIDataTableMeta } from 'mui-datatables';
 import makeStyles from '@mui/styles/makeStyles';
@@ -91,6 +99,9 @@ const useStyles = makeStyles((theme) => ({
       overflow: 'hidden',
       background: theme.palette.background.default,
       borderRight: '2px solid transparent',
+      '& [class*="MUIDataTableHeadCell-data"]': {
+        whiteSpace: 'nowrap',
+      },
       '& *': {
         textTransform: 'uppercase !important',
       },
@@ -236,11 +247,13 @@ function convertColumn({
           if (isEditMode) {
             return (
               <TextField
+                title={value}
                 className={classes.inputCell}
                 variant="outlined"
                 fullWidth
                 defaultValue={value || ''}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  e.target.title = e.target.value;
                   onChange?.(tableMeta.columnData.name, e.target.value, tableMeta.rowIndex);
                 }}
               />
@@ -260,7 +273,7 @@ function convertColumn({
         customBodyRender: (value) => {
           return (
             <Typography component="span" noWrap>
-              {value ? moment(value).format('DD/MM/YYYY HH:mm:ss') : process.env.REACT_APP_DEFAULT_VALUE}
+              {value ? moment(value).format('DD/MM/YY HH:mm:ss') : process.env.REACT_APP_DEFAULT_VALUE}
             </Typography>
           );
         },
@@ -307,7 +320,6 @@ function convertColumn({
     default:
       res.options = {
         ...res.options,
-        setCellProps: () => ({ style: { minWidth: column.minWidth || 'unset' } }),
         customBodyRender: (value, tableMeta) => {
           let formatValue = value;
           const rowData = data[tableMeta.rowIndex];
@@ -403,6 +415,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     return {
       ...(config.current || {}),
       page: typeof config.current?.page === 'number' ? config.current.page + 1 : 1,
+      sort: config.current?.sort?.sortType !== 'NONE' ? { ...config.current?.sort } : null,
     };
   };
 
@@ -422,9 +435,9 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     setData((old) => ({
       data: response ? response.data : [],
       isLoading: false,
-      page: response ? response.current_page : data.page,
+      page: response ? response.current_page - 1 : data.page,
       count: response ? response.total_count : data.count,
-      rowsPerPage: config.current?.rowsPerPage || process.env.REACT_APP_DEFAULT_PAGE_SIZE,
+      rowsPerPage: config.current?.rowsPerPage || +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
     }));
   };
 
@@ -490,7 +503,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     }, []);
   }, [columns, isEditMode, data]);
 
-  const isNodata = !data.data.length;
+  const isNodata = !data?.data?.length;
   return (
     <div className={classes.container}>
       <MUIDataTable
@@ -535,10 +548,10 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           filter: false,
           search: false,
           searchOpen: true,
-          count: data.count,
-          // page: data.page,
+          count: data.count || 0,
+          page: data.page || 0,
           rowsPerPageOptions,
-          rowsPerPage: +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
+          rowsPerPage: data.rowsPerPage || +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
           filterType: 'textField',
           fixedHeader: false,
           draggableColumns: {

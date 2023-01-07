@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Notification management
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import { getListNotificationUrl, getNotificationUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
@@ -33,7 +41,6 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
       gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
       const response: any = await httpRequest.get(getListNotificationUrl(config));
-      response.current_page -= 1;
       gridRef?.current?.setData?.(response);
     } catch (error) {
       gridRef?.current?.setData?.();
@@ -109,12 +116,11 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
       {
         name: FIELD.AUDIENCES,
         label: 'lang_audiences',
-        formatter: (data: any) => data?.[FIELD.AUDIENCES]?.[0]?.['subscriber'],
+        formatter: (data: any) => data?.[FIELD.SEGMENT_NAME] || data?.[FIELD.AUDIENCES]?.[0]?.['subscriber'] || '',
       },
       {
         name: FIELD.DELIVERY_TYPE,
         label: 'lang_delivery_type',
-        minWidth: 160,
       },
       {
         name: FIELD.TITLE,
@@ -137,7 +143,6 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
       {
         name: FIELD.EXPIRATION_TIME,
         label: 'lang_expiration_time',
-        minWidth: 160,
       },
       {
         name: FIELD.SCHEDULE,

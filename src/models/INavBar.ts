@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Navbar common type
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 type IITems = {
   title?: string;
   icon?: React.ReactNode;

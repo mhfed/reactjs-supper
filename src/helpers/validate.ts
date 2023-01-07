@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Validator
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 class Validate {
   isValidParameterKey = (value: string): boolean => {
     const pattern = /^[a-z]([a-z0-9_-]+)*$/i;

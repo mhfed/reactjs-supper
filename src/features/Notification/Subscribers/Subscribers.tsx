@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * List subscriber
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import { getListSubscribertUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
@@ -32,7 +40,6 @@ const Subscribers: React.FC<SubscribersProps> = () => {
       gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
       const response: any = await httpRequest.get(getListSubscribertUrl(config));
-      response.current_page -= 1;
       gridRef?.current?.setData?.(response);
     } catch (error) {
       gridRef?.current?.setData?.();

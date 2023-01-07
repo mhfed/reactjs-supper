@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Custom yup validate
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import * as yup from 'yup';
 import validate from './validate';
 

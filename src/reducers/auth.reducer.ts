@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Auth redux reducer
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import { IAuthActionTypes, IAuthActionCreator, IAuthState, IAuthStep } from 'models/IAuthState';
 
 const initialState: IAuthState = {

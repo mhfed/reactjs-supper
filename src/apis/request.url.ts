@@ -29,7 +29,7 @@ export const getCreatePasswordUrl = () => {
 };
 
 // User - v1
-export const getSearchUserUrl = ({ page = 1, rowsPerPage = process.env.REACT_APP_DEFAULT_PAGE_SIZE }) => {
+export const getSearchUserUrl = ({ page = 1, rowsPerPage = +process.env.REACT_APP_DEFAULT_PAGE_SIZE }) => {
   return `/v1/search/user?page_id=${page}&page_size=${rowsPerPage}`;
 };
 export function getResetUserPasswordUrl() {
@@ -50,6 +50,12 @@ export function getUserDetailByUserIdUrl(userId: string) {
 export function postCreateSegment() {
   return '/v1/dynamic-push/segment/create';
 }
+export function getSearchSegment(query?: string) {
+  return `/v1/dynamic-push/segment/query${query}`;
+}
+export function postDirectSend() {
+  return '/v1/dynamic-push/direct/send';
+}
 export function getUserGroupUrl(roleGroupId: string) {
   return `/v1/user/role-group/${roleGroupId}`;
 }
@@ -59,10 +65,13 @@ export function getUserSubcriberByID(segmentID: string) {
 export function putDataUpdateSegmentByID(segmentID: string) {
   return `/v1/dynamic-push/segment/${segmentID}/update`;
 }
+export function postDataUpdateSegmentByID(segmentID: string) {
+  return `/v1/dynamic-push/segment/${segmentID}/send`;
+}
 // Notification - v1
 export const getListNotificationUrl = ({
   page = 1,
-  rowsPerPage = process.env.REACT_APP_DEFAULT_PAGE_SIZE,
+  rowsPerPage = +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
   searchText = '',
   sort,
 }: {
@@ -79,7 +88,7 @@ export const getListNotificationUrl = ({
 };
 export function getListSegmentUrl({
   page = 1,
-  rowsPerPage = process.env.REACT_APP_DEFAULT_PAGE_SIZE,
+  rowsPerPage = +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
   searchText = '',
   sort,
 }: {
@@ -96,7 +105,7 @@ export function getListSegmentUrl({
 }
 export function getListSubscribertUrl({
   page = 1,
-  rowsPerPage = process.env.REACT_APP_DEFAULT_PAGE_SIZE,
+  rowsPerPage = +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
   searchText = '',
   sort,
 }: {

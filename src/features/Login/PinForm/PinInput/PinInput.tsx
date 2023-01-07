@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Pin input symbol
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React, { forwardRef, useImperativeHandle, ForwardRefRenderFunction } from 'react';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';

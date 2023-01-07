@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Global context includes theme mode, language
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React, { useReducer, useContext, createContext } from 'react';
 
 type IProps = {

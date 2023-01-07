@@ -16,6 +16,7 @@ import EventIcon from '@mui/icons-material/Event';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import { Trans } from 'react-i18next';
 import { FormikErrors } from 'formik';
+import { makeStyles } from '@mui/styles';
 
 const CustomTabs = (props: DateTimePickerTabsProps) => (
   <React.Fragment>
@@ -23,6 +24,14 @@ const CustomTabs = (props: DateTimePickerTabsProps) => (
     <Box sx={{ height: 5 }} />
   </React.Fragment>
 );
+
+const useStyles = makeStyles((theme) => ({
+  inputField: {
+    '& input::placeholder': {
+      textTransform: 'uppercase',
+    },
+  }
+}));
 
 type DatePickerFieldProps = {
   id?: string;
@@ -45,6 +54,7 @@ type DatePickerFieldProps = {
   onChange: (e: Date | string) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   style?: React.CSSProperties | undefined;
+  inputFormat?: string
 };
 
 const DatePickerField: React.FC<DatePickerFieldProps> = (props) => {
@@ -52,7 +62,7 @@ const DatePickerField: React.FC<DatePickerFieldProps> = (props) => {
   const isError = rest?.error || false;
   const helperText = rest?.helperText || false;
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
-
+  const classes = useStyles();
   /**
    * Update datepicker value when field value change
    */
@@ -96,6 +106,7 @@ const DatePickerField: React.FC<DatePickerFieldProps> = (props) => {
             value={rest.value}
             onBlur={rest.onBlur}
             {...params}
+            className={classes.inputField}
             label={label ? <Trans>{label}</Trans> : null}
             error={isError}
             helperText={isError && helperText ? <Trans>{helperText}</Trans> : ''}

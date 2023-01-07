@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Account info at topbar
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React, { useState, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';

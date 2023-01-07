@@ -67,7 +67,7 @@
   "lang_stay_sign_in": "Stay signed in",
   "lang_change_password": "CHANGE PASSWORD",
   "lang_input_confirm_password": "Please input confirm password",
-  "lang_password_not_match": "Password not match",
+  "lang_password_not_match": "Password did not match. Try again",
   "lang_choose_a_password": "Choose A Password",
   "lang_enter_your_pin": "Enter Your PIN",
   "lang_set_your_pin": "Set Your PIN",

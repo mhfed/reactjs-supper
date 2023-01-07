@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Dark theme config
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import { createTheme, alpha } from '@mui/material';
 
 const darkTheme = createTheme({
@@ -58,6 +66,16 @@ const darkTheme = createTheme({
                 WebkitTextFillColor: '#FF435F',
               },
             },
+          },
+        },
+      },
+    },
+    MuiButtonBase: {
+      styleOverrides: {
+        root: {
+          '&.Mui-disabled': {
+            pointerEvents: 'unset',
+            cursor: 'not-allowed',
           },
         },
       },

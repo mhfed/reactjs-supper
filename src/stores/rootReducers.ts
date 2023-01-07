@@ -1,3 +1,11 @@
+/*
+ * Created on Fri Jan 06 2023
+ *
+ * Redux root reducer
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import { combineReducers } from 'redux';
 
 // reducers
