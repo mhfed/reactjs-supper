@@ -161,7 +161,6 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
     return isChange;
   };
   const onSave = () => {
-    if (!!errors) return;
     const isChangeSubscriber = compareArray(values.segment_subscribers, initialValues.segment_subscribers);
     if (values.segment_name === initialValues.segment_name && !isChangeSubscriber) {
       dispatch(
@@ -172,6 +171,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
         }),
       );
     } else {
+      if (Object.values(errors).length > 0) return;
       showSubModal({
         title: 'lang_confirm',
         component: ConfirmEditModal,
