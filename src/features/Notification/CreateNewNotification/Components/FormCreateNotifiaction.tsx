@@ -22,26 +22,14 @@ interface FormCreateNotifiactionProps {
 
 const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, classes, ...rest }) => {
   const { values, handleChange, handleBlur, touched, errors, setFieldValue } = form || {};
-  return (
-    <Grid container spacing={2}>
-      <Grid item container xs={12} md={6} spacing={2}>
-        <Grid item xs={12}>
-          <RadioGroupField
-            name="notification_type"
-            label="Notification type"
-            data={NOTIFICATION_TYPE_OPTION}
-            required={true}
-            rowItems={true}
-            value={values?.notification_type}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched?.notification_type && Boolean(errors?.notification_type)}
-            helperText={touched.notification_type && errors.notification_type}
-          />
-        </Grid>
-        {values.notification_type === NOTIFICATION_TYPE.Segment ? (
+  const { Segment, Sitename } = NOTIFICATION_TYPE;
+
+  const renderAutocompleteField = () => {
+    switch (values.notification_type) {
+      case Segment: {
+        return (
           <React.Fragment>
-            <Grid item xs={12}>
+            <Grid item xs={12} style={{ paddingBottom: 3 }}>
               <SearchAsyncField
                 name="segment"
                 label="Segment"
@@ -55,7 +43,29 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
               />
             </Grid>
           </React.Fragment>
-        ) : (
+        );
+      }
+      case Sitename: {
+        return (
+          <React.Fragment>
+            <Grid item xs={12} style={{ paddingBottom: 3 }}>
+              <SearchAsyncField
+                name="sitename"
+                label="Sitename"
+                required
+                fullWidth
+                value={values.sitename}
+                onChange={(v: any) => setFieldValue('segment', v)}
+                onBlur={handleBlur}
+                error={touched.sitename && Boolean(errors.sitename)}
+                helperText={touched.sitename && errors.sitename}
+              />
+            </Grid>
+          </React.Fragment>
+        );
+      }
+      default: {
+        return (
           <React.Fragment>
             <Grid item xs={12} style={{ paddingBottom: 3 }}>
               <AutocompleteAsyncField
@@ -73,8 +83,29 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
               />
             </Grid>
           </React.Fragment>
-        )}
+        );
+      }
+    }
+  };
 
+  return (
+    <Grid container spacing={2}>
+      <Grid item container xs={12} md={6} spacing={2}>
+        <Grid item xs={12}>
+          <RadioGroupField
+            name="notification_type"
+            label="Notification type"
+            data={NOTIFICATION_TYPE_OPTION}
+            required={true}
+            rowItems={true}
+            value={values?.notification_type}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched?.notification_type && Boolean(errors?.notification_type)}
+            helperText={touched.notification_type && errors.notification_type}
+          />
+        </Grid>
+        {renderAutocompleteField()}
         <Grid item xs={12}>
           <InputField
             name="title"
@@ -119,7 +150,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
         </Grid>
       </Grid>
       <Grid item container xs={12} md={6} spacing={2} style={{ height: 'fit-content' }}>
-        {values.notification_type === NOTIFICATION_TYPE.Segment ? (
+        {[Segment, Sitename].includes(values.notification_type) ? (
           <React.Fragment>
             <Grid item xs={12}>
               <InputField
