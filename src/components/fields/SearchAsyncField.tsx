@@ -1,51 +1,56 @@
 import React from 'react';
 import { TextField, CircularProgress, ClickAwayListener } from '@mui/material';
-import Autocomplete from '@mui/lab/Autocomplete'
+import Autocomplete from '@mui/lab/Autocomplete';
 import httpRequest from 'services/httpRequest';
 import { getSearchSegment } from 'apis/request.url';
+import { Trans } from 'react-i18next';
 
 export default function SearchAsyncField(props: any) {
   const { label, variant = 'outlined', ...rest } = props;
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
-  const timeoutId = React.useRef<any>()
+  const timeoutId = React.useRef<any>();
 
+  const isError = rest?.error || false;
   const helperText = rest?.helperText || false;
 
   React.useEffect(() => {
     return () => {
-      timeoutId.current && clearTimeout(timeoutId.current)
-    }
-  }, [])
+      timeoutId.current && clearTimeout(timeoutId.current);
+    };
+  }, []);
 
   function _renderHelperText() {
-    if (helperText && rest?.error && rest?.touched) {
-      return helperText;
+    if (helperText) {
+      return <Trans>{helperText}</Trans>;
     }
   }
 
   const getListSuggestAddress = (text = '') => {
-    if (text.length < 2) return
-    setLoading(true)
-    httpRequest.get(getSearchSegment(`?search=${text}`)).then((res: any) => {
-      setOptions(res.data)
-      setLoading(false)
-    }).catch(() => {
-      setLoading(false)
-    })
-  }
+    if (text.length < 2) return;
+    setLoading(true);
+    httpRequest
+      .get(getSearchSegment(`?search=${text}`))
+      .then((res: any) => {
+        setOptions(res.data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
 
   function onChangeText(e: any) {
-    if (!open) setOpen(true)
-    const text = e.target.value || ''
-    timeoutId.current && clearTimeout(timeoutId.current)
-    timeoutId.current = setTimeout(() => getListSuggestAddress(text), 500)
+    if (!open) setOpen(true);
+    const text = e.target.value || '';
+    timeoutId.current && clearTimeout(timeoutId.current);
+    timeoutId.current = setTimeout(() => getListSuggestAddress(text), 500);
   }
 
   function _onChange(event: any, option: any, reason: any) {
     if (reason === 'selectOption') {
-      option.isValid = true
+      option.isValid = true;
       rest.onChange(option || '');
     }
   }
@@ -66,7 +71,7 @@ export default function SearchAsyncField(props: any) {
           onClose={() => {
             setOpen(false);
           }}
-          filterOptions={x => x}
+          filterOptions={(x) => x}
           getOptionLabel={(option: any) => option?.segment_id || ''}
           options={options}
           loading={loading}
@@ -76,7 +81,7 @@ export default function SearchAsyncField(props: any) {
               // {...field}
               {...rest}
               variant={variant}
-              error={rest?.touched && rest?.error && true}
+              error={isError}
               helperText={_renderHelperText()}
               onChange={onChangeText}
               label={label}
@@ -87,7 +92,7 @@ export default function SearchAsyncField(props: any) {
                     {loading ? <CircularProgress color="inherit" size={20} /> : null}
                     {params.InputProps.endAdornment}
                   </React.Fragment>
-                )
+                ),
               }}
             />
           )}

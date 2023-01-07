@@ -8,15 +8,10 @@
 
 import React from 'react';
 import { makeStyles } from '@mui/styles';
-import { Paper, Stack, Button, } from '@mui/material';
+import { Paper, Stack, Button } from '@mui/material';
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { yup } from 'helpers';
-import {
-  STATE_FORM,
-  NOTIFICATION_TYPE,
-  DELIVERY_TYPE,
-  EXPIRE,
-} from './NotificationConstant';
+import { STATE_FORM, NOTIFICATION_TYPE, DELIVERY_TYPE, EXPIRE } from './NotificationConstant';
 import { LooseObject } from 'models/ICommon';
 import { Trans } from 'react-i18next';
 import moment from 'moment';
@@ -29,7 +24,7 @@ import { useGlobalModalContext } from 'containers/Modal';
 import FormCreateNotifiaction from './Components/FormCreateNotifiaction';
 import FormReviewNotification from './Components/FormReviewNotification';
 
-interface CreateNewNotificationProps { }
+interface CreateNewNotificationProps {}
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -58,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const isOptionEqualToValue = (option: LooseObject, value: LooseObject) => {
   return option.username === value.username;
-}
+};
 
 const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   const classes = useStyles();
@@ -69,7 +64,9 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
     if (stateForm === STATE_FORM.CREATE) return setStateForm(STATE_FORM.PREVIEW);
     let urlSendNoti =
-      values.notification_type === NOTIFICATION_TYPE.Direct ? postDirectSend() : postDataUpdateSegmentByID((values?.segment as any)?.segment_id || '');
+      values.notification_type === NOTIFICATION_TYPE.Direct
+        ? postDirectSend()
+        : postDataUpdateSegmentByID((values?.segment as any)?.segment_id || '');
     let bodySendNoti = {};
 
     if (values.notification_type === NOTIFICATION_TYPE.Direct) {
@@ -84,7 +81,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
         expire_time: `${Number(expire)}${type_expired}`,
       };
       if (delivery_type === DELIVERY_TYPE.Schedule) {
-        bodySendNoti = { ...bodySendNoti, schedule_time: moment(values?.schedule).toDate().getTime() }
+        bodySendNoti = { ...bodySendNoti, schedule_time: moment(values?.schedule).toDate().getTime() };
       }
     } else {
       const { title, message } = values;
@@ -148,10 +145,10 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   const renderContent = (form: FormikProps<initialValuesType>) => {
     switch (stateForm) {
       case STATE_FORM.PREVIEW: {
-        return (<FormReviewNotification classes={classes} form={form} />);
+        return <FormReviewNotification classes={classes} form={form} />;
       }
       default: {
-        return (<FormCreateNotifiaction classes={classes} form={form} />)
+        return <FormCreateNotifiaction classes={classes} form={form} />;
       }
     }
   };
@@ -228,7 +225,8 @@ const validationSchema = yup.object().shape({
   schedule: yup.string().when('delivery_type', {
     is: (delivery_type: 'Instant' | 'Schedule') => delivery_type === DELIVERY_TYPE.Schedule,
     then: yup.string().required('lang_schedule_time_required'),
-  })
+  }),
+  segment: yup.mixed().required('lang_field_required'),
 });
 
 export default CreateNewNotification;

@@ -1,4 +1,5 @@
 {
+  "lang_field_required": "Please fill in this field",
   "lang_schedule_time_required": "Schedule time is required",
   "lang_validate_message": "Undefined must be 1 to 192 characters",
   "lang_message_required": "Message is required",
