@@ -80,7 +80,7 @@ function NavBar({ isDrawer }: IProps) {
     >
       <div className={classes.drawerHeader}>
         <Link to={PATH_NAME.ROOT} className={classes.navBar_link}>
-          <img src={theme.palette.mode === 'dark' ? '/logo-full-dark.svg' : '/logo-full-light.svg'} alt="Logo" title="logo" />
+          <img src={'/logo-full-dark.svg'} alt="Logo" title="logo" />
         </Link>
       </div>
       <Divider />

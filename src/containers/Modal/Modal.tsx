@@ -33,13 +33,14 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 8,
     overflow: 'hidden',
     minWidth: '40vw',
+    background: theme.palette.mode === 'dark' ? theme.palette.background.paper : theme.palette.background.default,
   },
   header: {
     display: 'flex',
     justifyContent: 'space-between',
     width: '100%',
     padding: theme.spacing(1),
-    background: theme.palette.background.default,
+    background: theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.background.paper,
   },
   iconClose: {
     cursor: 'pointer',
@@ -87,7 +88,7 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
       ...store,
       open: true,
       ...modalProps,
-      showBtnClose: 'showBtnClose' in modalProps ? modalProps.showBtnClose : false,
+      title: 'title' in modalProps ? modalProps.title : '',
       fullScreen: 'fullScreen' in modalProps ? modalProps.fullScreen : false,
     });
   };
@@ -129,7 +130,7 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
                 <Typography>
                   <Trans>{store.title}</Trans>
                 </Typography>
-                {store.showBtnClose && <CloseIcon className={classes.iconClose} onClick={hideModal} />}
+                <CloseIcon className={classes.iconClose} onClick={hideModal} />
               </Box>
             ) : (
               <></>
