@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
       minHeight: 0,
       boxShadow: 'none',
       '& > div:nth-child(3)': {
-        background: theme.palette.background.other1,
+        background: theme.palette.mode === 'dark' ? theme.palette.background.other1 : theme.palette.background.default,
         borderRadius: 8,
         boxShadow: theme.shadows[1],
         flex: 1,
@@ -97,12 +97,13 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiTableCell-head': {
       borderRadius: 8,
       overflow: 'hidden',
-      background: theme.palette.background.default,
+      background: theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.background.other1,
       borderRight: '2px solid transparent',
       '& [class*="MUIDataTableHeadCell-data"]': {
         whiteSpace: 'nowrap',
       },
       '& *': {
+        color: theme.palette.common.white,
         textTransform: 'uppercase !important',
       },
       '& button': {
@@ -126,7 +127,7 @@ const useStyles = makeStyles((theme) => ({
     },
     '& .MuiTableRow-root': {
       '&:nth-child(odd)': {
-        background: theme.palette.background.other1,
+        background: theme.palette.mode === 'dark' ? theme.palette.background.other1 : theme.palette.background.default,
       },
       '&:nth-child(even)': {
         background: theme.palette.background.other2,

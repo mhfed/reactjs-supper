@@ -88,11 +88,11 @@ const lightTheme = createTheme({
       white: '#fff',
     },
     background: {
-      default: '#F2F8FF',
-      paper: '#FFFFFF',
-      other1: '#E8ECEF',
-      other2: '#C5CBCE',
-      other3: '#FFFFFF',
+      default: '#FFFFFF',
+      paper: '#E8ECEF',
+      other1: '#3A425E',
+      other2: '#F2F8FF',
+      other3: '#13161F',
     },
     primary: {
       main: '#00C77F',

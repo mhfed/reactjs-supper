@@ -19,7 +19,7 @@ import makeStyles from '@mui/styles/makeStyles';
 const useStyles = makeStyles((theme) => ({
   icon: {
     padding: 2,
-    background: theme.palette.background.other3,
+    background: theme.palette.mode === 'dark' ? theme.palette.background.other3 : theme.palette.background.paper,
   },
 }));
 

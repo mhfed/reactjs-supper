@@ -116,7 +116,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
       {
         name: FIELD.AUDIENCES,
         label: 'lang_audiences',
-        formatter: (data: any) => data?.[FIELD.SEGMENT_NAME] || data?.[FIELD.AUDIENCES]?.[0]?.['subscriber'] || '',
+        formatter: (data: any) => data?.['segment_name'] || data?.[FIELD.AUDIENCES]?.[0]?.['subscriber'] || '',
       },
       {
         name: FIELD.DELIVERY_TYPE,
