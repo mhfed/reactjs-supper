@@ -213,7 +213,7 @@ const initialValues: initialValuesType = {
   message: '',
   type_url: '',
   delivery_type: DELIVERY_TYPE.Instant,
-  expire: '0',
+  expire: '',
   type_expired: EXPIRE.Hours,
   segment: '',
   schedule: '',

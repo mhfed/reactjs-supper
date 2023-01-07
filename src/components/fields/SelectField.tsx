@@ -50,7 +50,7 @@ const SelectField: React.FC<SelectFieldProps> = ({ label, helperText, value, tex
 
   return (
     <FormControl
-      required
+      required={props?.required}
       sx={{
         minWidth: 120,
         width: props.fullWidth ? '100%' : '',

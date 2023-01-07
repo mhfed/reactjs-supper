@@ -141,6 +141,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             label="lang_type_url"
             id="type_url"
             fullWidth={true}
+            required={true}
             onBlur={handleBlur}
             value={values.type_url}
             onChange={handleChange}
@@ -167,7 +168,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
           <React.Fragment>
             <Grid item xs={12}>
               <Grid item container xs={12}>
-                <Grid item xs={values?.delivery_type === DELIVERY_TYPE.Instant ? 12 : 5}>
+                <Grid item xs={12}>
                   <RadioGroupField
                     name="delivery_type"
                     label="lang_delivery_type"
@@ -181,36 +182,16 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                     helperText={touched.delivery_type && errors.delivery_type}
                   />
                 </Grid>
-                {values?.delivery_type === DELIVERY_TYPE.Instant ? (
-                  <></>
-                ) : (
-                  <>
-                    <Grid item xs={7}>
-                      <DatePickerField
-                        name="schedule"
-                        required={true}
-                        value={values.schedule}
-                        inputFormat={'MM/DD/YYYY HH:mm'}
-                        onChange={(v: string) => setFieldValue('schedule', v ? new Date(v) : v)}
-                        onBlur={handleBlur}
-                        minDate={new Date()}
-                        error={touched.schedule && Boolean(errors.schedule)}
-                        helperText={touched.schedule && errors.schedule}
-                      />
-                    </Grid>
-                  </>
-                )}
               </Grid>
             </Grid>
 
             <Grid item xs={12}>
               <Grid item container xs={12} spacing={2}>
-                <Grid item xs={4}>
+                <Grid item xs={6} xl={3}>
                   <Grid item xs={12}>
                     <InputField
                       name="expire"
                       label="lang_expire"
-                      required
                       fullWidth
                       value={values.expire}
                       onChange={handleChange}
@@ -221,18 +202,37 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                     />
                   </Grid>
                 </Grid>
-                <Grid item xs={8} className={classes.radioField}>
-                  <RadioGroupField
+                <Grid item xs={6} xl={3}>
+                  <SelectField
+                    options={EXPIRE_OPTION}
                     name="type_expired"
-                    data={EXPIRE_OPTION}
-                    required={true}
-                    rowItems={true}
-                    value={values?.type_expired}
-                    onChange={handleChange}
+                    label="Type"
+                    id="type_expired"
+                    fullWidth={true}
                     onBlur={handleBlur}
-                    error={touched?.type_expired && Boolean(errors?.type_expired)}
+                    value={values.type_expired}
+                    onChange={handleChange}
+                    error={touched.type_expired && Boolean(errors.type_expired)}
                     helperText={touched.type_expired && errors.type_expired}
                   />
+                </Grid>
+                <Grid item xs={12} xl={6} style={{ paddingBottom: 16 }}>
+                  {values?.delivery_type === DELIVERY_TYPE.Instant ? (
+                    <></>
+                  ) : (
+                    <DatePickerField
+                      name="schedule"
+                      required={true}
+                      value={values.schedule}
+                      inputFormat={'MM/DD/YYYY HH:mm'}
+                      onChange={(v: string) => setFieldValue('schedule', v ? new Date(v) : v)}
+                      onBlur={handleBlur}
+                      fullWidth={true}
+                      minDate={new Date()}
+                      error={touched.schedule && Boolean(errors.schedule)}
+                      helperText={touched.schedule && errors.schedule}
+                    />
+                  )}
                 </Grid>
               </Grid>
             </Grid>
