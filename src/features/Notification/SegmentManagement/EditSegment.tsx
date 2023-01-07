@@ -161,6 +161,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
     return isChange;
   };
   const onSave = () => {
+    if (!!errors) return;
     const isChangeSubscriber = compareArray(values.segment_subscribers, initialValues.segment_subscribers);
     if (values.segment_name === initialValues.segment_name && !isChangeSubscriber) {
       dispatch(
