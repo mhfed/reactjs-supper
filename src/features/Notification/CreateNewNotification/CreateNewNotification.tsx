@@ -106,9 +106,6 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
         url: 'https://abc.com/',
         icon: 'https://media.istockphoto.com/photos/hand-touching-virtual-world-with-connection-network-global-data-and-picture-id1250474241',
         mobile_push: true,
-        desktop_push: true,
-        email_push: true,
-        environment: 'iress-wealth-app',
       };
     }
 
@@ -189,20 +186,17 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   };
 
   const HeaderTitle = () => {
-    return stateForm === STATE_FORM.PREVIEW ? (
-      <React.Fragment>
-        <Typography className={classes.title}>
-          <Trans>lang_preview_create_new_user</Trans>
-        </Typography>
-      </React.Fragment>
-    ) : null;
-  };
+    if (stateForm !== STATE_FORM.PREVIEW) return null;
 
+    return (
+      <Typography className={classes.title}>
+        <Trans>lang_preview_new_notifications</Trans>
+      </Typography>)
+  };
   return (
     <Paper className={classes.wrapper}>
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={submitForm}>
         {(form: FormikProps<initialValuesType>) => {
-          console.log(form.values);
           return (
             <React.Fragment>
               {HeaderTitle()}
@@ -247,20 +241,22 @@ const initialValues: initialValuesType = {
 };
 
 const validationSchema = yup.object().shape({
-  subscribers: yup.array().min(1, 'lang_select_segment_subcriber').required('lang_select_segment_subcriber'),
+  subscribers: yup.array().when(['notification_type'], (value, schema) => {
+    return value === NOTIFICATION_TYPE.Direct ? schema.min(1, 'lang_select_segment_subcriber').required('lang_select_segment_subcriber') : schema
+  }),
   title: yup.string().required('lang_title_required').max(64, 'lang_validate_title'),
   message: yup.string().required('lang_message_required').max(192, 'lang_validate_message'),
-  schedule: yup.string().when('delivery_type', {
-    is: (delivery_type: 'Instant' | 'Schedule') => delivery_type === DELIVERY_TYPE.Schedule,
+  schedule: yup.string().when(['delivery_type', 'notification_type'], {
+    is: (delivery_type: 'Instant' | 'Schedule', notification_type: Notification_Type) => {
+      return delivery_type === DELIVERY_TYPE.Schedule && notification_type === NOTIFICATION_TYPE.Direct
+    },
     then: yup.string().required('lang_schedule_time_required'),
   }),
-  segment: yup.mixed().when('notification_type', {
-    is: (notification_type: Notification_Type) => notification_type === NOTIFICATION_TYPE.Segment,
-    then: yup.mixed().required('lang_field_required'),
+  segment: yup.mixed().when('notification_type', (value, schema) => {
+    return value === NOTIFICATION_TYPE.Segment ? schema.required('lang_field_required') : schema;
   }),
-  sitename: yup.mixed().when('notification_type', {
-    is: (notification_type: Notification_Type) => notification_type === NOTIFICATION_TYPE.Sitename,
-    then: yup.mixed().required('lang_field_required'),
+  sitename: yup.mixed().when('notification_type', (value, schema) => {
+    return value === NOTIFICATION_TYPE.Sitename ? schema.required('lang_field_required') : schema;
   }),
 });
 
