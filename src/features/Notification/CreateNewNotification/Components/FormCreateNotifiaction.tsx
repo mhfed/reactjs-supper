@@ -22,29 +22,17 @@ interface FormCreateNotifiactionProps {
 
 const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, classes, ...rest }) => {
   const { values, handleChange, handleBlur, touched, errors, setFieldValue } = form || {};
-  return (
-    <Grid container spacing={2}>
-      <Grid item container xs={12} md={6} spacing={2}>
-        <Grid item xs={12}>
-          <RadioGroupField
-            name="notification_type"
-            label="Notification type"
-            data={NOTIFICATION_TYPE_OPTION}
-            required={true}
-            rowItems={true}
-            value={values?.notification_type}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched?.notification_type && Boolean(errors?.notification_type)}
-            helperText={touched.notification_type && errors.notification_type}
-          />
-        </Grid>
-        {values.notification_type === NOTIFICATION_TYPE.Segment ? (
+  const { Segment, Sitename } = NOTIFICATION_TYPE;
+
+  const renderAutocompleteField = () => {
+    switch (values.notification_type) {
+      case Segment: {
+        return (
           <React.Fragment>
-            <Grid item xs={12}>
+            <Grid item xs={12} style={{ paddingBottom: 3 }}>
               <SearchAsyncField
                 name="segment"
-                label="Segment"
+                label="lang_segment"
                 required
                 fullWidth
                 value={values.segment}
@@ -55,7 +43,29 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
               />
             </Grid>
           </React.Fragment>
-        ) : (
+        );
+      }
+      case Sitename: {
+        return (
+          <React.Fragment>
+            <Grid item xs={12} style={{ paddingBottom: 3 }}>
+              <SearchAsyncField
+                name="sitename"
+                label="lang_sitename"
+                required
+                fullWidth
+                value={values.sitename}
+                onChange={(v: any) => setFieldValue('segment', v)}
+                onBlur={handleBlur}
+                error={touched.sitename && Boolean(errors.sitename)}
+                helperText={touched.sitename && errors.sitename}
+              />
+            </Grid>
+          </React.Fragment>
+        );
+      }
+      default: {
+        return (
           <React.Fragment>
             <Grid item xs={12} style={{ paddingBottom: 3 }}>
               <AutocompleteAsyncField
@@ -73,12 +83,33 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
               />
             </Grid>
           </React.Fragment>
-        )}
+        );
+      }
+    }
+  };
 
+  return (
+    <Grid container spacing={2}>
+      <Grid item container xs={12} md={6} spacing={2}>
+        <Grid item xs={12}>
+          <RadioGroupField
+            name="notification_type"
+            label="lang_notification_type"
+            data={NOTIFICATION_TYPE_OPTION}
+            required={true}
+            rowItems={true}
+            value={values?.notification_type}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched?.notification_type && Boolean(errors?.notification_type)}
+            helperText={touched.notification_type && errors.notification_type}
+          />
+        </Grid>
+        {renderAutocompleteField()}
         <Grid item xs={12}>
           <InputField
             name="title"
-            label="Title"
+            label="lang_title"
             required
             fullWidth
             value={values.title}
@@ -91,7 +122,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
         <Grid item xs={12}>
           <InputField
             name="message"
-            label="Message"
+            label="lang_message"
             required
             fullWidth
             value={values.message}
@@ -107,7 +138,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
           <SelectField
             options={TYPE_URL_OPTIONS}
             name="type_url"
-            label="Type URL"
+            label="lang_type_url"
             id="type_url"
             fullWidth={true}
             onBlur={handleBlur}
@@ -119,12 +150,12 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
         </Grid>
       </Grid>
       <Grid item container xs={12} md={6} spacing={2} style={{ height: 'fit-content' }}>
-        {values.notification_type === NOTIFICATION_TYPE.Segment ? (
+        {[Segment, Sitename].includes(values.notification_type) ? (
           <React.Fragment>
             <Grid item xs={12}>
               <InputField
                 name="expire"
-                label="Expire"
+                label="lang_expire"
                 required
                 fullWidth
                 value={values.expire}
@@ -136,10 +167,10 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
           <React.Fragment>
             <Grid item xs={12}>
               <Grid item container xs={12}>
-                <Grid item xs={4}>
+                <Grid item xs={values?.delivery_type === DELIVERY_TYPE.Instant ? 12 : 5}>
                   <RadioGroupField
                     name="delivery_type"
-                    label="Delivery type"
+                    label="lang_delivery_type"
                     data={DELIVERY_TYPE_OPTION}
                     required={true}
                     rowItems={true}
@@ -150,21 +181,25 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                     helperText={touched.delivery_type && errors.delivery_type}
                   />
                 </Grid>
-                <Grid item xs={8}>
-                  {values?.delivery_type === DELIVERY_TYPE.Instant ? null : (
-                    <DatePickerField
-                      name="schedule"
-                      required={true}
-                      value={values.schedule}
-                      inputFormat={'MM/DD/YYYY HH:mm'}
-                      onChange={(v: string) => setFieldValue('schedule', v ? new Date(v) : v)}
-                      onBlur={handleBlur}
-                      minDate={new Date()}
-                      error={touched.schedule && Boolean(errors.schedule)}
-                      helperText={touched.schedule && errors.schedule}
-                    />
-                  )}
-                </Grid>
+                {values?.delivery_type === DELIVERY_TYPE.Instant ? (
+                  <></>
+                ) : (
+                  <>
+                    <Grid item xs={7}>
+                      <DatePickerField
+                        name="schedule"
+                        required={true}
+                        value={values.schedule}
+                        inputFormat={'MM/DD/YYYY HH:mm'}
+                        onChange={(v: string) => setFieldValue('schedule', v ? new Date(v) : v)}
+                        onBlur={handleBlur}
+                        minDate={new Date()}
+                        error={touched.schedule && Boolean(errors.schedule)}
+                        helperText={touched.schedule && errors.schedule}
+                      />
+                    </Grid>
+                  </>
+                )}
               </Grid>
             </Grid>
 
@@ -174,7 +209,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                   <Grid item xs={12}>
                     <InputField
                       name="expire"
-                      label="Expire"
+                      label="lang_expire"
                       required
                       fullWidth
                       value={values.expire}
