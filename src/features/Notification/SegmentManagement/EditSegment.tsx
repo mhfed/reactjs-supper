@@ -171,6 +171,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
         }),
       );
     } else {
+      if (Object.values(errors).length > 0) return;
       showSubModal({
         title: 'lang_confirm',
         component: ConfirmEditModal,

@@ -6,11 +6,13 @@
  * Copyright (c) 2023 - Novus Fintech
  */
 
-export const NOTIFICATION_TYPE = { Direct: 'Direct', Segment: 'Segment' };
+export type Notification_Type = 'Direct' | 'Segment' | 'Sitename';
+
+export const NOTIFICATION_TYPE = { Direct: 'Direct', Segment: 'Segment', Sitename: 'Sitename' };
 export const DELIVERY_TYPE = { Instant: 'Instant', Schedule: 'Schedule' };
 export const EXPIRE = { Hours: 'H', Days: 'D', Weeks: 'W' };
 
-const { Direct, Segment } = NOTIFICATION_TYPE;
+const { Direct, Segment, Sitename } = NOTIFICATION_TYPE;
 
 export const NOTIFICATION_TYPE_OPTION = [
   {
@@ -20,6 +22,10 @@ export const NOTIFICATION_TYPE_OPTION = [
   {
     value: Segment,
     label: Segment,
+  },
+  {
+    value: Sitename,
+    label: Sitename,
   },
 ];
 
@@ -34,6 +40,12 @@ export const NOTIFICATION_TYPE_OPTION_FILTER = {
     {
       value: Segment,
       label: Segment,
+    },
+  ],
+  [Sitename]: [
+    {
+      value: Sitename,
+      label: Sitename,
     },
   ],
 };

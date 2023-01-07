@@ -11,7 +11,7 @@ import { makeStyles } from '@mui/styles';
 import { Paper, Stack, Button } from '@mui/material';
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { yup } from 'helpers';
-import { STATE_FORM, NOTIFICATION_TYPE, DELIVERY_TYPE, EXPIRE } from './NotificationConstant';
+import { STATE_FORM, NOTIFICATION_TYPE, DELIVERY_TYPE, EXPIRE, Notification_Type } from './NotificationConstant';
 import { LooseObject } from 'models/ICommon';
 import { Trans } from 'react-i18next';
 import moment from 'moment';
@@ -203,6 +203,7 @@ export interface initialValuesType {
   type_expired: string;
   segment?: string;
   schedule: string;
+  sitename?: string;
 }
 
 const initialValues: initialValuesType = {
@@ -216,6 +217,7 @@ const initialValues: initialValuesType = {
   type_expired: EXPIRE.Hours,
   segment: '',
   schedule: '',
+  sitename: '',
 };
 
 const validationSchema = yup.object().shape({
@@ -227,7 +229,11 @@ const validationSchema = yup.object().shape({
     then: yup.string().required('lang_schedule_time_required'),
   }),
   segment: yup.mixed().when('notification_type', {
-    is: (notification_type: 'Direct' | 'Segment') => notification_type === NOTIFICATION_TYPE.Segment,
+    is: (notification_type: Notification_Type) => notification_type === NOTIFICATION_TYPE.Segment,
+    then: yup.mixed().required('lang_field_required'),
+  }),
+  sitename: yup.mixed().when('notification_type', {
+    is: (notification_type: Notification_Type) => notification_type === NOTIFICATION_TYPE.Sitename,
     then: yup.mixed().required('lang_field_required'),
   }),
 });
