@@ -99,7 +99,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   };
 
   return (
-    <FormControl required sx={{ minWidth: 120, width: props.fullWidth ? '100%' : '' }}>
+    <FormControl required sx={{ minWidth: 120, width: props.fullWidth ? '100%' : '' }} error={props.error}>
       <Autocomplete
         onBlur={props.onBlur}
         multiple

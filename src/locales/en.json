@@ -167,7 +167,7 @@
   "lang_cms_portal": "CMS PORTAL",
   "lang_sign_in": "SIGN IN",
   "lang_email": "Email",
-  "lang_email_invalid": "Invalid email",
+  "lang_email_invalid": "The email is invalid",
   "lang_email_required": "Email is required",
   "lang_user_login_is_invalid": "User login is invalid",
   "lang_password_required": "Your password must include 8-25 characters and contain at least one lowercase, one capital letter and one number",

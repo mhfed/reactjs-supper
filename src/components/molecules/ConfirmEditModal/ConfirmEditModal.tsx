@@ -83,6 +83,13 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
     }
   };
 
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (e.target.value === '') {
+      setError('lang_email_required');
+      return;
+    }
+  };
+
   return (
     <div className={classes.container}>
       <Typography sx={{ mb: 1 }}>
@@ -110,6 +117,7 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
           autoComplete="email"
           // value={email}
           onChange={handleChange}
+          onBlur={handleBlur}
           error={!!error}
           helperText={<Trans>{error}</Trans>}
         />
