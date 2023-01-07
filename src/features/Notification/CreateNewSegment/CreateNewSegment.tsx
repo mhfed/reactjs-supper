@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flex: 1,
     height: '100%',
-    background: theme.palette.background.other2,
+    background: theme.palette.mode === 'dark' ? theme.palette.background.other2 : theme.palette.background.default,
     flexDirection: 'column',
     alignItems: 'flex-start',
     padding: theme.spacing(5),
