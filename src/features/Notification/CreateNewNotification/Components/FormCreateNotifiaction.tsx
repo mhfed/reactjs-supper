@@ -32,7 +32,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             <Grid item xs={12} style={{ paddingBottom: 3 }}>
               <SearchAsyncField
                 name="segment"
-                label="Segment"
+                label="lang_segment"
                 required
                 fullWidth
                 value={values.segment}
@@ -51,7 +51,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             <Grid item xs={12} style={{ paddingBottom: 3 }}>
               <SearchAsyncField
                 name="sitename"
-                label="Sitename"
+                label="lang_sitename"
                 required
                 fullWidth
                 value={values.sitename}
@@ -94,7 +94,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
         <Grid item xs={12}>
           <RadioGroupField
             name="notification_type"
-            label="Notification type"
+            label="lang_notification_type"
             data={NOTIFICATION_TYPE_OPTION}
             required={true}
             rowItems={true}
@@ -109,7 +109,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
         <Grid item xs={12}>
           <InputField
             name="title"
-            label="Title"
+            label="lang_title"
             required
             fullWidth
             value={values.title}
@@ -122,7 +122,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
         <Grid item xs={12}>
           <InputField
             name="message"
-            label="Message"
+            label="lang_message"
             required
             fullWidth
             value={values.message}
@@ -138,7 +138,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
           <SelectField
             options={TYPE_URL_OPTIONS}
             name="type_url"
-            label="Type URL"
+            label="lang_type_url"
             id="type_url"
             fullWidth={true}
             onBlur={handleBlur}
@@ -155,7 +155,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             <Grid item xs={12}>
               <InputField
                 name="expire"
-                label="Expire"
+                label="lang_expire"
                 required
                 fullWidth
                 value={values.expire}
@@ -167,10 +167,10 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
           <React.Fragment>
             <Grid item xs={12}>
               <Grid item container xs={12}>
-                <Grid item xs={values?.delivery_type === DELIVERY_TYPE.Instant ? 12 : 4}>
+                <Grid item xs={values?.delivery_type === DELIVERY_TYPE.Instant ? 12 : 5}>
                   <RadioGroupField
                     name="delivery_type"
-                    label="Delivery type"
+                    label="lang_delivery_type"
                     data={DELIVERY_TYPE_OPTION}
                     required={true}
                     rowItems={true}
@@ -185,7 +185,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                   <></>
                 ) : (
                   <>
-                    <Grid item xs={8}>
+                    <Grid item xs={7}>
                       <DatePickerField
                         name="schedule"
                         required={true}
@@ -209,7 +209,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                   <Grid item xs={12}>
                     <InputField
                       name="expire"
-                      label="Expire"
+                      label="lang_expire"
                       required
                       fullWidth
                       value={values.expire}

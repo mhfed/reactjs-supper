@@ -1,32 +1,25 @@
 import React from 'react';
 import { Grid, Autocomplete, TextField, Typography } from '@mui/material';
 import { FormikProps } from 'formik';
-import {
-  NOTIFICATION_TYPE,
-  NOTIFICATION_TYPE_OPTION_FILTER,
-  EXPIRE_OPTION_FILTER
-} from '../NotificationConstant';
+import { NOTIFICATION_TYPE, NOTIFICATION_TYPE_OPTION_FILTER, EXPIRE_OPTION_FILTER } from '../NotificationConstant';
 import RadioGroupField from 'components/fields/RadioGroupField';
 import { InputField } from 'components/fields';
 import { Trans } from 'react-i18next';
-import { initialValuesType } from '../CreateNewNotification'
+import { initialValuesType } from '../CreateNewNotification';
 import { ClassNameMap } from 'notistack';
 import moment from 'moment';
 
 interface FormReviewNotificationProps {
   form: FormikProps<initialValuesType>;
-  classes: ClassNameMap<"wrapper" | "radioField" | "formContainer">
+  classes: ClassNameMap<'wrapper' | 'radioField' | 'formContainer'>;
 }
 
 const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, classes }) => {
   const { values, handleChange, handleBlur, touched, errors } = form || {};
 
-  const delivery_type_preview = `${values?.delivery_type || ''} ${moment(values?.schedule || '').format(
-    'MM/DD/YYYY HH:MM',
-  )}`;
+  const delivery_type_preview = `${values?.delivery_type || ''} ${moment(values?.schedule || '').format('MM/DD/YYYY HH:MM')}`;
   const expired_preview = `${values?.expire || ''} ${EXPIRE_OPTION_FILTER[values?.type_expired]}`;
   let defaultArray = Array.isArray(values.subscribers) ? values.subscribers.map((x: any) => x?.username) : [];
-
 
   return (
     <Grid container spacing={2}>
@@ -34,7 +27,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
         <Grid item xs={12}>
           <RadioGroupField
             name="notification_type"
-            label="Notification type"
+            label="lang_notification_type"
             data={NOTIFICATION_TYPE_OPTION_FILTER[values.notification_type] || []}
             rowItems={true}
             value={values?.notification_type}
@@ -50,7 +43,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
             <React.Fragment>
               <InputField
                 name="segment"
-                label="Segment"
+                label="lang_segment"
                 InputProps={{
                   readOnly: true,
                 }}
@@ -87,7 +80,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
         <Grid item xs={12}>
           <InputField
             name="title"
-            label="title"
+            label="lang_title"
             InputProps={{
               readOnly: true,
             }}
@@ -99,7 +92,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
         <Grid item xs={12}>
           <InputField
             name="message"
-            label="message"
+            label="lang_message"
             InputProps={{
               readOnly: true,
             }}
@@ -112,7 +105,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
         <Grid item xs={12}>
           <InputField
             name="type_url"
-            label="Type URL"
+            label="lang_type_url"
             InputProps={{
               readOnly: true,
             }}
@@ -128,7 +121,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
             <Grid item xs={12} style={{ height: 81 }}>
               <InputField
                 // name="message"
-                label="Delivery type"
+                label="lang_delivery_type"
                 InputProps={{
                   readOnly: true,
                 }}
@@ -144,7 +137,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
             <Grid item xs={12} style={{ height: 81 }}>
               <InputField
                 // name="message"
-                label="Delivery type"
+                label="lang_delivery_type"
                 InputProps={{
                   readOnly: true,
                 }}
@@ -156,7 +149,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
             <Grid item xs={12}>
               <InputField
                 // name="message"
-                label="Expire"
+                label="lang_expire"
                 InputProps={{
                   readOnly: true,
                 }}
@@ -169,7 +162,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
         )}
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
-export default FormReviewNotification
+export default FormReviewNotification;

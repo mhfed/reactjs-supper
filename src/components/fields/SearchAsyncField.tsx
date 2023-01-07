@@ -84,7 +84,7 @@ export default function SearchAsyncField(props: any) {
               error={isError}
               helperText={_renderHelperText()}
               onChange={onChangeText}
-              label={label}
+              label={<Trans>{label || ''}</Trans>}
               InputProps={{
                 ...params.InputProps,
                 endAdornment: (
