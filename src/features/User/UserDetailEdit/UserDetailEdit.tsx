@@ -12,12 +12,13 @@ import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { InputField, PreviewField, SelectField } from 'components/fields';
 import { useFormik } from 'formik';
-import { Box, Button, Grid, Stack } from '@mui/material';
+import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Trans } from 'react-i18next';
 import httpRequest from 'services/httpRequest';
 import { getUserDetailByUserIdUrl } from 'apis/request.url';
 import EditIcon from '@mui/icons-material/Edit';
+import CloseIcon from '@mui/icons-material/Close';
 import { SITE_NAME_OPTIONS, USER_STATUS_OPTIONS } from '../UserConstants';
 import moment from 'moment-timezone';
 import { useGlobalModalContext } from 'containers/Modal';
@@ -38,6 +39,16 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiGrid-item': {
       paddingTop: theme.spacing(3),
     },
+  },
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '100%',
+    padding: theme.spacing(1),
+    background: theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.background.paper,
+  },
+  iconClose: {
+    cursor: 'pointer',
   },
 }));
 
@@ -133,7 +144,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
     }
   };
 
-  const { values, errors, touched, handleChange, handleBlur, handleSubmit } = useFormik({
+  const { values, errors, touched, handleChange, handleBlur, handleSubmit, resetForm } = useFormik({
     initialValues: { ...initialValues },
     validationSchema: validationSchema,
     onSubmit: handleBeforeSubmit,
@@ -143,10 +154,43 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
     setEditMode(true);
   };
   const handleTurnOffEditMode = () => {
-    setEditMode(false);
+    const isChanged = compareChanges(initialValues, values);
+    if (isChanged) {
+      showSubModal({
+        title: 'lang_confirm_cancel',
+        component: ConfirmEditModal,
+        props: {
+          title: 'lang_confirm_cancel_text',
+          emailConfirm: false,
+          titleTransValues: { user: values.user_login },
+          onSubmit: () => {
+            resetForm();
+            hideSubModal();
+            setEditMode(false);
+          },
+        },
+      });
+    } else {
+      hideSubModal();
+      setEditMode(false);
+      hideModal();
+    }
+  };
+  const handleClose = () => {
+    handleTurnOffEditMode();
   };
   React.useEffect(() => {}, []);
 
+  const renderHeader = () => {
+    return (
+      <Box className={classes.header}>
+        <Typography>
+          <Trans>lang_user_details</Trans>
+        </Typography>
+        <CloseIcon className={classes.iconClose} onClick={handleClose} />
+      </Box>
+    );
+  };
   const renderContent = (editMode: boolean) => {
     if (!editMode) {
       return (
@@ -279,10 +323,13 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
     }
   };
   return (
-    <form className={classes.form} noValidate onSubmit={handleSubmit}>
-      {renderContent(editMode)}
-      {renderButton(editMode)}
-    </form>
+    <>
+      {renderHeader()}
+      <form className={classes.form} noValidate onSubmit={handleSubmit}>
+        {renderContent(editMode)}
+        {renderButton(editMode)}
+      </form>
+    </>
   );
 };
 
