@@ -1,4 +1,6 @@
 {
+  "lang_update_segment_successfully": "The segment information has been updated successfully",
+  "lang_update_segment_unsuccessfully": "Unable to update segment information",
   "lang_no": "No",
   "lang_yes": "Yes",
   "lang_confirm_cancel": "Confirm Cancellation",
