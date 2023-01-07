@@ -477,6 +477,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           break;
         case TABLE_ACTION.PAGE_CHANGE:
         case TABLE_ACTION.PAGE_SIZE_CHANGE:
+          window.scrollTo(0, 0);
           onTableChange();
           break;
         default:
