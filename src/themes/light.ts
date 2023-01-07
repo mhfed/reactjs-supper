@@ -70,6 +70,16 @@ const lightTheme = createTheme({
         },
       },
     },
+    MuiButtonBase: {
+      styleOverrides: {
+        root: {
+          '&.Mui-disabled': {
+            pointerEvents: 'unset',
+            cursor: 'not-allowed',
+          },
+        },
+      },
+    },
   },
   palette: {
     mode: 'light',

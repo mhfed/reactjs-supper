@@ -29,7 +29,7 @@ export const getCreatePasswordUrl = () => {
 };
 
 // User - v1
-export const getSearchUserUrl = ({ page = 1, rowsPerPage = process.env.REACT_APP_DEFAULT_PAGE_SIZE }) => {
+export const getSearchUserUrl = ({ page = 1, rowsPerPage = +process.env.REACT_APP_DEFAULT_PAGE_SIZE }) => {
   return `/v1/search/user?page_id=${page}&page_size=${rowsPerPage}`;
 };
 export function getResetUserPasswordUrl() {
@@ -71,7 +71,7 @@ export function postDataUpdateSegmentByID(segmentID: string) {
 // Notification - v1
 export const getListNotificationUrl = ({
   page = 1,
-  rowsPerPage = process.env.REACT_APP_DEFAULT_PAGE_SIZE,
+  rowsPerPage = +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
   searchText = '',
   sort,
 }: {
@@ -88,7 +88,7 @@ export const getListNotificationUrl = ({
 };
 export function getListSegmentUrl({
   page = 1,
-  rowsPerPage = process.env.REACT_APP_DEFAULT_PAGE_SIZE,
+  rowsPerPage = +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
   searchText = '',
   sort,
 }: {
@@ -105,7 +105,7 @@ export function getListSegmentUrl({
 }
 export function getListSubscribertUrl({
   page = 1,
-  rowsPerPage = process.env.REACT_APP_DEFAULT_PAGE_SIZE,
+  rowsPerPage = +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
   searchText = '',
   sort,
 }: {
