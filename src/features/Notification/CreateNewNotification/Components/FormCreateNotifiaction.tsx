@@ -159,6 +159,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                       inputFormat={'MM/DD/YYYY HH:mm'}
                       onChange={(v: string) => setFieldValue('schedule', v ? new Date(v) : v)}
                       onBlur={handleBlur}
+                      minDate={new Date()}
                       error={touched.schedule && Boolean(errors.schedule)}
                       helperText={touched.schedule && errors.schedule}
                     />

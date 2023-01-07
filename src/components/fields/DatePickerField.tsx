@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     '& input::placeholder': {
       textTransform: 'uppercase',
     },
-  }
+  },
 }));
 
 type DatePickerFieldProps = {
@@ -54,7 +54,8 @@ type DatePickerFieldProps = {
   onChange: (e: Date | string) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   style?: React.CSSProperties | undefined;
-  inputFormat?: string
+  inputFormat?: string;
+  minDate?: Date;
 };
 
 const DatePickerField: React.FC<DatePickerFieldProps> = (props) => {
