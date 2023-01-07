@@ -167,7 +167,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
           <React.Fragment>
             <Grid item xs={12}>
               <Grid item container xs={12}>
-                <Grid item xs={4}>
+                <Grid item xs={values?.delivery_type === DELIVERY_TYPE.Instant ? 12 : 4}>
                   <RadioGroupField
                     name="delivery_type"
                     label="Delivery type"
@@ -181,21 +181,25 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                     helperText={touched.delivery_type && errors.delivery_type}
                   />
                 </Grid>
-                <Grid item xs={8}>
-                  {values?.delivery_type === DELIVERY_TYPE.Instant ? null : (
-                    <DatePickerField
-                      name="schedule"
-                      required={true}
-                      value={values.schedule}
-                      inputFormat={'MM/DD/YYYY HH:mm'}
-                      onChange={(v: string) => setFieldValue('schedule', v ? new Date(v) : v)}
-                      onBlur={handleBlur}
-                      minDate={new Date()}
-                      error={touched.schedule && Boolean(errors.schedule)}
-                      helperText={touched.schedule && errors.schedule}
-                    />
-                  )}
-                </Grid>
+                {values?.delivery_type === DELIVERY_TYPE.Instant ? (
+                  <></>
+                ) : (
+                  <>
+                    <Grid item xs={8}>
+                      <DatePickerField
+                        name="schedule"
+                        required={true}
+                        value={values.schedule}
+                        inputFormat={'MM/DD/YYYY HH:mm'}
+                        onChange={(v: string) => setFieldValue('schedule', v ? new Date(v) : v)}
+                        onBlur={handleBlur}
+                        minDate={new Date()}
+                        error={touched.schedule && Boolean(errors.schedule)}
+                        helperText={touched.schedule && errors.schedule}
+                      />
+                    </Grid>
+                  </>
+                )}
               </Grid>
             </Grid>
 
