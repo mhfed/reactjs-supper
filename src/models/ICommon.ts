@@ -99,5 +99,4 @@ export type IModalProps = {
   component?: any;
   props: LooseObject;
   fullScreen?: boolean;
-  showBtnClose?: boolean;
 };

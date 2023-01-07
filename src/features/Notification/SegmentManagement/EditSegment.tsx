@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     width: '100%',
     padding: theme.spacing(1),
-    background: theme.palette.background.default,
+    background: theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.background.paper,
   },
 }));
 
@@ -89,7 +89,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
   const handleCancelEdit = (isXbutton: boolean) => {
     const isChangeSubscriber = compareArray(values.segment_subscribers, initialValues.segment_subscribers);
     if (values.segment_name === initialValues.segment_name && !isChangeSubscriber) {
-      typePage === STATE_FORM.DETAIL ? (isXbutton ? hideModal() : setStateForm(STATE_FORM.DETAIL)) : hideModal();
+      typePage === STATE_FORM.DETAIL && !isXbutton ? setStateForm(STATE_FORM.DETAIL) : hideModal();
     } else {
       showSubModal({
         title: 'lang_confirm_cancel',
@@ -101,7 +101,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
           onSubmit: () => {
             hideSubModal();
             resetForm();
-            typePage === STATE_FORM.DETAIL ? (isXbutton ? hideModal() : setStateForm(STATE_FORM.DETAIL)) : hideModal();
+            typePage === STATE_FORM.DETAIL && !isXbutton ? setStateForm(STATE_FORM.DETAIL) : hideModal();
           },
         },
       });
@@ -171,6 +171,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
         }),
       );
     } else {
+      if (Object.values(errors).length > 0) return;
       showSubModal({
         title: 'lang_confirm',
         component: ConfirmEditModal,

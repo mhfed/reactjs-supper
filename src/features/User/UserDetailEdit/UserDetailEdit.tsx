@@ -259,7 +259,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
   const renderButton = (editMode: boolean) => {
     if (editMode) {
       return (
-        <Stack direction="row" justifyContent="end" alignItems="center" spacing={2} sx={{ margin: '12px 0' }}>
+        <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
           <Button variant="outlined" onClick={handleTurnOffEditMode}>
             <Trans>lang_cancel</Trans>
           </Button>
@@ -270,7 +270,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
       );
     } else {
       return (
-        <Stack direction="row" justifyContent="end" alignItems="center" sx={{ margin: '12px 0' }}>
+        <Stack direction="row" justifyContent="end" alignItems="center">
           <Button variant="contained" startIcon={<EditIcon />} onClick={handleTurnOnEditMode}>
             <Trans>lang_edit</Trans>
           </Button>

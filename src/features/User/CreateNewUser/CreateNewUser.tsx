@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    background: theme.palette.background.other2,
+    background: theme.palette.mode === 'dark' ? theme.palette.background.other2 : theme.palette.background.default,
     padding: theme.spacing(5),
   },
   title: {
@@ -163,11 +163,6 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <Box>
               <Grid container spacing={4}>
-                <Grid item xs={12}>
-                  <Typography variant="h4" className={classes.title}>
-                    <Trans>lang_user_details</Trans>
-                  </Typography>
-                </Grid>
                 <Grid item xs={6}>
                   <InputField
                     id="full_name"
