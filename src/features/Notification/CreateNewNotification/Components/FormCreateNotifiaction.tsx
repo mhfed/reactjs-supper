@@ -10,7 +10,7 @@ import {
   DELIVERY_TYPE,
 } from '../NotificationConstant';
 import RadioGroupField from 'components/fields/RadioGroupField';
-import { AutocompleteAsyncField, InputField, SelectField, DatePickerField } from 'components/fields';
+import { AutocompleteAsyncField, InputField, SelectField, DatePickerField, AutocompleteFreeSoloField } from 'components/fields';
 import { initialValuesType, isOptionEqualToValue } from '../CreateNewNotification';
 import { ClassNameMap } from 'notistack';
 import SearchAsyncField from 'components/fields/SearchAsyncField';
@@ -49,13 +49,13 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
         return (
           <React.Fragment>
             <Grid item xs={12} style={{ paddingBottom: 3 }}>
-              <SearchAsyncField
+              <AutocompleteFreeSoloField
                 name="sitename"
                 label="lang_sitename"
                 required
                 fullWidth
                 value={values.sitename}
-                onChange={(v: any) => setFieldValue('segment', v)}
+                onChange={(v: any) => setFieldValue('sitename', v)}
                 onBlur={handleBlur}
                 error={touched.sitename && Boolean(errors.sitename)}
                 helperText={touched.sitename && errors.sitename}
@@ -198,7 +198,6 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                       onBlur={handleBlur}
                       error={touched.expire && Boolean(errors.expire)}
                       helperText={touched.expire && errors.expire}
-                      // dir="rtl"
                     />
                   </Grid>
                 </Grid>

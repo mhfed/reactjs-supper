@@ -197,6 +197,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
     <Paper className={classes.wrapper}>
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={submitForm}>
         {(form: FormikProps<initialValuesType>) => {
+          console.log(form.values)
           return (
             <React.Fragment>
               {HeaderTitle()}
@@ -255,8 +256,8 @@ const validationSchema = yup.object().shape({
   segment: yup.mixed().when('notification_type', (value, schema) => {
     return value === NOTIFICATION_TYPE.Segment ? schema.required('lang_field_required') : schema;
   }),
-  sitename: yup.mixed().when('notification_type', (value, schema) => {
-    return value === NOTIFICATION_TYPE.Sitename ? schema.required('lang_field_required') : schema;
+  sitename: yup.array().when('notification_type', (value, schema) => {
+    return value === NOTIFICATION_TYPE.Sitename ? schema.min(1, 'lang_field_required') : schema;
   }),
 });
 
