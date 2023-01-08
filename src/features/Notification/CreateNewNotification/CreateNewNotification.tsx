@@ -16,7 +16,7 @@ import { LooseObject } from 'models/ICommon';
 import { Trans } from 'react-i18next';
 import moment from 'moment';
 import httpRequest from 'services/httpRequest';
-import { postDataUpdateSegmentByID, postDirectSend } from 'apis/request.url';
+import { postDataUpdateSegmentByID, postDirectSend, postSiteNameSend } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
@@ -69,14 +69,14 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
 
   const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
     if (stateForm === STATE_FORM.CREATE) return setStateForm(STATE_FORM.PREVIEW);
-    let urlSendNoti =
-      values.notification_type === NOTIFICATION_TYPE.Direct
-        ? postDirectSend()
-        : postDataUpdateSegmentByID((values?.segment as any)?.segment_id || '');
+    let urlSendNoti = '';
     let bodySendNoti = {};
+
+    //Body and url type Direct
 
     if (values.notification_type === NOTIFICATION_TYPE.Direct) {
       const { title, message, expire, type_expired, delivery_type } = values;
+      urlSendNoti = postDirectSend();
       bodySendNoti = {
         title,
         message,
@@ -98,8 +98,13 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
         if (expireTime) bodySendNoti = { ...bodySendNoti, expire_time: `${expireTime}${type_expired}` };
 
       }
-    } else {
+    }
+
+    //Body and url type Segment
+
+    if (values.notification_type === NOTIFICATION_TYPE.Segment) {
       const { title, message } = values;
+      urlSendNoti = postDataUpdateSegmentByID((values?.segment as any)?.segment_id || '');
       bodySendNoti = {
         title,
         message,
@@ -108,6 +113,22 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
         mobile_push: true,
       };
     }
+
+    //Body and url type sitename
+
+    if (values.notification_type === NOTIFICATION_TYPE.Sitename) {
+      const { title, message, sitename } = values;
+      urlSendNoti = postSiteNameSend();
+      bodySendNoti = {
+        title,
+        message,
+        url: 'https://abc.com/',
+        // icon: 'https://media.istockphoto.com/photos/hand-touching-virtual-world-with-connection-network-global-data-and-picture-id1250474241',
+        mobile_push: true,
+        site_name: sitename
+      };
+    }
+
 
     httpRequest
       .post(urlSendNoti, bodySendNoti)
@@ -224,7 +245,7 @@ export interface initialValuesType {
   type_expired: string;
   segment?: string;
   schedule: string;
-  sitename?: string;
+  sitename?: Array<any>;
 }
 
 const initialValues: initialValuesType = {
@@ -238,7 +259,7 @@ const initialValues: initialValuesType = {
   type_expired: EXPIRE.Hours,
   segment: '',
   schedule: '',
-  sitename: '',
+  sitename: [],
 };
 
 const validationSchema = yup.object().shape({

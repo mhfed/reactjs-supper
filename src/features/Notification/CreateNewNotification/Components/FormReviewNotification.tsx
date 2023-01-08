@@ -17,11 +17,79 @@ interface FormReviewNotificationProps {
 const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, classes }) => {
   const { values, handleChange, handleBlur, touched, errors } = form || {};
 
-  const delivery_type_preview = `${values?.delivery_type || ''} ${
-    values?.schedule ? moment(values?.schedule || '').format('MM/DD/YYYY HH:MM') : ''
-  }`;
+  const delivery_type_preview = `${values?.delivery_type || ''} ${values?.schedule ? moment(values?.schedule || '').format('MM/DD/YYYY HH:MM') : ''
+    }`;
   const expired_preview = `${values?.expire || '0'} ${EXPIRE_OPTION_FILTER[values?.type_expired]}`;
   let defaultArray = Array.isArray(values.subscribers) ? values.subscribers.map((x: any) => x?.username) : [];
+  const { Segment, Sitename } = NOTIFICATION_TYPE;
+
+  const renderField = () => {
+    if (values.notification_type === Segment) {
+      return (
+        <React.Fragment>
+          <InputField
+            name="segment"
+            label="lang_segment"
+            InputProps={{
+              readOnly: true,
+            }}
+            fullWidth
+            variant={'standard'}
+            value={(values.segment as any)?.segment_id}
+          />
+        </React.Fragment>
+      )
+    }
+
+    if (values.notification_type === Sitename) {
+      return <React.Fragment>
+        <Autocomplete
+          multiple
+          id="tags-readOnly"
+          // options={values.sitename}
+          options={[]}
+          value={values.sitename}
+          readOnly
+          freeSolo
+          // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              variant="standard"
+              label={
+                <Typography>
+                  <Trans>lang_sitename</Trans>
+                </Typography>
+              }
+            ></TextField>
+          )}
+        />
+      </React.Fragment>
+    }
+
+    return <React.Fragment>
+      <Autocomplete
+        multiple
+        id="tags-readOnly"
+        options={values.subscribers}
+        defaultValue={defaultArray}
+        readOnly
+        freeSolo
+        // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            variant="standard"
+            label={
+              <Typography>
+                <Trans>lang_subscribers</Trans>
+              </Typography>
+            }
+          ></TextField>
+        )}
+      />
+    </React.Fragment>
+  }
 
   return (
     <React.Fragment>
@@ -42,43 +110,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
             />
           </Grid>
           <Grid item xs={12}>
-            {values.notification_type === NOTIFICATION_TYPE.Segment ? (
-              <React.Fragment>
-                <InputField
-                  name="segment"
-                  label="lang_segment"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  fullWidth
-                  variant={'standard'}
-                  value={(values.segment as any)?.segment_id}
-                />
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                <Autocomplete
-                  multiple
-                  id="tags-readOnly"
-                  options={values.subscribers}
-                  defaultValue={defaultArray}
-                  readOnly
-                  freeSolo
-                  // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      variant="standard"
-                      label={
-                        <Typography>
-                          <Trans>lang_subscribers</Trans>
-                        </Typography>
-                      }
-                    ></TextField>
-                  )}
-                />
-              </React.Fragment>
-            )}
+            {renderField()}
           </Grid>
           <Grid item xs={12}>
             <InputField
@@ -119,7 +151,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
           </Grid>
         </Grid>
         <Grid item container xs={12} md={6} spacing={2} style={{ height: 'fit-content' }}>
-          {values.notification_type === NOTIFICATION_TYPE.Segment ? (
+          {[Segment, Sitename].includes(values.notification_type) ? (
             <React.Fragment>
               <Grid item xs={12} style={{ height: 81 }}>
                 <InputField
