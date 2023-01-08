@@ -1,4 +1,12 @@
 {
+  "lang_type": "Type",
+  "lang_article": "Article",
+  "lang_weeks": "Weeks",
+  "lang_days": "Days",
+  "lang_hours": "Hours",
+  "lang_instant": "Instant",
+  "lang_direct": "Direct",
+  "lang_schedule_time": "Schedule time",
   "lang_preview_new_notifications": "preview new notifications",
   "lang_expire": "Expire",
   "lang_type_url": "Type URL",

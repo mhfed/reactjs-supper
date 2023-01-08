@@ -205,7 +205,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                   <SelectField
                     options={EXPIRE_OPTION}
                     name="type_expired"
-                    label="Type"
+                    label="lang_type"
                     id="type_expired"
                     fullWidth={true}
                     onBlur={handleBlur}
@@ -223,6 +223,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                       name="schedule"
                       required={true}
                       value={values.schedule}
+                      label={'lang_schedule_time'}
                       inputFormat={'MM/DD/YYYY HH:mm'}
                       onChange={(v: string) => setFieldValue('schedule', v ? new Date(v) : v)}
                       onBlur={handleBlur}
