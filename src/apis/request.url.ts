@@ -69,7 +69,7 @@ export function postDataUpdateSegmentByID(segmentID: string) {
   return `/v1/dynamic-push/segment/${segmentID}/send`;
 }
 export function postSiteNameSend() {
-  return `/v1/dynamic-push/sitename/send`;
+  return `/v1/dynamic-push/site-name/send`;
 }
 // Notification - v1
 export const getListNotificationUrl = ({
