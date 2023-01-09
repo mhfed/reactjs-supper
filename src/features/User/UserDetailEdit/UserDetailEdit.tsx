@@ -76,9 +76,9 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
 
   const initialValues = {
     full_name: dataForm.full_name || '',
-    status: dataForm.status || '',
+    status: dataForm.status ?? '',
     user_login: dataForm.user_login_id || '',
-    site_name: dataForm.site_name || '',
+    site_name: dataForm.site_name ?? '',
     last_time: dataForm.last_time || '',
     create_time: dataForm.create_time || '',
     note: dataForm.note || '',

@@ -73,7 +73,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
 }) => {
   const theme = useTheme();
   const classes = useStyles();
-  const TagSucessBg = theme.palette.mode === 'dark' ? '' : '#E1FFF4';
+  const TagSucessBg = theme.palette.mode === 'dark' ? '' : theme.palette.background.default;
   const [options, setOptions] = React.useState([]);
   const timeoutId = React.useRef<number | null>(null);
 
@@ -152,7 +152,6 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
         renderTags={(value: readonly string[], getTagProps) =>
           value.map((option: any, index: number) => (
             <Chip
-              // style={theme.palette.mode === 'dark' ? {} : styleTagInput}
               variant="outlined"
               label={option[fieldNameShip]}
               {...getTagProps({ index })}

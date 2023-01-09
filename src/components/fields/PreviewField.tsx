@@ -38,17 +38,17 @@ const useStyles = makeStyles((theme) => ({
 const PreviewField: React.FC<PreviewFieldProps> = ({ label, value, options, textTransform, ...props }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const val = options ? options.find((o) => o.value === value)?.label : value;
+  const val = options ? options.find((o) => o.value.toString() === value?.toString())?.label : value;
   let text = value;
   if (options) {
-    text = val ? t(val.toString()).toUpperCase() : '--';
+    text = val ? t(val.toString()).toUpperCase() : '';
   }
   return (
     <TextField
       className={classes.preview}
       variant={'standard'}
       {...props}
-      value={text}
+      value={text || '--'}
       fullWidth
       label={<Trans>{label}</Trans>}
     ></TextField>
