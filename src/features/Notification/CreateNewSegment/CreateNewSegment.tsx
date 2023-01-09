@@ -81,7 +81,7 @@ const Sample = () => {
       if (stateForm === STATE_FORM.CREATE) {
         setStateForm(STATE_FORM.PREVIEW);
       } else {
-        const subcribersArray = values.segment_subscribers.map((x: any) => x.username);
+        const subcribersArray = values.segment_subscribers.map((x: any) => ({ username: x.username, site_name: x.site_name }));
         const body = {
           name: values.segment_name,
           subscribers: subcribersArray,
@@ -94,7 +94,7 @@ const Sample = () => {
             variant: 'success',
           }),
         );
-        handleClearData();
+        resetForm();
         setStateForm(STATE_FORM.CREATE);
       }
     } catch (error) {
@@ -147,15 +147,7 @@ const Sample = () => {
                     freeSolo
                     // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
                     renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        variant="standard"
-                        label={
-                          <Typography variant="h4">
-                            <Trans>lang_subscribers</Trans>
-                          </Typography>
-                        }
-                      ></TextField>
+                      <TextField {...params} variant="standard" label={<Trans>lang_subscribers</Trans>}></TextField>
                     )}
                   />
                 </FormControl>

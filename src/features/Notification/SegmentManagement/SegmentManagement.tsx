@@ -73,6 +73,7 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
           variant: 'success',
         }),
       );
+      onTableChange();
       hideModal();
     } catch (error) {
       dispatch(
@@ -113,6 +114,7 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
               typePage: 'EDIT',
               dataForm: data,
               listSubscribers: response.subscribers,
+              onTableChange: onTableChange,
             },
           });
         },
