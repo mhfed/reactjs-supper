@@ -40,6 +40,7 @@ type AutocompleteAsyncFieldProps = {
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   options?: Array<Options>;
   defaultValue?: any;
+  fieldNameShip?: string;
   // multiple?: boolean;
 };
 const useStyles = makeStyles((theme) => ({
@@ -67,6 +68,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   helperText,
   value,
   setFieldValue,
+  fieldNameShip = 'username',
   ...props
 }) => {
   const theme = useTheme();
@@ -133,7 +135,9 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
         options={options}
         defaultValue={props.defaultValue || []}
         clearOnBlur={true}
-        getOptionLabel={(option) => option.username}
+        getOptionLabel={(option) => {
+          return option[fieldNameShip];
+        }}
         isOptionEqualToValue={isOptionEqualToValue}
         renderOption={(props, option, { selected }) => (
           <li
@@ -142,7 +146,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
               backgroundColor: selected ? TagSucessBg : '',
             }}
           >
-            {option.username + ' (' + option.site_name + ')'}
+            {option[fieldNameShip] + ' (' + option.site_name + ')'}
           </li>
         )}
         renderTags={(value: readonly string[], getTagProps) =>
@@ -150,7 +154,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
             <Chip
               // style={theme.palette.mode === 'dark' ? {} : styleTagInput}
               variant="outlined"
-              label={option.username}
+              label={option[fieldNameShip]}
               {...getTagProps({ index })}
               className={theme.palette.mode === 'dark' ? '' : classes.ChipTags}
               key={index}

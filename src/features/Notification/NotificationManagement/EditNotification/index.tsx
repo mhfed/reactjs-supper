@@ -22,7 +22,7 @@ import { LooseObject } from 'models/ICommon';
 import { Trans } from 'react-i18next';
 import moment from 'moment';
 import httpRequest from 'services/httpRequest';
-import { postDataUpdateSegmentByID, postDirectSend, postSiteNameSend } from 'apis/request.url';
+import { getNotificationUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
@@ -30,7 +30,10 @@ import { useGlobalModalContext } from 'containers/Modal';
 import FormCreateNotifiaction from './FormEditNotifiaction';
 import CloseIcon from '@mui/icons-material/Close';
 
-interface CreateNewNotificationProps {}
+interface CreateNewNotificationProps {
+  dataForm: any;
+  typePage: 'DETAIL' | 'EDIT';
+}
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -74,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const isOptionEqualToValue = (option: LooseObject, value: LooseObject) => {
-  return option.username === value.username;
+  return option.subscriber === value.subscriber;
 };
 
 const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
@@ -82,6 +85,17 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   const [stateForm, setStateForm] = React.useState(STATE_FORM.CREATE);
   const dispatch = useDispatch();
   const { showModal, hideModal } = useGlobalModalContext();
+  let initialValues: initialValuesType = initialValuesDefault;
+
+  if (props.dataForm) {
+    initialValues = props.dataForm || {};
+    initialValues.type_url = 'Article';
+    const valueExpire = (initialValues?.expire_time || '').replace(/[A-z]/, '');
+    const typeExpire = (initialValues?.expire_time || '').replace(/[0-9]/, '');
+    initialValues.expire = valueExpire;
+    initialValues.type_expired = typeExpire;
+    initialValues.schedule = initialValues.schedule_time as any;
+  }
 
   const handleClose = () => {
     hideModal();
@@ -106,16 +120,19 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
 
     if (values.notification_type === NOTIFICATION_TYPE.Direct) {
       const { title, message, expire, type_expired, delivery_type } = values;
-      urlSendNoti = postDirectSend();
+      urlSendNoti = getNotificationUrl(props.dataForm.notification_id);
       bodySendNoti = {
         title,
         message,
         url: 'https://abc.com/',
         mobile_push: true,
+        desktop_push: true,
+        email_push: true,
+        sms_push: true,
         subscribers: (values?.subscribers || []).map((x) => {
-          const { username, site_name } = x || {};
+          const { subscriber, site_name } = x || {};
           return {
-            username,
+            username: subscriber,
             site_name,
           };
         }),
@@ -129,37 +146,8 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
       }
     }
 
-    //Body and url type Segment
-
-    if (values.notification_type === NOTIFICATION_TYPE.Segment) {
-      const { title, message } = values;
-      urlSendNoti = postDataUpdateSegmentByID((values?.segment as any)?.segment_id || '');
-      bodySendNoti = {
-        title,
-        message,
-        url: 'https://abc.com/',
-        icon: 'https://media.istockphoto.com/photos/hand-touching-virtual-world-with-connection-network-global-data-and-picture-id1250474241',
-        mobile_push: true,
-      };
-    }
-
-    //Body and url type sitename
-
-    if (values.notification_type === NOTIFICATION_TYPE.Sitename) {
-      const { title, message, sitename } = values;
-      urlSendNoti = postSiteNameSend();
-      bodySendNoti = {
-        title,
-        message,
-        url: 'https://abc.com/',
-        // icon: 'https://media.istockphoto.com/photos/hand-touching-virtual-world-with-connection-network-global-data-and-picture-id1250474241',
-        mobile_push: true,
-        site_name: sitename,
-      };
-    }
-
     httpRequest
-      .post(urlSendNoti, bodySendNoti)
+      .put(urlSendNoti, bodySendNoti)
       .then(() => {
         dispatch(
           enqueueSnackbarAction({
@@ -201,8 +189,6 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
       });
   };
 
-  const onReturnPreviousPage = () => setStateForm(STATE_FORM.CREATE);
-
   const renderContent = (form: FormikProps<initialValuesType>) => {
     switch (stateForm) {
       default: {
@@ -214,15 +200,9 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   const submitButton = (form: FormikProps<initialValuesType>) => {
     return (
       <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
-        {stateForm === STATE_FORM.PREVIEW ? (
-          <Button variant="outlined" onClick={onReturnPreviousPage}>
-            <Trans>lang_return</Trans>
-          </Button>
-        ) : (
-          <Button variant="outlined" onClick={() => handleClearData(form)}>
-            <Trans>lang_clear</Trans>
-          </Button>
-        )}
+        <Button variant="outlined" onClick={() => handleClearData(form)}>
+          <Trans>lang_clear</Trans>
+        </Button>
 
         <Button variant="contained" type="submit">
           <Trans>lang_create</Trans>
@@ -280,7 +260,7 @@ export interface initialValuesType {
   segment_id?: string;
 }
 
-const initialValues: initialValuesType = {
+const initialValuesDefault: initialValuesType = {
   notification_type: NOTIFICATION_TYPE.Direct,
   subscribers: [],
   title: '',

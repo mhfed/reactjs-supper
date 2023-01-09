@@ -35,6 +35,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                 helperText={touched.subscribers && errors.subscribers}
                 value={values.subscribers}
                 required={true}
+                fieldNameShip="subscriber"
                 label="lang_subscribers"
                 defaultValue={[]}
                 fullWidth={true}
