@@ -81,7 +81,7 @@ const Sample = () => {
       if (stateForm === STATE_FORM.CREATE) {
         setStateForm(STATE_FORM.PREVIEW);
       } else {
-        const subcribersArray = values.segment_subscribers.map((x: any) => x.username);
+        const subcribersArray = values.segment_subscribers.map((x: any) => ({ username: x.username, site_name: x.site_name }));
         const body = {
           name: values.segment_name,
           subscribers: subcribersArray,

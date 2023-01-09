@@ -77,6 +77,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
     segment_subscribers: listSubscribers || [],
     segment_id: dataForm?.segment_id || '',
   };
+
   const dispatch = useDispatch();
   const [stateForm, setStateForm] = React.useState(typePage || STATE_FORM.DETAIL);
   const handleClose = () => {
@@ -122,7 +123,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
 
   const handleFormSubmit = async (values: any) => {
     try {
-      const subcribersArray = values.segment_subscribers.map((x: any) => x.username);
+      const subcribersArray = values.segment_subscribers.map((x: any) => ({ username: x.username, site_name: x.site_name }));
       const body = {
         name: values.segment_name,
         subscribers: subcribersArray,
