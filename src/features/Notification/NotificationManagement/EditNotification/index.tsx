@@ -83,7 +83,7 @@ export const isOptionEqualToValue = (option: LooseObject, value: LooseObject) =>
 const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { showModal, hideModal } = useGlobalModalContext();
+  const { showModal, hideModal, showSubModal, hideSubModal } = useGlobalModalContext();
   let initialValues: initialValuesType = initialValuesDefault;
 
   if (props.dataForm) {
@@ -144,28 +144,40 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
       }
     }
 
-    httpRequest
-      .put(urlSendNoti, bodySendNoti)
-      .then(() => {
-        dispatch(
-          enqueueSnackbarAction({
-            message: 'lang_send_notification_successfully',
-            key: new Date().getTime() + Math.random(),
-            variant: 'success',
-          }),
-        );
-        formikHelpers.resetForm();
-      })
-      .catch((err) => {
-        dispatch(
-          enqueueSnackbarAction({
-            message: 'lang_send_notification_unsuccessfully',
-            key: new Date().getTime() + Math.random(),
-            variant: 'error',
-          }),
-        );
-        console.log(err);
-      });
+    showSubModal({
+      title: 'lang_confirm',
+      component: ConfirmEditModal,
+      props: {
+        title: 'lang_describe_confirm_edit',
+        titleTransValues: { segment: values.segment_id },
+        onSubmit: () => {
+          httpRequest
+            .put(urlSendNoti, bodySendNoti)
+            .then(() => {
+              dispatch(
+                enqueueSnackbarAction({
+                  message: 'lang_send_notification_successfully',
+                  key: new Date().getTime() + Math.random(),
+                  variant: 'success',
+                }),
+              );
+              hideSubModal();
+              hideModal();
+            })
+            .catch((err) => {
+              dispatch(
+                enqueueSnackbarAction({
+                  message: 'lang_send_notification_unsuccessfully',
+                  key: new Date().getTime() + Math.random(),
+                  variant: 'error',
+                }),
+              );
+              hideSubModal()
+              console.log(err);
+            });
+        },
+      },
+    });
   };
 
   const handleClearData = (form: FormikProps<initialValuesType>) => {
