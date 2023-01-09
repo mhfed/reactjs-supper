@@ -79,8 +79,9 @@ const PasswordField: React.FC<TextFieldProps> = ({ label, helperText, value, gen
             {generate ? (
               <Button
                 // className={classes.btnGenerate}
+
                 onClick={handleGenPass}
-                sx={{ ml: 1 }}
+                sx={{ ml: 1, textTransform: 'capitalize' }}
               >
                 <Trans>lang_generate</Trans>
               </Button>
