@@ -83,7 +83,7 @@ export default function SignIn() {
   });
 
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFieldValue('email', e.target.value);
+    setFieldValue('email', validate.removeSpace(e.target.value));
     if (error) {
       dispatch(clearError());
     }
@@ -122,7 +122,7 @@ export default function SignIn() {
             required
             fullWidth
             value={values.password}
-            onChange={(v: string) => setFieldValue('password', v)}
+            onChange={(v: string) => setFieldValue('password', validate.removeSpace(v))}
             onBlur={handleBlur}
             error={(touched.password && Boolean(errors.password)) || !!error}
             helperText={touched.password && errors.password}
