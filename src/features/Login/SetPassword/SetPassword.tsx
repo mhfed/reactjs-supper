@@ -98,7 +98,7 @@ const SetPassword: React.FC<SetPasswordProps> = ({ setNewPassord }) => {
           required
           fullWidth
           value={values.password}
-          onChange={(v: string) => setFieldValue('password', v)}
+          onChange={(v: string) => setFieldValue('password', validate.removeSpace(v))}
           onBlur={handleBlur}
           error={touched.password && Boolean(errors.password)}
           helperText={touched.password && errors.password}
@@ -111,7 +111,7 @@ const SetPassword: React.FC<SetPasswordProps> = ({ setNewPassord }) => {
           required
           fullWidth
           value={values.re_password}
-          onChange={(v: string) => setFieldValue('re_password', v)}
+          onChange={(v: string) => setFieldValue('re_password', validate.removeSpace(v))}
           onBlur={handleBlur}
           error={touched.re_password && Boolean(errors.re_password)}
           helperText={touched.re_password && errors.re_password}

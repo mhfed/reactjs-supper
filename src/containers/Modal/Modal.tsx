@@ -90,6 +90,7 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
       ...modalProps,
       title: 'title' in modalProps ? modalProps.title : '',
       fullScreen: 'fullScreen' in modalProps ? modalProps.fullScreen : false,
+      showBtnClose: 'showBtnClose' in modalProps ? modalProps.showBtnClose : false,
     });
   };
 
@@ -130,7 +131,7 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
                 <Typography>
                   <Trans>{store.title}</Trans>
                 </Typography>
-                <CloseIcon className={classes.iconClose} onClick={hideModal} />
+                {store.showBtnClose && <CloseIcon className={classes.iconClose} onClick={hideModal} />}
               </Box>
             ) : (
               <></>
