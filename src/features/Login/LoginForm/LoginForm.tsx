@@ -154,5 +154,5 @@ const initialValues = {
 
 const validationSchema = yup.object().shape({
   email: yup.string().nullable(true).checkEmail('lang_email_invalid').required('lang_email_required'),
-  password: yup.string().required('lang_password_required').matches(validate.getPasswordPattern(), 'lang_password_required'),
+  password: yup.string().required('lang_password_required').matches(validate.getPasswordPattern(), 'lang_password_invalid'),
 });

@@ -60,10 +60,11 @@ export const forceSetPin = (pin: string, password: string, navigate: NavigateFun
   }
 };
 
-export const verifyPin = (pin: string, navigate: NavigateFunction) => async (dispatch: Dispatch<any>) => {
+export const verifyPin = (pin: string, clearPin: Function, navigate: NavigateFunction) => async (dispatch: Dispatch<any>) => {
   dispatch({ type: IAuthActionTypes.PIN_REQUEST });
 
   const { refreshToken, accessToken, baseUrl, error } = await authService.verifyPin(pin);
+  clearPin();
   if (error) {
     dispatch({ type: IAuthActionTypes.PIN_FAILURE, payload: { error: error?.errorCodeLang } });
   } else {
