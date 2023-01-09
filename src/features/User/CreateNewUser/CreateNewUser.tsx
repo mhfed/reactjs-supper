@@ -208,7 +208,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                     required
                     fullWidth
                     value={values.user_login}
-                    onChange={handleChange}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFieldValue('user_login', validate.removeSpace(e.target.value))}
                     onBlur={handleBlur}
                     error={touched.user_login && Boolean(errors.user_login)}
                     helperText={touched.user_login && errors.user_login}
@@ -239,7 +239,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                     required
                     fullWidth
                     value={values.password}
-                    onChange={(p: string) => setFieldValue('password', p)}
+                    onChange={(p: string) => setFieldValue('password', validate.removeSpace(p))}
                     onBlur={handleBlur}
                     error={touched.password && Boolean(errors.password)}
                     generate
