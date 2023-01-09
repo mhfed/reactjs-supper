@@ -9,6 +9,7 @@ import { initialValuesType } from '../../CreateNewNotification/CreateNewNotifica
 import { DELIVERY_TYPE, NOTIFICATION_TYPE } from '../../CreateNewNotification/NotificationConstant';
 import FormDirectNotification from './FormDirectNotification';
 import FormSegmentNotification from './FormSegmentNotification';
+import FormSiteNameNotification from './FormSiteNameNotification';
 
 interface EditNotificationProps {
   dataForm: any;
@@ -84,11 +85,16 @@ const EditNotification: React.FC<EditNotificationProps> = ({ typePage, dataForm 
 
   const renderContent = (form: FormikProps<initialValuesType>) => {
     const { values } = form;
-    if (values.notification_type === Direct) {
-      return <FormDirectNotification form={form} classes={classes} />;
-    }
-    if (values.notification_type === Segment) {
-      return <FormSegmentNotification form={form} classes={classes} />;
+    switch (values.notification_type) {
+      case Direct: {
+        return <FormDirectNotification form={form} classes={classes} />;
+      }
+      case Segment: {
+        return <FormSegmentNotification form={form} classes={classes} />;
+      }
+      default: {
+        return <FormSiteNameNotification form={form} classes={classes} />;
+      }
     }
   };
 
