@@ -12,7 +12,6 @@ import { Paper, Stack, Button, Typography, Box } from '@mui/material';
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { yup } from 'helpers';
 import {
-  STATE_FORM,
   NOTIFICATION_TYPE,
   DELIVERY_TYPE,
   EXPIRE,
@@ -33,6 +32,7 @@ import CloseIcon from '@mui/icons-material/Close';
 interface CreateNewNotificationProps {
   dataForm: any;
   typePage: 'DETAIL' | 'EDIT';
+  listSubscribers?: any
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -77,12 +77,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const isOptionEqualToValue = (option: LooseObject, value: LooseObject) => {
-  return option.subscriber === value.subscriber;
+  return option.username === value.username;
 };
 
 const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   const classes = useStyles();
-  const [stateForm, setStateForm] = React.useState(STATE_FORM.CREATE);
   const dispatch = useDispatch();
   const { showModal, hideModal } = useGlobalModalContext();
   let initialValues: initialValuesType = initialValuesDefault;
@@ -112,7 +111,6 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   };
 
   const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
-    if (stateForm === STATE_FORM.CREATE) return setStateForm(STATE_FORM.PREVIEW);
     let urlSendNoti = '';
     let bodySendNoti = {};
 
@@ -157,7 +155,6 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
           }),
         );
         formikHelpers.resetForm();
-        setStateForm(STATE_FORM.CREATE);
       })
       .catch((err) => {
         dispatch(
@@ -190,11 +187,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   };
 
   const renderContent = (form: FormikProps<initialValuesType>) => {
-    switch (stateForm) {
-      default: {
-        return <FormCreateNotifiaction classes={classes} form={form} />;
-      }
-    }
+    return <FormCreateNotifiaction classes={classes} form={form} />;
   };
 
   const submitButton = (form: FormikProps<initialValuesType>) => {
@@ -211,15 +204,6 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
     );
   };
 
-  const HeaderTitle = () => {
-    if (stateForm !== STATE_FORM.PREVIEW) return null;
-
-    return (
-      <Typography className={classes.title}>
-        <Trans>lang_preview_new_notifications</Trans>
-      </Typography>
-    );
-  };
   return (
     <React.Fragment>
       {renderHeader()}
@@ -229,7 +213,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
             console.log(form.values);
             return (
               <React.Fragment>
-                {HeaderTitle()}
+
                 <Form noValidate className={classes.formContainer}>
                   {renderContent(form)}
                   {submitButton(form)}

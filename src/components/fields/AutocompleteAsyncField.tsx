@@ -68,7 +68,6 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   helperText,
   value,
   setFieldValue,
-  fieldNameShip = 'username',
   ...props
 }) => {
   const theme = useTheme();
@@ -135,9 +134,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
         options={options}
         defaultValue={props.defaultValue || []}
         clearOnBlur={true}
-        getOptionLabel={(option) => {
-          return option[fieldNameShip];
-        }}
+        getOptionLabel={(option) => option.username}
         isOptionEqualToValue={isOptionEqualToValue}
         renderOption={(props, option, { selected }) => (
           <li
@@ -146,17 +143,17 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
               backgroundColor: selected ? TagSucessBg : '',
             }}
           >
-            {option[fieldNameShip] + ' (' + option.site_name + ')'}
+            {option.username + ' (' + option.site_name + ')'}
           </li>
         )}
         renderTags={(value: readonly string[], getTagProps) =>
           value.map((option: any, index: number) => (
             <Chip
               variant="outlined"
-              label={option[fieldNameShip]}
+              label={option.username}
               {...getTagProps({ index })}
               className={theme.palette.mode === 'dark' ? '' : classes.ChipTags}
-              key={index}
+              key={option?.username}
             />
           ))
         }

@@ -104,13 +104,17 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     if (data[FIELD.STATUS] !== NOTIFICATION_STATUS.TRIGGERED) {
       actions.push({
         label: 'lang_edit',
-        onClick: (data: any) => {
+        onClick: async (data: any) => {
+          const response: any = await httpRequest.get(getNotificationUrl(data?.notification_id));
+
+          const formatData = (response?.subscribers || []).map((e: any) => ({ ...e, username: e.subscriber }))
+
           showModal({
             component: EditNotification,
             fullScreen: true,
             props: {
               typePage: 'DETAIL',
-              dataForm: data,
+              dataForm: { ...data, subscribers: formatData }
             },
           });
         },
@@ -212,7 +216,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     ];
   }, []);
 
-  const onRowDbClick = () => {};
+  const onRowDbClick = () => { };
 
   const getRowId = (data: any) => {
     return data[FIELD.NOTIFICATION_ID];
