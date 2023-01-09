@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     textTransform: 'uppercase',
     marginBottom: theme.spacing(1),
+    fontWeight: 'bold',
   },
   form: {
     width: '100%',
@@ -120,9 +121,9 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
         return (
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <Box>
-              <Grid container spacing={4} rowSpacing={0.5}>
+              <Grid container spacing={4}>
                 <Grid item xs={12}>
-                  <Typography className={classes.title} variant="h4">
+                  <Typography className={classes.title}>
                     <Trans>lang_preview_create_new_user</Trans>
                   </Typography>
                 </Grid>
@@ -163,6 +164,11 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <Box>
               <Grid container spacing={4}>
+                <Grid item xs={12}>
+                  <Typography className={classes.title}>
+                    <Trans>lang_user_details</Trans>
+                  </Typography>
+                </Grid>
                 <Grid item xs={6}>
                   <InputField
                     id="full_name"
@@ -180,6 +186,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <SelectField
+                    required
                     options={SITE_NAME_OPTIONS}
                     name="site_name"
                     label="lang_sitename"
@@ -210,6 +217,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <SelectField
+                    required
                     options={USER_STATUS_OPTIONS}
                     name="status"
                     label="lang_status"

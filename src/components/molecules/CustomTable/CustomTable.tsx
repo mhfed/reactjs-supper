@@ -357,6 +357,7 @@ type TableProps = {
   fnKey: (data: any) => string;
   noChangeKey?: string;
   name: string;
+  noDataText?: string;
 };
 
 const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, ref) => {
@@ -597,7 +598,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
       {data.isLoading && <CircularProgress className={classes.centerContent} size={24} />}
       {!data.isLoading && !data.data?.length && (
         <div className={classes.centerContent}>
-          <Trans>lang_no_data</Trans>
+          {props.noDataText ? <Trans>{props.noDataText}</Trans> : <Trans>lang_no_data</Trans>}
         </div>
       )}
     </div>
