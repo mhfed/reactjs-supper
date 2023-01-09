@@ -66,7 +66,6 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
   // Handle Submit Form
   const handleFormSubmit = async () => {
     try {
-      console.log('values', values);
       const body = {
         data: {
           status: values.status,
@@ -86,6 +85,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
           variant: 'success',
         }),
       );
+      resetForm();
       setStateForm(STATE_FORM.CREATE);
     } catch (error) {
       dispatch(
