@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { makeStyles } from '@mui/styles';
-import { Paper, Stack, Button } from '@mui/material';
+import { Paper, Stack, Button, Typography } from '@mui/material';
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { yup } from 'helpers';
 import { STATE_FORM, NOTIFICATION_TYPE, DELIVERY_TYPE, EXPIRE, Notification_Type } from './NotificationConstant';
@@ -16,7 +16,7 @@ import { LooseObject } from 'models/ICommon';
 import { Trans } from 'react-i18next';
 import moment from 'moment';
 import httpRequest from 'services/httpRequest';
-import { postDataUpdateSegmentByID, postDirectSend } from 'apis/request.url';
+import { postDataUpdateSegmentByID, postDirectSend, postSiteNameSend } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
@@ -24,7 +24,7 @@ import { useGlobalModalContext } from 'containers/Modal';
 import FormCreateNotifiaction from './Components/FormCreateNotifiaction';
 import FormReviewNotification from './Components/FormReviewNotification';
 
-interface CreateNewNotificationProps {}
+interface CreateNewNotificationProps { }
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -49,6 +49,12 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     width: '100%',
   },
+  title: {
+    textTransform: 'uppercase',
+    marginBottom: theme.spacing(1),
+    width: '100%',
+    fontWeight: 700,
+  },
 }));
 
 export const isOptionEqualToValue = (option: LooseObject, value: LooseObject) => {
@@ -63,39 +69,66 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
 
   const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
     if (stateForm === STATE_FORM.CREATE) return setStateForm(STATE_FORM.PREVIEW);
-    let urlSendNoti =
-      values.notification_type === NOTIFICATION_TYPE.Direct
-        ? postDirectSend()
-        : postDataUpdateSegmentByID((values?.segment as any)?.segment_id || '');
+    let urlSendNoti = '';
     let bodySendNoti = {};
+
+    //Body and url type Direct
 
     if (values.notification_type === NOTIFICATION_TYPE.Direct) {
       const { title, message, expire, type_expired, delivery_type } = values;
+      urlSendNoti = postDirectSend();
       bodySendNoti = {
         title,
         message,
         url: 'https://abc.com/',
         mobile_push: true,
-        subscribers: (values?.subscribers || []).map((x) => x.username),
-        environment: 'iress-wealth-app',
-        expire_time: `${Number(expire)}${type_expired}`,
+        subscribers: (values?.subscribers || []).map((x) => {
+          const { username, site_name } = x || {};
+          return {
+            username,
+            site_name
+          }
+        }),
       };
+
       if (delivery_type === DELIVERY_TYPE.Schedule) {
         bodySendNoti = { ...bodySendNoti, schedule_time: moment(values?.schedule).toDate().getTime() };
+      } else {
+        let expireTime = Number(expire)
+        if (expireTime) bodySendNoti = { ...bodySendNoti, expire_time: `${expireTime}${type_expired}` };
+
       }
-    } else {
+    }
+
+    //Body and url type Segment
+
+    if (values.notification_type === NOTIFICATION_TYPE.Segment) {
       const { title, message } = values;
+      urlSendNoti = postDataUpdateSegmentByID((values?.segment as any)?.segment_id || '');
       bodySendNoti = {
         title,
         message,
         url: 'https://abc.com/',
         icon: 'https://media.istockphoto.com/photos/hand-touching-virtual-world-with-connection-network-global-data-and-picture-id1250474241',
         mobile_push: true,
-        desktop_push: true,
-        email_push: true,
-        environment: 'iress-wealth-app',
       };
     }
+
+    //Body and url type sitename
+
+    if (values.notification_type === NOTIFICATION_TYPE.Sitename) {
+      const { title, message, sitename } = values;
+      urlSendNoti = postSiteNameSend();
+      bodySendNoti = {
+        title,
+        message,
+        url: 'https://abc.com/',
+        // icon: 'https://media.istockphoto.com/photos/hand-touching-virtual-world-with-connection-network-global-data-and-picture-id1250474241',
+        mobile_push: true,
+        site_name: sitename
+      };
+    }
+
 
     httpRequest
       .post(urlSendNoti, bodySendNoti)
@@ -173,13 +206,22 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
     );
   };
 
+  const HeaderTitle = () => {
+    if (stateForm !== STATE_FORM.PREVIEW) return null;
+
+    return (
+      <Typography className={classes.title}>
+        <Trans>lang_preview_new_notifications</Trans>
+      </Typography>)
+  };
   return (
     <Paper className={classes.wrapper}>
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={submitForm}>
         {(form: FormikProps<initialValuesType>) => {
-          console.log(form.values);
+          console.log(form.values)
           return (
             <React.Fragment>
+              {HeaderTitle()}
               <Form noValidate className={classes.formContainer}>
                 {renderContent(form)}
                 {submitButton(form)}
@@ -203,7 +245,7 @@ export interface initialValuesType {
   type_expired: string;
   segment?: string;
   schedule: string;
-  sitename?: string;
+  sitename?: Array<any>;
 }
 
 const initialValues: initialValuesType = {
@@ -213,28 +255,30 @@ const initialValues: initialValuesType = {
   message: '',
   type_url: '',
   delivery_type: DELIVERY_TYPE.Instant,
-  expire: '0',
+  expire: '',
   type_expired: EXPIRE.Hours,
   segment: '',
   schedule: '',
-  sitename: '',
+  sitename: [],
 };
 
 const validationSchema = yup.object().shape({
-  subscribers: yup.array().min(1, 'lang_select_segment_subcriber').required('lang_select_segment_subcriber'),
+  subscribers: yup.array().when(['notification_type'], (value, schema) => {
+    return value === NOTIFICATION_TYPE.Direct ? schema.min(1, 'lang_select_segment_subcriber').required('lang_select_segment_subcriber') : schema
+  }),
   title: yup.string().required('lang_title_required').max(64, 'lang_validate_title'),
   message: yup.string().required('lang_message_required').max(192, 'lang_validate_message'),
-  schedule: yup.string().when('delivery_type', {
-    is: (delivery_type: 'Instant' | 'Schedule') => delivery_type === DELIVERY_TYPE.Schedule,
+  schedule: yup.string().when(['delivery_type', 'notification_type'], {
+    is: (delivery_type: 'Instant' | 'Schedule', notification_type: Notification_Type) => {
+      return delivery_type === DELIVERY_TYPE.Schedule && notification_type === NOTIFICATION_TYPE.Direct
+    },
     then: yup.string().required('lang_schedule_time_required'),
   }),
-  segment: yup.mixed().when('notification_type', {
-    is: (notification_type: Notification_Type) => notification_type === NOTIFICATION_TYPE.Segment,
-    then: yup.mixed().required('lang_field_required'),
+  segment: yup.mixed().when('notification_type', (value, schema) => {
+    return value === NOTIFICATION_TYPE.Segment ? schema.required('lang_field_required') : schema;
   }),
-  sitename: yup.mixed().when('notification_type', {
-    is: (notification_type: Notification_Type) => notification_type === NOTIFICATION_TYPE.Sitename,
-    then: yup.mixed().required('lang_field_required'),
+  sitename: yup.array().when('notification_type', (value, schema) => {
+    return value === NOTIFICATION_TYPE.Sitename ? schema.min(1, 'lang_field_required') : schema;
   }),
 });
 

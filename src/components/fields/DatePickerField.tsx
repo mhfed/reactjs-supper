@@ -106,6 +106,7 @@ const DatePickerField: React.FC<DatePickerFieldProps> = (props) => {
             name={rest.name}
             value={rest.value}
             onBlur={rest.onBlur}
+            fullWidth={Boolean(props?.fullWidth)}
             {...params}
             className={classes.inputField}
             label={label ? <Trans>{label}</Trans> : null}

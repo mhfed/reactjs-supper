@@ -9,11 +9,9 @@
 import React from 'react';
 import { Autocomplete, TextField } from '@mui/material';
 import { FormikErrors } from 'formik';
-import httpRequest from 'services/httpRequest';
 import { Trans } from 'react-i18next';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
-import { getListSubscriberSegmenttUrl } from 'apis/request.url';
 import { LooseObject } from 'models/ICommon';
 
 type Options = {
@@ -50,8 +48,6 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   setFieldValue,
   ...props
 }) => {
-  const [options, setOptions] = React.useState([]);
-  const timeoutId = React.useRef<number | null>(null);
 
   function _renderHelperText() {
     if (props.error) {
@@ -64,38 +60,9 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
       );
     }
   }
-  const getData = async (SearchKey: string) => {
-    try {
-      const response: any = await httpRequest.get(
-        getListSubscriberSegmenttUrl({
-          page: 1,
-          rowsPerPage: 50,
-          searchText: SearchKey,
-        }),
-      );
-      if (!response.data) {
-        setOptions([]);
-        console.log('ko co respone');
-      } else {
-        setOptions(response.data);
-      }
-    } catch (error) {
-      console.log('Search error:', error);
-    }
-  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, options: LooseObject[], reason: string) => {
     props.onChange?.(options);
-  };
-
-  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const Searchkey = e.target.value.trim();
-    console.log('searchkey:', Searchkey, ',type of searchkey:', typeof Searchkey);
-    if (Searchkey.length > 1) {
-      timeoutId.current && window.clearTimeout(timeoutId.current);
-      timeoutId.current = window.setTimeout(() => {
-        getData(Searchkey);
-      }, 400);
-    }
   };
 
   return (
@@ -103,17 +70,13 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
       <Autocomplete
         onBlur={props.onBlur}
         multiple
-        disableClearable
+        // disableClearable
         freeSolo
         id={props.id}
         value={value}
         onChange={handleChange}
-        options={options}
-        defaultValue={props.defaultValue || []}
-        clearOnBlur={true}
-        getOptionLabel={(option) => option.username}
-        isOptionEqualToValue={isOptionEqualToValue}
-        renderOption={(props, option) => <li {...props}>{option.username + ' (' + option.site_name + ')'}</li>}
+        options={[]}
+        renderOption={(props, option) => <li {...props}>{option}</li>}
         renderInput={(params) => (
           <TextField
             required={props.required}
@@ -121,7 +84,6 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
             value={value}
             label={<Trans>{label}</Trans>}
             error={props.error}
-            onChange={handleTextChange}
           ></TextField>
         )}
       />

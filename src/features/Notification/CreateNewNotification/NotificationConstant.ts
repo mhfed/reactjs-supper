@@ -17,15 +17,15 @@ const { Direct, Segment, Sitename } = NOTIFICATION_TYPE;
 export const NOTIFICATION_TYPE_OPTION = [
   {
     value: Direct,
-    label: Direct,
+    label: 'lang_direct',
   },
   {
     value: Segment,
-    label: Segment,
+    label: 'lang_segment',
   },
   {
     value: Sitename,
-    label: Sitename,
+    label: 'lang_sitename',
   },
 ];
 
@@ -33,19 +33,19 @@ export const NOTIFICATION_TYPE_OPTION_FILTER = {
   [Direct]: [
     {
       value: Direct,
-      label: Direct,
+      label: 'lang_direct',
     },
   ],
   [Segment]: [
     {
       value: Segment,
-      label: Segment,
+      label: 'lang_segment',
     },
   ],
   [Sitename]: [
     {
       value: Sitename,
-      label: Sitename,
+      label: 'lang_sitename',
     },
   ],
 };
@@ -55,11 +55,11 @@ const { Instant, Schedule } = DELIVERY_TYPE;
 export const DELIVERY_TYPE_OPTION = [
   {
     value: Instant,
-    label: Instant,
+    label: 'lang_instant',
   },
   {
     value: Schedule,
-    label: Schedule,
+    label: 'lang_schedule',
   },
 ];
 
@@ -68,15 +68,15 @@ const { Hours, Days, Weeks } = EXPIRE;
 export const EXPIRE_OPTION = [
   {
     value: Hours,
-    label: 'Hours',
+    label: 'lang_hours',
   },
   {
     value: Days,
-    label: 'Days',
+    label: 'lang_days',
   },
   {
     value: Weeks,
-    label: 'Weeks',
+    label: 'lang_weeks',
   },
 ];
 
@@ -88,7 +88,7 @@ export const EXPIRE_OPTION_FILTER = {
 
 export const TYPE_URL_OPTIONS = [
   {
-    label: 'Article',
+    label: 'lang_article',
     value: 'Article',
   },
 ];

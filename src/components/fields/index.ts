@@ -14,6 +14,7 @@ import RichTextboxField from './RichTextboxField';
 import PreviewField from './PreviewField';
 import RadioGroupField from './RadioGroupField';
 import DatePickerField from './DatePickerField';
+import AutocompleteFreeSoloField from './AutocompleteFreeSoloField';
 export {
   InputField,
   PasswordField,
@@ -23,4 +24,5 @@ export {
   RichTextboxField,
   RadioGroupField,
   DatePickerField,
+  AutocompleteFreeSoloField,
 };
