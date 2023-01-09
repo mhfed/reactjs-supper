@@ -56,7 +56,7 @@
   "lang_sign_in": "SIGN IN",
   "lang_email": "Email",
   "lang_email_invalid": "Invalid email",
-  "lang_email_required": "Email is required",
+  "lang_email_required": "Please enter your email",
   "lang_password_required": "Password is required",
   "lang_password_invalid": "Your password must include 8-25 characters and contain at least one lowercase, one capital letter and one number",
   "lang_password": "Password",

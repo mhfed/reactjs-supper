@@ -179,7 +179,7 @@
   "lang_sign_in": "SIGN IN",
   "lang_email": "Email",
   "lang_email_invalid": "The email is invalid",
-  "lang_email_required": "Email is required",
+  "lang_email_required": "Please enter your email",
   "lang_user_login_is_invalid": "User login is invalid",
   "lang_password_required": "Password is required",
   "lang_password_invalid": "Your password must include 8-25 characters and contain at least one lowercase, one capital letter and one number",
