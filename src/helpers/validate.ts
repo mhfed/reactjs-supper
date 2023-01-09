@@ -46,6 +46,10 @@ class Validate {
   getEmailPattern = () => {
     return /^([a-z0-9]+[_+.-])*[a-z0-9]+@(([a-z0-9]+-)*([a-z0-9]+)\.)+[a-z]{2,}$/i;
   };
+
+  removeSpace = (value: string): string => {
+    return value.replace(/^\s+|\s+$/g, '')
+  };
 }
 
 const validate = new Validate();

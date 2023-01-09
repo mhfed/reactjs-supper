@@ -148,6 +148,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
         onClick: (data: any) => {
           showModal({
             component: UserDetailEdit,
+            showBtnClose: true,
             fullScreen: true,
             props: {
               dataForm: data,

@@ -94,6 +94,7 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
           const response: any = await httpRequest.get(getUserSubcriberByID(data.segment_id));
           showModal({
             component: EditSegment,
+            showBtnClose: true,
             fullScreen: true,
             props: {
               typePage: 'DETAIL',
@@ -109,6 +110,7 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
           const response: any = await httpRequest.get(getUserSubcriberByID(data.segment_id));
           showModal({
             component: EditSegment,
+            showBtnClose: true,
             fullScreen: true,
             props: {
               typePage: 'EDIT',

@@ -93,6 +93,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
         showModal({
           component: DetailNotification,
           fullScreen: true,
+          showBtnClose: true,
           props: {
             typePage: 'DETAIL',
             dataForm: data,
