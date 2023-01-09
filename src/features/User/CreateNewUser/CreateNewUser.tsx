@@ -300,7 +300,7 @@ const validationSchema = yup.object().shape({
   password: yup
     .string()
     .required('lang_please_generate_password')
-    .matches(validate.getPasswordPattern(), 'lang_password_required'),
+    .matches(validate.getPasswordPattern(), 'lang_password_invalid'),
   note: yup.string().max(255, 'lang_note_max_length'),
 });
 

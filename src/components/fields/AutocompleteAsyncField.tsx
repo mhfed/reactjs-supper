@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Autocomplete, TextField, useTheme } from '@mui/material';
+import { Autocomplete, TextField, useTheme, Chip } from '@mui/material';
 import { FormikErrors } from 'formik';
 import httpRequest from 'services/httpRequest';
 import { Trans } from 'react-i18next';
@@ -42,6 +42,11 @@ type AutocompleteAsyncFieldProps = {
   // multiple?: boolean;
 };
 
+const styleTagInput = {
+  color: '#27A6E7',
+  backgroundColor: '#E3EFFD',
+  border: 'none',
+};
 const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   isOptionEqualToValue,
   label,
@@ -125,6 +130,17 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
             {option.username + ' (' + option.site_name + ')'}
           </li>
         )}
+        renderTags={(value: readonly string[], getTagProps) =>
+          value.map((option: any, index: number) => (
+            <Chip
+              style={theme.palette.mode === 'dark' ? {} : styleTagInput}
+              variant="outlined"
+              label={option.username}
+              {...getTagProps({ index })}
+              key={index}
+            />
+          ))
+        }
         renderInput={(params) => (
           <TextField
             required={props.required}

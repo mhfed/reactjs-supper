@@ -27,6 +27,9 @@ export const getPinUrl = () => {
 export const getCreatePasswordUrl = () => {
   return 'v1/auth/create-password';
 };
+export const getLogoutUrl = () =>{
+  return '/v1/auth/logout';
+};
 
 // User - v1
 export const getSearchUserUrl = ({ page = 1, rowsPerPage = +process.env.REACT_APP_DEFAULT_PAGE_SIZE }) => {

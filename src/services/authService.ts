@@ -15,6 +15,7 @@ import {
   getPinUrl,
   getUserDetailByEmailUrl,
   getUserGroupUrl,
+  getLogoutUrl,
 } from 'apis/request.url';
 import CryptoJS from 'react-native-crypto-js';
 import store from 'stores';
@@ -216,6 +217,7 @@ class AuthService {
   };
 
   logOut = () => {
+    httpRequest.post(getLogoutUrl());
     localStorage.clear();
   };
 

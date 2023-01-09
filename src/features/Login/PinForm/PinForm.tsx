@@ -119,10 +119,6 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
     setNumber([]);
   };
 
-  React.useEffect(() => {
-    clearPin();
-  }, [errorAuth]);
-
   const setStepInfo = (value: number) => {
     setStep(value);
     stepName.current = listStep.current[value];
@@ -149,7 +145,7 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
         }
       }
     } else {
-      dispatch(verifyPin(pin, navigate) as any);
+      dispatch(verifyPin(pin, clearPin, navigate) as any);
     }
   };
 

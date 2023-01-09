@@ -87,7 +87,7 @@ const SetPassword: React.FC<SetPasswordProps> = ({ setNewPassord }) => {
         </Typography>
       </div>
       <Typography variant="subtitle1" align="center" sx={{ width: '100%', px: 3, pt: 3 }}>
-        <Trans>lang_password_required</Trans>
+        <Trans>lang_password_invalid</Trans>
       </Typography>
       <form className={classes.form} noValidate onSubmit={handleSubmit}>
         <PasswordField
@@ -130,7 +130,7 @@ const initialValues = {
 };
 
 const validationSchema = yup.object().shape({
-  password: yup.string().required('lang_password_required').matches(validate.getPasswordPattern(), 'lang_password_required'),
+  password: yup.string().required('lang_password_required').matches(validate.getPasswordPattern(), 'lang_password_invalid'),
   re_password: yup
     .string()
     .required('lang_input_confirm_password')
