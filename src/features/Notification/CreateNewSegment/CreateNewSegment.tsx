@@ -94,7 +94,7 @@ const Sample = () => {
             variant: 'success',
           }),
         );
-        handleClearData();
+        resetForm();
         setStateForm(STATE_FORM.CREATE);
       }
     } catch (error) {
@@ -147,15 +147,7 @@ const Sample = () => {
                     freeSolo
                     // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
                     renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        variant="standard"
-                        label={
-                          <Typography variant="h4">
-                            <Trans>lang_subscribers</Trans>
-                          </Typography>
-                        }
-                      ></TextField>
+                      <TextField {...params} variant="standard" label={<Trans>lang_subscribers</Trans>}></TextField>
                     )}
                   />
                 </FormControl>
