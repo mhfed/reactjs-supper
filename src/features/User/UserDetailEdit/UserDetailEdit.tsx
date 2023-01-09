@@ -215,7 +215,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
               <PreviewField label="lang_create_time" value={formatDate(values.create_time)} />
             </Grid>
             <Grid item xs={12}>
-              <PreviewField label="lang_notes" value={values.note} />
+              <PreviewField label="lang_notes" value={values.note} multiline={true} />
             </Grid>
           </Grid>
         </Box>
