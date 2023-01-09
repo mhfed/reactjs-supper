@@ -62,7 +62,7 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
     timeoutId.current && window.clearTimeout(timeoutId.current);
     timeoutId.current = window.setTimeout(() => {
       if (value === '') {
-        setError('lang_email_required');
+        setError('lang_plese_enter_email');
       } else {
         const errorCodeLang = validate.isValidEmail(value);
         if (errorCodeLang && errorCodeLang !== error) {
@@ -85,7 +85,7 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     if (e.target.value === '') {
-      setError('lang_email_required');
+      setError('lang_plese_enter_email');
       return;
     }
   };
