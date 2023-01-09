@@ -10,6 +10,7 @@ import React from 'react';
 import { Autocomplete, TextField, useTheme, Chip } from '@mui/material';
 import { FormikErrors } from 'formik';
 import httpRequest from 'services/httpRequest';
+import makeStyles from '@mui/styles/makeStyles';
 import { Trans } from 'react-i18next';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
@@ -41,12 +42,25 @@ type AutocompleteAsyncFieldProps = {
   defaultValue?: any;
   // multiple?: boolean;
 };
-
-const styleTagInput = {
-  color: '#27A6E7',
-  backgroundColor: '#E3EFFD',
-  border: 'none',
-};
+const useStyles = makeStyles((theme) => ({
+  ChipTags: {
+    color: '#27A6E7',
+    backgroundColor: '#E3EFFD',
+    border: 'none',
+    '&:hover': {
+      backgroundColor: '#08D98D',
+      color: '#ffffff',
+    },
+    '&:hover svg': {
+      fill: '#ffffff',
+    },
+  },
+}));
+// const styleTagInput = {
+//   color: '#27A6E7',
+//   backgroundColor: '#E3EFFD',
+//   border: 'none',
+// };
 const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   isOptionEqualToValue,
   label,
@@ -56,6 +70,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   ...props
 }) => {
   const theme = useTheme();
+  const classes = useStyles();
   const TagSucessBg = theme.palette.mode === 'dark' ? '' : '#E1FFF4';
   const [options, setOptions] = React.useState([]);
   const timeoutId = React.useRef<number | null>(null);
@@ -133,10 +148,11 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
         renderTags={(value: readonly string[], getTagProps) =>
           value.map((option: any, index: number) => (
             <Chip
-              style={theme.palette.mode === 'dark' ? {} : styleTagInput}
+              // style={theme.palette.mode === 'dark' ? {} : styleTagInput}
               variant="outlined"
               label={option.username}
               {...getTagProps({ index })}
+              className={theme.palette.mode === 'dark' ? '' : classes.ChipTags}
               key={index}
             />
           ))
