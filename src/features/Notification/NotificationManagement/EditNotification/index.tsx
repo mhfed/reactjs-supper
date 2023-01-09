@@ -128,9 +128,9 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
         email_push: true,
         sms_push: true,
         subscribers: (values?.subscribers || []).map((x) => {
-          const { subscriber, site_name } = x || {};
+          const { subscriber, site_name, username } = x || {};
           return {
-            username: subscriber,
+            username: subscriber || username,
             site_name,
           };
         }),
