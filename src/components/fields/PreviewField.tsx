@@ -41,14 +41,14 @@ const PreviewField: React.FC<PreviewFieldProps> = ({ label, value, options, text
   const val = options ? options.find((o) => o.value === value)?.label : value;
   let text = value;
   if (options) {
-    text = val ? t(val.toString()).toUpperCase() : '--';
+    text = val ? t(val.toString()).toUpperCase() : '';
   }
   return (
     <TextField
       className={classes.preview}
       variant={'standard'}
       {...props}
-      value={text}
+      value={text || '--'}
       fullWidth
       label={<Trans>{label}</Trans>}
     ></TextField>
