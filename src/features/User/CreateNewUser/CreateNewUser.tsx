@@ -144,7 +144,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                 </Grid>
                 <Grid item xs={6}></Grid>
                 <Grid item xs={6}>
-                  <PreviewField label="lang_notes" value={values.note} />
+                  <PreviewField label="lang_notes" value={values.note} multiline={true} />
                 </Grid>
               </Grid>
             </Box>
