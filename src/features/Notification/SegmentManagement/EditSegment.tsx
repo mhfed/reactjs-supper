@@ -68,8 +68,9 @@ type EditSegmentProps = {
   typePage?: string;
   dataForm?: any;
   listSubscribers?: any;
+  onTableChange?: () => {};
 };
-const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubscribers }) => {
+const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubscribers, onTableChange }) => {
   const classes = useStyles();
   const { showSubModal, hideModal, hideSubModal } = useGlobalModalContext();
   let initialValues = {
@@ -136,6 +137,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
           variant: 'success',
         }),
       );
+      onTableChange && onTableChange();
       hideSubModal();
       hideModal();
     } catch (error) {
