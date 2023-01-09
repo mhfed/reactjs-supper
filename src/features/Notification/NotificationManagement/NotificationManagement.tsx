@@ -113,7 +113,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
             component: EditNotification,
             fullScreen: true,
             props: {
-              typePage: 'DETAIL',
+              typePage: 'EDIT',
               dataForm: { ...data, subscribers: formatData }
             },
           });

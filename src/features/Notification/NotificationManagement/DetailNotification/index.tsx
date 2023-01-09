@@ -10,8 +10,10 @@ import { DELIVERY_TYPE, NOTIFICATION_TYPE } from '../../CreateNewNotification/No
 import FormDirectNotification from './FormDirectNotification';
 import FormSegmentNotification from './FormSegmentNotification';
 import FormSiteNameNotification from './FormSiteNameNotification';
-
-interface EditNotificationProps {
+import httpRequest from 'services/httpRequest';
+import { getNotificationUrl } from 'apis/request.url';
+import EditNotification from '../EditNotification';
+interface DetailNotificationProps {
   dataForm: any;
   typePage: 'DETAIL' | 'EDIT';
 }
@@ -62,9 +64,9 @@ const STATE_FORM = {
   EDIT: 'EDIT',
 };
 
-const EditNotification: React.FC<EditNotificationProps> = ({ typePage, dataForm }) => {
+const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataForm }) => {
   const classes = useStyles();
-  const { hideModal } = useGlobalModalContext();
+  const { hideModal, showModal } = useGlobalModalContext();
   const { Segment, Sitename, Direct } = NOTIFICATION_TYPE;
   const handleClose = () => {
     if (typePage === STATE_FORM.DETAIL) {
@@ -98,11 +100,27 @@ const EditNotification: React.FC<EditNotificationProps> = ({ typePage, dataForm 
     }
   };
 
+  const onEdit = async () => {
+    const response: any = await httpRequest.get(getNotificationUrl(dataForm?.notification_id));
+
+    const formatData = (response?.subscribers || []).map((e: any) => ({ ...e, username: e.subscriber }))
+
+    showModal({
+      component: EditNotification,
+      fullScreen: true,
+      props: {
+        typePage: 'DETAIL',
+        dataForm: { ...dataForm, subscribers: formatData },
+        defaultValue: dataForm
+      },
+    });
+  }
+
   const submitButton = (form: FormikProps<initialValuesType>) => {
     return (
       <Stack direction="row" justifyContent="end" alignItems="center" spacing={3} className={classes.buttonWrapper}>
         {form.values.delivery_type === DELIVERY_TYPE.Instant ? null : (
-          <Button variant="contained">
+          <Button variant="contained" onClick={onEdit}>
             <Trans>lang_edit</Trans>
           </Button>
         )}
@@ -113,7 +131,7 @@ const EditNotification: React.FC<EditNotificationProps> = ({ typePage, dataForm 
   return (
     <div className={classes.divCointainer}>
       {renderHeader()}
-      <Formik initialValues={dataForm} onSubmit={() => {}}>
+      <Formik initialValues={dataForm} onSubmit={() => { }}>
         {(form: FormikProps<initialValuesType>) => {
           return (
             <React.Fragment>
@@ -127,4 +145,4 @@ const EditNotification: React.FC<EditNotificationProps> = ({ typePage, dataForm 
   );
 };
 
-export default EditNotification;
+export default DetailNotification;

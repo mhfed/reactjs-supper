@@ -29,11 +29,13 @@ import { useGlobalModalContext } from 'containers/Modal';
 import FormCreateNotifiaction from './FormEditNotifiaction';
 import CloseIcon from '@mui/icons-material/Close';
 import { diff } from 'helpers/functionUtils';
+import DetailNotification from '../DetailNotification';
 
 interface CreateNewNotificationProps {
   dataForm: any;
   typePage: 'DETAIL' | 'EDIT';
-  listSubscribers?: any
+  listSubscribers?: any,
+  defaultValue: any
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -154,7 +156,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
         onSubmit: () => {
           httpRequest
             .put(urlSendNoti, bodySendNoti)
-            .then(() => {
+            .then(async () => {
               dispatch(
                 enqueueSnackbarAction({
                   message: 'lang_send_notification_successfully',
@@ -162,8 +164,14 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
                   variant: 'success',
                 }),
               );
-              hideSubModal();
-              hideModal();
+              if (props.typePage === 'EDIT') {
+                hideSubModal();
+                hideModal();
+              } else {
+                const response: any = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
+                onBack(response)
+              }
+
             })
             .catch((err) => {
               dispatch(
@@ -181,6 +189,18 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
     });
   };
 
+  const onBack = (dataForm?: any) => {
+    showModal({
+      component: DetailNotification,
+      fullScreen: true,
+      showBtnClose: true,
+      props: {
+        typePage: 'DETAIL',
+        dataForm: dataForm || props.defaultValue,
+      },
+    });
+  }
+
   const onCancel = (form: FormikProps<initialValuesType>) => {
     const { values } = form;
     if (diff(values, initialValues))
@@ -192,12 +212,16 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
           isCancelPage: true,
           emailConfirm: false,
           onSubmit: () => {
-            hideSubModal();
-            hideModal();
+            if (props.typePage === 'EDIT') {
+              hideSubModal();
+              return hideModal();
+            }
+            onBack()
           },
         },
       });
-    hideSubModal();
+    if (props.typePage === 'EDIT') return hideModal();
+    onBack()
   };
 
   const renderContent = (form: FormikProps<initialValuesType>) => {
@@ -208,7 +232,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
     return (
       <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
         <Button variant="outlined" onClick={() => onCancel(form)}>
-          <Trans>lang_cancel</Trans>
+          <Trans>{props.typePage === 'EDIT' ? 'lang_cancel' : 'lang_back'}</Trans>
         </Button>
 
         <Button variant="contained" type="submit">
