@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, TextField, useTheme } from '@mui/material';
 import { FormikErrors } from 'formik';
 import httpRequest from 'services/httpRequest';
 import { Trans } from 'react-i18next';
@@ -50,6 +50,8 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   setFieldValue,
   ...props
 }) => {
+  const theme = useTheme();
+  const TagSucessBg = theme.palette.mode === 'dark' ? '' : '#E1FFF4';
   const [options, setOptions] = React.useState([]);
   const timeoutId = React.useRef<number | null>(null);
 
@@ -113,7 +115,16 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
         clearOnBlur={true}
         getOptionLabel={(option) => option.username}
         isOptionEqualToValue={isOptionEqualToValue}
-        renderOption={(props, option) => <li {...props}>{option.username + ' (' + option.site_name + ')'}</li>}
+        renderOption={(props, option, { selected }) => (
+          <li
+            {...props}
+            style={{
+              backgroundColor: selected ? TagSucessBg : '',
+            }}
+          >
+            {option.username + ' (' + option.site_name + ')'}
+          </li>
+        )}
         renderInput={(params) => (
           <TextField
             required={props.required}
