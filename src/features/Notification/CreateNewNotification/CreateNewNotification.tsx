@@ -24,7 +24,7 @@ import { useGlobalModalContext } from 'containers/Modal';
 import FormCreateNotifiaction from './Components/FormCreateNotifiaction';
 import FormReviewNotification from './Components/FormReviewNotification';
 
-interface CreateNewNotificationProps { }
+interface CreateNewNotificationProps {}
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -86,17 +86,16 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
           const { username, site_name } = x || {};
           return {
             username,
-            site_name
-          }
+            site_name,
+          };
         }),
       };
 
       if (delivery_type === DELIVERY_TYPE.Schedule) {
         bodySendNoti = { ...bodySendNoti, schedule_time: moment(values?.schedule).toDate().getTime() };
       } else {
-        let expireTime = Number(expire)
+        let expireTime = Number(expire);
         if (expireTime) bodySendNoti = { ...bodySendNoti, expire_time: `${expireTime}${type_expired}` };
-
       }
     }
 
@@ -125,10 +124,9 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
         url: 'https://abc.com/',
         // icon: 'https://media.istockphoto.com/photos/hand-touching-virtual-world-with-connection-network-global-data-and-picture-id1250474241',
         mobile_push: true,
-        site_name: sitename
+        site_name: sitename,
       };
     }
-
 
     httpRequest
       .post(urlSendNoti, bodySendNoti)
@@ -212,13 +210,14 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
     return (
       <Typography className={classes.title}>
         <Trans>lang_preview_new_notifications</Trans>
-      </Typography>)
+      </Typography>
+    );
   };
   return (
     <Paper className={classes.wrapper}>
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={submitForm}>
         {(form: FormikProps<initialValuesType>) => {
-          console.log(form.values)
+          console.log(form.values);
           return (
             <React.Fragment>
               {HeaderTitle()}
@@ -246,6 +245,8 @@ export interface initialValuesType {
   segment?: string;
   schedule: string;
   sitename?: Array<any>;
+  expire_time?: string;
+  schedule_time?: number;
 }
 
 const initialValues: initialValuesType = {
@@ -264,13 +265,15 @@ const initialValues: initialValuesType = {
 
 const validationSchema = yup.object().shape({
   subscribers: yup.array().when(['notification_type'], (value, schema) => {
-    return value === NOTIFICATION_TYPE.Direct ? schema.min(1, 'lang_select_segment_subcriber').required('lang_select_segment_subcriber') : schema
+    return value === NOTIFICATION_TYPE.Direct
+      ? schema.min(1, 'lang_select_segment_subcriber').required('lang_select_segment_subcriber')
+      : schema;
   }),
   title: yup.string().required('lang_title_required').max(64, 'lang_validate_title'),
   message: yup.string().required('lang_message_required').max(192, 'lang_validate_message'),
   schedule: yup.string().when(['delivery_type', 'notification_type'], {
     is: (delivery_type: 'Instant' | 'Schedule', notification_type: Notification_Type) => {
-      return delivery_type === DELIVERY_TYPE.Schedule && notification_type === NOTIFICATION_TYPE.Direct
+      return delivery_type === DELIVERY_TYPE.Schedule && notification_type === NOTIFICATION_TYPE.Direct;
     },
     then: yup.string().required('lang_schedule_time_required'),
   }),
