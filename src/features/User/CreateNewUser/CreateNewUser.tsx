@@ -180,6 +180,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <SelectField
+                    required
                     options={SITE_NAME_OPTIONS}
                     name="site_name"
                     label="lang_sitename"
@@ -210,6 +211,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <SelectField
+                    required
                     options={USER_STATUS_OPTIONS}
                     name="status"
                     label="lang_status"
