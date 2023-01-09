@@ -17,6 +17,7 @@ import { FIELD, NOTIFICATION_STATUS, NOTIFICATION_STATUS_OPTIONS } from '../Noti
 import { ITableConfig } from 'models/ICommon';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
+import EditNotification from './DetailNotification';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -87,7 +88,16 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     const actions = [];
     actions.push({
       label: 'lang_view_detail',
-      onClick: () => console.log('YOLO: lang_view_detail'),
+      onClick: (data: any) => {
+        showModal({
+          component: EditNotification,
+          fullScreen: true,
+          props: {
+            typePage: 'DETAIL',
+            dataForm: data,
+          },
+        });
+      },
     });
     if (data[FIELD.STATUS] !== NOTIFICATION_STATUS.TRIGGERED) {
       actions.push({
