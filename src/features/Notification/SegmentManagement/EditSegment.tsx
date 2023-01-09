@@ -8,7 +8,7 @@
 
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import { Button, Stack, Typography, Grid, Box } from '@mui/material';
+import { Button, Stack, Typography, Grid, Box, Chip, useTheme } from '@mui/material';
 import { Trans } from 'react-i18next';
 import { InputField, AutocompleteAsyncField, PreviewField } from 'components/fields';
 import { useFormik } from 'formik';
@@ -58,6 +58,18 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     background: theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.background.paper,
   },
+  ChipTags: {
+    color: '#27A6E7',
+    backgroundColor: '#E3EFFD',
+    border: 'none',
+    '&:hover': {
+      backgroundColor: '#08D98D',
+      color: '#ffffff',
+    },
+    '&:hover svg': {
+      fill: '#ffffff',
+    },
+  },
 }));
 
 const STATE_FORM = {
@@ -72,6 +84,7 @@ type EditSegmentProps = {
 };
 const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubscribers, onTableChange }) => {
   const classes = useStyles();
+  const theme = useTheme();
   const { showSubModal, hideModal, hideSubModal } = useGlobalModalContext();
   let initialValues = {
     segment_name: dataForm?.name || '',
@@ -214,7 +227,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
                 <PreviewField sx={{ mb: 2 }} label="lang_segment_id" value={values.segment_id} />
               </Grid>
               <Grid item xs={12}>
-                <FormControl style={{ pointerEvents: 'none' }} sx={{ minWidth: 120, width: '100%' }}>
+                <FormControl sx={{ minWidth: 120, width: '100%' }}>
                   <Autocomplete
                     multiple
                     id="tags-readOnly"
@@ -222,6 +235,17 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
                     defaultValue={defaultArray}
                     readOnly
                     freeSolo
+                    renderTags={(value: readonly string[], getTagProps) =>
+                      value.map((option: any, index: number) => (
+                        <Chip
+                          variant="outlined"
+                          label={option}
+                          {...getTagProps({ index })}
+                          className={theme.palette.mode === 'dark' ? '' : classes.ChipTags}
+                          key={index}
+                        />
+                      ))
+                    }
                     // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
                     renderInput={(params) => (
                       <TextField {...params} variant="standard" label={<Trans>lang_subscribers</Trans>}></TextField>
