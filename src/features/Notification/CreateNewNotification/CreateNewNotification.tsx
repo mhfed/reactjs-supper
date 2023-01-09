@@ -247,6 +247,7 @@ export interface initialValuesType {
   sitename?: Array<any>;
   expire_time?: string;
   schedule_time?: number;
+  segment_id?: string;
 }
 
 const initialValues: initialValuesType = {

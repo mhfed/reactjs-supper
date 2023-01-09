@@ -17,7 +17,7 @@ import { FIELD, NOTIFICATION_STATUS, NOTIFICATION_STATUS_OPTIONS } from '../Noti
 import { ITableConfig } from 'models/ICommon';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
-import EditNotification from './DetailNotification/DetailNotification';
+import EditNotification from './DetailNotification';
 
 const useStyles = makeStyles(() => ({
   container: {
