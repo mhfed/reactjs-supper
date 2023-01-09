@@ -139,7 +139,7 @@ const Sample = () => {
           <form className={classes.container} noValidate onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={8}>
-                <Typography className={classes.title} variant="h4">
+                <Typography className={classes.title}>
                   <Trans>lang_preview_new_segment</Trans>
                 </Typography>
               </Grid>
