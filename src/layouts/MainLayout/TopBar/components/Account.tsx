@@ -81,11 +81,11 @@ function Account({ ...classes }) {
         open={Boolean(anchorEl)}
         onClose={_handleClose}
       >
-        <div className={classes.textRole}>{user.group_name}</div>
-        <Divider />
+        {/* <div className={classes.textRole}>{user.group_name}</div>
+        <Divider /> */}
         <MenuItem>My account</MenuItem>
         <MenuItem className={classes.menuProfile} onClick={onShowLogoutConfirm}>
-          {translate('lang_logout')}
+          {translate('lang_sign_out')}
         </MenuItem>
       </Menu>
       <ConfirmModal
