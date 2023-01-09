@@ -28,6 +28,7 @@ import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import { useGlobalModalContext } from 'containers/Modal';
 import FormCreateNotifiaction from './FormEditNotifiaction';
 import CloseIcon from '@mui/icons-material/Close';
+import { diff } from 'helpers/functionUtils';
 
 interface CreateNewNotificationProps {
   dataForm: any;
@@ -180,10 +181,10 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
     });
   };
 
-  const handleClearData = (form: FormikProps<initialValuesType>) => {
-    const { resetForm, values } = form;
-    if (JSON.stringify(values) !== JSON.stringify(initialValues))
-      showModal({
+  const onCancel = (form: FormikProps<initialValuesType>) => {
+    const { values } = form;
+    if (diff(values, initialValues))
+      return showSubModal({
         title: 'lang_confirm_cancel',
         component: ConfirmEditModal,
         props: {
@@ -191,11 +192,12 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
           isCancelPage: true,
           emailConfirm: false,
           onSubmit: () => {
-            resetForm();
+            hideSubModal();
             hideModal();
           },
         },
       });
+    hideSubModal();
   };
 
   const renderContent = (form: FormikProps<initialValuesType>) => {
@@ -205,12 +207,12 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   const submitButton = (form: FormikProps<initialValuesType>) => {
     return (
       <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
-        <Button variant="outlined" onClick={() => handleClearData(form)}>
-          <Trans>lang_clear</Trans>
+        <Button variant="outlined" onClick={() => onCancel(form)}>
+          <Trans>lang_cancel</Trans>
         </Button>
 
         <Button variant="contained" type="submit">
-          <Trans>lang_create</Trans>
+          <Trans>lang_save</Trans>
         </Button>
       </Stack>
     );
