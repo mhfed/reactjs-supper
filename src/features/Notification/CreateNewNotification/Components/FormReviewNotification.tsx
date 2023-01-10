@@ -16,9 +16,12 @@ interface FormReviewNotificationProps {
 
 const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, classes }) => {
   const { values, handleChange, handleBlur, touched, errors } = form || {};
-
   const delivery_type_preview = `${values?.delivery_type || ''} ${
-    values?.schedule ? moment(values?.schedule || '').format('DD/MM/YYYY HH:MM') : ''
+    values?.schedule
+      ? moment(values?.schedule || '')
+          .local()
+          .format('DD/MM/YYYY HH:mm')
+      : ''
   }`;
   const expired_preview = values?.expire
     ? `${values?.expire} ${EXPIRE_OPTION_FILTER[values?.type_expired]}`
