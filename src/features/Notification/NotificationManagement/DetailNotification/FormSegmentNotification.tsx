@@ -59,7 +59,7 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
           <Grid item xs={12}>
             <InputField
               name="segment_name"
-              label="lang_message"
+              label="lang_segments"
               InputProps={{
                 readOnly: true,
               }}
