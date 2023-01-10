@@ -10,7 +10,6 @@ import React from 'react';
 import MUIDataTable, { MUIDataTableColumnDef, MUIDataTableState, MUIDataTableMeta } from 'mui-datatables';
 import makeStyles from '@mui/styles/makeStyles';
 import Chip from '@mui/material/Chip';
-import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -24,6 +23,7 @@ import clsx from 'clsx';
 import moment from 'moment-timezone';
 import Kebab from 'components/atoms/Kebab';
 import DropdownCell from './DropdownCell';
+import InputCell from './InputCell';
 import CustomStack from './CustomStack';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { useDispatch } from 'react-redux';
@@ -176,13 +176,19 @@ function convertColumn({
   translate,
   classes,
   onChange,
+  fnKey,
+  curData,
+  editId,
 }: {
+  editId: number;
   data: LooseObject[];
+  curData: LooseObject;
   column: IColumn;
   isEditMode?: boolean;
   translate?: any;
   classes?: any;
   onChange?: (name: string, value: string | number, rowIndex: number) => void;
+  fnKey: (data: any) => string;
 }): MUIDataTableColumnDef {
   const res: MUIDataTableColumnDef = {
     name: column.name,
@@ -197,10 +203,17 @@ function convertColumn({
         ...res.options,
         customBodyRender: (value, tableMeta: MUIDataTableMeta) => {
           if (isEditMode) {
+            const rowData = data[tableMeta.rowIndex];
+            const cellId = fnKey(rowData);
+            const curValue =
+              curData?.[cellId]?.[tableMeta.columnData.name] !== undefined
+                ? curData?.[cellId]?.[tableMeta.columnData.name]
+                : value;
             return (
               <DropdownCell
+                id={editId + cellId}
                 style={{ textTransform: column.textTransform || 'uppercase' }}
-                value={value}
+                value={curValue}
                 options={column.dataOptions!}
                 onChange={(v) => onChange?.(tableMeta.columnData.name, v, tableMeta.rowIndex)}
               />
@@ -222,10 +235,17 @@ function convertColumn({
         ...res.options,
         customBodyRender: (value, tableMeta: MUIDataTableMeta) => {
           if (isEditMode) {
+            const rowData = data[tableMeta.rowIndex];
+            const cellId = fnKey(rowData);
+            const curValue =
+              curData?.[cellId]?.[tableMeta.columnData.name] !== undefined
+                ? curData?.[cellId]?.[tableMeta.columnData.name]
+                : value;
             return (
               <DropdownCell
+                id={editId + cellId}
                 style={{ textTransform: column.textTransform || 'uppercase' }}
-                value={value}
+                value={curValue}
                 options={column.dataOptions!}
                 onChange={(v) => onChange?.(tableMeta.columnData.name, v, tableMeta.rowIndex)}
               />
@@ -250,17 +270,18 @@ function convertColumn({
         ...res.options,
         customBodyRender: (value, tableMeta: MUIDataTableMeta) => {
           if (isEditMode) {
+            const rowData = data[tableMeta.rowIndex];
+            const cellId = fnKey(rowData);
+            const curValue =
+              curData?.[cellId]?.[tableMeta.columnData.name] !== undefined
+                ? curData?.[cellId]?.[tableMeta.columnData.name]
+                : value;
             return (
-              <TextField
-                title={value}
-                className={classes.inputCell}
-                variant="outlined"
-                fullWidth
-                defaultValue={value || ''}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  e.target.title = e.target.value;
-                  onChange?.(tableMeta.columnData.name, e.target.value, tableMeta.rowIndex);
-                }}
+              <InputCell
+                id={editId + cellId}
+                classeName={classes.inputCell}
+                value={curValue}
+                onChange={(v) => onChange?.(tableMeta.columnData.name, v, tableMeta.rowIndex)}
               />
             );
           }
@@ -383,6 +404,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
   const timeoutId = React.useRef<number | null>(null);
   const config = React.useRef<ITableConfig | null>(null);
   const tempDataByKey = React.useRef<LooseObject>({});
+  const editId = React.useRef<number>(0);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { showSubModal, hideSubModal } = useGlobalModalContext();
@@ -390,6 +412,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
   const handleEdit = (action: string) => {
     switch (action) {
       case ACTIONS.EDIT:
+        editId.current = +new Date();
         setEditMode(true);
         break;
       case ACTIONS.CANCEL:
@@ -402,6 +425,8 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
               emailConfirm: false,
               isCancelPage: true,
               onSubmit: () => {
+                tempDataByKey.current = {};
+                setEditMode(false);
                 hideSubModal();
                 setEditMode(false);
               },
@@ -528,7 +553,17 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
       }
     };
     return columns.reduce((acc: MUIDataTableColumnDef[], cur: IColumn) => {
-      const columnConvert = convertColumn({ data: data.data, column: cur, isEditMode, translate: t, classes, onChange });
+      const columnConvert = convertColumn({
+        data: data.data,
+        column: cur,
+        isEditMode,
+        translate: t,
+        classes,
+        onChange,
+        fnKey,
+        curData: tempDataByKey.current,
+        editId: editId.current,
+      });
       acc.push(columnConvert);
       return acc;
     }, []);

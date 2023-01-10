@@ -78,14 +78,18 @@ function App() {
           target.tagName === 'SPAN' ||
           target.tagName === 'P'
         ) {
-          if (target.tagName !== 'INPUT') title = (target.innerText + '').replace(/\n/g, '');
+          if (target.tagName !== 'INPUT') title = target.innerText + '';
           else {
             title = target.value;
           }
         } else {
           title = target.titleH;
         }
-        if (title) {
+        title = (title + '')
+          .replace(/\n/g, '')
+          .replace(/\u200B/g, '')
+          .trim();
+        if (!!title) {
           let div = document.getElementById('tooltip');
           if (!div) {
             div = document.createElement('div');

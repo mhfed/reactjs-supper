@@ -8,10 +8,7 @@
 
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import { Trans } from 'react-i18next';
-import { DropdownOption } from 'models/ICommon';
+import TextField from '@mui/material/TextField';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -25,12 +22,11 @@ const useStyles = makeStyles((theme) => ({
 type DropdownCellProps = {
   id: string;
   value: string | number;
-  options: DropdownOption[];
   onChange: (value: string | number) => void;
-  style?: any;
+  classeName: any;
 };
 
-const DropdownCell: React.FC<DropdownCellProps> = ({ id, value: initialValue, onChange, options = [], style = {} }) => {
+const InputCell: React.FC<DropdownCellProps> = ({ id, value: initialValue, onChange, classeName }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(initialValue);
 
@@ -38,22 +34,24 @@ const DropdownCell: React.FC<DropdownCellProps> = ({ id, value: initialValue, on
     setValue(initialValue);
   }, [id]);
 
-  const handleChange = (e: SelectChangeEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.target.title = e.target.value;
     onChange(e.target.value);
     setValue(e.target.value);
   };
 
   return (
     <div className={classes.container}>
-      <Select value={value} onChange={handleChange} displayEmpty sx={style}>
-        {options.map((option, index) => (
-          <MenuItem value={option.value} key={`MenuItem_${index}`}>
-            <Trans>{option.label}</Trans>
-          </MenuItem>
-        ))}
-      </Select>
+      <TextField
+        title={value + ''}
+        className={classeName}
+        variant="outlined"
+        fullWidth
+        value={value || ''}
+        onChange={handleChange}
+      />
     </div>
   );
 };
 
-export default DropdownCell;
+export default InputCell;
