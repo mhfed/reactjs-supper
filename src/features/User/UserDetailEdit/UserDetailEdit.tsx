@@ -233,6 +233,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
             </Grid>
             <Grid item xs={6}>
               <SelectField
+                required
                 options={USER_STATUS_OPTIONS}
                 name="status"
                 label="lang_status"
@@ -247,13 +248,20 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
               />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField label="lang_user_login" value={values.user_login} variant={'outlined'} disabled />
+              <PreviewField required label="lang_user_login" value={values.user_login} variant={'outlined'} disabled />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField label="lang_last_active" value={formatDate(values.last_time)} variant={'outlined'} disabled />
+              <PreviewField
+                required
+                label="lang_last_active"
+                value={formatDate(values.last_time)}
+                variant={'outlined'}
+                disabled
+              />
             </Grid>
             <Grid item xs={6}>
               <SelectField
+                required
                 options={SITE_NAME_OPTIONS}
                 name="site_name"
                 label="lang_sitename"
@@ -268,14 +276,19 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
               />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField label="lang_create_time" value={formatDate(values.create_time)} variant={'outlined'} disabled />
+              <PreviewField
+                required
+                label="lang_create_time"
+                value={formatDate(values.create_time)}
+                variant={'outlined'}
+                disabled
+              />
             </Grid>
             <Grid item xs={12}>
               <InputField
                 id="note"
                 name="note"
                 label="lang_notes"
-                required
                 fullWidth
                 value={values.note}
                 onChange={handleChange}
