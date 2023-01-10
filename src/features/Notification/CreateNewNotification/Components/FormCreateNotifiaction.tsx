@@ -194,7 +194,9 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                       label="lang_expire"
                       fullWidth
                       value={values.expire}
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        if (/^[1-9]{1}[0-9]{0,2}$/.test(e.target.value) || e.target.value === '') handleChange(e);
+                      }}
                       onBlur={handleBlur}
                       error={touched.expire && Boolean(errors.expire)}
                       helperText={touched.expire && errors.expire}
