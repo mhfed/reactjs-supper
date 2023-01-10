@@ -76,6 +76,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
           user_login_id: values.user_login,
         },
       };
+      if (!values.note) delete body.data.note;
 
       await httpRequest.post(getUserDetailUrl(), body);
       dispatch(
@@ -208,7 +209,9 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                     required
                     fullWidth
                     value={values.user_login}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFieldValue('user_login', validate.removeSpace(e.target.value))}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setFieldValue('user_login', validate.removeSpace(e.target.value))
+                    }
                     onBlur={handleBlur}
                     error={touched.user_login && Boolean(errors.user_login)}
                     helperText={touched.user_login && errors.user_login}
