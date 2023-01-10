@@ -7,7 +7,7 @@
  */
 
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
-import { enqueueSnackbarAction, setLoading } from 'actions/app.action';
+import { enqueueSnackbarAction, setLoading, showExpiredPopup } from 'actions/app.action';
 
 export type IConfig = AxiosRequestConfig & {
   showSpinner?: boolean;
@@ -147,6 +147,12 @@ export default function initRequest(store: any) {
         default:
           break;
       }
+
+      if (errorCode === 2089) {
+        // Creating PIN request has expired
+        store.dispatch(showExpiredPopup());
+      }
+
       const error_lang_key = `error_code_${errorCode}`;
       const finalError: any = { ...(error.response?.data || {}), errorCode: +errorCode, errorCodeLang: error_lang_key };
       return Promise.reject(finalError);

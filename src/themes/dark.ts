@@ -59,6 +59,7 @@ const darkTheme = createTheme({
     MuiInputBase: {
       styleOverrides: {
         root: {
+          overflow: 'hidden',
           '&.Mui-error': {
             '& input': {
               color: '#FF435F',
@@ -98,6 +99,7 @@ const darkTheme = createTheme({
       other1: '#262B3E',
       other2: '#1F2332',
       other3: '#758695',
+      other4: '#272B3B',
     },
     primary: {
       main: '#00C77F',

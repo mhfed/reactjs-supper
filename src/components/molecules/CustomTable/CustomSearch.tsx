@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     },
     '& input': {
       padding: theme.spacing(1),
+      background: theme.palette.mode === 'dark' ? 'inherit' : theme.palette.common.white,
     },
   },
   hidden: {

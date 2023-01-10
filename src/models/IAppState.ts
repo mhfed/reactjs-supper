@@ -12,6 +12,7 @@ export const IAppActionTypes = {
   SET_DIALOG: 'APP/SET_DIALOG',
   ENQUEUE_SNACKBAR: 'APP/ENQUEUE_SNACKBAR',
   REMOVE_SNACKBAR: 'APP/REMOVE_SNACKBAR',
+  SET_EXPIRED: 'APP/SET_EXPIRED',
 };
 
 type IDialog = {
@@ -25,6 +26,7 @@ export type IAppState = {
   isLoading: boolean;
   dialog: IDialog;
   notifications: any;
+  isExpired: boolean;
 };
 
 export type IAppActionCreator = {

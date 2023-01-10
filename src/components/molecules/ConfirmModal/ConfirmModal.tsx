@@ -26,9 +26,9 @@ type IProps = IStyles & {
   type?: string;
   textSubmit?: string | React.ReactNode;
   textCancel?: string | React.ReactNode;
-  alertTitle: React.ReactNode | string;
+  alertTitle?: React.ReactNode | string;
   alertContent: React.ReactNode | string;
-  onClose: () => void;
+  onClose?: () => void;
   onSubmit: () => void;
 };
 
@@ -47,20 +47,26 @@ const AlertConfirm = ({
 
   return (
     <Dialog open={open} fullWidth maxWidth="sm" onClose={onClose} className={classes.container}>
-      <DialogTitle>
-        <Typography variant="h5">
-          <Trans>{alertTitle}</Trans>
-        </Typography>
-      </DialogTitle>
+      {alertTitle && (
+        <DialogTitle>
+          <Typography variant="h5">
+            <Trans>{alertTitle}</Trans>
+          </Typography>
+        </DialogTitle>
+      )}
       <DialogContent>
         <DialogContentText>
           <Trans>{alertContent}</Trans>
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} variant="outlined">
-          <Trans>{textCancel}</Trans>
-        </Button>
+        {onClose ? (
+          <Button onClick={onClose} variant="outlined">
+            <Trans>{textCancel}</Trans>
+          </Button>
+        ) : (
+          <></>
+        )}
         <Button network onClick={onSubmit} variant="contained" autoFocus>
           <Trans>{textSubmit}</Trans>
         </Button>

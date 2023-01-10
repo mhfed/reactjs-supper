@@ -18,6 +18,7 @@ declare module '@mui/material/styles' {
     other1: string;
     other2: string;
     other3: string;
+    other4: string;
   }
   interface PaletteColor {
     success: string;
@@ -27,6 +28,12 @@ declare module '@mui/material/styles' {
   }
 }
 declare module '@mui/material/styles/createPalette' {
+  interface PaletteColor {
+    success?: string;
+    warning?: string;
+    error?: string;
+    info?: string;
+  }
   interface Palette {
     hover: Palette['primary'];
   }
