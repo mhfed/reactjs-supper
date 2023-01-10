@@ -99,18 +99,6 @@ export default function initRequest(store: any) {
         decreaseRequestCount();
       }
 
-      // handle request timeout
-      if (error.code === 'ECONNABORTED') {
-        store.dispatch(setLoading(false));
-        store.dispatch(
-          enqueueSnackbarAction({
-            message: 'lang_timeout_cannot_be_connected_server',
-            key: new Date().getTime() + Math.random(),
-            variant: 'error',
-          }),
-        );
-      }
-
       // access token expired
       // if(error.response.status === 401 && error.config._retry) {
       //   error.config._retry = true;

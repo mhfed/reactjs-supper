@@ -303,7 +303,7 @@ function convertColumn({
           return value.length ? (
             <CustomStack data={value} />
           ) : (
-            <Typography component="span" noWrap>
+            <Typography component="span" sx={{ minWidth: 360 }} noWrap>
               {process.env.REACT_APP_DEFAULT_VALUE}
             </Typography>
           );

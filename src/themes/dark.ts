@@ -97,6 +97,9 @@ const darkTheme = createTheme({
             pointerEvents: 'unset',
             cursor: 'not-allowed',
           },
+          '&.MuiButton-text': {
+            textTransform: 'capitalize',
+          },
         },
       },
     },

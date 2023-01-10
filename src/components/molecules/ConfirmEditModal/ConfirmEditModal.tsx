@@ -76,7 +76,7 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
   };
 
   const handleConfirm = () => {
-    if (emailConfirm && email !== user.user_login_id) {
+    if (emailConfirm && (email + '').toLowerCase() !== (user.user_login_id + '').toLowerCase()) {
       setError('lang_email_did_not_match');
     } else {
       onSubmit();

@@ -98,6 +98,9 @@ const lightTheme = createTheme({
             pointerEvents: 'unset',
             cursor: 'not-allowed',
           },
+          '&.MuiButton-text': {
+            textTransform: 'capitalize',
+          },
         },
       },
     },

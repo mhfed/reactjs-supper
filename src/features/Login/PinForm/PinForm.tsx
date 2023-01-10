@@ -10,7 +10,6 @@ import React from 'react';
 import BackspaceIcon from '@mui/icons-material/BackspaceOutlined';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-import CircularProgress from '@mui/material/CircularProgress';
 import FormHelperText from '@mui/material/FormHelperText';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -20,7 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Trans } from 'react-i18next';
 import PinInput from './PinInput';
 import { verifyPin, setPinFirstTime, forceSetPin } from 'actions/auth.action';
-import { isLoadingSelector, errorSelector } from 'selectors/auth.selector';
+import { errorSelector } from 'selectors/auth.selector';
 import { useNavigate } from 'react-router-dom';
 import { LIST_KEYBOARD, PIN_STEP, LIST_STEP_ENTER_PIN, LIST_STEP_SET_PIN } from './PinConstants';
 
@@ -111,7 +110,6 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
   const oldPinRef = React.useRef<string[]>([]);
   const pinInputRef = React.useRef<PinInputHandle>(null);
   const timeoutId = React.useRef<number | null>(null);
-  const isLoading = useSelector(isLoadingSelector);
   const stepName = React.useRef(listStep.current[step]);
   const hasNext = React.useRef(false);
   const navigate = useNavigate();
@@ -244,10 +242,7 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
             <Typography variant="h6">
               <Trans>lang_confirm_your_new_pin</Trans>
             </Typography>
-            <Button variant="text" disabled={isLoading || number.length < 6}>
-              <Trans>lang_done</Trans>
-              {isLoading ? <CircularProgress size={24} /> : <></>}
-            </Button>
+            <Button sx={{ pointerEvents: 'none' }}></Button>
           </div>
         );
       case PIN_STEP.ENTER_YOUR_PIN:
