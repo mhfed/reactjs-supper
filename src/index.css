@@ -148,6 +148,14 @@ fieldset.MuiFormControl-root .MuiFormGroup-root > label:last-child {
 .MuiChip-root.customTitle span.MuiChip-label {
   pointer-events: none;
 }
+
+.MuiTypography-noWrap {
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .MuiChip-deleteIcon {
   height: 14.405px;
   width: 14.405px;

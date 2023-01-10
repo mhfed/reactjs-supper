@@ -7,6 +7,10 @@
  */
 import { IAppActionTypes, INotifer } from 'models/IAppState';
 
+export const showExpiredPopup = () => ({
+  type: IAppActionTypes.SET_EXPIRED,
+});
+
 export const setLoading = (isLoading: boolean) => ({
   type: IAppActionTypes.SET_LOADING,
   payload: isLoading,

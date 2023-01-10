@@ -13,12 +13,13 @@ import { useTranslation } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import Divider from '@mui/material/Divider';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { PATH_NAME } from 'configs';
 import { logout } from 'actions/auth.action';
 import ConfirmModal from 'components/molecules/ConfirmModal';
 import { userSelector } from 'selectors/auth.selector';
+import { useGlobalContext } from 'context/GlobalContext';
+import { THEMES } from 'configs';
 
 function Account({ ...classes }) {
   const { t: translate } = useTranslation();
@@ -27,6 +28,7 @@ function Account({ ...classes }) {
   const user = useSelector(userSelector);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = React.useState(false);
+  const { setModeTheme } = useGlobalContext();
 
   const _handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -51,6 +53,7 @@ function Account({ ...classes }) {
   };
 
   const onConfirmLogout = () => {
+    setModeTheme(THEMES.DARK);
     _handleLogout();
   };
 

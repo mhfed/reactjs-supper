@@ -84,6 +84,7 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.background.default,
     padding: theme.spacing(2),
     '& button': {
+      color: theme.palette.text.primary,
       '&:hover': {
         background: 'transparent',
       },
@@ -112,6 +113,7 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
   const timeoutId = React.useRef<number | null>(null);
   const isLoading = useSelector(isLoadingSelector);
   const stepName = React.useRef(listStep.current[step]);
+  const hasNext = React.useRef(false);
   const navigate = useNavigate();
 
   const clearPin = () => {
@@ -200,10 +202,17 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
   };
 
   const onBack = () => {
+    hasNext.current = true;
     errorMessage && setError('');
     pinRef.current = [...oldPinRef.current];
     oldPinRef.current = [];
     setStepInfo(step - 1);
+    setNumber([...pinRef.current]);
+  };
+
+  const onNext = () => {
+    oldPinRef.current = [...pinRef.current];
+    setStepInfo(step + 1);
     setNumber([...pinRef.current]);
   };
 
@@ -216,9 +225,13 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
             <Typography variant="h6">
               <Trans>lang_set_your_pin</Trans>
             </Typography>
-            <Button disabled={number.length < 6} onClick={checkPin}>
-              <Trans>lang_next</Trans>
-            </Button>
+            {hasNext.current ? (
+              <Button disabled={number.length < 6} onClick={onNext}>
+                <Trans>lang_next</Trans>
+              </Button>
+            ) : (
+              <Button sx={{ pointerEvents: 'none' }}></Button>
+            )}
           </div>
         );
       case PIN_STEP.CONFIRM_YOUR_NEW_PIN:
@@ -244,6 +257,7 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
             <Typography variant="h6" align="center" sx={{ width: '100%' }}>
               <Trans>lang_enter_your_pin</Trans>
             </Typography>
+
             <Button sx={{ pointerEvents: 'none' }}></Button>
           </div>
         );

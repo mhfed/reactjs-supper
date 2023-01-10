@@ -39,7 +39,7 @@ export function getResetUserPasswordUrl() {
   return '/v1/auth/send-verify-username';
 }
 export function getUserDetailByIdUrl(userId: string) {
-  return `/v1/user/${userId}`;
+  return `/v1/user/user-details/${userId}`;
 }
 export function getUserDetailByEmailUrl(email: string) {
   return `/v1/user/user-details?user_login_id=${email}`;

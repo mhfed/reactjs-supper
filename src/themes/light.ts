@@ -60,6 +60,7 @@ const lightTheme = createTheme({
     MuiInputBase: {
       styleOverrides: {
         root: {
+          overflow: 'hidden',
           '&.Mui-error': {
             '& input': {
               color: '#FF435F',
@@ -109,10 +110,11 @@ const lightTheme = createTheme({
     },
     background: {
       default: '#FFFFFF',
-      paper: '#E8ECEF',
+      paper: '#FFFFFF',
       other1: '#3A425E',
       other2: '#F2F8FF',
       other3: '#13161F',
+      other4: '#E8ECEF',
     },
     primary: {
       main: '#00C77F',

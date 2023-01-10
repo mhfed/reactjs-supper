@@ -22,7 +22,6 @@ import { IColumn, ResponseDataPaging, ITableData, ITableConfig, LooseObject } fr
 import { TABLE_ACTION, COLUMN_TYPE, DATA_DEFAULT, ACTIONS } from './TableConstants';
 import clsx from 'clsx';
 import moment from 'moment-timezone';
-import momentNormal from 'moment';
 import Kebab from 'components/atoms/Kebab';
 import DropdownCell from './DropdownCell';
 import CustomStack from './CustomStack';
@@ -45,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(0.5, 4, 0.5, 1.5),
     },
     '& .MuiToolbar-root': {
-      background: theme.palette.background.paper,
+      background: theme.palette.background.other4,
       padding: 0,
       justifyContent: 'flex-end',
       '& > div:last-child': {
@@ -73,6 +72,7 @@ const useStyles = makeStyles((theme) => ({
       border: 'none',
     },
     '& .MuiTableCell-root': {
+      overflow: 'hidden',
       padding: theme.spacing(1),
       border: 'none',
       '&:not(.MuiTableCell-footer)': {
@@ -141,7 +141,8 @@ const useStyles = makeStyles((theme) => ({
     },
     '& .MuiTable-root': {
       '& .MuiTablePagination-root': {
-        marginTop: 4,
+        padding: 0,
+        paddingTop: 2,
       },
       '& .MuiTablePagination-actions': {
         flex: 'none !important',
@@ -360,6 +361,7 @@ type TableProps = {
   noChangeKey?: string;
   name: string;
   noDataText?: string;
+  defaultSort?: LooseObject;
 };
 
 const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, ref) => {
@@ -374,6 +376,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     rowsPerPageOptions = [15, 25, 50, 100],
     editable = false,
     fnKey,
+    defaultSort,
   } = props;
   const [data, setData] = React.useState<ITableData>(props.data || DATA_DEFAULT);
   const [isEditMode, setEditMode] = React.useState(false);
@@ -451,6 +454,9 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
       if (sortType && sortType !== 'NONE') {
         query.sort = [{ [sortField]: { order: sortType.toLowerCase() } }];
       }
+    }
+    if (!query.sort.length && defaultSort) {
+      query.sort = [{ ...defaultSort }];
     }
     return query;
   };
@@ -588,7 +594,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
             enabled: true,
           },
           downloadOptions: {
-            filename: `${name}_${momentNormal().format('DD_MM_YY_HH_mm_ss')}`,
+            filename: `${name}_${moment().local().format('DD_MM_YY_HH_mm_ss')}`,
             filterOptions: {
               useDisplayedColumnsOnly: true,
             },

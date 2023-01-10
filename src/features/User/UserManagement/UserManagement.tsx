@@ -17,8 +17,6 @@ import { FIELD, USER_STATUS_OPTIONS, SITE_NAME_OPTIONS } from '../UserConstants'
 import { ITableConfig, LooseObject } from 'models/ICommon';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
-import { PATH_NAME } from 'configs';
-import { useNavigate } from 'react-router';
 import UserDetailEdit from '../UserDetailEdit';
 
 const useStyles = makeStyles((theme) => ({
@@ -35,7 +33,6 @@ type UserManagementProps = {};
 
 const UserManagement: React.FC<UserManagementProps> = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
   const { showModal, hideModal } = useGlobalModalContext();
@@ -307,6 +304,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
         onTableChange={onTableChange}
         onRowDbClick={onRowDbClick}
         columns={columns}
+        defaultSort={{ [FIELD.CREATE_TIME]: 'desc' }}
         noChangeKey="lang_there_is_no_change_in_the_user_information"
       />
     </div>

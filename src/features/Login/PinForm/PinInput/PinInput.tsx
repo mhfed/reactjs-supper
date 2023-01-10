@@ -25,6 +25,12 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.disabled,
     fontSize: theme.typography.body1.fontSize,
     padding: theme.spacing(0, 1, 0, 1),
+    '&:nth-child(3)': {
+      marginRight: theme.spacing(2),
+    },
+    '&:nth-child(4)': {
+      marginLeft: theme.spacing(2),
+    },
   },
   pinSymbolActive: {
     color: theme.palette.text.primary,

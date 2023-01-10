@@ -17,10 +17,16 @@ const initialState: IAppState = {
     content: '',
   },
   notifications: {},
+  isExpired: false,
 };
 
 const reducer = (state = initialState, { type, payload }: IAppActionCreator) => {
   switch (type) {
+    case IAppActionTypes.SET_EXPIRED:
+      return {
+        ...state,
+        isExpired: true,
+      };
     case IAppActionTypes.SET_LOADING:
       return {
         ...state,

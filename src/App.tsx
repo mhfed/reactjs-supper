@@ -23,6 +23,7 @@ import { Theme } from '@mui/material/styles';
 import GlobalModal from 'containers/Modal';
 import moment from 'moment-timezone';
 import { setConnecting } from 'actions/app.action';
+import ExpiredDialog from 'components/molecules/ExpiredDialog';
 
 declare module '@mui/styles/defaultTheme' {
   interface DefaultTheme extends Theme {}
@@ -53,7 +54,7 @@ function App() {
       if (sheet?.insertRule) {
         sheet.insertRule('@keyframes hasTitle {from { opacity: 0.99; }to { opacity: 1; }}', 0);
         sheet.insertRule(
-          '[title], .MuiTypography-root, .MuiTableCell-root, span, p{animation-duration: 0.001s;animation-name: hasTitle;}',
+          '[title], .MuiTypography-root, .MuiSelect-select, .MuiTableCell-root, span, p{animation-duration: 0.001s;animation-name: hasTitle;}',
           0,
         );
       }
@@ -73,6 +74,7 @@ function App() {
         if (
           targetCL.contains('MuiTypography-root') ||
           targetCL.contains('MuiTableCell-root') ||
+          targetCL.contains('MuiSelect-select') ||
           target.tagName === 'SPAN' ||
           target.tagName === 'P'
         ) {
@@ -144,6 +146,7 @@ function App() {
                 <NetworkLoading />
                 <Routes />
                 <SnackBarBase />
+                <ExpiredDialog />
               </GlobalModal>
             </SnackbarProvider>
           </Auth>
