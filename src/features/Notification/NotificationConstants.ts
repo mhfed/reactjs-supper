@@ -23,7 +23,6 @@ export const FIELD = {
   CLICKED: 'clicked',
   ACTOR: 'actor',
   LAST_UPDATED: 'last_updated',
-  ACTION: '',
 
   SEGMENT_ID: 'segment_id',
   SEGMENT_NAME: 'name',

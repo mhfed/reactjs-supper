@@ -536,7 +536,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
 
   const onDownload = (buildHead: (columns: any) => string, buildBody: (data: any) => string, curColumns: any, arrData: any) => {
     const formatData = formatDataBeforeExportCsv(curColumns, columns, arrData, data.data, t);
-    return '\uFEFF' + buildHead(curColumns) + buildBody(formatData);
+    return '\uFEFF' + buildHead(curColumns.filter((e: any) => e.name !== 'ACTION_COLUMN')) + buildBody(formatData);
   };
 
   const isNodata = !data?.data?.length;
