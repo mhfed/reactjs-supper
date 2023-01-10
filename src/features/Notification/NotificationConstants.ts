@@ -23,14 +23,13 @@ export const FIELD = {
   CLICKED: 'clicked',
   ACTOR: 'actor',
   LAST_UPDATED: 'last_updated',
-  ACTION: '',
 
   SEGMENT_ID: 'segment_id',
   SEGMENT_NAME: 'name',
   NUMBER_OF_SUBSCRIBERS: 'total_subscribers',
   LAST_UPDATE: 'last_update',
 
-  USERNAME: 'email',
+  USERNAME: 'username',
   ENTITY_ID: 'entity_id',
   FULL_NAME: 'full_name',
   SITENAME: 'site_name',

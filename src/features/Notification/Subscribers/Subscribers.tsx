@@ -85,7 +85,7 @@ const Subscribers: React.FC<SubscribersProps> = () => {
         type: COLUMN_TYPE.MULTIPLE_TAG,
       },
       {
-        name: FIELD.ACTION,
+        name: 'ACTION_COLUMN',
         type: COLUMN_TYPE.ACTION,
         actions: [],
         label: ' ',
@@ -108,6 +108,7 @@ const Subscribers: React.FC<SubscribersProps> = () => {
         onTableChange={onTableChange}
         onRowDbClick={onRowDbClick}
         columns={columns}
+        noDataText="lang_no_matching_records_found"
       />
     </div>
   );

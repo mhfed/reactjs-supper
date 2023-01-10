@@ -209,7 +209,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
         type: COLUMN_TYPE.DATETIME,
       },
       {
-        name: FIELD.ACTION,
+        name: 'ACTION_COLUMN',
         type: COLUMN_TYPE.ACTION,
         getActions,
         label: ' ',
