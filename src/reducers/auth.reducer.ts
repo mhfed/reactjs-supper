@@ -98,7 +98,6 @@ const reducer = (state = initialState, { type, payload }: IAuthActionCreator) =>
         ...state,
         refreshToken: payload.refreshToken,
         deviceID: payload.deviceID,
-        step: IAuthStep.ENTER_PIN,
       };
     default:
       return state;
