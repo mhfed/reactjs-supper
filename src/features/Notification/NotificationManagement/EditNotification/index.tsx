@@ -36,6 +36,7 @@ interface CreateNewNotificationProps {
   typePage: 'DETAIL' | 'EDIT';
   listSubscribers?: any;
   defaultValue: any;
+  reCallChangeTable?: () => {};
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -164,6 +165,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
                   variant: 'success',
                 }),
               );
+              props.reCallChangeTable && props.reCallChangeTable();
               if (props.typePage === 'EDIT') {
                 hideSubModal();
                 hideModal();

@@ -107,14 +107,15 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
         onClick: async (data: any) => {
           const response: any = await httpRequest.get(getNotificationUrl(data?.notification_id));
 
-          const formatData = (response?.subscribers || []).map((e: any) => ({ ...e, username: e.subscriber }))
+          const formatData = (response?.subscribers || []).map((e: any) => ({ ...e, username: e.subscriber }));
 
           showModal({
             component: EditNotification,
             fullScreen: true,
             props: {
               typePage: 'EDIT',
-              dataForm: { ...data, subscribers: formatData }
+              dataForm: { ...data, subscribers: formatData },
+              reCallChangeTable: onTableChange,
             },
           });
         },
@@ -216,7 +217,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     ];
   }, []);
 
-  const onRowDbClick = () => { };
+  const onRowDbClick = () => {};
 
   const getRowId = (data: any) => {
     return data[FIELD.NOTIFICATION_ID];
