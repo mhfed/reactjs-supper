@@ -22,7 +22,13 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
   let delivery_type_preview = `${values?.delivery_type || ''}`;
 
   if (values.notification_type !== Direct) {
-    delivery_type_preview += ` ${values?.schedule_time ? moment(values?.schedule_time || '').format('DD/MM/YYYY HH:MM') : ''}`;
+    delivery_type_preview += ` ${
+      values?.schedule_time
+        ? moment(values?.schedule_time || '')
+            .local()
+            .format('DD/MM/YYYY HH:mm')
+        : ''
+    }`;
   }
   const valueExpire = (values?.expire_time || '').replace(/[A-z]/, '');
   const typeExpire = (values?.expire_time || '').replace(/[0-9]/, '');
