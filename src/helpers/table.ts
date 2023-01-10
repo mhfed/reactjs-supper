@@ -54,7 +54,7 @@ function formatDataBeforeExportCsv(curColumn: any, rawColumns: any, curData: any
             value = option?.label ? translate(option.label) : ` ${process.env.REACT_APP_DEFAULT_VALUE}`;
             break;
           case COLUMN_TYPE.MULTIPLE_TAG:
-            value = rawData.replace(/,/g, ';');
+            value = rawValue.join(';');
             break;
           default:
             break;
