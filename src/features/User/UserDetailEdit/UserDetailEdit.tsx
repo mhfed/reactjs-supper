@@ -16,7 +16,7 @@ import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Trans } from 'react-i18next';
 import httpRequest from 'services/httpRequest';
-import { getUserDetailByUserIdUrl } from 'apis/request.url';
+import { getUserDetailUrl } from 'apis/request.url';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import { SITE_NAME_OPTIONS, USER_STATUS_OPTIONS } from '../UserConstants';
@@ -113,7 +113,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
         },
       };
       const user_id = dataForm.user_id;
-      const response: any = await httpRequest.put(getUserDetailByUserIdUrl(user_id), body);
+      const response: any = await httpRequest.put(getUserDetailUrl(user_id), body);
 
       dispatch(
         enqueueSnackbarAction({
