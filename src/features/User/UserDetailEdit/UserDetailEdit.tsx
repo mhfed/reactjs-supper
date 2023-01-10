@@ -145,7 +145,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
   const handleTurnOnEditMode = () => {
     setEditMode(true);
   };
-  const handleTurnOffEditMode = () => {
+  const handleBackOrClose = (closeModal?: boolean) => {
     const isChanged = diff(initialValues, values);
     if (isChanged) {
       showSubModal({
@@ -159,17 +159,17 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
             resetForm();
             hideSubModal();
             setEditMode(false);
+            if (closeModal) hideModal();
           },
         },
       });
     } else {
       hideSubModal();
-      setEditMode(false);
       hideModal();
     }
   };
   const handleClose = () => {
-    handleTurnOffEditMode();
+    handleBackOrClose(true);
   };
   React.useEffect(() => {}, []);
 
@@ -309,7 +309,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
     if (editMode) {
       return (
         <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
-          <Button variant="outlined" onClick={handleTurnOffEditMode}>
+          <Button variant="outlined" onClick={() => handleBackOrClose()}>
             <Trans>lang_back</Trans>
           </Button>
           <Button variant="contained" type="submit">
