@@ -21,7 +21,7 @@ interface FormCreateNotifiactionProps {
 }
 
 const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, classes, ...rest }) => {
-  const { values, handleChange, handleBlur, touched, errors, setFieldValue } = form || {};
+  const { values, handleChange, handleBlur, touched, errors, setFieldValue, setFieldTouched } = form || {};
   const { Segment, Sitename } = NOTIFICATION_TYPE;
 
   const renderAutocompleteField = () => {
@@ -56,7 +56,10 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                 fullWidth
                 value={values.sitename}
                 onChange={(v: any) => setFieldValue('sitename', v)}
-                onBlur={handleBlur}
+                onBlur={(v) => {
+                  setFieldTouched('sitename', true);
+                  handleBlur(v);
+                }}
                 error={touched.sitename && Boolean(errors.sitename)}
                 helperText={touched.sitename && errors.sitename}
               />
