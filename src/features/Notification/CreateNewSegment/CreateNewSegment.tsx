@@ -160,14 +160,14 @@ const Sample = () => {
                       value.map((option: any, index: number) => (
                         <Chip
                           variant="outlined"
-                          label={option}
                           {...getTagProps({ index })}
+                          label={option}
+                          title={`${values.segment_subscribers[index].username} (${values.segment_subscribers[index].site_name})`}
                           className={clsx(theme.palette.mode === 'dark' ? '' : classes.ChipTags, 'customTitle')}
                           key={index}
                         />
                       ))
                     }
-                    renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
                     renderInput={(params) => (
                       <TextField {...params} variant="standard" label={<Trans>lang_subscribers</Trans>}></TextField>
                     )}
