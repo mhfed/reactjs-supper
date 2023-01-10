@@ -36,7 +36,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
-  const { showModal } = useGlobalModalContext();
+  const { showModal, hideModal } = useGlobalModalContext();
 
   const getData = async () => {
     try {
@@ -74,6 +74,8 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
           variant: 'success',
         }),
       );
+      hideModal();
+      onTableChange && onTableChange();
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({
