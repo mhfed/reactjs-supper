@@ -287,7 +287,7 @@ const initialValuesDefault: initialValuesType = {
   subscribers: [],
   title: '',
   message: '',
-  type_url: '',
+  type_url: 'Article',
   delivery_type: DELIVERY_TYPE.Instant,
   expire: '',
   type_expired: EXPIRE.Hours,
@@ -316,6 +316,7 @@ const validationSchema = yup.object().shape({
   sitename: yup.array().when('notification_type', (value, schema) => {
     return value === NOTIFICATION_TYPE.Sitename ? schema.min(1, 'lang_field_required') : schema;
   }),
+  type_url: yup.string().required('lang_url_require'),
 });
 
 export default CreateNewNotification;

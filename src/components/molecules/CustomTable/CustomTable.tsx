@@ -28,6 +28,8 @@ import DropdownCell from './DropdownCell';
 import CustomStack from './CustomStack';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { useDispatch } from 'react-redux';
+import { useGlobalModalContext } from 'containers/Modal';
+import ConfirmEditModal from '../ConfirmEditModal';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -380,6 +382,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
   const tempDataByKey = React.useRef<LooseObject>({});
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { showSubModal, hideSubModal } = useGlobalModalContext();
 
   const handleEdit = (action: string) => {
     switch (action) {
@@ -387,8 +390,23 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
         setEditMode(true);
         break;
       case ACTIONS.CANCEL:
-        tempDataByKey.current = {};
-        setEditMode(false);
+        if (Object.keys(tempDataByKey.current).length && editable) {
+          showSubModal({
+            title: 'lang_confirm_cancel',
+            component: ConfirmEditModal,
+            props: {
+              title: 'lang_confirm_cancel_text',
+              emailConfirm: false,
+              onSubmit: () => {
+                hideSubModal();
+                setEditMode(false);
+              },
+            },
+          });
+        } else {
+          tempDataByKey.current = {};
+          setEditMode(false);
+        }
         break;
       case ACTIONS.SAVE:
         if (!Object.keys(tempDataByKey.current).length) {
