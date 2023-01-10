@@ -64,7 +64,7 @@ const SelectField: React.FC<SelectFieldProps> = ({ label, helperText, value, tex
         {...props}
         labelId={props.id}
         id={props.id}
-        label={label}
+        label={label ? <Trans>{label}</Trans> : ''}
         value={value}
         sx={{ textTransform: textTransform ? textTransform : 'none' }}
       >
