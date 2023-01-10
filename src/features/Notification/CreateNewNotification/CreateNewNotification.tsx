@@ -248,6 +248,7 @@ export interface initialValuesType {
   expire_time?: string;
   schedule_time?: number;
   segment_id?: string;
+  segment_name?: string;
 }
 
 const initialValues: initialValuesType = {
