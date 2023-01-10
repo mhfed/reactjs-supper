@@ -21,7 +21,7 @@ interface FormCreateNotifiactionProps {
 }
 
 const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, classes, ...rest }) => {
-  const { values, handleChange, handleBlur, touched, errors, setFieldValue } = form || {};
+  const { values, handleChange, handleBlur, touched, errors, setFieldValue, setFieldTouched } = form || {};
   const { Segment, Sitename } = NOTIFICATION_TYPE;
 
   const renderAutocompleteField = () => {
@@ -56,7 +56,10 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                 fullWidth
                 value={values.sitename}
                 onChange={(v: any) => setFieldValue('sitename', v)}
-                onBlur={handleBlur}
+                onBlur={(v) => {
+                  setFieldTouched('sitename', true);
+                  handleBlur(v);
+                }}
                 error={touched.sitename && Boolean(errors.sitename)}
                 helperText={touched.sitename && errors.sitename}
               />
@@ -194,7 +197,9 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                       label="lang_expire"
                       fullWidth
                       value={values.expire}
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        if (/^[1-9]{1}[0-9]{0,2}$/.test(e.target.value) || e.target.value === '') handleChange(e);
+                      }}
                       onBlur={handleBlur}
                       error={touched.expire && Boolean(errors.expire)}
                       helperText={touched.expire && errors.expire}
@@ -224,7 +229,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                       required={true}
                       value={values.schedule}
                       label={'lang_schedule_time'}
-                      inputFormat={'MM/DD/YYYY HH:mm'}
+                      inputFormat={'DD/MM/YYYY HH:mm'}
                       onChange={(v: string) => setFieldValue('schedule', v ? new Date(v) : v)}
                       onBlur={handleBlur}
                       fullWidth={true}

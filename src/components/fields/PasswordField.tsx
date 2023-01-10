@@ -15,6 +15,15 @@ import Visibility from '@mui/icons-material/Visibility';
 import { Trans } from 'react-i18next';
 import { Box, Button } from '@mui/material';
 import { FormikErrors } from 'formik';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles((theme) => ({
+  btnGenerate: {
+    marginLeft: 1,
+    textTransform: 'capitalize',
+    background: theme.palette.mode === 'dark' ? 'rgba(0, 199, 127, 0.08)' : '#E1FFF4',
+  },
+}));
 
 type TextFieldProps = {
   id?: string;
@@ -38,8 +47,8 @@ type TextFieldProps = {
 };
 
 const PasswordField: React.FC<TextFieldProps> = ({ label, helperText, value, generate, maxLength = 25, ...props }) => {
+  const classes = useStyles();
   const [visibility, setVisibility] = React.useState(false);
-
   const handleClickShowPassword = () => {
     setVisibility((state) => !state);
   };
@@ -77,12 +86,7 @@ const PasswordField: React.FC<TextFieldProps> = ({ label, helperText, value, gen
               </InputAdornment>
             ) : null}
             {generate ? (
-              <Button
-                // className={classes.btnGenerate}
-
-                onClick={handleGenPass}
-                sx={{ ml: 1, textTransform: 'capitalize' }}
-              >
+              <Button className={classes.btnGenerate} onClick={handleGenPass}>
                 <Trans>lang_generate</Trans>
               </Button>
             ) : null}

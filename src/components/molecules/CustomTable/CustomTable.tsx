@@ -400,6 +400,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
             props: {
               title: 'lang_confirm_cancel_text',
               emailConfirm: false,
+              isCancelPage: true,
               onSubmit: () => {
                 hideSubModal();
                 setEditMode(false);

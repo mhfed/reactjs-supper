@@ -73,7 +73,7 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
                 variant="standard"
                 label={
                   <Typography>
-                    <Trans>lang_subscribers</Trans>
+                    <Trans>lang_sitename</Trans>
                   </Typography>
                 }
               ></TextField>

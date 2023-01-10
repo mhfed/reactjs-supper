@@ -40,11 +40,6 @@ export const USER_STATUS_OPTIONS = [
     color: 'warning',
   },
   {
-    label: 'lang_pending_email_verification',
-    value: 1,
-    color: 'warning',
-  },
-  {
     label: 'lang_security_blocked',
     value: 5,
     color: 'error',

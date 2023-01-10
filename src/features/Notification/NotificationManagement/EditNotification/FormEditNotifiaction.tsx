@@ -50,7 +50,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
   return (
     <Grid container spacing={2}>
       <Grid item container xs={12} md={6} spacing={2}>
-        <Grid item xs={12}>
+        <Grid item xs={12} className="lineWidthField">
           <RadioGroupField
             name="notification_type"
             label="lang_notification_type"
@@ -140,7 +140,9 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                     label="lang_expire"
                     fullWidth
                     value={values.expire}
-                    onChange={handleChange}
+                    onChange={(e) => {
+                      if (/^[1-9]{1}[0-9]{0,2}$/.test(e.target.value) || e.target.value === '') handleChange(e);
+                    }}
                     onBlur={handleBlur}
                     error={touched.expire && Boolean(errors.expire)}
                     helperText={touched.expire && errors.expire}
@@ -170,7 +172,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                     required={true}
                     value={values.schedule}
                     label={'lang_schedule_time'}
-                    inputFormat={'MM/DD/YYYY HH:mm'}
+                    inputFormat={'DD/MM/YYYY HH:mm'}
                     onChange={(v: string) => setFieldValue('schedule', v ? new Date(v) : v)}
                     onBlur={handleBlur}
                     fullWidth={true}

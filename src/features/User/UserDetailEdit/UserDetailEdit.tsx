@@ -16,7 +16,7 @@ import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Trans } from 'react-i18next';
 import httpRequest from 'services/httpRequest';
-import { getUserDetailByUserIdUrl } from 'apis/request.url';
+import { getUserDetailUrl } from 'apis/request.url';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import { SITE_NAME_OPTIONS, USER_STATUS_OPTIONS } from '../UserConstants';
@@ -113,7 +113,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
         },
       };
       const user_id = dataForm.user_id;
-      const response: any = await httpRequest.put(getUserDetailByUserIdUrl(user_id), body);
+      const response: any = await httpRequest.put(getUserDetailUrl(user_id), body);
 
       dispatch(
         enqueueSnackbarAction({
@@ -126,7 +126,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({
-          message: error,
+          message: error?.errorCodeLang,
           key: new Date().getTime() + Math.random(),
           variant: 'error',
         }),
@@ -145,7 +145,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
   const handleTurnOnEditMode = () => {
     setEditMode(true);
   };
-  const handleTurnOffEditMode = () => {
+  const handleBackOrClose = (closeModal?: boolean) => {
     const isChanged = diff(initialValues, values);
     if (isChanged) {
       showSubModal({
@@ -154,22 +154,22 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
         props: {
           title: 'lang_confirm_cancel_text',
           emailConfirm: false,
-          titleTransValues: { user: values.user_login },
+          isCancelPage: true,
           onSubmit: () => {
             resetForm();
             hideSubModal();
             setEditMode(false);
+            if (closeModal) hideModal();
           },
         },
       });
     } else {
       hideSubModal();
-      setEditMode(false);
       hideModal();
     }
   };
   const handleClose = () => {
-    handleTurnOffEditMode();
+    handleBackOrClose(true);
   };
   React.useEffect(() => {}, []);
 
@@ -233,6 +233,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
             </Grid>
             <Grid item xs={6}>
               <SelectField
+                required
                 options={USER_STATUS_OPTIONS}
                 name="status"
                 label="lang_status"
@@ -247,13 +248,20 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
               />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField label="lang_user_login" value={values.user_login} variant={'outlined'} disabled />
+              <PreviewField required label="lang_user_login" value={values.user_login} variant={'outlined'} disabled />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField label="lang_last_active" value={formatDate(values.last_time)} variant={'outlined'} disabled />
+              <PreviewField
+                required
+                label="lang_last_active"
+                value={formatDate(values.last_time)}
+                variant={'outlined'}
+                disabled
+              />
             </Grid>
             <Grid item xs={6}>
               <SelectField
+                required
                 options={SITE_NAME_OPTIONS}
                 name="site_name"
                 label="lang_sitename"
@@ -268,14 +276,19 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
               />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField label="lang_create_time" value={formatDate(values.create_time)} variant={'outlined'} disabled />
+              <PreviewField
+                required
+                label="lang_create_time"
+                value={formatDate(values.create_time)}
+                variant={'outlined'}
+                disabled
+              />
             </Grid>
             <Grid item xs={12}>
               <InputField
                 id="note"
                 name="note"
                 label="lang_notes"
-                required
                 fullWidth
                 value={values.note}
                 onChange={handleChange}
@@ -296,8 +309,8 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
     if (editMode) {
       return (
         <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
-          <Button variant="outlined" onClick={handleTurnOffEditMode}>
-            <Trans>lang_cancel</Trans>
+          <Button variant="outlined" onClick={() => handleBackOrClose()}>
+            <Trans>lang_back</Trans>
           </Button>
           <Button variant="contained" type="submit">
             <Trans>lang_save</Trans>

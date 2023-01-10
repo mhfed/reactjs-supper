@@ -77,20 +77,25 @@ select:-webkit-autofill:focus {
 .MuiAutocomplete-option[aria-selected='true'] {
   position: relative;
 }
+
 .MuiAutocomplete-listbox {
   max-height: 175px;
 }
+
 .light #segment_subscribers-listbox {
   background-color: #ffffff;
   box-shadow: 0px 0px 6px 2px rgba(62, 201, 128, 0.3);
   border-radius: 8px;
 }
+
 .light #segment_subscribers-listbox > li {
   background-color: #ffffff;
 }
+
 .light #segment_subscribers-listbox > li:hover {
   background-color: #e1fff4 !important;
 }
+
 .MuiMenuItem-root[aria-selected='true']::after,
 .MuiAutocomplete-option[aria-selected='true']::after {
   background-image: url('./assets/icons/check.svg');
@@ -107,6 +112,7 @@ select:-webkit-autofill:focus {
 fieldset.MuiFormControl-root {
   padding: 16px 0;
 }
+
 fieldset.MuiFormControl-root > span {
   padding: 0 24px;
   margin: 0;
@@ -126,6 +132,19 @@ fieldset.MuiFormControl-root .MuiFormGroup-root > label:last-child {
   display: none;
 }
 
+.lineWidthField {
+  position: relative;
+}
+
+.lineWidthField::before {
+  content: '';
+  position: absolute;
+  width: calc(100% - 17px);
+  height: 1px;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.23);
+}
+
 .MuiChip-root.customTitle span.MuiChip-label {
   pointer-events: none;
 }
@@ -135,4 +154,9 @@ fieldset.MuiFormControl-root .MuiFormGroup-root > label:last-child {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+
+.MuiChip-deleteIcon {
+  height: 14.405px;
+  width: 14.405px;
 }

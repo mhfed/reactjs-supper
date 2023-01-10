@@ -142,13 +142,14 @@ const UserManagement: React.FC<UserManagementProps> = () => {
     return [
       {
         label: 'lang_view_user_detail',
-        onClick: (data: any) => {
+        onClick: async (data: any) => {
+          const response: any = await httpRequest.get(getUserDetailUrl(data.user_id));
           showModal({
             component: UserDetailEdit,
             showBtnClose: true,
             fullScreen: true,
             props: {
-              dataForm: data,
+              dataForm: response,
             },
           });
         },

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Autocomplete, TextField, Typography } from '@mui/material';
 import { FormikProps } from 'formik';
-import { NOTIFICATION_TYPE, NOTIFICATION_TYPE_OPTION_FILTER, EXPIRE_OPTION_FILTER } from '../NotificationConstant';
+import { NOTIFICATION_TYPE, NOTIFICATION_TYPE_OPTION_FILTER, EXPIRE_OPTION_FILTER, EXPIRE } from '../NotificationConstant';
 import RadioGroupField from 'components/fields/RadioGroupField';
 import { InputField } from 'components/fields';
 import { Trans } from 'react-i18next';
@@ -17,9 +17,13 @@ interface FormReviewNotificationProps {
 const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, classes }) => {
   const { values, handleChange, handleBlur, touched, errors } = form || {};
 
-  const delivery_type_preview = `${values?.delivery_type || ''} ${values?.schedule ? moment(values?.schedule || '').format('MM/DD/YYYY HH:MM') : ''
-    }`;
-  const expired_preview = `${values?.expire || '0'} ${EXPIRE_OPTION_FILTER[values?.type_expired]}`;
+  const delivery_type_preview = `${values?.delivery_type || ''} ${
+    values?.schedule ? moment(values?.schedule || '').format('DD/MM/YYYY HH:MM') : ''
+  }`;
+  const expired_preview = values?.expire
+    ? `${values?.expire} ${EXPIRE_OPTION_FILTER[values?.type_expired]}`
+    : `4 ${EXPIRE_OPTION_FILTER[EXPIRE.Weeks]}`;
+
   let defaultArray = Array.isArray(values.subscribers) ? values.subscribers.map((x: any) => x?.username) : [];
   const { Segment, Sitename } = NOTIFICATION_TYPE;
 
@@ -35,20 +39,47 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
             }}
             fullWidth
             variant={'standard'}
-            value={(values.segment as any)?.segment_id}
+            value={(values.segment as any)?.name}
           />
         </React.Fragment>
-      )
+      );
     }
 
     if (values.notification_type === Sitename) {
-      return <React.Fragment>
+      return (
+        <React.Fragment>
+          <Autocomplete
+            multiple
+            id="tags-readOnly"
+            // options={values.sitename}
+            options={[]}
+            value={values.sitename}
+            readOnly
+            freeSolo
+            // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="standard"
+                label={
+                  <Typography>
+                    <Trans>lang_sitename</Trans>
+                  </Typography>
+                }
+              ></TextField>
+            )}
+          />
+        </React.Fragment>
+      );
+    }
+
+    return (
+      <React.Fragment>
         <Autocomplete
           multiple
           id="tags-readOnly"
-          // options={values.sitename}
-          options={[]}
-          value={values.sitename}
+          options={values.subscribers}
+          defaultValue={defaultArray}
           readOnly
           freeSolo
           // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
@@ -58,38 +89,15 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
               variant="standard"
               label={
                 <Typography>
-                  <Trans>lang_sitename</Trans>
+                  <Trans>lang_subscribers</Trans>
                 </Typography>
               }
             ></TextField>
           )}
         />
       </React.Fragment>
-    }
-
-    return <React.Fragment>
-      <Autocomplete
-        multiple
-        id="tags-readOnly"
-        options={values.subscribers}
-        defaultValue={defaultArray}
-        readOnly
-        freeSolo
-        // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            variant="standard"
-            label={
-              <Typography>
-                <Trans>lang_subscribers</Trans>
-              </Typography>
-            }
-          ></TextField>
-        )}
-      />
-    </React.Fragment>
-  }
+    );
+  };
 
   return (
     <React.Fragment>

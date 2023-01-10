@@ -16,6 +16,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import { getListSubscriberSegmenttUrl } from 'apis/request.url';
 import { LooseObject } from 'models/ICommon';
+import clsx from 'clsx';
 
 type Options = {
   label: string;
@@ -152,7 +153,9 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
               variant="outlined"
               label={option.username}
               {...getTagProps({ index })}
-              className={theme.palette.mode === 'dark' ? '' : classes.ChipTags}
+              title={`${option.username} (${option.site_name})`}
+              style={{ marginRight: theme.spacing(2) }}
+              className={clsx(theme.palette.mode === 'dark' ? '' : classes.ChipTags, 'customTitle')}
               key={option?.username}
             />
           ))
