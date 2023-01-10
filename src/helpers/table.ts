@@ -60,7 +60,7 @@ function formatDataBeforeExportCsv(curColumn: any, rawColumns: any, curData: any
             break;
         }
       }
-      obj.data.push(value);
+      if (column.type !== COLUMN_TYPE.ACTION) obj.data.push(value);
     });
     return obj;
   });

@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     width: '100%',
     padding: theme.spacing(1),
-    background: theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.background.paper,
+    background: theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.background.other4,
   },
   iconClose: {
     cursor: 'pointer',
