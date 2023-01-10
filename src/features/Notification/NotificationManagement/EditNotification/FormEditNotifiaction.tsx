@@ -50,7 +50,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
   return (
     <Grid container spacing={2}>
       <Grid item container xs={12} md={6} spacing={2}>
-        <Grid item xs={12}>
+        <Grid item xs={12} className="lineWidthField">
           <RadioGroupField
             name="notification_type"
             label="lang_notification_type"
