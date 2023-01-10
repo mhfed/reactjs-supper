@@ -314,7 +314,7 @@ const validationSchema = yup.object().shape({
     return value === NOTIFICATION_TYPE.Segment ? schema.required('lang_field_required') : schema;
   }),
   sitename: yup.array().when('notification_type', (value, schema) => {
-    return value === NOTIFICATION_TYPE.Sitename ? schema.min(1, 'lang_field_required') : schema;
+    return value === NOTIFICATION_TYPE.Sitename ? schema.min(1, 'lang_field_required').required('lang_field_required') : schema;
   }),
   type_url: yup.string().required('lang_url_require'),
 });
