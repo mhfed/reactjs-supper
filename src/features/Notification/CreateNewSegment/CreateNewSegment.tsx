@@ -21,7 +21,6 @@ import { useDispatch } from 'react-redux';
 import { Autocomplete, TextField } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import { LooseObject } from 'models/ICommon';
-import { diff } from 'deep-diff';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 
 const useStyles = makeStyles((theme) => ({
@@ -71,7 +70,7 @@ const Sample = () => {
   const { showModal, hideModal } = useGlobalModalContext();
   const [stateForm, setStateForm] = React.useState(STATE_FORM.CREATE);
   const handleClearData = () => {
-    if (diff(values, initialValues))
+    if (JSON.stringify(values) !== JSON.stringify(initialValues))
       showModal({
         title: 'lang_confirm_cancel',
         component: ConfirmEditModal,
@@ -156,13 +155,12 @@ const Sample = () => {
                     defaultValue={defaultArray}
                     readOnly
                     freeSolo
-                    title="xin chao"
                     renderTags={(value: readonly string[], getTagProps) =>
                       value.map((option: any, index: number) => (
                         <Chip
                           variant="outlined"
-                          {...getTagProps({ index })}
                           label={option}
+                          {...getTagProps({ index })}
                           className={theme.palette.mode === 'dark' ? '' : classes.ChipTags}
                           key={index}
                         />
