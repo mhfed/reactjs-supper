@@ -24,7 +24,7 @@
   "lang_schedule_time_required": "Schedule time is required",
   "lang_validate_message": "Undefined must be 1 to 192 characters",
   "lang_message_required": "Message is required",
-  "lang_validate_title": "Undefined must be 1 to 64 characters",
+  "lang_validate_title": "Title must include 1-64 characters",
   "lang_title_required": "Title is required",
   "lang_please_generate_password": "Please generate password",
   "lang_please_enter_full_name": "Please enter full name",
