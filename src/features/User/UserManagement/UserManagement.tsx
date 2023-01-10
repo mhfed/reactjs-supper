@@ -126,6 +126,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
           variant: 'success',
         }),
       );
+      hideModal();
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({
