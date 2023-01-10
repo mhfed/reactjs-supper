@@ -108,6 +108,7 @@ const Subscribers: React.FC<SubscribersProps> = () => {
         onTableChange={onTableChange}
         onRowDbClick={onRowDbClick}
         columns={columns}
+        noDataText="lang_no_matching_records_found"
       />
     </div>
   );
