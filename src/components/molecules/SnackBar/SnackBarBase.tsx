@@ -39,6 +39,7 @@ const Notifier = () => {
         autoHideDuration: 3000,
         key: ele.key,
         variant: ele.variant,
+        disableWindowBlurListener: true,
         onExited: (_, keySnackBar) => {
           dispatch(removeSnackbar(keySnackBar));
           removeDisplayed(keySnackBar);
