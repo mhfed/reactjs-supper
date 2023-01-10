@@ -76,6 +76,20 @@ const lightTheme = createTheme({
         },
       },
     },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          '&.Mui-disabled': {
+            '.MuiFormLabel-asterisk': {
+              color: 'rgba(0, 0, 0, 0.38)',
+            },
+          },
+        },
+        asterisk: {
+          color: '#FF435F',
+        },
+      },
+    },
     MuiButtonBase: {
       styleOverrides: {
         root: {

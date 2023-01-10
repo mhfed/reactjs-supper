@@ -24,6 +24,7 @@ import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import { LooseObject } from 'models/ICommon';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   divCointainer: {
@@ -241,12 +242,12 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
                           variant="outlined"
                           label={option}
                           {...getTagProps({ index })}
-                          className={theme.palette.mode === 'dark' ? '' : classes.ChipTags}
+                          title={`${values.segment_subscribers[index].username} (${values.segment_subscribers[index].site_name})`}
+                          className={clsx(theme.palette.mode === 'dark' ? '' : classes.ChipTags, 'customTitle')}
                           key={index}
                         />
                       ))
                     }
-                    // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
                     renderInput={(params) => (
                       <TextField {...params} variant="standard" label={<Trans>lang_subscribers</Trans>}></TextField>
                     )}
