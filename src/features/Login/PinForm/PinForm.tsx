@@ -147,7 +147,8 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
         }
       }
     } else {
-      dispatch(verifyPin(pin, clearPin, navigate) as any);
+      clearPin();
+      dispatch(verifyPin(pin, navigate) as any);
     }
   };
 
