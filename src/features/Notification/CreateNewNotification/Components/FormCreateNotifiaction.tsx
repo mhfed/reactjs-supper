@@ -20,6 +20,10 @@ interface FormCreateNotifiactionProps {
   classes: ClassNameMap<'wrapper' | 'radioField' | 'formContainer'>;
 }
 
+export function isValidDate(d: Date) {
+  return d instanceof Date && !isNaN(d as unknown as number);
+}
+
 const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, classes, ...rest }) => {
   const { values, handleChange, handleBlur, touched, errors, setFieldValue, setFieldTouched } = form || {};
   const { Segment, Sitename } = NOTIFICATION_TYPE;
@@ -230,8 +234,11 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                       value={values.schedule}
                       label={'lang_schedule_time'}
                       inputFormat={'DD/MM/YYYY HH:mm'}
-                      onChange={(v: string) => setFieldValue('schedule', v ? new Date(v) : v)}
-                      onBlur={handleBlur}
+                      onChange={(v) => setFieldValue('schedule', v ? new Date(v) : v)}
+                      onBlur={(v) => {
+                        if (isValidDate(new Date(v.target.value))) return handleBlur(v);
+                        setFieldValue('schedule', '');
+                      }}
                       fullWidth={true}
                       minDate={new Date()}
                       error={touched.schedule && Boolean(errors.schedule)}
