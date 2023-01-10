@@ -144,3 +144,7 @@ fieldset.MuiFormControl-root .MuiFormGroup-root>label:last-child {
   bottom: 0;
   background: rgba(255, 255, 255, 0.23);
 }
+
+.MuiChip-root.customTitle span.MuiChip-label {
+  pointer-events: none;
+}
