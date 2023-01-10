@@ -72,7 +72,7 @@ export default function SearchAsyncField(props: any) {
             setOpen(false);
           }}
           filterOptions={(x) => x}
-          getOptionLabel={(option: any) => option?.segment_id || ''}
+          getOptionLabel={(option: any) => option?.name || ''}
           options={options}
           loading={loading}
           renderInput={(params) => (
