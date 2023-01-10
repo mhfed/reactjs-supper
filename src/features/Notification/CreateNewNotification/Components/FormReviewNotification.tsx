@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Autocomplete, TextField, Typography } from '@mui/material';
 import { FormikProps } from 'formik';
-import { NOTIFICATION_TYPE, NOTIFICATION_TYPE_OPTION_FILTER, EXPIRE_OPTION_FILTER } from '../NotificationConstant';
+import { NOTIFICATION_TYPE, NOTIFICATION_TYPE_OPTION_FILTER, EXPIRE_OPTION_FILTER, EXPIRE } from '../NotificationConstant';
 import RadioGroupField from 'components/fields/RadioGroupField';
 import { InputField } from 'components/fields';
 import { Trans } from 'react-i18next';
@@ -20,7 +20,10 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
   const delivery_type_preview = `${values?.delivery_type || ''} ${
     values?.schedule ? moment(values?.schedule || '').format('MM/DD/YYYY HH:MM') : ''
   }`;
-  const expired_preview = `${values?.expire || '0'} ${EXPIRE_OPTION_FILTER[values?.type_expired]}`;
+  const expired_preview = values?.expire
+    ? `${values?.expire} ${EXPIRE_OPTION_FILTER[values?.type_expired]}`
+    : `4 ${EXPIRE_OPTION_FILTER[EXPIRE.Weeks]}`;
+
   let defaultArray = Array.isArray(values.subscribers) ? values.subscribers.map((x: any) => x?.username) : [];
   const { Segment, Sitename } = NOTIFICATION_TYPE;
 
