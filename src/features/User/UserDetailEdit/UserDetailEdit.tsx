@@ -154,7 +154,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
         props: {
           title: 'lang_confirm_cancel_text',
           emailConfirm: false,
-          titleTransValues: { user: values.user_login },
+          isCancelPage: true,
           onSubmit: () => {
             resetForm();
             hideSubModal();
