@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     width: '100%',
     padding: theme.spacing(1),
-    background: theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.background.paper,
+    background: theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.background.other4,
   },
   formContainer: {
     display: 'flex',
@@ -103,7 +103,7 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
   const onEdit = async () => {
     const response: any = await httpRequest.get(getNotificationUrl(dataForm?.notification_id));
 
-    const formatData = (response?.subscribers || []).map((e: any) => ({ ...e, username: e.subscriber }))
+    const formatData = (response?.subscribers || []).map((e: any) => ({ ...e, username: e.subscriber }));
 
     showModal({
       component: EditNotification,
@@ -111,10 +111,10 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
       props: {
         typePage: 'DETAIL',
         dataForm: { ...dataForm, subscribers: formatData },
-        defaultValue: dataForm
+        defaultValue: dataForm,
       },
     });
-  }
+  };
 
   const submitButton = (form: FormikProps<initialValuesType>) => {
     return (
@@ -131,7 +131,7 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
   return (
     <div className={classes.divCointainer}>
       {renderHeader()}
-      <Formik initialValues={dataForm} onSubmit={() => { }}>
+      <Formik initialValues={dataForm} onSubmit={() => {}}>
         {(form: FormikProps<initialValuesType>) => {
           return (
             <React.Fragment>

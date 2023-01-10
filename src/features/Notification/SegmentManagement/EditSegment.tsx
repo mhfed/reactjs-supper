@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     padding: theme.spacing(1),
     textTransform: 'uppercase',
-    background: theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.background.paper,
+    background: theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.background.other4,
   },
   ChipTags: {
     color: '#27A6E7',
