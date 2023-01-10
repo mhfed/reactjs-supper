@@ -48,7 +48,6 @@ const UserManagement: React.FC<UserManagementProps> = () => {
         acc[cur[FIELD.USER_ID]] = cur;
         return acc;
       }, {});
-      response.data.length = 1;
       gridRef?.current?.setData?.(response);
     } catch (error) {
       gridRef?.current?.setData?.();
@@ -188,21 +187,21 @@ const UserManagement: React.FC<UserManagementProps> = () => {
 
   const columns = React.useMemo(() => {
     return [
-      // {
-      //   name: FIELD.USER_LOGIN,
-      //   label: 'lang_user_login',
-      // },
-      // {
-      //   name: FIELD.FULL_NAME,
-      //   label: 'lang_full_name',
-      //   formatter: (data: any) => (data?.[FIELD.FULL_NAME] + '').toUpperCase(),
-      // },
-      // {
-      //   name: FIELD.SITE_NAME,
-      //   label: 'lang_sitename',
-      //   dataOptions: SITE_NAME_OPTIONS,
-      //   type: COLUMN_TYPE.DROPDOWN,
-      // },
+      {
+        name: FIELD.USER_LOGIN,
+        label: 'lang_user_login',
+      },
+      {
+        name: FIELD.FULL_NAME,
+        label: 'lang_full_name',
+        formatter: (data: any) => (data?.[FIELD.FULL_NAME] + '').toUpperCase(),
+      },
+      {
+        name: FIELD.SITE_NAME,
+        label: 'lang_sitename',
+        dataOptions: SITE_NAME_OPTIONS,
+        type: COLUMN_TYPE.DROPDOWN,
+      },
       {
         name: FIELD.STATUS,
         label: 'lang_status',
@@ -214,31 +213,31 @@ const UserManagement: React.FC<UserManagementProps> = () => {
         label: 'lang_notes',
         type: COLUMN_TYPE.INPUT,
       },
-      // {
-      //   name: FIELD.ACTOR,
-      //   label: 'lang_actor',
-      // },
-      // {
-      //   name: FIELD.LAST_TIME,
-      //   label: 'lang_last_active',
-      //   type: COLUMN_TYPE.DATETIME,
-      // },
-      // {
-      //   name: FIELD.CREATE_TIME,
-      //   label: 'lang_create_time',
-      //   type: COLUMN_TYPE.DATETIME,
-      // },
-      // {
-      //   name: FIELD.UPDATED,
-      //   label: 'lang_last_update',
-      //   type: COLUMN_TYPE.DATETIME,
-      // },
-      // {
-      //   name: 'ACTION_COLUMN',
-      //   type: COLUMN_TYPE.ACTION,
-      //   actions: actions,
-      //   label: ' ',
-      // },
+      {
+        name: FIELD.ACTOR,
+        label: 'lang_actor',
+      },
+      {
+        name: FIELD.LAST_TIME,
+        label: 'lang_last_active',
+        type: COLUMN_TYPE.DATETIME,
+      },
+      {
+        name: FIELD.CREATE_TIME,
+        label: 'lang_create_time',
+        type: COLUMN_TYPE.DATETIME,
+      },
+      {
+        name: FIELD.UPDATED,
+        label: 'lang_last_update',
+        type: COLUMN_TYPE.DATETIME,
+      },
+      {
+        name: 'ACTION_COLUMN',
+        type: COLUMN_TYPE.ACTION,
+        actions: actions,
+        label: ' ',
+      },
     ];
   }, []);
 
