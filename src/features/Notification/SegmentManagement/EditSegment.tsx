@@ -242,6 +242,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
                           variant="outlined"
                           label={option}
                           {...getTagProps({ index })}
+                          style={{ marginRight: theme.spacing(2) }}
                           title={`${values.segment_subscribers[index].username} (${values.segment_subscribers[index].site_name})`}
                           className={clsx(theme.palette.mode === 'dark' ? '' : classes.ChipTags, 'customTitle')}
                           key={index}
