@@ -125,3 +125,7 @@ fieldset.MuiFormControl-root .MuiFormGroup-root > label {
 fieldset.MuiFormControl-root .MuiFormGroup-root > label:last-child {
   display: none;
 }
+
+.MuiChip-root.customTitle span.MuiChip-label {
+  pointer-events: none;
+}

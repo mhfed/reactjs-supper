@@ -56,13 +56,13 @@ export default function initRequest(store: any) {
 
   axiosInstance.interceptors.request.use(
     (config: IConfig) => {
-      // cancel token
-      if (cancel) {
-        cancel(); // cancel request
-      }
-      config.cancelToken = new CancelToken(function executor(c) {
-        cancel = c;
-      });
+      // // cancel token
+      // if (cancel) {
+      //   cancel(); // cancel request
+      // }
+      // config.cancelToken = new CancelToken(function executor(c) {
+      //   cancel = c;
+      // });
 
       // show loading
       if (config?.showSpinner) {
