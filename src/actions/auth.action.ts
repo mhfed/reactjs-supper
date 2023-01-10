@@ -13,7 +13,8 @@ import { axiosInstance } from 'services/initRequest';
 import { PATH_NAME } from 'configs';
 import { NavigateFunction } from 'react-router-dom';
 
-const updateAxiosAuthConfig = (baseUrl: string, accessToken: string, refreshToken?: string) => {
+const updateAxiosAuthConfig = (baseUrl: string, accessToken: string, pin: string, refreshToken?: string) => {
+  window.localStorage.setItem('uniqSeries', btoa(pin));
   const lastEmailLogin = window.localStorage.getItem('lastEmailLogin');
   refreshToken && window.localStorage.setItem(`${lastEmailLogin}_refreshToken`, refreshToken);
   axiosInstance.defaults.baseURL = `https://${baseUrl}`;
@@ -35,7 +36,7 @@ export const setPinFirstTime = (pin: string, navigate: NavigateFunction) => asyn
   if (error) {
     dispatch({ type: IAuthActionTypes.PIN_FAILURE, payload: { error: error?.errorCodeLang } });
   } else {
-    updateAxiosAuthConfig(baseUrl, accessToken, refreshToken);
+    updateAxiosAuthConfig(baseUrl, accessToken, pin, refreshToken);
     dispatch({
       type: IAuthActionTypes.PIN_SUCCESS,
       payload: { refreshToken, accessToken, baseUrl },
@@ -51,7 +52,7 @@ export const forceSetPin = (pin: string, password: string, navigate: NavigateFun
   if (error) {
     dispatch({ type: IAuthActionTypes.PIN_FAILURE, payload: { error: error?.errorCodeLang } });
   } else {
-    updateAxiosAuthConfig(baseUrl, accessToken, refreshToken);
+    updateAxiosAuthConfig(baseUrl, accessToken, pin, refreshToken);
     dispatch({
       type: IAuthActionTypes.PIN_SUCCESS,
       payload: { refreshToken, accessToken, baseUrl },
@@ -60,15 +61,14 @@ export const forceSetPin = (pin: string, password: string, navigate: NavigateFun
   }
 };
 
-export const verifyPin = (pin: string, clearPin: Function, navigate: NavigateFunction) => async (dispatch: Dispatch<any>) => {
+export const verifyPin = (pin: string, navigate: NavigateFunction) => async (dispatch: Dispatch<any>) => {
   dispatch({ type: IAuthActionTypes.PIN_REQUEST });
 
   const { refreshToken, accessToken, baseUrl, error } = await authService.verifyPin(pin);
-  clearPin();
   if (error) {
     dispatch({ type: IAuthActionTypes.PIN_FAILURE, payload: { error: error?.errorCodeLang } });
   } else {
-    updateAxiosAuthConfig(baseUrl, accessToken);
+    updateAxiosAuthConfig(baseUrl, accessToken, pin);
     dispatch({
       type: IAuthActionTypes.PIN_SUCCESS,
       payload: { refreshToken, accessToken, baseUrl },
@@ -136,9 +136,21 @@ export const logout = () => (dispatch: Dispatch<any>) => {
   dispatch({ type: IAuthActionTypes.LOGOUT });
 };
 
-export const autoLogin = (refreshToken: string, deviceID: string) => (dispatch: Dispatch<any>) => {
-  dispatch({
-    type: IAuthActionTypes.SILENT_LOGIN,
-    payload: { refreshToken, deviceID },
-  });
-};
+export const autoLogin =
+  (saveRefreshToken: string, deviceID: string, pin: string, navigate: NavigateFunction) => async (dispatch: Dispatch<any>) => {
+    dispatch({
+      type: IAuthActionTypes.SILENT_LOGIN,
+      payload: { refreshToken: saveRefreshToken, deviceID },
+    });
+    const { refreshToken, accessToken, baseUrl, error } = await authService.verifyPin(pin);
+    if (error) {
+      dispatch({ type: IAuthActionTypes.PIN_FAILURE, payload: { error: error?.errorCodeLang } });
+    } else {
+      updateAxiosAuthConfig(baseUrl, accessToken, pin);
+      dispatch({
+        type: IAuthActionTypes.PIN_SUCCESS,
+        payload: { refreshToken, accessToken, baseUrl },
+      });
+      navigate(PATH_NAME.USER_MANAGEMENT);
+    }
+  };
