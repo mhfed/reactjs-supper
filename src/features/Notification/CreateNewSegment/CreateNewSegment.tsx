@@ -22,6 +22,7 @@ import { Autocomplete, TextField } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import { LooseObject } from 'models/ICommon';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -161,7 +162,7 @@ const Sample = () => {
                           variant="outlined"
                           label={option}
                           {...getTagProps({ index })}
-                          className={theme.palette.mode === 'dark' ? '' : classes.ChipTags}
+                          className={clsx(theme.palette.mode === 'dark' ? '' : classes.ChipTags, 'customTitle')}
                           key={index}
                         />
                       ))

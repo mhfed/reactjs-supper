@@ -13,7 +13,7 @@ class Validate {
   };
 
   getPasswordPattern = () => {
-    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,25})/;
+    return /^(?!.* )(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,25})/;
   };
 
   removeVietnamese = (str: string) => {
@@ -48,7 +48,7 @@ class Validate {
   };
 
   removeSpace = (value: string): string => {
-    return value.replace(/^\s+|\s+$/g, '')
+    return value.replace(/^\s+|\s+$/g, '');
   };
 }
 
