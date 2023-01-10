@@ -28,14 +28,14 @@ import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import { useGlobalModalContext } from 'containers/Modal';
 import FormCreateNotifiaction from './FormEditNotifiaction';
 import CloseIcon from '@mui/icons-material/Close';
-import { diff } from 'helpers/functionUtils';
+import { diff } from 'deep-diff';
 import DetailNotification from '../DetailNotification';
 
 interface CreateNewNotificationProps {
   dataForm: any;
   typePage: 'DETAIL' | 'EDIT';
-  listSubscribers?: any,
-  defaultValue: any
+  listSubscribers?: any;
+  defaultValue: any;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -169,9 +169,8 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
                 hideModal();
               } else {
                 const response: any = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
-                onBack(response)
+                onBack(response);
               }
-
             })
             .catch((err) => {
               dispatch(
@@ -181,7 +180,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
                   variant: 'error',
                 }),
               );
-              hideSubModal()
+              hideSubModal();
               console.log(err);
             });
         },
@@ -199,7 +198,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
         dataForm: dataForm || props.defaultValue,
       },
     });
-  }
+  };
 
   const onCancel = (form: FormikProps<initialValuesType>) => {
     const { values } = form;
@@ -216,12 +215,12 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
               hideSubModal();
               return hideModal();
             }
-            onBack()
+            onBack();
           },
         },
       });
     if (props.typePage === 'EDIT') return hideModal();
-    onBack()
+    onBack();
   };
 
   const renderContent = (form: FormikProps<initialValuesType>) => {
@@ -251,7 +250,6 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
             console.log(form.values);
             return (
               <React.Fragment>
-
                 <Form noValidate className={classes.formContainer}>
                   {renderContent(form)}
                   {submitButton(form)}
