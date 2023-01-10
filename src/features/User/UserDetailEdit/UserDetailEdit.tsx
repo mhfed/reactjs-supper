@@ -23,6 +23,7 @@ import { SITE_NAME_OPTIONS, USER_STATUS_OPTIONS } from '../UserConstants';
 import moment from 'moment-timezone';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
+import { diff } from 'deep-diff';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -58,16 +59,7 @@ const formatDate = (valueFormat: number | string) => {
   if (!valueFormat) return '--';
   return moment(valueFormat).format('DD/MM/YYYY HH:mm:ss');
 };
-const compareChanges = (initialValues: any, values: any) => {
-  const keys = Object.keys(initialValues);
-  let isChange = false;
-  keys.forEach((key) => {
-    if (initialValues[key] !== values[key]) {
-      isChange = true;
-    }
-  });
-  return isChange;
-};
+
 const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -86,7 +78,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
 
   // Handle show modal confirm
   const handleBeforeSubmit = () => {
-    const isChanged = compareChanges(initialValues, values);
+    const isChanged = diff(initialValues, values);
     if (!isChanged) {
       dispatch(
         enqueueSnackbarAction({
@@ -154,7 +146,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
     setEditMode(true);
   };
   const handleTurnOffEditMode = () => {
-    const isChanged = compareChanges(initialValues, values);
+    const isChanged = diff(initialValues, values);
     if (isChanged) {
       showSubModal({
         title: 'lang_confirm_cancel',
