@@ -30,7 +30,7 @@ export const FIELD = {
   NUMBER_OF_SUBSCRIBERS: 'total_subscribers',
   LAST_UPDATE: 'last_update',
 
-  USERNAME: 'email',
+  USERNAME: 'username',
   ENTITY_ID: 'entity_id',
   FULL_NAME: 'full_name',
   SITENAME: 'site_name',
