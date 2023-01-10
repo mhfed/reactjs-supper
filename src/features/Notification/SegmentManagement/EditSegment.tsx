@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     width: '100%',
     padding: theme.spacing(1),
+    textTransform: 'uppercase',
     background: theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.background.paper,
   },
   ChipTags: {
