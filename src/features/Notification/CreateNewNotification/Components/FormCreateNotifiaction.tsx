@@ -229,7 +229,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                       required={true}
                       value={values.schedule}
                       label={'lang_schedule_time'}
-                      inputFormat={'MM/DD/YYYY HH:mm'}
+                      inputFormat={'DD/MM/YYYY HH:mm'}
                       onChange={(v: string) => setFieldValue('schedule', v ? new Date(v) : v)}
                       onBlur={handleBlur}
                       fullWidth={true}

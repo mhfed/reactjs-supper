@@ -18,7 +18,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
   const { values, handleChange, handleBlur, touched, errors } = form || {};
 
   const delivery_type_preview = `${values?.delivery_type || ''} ${
-    values?.schedule ? moment(values?.schedule || '').format('MM/DD/YYYY HH:MM') : ''
+    values?.schedule ? moment(values?.schedule || '').format('DD/MM/YYYY HH:MM') : ''
   }`;
   const expired_preview = values?.expire
     ? `${values?.expire} ${EXPIRE_OPTION_FILTER[values?.type_expired]}`
