@@ -51,6 +51,7 @@ export type IColumn = {
   getActions?: (data: any) => any;
   minWidth?: number;
   textTransform?: string;
+  sort?: boolean;
 };
 
 export type ISortConfig = {

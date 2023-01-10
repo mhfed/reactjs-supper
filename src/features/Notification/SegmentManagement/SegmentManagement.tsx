@@ -146,6 +146,7 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
       {
         name: FIELD.SEGMENT_ID,
         label: 'lang_segment_id',
+        sort: false,
       },
       {
         name: FIELD.SEGMENT_NAME,

@@ -194,6 +194,7 @@ function convertColumn({
     name: column.name,
     label: translate ? translate(column.label) : column.label,
     options: {
+      sort: !(column.sort === false),
       sortThirdClickReset: true,
     },
   };

@@ -83,6 +83,7 @@ const reducer = (state = initialState, { type, payload }: IAuthActionCreator) =>
     case IAuthActionTypes.FORCE_SET_PIN:
       return {
         ...state,
+        error: '',
         step: IAuthStep.FORCE_SET_PIN,
       };
     case IAuthActionTypes.SET_PASSWORD:
@@ -91,6 +92,7 @@ const reducer = (state = initialState, { type, payload }: IAuthActionCreator) =>
         email: payload.email,
         isLoading: false,
         createPasswordToken: payload.createPasswordToken,
+        error: '',
         step: IAuthStep.SET_PASSWORD,
       };
     case IAuthActionTypes.SILENT_LOGIN:
