@@ -154,6 +154,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
               label={option.username}
               {...getTagProps({ index })}
               title={`${option.username} (${option.site_name})`}
+              style={{ marginRight: theme.spacing(2) }}
               className={clsx(theme.palette.mode === 'dark' ? '' : classes.ChipTags, 'customTitle')}
               key={option?.username}
             />

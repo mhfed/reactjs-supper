@@ -154,7 +154,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
         props: {
           title: 'lang_confirm_cancel_text',
           emailConfirm: false,
-          titleTransValues: { user: values.user_login },
+          isCancelPage: true,
           onSubmit: () => {
             resetForm();
             hideSubModal();
@@ -310,7 +310,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
       return (
         <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
           <Button variant="outlined" onClick={handleTurnOffEditMode}>
-            <Trans>lang_cancel</Trans>
+            <Trans>lang_back</Trans>
           </Button>
           <Button variant="contained" type="submit">
             <Trans>lang_save</Trans>
