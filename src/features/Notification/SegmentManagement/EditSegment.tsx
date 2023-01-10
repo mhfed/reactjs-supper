@@ -23,6 +23,7 @@ import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import { LooseObject } from 'models/ICommon';
 import EditIcon from '@mui/icons-material/Edit';
+import { diff } from 'deep-diff';
 import CloseIcon from '@mui/icons-material/Close';
 
 const useStyles = makeStyles((theme) => ({
@@ -102,8 +103,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
     }
   };
   const handleCancelEdit = (isXbutton: boolean) => {
-    const isChangeSubscriber = compareArray(values.segment_subscribers, initialValues.segment_subscribers);
-    if (values.segment_name === initialValues.segment_name && !isChangeSubscriber) {
+    if (diff(values, initialValues)) {
       typePage === STATE_FORM.DETAIL && !isXbutton ? setStateForm(STATE_FORM.DETAIL) : hideModal();
     } else {
       showSubModal({
@@ -165,20 +165,9 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
       console.error('Create new segment handleFormSubmit error: ', error);
     }
   };
-  const compareArray = (array1: any, array2: any) => {
-    const arrayString1 = array1.map((x: any) => x.username);
-    const arrayString2 = array2.map((x: any) => x.username);
-    let isChange = false;
-    arrayString1.map((element: any) => {
-      if (!arrayString2.includes(element)) {
-        isChange = true;
-      }
-    });
-    return isChange;
-  };
+
   const onSave = () => {
-    const isChangeSubscriber = compareArray(values.segment_subscribers, initialValues.segment_subscribers);
-    if (values.segment_name === initialValues.segment_name && !isChangeSubscriber) {
+    if (diff(values, initialValues)) {
       dispatch(
         enqueueSnackbarAction({
           message: 'lang_there_is_no_change_in_the_segment_information',
