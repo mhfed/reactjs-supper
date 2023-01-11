@@ -216,10 +216,10 @@ const Sample = () => {
                   error={touched.segment_subscribers && Boolean(errors.segment_subscribers)}
                   helperText={touched.segment_subscribers && errors.segment_subscribers}
                   value={values.segment_subscribers}
-                  required={true}
+                  required
                   label="lang_subscribers"
                   defaultValue={defaultArray}
-                  fullWidth={true}
+                  fullWidth
                   id="segment_subscribers"
                 />
               </Grid>

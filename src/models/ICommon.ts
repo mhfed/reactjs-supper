@@ -102,3 +102,10 @@ export type IModalProps = {
   fullScreen?: boolean;
   showBtnClose?: boolean;
 };
+
+export type IFileUpload = {
+  url?: string;
+  name?: string;
+  size?: number;
+  extension?: string;
+};

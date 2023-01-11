@@ -44,15 +44,7 @@ function NavBar({ isDrawer }: IProps) {
     const active = pathname.includes(curr.href);
     if (curr.items) {
       acc.push(
-        <NavBarItem
-          active={active}
-          key={`multi-${key}`}
-          depth={depth}
-          icon={curr.icon}
-          open={true}
-          title={curr.title}
-          href={curr.href}
-        >
+        <NavBarItem active={active} key={`multi-${key}`} depth={depth} icon={curr.icon} open title={curr.title} href={curr.href}>
           {renderNavItems({
             depth: depth + 1,
             pathname,
