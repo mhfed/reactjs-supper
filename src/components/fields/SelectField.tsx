@@ -67,6 +67,14 @@ const SelectField: React.FC<SelectFieldProps> = ({ label, helperText, value, tex
         label={label ? <Trans>{label}</Trans> : ''}
         value={value}
         sx={{ textTransform: textTransform ? textTransform : 'none' }}
+        MenuProps={{
+          PaperProps: {
+            style: {
+              maxHeight: 228,
+            },
+          },
+          disableScrollLock: true,
+        }}
       >
         {props.options?.map((e, i) => {
           return (

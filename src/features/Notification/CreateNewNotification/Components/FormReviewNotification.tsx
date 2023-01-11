@@ -111,11 +111,11 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
               name="notification_type"
               label="lang_notification_type"
               data={NOTIFICATION_TYPE_OPTION_FILTER[values.notification_type] || []}
-              rowItems={true}
+              rowItems
               value={values?.notification_type}
               onChange={handleChange}
               onBlur={handleBlur}
-              disabled={true}
+              disabled
               error={touched?.notification_type && Boolean(errors?.notification_type)}
               helperText={touched.notification_type && errors.notification_type}
             />
@@ -145,7 +145,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
               fullWidth
               variant={'standard'}
               value={values.message}
-              multiline={true}
+              multiline
             />
           </Grid>
           <Grid item xs={12}>

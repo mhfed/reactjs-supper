@@ -15,6 +15,10 @@ import PreviewField from './PreviewField';
 import RadioGroupField from './RadioGroupField';
 import DatePickerField from './DatePickerField';
 import AutocompleteFreeSoloField from './AutocompleteFreeSoloField';
+import AttachmentField from './AttachmentField';
+import AuthAutoCompleteField from './AuthAutoCompleteField';
+import AutoCompleteField from './AutoCompleteField';
+import InputCodeField from './InputCodeField';
 export {
   InputField,
   PasswordField,
@@ -25,4 +29,8 @@ export {
   RadioGroupField,
   DatePickerField,
   AutocompleteFreeSoloField,
+  AttachmentField,
+  AuthAutoCompleteField,
+  AutoCompleteField,
+  InputCodeField,
 };

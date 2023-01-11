@@ -1,4 +1,6 @@
 {
+  "lang_delete_article_unsuccessfully": "Delete article unsuccessfully",
+  "lang_delete_article_successfully": "Delete article  successfully",
   "lang_email_required": "Email is required",
   "lang_plese_enter_email": "Please enter your email",
   "lang_no_matching_records_found": "Sorry, no matching records found",

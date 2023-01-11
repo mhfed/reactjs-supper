@@ -92,7 +92,7 @@ const reducer = (state = initialState, { type, payload }: IAuthActionCreator) =>
         email: payload.email,
         isLoading: false,
         createPasswordToken: payload.createPasswordToken,
-        error: '',
+        error: payload?.error || '',
         step: IAuthStep.SET_PASSWORD,
       };
     case IAuthActionTypes.SILENT_LOGIN:

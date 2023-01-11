@@ -56,6 +56,7 @@ export function getSearchSegment(query?: string) {
 export function postDirectSend() {
   return '/v1/dynamic-push/direct/send';
 }
+
 export function getUserGroupUrl(roleGroupId: string) {
   return `/v1/user/role-group/${roleGroupId}`;
 }
@@ -70,6 +71,9 @@ export function postDataUpdateSegmentByID(segmentID: string) {
 }
 export function postSiteNameSend() {
   return `/v1/dynamic-push/site-name/send`;
+}
+export function postLogin() {
+  return `https://iress-wealth-dev-api.equix.app/mobile/login?isCMS=true`;
 }
 // Notification - v1
 export const getListNotificationUrl = ({
@@ -123,6 +127,23 @@ export function getListSubscribertUrl({
   if (sort?.sortType) url += `&sort_type=${sort.sortType}`;
   return url;
 }
+export function getArticlesListUrl({
+  page = 1,
+  rowsPerPage = +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
+  searchText = '',
+  sort,
+}: {
+  page: number;
+  rowsPerPage: number;
+  searchText: string | null;
+  sort: ISortConfig | null;
+}) {
+  let url = `v1/articles/query?page_id=${page}&page_size=${rowsPerPage}`;
+  if (searchText) url += `&search=${searchText}`;
+  // if (sort?.sortField) url += `&sort_field=${sort.sortField}`;
+  // if (sort?.sortType) url += `&sort_type=${sort.sortType}`;
+  return url;
+}
 export function getListSubscriberSegmenttUrl({
   page = 1,
   rowsPerPage = 50,
@@ -139,8 +160,14 @@ export function getListSubscriberSegmenttUrl({
 export function getSegmentUrl(segmentId?: string) {
   return `v1/dynamic-push/segment/${segmentId || ''}`;
 }
+export function getArticlesUrl(articlesId?: string) {
+  return `v1//articles/${articlesId || ''}`;
+}
 export function getNotificationUrl(notificationId: string) {
   return `v1/dynamic-push/notifications/${notificationId || ''}`;
+}
+export function getSearchSitenameUrl(searchText: string) {
+  return `v1/dynamic-push/site-name/query?search=${searchText}`;
 }
 
 export const getListReportUrl = ({ page = 1, rowsPerPage = +process.env.REACT_APP_DEFAULT_PAGE_SIZE }) => {

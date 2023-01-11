@@ -64,9 +64,7 @@ const DefaultPage: FC<DefaultPageProps> = ({ children }) => {
   function ErrorFallbackUI({ resetErrorBoundary }: FallbackProps) {
     return (
       <Dialog onClose={resetErrorBoundary} fullWidth open>
-        <DialogTitle>
-          <Typography variant="h4">Error</Typography>
-        </DialogTitle>
+        <DialogTitle component="h4">Error</DialogTitle>
         <DialogContent>
           <DialogContentText>Something went wrong!</DialogContentText>
         </DialogContent>

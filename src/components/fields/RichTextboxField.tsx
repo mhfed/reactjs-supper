@@ -16,7 +16,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Box from '@mui/material/Box';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: 200,
     '& *': {
       boxSizing: 'initial',
-      color: theme.palette.common.black,
+      color: theme.palette.text.primary,
     },
     '& br': {
       color: theme.palette.text.primary,
@@ -35,8 +35,14 @@ const useStyles = makeStyles((theme) => ({
       borderBottom: `1px solid rgba(255, 255, 255, 0.23)`,
       background: 'transparent',
     },
-    '& .DraftEditor-editorContainer': {
+    '& .rdw-editor-main': {
       padding: theme.spacing(0, 1),
+      color: theme.palette.text.primary,
+    },
+    '& .public-DraftEditorPlaceholder-root': {
+      '& *': {
+        color: theme.palette.text.secondary,
+      },
     },
   },
 }));
@@ -53,8 +59,9 @@ type RichTextboxHandle = {
 };
 
 const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props, ref) => {
-  const { required = false, label, value, onChange } = props;
+  const { required = false, label, value, onChange, placeholder } = props;
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const convertData = (data: any) => {
     if (!data) return EditorState.createEmpty();
@@ -125,6 +132,7 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
           wrapperClassName="wrapperClassName"
           editorClassName="editorClassName"
           onEditorStateChange={handleChange}
+          placeholder={t(placeholder) as string}
           toolbar={{
             image: {
               uploadCallback: uploadImageCallBack,

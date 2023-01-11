@@ -11,9 +11,13 @@ export const FIELD = {
   NOTIFICATION_ID: 'notification_id',
   DELIVERY_TYPE: 'delivery_type',
   TITLE: 'title',
+  SUBJECT: 'subject',
   MESSAGE: 'message',
   URL: 'url',
   CREATED_TIME: 'create_time',
+  CREATED_DATE: 'created_date',
+  ATTACHMENT_URL: 'attachment_url',
+  ATTACHMENT_NAME: 'attachment_name',
   EXPIRATION_TIME: 'expire_time',
   SCHEDULE: 'schedule_time',
   TRIGGER_TIME: 'trigger_time',
@@ -34,6 +38,8 @@ export const FIELD = {
   FULL_NAME: 'full_name',
   SITENAME: 'site_name',
   SEGMENT_REGISTER: 'segment_register',
+
+  ARTICLES_ID: 'article_id',
 };
 
 export const NOTIFICATION_STATUS = {

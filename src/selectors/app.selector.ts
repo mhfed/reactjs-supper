@@ -16,6 +16,11 @@ export const isLoadingSelector = createSelector(
   (app) => app.isLoading,
 );
 
+export const isIressLoginSelector = createSelector(
+  (state: IRootState) => state.app,
+  (app) => app.isIressLogin,
+);
+
 export const isExpiredSelector = createSelector(
   (state: IRootState) => state.app,
   (app) => app.isExpired,
