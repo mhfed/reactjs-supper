@@ -145,22 +145,20 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
     if (isIressLogin) {
       onShowLogoutConfirm();
     } else {
-    }
-    console.log('YOLO');
-    showSubModal({
-      title: 'lang_sign_in',
-      component: FetchReport,
-      styleModal: { minWidth: 440 },
-      props: {
-        title: 'lang_confirm_cancel_text',
-        isCancelPage: true,
-        emailConfirm: false,
-        onSubmit: () => {
-          console.log('xin chao');
+      showSubModal({
+        title: 'lang_sign_in',
+        component: FetchReport,
+        styleModal: { minWidth: 440 },
+        props: {
+          title: 'lang_confirm_cancel_text',
+          isCancelPage: true,
+          emailConfirm: false,
+          onSubmit: () => {
+            console.log('xin chao');
+          },
         },
-      },
-    });
-    // console.log('YOLO');
+      });
+    }
   };
 
   const onCloseLogout = () => {
