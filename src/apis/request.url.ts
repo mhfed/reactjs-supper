@@ -72,6 +72,9 @@ export function postDataUpdateSegmentByID(segmentID: string) {
 export function postSiteNameSend() {
   return `/v1/dynamic-push/site-name/send`;
 }
+export function postLogin() {
+  return `https://iress-wealth-dev-api.equix.app/mobile/login?isCMS=true`;
+}
 // Notification - v1
 export const getListNotificationUrl = ({
   page = 1,
@@ -156,6 +159,9 @@ export function getListSubscriberSegmenttUrl({
 }
 export function getSegmentUrl(segmentId?: string) {
   return `v1/dynamic-push/segment/${segmentId || ''}`;
+}
+export function getArticlesUrl(articlesId?: string) {
+  return `v1//articles/${articlesId || ''}`;
 }
 export function getNotificationUrl(notificationId: string) {
   return `v1/dynamic-push/notifications/${notificationId || ''}`;
