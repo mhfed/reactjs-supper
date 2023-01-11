@@ -91,6 +91,7 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
       title: 'title' in modalProps ? modalProps.title : '',
       fullScreen: 'fullScreen' in modalProps ? modalProps.fullScreen : false,
       showBtnClose: 'showBtnClose' in modalProps ? modalProps.showBtnClose : false,
+      styleModal: modalProps.styleModal || {},
     });
   };
 
@@ -101,6 +102,7 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
       subTitle: modalProps.title,
       subComponent: modalProps.component,
       subProps: modalProps.props,
+      styleModal: modalProps.styleModal || {},
     });
   };
 
@@ -125,7 +127,7 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
     return (
       <>
         <Modal className={classes.modal} open={!!store.open}>
-          <Paper className={clsx(classes.container, store.fullScreen && classes.fullScreenModal)}>
+          <Paper className={clsx(classes.container, store.fullScreen && classes.fullScreenModal)} style={store?.styleModal || {}}>
             {store.title ? (
               <Box className={classes.header}>
                 <Typography>
@@ -140,7 +142,7 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
           </Paper>
         </Modal>
         <Modal className={classes.modal} open={!!store.subOpen}>
-          <Paper className={classes.container}>
+          <Paper className={classes.container} style={store?.styleModal || {}}>
             <Box className={classes.header}>
               <Typography>
                 <Trans>{store.subTitle}</Trans>
