@@ -131,7 +131,7 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
         <Button variant="outlined" onClick={onClose} sx={{ mr: 2 }}>
           <Trans>{isCancelPage ? 'lang_no' : 'lang_cancel'}</Trans>
         </Button>
-        <Button network variant="contained" disabled={emailConfirm && !email} onClick={handleConfirm}>
+        <Button network variant="contained" disabled={(emailConfirm && !email) || !!error} onClick={handleConfirm}>
           <Trans>{isCancelPage ? 'lang_yes' : 'lang_confirm'}</Trans>
         </Button>
       </div>
