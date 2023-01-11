@@ -12,7 +12,6 @@ import RadioGroupField from 'components/fields/RadioGroupField';
 import { AutocompleteAsyncField, InputField, SelectField, DatePickerField } from 'components/fields';
 import { initialValuesType, isOptionEqualToValue } from './index';
 import { ClassNameMap } from 'notistack';
-import { isValidDate } from 'features/Notification/CreateNewNotification/Components/FormCreateNotifiaction';
 
 interface FormCreateNotifiactionProps {
   form: FormikProps<initialValuesType>;
@@ -175,11 +174,8 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                     label={'lang_schedule_time'}
                     inputFormat={'DD/MM/YYYY HH:mm'}
                     onChange={(v: string) => setFieldValue('schedule', v ? new Date(v) : v)}
-                    onBlur={(v) => {
-                      if (isValidDate(new Date(v.target.value))) return handleBlur(v);
-                      setFieldValue('schedule', '');
-                    }}
                     fullWidth
+                    onBlur={handleBlur}
                     minDate={new Date()}
                     error={touched.schedule && Boolean(errors.schedule)}
                     helperText={touched.schedule && errors.schedule}
