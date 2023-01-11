@@ -18,6 +18,7 @@ import AutocompleteFreeSoloField from './AutocompleteFreeSoloField';
 import AttachmentField from './AttachmentField';
 import AuthAutoCompleteField from './AuthAutoCompleteField';
 import AutoCompleteField from './AutoCompleteField';
+import InputCodeField from './InputCodeField';
 export {
   InputField,
   PasswordField,
@@ -31,4 +32,5 @@ export {
   AttachmentField,
   AuthAutoCompleteField,
   AutoCompleteField,
+  InputCodeField,
 };

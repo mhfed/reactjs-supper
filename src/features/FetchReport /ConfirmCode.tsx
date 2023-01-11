@@ -10,16 +10,13 @@ import React from 'react';
 import { makeStyles } from '@mui/styles';
 import { Stack, Button, Typography } from '@mui/material';
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
-import { validate, yup } from 'helpers';
+import { yup } from 'helpers';
 import { LooseObject } from 'models/ICommon';
 import { Trans } from 'react-i18next';
-import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import { useGlobalModalContext } from 'containers/Modal';
 import { Grid } from '@mui/material';
-import { PasswordField, InputField } from 'components/fields';
-import httpRequest from 'services/httpRequest';
-import { postLogin } from 'apis/request.url';
-import ConfirmCode from './ConfirmCode';
+import { InputCodeField } from 'components/fields';
+import { useTheme } from '@mui/styles';
 
 interface FetchReportProps {}
 
@@ -60,22 +57,20 @@ const STATE_FORM = {
 
 const FetchReport: React.FC<FetchReportProps> = (props) => {
   const classes = useStyles();
-  const { showModal, hideModal, hideSubModal, showSubModal } = useGlobalModalContext();
+  const pinRef = React.useRef<any[]>();
+  const theme = useTheme();
+
+  React.useEffect(() => {
+    const inputField = pinRef.current as any;
+    if (inputField.textInput[0]) inputField.textInput[0].focus();
+  }, []);
 
   const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
-    showSubModal({
-      title: 'lang_confirm_code',
-      component: ConfirmCode,
-      styleModal: { minWidth: 440 },
-      props: {
-        title: 'lang_confirm_cancel_text',
-        isCancelPage: true,
-        emailConfirm: false,
-        onSubmit: () => {
-          console.log('xin chao');
-        },
-      },
-    });
+    clearPin();
+
+    formikHelpers.setFieldError('inputCode', 'adwawd');
+
+    formikHelpers.validateForm();
     // const body = {
     //   username: 'demo3',
     //   password: 'Demosg3@123',
@@ -90,9 +85,15 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
     //   });
   };
 
-  const handleClearData = (form: FormikProps<initialValuesType>) => {
-    // const { resetForm, values } = form;
-    hideSubModal();
+  const clearPin = () => {
+    const inputField = pinRef.current as any;
+    if (inputField.textInput[0]) inputField.textInput[0].focus();
+    inputField.state.input[0] = '';
+    inputField.state.input[1] = '';
+    inputField.state.input[2] = '';
+    inputField.state.input[3] = '';
+    inputField.state.input[4] = '';
+    inputField.state.input[5] = '';
   };
 
   const renderContent = (form: FormikProps<initialValuesType>) => {
@@ -101,44 +102,15 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
     return (
       <React.Fragment>
         <Grid item xs={12}>
-          <InputField
-            name="site_name"
-            label="lang_sitename"
-            required
-            fullWidth
-            value={values.site_name}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.site_name && Boolean(errors.site_name)}
-            helperText={touched.site_name && errors.site_name}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <InputField
-            name="username"
-            label="lang_iress_account"
-            required
-            fullWidth
-            value={values.username}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.username && Boolean(errors.username)}
-            helperText={touched.username && errors.username}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <PasswordField
-            id="password"
-            name="password"
-            sx={{ mb: 2 }}
-            label="lang_password"
-            required
-            fullWidth
-            value={values.password}
-            onChange={(v: string) => setFieldValue('password', validate.removeSpace(v))}
-            onBlur={handleBlur}
-            error={touched.password && Boolean(errors.password)}
-            helperText={touched.password && errors.password}
+          <InputCodeField
+            onChangeOTP={(e: string) => {
+              setFieldValue('inputCode', e);
+            }}
+            pinRef={pinRef}
+            error={errors.inputCode}
+            OTP_LENGTH={6}
+            theme={theme}
+            // onResendOTP={onResendOTP}
           />
         </Grid>
       </React.Fragment>
@@ -149,12 +121,12 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
     return (
       <Grid item xs={12}>
         <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
-          <Button variant="outlined" onClick={() => handleClearData(form)}>
+          {/* <Button variant="outlined" onClick={() => handleClearData(form)}>
             <Trans>lang_cancel</Trans>
-          </Button>
+          </Button> */}
 
-          <Button variant="contained" type="submit">
-            <Trans>lang_sign_in</Trans>
+          <Button variant="contained" type="submit" style={{ textTransform: 'uppercase' }}>
+            <Trans>lang_verify</Trans>
           </Button>
         </Stack>
       </Grid>
@@ -165,11 +137,12 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
     return (
       <Grid item xs={12}>
         <Typography>
-          <Trans>lang_title_fetch_report</Trans>
+          <Trans>lang_a_verification_code</Trans>
         </Typography>
       </Grid>
     );
   };
+
   return (
     <div className={classes.wrapper}>
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={submitForm}>
@@ -182,6 +155,7 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
                   {HeaderTitle()}
                   {renderContent(form)}
                   {submitButton(form)}
+                  {/* <button onClick={clearPin}>clear field</button> */}
                 </Grid>
               </Form>
             </React.Fragment>
@@ -193,15 +167,11 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
 };
 
 export interface initialValuesType {
-  site_name: string;
-  username: string;
-  password: string;
+  inputCode: string;
 }
 
 const initialValues: initialValuesType = {
-  site_name: '',
-  username: '',
-  password: '',
+  inputCode: '',
 };
 
 const validationSchema = yup.object().shape({});
