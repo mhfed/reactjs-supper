@@ -8,15 +8,17 @@
 
 import React from 'react';
 import { makeStyles } from '@mui/styles';
-import { Paper, Stack, Button, Typography } from '@mui/material';
+import { Stack, Button, Typography } from '@mui/material';
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
-import { yup } from 'helpers';
+import { validate, yup } from 'helpers';
 import { LooseObject } from 'models/ICommon';
 import { Trans } from 'react-i18next';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import { useGlobalModalContext } from 'containers/Modal';
 import { Grid } from '@mui/material';
-import { AutocompleteAsyncField, InputField, SelectField, DatePickerField, AutocompleteFreeSoloField } from 'components/fields';
+import { PasswordField, InputField } from 'components/fields';
+import httpRequest from 'services/httpRequest';
+import { postLogin } from 'apis/request.url';
 
 interface FetchReportProps {}
 
@@ -44,86 +46,96 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     width: '100%',
   },
-  title: {
-    // textTransform: 'uppercase',
-    marginBottom: theme.spacing(1),
-    width: '100%',
-    // fontWeight: 700,
-  },
 }));
 
 export const isOptionEqualToValue = (option: LooseObject, value: LooseObject) => {
   return option.username === value.username;
 };
 
+const STATE_FORM = {
+  LOGIN: 'LOGIN',
+  CONFIRM_CODE: 'CONFIRM_CODE',
+};
+
 const FetchReport: React.FC<FetchReportProps> = (props) => {
   const classes = useStyles();
-  // const [stateForm, setStateForm] = React.useState(STATE_FORM.CREATE);
-  const { showModal, hideModal } = useGlobalModalContext();
+  const [stateForm, setStateForm] = React.useState(STATE_FORM.LOGIN);
+  const { showModal, hideModal, hideSubModal } = useGlobalModalContext();
 
   const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
-    console.log('xin chao');
+    console.log(values);
+    setStateForm(STATE_FORM.CONFIRM_CODE);
+    // const body = {
+    //   username: 'demo3',
+    //   password: 'Demosg3@123',
+    // };
+    // httpRequest
+    //   .post(postLogin(), body)
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
 
   const handleClearData = (form: FormikProps<initialValuesType>) => {
-    const { resetForm, values } = form;
-    if (JSON.stringify(values) !== JSON.stringify(initialValues))
-      showModal({
-        title: 'lang_confirm_cancel',
-        component: ConfirmEditModal,
-        props: {
-          title: 'lang_confirm_cancel_text',
-          isCancelPage: true,
-          emailConfirm: false,
-          onSubmit: () => {
-            resetForm();
-            hideModal();
-          },
-        },
-      });
+    // const { resetForm, values } = form;
+    hideSubModal();
   };
 
   const renderContent = (form: FormikProps<initialValuesType>) => {
-    const { values, handleChange, handleBlur, touched, errors } = form || {};
+    const { values, handleChange, handleBlur, touched, errors, setFieldValue } = form || {};
+
+    if (stateForm === STATE_FORM.CONFIRM_CODE) {
+      return (
+        <Grid item xs={12}>
+          xin chao
+        </Grid>
+      );
+    }
+
     return (
       <React.Fragment>
         <Grid item xs={12}>
           <InputField
-            name="title"
-            label="lang_title"
+            name="site_name"
+            label="lang_sitename"
             required
             fullWidth
-            value={values.title}
+            value={values.site_name}
             onChange={handleChange}
             onBlur={handleBlur}
-            error={touched.title && Boolean(errors.title)}
-            helperText={touched.title && errors.title}
+            error={touched.site_name && Boolean(errors.site_name)}
+            helperText={touched.site_name && errors.site_name}
           />
         </Grid>
         <Grid item xs={12}>
           <InputField
-            name="title"
-            label="lang_title"
+            name="username"
+            label="lang_iress_account"
             required
             fullWidth
-            value={values.title}
+            value={values.username}
             onChange={handleChange}
             onBlur={handleBlur}
-            error={touched.title && Boolean(errors.title)}
-            helperText={touched.title && errors.title}
+            error={touched.username && Boolean(errors.username)}
+            helperText={touched.username && errors.username}
           />
         </Grid>
         <Grid item xs={12}>
-          <InputField
-            name="title"
-            label="lang_title"
+          <PasswordField
+            id="password"
+            name="password"
+            sx={{ mb: 2 }}
+            label="lang_password"
             required
             fullWidth
-            value={values.title}
-            onChange={handleChange}
+            value={values.password}
+            onChange={(v: string) => setFieldValue('password', validate.removeSpace(v))}
             onBlur={handleBlur}
-            error={touched.title && Boolean(errors.title)}
-            helperText={touched.title && errors.title}
+            error={touched.password && Boolean(errors.password)}
+            helperText={touched.password && errors.password}
           />
         </Grid>
       </React.Fragment>
@@ -135,11 +147,11 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
       <Grid item xs={12}>
         <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
           <Button variant="outlined" onClick={() => handleClearData(form)}>
-            <Trans>lang_clear</Trans>
+            <Trans>lang_cancel</Trans>
           </Button>
 
           <Button variant="contained" type="submit">
-            <Trans>lang_create</Trans>
+            <Trans>lang_sign_in</Trans>
           </Button>
         </Stack>
       </Grid>
@@ -147,12 +159,12 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
   };
 
   const HeaderTitle = () => {
-    // if (stateForm !== STATE_FORM.PREVIEW) return null;
-
     return (
-      <Typography className={classes.title}>
-        <Trans>lang_title_fetch_report</Trans>
-      </Typography>
+      <Grid item xs={12}>
+        <Typography>
+          <Trans>lang_title_fetch_report</Trans>
+        </Typography>
+      </Grid>
     );
   };
   return (
@@ -162,9 +174,9 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
           console.log(form.values);
           return (
             <React.Fragment>
-              {HeaderTitle()}
               <Form noValidate className={classes.formContainer}>
                 <Grid container spacing={2}>
+                  {HeaderTitle()}
                   {renderContent(form)}
                   {submitButton(form)}
                 </Grid>
@@ -178,11 +190,15 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
 };
 
 export interface initialValuesType {
-  title: string;
+  site_name: string;
+  username: string;
+  password: string;
 }
 
 const initialValues: initialValuesType = {
-  title: '',
+  site_name: '',
+  username: '',
+  password: '',
 };
 
 const validationSchema = yup.object().shape({});

@@ -101,4 +101,5 @@ export type IModalProps = {
   props: LooseObject;
   fullScreen?: boolean;
   showBtnClose?: boolean;
+  styleModal?: React.CSSProperties;
 };
