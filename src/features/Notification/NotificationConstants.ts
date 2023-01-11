@@ -38,6 +38,8 @@ export const FIELD = {
   FULL_NAME: 'full_name',
   SITENAME: 'site_name',
   SEGMENT_REGISTER: 'segment_register',
+
+  ARTICLES_ID: 'article_id',
 };
 
 export const NOTIFICATION_STATUS = {
