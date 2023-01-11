@@ -8,12 +8,14 @@ import Button from 'components/atoms/ButtonBase';
 import Typography from '@mui/material/Typography';
 import makeStyles from '@mui/styles/makeStyles';
 import { Trans } from 'react-i18next';
-import { isLoadingSelector, createPasswordTokenSelector, userLoginSelector } from 'selectors/auth.selector';
+import { isLoadingSelector, createPasswordTokenSelector, userLoginSelector, errorSelector } from 'selectors/auth.selector';
 import httpRequest from 'services/httpRequest';
 import { getCreatePasswordUrl } from 'apis/request.url';
 import { PasswordField } from 'components/fields';
 import { setPinAfterChangePass } from 'actions/auth.action';
 import { IChangePassValues } from 'models/ICommon';
+import { IAuthActionTypes } from 'models/IAuthState';
+import ErrorCollapse from 'components/molecules/ErrorExpandable';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -44,6 +46,9 @@ const useStyles = makeStyles((theme) => ({
   termsContainer: {
     textAlign: 'center',
   },
+  containerForm: {
+    position: 'relative',
+  },
 }));
 
 type SetPasswordProps = {
@@ -53,6 +58,7 @@ type SetPasswordProps = {
 const SetPassword: React.FC<SetPasswordProps> = ({ setNewPassord }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const error = useSelector(errorSelector);
   const isLoading = useSelector(isLoadingSelector);
   const token = useSelector(createPasswordTokenSelector);
   const email = useSelector(userLoginSelector);
@@ -69,6 +75,7 @@ const SetPassword: React.FC<SetPasswordProps> = ({ setNewPassord }) => {
       });
       dispatch(setPinAfterChangePass() as any);
     } catch (error) {
+      dispatch({ type: IAuthActionTypes.LOGIN_FAILURE, payload: { error: error.errorCodeLang } });
       console.error('SetPassword handleFormSubmit error: ', error);
     }
   };
@@ -86,40 +93,43 @@ const SetPassword: React.FC<SetPasswordProps> = ({ setNewPassord }) => {
           <Trans>lang_choose_a_password</Trans>
         </Typography>
       </div>
-      <Typography variant="subtitle1" align="center" sx={{ width: '100%', px: 3, pt: 3 }}>
-        <Trans>lang_password_invalid</Trans>
-      </Typography>
-      <form className={classes.form} noValidate onSubmit={handleSubmit}>
-        <PasswordField
-          id="password"
-          name="password"
-          sx={{ mb: 2 }}
-          label="lang_password"
-          required
-          fullWidth
-          value={values.password}
-          onChange={(v: string) => setFieldValue('password', validate.removeSpace(v))}
-          onBlur={handleBlur}
-          error={touched.password && Boolean(errors.password)}
-          helperText={touched.password && errors.password}
-        />
-        <PasswordField
-          id="re_password"
-          name="re_password"
-          sx={{ mb: 2 }}
-          label="lang_confirm_password"
-          required
-          fullWidth
-          value={values.re_password}
-          onChange={(v: string) => setFieldValue('re_password', validate.removeSpace(v))}
-          onBlur={handleBlur}
-          error={touched.re_password && Boolean(errors.re_password)}
-          helperText={touched.re_password && errors.re_password}
-        />
-        <Button network isLoading={!!isLoading} type="submit" fullWidth variant="contained" color="primary" sx={{ my: 2 }}>
-          <Trans>lang_change_password</Trans>
-        </Button>
-      </form>
+      <div className={classes.containerForm}>
+        <Typography variant="subtitle1" align="center" sx={{ width: '100%', px: 3, pt: 3 }}>
+          <Trans>lang_password_invalid</Trans>
+        </Typography>
+        <ErrorCollapse error={error} />
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+          <PasswordField
+            id="password"
+            name="password"
+            sx={{ mb: 2 }}
+            label="lang_password"
+            required
+            fullWidth
+            value={values.password}
+            onChange={(v: string) => setFieldValue('password', validate.removeSpace(v))}
+            onBlur={handleBlur}
+            error={touched.password && Boolean(errors.password)}
+            helperText={touched.password && errors.password}
+          />
+          <PasswordField
+            id="re_password"
+            name="re_password"
+            sx={{ mb: 2 }}
+            label="lang_confirm_password"
+            required
+            fullWidth
+            value={values.re_password}
+            onChange={(v: string) => setFieldValue('re_password', validate.removeSpace(v))}
+            onBlur={handleBlur}
+            error={touched.re_password && Boolean(errors.re_password)}
+            helperText={touched.re_password && errors.re_password}
+          />
+          <Button network isLoading={!!isLoading} type="submit" fullWidth variant="contained" color="primary" sx={{ my: 2 }}>
+            <Trans>lang_change_password</Trans>
+          </Button>
+        </form>
+      </div>
     </Paper>
   );
 };
