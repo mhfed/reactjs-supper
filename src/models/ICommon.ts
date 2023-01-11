@@ -46,6 +46,7 @@ export type IColumn = {
   label: string;
   type?: string;
   dataOptions?: DropdownOption[];
+  dataOptionsHeader?: DropdownOption[];
   actions?: IKebabItem[];
   formatter?: (data: any) => string;
   getActions?: (data: any) => any;

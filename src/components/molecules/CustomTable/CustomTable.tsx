@@ -29,6 +29,7 @@ import { enqueueSnackbarAction } from 'actions/app.action';
 import { useDispatch } from 'react-redux';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from '../ConfirmEditModal';
+import DropdownHeaderCell from './DropdownHeaderCell';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -188,13 +189,14 @@ function convertColumn({
   translate?: any;
   classes?: any;
   onChange?: (name: string, value: string | number, rowIndex: number) => void;
+  onChangeAll?: (column: string, value: string | number, rowIndex: number) => void;
   fnKey: (data: any) => string;
 }): MUIDataTableColumnDef {
   const res: MUIDataTableColumnDef = {
     name: column.name,
     label: translate ? translate(column.label) : column.label,
     options: {
-      sort: !(column.sort === false),
+      sort: isEditMode ? false : !(column.sort === false),
       sortThirdClickReset: true,
     },
   };
@@ -202,6 +204,24 @@ function convertColumn({
     case COLUMN_TYPE.DROPDOWN_WITH_BG:
       res.options = {
         ...res.options,
+        customHeadLabelRender: (columnMeta) => {
+          console.log('columnMeta', columnMeta);
+          if (isEditMode) {
+            return (
+              <DropdownHeaderCell
+                id={editId + ''}
+                label={columnMeta.label}
+                options={column.dataOptionsHeader!}
+                onChange={(v) => {
+                  console.log('value', v);
+                  console.log('column', column);
+                  // onChangeAll?.(column, v)
+                }}
+              />
+            );
+          }
+          return <Trans>{columnMeta.label}</Trans>;
+        },
         customBodyRender: (value, tableMeta: MUIDataTableMeta) => {
           if (isEditMode) {
             const rowData = data[tableMeta.rowIndex];
@@ -378,6 +398,7 @@ type TableProps = {
   rowsPerPageOptions?: number[];
   data?: ITableData;
   editable?: boolean;
+  listBtn?: Array<{ label: string; onClick: () => void }>;
   onSave?: (dataChanged: LooseObject, cb: any) => void;
   fnKey: (data: any) => string;
   noChangeKey?: string;
@@ -397,6 +418,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     onSave,
     rowsPerPageOptions = [15, 25, 50, 100],
     editable = false,
+    listBtn = [],
     fnKey,
     defaultSort,
   } = props;
@@ -553,6 +575,9 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
         Object.assign(tempDataByKey.current[key], { [name]: value });
       }
     };
+    // const onChangeAll = (data, name: string, value: string | number) => {
+    //   data
+    // }
     return columns.reduce((acc: MUIDataTableColumnDef[], cur: IColumn) => {
       const columnConvert = convertColumn({
         data: data.data,
@@ -614,6 +639,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
                 searchText={searchText}
                 handleSearch={handleSearch}
                 isEditMode={isEditMode}
+                listBtn={listBtn}
                 handleEdit={handleEdit}
               />
             );

@@ -169,3 +169,7 @@ export function getNotificationUrl(notificationId: string) {
 export function getSearchSitenameUrl(searchText: string) {
   return `v1/dynamic-push/site-name/query?search=${searchText}`;
 }
+
+export const getListReportUrl = ({ page = 1, rowsPerPage = +process.env.REACT_APP_DEFAULT_PAGE_SIZE }) => {
+  return `/v1/reports?page_id=${page}&page_size=${rowsPerPage}`;
+};
