@@ -103,3 +103,10 @@ export type IModalProps = {
   showBtnClose?: boolean;
   styleModal?: React.CSSProperties;
 };
+
+export type IFileUpload = {
+  url?: string;
+  name?: string;
+  size?: number;
+  extension?: string;
+};

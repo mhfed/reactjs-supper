@@ -301,8 +301,8 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
                   label="lang_segment_id"
                   value={values.segment_id}
                   variant="outlined"
-                  disabled={true}
-                  required={true}
+                  disabled
+                  required
                 />
               </Grid>
               <Grid item xs={12}>
@@ -313,9 +313,9 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
                   error={touched.segment_subscribers && Boolean(errors.segment_subscribers)}
                   helperText={touched.segment_subscribers && errors.segment_subscribers}
                   value={values.segment_subscribers}
-                  required={true}
+                  required
                   defaultValue={defaultArray}
-                  fullWidth={true}
+                  fullWidth
                   label="lang_subscribers"
                   id="segment_subscribers"
                 />

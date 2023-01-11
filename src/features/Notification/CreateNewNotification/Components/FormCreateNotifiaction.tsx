@@ -78,10 +78,10 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                 error={touched.subscribers && Boolean(errors.subscribers)}
                 helperText={touched.subscribers && errors.subscribers}
                 value={values.subscribers}
-                required={true}
+                required
                 label="lang_subscribers"
                 defaultValue={[]}
-                fullWidth={true}
+                fullWidth
                 id="subscribers"
               />
             </Grid>
@@ -99,8 +99,8 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             name="notification_type"
             label="lang_notification_type"
             data={NOTIFICATION_TYPE_OPTION}
-            required={true}
-            rowItems={true}
+            required
+            rowItems
             value={values?.notification_type}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -133,7 +133,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             onBlur={handleBlur}
             error={touched.message && Boolean(errors.message)}
             helperText={touched.message && errors.message}
-            multiline={true}
+            multiline
             rows={5}
           />
         </Grid>
@@ -143,8 +143,8 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             name="type_url"
             label="lang_type_url"
             id="type_url"
-            fullWidth={true}
-            required={true}
+            fullWidth
+            required
             onBlur={handleBlur}
             value={values.type_url}
             onChange={handleChange}
@@ -176,8 +176,8 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                     name="delivery_type"
                     label="lang_delivery_type"
                     data={DELIVERY_TYPE_OPTION}
-                    required={true}
-                    rowItems={true}
+                    required
+                    rowItems
                     value={values?.delivery_type}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -212,7 +212,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                     name="type_expired"
                     label="lang_type"
                     id="type_expired"
-                    fullWidth={true}
+                    fullWidth
                     onBlur={handleBlur}
                     value={values.type_expired}
                     onChange={handleChange}
@@ -226,13 +226,13 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                   ) : (
                     <DatePickerField
                       name="schedule"
-                      required={true}
+                      required
                       value={values.schedule}
                       label={'lang_schedule_time'}
                       inputFormat={'DD/MM/YYYY HH:mm'}
                       onChange={(v) => setFieldValue('schedule', v ? new Date(v) : v)}
+                      fullWidth
                       onBlur={handleBlur}
-                      fullWidth={true}
                       minDate={new Date()}
                       error={touched.schedule && Boolean(errors.schedule)}
                       helperText={touched.schedule && errors.schedule}

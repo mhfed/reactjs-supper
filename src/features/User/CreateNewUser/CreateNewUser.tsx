@@ -145,7 +145,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                 </Grid>
                 <Grid item xs={6}></Grid>
                 <Grid item xs={6}>
-                  <PreviewField label="lang_notes" value={values.note} multiline={true} />
+                  <PreviewField label="lang_notes" value={values.note} multiline />
                 </Grid>
               </Grid>
             </Box>
@@ -192,7 +192,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                     name="site_name"
                     label="lang_sitename"
                     id="site_name"
-                    fullWidth={true}
+                    fullWidth
                     onBlur={handleBlur}
                     value={values.site_name}
                     onChange={handleChange}
@@ -225,7 +225,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                     name="status"
                     label="lang_status"
                     id="status"
-                    fullWidth={true}
+                    fullWidth
                     onBlur={handleBlur}
                     value={values.status}
                     onChange={handleChange}

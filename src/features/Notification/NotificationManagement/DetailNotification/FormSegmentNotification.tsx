@@ -80,7 +80,7 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
               fullWidth
               variant={'standard'}
               value={values.message}
-              multiline={true}
+              multiline
             />
           </Grid>
         </Grid>

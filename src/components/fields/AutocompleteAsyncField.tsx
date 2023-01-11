@@ -134,7 +134,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
         onChange={handleChange}
         options={options}
         defaultValue={props.defaultValue || []}
-        clearOnBlur={true}
+        clearOnBlur
         getOptionLabel={(option) => option.username}
         isOptionEqualToValue={isOptionEqualToValue}
         renderOption={(props, option, { selected }) => (
