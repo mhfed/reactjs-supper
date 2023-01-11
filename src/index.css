@@ -160,6 +160,7 @@ fieldset.MuiFormControl-root .MuiFormGroup-root > label:last-child {
   height: 14.405px;
   width: 14.405px;
 }
-.MuiButton-contained {
+.MuiButton-root {
   box-shadow: none !important;
+  min-width: 100px;
 }
