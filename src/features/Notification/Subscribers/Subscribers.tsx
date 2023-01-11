@@ -83,6 +83,7 @@ const Subscribers: React.FC<SubscribersProps> = () => {
         name: FIELD.SEGMENT_REGISTER,
         label: 'lang_segment_id',
         type: COLUMN_TYPE.MULTIPLE_TAG,
+        sort: false,
       },
       {
         name: 'ACTION_COLUMN',

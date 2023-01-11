@@ -44,7 +44,7 @@ class Validate {
   };
 
   getEmailPattern = () => {
-    return /^(?!.* )([a-z0-9]+[_+.-])*[a-z0-9]+@(([a-z0-9]+-)*([a-z0-9]+)\.)+[a-z]{2,}$/i;
+    return /^([a-z0-9]+[_+.-])*[a-z0-9]+@(([a-z0-9]+-)*([a-z0-9]+)\.)+[a-z]{2,}$/i;
   };
 
   removeSpace = (value: string): string => {
