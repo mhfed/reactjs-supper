@@ -17,10 +17,11 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Box from '@mui/material/Box';
 import { Trans, useTranslation } from 'react-i18next';
+import { alpha } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    border: `1px solid rgba(255, 255, 255, 0.23)`,
+    border: `1px solid ${theme.palette.divider}`,
     borderRadius: 4,
     minHeight: 200,
     '& *': {
@@ -32,8 +33,8 @@ const useStyles = makeStyles((theme) => ({
     },
     '& .rdw-editor-toolbar': {
       border: 'none',
-      borderBottom: `1px solid rgba(255, 255, 255, 0.23)`,
-      background: 'transparent',
+      borderBottom: `1px solid ${theme.palette.divider}`,
+      background: theme.palette.background.other3,
     },
     '& .rdw-editor-main': {
       padding: theme.spacing(0, 1),
@@ -42,6 +43,26 @@ const useStyles = makeStyles((theme) => ({
     '& .public-DraftEditorPlaceholder-root': {
       '& *': {
         color: theme.palette.text.secondary,
+      },
+    },
+    '& .rdw-dropdown-wrapper': {
+      background: theme.palette.common.white,
+      '& .rdw-dropdown-selectedtext': {
+        '& span': {
+          color: theme.palette.common.black,
+        },
+      },
+      border: 'none',
+      '&:hover': {
+        background: 'unset',
+      },
+      '& .rdw-dropdown-optionwrapper': {
+        background: theme.palette.background.paper,
+        border: 'none',
+        boxShadow: theme.shadows[1],
+        '& .rdw-dropdownoption-active': {
+          background: alpha(theme.palette.primary.main, 0.16),
+        },
       },
     },
   },
@@ -134,6 +155,14 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
           onEditorStateChange={handleChange}
           placeholder={t(placeholder) as string}
           toolbar={{
+            options: ['inline', 'blockType', 'list', 'image', 'textAlign'],
+            inline: { inDropdown: false, options: ['bold', 'italic'] },
+            list: {
+              inDropdown: false,
+              options: ['ordered', 'unordered'],
+            },
+            textAlign: { inDropdown: false, options: ['left', 'center', 'right'] },
+            link: { inDropdown: true },
             image: {
               uploadCallback: uploadImageCallBack,
               alt: { present: false, mandatory: false },
