@@ -88,14 +88,15 @@ select:-webkit-autofill:focus {
   border-radius: 8px;
 }
 
-.light #segment_subscribers-listbox>li {
+.light #segment_subscribers-listbox > li {
   background-color: #ffffff;
 }
 
-.light #segment_subscribers-listbox>li:hover {
+.light #segment_subscribers-listbox > li:hover {
   background-color: #e1fff4 !important;
 }
 
+.rdw-dropdownoption-active::after,
 .MuiMenuItem-root[aria-selected='true']::after,
 .MuiAutocomplete-option[aria-selected='true']::after {
   background-image: url('./assets/icons/check.svg');
@@ -113,22 +114,22 @@ fieldset.MuiFormControl-root {
   padding: 16px 0;
 }
 
-fieldset.MuiFormControl-root>span {
+fieldset.MuiFormControl-root > span {
   padding: 0 24px;
   margin: 0;
 }
 
-fieldset.MuiFormControl-root .MuiFormGroup-root>label {
+fieldset.MuiFormControl-root .MuiFormGroup-root > label {
   padding: 0 24px 0 18px;
   margin: 0;
 }
 
-.dark fieldset.MuiFormControl-root .MuiFormGroup-root>label:hover,
-.light fieldset.MuiFormControl-root .MuiFormGroup-root>label:hover {
+.dark fieldset.MuiFormControl-root .MuiFormGroup-root > label:hover,
+.light fieldset.MuiFormControl-root .MuiFormGroup-root > label:hover {
   background: rgba(0, 199, 127, 0.08);
 }
 
-fieldset.MuiFormControl-root .MuiFormGroup-root>label:last-child {
+fieldset.MuiFormControl-root .MuiFormGroup-root > label:last-child {
   display: none;
 }
 

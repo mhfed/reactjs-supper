@@ -117,6 +117,7 @@ const darkTheme = createTheme({
       other2: '#1F2332',
       other3: '#758695',
       other4: '#272B3B',
+      other5: '#3A425E',
     },
     primary: {
       main: '#00C77F',

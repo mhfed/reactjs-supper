@@ -37,7 +37,7 @@ const RadioGroupField = (props: any) => {
   }
 
   return (
-    <FormControl {...rest} error={isError}>
+    <FormControl {...rest} error={!!isError}>
       {label ? <FormLabel component="legend">{translate ? <Trans>{label}</Trans> : label}</FormLabel> : <React.Fragment />}
       <RadioGroup row={Boolean(rowItems)} style={style} {...rest}>
         {data.map(

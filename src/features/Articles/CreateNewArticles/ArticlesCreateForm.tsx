@@ -88,12 +88,12 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate }) => 
             <Grid item xs={12}>
               <AttachmentField
                 required
+                image
                 name="image"
                 label="lang_thumbnail_image"
                 selectText="lang_choose_image"
                 helperText="(JPEG, JPG, PNG, HEIC)"
                 accept=".png, .heic, .jpeg, .jpg"
-                style={{ minHeight: 200 }}
                 error={touched.title && Boolean(errors.title)}
                 setFieldTouched={setFieldTouched}
                 onChange={(file: IFileUpload) => setFieldValue('image', file)}
