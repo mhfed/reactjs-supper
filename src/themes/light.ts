@@ -118,13 +118,14 @@ const lightTheme = createTheme({
       other2: '#F2F8FF',
       other3: '#13161F',
       other4: '#E8ECEF',
+      other5: '#E3EFFD',
     },
     primary: {
       main: '#00C77F',
       contrastText: '#fff',
     },
     secondary: {
-      main: '#1976d2',
+      main: '#27A6E7',
       contrastText: '#fff',
     },
     hover: {

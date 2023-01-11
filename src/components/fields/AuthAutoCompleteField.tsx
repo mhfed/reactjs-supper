@@ -40,7 +40,17 @@ type AutocompleteAsyncFieldProps = {
   getChipLabel?: (opt: LooseObject) => string;
   getUrl: (text: string) => string;
 };
-const useStyles = makeStyles((theme) => ({}));
+const useStyles = makeStyles((theme) => ({
+  container: {
+    '& .MuiChip-root': {
+      background: theme.palette.background.other5,
+      border: 'none',
+    },
+    '& .MuiChip-label': {
+      color: theme.palette.secondary.main,
+    },
+  },
+}));
 
 const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   isOptionEqualToValue,
@@ -151,7 +161,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
 
   return (
     <Box>
-      <FormControl required fullWidth error={error}>
+      <FormControl required fullWidth error={error} className={classes.container}>
         <Autocomplete
           onBlur={onBlur}
           multiple

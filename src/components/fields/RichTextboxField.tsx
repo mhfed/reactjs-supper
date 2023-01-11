@@ -21,20 +21,20 @@ import { alpha } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    border: `1px solid ${theme.palette.divider}`,
+    border: `1px solid ${alpha(theme.palette.text.primary, 0.23)}`,
     borderRadius: 4,
     minHeight: 200,
     '& *': {
       boxSizing: 'initial',
-      color: theme.palette.text.primary,
     },
     '& br': {
       color: theme.palette.text.primary,
     },
     '& .rdw-editor-toolbar': {
       border: 'none',
-      borderBottom: `1px solid ${theme.palette.divider}`,
-      background: theme.palette.background.other3,
+      borderBottom: `1px solid ${alpha(theme.palette.text.primary, 0.23)}`,
+      background: theme.palette.background.other2,
+      color: theme.palette.common.black,
     },
     '& .rdw-editor-main': {
       padding: theme.spacing(0, 1),
@@ -53,18 +53,23 @@ const useStyles = makeStyles((theme) => ({
         },
       },
       border: 'none',
-      '&:hover': {
-        background: 'unset',
-      },
       '& .rdw-dropdown-optionwrapper': {
-        background: theme.palette.background.paper,
+        '& *': {
+          color: theme.palette.common.black,
+        },
         border: 'none',
         boxShadow: theme.shadows[1],
         '& .rdw-dropdownoption-active': {
           background: alpha(theme.palette.primary.main, 0.16),
         },
+        '& .rdw-dropdownoption-highlighted': {
+          background: alpha(theme.palette.primary.main, 0.08),
+        },
       },
     },
+  },
+  '.rdw-image-modal': {
+    color: theme.palette.common.black,
   },
 }));
 
