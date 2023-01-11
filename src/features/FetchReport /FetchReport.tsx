@@ -53,41 +53,35 @@ export const isOptionEqualToValue = (option: LooseObject, value: LooseObject) =>
   return option.username === value.username;
 };
 
-const STATE_FORM = {
-  LOGIN: 'LOGIN',
-  CONFIRM_CODE: 'CONFIRM_CODE',
-};
-
 const FetchReport: React.FC<FetchReportProps> = (props) => {
   const classes = useStyles();
   const { showModal, hideModal, hideSubModal, showSubModal } = useGlobalModalContext();
 
   const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
-    showSubModal({
-      title: 'lang_confirm_code',
-      component: ConfirmCode,
-      styleModal: { minWidth: 440 },
-      props: {
-        title: 'lang_confirm_cancel_text',
-        isCancelPage: true,
-        emailConfirm: false,
-        onSubmit: () => {
-          console.log('xin chao');
-        },
-      },
-    });
-    // const body = {
-    //   username: 'demo3',
-    //   password: 'Demosg3@123',
-    // };
-    // httpRequest
-    //   .post(postLogin(), body)
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    const body = {
+      ...values,
+    };
+    httpRequest
+      .post(postLogin(), body, { headers: { 'site-name': values.site_name } })
+      .then(async (res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        showSubModal({
+          title: 'lang_confirm_code',
+          component: ConfirmCode,
+          styleModal: { minWidth: 440 },
+          props: {
+            title: 'lang_confirm_cancel_text',
+            isCancelPage: true,
+            emailConfirm: false,
+            onSubmit: () => {
+              console.log('xin chao');
+            },
+            values: values,
+          },
+        });
+      });
   };
 
   const handleClearData = (form: FormikProps<initialValuesType>) => {
@@ -106,6 +100,7 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
             label="lang_sitename"
             required
             fullWidth
+            inputProps={{ maxLength: 255 }}
             value={values.site_name}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -119,6 +114,7 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
             label="lang_iress_account"
             required
             fullWidth
+            inputProps={{ maxLength: 50 }}
             value={values.username}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -204,6 +200,10 @@ const initialValues: initialValuesType = {
   password: '',
 };
 
-const validationSchema = yup.object().shape({});
+const validationSchema = yup.object().shape({
+  site_name: yup.string().required('lang_please_enter_sitename').max(255),
+  username: yup.string().required('lang_please_enter_email'),
+  password: yup.string().required('lang_please_enter_password'),
+});
 
 export default FetchReport;

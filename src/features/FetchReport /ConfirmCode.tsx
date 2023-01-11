@@ -13,12 +13,16 @@ import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { yup } from 'helpers';
 import { LooseObject } from 'models/ICommon';
 import { Trans } from 'react-i18next';
-import { useGlobalModalContext } from 'containers/Modal';
+// import { useGlobalModalContext } from 'containers/Modal';
 import { Grid } from '@mui/material';
 import { InputCodeField } from 'components/fields';
 import { useTheme } from '@mui/styles';
+import httpRequest from 'services/httpRequest';
+import { postLogin } from 'apis/request.url';
 
-interface FetchReportProps {}
+interface FetchReportProps {
+  values?: any;
+}
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -66,23 +70,18 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
   }, []);
 
   const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
-    clearPin();
-
-    formikHelpers.setFieldError('inputCode', 'adwawd');
-
-    formikHelpers.validateForm();
-    // const body = {
-    //   username: 'demo3',
-    //   password: 'Demosg3@123',
-    // };
-    // httpRequest
-    //   .post(postLogin(), body)
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    // clearPin();
+    const previousForm = props.values;
+    const body = {
+      ...previousForm,
+      '2fa_code': values.inputCode,
+    };
+    httpRequest
+      .post(postLogin(), body, { headers: { 'site-name': previousForm.site_name } })
+      .then(async (res) => {})
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const clearPin = () => {
