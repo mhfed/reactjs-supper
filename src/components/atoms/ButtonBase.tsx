@@ -18,11 +18,11 @@ type ButtonBaseProps = ButtonProps & {
   children: React.ReactNode;
 };
 
-const ButtonBase: React.FC<ButtonBaseProps> = ({ network = false, children, isLoading = false, disabled, ...props }) => {
+const ButtonBase: React.FC<ButtonBaseProps> = ({ network = false, children, isLoading = false, disabled, sx = {}, ...props }) => {
   const isConnecting = useSelector(isConnectingSelector);
 
   return (
-    <Button {...props} disabled={disabled || (network && isConnecting)}>
+    <Button {...props} sx={{ whiteSpace: 'nowrap', ...sx }} disabled={disabled || (network && isConnecting)}>
       {children}
       {isLoading && <CircularProgress color="secondary" size={24} sx={{ position: 'absolute' }} />}
     </Button>

@@ -207,7 +207,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
               <PreviewField label="lang_create_time" value={formatDate(values.create_time)} />
             </Grid>
             <Grid item xs={12}>
-              <PreviewField label="lang_notes" value={values.note} multiline={true} />
+              <PreviewField label="lang_notes" value={values.note} multiline />
             </Grid>
           </Grid>
         </Box>
@@ -238,7 +238,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
                 name="status"
                 label="lang_status"
                 id="status"
-                fullWidth={true}
+                fullWidth
                 onBlur={handleBlur}
                 value={values.status}
                 onChange={handleChange}
@@ -266,7 +266,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
                 name="site_name"
                 label="lang_sitename"
                 id="site_name"
-                fullWidth={true}
+                fullWidth
                 onBlur={handleBlur}
                 value={values.site_name}
                 onChange={handleChange}
