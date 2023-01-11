@@ -1,4 +1,5 @@
 {
+  "lang_date_of_birth_invalid": "Date of Birth invalid",
   "lang_creating_pin_request_has_expired": "Creating PIN request has expired",
   "lang_url_require": "Please select URL",
   "lang_describe_confirm_edit": "Enter your email to edit notification",
