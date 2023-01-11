@@ -7,13 +7,16 @@
  */
 
 import React from 'react';
-import { getArticlesListUrl } from 'apis/request.url';
+import { getArticlesListUrl, getArticlesUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import httpRequest from 'services/httpRequest';
 import { ITableConfig } from 'models/ICommon';
 import CustomTable, { COLUMN_TYPE } from 'components/molecules/CustomTable';
 import makeStyles from '@mui/styles/makeStyles';
+import { useGlobalModalContext } from 'containers/Modal';
+import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
+
 import { FIELD } from '../../Notification/NotificationConstants';
 
 const useStyles = makeStyles(() => ({
@@ -32,6 +35,7 @@ const ArticlesManagement: React.FC<SegmentManagementProps> = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
+  const { showModal, hideModal } = useGlobalModalContext();
 
   const getData = async () => {
     try {
@@ -58,7 +62,28 @@ const ArticlesManagement: React.FC<SegmentManagementProps> = () => {
   React.useEffect(() => {
     getData();
   }, []);
-
+  const confirmDeleteArticles = React.useCallback(async (articlesId: string) => {
+    try {
+      await httpRequest.delete(getArticlesUrl(articlesId));
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_delete_article_successfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
+      onTableChange();
+      hideModal();
+    } catch (error) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_delete_article_unsuccessfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        }),
+      );
+    }
+  }, []);
   const getActions = (data: any) => {
     return [
       {
@@ -75,7 +100,18 @@ const ArticlesManagement: React.FC<SegmentManagementProps> = () => {
       },
       {
         label: 'lang_delete',
-        onClick: (data: any) => console.log('click in view delete'),
+        onClick: (data: any) => {
+          console.log('click in view delete:', data);
+          showModal({
+            title: 'lang_confirm',
+            component: ConfirmEditModal,
+            props: {
+              emailConfirm: true,
+              title: 'lang_enter_your_email_to_delete_article',
+              onSubmit: () => confirmDeleteArticles(data[FIELD.ARTICLES_ID]),
+            },
+          });
+        },
       },
     ];
   };
@@ -127,7 +163,7 @@ const ArticlesManagement: React.FC<SegmentManagementProps> = () => {
   const onRowDbClick = () => {};
 
   const getRowId = (data: any) => {
-    return data[FIELD.SEGMENT_ID];
+    return data[FIELD.ARTICLES_ID];
   };
 
   return (
