@@ -308,18 +308,7 @@ const validationSchema = yup.object().shape({
     is: (delivery_type: 'Instant' | 'Schedule', notification_type: Notification_Type) => {
       return delivery_type === DELIVERY_TYPE.Schedule && notification_type === NOTIFICATION_TYPE.Direct;
     },
-    then: yup
-      .string()
-      .required('lang_schedule_time_required')
-      .test('checkValidField', '', function (value) {
-        const { path, createError } = this;
-        const date = moment(value);
-        if (date.isValid()) {
-          return true;
-        } else {
-          return createError({ path, message: 'lang_schedule_time_required' });
-        }
-      }),
+    then: yup.string().required('lang_schedule_time_required').checkValidField('lang_schedule_time_required'),
   }),
   segment: yup.mixed().when('notification_type', (value, schema) => {
     return value === NOTIFICATION_TYPE.Segment ? schema.required('lang_field_required') : schema;
