@@ -686,7 +686,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
       {data.isLoading && <CircularProgress className={classes.centerContent} size={24} />}
       {!data.isLoading && !data.data?.length && (
         <div className={classes.centerContent}>
-          {props.noDataText ? <Trans>{props.noDataText}</Trans> : <Trans>lang_no_data</Trans>}
+          {props.noDataText ? <Trans>{props.noDataText}</Trans> : <Trans>lang_no_matching_record</Trans>}
         </div>
       )}
     </div>

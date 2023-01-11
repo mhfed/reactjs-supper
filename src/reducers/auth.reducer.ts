@@ -70,6 +70,7 @@ const reducer = (state = initialState, { type, payload }: IAuthActionCreator) =>
       };
     case IAuthActionTypes.LOGIN_FAILURE:
     case IAuthActionTypes.PIN_FAILURE:
+    case IAuthActionTypes.SET_PASSWORD_FAILURE:
       return {
         ...state,
         error: payload.error,

@@ -144,7 +144,6 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
       onShowLogoutConfirm();
     } else {
     }
-    console.log('YOLO');
   };
 
   const onCloseLogout = () => {

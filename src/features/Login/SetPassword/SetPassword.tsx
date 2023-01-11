@@ -75,7 +75,7 @@ const SetPassword: React.FC<SetPasswordProps> = ({ setNewPassord }) => {
       });
       dispatch(setPinAfterChangePass() as any);
     } catch (error) {
-      dispatch({ type: IAuthActionTypes.SET_PASSWORD, payload: { error: error.errorCodeLang } });
+      dispatch({ type: IAuthActionTypes.SET_PASSWORD_FAILURE, payload: { error: error.errorCodeLang } });
       console.error('SetPassword handleFormSubmit error: ', error);
     }
   };

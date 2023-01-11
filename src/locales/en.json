@@ -174,6 +174,7 @@
   "lang_download_csv": "Download CSV",
   "lang_sort": "Sort",
   "lang_no_data": "No data",
+  "lang_no_matching_record": "Sorry, no matching records found",
   "lang_enter_your_email_to_edit_count_user_logins": "Enter your email to edit {{count}} user logins",
   "lang_enter_your_email_to_edit_user_login": "Enter your email to edit user login",
   "lang_your_email": "Your email",

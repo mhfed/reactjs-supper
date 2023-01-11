@@ -21,8 +21,9 @@ type AuthGuardProps = {
 // @ts-ignore: Unreachable code error
 const AuthGuard: FC<AuthGuardProps> = ({ children }) => {
   const isAuth = authService.getAccessToken();
+  const isAutoLoging = window.localStorage.getItem('isAutoLoging');
 
-  if (!isAuth) return <Navigate to={PATH_NAME.LOGIN} />;
+  if (!isAuth && !isAutoLoging) return <Navigate to={PATH_NAME.LOGIN} />;
 
   return <>{children}</>;
 };
