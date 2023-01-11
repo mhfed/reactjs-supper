@@ -160,3 +160,6 @@ export function getSegmentUrl(segmentId?: string) {
 export function getNotificationUrl(notificationId: string) {
   return `v1/dynamic-push/notifications/${notificationId || ''}`;
 }
+export function getSearchSitenameUrl(searchText: string) {
+  return `v1/dynamic-push/site-name/query?search=${searchText}`;
+}

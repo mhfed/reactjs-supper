@@ -28,13 +28,19 @@ export const SECURITY_TYPE_OPTIONS = [
   { label: 'lang_foreign_exchange', value: 'Foreign Exchange' },
   { label: 'lang_indices', value: 'Indices' },
 ];
+
+export const SITENAME = {
+  ALL_SITES: 'ALL_SITES',
+  CUSTOM: 'CUSTOM',
+};
+
 export const SITENAME_OPTIONS = [
   {
-    value: 'ALL_SITES',
+    value: SITENAME.ALL_SITES,
     label: 'lang_all_sites',
   },
   {
-    value: 'CUSTOM',
+    value: SITENAME.CUSTOM,
     label: 'lang_custom',
   },
 ];

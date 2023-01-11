@@ -7,16 +7,25 @@
  */
 
 import React from 'react';
-import { InputField, RichTextboxField, RadioGroupField, AttachmentField, IressAuthField, SelectField } from 'components/fields';
+import {
+  InputField,
+  RichTextboxField,
+  RadioGroupField,
+  AttachmentField,
+  AuthAutoCompleteField,
+  SelectField,
+  AutoCompleteField,
+} from 'components/fields';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { useFormik } from 'formik';
 import { yup } from 'helpers';
 import makeStyles from '@mui/styles/makeStyles';
-import { SITENAME_OPTIONS, SECURITY_TYPE_OPTIONS } from '../ArticlesConstants';
+import { SITENAME_OPTIONS, SECURITY_TYPE_OPTIONS, SITENAME } from '../ArticlesConstants';
 import { IFileUpload } from 'models/ICommon';
 import Button from 'components/atoms/ButtonBase';
 import { Trans } from 'react-i18next';
+import { getSearchSitenameUrl } from 'apis/request.url';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -110,25 +119,46 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate }) => 
                 label="lang_sitename"
                 data={SITENAME_OPTIONS}
                 required
-                rowtems
-                value={values?.sitename}
+                rowItems
+                value={values.sitename}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={touched?.sitename && Boolean(errors?.sitename)}
                 helperText={touched.sitename && errors.sitename}
               />
             </Grid>
+            {values.sitename === SITENAME.CUSTOM ? (
+              <Grid item xs={12}>
+                <AutoCompleteField
+                  name="sitename_custom"
+                  label="lang_enter_sitename"
+                  required
+                  getUrl={getSearchSitenameUrl}
+                  isOptionEqualToValue={(opt, select) => opt.site_name === select.site_name}
+                  getOptionLabel={(opt) => opt.site_name}
+                  value={values.sitename_custom}
+                  onChange={(value) => setFieldValue('sitename_custom', value)}
+                  onBlur={handleBlur}
+                  error={touched.sitename_custom && Boolean(errors.sitename_custom)}
+                  helperText={(touched.sitename_custom && errors.sitename_custom) as string}
+                />
+              </Grid>
+            ) : (
+              <></>
+            )}
             <Grid item xs={12}>
-              <IressAuthField
+              <AuthAutoCompleteField
                 name="security_code"
                 label="lang_security_code"
                 required
-                fullWidth
-                value={values?.security_code}
-                onChange={handleChange}
+                getUrl={getSearchSitenameUrl}
+                isOptionEqualToValue={(opt, select) => opt.site_name === select.site_name}
+                getOptionLabel={(opt) => opt.site_name}
+                value={values.security_code}
+                onChange={(value) => setFieldValue('sitename_custom', value)}
                 onBlur={handleBlur}
-                error={touched?.security_code && Boolean(errors?.security_code)}
-                helperText={touched.security_code && errors.security_code}
+                error={touched.security_code && Boolean(errors.security_code)}
+                helperText={(touched.security_code && errors.security_code) as string}
               />
             </Grid>
             <Grid item xs={12}>
@@ -167,7 +197,8 @@ const initialValues = {
   content: '',
   image: '',
   file: '',
-  sitename: 'ALL_SITES',
+  sitename: SITENAME.ALL_SITES,
+  sitename_custom: [],
   security_code: '',
   security_type: '',
 };
