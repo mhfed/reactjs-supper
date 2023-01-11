@@ -17,6 +17,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { isIressLoginSelector } from 'selectors/app.selector';
 import ConfirmModal from 'components/molecules/ConfirmModal';
 import { iressLogout } from 'actions/app.action';
+import { useGlobalModalContext } from 'containers/Modal';
+import FetchReport from 'features/FetchReport ';
 
 const useStyles = makeStyles((theme) => ({}));
 
@@ -46,6 +48,7 @@ const IressAuthField: React.FC<TextFieldProps> = ({ label, helperText, value, ge
   const isIressLogin = useSelector(isIressLoginSelector);
   const dispatch = useDispatch();
   const [logoutModalOpen, setLogoutModalOpen] = React.useState(false);
+  const { showSubModal } = useGlobalModalContext();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     props.onChange?.(e.target.value);
@@ -56,7 +59,20 @@ const IressAuthField: React.FC<TextFieldProps> = ({ label, helperText, value, ge
       onShowLogoutConfirm();
     } else {
     }
-    console.log('YOLO');
+    showSubModal({
+      title: 'lang_sign_in',
+      component: FetchReport,
+      styleModal: { minWidth: 440 },
+      props: {
+        title: 'lang_confirm_cancel_text',
+        isCancelPage: true,
+        emailConfirm: false,
+        onSubmit: () => {
+          console.log('xin chao');
+        },
+      },
+    });
+    // console.log('YOLO');
   };
 
   const onCloseLogout = () => {

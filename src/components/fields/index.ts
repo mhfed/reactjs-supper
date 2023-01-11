@@ -17,6 +17,7 @@ import DatePickerField from './DatePickerField';
 import AutocompleteFreeSoloField from './AutocompleteFreeSoloField';
 import AttachmentField from './AttachmentField';
 import IressAuthField from './IressAuthField';
+import InputCodeField from './InputCodeField';
 export {
   InputField,
   PasswordField,
@@ -29,4 +30,5 @@ export {
   AutocompleteFreeSoloField,
   AttachmentField,
   IressAuthField,
+  InputCodeField,
 };

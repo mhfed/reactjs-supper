@@ -1,4 +1,8 @@
 {
+  "lang_please_enter_the_2FA": "Please enter the 2FA code below to verify",
+  "lang_verify": "verify",
+  "lang_a_verification_code": "A verification code has been sent.",
+  "lang_confirm_code": "Confirm 2FA Code",
   "lang_iress_account": "Your Iress account",
   "lang_traded_securities": "Traded Securities",
   "lang_equities": "Equities",
