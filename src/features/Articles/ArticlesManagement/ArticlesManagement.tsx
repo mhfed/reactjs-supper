@@ -85,6 +85,7 @@ const ArticlesManagement: React.FC<SegmentManagementProps> = () => {
       {
         name: FIELD.ACTOR,
         label: 'lang_actor',
+        sort: false,
       },
       {
         name: FIELD.SITENAME,
@@ -94,21 +95,25 @@ const ArticlesManagement: React.FC<SegmentManagementProps> = () => {
       {
         name: FIELD.SUBJECT,
         label: 'lang_title',
+        sort: false,
       },
       {
         name: FIELD.ATTACHMENT_URL,
         label: 'lang_attachment',
         type: COLUMN_TYPE.LINK,
+        sort: false,
       },
       {
         name: FIELD.CREATED_DATE,
         label: 'lang_created_time',
         type: COLUMN_TYPE.DATETIME,
+        sort: false,
       },
       {
         name: FIELD.LAST_UPDATED,
         label: 'lang_last_update',
         type: COLUMN_TYPE.DATETIME,
+        sort: false,
       },
       {
         name: 'ACTION_COLUMN',

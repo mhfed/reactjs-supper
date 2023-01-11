@@ -135,11 +135,10 @@ export function getArticlesListUrl({
   searchText: string | null;
   sort: ISortConfig | null;
 }) {
-  let url = `v1/articles/query?page_id=0&page_size=${rowsPerPage}`;
-  // let url = `v1/articles/query?page_id=${page}&page_size=${rowsPerPage}`;
+  let url = `v1/articles/query?page_id=${page}&page_size=${rowsPerPage}`;
   if (searchText) url += `&search=${searchText}`;
-  if (sort?.sortField) url += `&sort_field=${sort.sortField}`;
-  if (sort?.sortType) url += `&sort_type=${sort.sortType}`;
+  // if (sort?.sortField) url += `&sort_field=${sort.sortField}`;
+  // if (sort?.sortType) url += `&sort_type=${sort.sortType}`;
   return url;
 }
 export function getListSubscriberSegmenttUrl({
