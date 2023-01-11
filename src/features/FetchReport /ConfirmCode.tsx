@@ -21,6 +21,7 @@ import httpRequest from 'services/httpRequest';
 import { postLogin } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { IAuthActionTypes } from 'models/IAuthState';
+import moment from 'moment';
 
 interface FetchReportProps {
   values?: any;
@@ -83,7 +84,13 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
       .post(postLogin(), body, { headers: { 'site-name': previousForm.site_name } })
       .then(async (res) => {
         // IAuthActionTypes
-        dispatch({ type: IAuthActionTypes.LOGIN_FETCH_REPORT, payload: { dataUser: res.data, statusLoginDataUser: true } });
+        const bodyPayload = {
+          access_token: res.data.access_token,
+          expire_time: moment().local().add(58, 'minutes'),
+        };
+
+        dispatch({ type: IAuthActionTypes.LOGIN_FETCH_REPORT, payload: { dataUser: bodyPayload, statusLoginDataUser: true } });
+        hideSubModal();
       })
       .catch((err) => {
         console.log(err);

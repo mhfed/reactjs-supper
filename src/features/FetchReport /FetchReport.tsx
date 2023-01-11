@@ -22,6 +22,7 @@ import { postLogin } from 'apis/request.url';
 import ConfirmCode from './ConfirmCode';
 import { useDispatch } from 'react-redux';
 import { IAuthActionTypes } from 'models/IAuthState';
+import moment from 'moment';
 
 interface FetchReportProps {}
 
@@ -66,6 +67,11 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
     httpRequest
       .post(postLogin(), body, { headers: { 'site-name': values.site_name } })
       .then(async (res) => {
+        console.log(res.data);
+        const bodyPayload = {
+          access_token: res.data.access_token,
+          expire_time: moment().local().add(58, 'minutes'),
+        };
         // console.log(res.data);
         dispatch({ type: IAuthActionTypes.LOGIN_FETCH_REPORT, payload: { dataUser: res.data, statusLoginDataUser: true } });
         hideSubModal();
