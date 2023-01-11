@@ -19,6 +19,8 @@ import { InputCodeField } from 'components/fields';
 import { useTheme } from '@mui/styles';
 import httpRequest from 'services/httpRequest';
 import { postLogin } from 'apis/request.url';
+import { useDispatch } from 'react-redux';
+import { IAuthActionTypes } from 'models/IAuthState';
 
 interface FetchReportProps {
   values?: any;
@@ -63,6 +65,7 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
   const classes = useStyles();
   const pinRef = React.useRef<any[]>();
   const theme = useTheme();
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     const inputField = pinRef.current as any;
@@ -78,7 +81,10 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
     };
     httpRequest
       .post(postLogin(), body, { headers: { 'site-name': previousForm.site_name } })
-      .then(async (res) => {})
+      .then(async (res) => {
+        // IAuthActionTypes
+        dispatch({ type: IAuthActionTypes.LOGIN_FETCH_REPORT, payload: { dataUser: res.data, statusLoginDataUser: true } });
+      })
       .catch((err) => {
         console.log(err);
       });

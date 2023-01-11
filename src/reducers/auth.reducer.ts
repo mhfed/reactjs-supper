@@ -21,10 +21,19 @@ const initialState: IAuthState = {
   step: IAuthStep.LOGIN,
   roles: [],
   user: {},
+  dataUser: {},
+  statusLoginDataUser: false,
 };
 
 const reducer = (state = initialState, { type, payload }: IAuthActionCreator) => {
   switch (type) {
+    case IAuthActionTypes.LOGIN_FETCH_REPORT: {
+      return {
+        ...state,
+        dataUser: payload.dataUser,
+        statusLoginDataUser: payload.statusLoginDataUser,
+      };
+    }
     case IAuthActionTypes.UPDATE_TOKEN:
       return {
         ...state,

@@ -8,6 +8,7 @@
 
 export enum IAuthActionTypes {
   LOGIN_REQUEST = 'AUTH/LOGIN_REQUEST',
+  LOGIN_FETCH_REPORT = 'AUTH/LOGIN_FETCH_REPORT',
   LOGIN_SUCCESS = 'AUTH/LOGIN_SUCESS',
   LOGIN_FAILURE = 'AUTH/LOGIN_FAILURE',
   SILENT_LOGIN = 'AUTH/SILENT_LOGIN',
@@ -50,6 +51,8 @@ export type IAuthState = {
   step: number;
   roles: string[] | null;
   user: any;
+  dataUser: any;
+  statusLoginDataUser: boolean;
 };
 
 export type IAuthActionCreator = {

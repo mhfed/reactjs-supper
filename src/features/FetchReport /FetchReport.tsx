@@ -20,6 +20,8 @@ import { PasswordField, InputField } from 'components/fields';
 import httpRequest from 'services/httpRequest';
 import { postLogin } from 'apis/request.url';
 import ConfirmCode from './ConfirmCode';
+import { useDispatch } from 'react-redux';
+import { IAuthActionTypes } from 'models/IAuthState';
 
 interface FetchReportProps {}
 
@@ -55,8 +57,8 @@ export const isOptionEqualToValue = (option: LooseObject, value: LooseObject) =>
 
 const FetchReport: React.FC<FetchReportProps> = (props) => {
   const classes = useStyles();
-  const { showModal, hideModal, hideSubModal, showSubModal } = useGlobalModalContext();
-
+  const { hideSubModal, showSubModal } = useGlobalModalContext();
+  const dispatch = useDispatch();
   const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
     const body = {
       ...values,
@@ -64,7 +66,9 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
     httpRequest
       .post(postLogin(), body, { headers: { 'site-name': values.site_name } })
       .then(async (res) => {
-        console.log(res);
+        // console.log(res.data);
+        dispatch({ type: IAuthActionTypes.LOGIN_FETCH_REPORT, payload: { dataUser: res.data, statusLoginDataUser: true } });
+        hideSubModal();
       })
       .catch((err) => {
         showSubModal({
