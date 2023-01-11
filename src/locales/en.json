@@ -1,4 +1,7 @@
 {
+  "lang_please_enter_password": "Please enter password",
+  "lang_please_enter_email": "Please enter email",
+  "lang_please_enter_sitename": "Please enter sitename",
   "lang_enter_sitename": "Enter Sitename",
   "lang_please_enter_the_2FA": "Please enter the 2FA code below to verify",
   "lang_verify": "verify",
@@ -249,6 +252,7 @@
   "lang_pin_not_match": "PIN did not match. Please try again",
   "lang_confirm_your_new_pin": "Confirm Your New PIN",
   "error_code_ERR_NETWORK": "Network Error",
+  "error_code_INVALID_TIME": "Expiration time must be larger than schedule time",
   "error_code_INVALID_ARGUMENT": "Client specified an invalid argument. Check error message and error details for more information",
   "error_code_INVALID_TOKEN": "1 Failed PIN Attempt",
   "error_code_2001": "Please enter full name",
