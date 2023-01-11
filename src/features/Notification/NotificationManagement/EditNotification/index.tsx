@@ -139,12 +139,11 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
           };
         }),
       };
+      let expireTime = Number(expire);
+      if (expireTime) bodySendNoti = { ...bodySendNoti, expire_time: `${expireTime}${type_expired}` };
 
       if (delivery_type === DELIVERY_TYPE.Schedule) {
         bodySendNoti = { ...bodySendNoti, schedule_time: moment(values?.schedule).toDate().getTime() };
-      } else {
-        let expireTime = Number(expire);
-        if (expireTime) bodySendNoti = { ...bodySendNoti, expire_time: `${expireTime}${type_expired}` };
       }
     }
 
