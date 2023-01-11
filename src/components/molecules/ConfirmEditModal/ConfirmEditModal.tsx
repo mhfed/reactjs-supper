@@ -76,7 +76,7 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
   };
 
   const handleConfirm = () => {
-    if (emailConfirm && (email + '').toLowerCase() !== (user.user_login_id + '').toLowerCase()) {
+    if (emailConfirm && (email + '').replace(/\s/g, '').toLowerCase() !== (user.user_login_id + '').toLowerCase()) {
       setError('lang_email_did_not_match');
     } else {
       onSubmit();
@@ -87,6 +87,9 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
     if (e.target.value === '') {
       setError('lang_plese_enter_email');
       return;
+    }
+    if (e.target.value.includes(' ')) {
+      setEmail(e.target.value.replace(/\s/g, ''));
     }
   };
 

@@ -70,6 +70,7 @@ const Subscribers: React.FC<SubscribersProps> = () => {
       {
         name: FIELD.ENTITY_ID,
         label: 'lang_entity_id',
+        sort: false,
       },
       {
         name: FIELD.FULL_NAME,
