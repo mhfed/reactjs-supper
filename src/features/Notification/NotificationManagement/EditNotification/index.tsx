@@ -88,19 +88,32 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { showModal, hideModal, showSubModal, hideSubModal } = useGlobalModalContext();
+  const formRef = React.useRef<any>({});
   let initialValues: initialValuesType = initialValuesDefault;
 
   if (props.dataForm) {
     initialValues = props.dataForm || {};
     initialValues.type_url = 'Article';
-    const valueExpire = (initialValues?.expire_time || '').replace(/[A-z]/, '');
-    const typeExpire = (initialValues?.expire_time || '').replace(/[0-9]/, '');
+    const valueExpire = (initialValues?.expire_time || '').replace(/[A-z]/g, '');
+    const typeExpire = (initialValues?.expire_time || '').replace(/[0-9]/g, '');
     initialValues.expire = valueExpire;
     initialValues.type_expired = typeExpire;
     initialValues.schedule = initialValues.schedule_time as any;
   }
 
   const handleClose = () => {
+    const { values } = formRef?.current;
+    if (diff(values, initialValues))
+      return showSubModal({
+        title: 'lang_confirm_cancel',
+        component: ConfirmEditModal,
+        props: {
+          title: 'lang_confirm_cancel_text',
+          isCancelPage: true,
+          emailConfirm: false,
+          onSubmit: () => hideModal(),
+        },
+      });
     hideModal();
   };
   const renderHeader = () => {
@@ -159,7 +172,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
             .then(async () => {
               dispatch(
                 enqueueSnackbarAction({
-                  message: 'lang_send_notification_successfully',
+                  message: 'lang_update_notification_successfully',
                   key: new Date().getTime() + Math.random(),
                   variant: 'success',
                 }),
@@ -176,7 +189,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
             .catch((err) => {
               dispatch(
                 enqueueSnackbarAction({
-                  message: 'lang_send_notification_unsuccessfully',
+                  message: 'lang_update_notification_unsuccessfully',
                   key: new Date().getTime() + Math.random(),
                   variant: 'error',
                 }),
@@ -248,7 +261,8 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
       <Paper className={classes.wrapper}>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={submitForm}>
           {(form: FormikProps<initialValuesType>) => {
-            console.log(form.values);
+            formRef.current = form;
+            // console.log(form.values);
             return (
               <React.Fragment>
                 <Form noValidate className={classes.formContainer}>
@@ -301,20 +315,22 @@ const validationSchema = yup.object().shape({
       ? schema.min(1, 'lang_select_segment_subcriber').required('lang_select_segment_subcriber')
       : schema;
   }),
-  title: yup.string().required('lang_title_required').max(64, 'lang_validate_title'),
-  message: yup.string().required('lang_message_required').max(192, 'lang_validate_message'),
+  title: yup.string().required('lang_please_enter_title').max(64, 'lang_validate_title'),
+  message: yup.string().required('lang_please_enter_message').max(192, 'lang_validate_message'),
   schedule: yup.string().when(['delivery_type', 'notification_type'], {
     is: (delivery_type: 'Instant' | 'Schedule', notification_type: Notification_Type) => {
       return delivery_type === DELIVERY_TYPE.Schedule && notification_type === NOTIFICATION_TYPE.Direct;
     },
-    then: yup.string().required('lang_schedule_time_required'),
+    then: yup.string().required('lang_please_select_schedule_time').compareTimes(),
     // .checkValidField('lang_schedule_time_required'),
   }),
   segment: yup.mixed().when('notification_type', (value, schema) => {
-    return value === NOTIFICATION_TYPE.Segment ? schema.required('lang_field_required') : schema;
+    return value === NOTIFICATION_TYPE.Segment ? schema.required('lang_please_select_segment') : schema;
   }),
   sitename: yup.array().when('notification_type', (value, schema) => {
-    return value === NOTIFICATION_TYPE.Sitename ? schema.min(1, 'lang_field_required').required('lang_field_required') : schema;
+    return value === NOTIFICATION_TYPE.Sitename
+      ? schema.min(1, 'lang_please_select_sitename').required('lang_please_select_sitename')
+      : schema;
   }),
   type_url: yup.string().required('lang_url_require'),
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Grid } from '@mui/material';
+import { Typography, Grid, Chip, useTheme } from '@mui/material';
 import { Trans } from 'react-i18next';
 import { InputField } from 'components/fields';
 import { FormikProps } from 'formik';
@@ -8,15 +8,18 @@ import { initialValuesType } from '../../CreateNewNotification/CreateNewNotifica
 import { EXPIRE_OPTION_FILTER, NOTIFICATION_TYPE } from '../../CreateNewNotification/NotificationConstant';
 import moment from 'moment';
 import { ClassNameMap } from '@mui/styles';
+import clsx from 'clsx';
 
 interface FormDirectNotificationProps {
   form: FormikProps<initialValuesType>;
-  classes: ClassNameMap<'divCointainer' | 'containerForm' | 'buttonWrapper' | 'title' | 'iconClose' | 'header' | 'formContainer'>;
+  classes: ClassNameMap<
+    'divCointainer' | 'containerForm' | 'buttonWrapper' | 'title' | 'iconClose' | 'header' | 'formContainer' | 'ChipTags'
+  >;
 }
 
 const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, classes }) => {
   const { values } = form;
-
+  const theme = useTheme();
   const { Segment, Sitename, Direct } = NOTIFICATION_TYPE;
 
   let delivery_type_preview = `${values?.delivery_type || ''}`;
@@ -30,8 +33,8 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
         : ''
     }`;
   }
-  const valueExpire = (values?.expire_time || '').replace(/[A-z]/, '');
-  const typeExpire = (values?.expire_time || '').replace(/[0-9]/, '');
+  const valueExpire = (values?.expire_time || '').replace(/[A-z]/g, '');
+  const typeExpire = (values?.expire_time || '').replace(/[0-9]/g, '');
   const expired_preview = `${valueExpire || '0'} ${EXPIRE_OPTION_FILTER[typeExpire]}`;
   values.type_url = 'Articles';
 
@@ -132,6 +135,19 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
               value={defaultArray}
               readOnly
               freeSolo
+              renderTags={(value: readonly string[], getTagProps) =>
+                value.map((option: any, index: number) => (
+                  <Chip
+                    variant="outlined"
+                    label={option}
+                    {...getTagProps({ index })}
+                    style={{ marginRight: theme.spacing(2) }}
+                    title={`${option} (${values.subscribers[index].site_name})`}
+                    className={clsx(theme.palette.mode === 'dark' ? '' : classes.ChipTags, 'customTitle')}
+                    key={index}
+                  />
+                ))
+              }
               // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
               renderInput={(params) => (
                 <TextField

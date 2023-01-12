@@ -130,7 +130,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_delete_user_unsuccessfully',
+          message: error?.errorCodeLang || 'lang_delete_user_unsuccessfully',
           key: new Date().getTime() + Math.random(),
           variant: 'error',
         }),

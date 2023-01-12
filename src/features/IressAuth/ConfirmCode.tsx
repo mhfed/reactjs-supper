@@ -25,6 +25,7 @@ import moment from 'moment';
 
 interface ConfirmCodeProps {
   values?: any;
+  cbAfterSignInCode?: () => void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -94,6 +95,7 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = (props) => {
         };
         dispatch({ type: IAuthActionTypes.IRESS_LOGIN, payload: { ...bodyPayload } });
         hideSubModal();
+        if (props?.cbAfterSignInCode) props?.cbAfterSignInCode();
       })
       .catch((err) => {
         // console.log(err.error);

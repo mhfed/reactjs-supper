@@ -64,6 +64,7 @@ export default function SearchAsyncField(props: any) {
           {...rest}
           onChange={_onChange}
           disableClearable
+          freeSolo
           open={open}
           onOpen={() => {
             setOpen(true);

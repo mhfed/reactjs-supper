@@ -108,7 +108,6 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
         title,
         message,
         url: 'https://abc.com/',
-        icon: 'https://media.istockphoto.com/photos/hand-touching-virtual-world-with-connection-network-global-data-and-picture-id1250474241',
         mobile_push: true,
       };
     }
@@ -122,7 +121,6 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
         title,
         message,
         url: 'https://abc.com/',
-        // icon: 'https://media.istockphoto.com/photos/hand-touching-virtual-world-with-connection-network-global-data-and-picture-id1250474241',
         mobile_push: true,
         site_name: sitename,
       };
@@ -198,7 +196,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
         )}
 
         <Button variant="contained" type="submit">
-          <Trans>lang_create</Trans>
+          <Trans>{stateForm === STATE_FORM.PREVIEW ? 'lang_confirm' : 'lang_create'}</Trans>
         </Button>
       </Stack>
     );
@@ -271,19 +269,25 @@ const validationSchema = yup.object().shape({
       ? schema.min(1, 'lang_select_segment_subcriber').required('lang_select_segment_subcriber')
       : schema;
   }),
-  title: yup.string().required('lang_title_required').max(64, 'lang_validate_title'),
-  message: yup.string().required('lang_message_required').max(192, 'lang_validate_message'),
+  title: yup.string().required('lang_please_enter_title').max(64, 'lang_validate_title'),
+  message: yup.string().required('lang_please_enter_message').max(192, 'lang_validate_message'),
   schedule: yup.string().when(['delivery_type', 'notification_type'], {
     is: (delivery_type: 'Instant' | 'Schedule', notification_type: Notification_Type) => {
       return delivery_type === DELIVERY_TYPE.Schedule && notification_type === NOTIFICATION_TYPE.Direct;
     },
-    then: yup.string().required('lang_schedule_time_required').checkValidField('lang_schedule_time_required'),
+    then: yup
+      .string()
+      .required('lang_please_select_schedule_time')
+      .checkValidField('lang_please_select_schedule_time')
+      .compareTimes(),
   }),
   segment: yup.mixed().when('notification_type', (value, schema) => {
-    return value === NOTIFICATION_TYPE.Segment ? schema.required('lang_field_required') : schema;
+    return value === NOTIFICATION_TYPE.Segment ? schema.required('lang_please_select_segment') : schema;
   }),
   sitename: yup.array().when('notification_type', (value, schema) => {
-    return value === NOTIFICATION_TYPE.Sitename ? schema.min(1, 'lang_field_required').required('lang_field_required') : schema;
+    return value === NOTIFICATION_TYPE.Sitename
+      ? schema.min(1, 'lang_please_select_sitename').required('lang_please_select_sitename')
+      : schema;
   }),
   type_url: yup.string().required('lang_url_require'),
 });
