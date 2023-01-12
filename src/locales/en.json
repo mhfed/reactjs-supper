@@ -165,6 +165,8 @@
   "lang_confirm_force_change_password": "Do you want to force user login <0>{{user}}</0> to change password from next login?",
   "lang_confirm_cancel_force_change_password": "Do you want to cancel changing password request for user login <0>{{user}}</0>?",
   "error_code_ECONNABORTED": "Timeout, cannot be connected server",
+  "error_code_5000": "Unable to delete user",
+  "error_code_5001": "Unable to delete active user",
   "lang_sending_reset_password_success": "Send reset password request successfully",
   "lang_sending_reset_password_request": "Sending reset password request...",
   "lang_confirm_delete_notification": "Enter your email to delete notification <0>{{notification}}</0>?",
