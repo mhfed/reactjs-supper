@@ -88,6 +88,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { showModal, hideModal, showSubModal, hideSubModal } = useGlobalModalContext();
+  const formRef = React.useRef<any>({});
   let initialValues: initialValuesType = initialValuesDefault;
 
   if (props.dataForm) {
@@ -101,6 +102,18 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   }
 
   const handleClose = () => {
+    const { values } = formRef?.current;
+    if (diff(values, initialValues))
+      return showSubModal({
+        title: 'lang_confirm_cancel',
+        component: ConfirmEditModal,
+        props: {
+          title: 'lang_confirm_cancel_text',
+          isCancelPage: true,
+          emailConfirm: false,
+          onSubmit: () => hideModal(),
+        },
+      });
     hideModal();
   };
   const renderHeader = () => {
@@ -248,7 +261,8 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
       <Paper className={classes.wrapper}>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={submitForm}>
           {(form: FormikProps<initialValuesType>) => {
-            console.log(form.values);
+            formRef.current = form;
+            // console.log(form.values);
             return (
               <React.Fragment>
                 <Form noValidate className={classes.formContainer}>
