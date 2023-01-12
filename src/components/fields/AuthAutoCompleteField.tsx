@@ -20,11 +20,11 @@ import Box from '@mui/material/Box';
 import { Trans } from 'react-i18next';
 import Button from 'components/atoms/ButtonBase';
 import { useDispatch, useSelector } from 'react-redux';
-import { isIressLoginSelector } from 'selectors/app.selector';
+import { iressTokenSelector, iressSitenameSelector } from 'selectors/auth.selector';
 import ConfirmModal from 'components/molecules/ConfirmModal';
-import { iressLogout } from 'actions/app.action';
+import { iressLogout } from 'actions/auth.action';
 import { useGlobalModalContext } from 'containers/Modal';
-import FetchReport from 'features/FetchReport ';
+import IressSignIn from 'features/IressAuth';
 
 type AutocompleteAsyncFieldProps = {
   id?: string;
@@ -72,7 +72,8 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   const classes = useStyles();
   const [options, setOptions] = React.useState(initialData || []);
   const timeoutId = React.useRef<number | null>(null);
-  const isIressLogin = useSelector(isIressLoginSelector);
+  const iressToken = useSelector(iressTokenSelector);
+  const sitename = useSelector(iressSitenameSelector);
   const dispatch = useDispatch();
   const [logoutModalOpen, setLogoutModalOpen] = React.useState(false);
   const { showSubModal } = useGlobalModalContext();
@@ -91,7 +92,9 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   const getData = async (searchText: string) => {
     try {
       if (getUrl) {
-        const response: any = await httpRequest.get(getUrl(searchText));
+        const { data: response } = await httpRequest.get(getUrl(searchText), {
+          headers: { 'token-app': iressToken, 'site-name': sitename },
+        });
         setOptions(response || []);
       } else {
         return;
@@ -142,12 +145,12 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   };
 
   const handleIressAuth = () => {
-    if (isIressLogin) {
+    if (iressToken) {
       onShowLogoutConfirm();
     } else {
       showSubModal({
         title: 'lang_sign_in',
-        component: FetchReport,
+        component: IressSignIn,
         styleModal: { minWidth: 440 },
         props: {
           title: 'lang_confirm_cancel_text',
@@ -180,7 +183,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
           onBlur={onBlur}
           multiple
           disableClearable
-          disabled={!isIressLogin}
+          disabled={!iressToken}
           freeSolo
           id={id}
           value={value}
@@ -213,8 +216,8 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
               onChange={handleTextChange}
               InputProps={{
                 endAdornment: (
-                  <Button network variant={isIressLogin ? 'text' : 'contained'} onClick={handleIressAuth}>
-                    <Trans>{isIressLogin ? 'lang_sign_out' : 'lang_sign_in'}</Trans>
+                  <Button network variant={iressToken ? 'text' : 'contained'} onClick={handleIressAuth}>
+                    <Trans>{iressToken ? 'lang_sign_out' : 'lang_sign_in'}</Trans>
                   </Button>
                 ),
               }}

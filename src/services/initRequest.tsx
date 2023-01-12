@@ -8,9 +8,11 @@
 
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import { enqueueSnackbarAction, setLoading, showExpiredPopup } from 'actions/app.action';
+import { logout } from 'actions/auth.action';
 
 export type IConfig = AxiosRequestConfig & {
   showSpinner?: boolean;
+  tokenApp?: string | null;
 };
 
 type IError = {
@@ -70,13 +72,6 @@ export default function initRequest(store: any) {
         store.dispatch(setLoading(true));
       }
 
-      // add x-auth-token
-      // const accessToken = getAccessToken();
-      // if (accessToken && config.headers) {
-      //   // config.headers['x-auth-token'] = accessToken;
-      //   config.headers.Authorization = `Bearer ${accessToken}`;
-      // }
-
       return config;
     },
     (error: IAxiosResponse) => {
@@ -123,6 +118,11 @@ export default function initRequest(store: any) {
       let errorCode = error.response?.data?.errorCode || error.response?.data?.error_code || error.code || '';
       switch (error.response?.status) {
         case 400: {
+          break;
+        }
+        case 401: {
+          window.localStorage.clear();
+          window.location.reload();
           break;
         }
         case 429: {

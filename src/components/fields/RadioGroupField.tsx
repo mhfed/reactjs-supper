@@ -18,10 +18,9 @@ import { Trans } from 'react-i18next';
 // interface RadioField {}
 
 const RadioGroupField = (props: any) => {
-  const { label, data, style, translate = true, rowItems, ...rest } = props;
+  const { label, data, style, translate = true, rowItems, helperText, ...rest } = props;
 
   const isError = rest?.error || false;
-  const helperText = rest?.helperText || false;
   /**
    * Render helper text or error text
    * @returns translated text

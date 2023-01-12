@@ -25,7 +25,7 @@ import { SITENAME_OPTIONS, SECURITY_TYPE_OPTIONS, SITENAME } from '../ArticlesCo
 import { IFileUpload } from 'models/ICommon';
 import Button from 'components/atoms/ButtonBase';
 import { Trans } from 'react-i18next';
-import { getSearchSitenameUrl } from 'apis/request.url';
+import { getSearchSitenameUrl, getSearchSecurityCodeUrl } from 'apis/request.url';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -151,11 +151,11 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate }) => 
                 name="security_code"
                 label="lang_security_code"
                 required
-                getUrl={getSearchSitenameUrl}
-                isOptionEqualToValue={(opt, select) => opt.site_name === select.site_name}
-                getOptionLabel={(opt) => opt.site_name}
+                getUrl={getSearchSecurityCodeUrl}
+                isOptionEqualToValue={(opt, select) => opt.securities === select.securities}
+                getOptionLabel={(opt) => opt.securities}
                 value={values.security_code}
-                onChange={(value) => setFieldValue('sitename_custom', value)}
+                onChange={(value) => setFieldValue('security_code', value)}
                 onBlur={handleBlur}
                 error={touched.security_code && Boolean(errors.security_code)}
                 helperText={(touched.security_code && errors.security_code) as string}

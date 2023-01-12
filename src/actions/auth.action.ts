@@ -155,3 +155,12 @@ export const autoLogin =
       navigate(PATH_NAME.USER_MANAGEMENT);
     }
   };
+
+export const iressLogout = () => ({
+  type: IAuthActionTypes.IRESS_LOGOUT,
+});
+
+export const iressLogin = (iressAccessToken: string | null, iressExpiredTime: number | null) => ({
+  type: IAuthActionTypes.IRESS_LOGOUT,
+  payload: { iressAccessToken, iressExpiredTime },
+});
