@@ -198,7 +198,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
         )}
 
         <Button variant="contained" type="submit">
-          <Trans>lang_create</Trans>
+          <Trans>{stateForm === STATE_FORM.PREVIEW ? 'lang_confirm' : 'lang_create'}</Trans>
         </Button>
       </Stack>
     );
