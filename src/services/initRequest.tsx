@@ -37,7 +37,7 @@ type IAxiosResponse = AxiosError & {
 
 const requestConfig: IConfig = {
   baseURL: process.env.REACT_APP_ENDPOINT_URL,
-  timeout: 5000,
+  timeout: 500000,
   showSpinner: false,
 };
 

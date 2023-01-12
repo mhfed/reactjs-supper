@@ -68,6 +68,11 @@ const darkTheme = createTheme({
               },
             },
           },
+          '&.Mui-disabled': {
+            '&::before': {
+              borderBottomStyle: 'solid !important',
+            },
+          },
           '&:hover fieldset': {
             '&.MuiOutlinedInput-notchedOutline': {
               borderColor: '#08D98D ',

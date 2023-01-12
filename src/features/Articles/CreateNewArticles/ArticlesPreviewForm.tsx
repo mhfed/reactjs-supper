@@ -15,8 +15,12 @@ import makeStyles from '@mui/styles/makeStyles';
 import { LooseObject } from 'models/ICommon';
 import Button from 'components/atoms/ButtonBase';
 import { Trans, useTranslation } from 'react-i18next';
-import { getSearchSitenameUrl, getSearchSecurityCodeUrl } from 'apis/request.url';
+import { getSearchSitenameUrl, getSearchSecurityCodeUrl, getUploadUrl, getArticlesUrl } from 'apis/request.url';
 import { SITENAME_OPTIONS, SECURITY_TYPE_OPTIONS, SITENAME } from '../ArticlesConstants';
+import httpRequest from 'services/httpRequest';
+import { ICreateArticlesBody } from 'models/IArticles';
+import { useDispatch } from 'react-redux';
+import { enqueueSnackbarAction } from 'actions/app.action';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -32,11 +36,54 @@ const useStyles = makeStyles((theme) => ({
 type ArticlesPreviewFormProps = {
   values: LooseObject;
   onReturn: () => void;
+  onReset: () => void;
 };
 
-const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onReturn }) => {
+const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onReturn, onReset }) => {
   const classes = useStyles();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+
+  const onConfirm = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('file', values.image.file);
+      const { data: imageResponse } = await httpRequest.post(getUploadUrl(), formData);
+      const body: ICreateArticlesBody = {
+        subject: values.subject,
+        content: values.content,
+        image: imageResponse.url,
+        site_name:
+          values.site_name === SITENAME.CUSTOM ? values.sitename_custom.map((e: any) => e.site_name) : [values.site_name],
+        securities: values.securities.map((e: any) => e.securities),
+        security_type: values.security_type,
+      };
+      if (values.file?.file) {
+        const formData = new FormData();
+        formData.append('file', values.file.file);
+        const { data: fileResponse } = await httpRequest.post(getUploadUrl(), formData);
+        body.attachment_url = fileResponse.url;
+        body.attachment_name = values.file.name;
+      }
+      await httpRequest.post(getArticlesUrl(), body);
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_create_articles_successfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
+      onReset();
+    } catch (error) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_create_articles_unsuccessfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        }),
+      );
+    }
+  };
 
   const sitenameOption = SITENAME_OPTIONS.find((e) => e.value === values.site_name);
   const sitename = sitenameOption?.label ? t(sitenameOption.label) : '';
@@ -119,7 +166,7 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
         <Button variant="outlined" onClick={onReturn}>
           <Trans>lang_return</Trans>
         </Button>
-        <Button variant="contained" sx={{ ml: 2 }} network>
+        <Button variant="contained" sx={{ ml: 2 }} network onClick={onConfirm}>
           <Trans>lang_confirm</Trans>
         </Button>
       </Box>
@@ -128,40 +175,3 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
 };
 
 export default ArticlesPreviewForm;
-
-// try {
-//   const formData = new FormData();
-//   formData.append('file', values.image.file);
-//   const { data: imageResponse } = await httpRequest.post(getUploadUrl(), formData)
-//   const body: ICreateArticlesBody = {
-//     subject: values.subject,
-//     content: values.content,
-//     image: imageResponse.url,
-//     site_name: values.site_name.map((e: any) => e.site_name),
-//     securities: values.securities.map((e: any) => e.securities),
-//     security_type: values.security_type,
-//   }
-//   if (values.file?.file) {
-//     const formData = new FormData();
-//     formData.append('file', values.file.file);
-//     const { data: fileResponse } = await httpRequest.post(getUploadUrl(), formData)
-//     body.attachment_url = fileResponse.url;
-//     body.attachment_name = values.file.name;
-//   }
-//   await httpRequest.post(getArticlesUrl(), body)
-//   dispatch(
-//     enqueueSnackbarAction({
-//       message: 'lang_create_articles_successfully',
-//       key: new Date().getTime() + Math.random(),
-//       variant: 'error',
-//     }),
-//   );
-// } catch (error) {
-//   dispatch(
-//     enqueueSnackbarAction({
-//       message: 'lang_create_articles_unsuccessfully',
-//       key: new Date().getTime() + Math.random(),
-//       variant: 'error',
-//     }),
-//   );
-// }
