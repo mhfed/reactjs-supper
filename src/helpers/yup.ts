@@ -12,8 +12,9 @@ import validate from './validate';
 
 declare module 'yup' {
   interface StringSchema {
-    checkEmail(message: string): any; // eslint-disable-line
-    checkValidField(message: string): any; // eslint-disable-line
+    checkEmail(message: string): any;
+    checkValidField(message: string): any;
+    compareTimes(message?: string): any;
   }
 }
 
@@ -39,6 +40,17 @@ yup.addMethod(yup.string, 'checkValidField', function (message = 'lang_date_of_b
     } else {
       return createError({ path, message: message });
     }
+  });
+});
+
+yup.addMethod(yup.string, 'compareTimes', function (message = 'lang_expire_date_require') {
+  return this.test('compareTimes', '', function (value) {
+    const { path, createError } = this;
+    const localTime = moment().toDate().getTime();
+    const valueTime = moment(value).toDate().getTime();
+
+    if (localTime > valueTime) return createError({ path, message: message });
+    return true;
   });
 });
 

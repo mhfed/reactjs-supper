@@ -88,6 +88,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { showModal, hideModal, showSubModal, hideSubModal } = useGlobalModalContext();
+  const formRef = React.useRef<any>({});
   let initialValues: initialValuesType = initialValuesDefault;
 
   if (props.dataForm) {
@@ -101,6 +102,18 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   }
 
   const handleClose = () => {
+    const { values } = formRef?.current;
+    if (diff(values, initialValues))
+      return showSubModal({
+        title: 'lang_confirm_cancel',
+        component: ConfirmEditModal,
+        props: {
+          title: 'lang_confirm_cancel_text',
+          isCancelPage: true,
+          emailConfirm: false,
+          onSubmit: () => hideModal(),
+        },
+      });
     hideModal();
   };
   const renderHeader = () => {
@@ -159,7 +172,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
             .then(async () => {
               dispatch(
                 enqueueSnackbarAction({
-                  message: 'lang_send_notification_successfully',
+                  message: 'lang_update_notification_successfully',
                   key: new Date().getTime() + Math.random(),
                   variant: 'success',
                 }),
@@ -176,7 +189,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
             .catch((err) => {
               dispatch(
                 enqueueSnackbarAction({
-                  message: 'lang_send_notification_unsuccessfully',
+                  message: 'lang_update_notification_unsuccessfully',
                   key: new Date().getTime() + Math.random(),
                   variant: 'error',
                 }),
@@ -248,7 +261,8 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
       <Paper className={classes.wrapper}>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={submitForm}>
           {(form: FormikProps<initialValuesType>) => {
-            console.log(form.values);
+            formRef.current = form;
+            // console.log(form.values);
             return (
               <React.Fragment>
                 <Form noValidate className={classes.formContainer}>
@@ -307,7 +321,7 @@ const validationSchema = yup.object().shape({
     is: (delivery_type: 'Instant' | 'Schedule', notification_type: Notification_Type) => {
       return delivery_type === DELIVERY_TYPE.Schedule && notification_type === NOTIFICATION_TYPE.Direct;
     },
-    then: yup.string().required('lang_schedule_time_required'),
+    then: yup.string().required('lang_schedule_time_required').compareTimes(),
     // .checkValidField('lang_schedule_time_required'),
   }),
   segment: yup.mixed().when('notification_type', (value, schema) => {

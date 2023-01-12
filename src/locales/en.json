@@ -1,4 +1,5 @@
 {
+  "lang_expire_date_require": "Expire date is invalid",
   "lang_please_enter_password": "Please enter password",
   "lang_please_enter_email": "Please enter email",
   "lang_please_enter_sitename": "Please enter sitename",
@@ -113,8 +114,10 @@
   "lang_segment_name_min_max_characters": "Segment name must include 3 - 64 characters",
   "lang_preview_new_segment": "preview new segment",
   "lang_create_segment_successfully": "Create segment successfully",
-  "lang_send_notification_successfully": "Send notification successfully",
-  "lang_send_notification_unsuccessfully": "Send notification unsuccessfully",
+  "lang_send_notification_successfully": "Create notification successfully",
+  "lang_send_notification_unsuccessfully": "Create notification unsuccessfully",
+  "lang_update_notification_successfully": "Update notification successfully",
+  "lang_update_notification_unsuccessfully": "Update notification unsuccessfully",
   "lang_create_segment_unsuccessfully": "Create segment unsuccessfully",
   "lang_confirm_password": "Confirm Password",
   "lang_content": "Content",
