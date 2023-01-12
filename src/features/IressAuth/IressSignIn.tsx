@@ -8,7 +8,8 @@
 
 import React from 'react';
 import { makeStyles } from '@mui/styles';
-import { Stack, Button, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
+import Button from 'components/atoms/ButtonBase';
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { validate, yup } from 'helpers';
 import { LooseObject } from 'models/ICommon';
@@ -62,11 +63,13 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
   const { hideSubModal, showSubModal } = useGlobalModalContext();
   const dispatch = useDispatch();
   const [error, setError] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
   const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
     const body = {
       password: values.password,
       username: values.username,
     };
+    setLoading(true);
     httpRequest
       .post(postLogin(), body, { headers: { 'site-name': values.site_name } })
       .then(async (res) => {
@@ -81,6 +84,7 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
       })
       .catch((err) => {
         // 401
+        setLoading(false);
         if (err.error === 100005) {
           return showSubModal({
             title: 'lang_confirm_code',
@@ -168,7 +172,13 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
             <Trans>lang_cancel</Trans>
           </Button>
 
-          <Button variant="contained" type="submit" disabled={!isValid || !Object.keys(touched).length}>
+          <Button
+            variant="contained"
+            network
+            isLoading={loading}
+            type="submit"
+            disabled={!isValid || !Object.keys(touched).length}
+          >
             <Trans>lang_sign_in</Trans>
           </Button>
         </Stack>
