@@ -1,4 +1,9 @@
 {
+  "lang_please_select_schedule_time": "Please select schedule time",
+  "lang_please_select_segment": "Please select segment",
+  "lang_please_enter_message": "Please enter message",
+  "lang_please_enter_title": "Please enter title",
+  "lang_please_select_subscribers": "Please select subscribers",
   "lang_expire_date_require": "Expire date is invalid",
   "lang_please_enter_password": "Please enter password",
   "lang_please_enter_email": "Please enter email",
