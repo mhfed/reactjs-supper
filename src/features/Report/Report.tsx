@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CustomTable, { COLUMN_TYPE } from 'components/molecules/CustomTable';
 import makeStyles from '@mui/styles/makeStyles';
 import { FIELD, STATUS_OPTIONS, STATUS_OPTIONS_HEADER } from './ReportConstants';
@@ -15,6 +15,9 @@ import { ITableConfig, LooseObject } from 'models/ICommon';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import httpRequest from 'services/httpRequest';
 import { getListReportUrl, getReportUrl } from 'apis/request.url';
+import IressSignIn from 'features/IressAuth';
+import { useGlobalModalContext } from 'containers/Modal';
+import { iressSitenameSelector, iressTokenSelector } from 'selectors/auth.selector';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -32,15 +35,23 @@ const Report: React.FC<ReportProps> = () => {
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
   const dicReport = React.useRef<any>({});
+  const iressToken = useSelector(iressTokenSelector);
+  const sitename = useSelector(iressSitenameSelector);
+  const { showSubModal } = useGlobalModalContext();
 
   const getData = async () => {
     try {
       gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
-      const response: any = await httpRequest.get(getListReportUrl(config));
+
+      const response: any = await httpRequest.get(getListReportUrl(config), {
+        headers: { 'token-app': iressToken, 'site-name': sitename },
+      });
+
       response.data.map((e: any) => {
         dicReport.current[e[FIELD.TEMPLATE_ID]] = e;
       }, {});
+
       gridRef?.current?.setData?.(response);
     } catch (error) {
       gridRef?.current?.setData?.();
@@ -55,10 +66,23 @@ const Report: React.FC<ReportProps> = () => {
   };
 
   const handleFetch = () => {
-    //do something
+    // do something
     console.log('handle fetch report');
-    getData();
+    if (iressToken) {
+      getData();
+    } else {
+      showSubModal({
+        title: 'lang_sign_in',
+        component: IressSignIn,
+        styleModal: { minWidth: 440 },
+        props: {
+          cbAfterSignIn: getData,
+        },
+      });
+    }
   };
+
+  const handleSignOut = () => {};
 
   const onTableChange = () => {
     // getData();
@@ -104,6 +128,11 @@ const Report: React.FC<ReportProps> = () => {
       {
         label: 'lang_fetch_report',
         onClick: handleFetch,
+      },
+      {
+        label: 'lang_sign_out',
+        onClick: handleSignOut,
+        variant: 'outlined',
       },
     ];
   }, []);
@@ -160,7 +189,7 @@ const Report: React.FC<ReportProps> = () => {
         onRowDbClick={onRowDbClick}
         onTableChange={onTableChange}
         columns={columns}
-        // noDataText="lang_no_matching_records_found"
+        noDataText="lang_no_matching_records_found"
       />
     </div>
   );

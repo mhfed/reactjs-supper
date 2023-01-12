@@ -127,6 +127,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
       <Autocomplete
         onBlur={props.onBlur}
         multiple
+        freeSolo
         disableClearable
         id={props.id}
         value={value}
