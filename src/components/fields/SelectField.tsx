@@ -25,6 +25,7 @@ type SelectFieldProps = {
   name?: string;
   autoWidth?: boolean;
   error?: boolean;
+  preview?: boolean;
   value?: string | number;
   helperText?: string | boolean | undefined | FormikErrors<any>[] | FormikErrors<any> | string[];
   fullWidth?: boolean;
@@ -37,7 +38,7 @@ type SelectFieldProps = {
   options?: Array<Options>;
 };
 
-const SelectField: React.FC<SelectFieldProps> = ({ label, helperText, value, textTransform, ...props }) => {
+const SelectField: React.FC<SelectFieldProps> = ({ preview, label, helperText, value, textTransform, ...props }) => {
   function _renderHelperText() {
     if (props.error) {
       return (
@@ -57,15 +58,17 @@ const SelectField: React.FC<SelectFieldProps> = ({ label, helperText, value, tex
         width: props.fullWidth ? '100%' : '',
       }}
     >
-      <InputLabel id={props.id}>
+      <InputLabel id={props.id} sx={{ ml: preview ? '-1rem' : 0, mt: preview ? 1 : 0 }}>
         <Trans>{label}</Trans>
       </InputLabel>
       <Select
         {...props}
         labelId={props.id}
+        variant={preview ? 'standard' : 'outlined'}
         id={props.id}
         label={label ? <Trans>{label}</Trans> : ''}
         value={value}
+        disabled={preview}
         sx={{ textTransform: textTransform ? textTransform : 'none' }}
         MenuProps={{
           PaperProps: {

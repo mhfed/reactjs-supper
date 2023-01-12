@@ -64,7 +64,14 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  removeFile: {},
+  isPreview: {
+    borderBottom: `1px dotted ${theme.palette.text.primary}`,
+  },
+  removeFile: {
+    '& svg': {
+      fill: theme.palette.mode === 'dark' ? theme.palette.common.white : '#758695',
+    },
+  },
   asterisk: {
     color: theme.palette.error.main,
   },
@@ -77,6 +84,7 @@ type AttachmentFieldProps = {
   maxSize?: number;
   error?: boolean;
   required?: boolean;
+  preview?: boolean;
   name: string;
   label: string;
   onChange?: (data: any) => void;
@@ -97,10 +105,17 @@ const FileField: React.FC<AttachmentFieldProps> = (props) => {
     value = {},
     setFieldTouched,
     errorText,
+    preview,
     onChange,
   } = props;
   const [file, setFile] = React.useState<IFileUpload>(value);
   const refInput = React.useRef<HTMLInputElement>();
+
+  React.useEffect(() => {
+    if (file && !value) {
+      setFile({});
+    }
+  }, [value]);
 
   /**
    * Update new file upload
@@ -163,11 +178,8 @@ const FileField: React.FC<AttachmentFieldProps> = (props) => {
 
   return (
     <div className={classes.wrapper}>
-      <InputLabel shrink>
+      <InputLabel shrink error={error} required={required}>
         <Trans>{label}</Trans>
-        <Typography component="span" className={classes.asterisk}>
-          {required ? ' *' : ''}
-        </Typography>
       </InputLabel>
       <label
         htmlFor={`input_file_for_${name}`}
@@ -185,22 +197,27 @@ const FileField: React.FC<AttachmentFieldProps> = (props) => {
         />
         <FormControl className={clsx(classes.inputContainer, file.url && classes.notCenter)} error={error}>
           {file.url ? (
-            <Box className={classes.previewFile}>
-              <Typography color="primary" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>
+            <Box className={clsx(classes.previewFile, preview && classes.isPreview)}>
+              <Typography
+                color={preview ? 'gray' : 'primary'}
+                sx={{ overflow: 'hidden', textOverflow: 'ellipsis', width: '100%', pl: 0.5 }}
+              >
                 {file.name}
               </Typography>
-              <IconButton onClick={onRemove} className={classes.removeFile}>
-                <CancelIcon />
-              </IconButton>
+              {preview ? (
+                <></>
+              ) : (
+                <IconButton onClick={onRemove} className={classes.removeFile}>
+                  <CancelIcon />
+                </IconButton>
+              )}
             </Box>
           ) : (
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
               <Typography sx={{ px: 1 }} color="primary" variant="body1">
                 <Trans>lang_choose_file</Trans>
               </Typography>
-              <FormHelperText error={false} sx={{ pl: 1 }}>
-                {helperText}
-              </FormHelperText>
+              <Typography color="gray">{helperText}</Typography>
             </Box>
           )}
         </FormControl>

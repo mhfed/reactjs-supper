@@ -135,13 +135,25 @@ export default function initRequest(store: any) {
         default:
           break;
       }
+      const error_lang_key = `error_code_${errorCode}`;
+
+      if (errorCode === 'ECONNABORTED') {
+        // timeout 5000
+        store.dispatch(
+          enqueueSnackbarAction({
+            message: error_lang_key,
+            key: new Date().getTime() + Math.random(),
+            variant: 'error',
+          }),
+        );
+        return;
+      }
 
       if (errorCode === 2089) {
         // Creating PIN request has expired
         store.dispatch(showExpiredPopup());
       }
 
-      const error_lang_key = `error_code_${errorCode}`;
       const finalError: any = { ...(error.response?.data || {}), errorCode: +errorCode, errorCodeLang: error_lang_key };
       return Promise.reject(finalError);
     },

@@ -16,24 +16,8 @@ import FormControl from '@mui/material/FormControl';
 import Stack from '@mui/material/Stack';
 import { LooseObject } from 'models/ICommon';
 
-type AutocompleteAsyncFieldProps = {
-  id?: string;
-  label?: string;
-  name?: string;
-  error?: boolean;
-  value?: any;
-  helperText?: string;
-  isOptionEqualToValue?: (option: LooseObject, value: LooseObject) => boolean;
-  required?: boolean;
-  onChange?: (e: any) => void;
-  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  options?: LooseObject[];
-  getOptionLabel?: (opt: LooseObject) => string;
-  getChipLabel?: (opt: LooseObject) => string;
-  getUrl: (text: string) => string;
-};
 const useStyles = makeStyles((theme) => ({
-  container: {
+  chipContainer: {
     '& .MuiChip-root': {
       background: theme.palette.background.other5,
       border: 'none',
@@ -43,6 +27,24 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+type AutocompleteAsyncFieldProps = {
+  id?: string;
+  label?: string;
+  name?: string;
+  error?: boolean;
+  value?: any;
+  helperText?: string;
+  isOptionEqualToValue?: (option: LooseObject, value: LooseObject) => boolean;
+  required?: boolean;
+  preview?: boolean;
+  onChange?: (e: any) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  options?: LooseObject[];
+  getOptionLabel?: (opt: LooseObject) => string;
+  getChipLabel?: (opt: LooseObject) => string;
+  getUrl: (text: string) => string;
+};
 
 const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   isOptionEqualToValue,
@@ -55,6 +57,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   options: initialData,
   id,
   onChange,
+  preview,
   getOptionLabel,
   getChipLabel,
   getUrl,
@@ -129,7 +132,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   };
 
   return (
-    <FormControl required fullWidth error={error} className={classes.container}>
+    <FormControl required fullWidth error={error}>
       <Autocomplete
         onBlur={onBlur}
         multiple
@@ -145,21 +148,36 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
         isOptionEqualToValue={_isOptionEqualToValue}
         renderTags={(value: readonly string[], getTagProps) => (
           <Stack gap={16}>
-            {value.map((option: any, index: number) => (
-              <Chip
-                variant="outlined"
-                label={_getChipLabel(option)}
-                {...getTagProps({ index })}
-                title={_getOptionLabel(option)}
-                key={`autocomplete_chip_${id}_${index}`}
-              />
-            ))}
+            {value.length &&
+              value.map((option: any, index: number) =>
+                preview ? (
+                  <Chip
+                    sx={{ mb: '1px' }}
+                    variant="outlined"
+                    label={_getChipLabel(option)}
+                    disabled={true}
+                    deleteIcon={<></>}
+                    title={_getOptionLabel(option)}
+                    key={`autocomplete_chip_${id}_${index}`}
+                  />
+                ) : (
+                  <Chip
+                    variant="outlined"
+                    label={_getChipLabel(option)}
+                    {...getTagProps({ index })}
+                    className={classes.chipContainer}
+                    title={_getOptionLabel(option)}
+                    key={`autocomplete_chip_${id}_${index}`}
+                  />
+                ),
+              )}
           </Stack>
         )}
         renderInput={(params) => (
           <TextField
             required={required}
             {...params}
+            variant={preview ? 'standard' : 'outlined'}
             value={value}
             label={<Trans>{label}</Trans>}
             error={error}

@@ -103,6 +103,13 @@ const darkTheme = createTheme({
         },
       },
     },
+    MuiGrid: {
+      styleOverrides: {
+        container: {
+          height: 'fit-content',
+        },
+      },
+    },
   },
   palette: {
     mode: 'dark',

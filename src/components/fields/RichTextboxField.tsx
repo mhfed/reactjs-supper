@@ -15,7 +15,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import makeStyles from '@mui/styles/makeStyles';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
-import FormLabel from '@mui/material/FormLabel';
+import InputLabel from '@mui/material/InputLabel';
 import Box from '@mui/material/Box';
 import { Trans, useTranslation } from 'react-i18next';
 import { alpha } from '@mui/material';
@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     border: `1px solid ${alpha(theme.palette.text.primary, 0.23)}`,
     borderRadius: 4,
     minHeight: 200,
+    marginTop: '0.875rem',
     '& *': {
       boxSizing: 'initial',
     },
@@ -82,6 +83,15 @@ const useStyles = makeStyles((theme) => ({
   errorContainer: {
     border: `1px solid ${theme.palette.error.main}`,
   },
+  previewContainer: {
+    marginTop: 8,
+    borderBottom: `1px solid ${alpha(theme.palette.text.primary, 0.7)}`,
+    color: theme.palette.text.disabled,
+    padding: theme.spacing(0.5, 0, 0.5, 0),
+    '& p': {
+      margin: 0,
+    },
+  },
 }));
 
 type RichTextboxProps = {
@@ -92,13 +102,14 @@ type RichTextboxProps = {
   onChange: (a: any) => void;
   error?: boolean;
   helperText?: any;
+  preview?: boolean;
 };
 type RichTextboxHandle = {
   reset: () => void;
 };
 
 const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props, ref) => {
-  const { required = false, label, value, onChange, placeholder, error, helperText } = props;
+  const { required = false, label, value, onChange, placeholder, error, helperText, preview } = props;
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -116,6 +127,12 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
   };
 
   const [editorState, setEditorState] = React.useState(() => convertData(value));
+
+  React.useEffect(() => {
+    if (editorState && value === '') {
+      setEditorState(EditorState.createEmpty());
+    }
+  }, [value]);
 
   const reset = () => {
     setEditorState(EditorState.createEmpty());
@@ -169,36 +186,40 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
   }
 
   return (
-    <FormControl required={required} error={error} fullWidth>
-      <FormLabel required={required} error={error} sx={{ mb: 0.5 }}>
+    <FormControl required={required} error={error} fullWidth sx={{ mt: 1 }}>
+      <InputLabel required={required} error={error} shrink sx={{ ml: '-1rem' }}>
         <Trans>{label}</Trans>
-      </FormLabel>
-      <Box className={clsx(classes.container, error && classes.errorContainer)}>
-        <Editor
-          editorState={editorState}
-          toolbarClassName="toolbarClassName"
-          wrapperClassName="wrapperClassName"
-          editorClassName="editorClassName"
-          onEditorStateChange={handleChange}
-          placeholder={t(placeholder) as string}
-          toolbar={{
-            options: ['inline', 'blockType', 'list', 'image', 'textAlign'],
-            inline: { inDropdown: false, options: ['bold', 'italic'] },
-            list: {
-              inDropdown: false,
-              options: ['ordered', 'unordered'],
-            },
-            textAlign: { inDropdown: false, options: ['left', 'center', 'right'] },
-            link: { inDropdown: true },
-            image: {
-              uploadCallback: uploadImageCallBack,
-              alt: { present: false, mandatory: false },
-              previewImage: false,
-              defaultSize: { maxWidth: '100%', height: '200px' },
-            },
-          }}
-        />
-      </Box>
+      </InputLabel>
+      {preview ? (
+        <div dangerouslySetInnerHTML={{ __html: value }} className={classes.previewContainer}></div>
+      ) : (
+        <Box className={clsx(classes.container, error && classes.errorContainer)}>
+          <Editor
+            editorState={editorState}
+            toolbarClassName="toolbarClassName"
+            wrapperClassName="wrapperClassName"
+            editorClassName="editorClassName"
+            onEditorStateChange={handleChange}
+            placeholder={t(placeholder) as string}
+            toolbar={{
+              options: ['inline', 'blockType', 'list', 'image', 'textAlign'],
+              inline: { inDropdown: false, options: ['bold', 'italic'] },
+              list: {
+                inDropdown: false,
+                options: ['ordered', 'unordered'],
+              },
+              textAlign: { inDropdown: false, options: ['left', 'center', 'right'] },
+              link: { inDropdown: true },
+              image: {
+                uploadCallback: uploadImageCallBack,
+                alt: { present: false, mandatory: false },
+                previewImage: false,
+                defaultSize: { maxWidth: '100%', height: '200px' },
+              },
+            }}
+          />
+        </Box>
+      )}
       {_renderHelperText()}
     </FormControl>
   );

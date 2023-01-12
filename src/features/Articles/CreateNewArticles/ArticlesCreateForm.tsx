@@ -33,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flex: 1,
     width: '100%',
-    padding: theme.spacing(2),
+    padding: theme.spacing(3),
+    background: theme.palette.mode === 'dark' ? theme.palette.background.other2 : theme.palette.background.default,
     '& form': {
       display: 'flex',
       flex: 1,
@@ -43,27 +44,44 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type ArticlesCreateFormProps = {
+  values: LooseObject;
   onCreate: (values: LooseObject) => void;
 };
 
-const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate }) => {
+const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, values: initValues }) => {
   const classes = useStyles();
 
   const handleFormSubmit = async (values: LooseObject) => {
     onCreate(values);
   };
 
-  const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, setFieldTouched } = useFormik({
-    initialValues: initialValues,
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    setFieldValue,
+    setFieldTouched,
+    setTouched,
+    setValues,
+  } = useFormik({
+    initialValues: { ...initialValues, ...initValues },
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,
   });
+
+  const onClear = () => {
+    setValues(initialValues, false);
+    setTouched({});
+  };
 
   return (
     <Paper className={classes.container}>
       <form noValidate onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-          <Grid item container spacing={2} xs={12} md={6} sx={{ height: 'fit-content' }}>
+          <Grid item container spacing={2} xs={12} md={6}>
             <Grid item xs={12}>
               <InputField
                 name="subject"
@@ -97,6 +115,7 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate }) => 
                 accept=".png, .heic, .jpeg, .jpg"
                 error={touched.image && Boolean(errors.image)}
                 errorText={touched.image && errors.image}
+                value={values.image}
                 setFieldTouched={setFieldTouched}
                 onChange={(file: IFileUpload) => setFieldValue('image', file)}
               />
@@ -107,14 +126,15 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate }) => 
                 label="lang_file_attachment"
                 helperText="(PDF)"
                 accept=".pdf"
+                value={values.file}
                 error={touched.file && Boolean(errors.file)}
                 errorText={touched.file && errors.file}
                 setFieldTouched={setFieldTouched}
-                onChange={(file: IFileUpload) => setFieldValue('image', file)}
+                onChange={(file: IFileUpload) => setFieldValue('file', file)}
               />
             </Grid>
           </Grid>
-          <Grid item container spacing={2} xs={12} md={6} sx={{ height: 'fit-content' }}>
+          <Grid item container spacing={2} xs={12} md={6}>
             <Grid item xs={12}>
               <RadioGroupField
                 name="site_name"
@@ -179,7 +199,7 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate }) => 
             </Grid>
           </Grid>
           <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button variant="outlined">
+            <Button variant="outlined" onClick={onClear}>
               <Trans>lang_clear</Trans>
             </Button>
             <Button type="submit" variant="contained" sx={{ ml: 2 }} network>
@@ -210,7 +230,11 @@ const validationSchema = yup.object().shape({
   content: yup.string().required('lang_please_enter_content'),
   image: yup.object().required('lang_please_choose_image'),
   site_name: yup.string().required('lang_please_choose_sitename'),
-  sitename_custom: yup.array().min(1, 'lang_please_choose_sitename').required('lang_please_choose_sitename'),
+  sitename_custom: yup.array().when(['site_name'], (sitename, schema) => {
+    return sitename === SITENAME.CUSTOM
+      ? schema.min(1, 'lang_please_choose_sitename').required('lang_please_choose_sitename')
+      : schema;
+  }),
   securities: yup.array().min(1, 'lang_must_have_at_least_one_security_code').required('lang_please_enter_security_code'),
   security_type: yup.string().required('lang_please_choose_security_type'),
 });

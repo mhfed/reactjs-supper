@@ -7,54 +7,49 @@
  */
 
 import React from 'react';
-import {
-  InputField,
-  RichTextboxField,
-  ImageField,
-  FileField,
-  AuthAutoCompleteField,
-  SelectField,
-  AutoCompleteField,
-} from 'components/fields';
+import { InputField, RichTextboxField, ImageField, FileField, SelectField, AutoCompleteField } from 'components/fields';
 import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import makeStyles from '@mui/styles/makeStyles';
 import { LooseObject } from 'models/ICommon';
 import Button from 'components/atoms/ButtonBase';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { getSearchSitenameUrl, getSearchSecurityCodeUrl } from 'apis/request.url';
+import { SITENAME_OPTIONS, SECURITY_TYPE_OPTIONS, SITENAME } from '../ArticlesConstants';
 
 const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
+    flexDirection: 'column',
+    background: theme.palette.mode === 'dark' ? theme.palette.background.other2 : theme.palette.background.default,
     flex: 1,
     width: '100%',
-    padding: theme.spacing(2),
-    '& form': {
-      display: 'flex',
-      flex: 1,
-      width: '100%',
-    },
+    padding: theme.spacing(3),
   },
 }));
 
 type ArticlesPreviewFormProps = {
   values: LooseObject;
+  onReturn: () => void;
 };
 
-const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values }) => {
+const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onReturn }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
 
+  const sitenameOption = SITENAME_OPTIONS.find((e) => e.value === values.site_name);
+  const sitename = sitenameOption?.label ? t(sitenameOption.label) : '';
   return (
     <Paper className={classes.container}>
-      <Grid container spacing={2}>
-        <Grid item container spacing={2} xs={12} md={6} sx={{ height: 'fit-content' }}>
+      <Grid container spacing={2} sx={{ flex: 1, justifyContent: 'flex-start' }}>
+        <Grid item container spacing={2} xs={12} md={6}>
           <Grid item xs={12}>
-            <InputField preview name="subject" label="lang_title" required fullWidth value={values.subject} />
+            <InputField preview name="subject" label="lang_title" fullWidth value={values.subject} />
           </Grid>
           <Grid item xs={12}>
             <RichTextboxField
-              required
+              preview
               placeholder="lang_enter_your_content"
               label="lang_content"
               value={values.content}
@@ -63,7 +58,7 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values }) => 
           </Grid>
           <Grid item xs={12}>
             <ImageField
-              required
+              preview
               name="image"
               label="lang_thumbnail_image"
               helperText="(JPEG, JPG, PNG, HEIC)"
@@ -71,24 +66,33 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values }) => 
               value={values.image}
             />
           </Grid>
-          <Grid item xs={12}>
-            <FileField name="file" label="lang_file_attachment" helperText="(PDF)" accept=".pdf" value={values.file} />
-          </Grid>
+          {values.file?.file ? (
+            <Grid item xs={12}>
+              <FileField preview name="file" label="lang_file_attachment" helperText="(PDF)" accept=".pdf" value={values.file} />
+            </Grid>
+          ) : (
+            <></>
+          )}
         </Grid>
-        <Grid item container spacing={2} xs={12} md={6} sx={{ height: 'fit-content' }}>
+        <Grid item container spacing={2} xs={12} md={6}>
+          <Grid item xs={12}>
+            {values.sitename_custom?.length ? (
+              <AutoCompleteField
+                name="sitename_custom"
+                label="lang_sitename"
+                required
+                getUrl={getSearchSitenameUrl}
+                isOptionEqualToValue={(opt, select) => opt.site_name === select.site_name}
+                getOptionLabel={(opt) => opt.site_name}
+                value={values.sitename_custom}
+              />
+            ) : (
+              <InputField preview name="site_name" label="lang_sitename" required fullWidth value={sitename} />
+            )}
+          </Grid>
           <Grid item xs={12}>
             <AutoCompleteField
-              name="sitename_custom"
-              label="lang_enter_sitename"
-              required
-              getUrl={getSearchSitenameUrl}
-              isOptionEqualToValue={(opt, select) => opt.site_name === select.site_name}
-              getOptionLabel={(opt) => opt.site_name}
-              value={values.site_name}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <AuthAutoCompleteField
+              preview
               name="securities"
               label="lang_security_code"
               required
@@ -99,18 +103,26 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values }) => 
             />
           </Grid>
           <Grid item xs={12}>
-            <SelectField name="security_type" label="lang_security_type" required fullWidth value={values.security_type} />
+            <SelectField
+              preview
+              options={SECURITY_TYPE_OPTIONS}
+              name="security_type"
+              label="lang_security_type"
+              required
+              fullWidth
+              value={values.security_type}
+            />
           </Grid>
         </Grid>
-        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button variant="outlined">
-            <Trans>lang_return</Trans>
-          </Button>
-          <Button variant="contained" sx={{ ml: 2 }} network>
-            <Trans>lang_confirm</Trans>
-          </Button>
-        </Grid>
       </Grid>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Button variant="outlined" onClick={onReturn}>
+          <Trans>lang_return</Trans>
+        </Button>
+        <Button variant="contained" sx={{ ml: 2 }} network>
+          <Trans>lang_confirm</Trans>
+        </Button>
+      </Box>
     </Paper>
   );
 };

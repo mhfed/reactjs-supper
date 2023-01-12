@@ -47,8 +47,8 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'flex-end',
-    background: theme.palette.background.paper,
-    padding: 40,
+    background: theme.palette.mode === 'dark' ? theme.palette.background.other2 : theme.palette.background.default,
+    padding: theme.spacing(3),
     justifyContent: 'space-between',
   },
   radioField: {

@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     background: theme.palette.mode === 'dark' ? theme.palette.background.other2 : theme.palette.background.default,
-    padding: theme.spacing(5),
+    padding: theme.spacing(3),
   },
   title: {
     textTransform: 'uppercase',

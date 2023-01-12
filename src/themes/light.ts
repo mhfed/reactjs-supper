@@ -104,6 +104,13 @@ const lightTheme = createTheme({
         },
       },
     },
+    MuiGrid: {
+      styleOverrides: {
+        container: {
+          height: 'fit-content',
+        },
+      },
+    },
   },
   palette: {
     mode: 'light',

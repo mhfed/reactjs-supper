@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.secondary.main,
     },
     '& .MuiAutocomplete-inputRoot': {
-      paddingRight: theme.spacing(1),
+      paddingRight: `${theme.spacing(1)} !important`,
     },
     '& input': {
       flex: 1,

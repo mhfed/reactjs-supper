@@ -19,6 +19,7 @@ type TextFieldProps = {
   name?: string;
   type?: string;
   error?: boolean;
+  disabled?: boolean;
   value?: string;
   helperText?: string | boolean | undefined | FormikErrors<any>[] | FormikErrors<any> | string[];
   fullWidth?: boolean;
@@ -40,7 +41,7 @@ type TextFieldProps = {
   preview?: boolean;
 };
 
-const InputField: React.FC<TextFieldProps> = ({ label, helperText, preview = false, variant, InputProps, ...props }) => {
+const InputField: React.FC<TextFieldProps> = ({ label, helperText, preview = false, value, variant, InputProps, ...props }) => {
   const clearValue = () => {
     props?.clearValue && props.clearValue(props?.name || '', '');
   };
@@ -49,13 +50,14 @@ const InputField: React.FC<TextFieldProps> = ({ label, helperText, preview = fal
     <TextField
       {...props}
       variant={preview ? 'standard' : variant}
+      disabled={preview ? true : props.disabled}
+      value={value}
       label={<Trans>{label}</Trans>}
       InputProps={{
         ...(InputProps || {}),
-        readOnly: preview ? true : InputProps?.readOnly,
         endAdornment: (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {props?.value && props?.clearValue && !preview ? (
+            {value && props?.clearValue && !preview ? (
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle password visibility"
