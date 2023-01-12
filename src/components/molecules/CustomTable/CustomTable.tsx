@@ -177,6 +177,7 @@ function convertColumn({
   translate,
   classes,
   onChange,
+  onChangeAll,
   fnKey,
   curData,
   editId,
@@ -189,7 +190,7 @@ function convertColumn({
   translate?: any;
   classes?: any;
   onChange?: (name: string, value: string | number, rowIndex: number) => void;
-  onChangeAll?: (column: string, value: string | number, rowIndex: number) => void;
+  onChangeAll?: (data: any, name: string, value: string | number) => void;
   fnKey: (data: any) => string;
 }): MUIDataTableColumnDef {
   const res: MUIDataTableColumnDef = {
@@ -205,18 +206,13 @@ function convertColumn({
       res.options = {
         ...res.options,
         customHeadLabelRender: (columnMeta) => {
-          console.log('columnMeta', columnMeta);
           if (isEditMode) {
             return (
               <DropdownHeaderCell
                 id={editId + ''}
                 label={columnMeta.label}
                 options={column.dataOptionsHeader!}
-                onChange={(v) => {
-                  console.log('value', v);
-                  console.log('column', column);
-                  // onChangeAll?.(column, v)
-                }}
+                onChange={(v) => onChangeAll?.(data, columnMeta.name, v)}
               />
             );
           }
@@ -575,9 +571,20 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
         Object.assign(tempDataByKey.current[key], { [name]: value });
       }
     };
-    // const onChangeAll = (data, name: string, value: string | number) => {
-    //   data
-    // }
+    const onChangeAll = (data: any, name: string, value: string | number) => {
+      data.forEach((e: any, i: number) => {
+        const row: any = data[i];
+        const key = fnKey(row);
+        if (!tempDataByKey.current[key]) tempDataByKey.current[key] = {};
+        Object.assign(tempDataByKey.current[key], { [name]: value });
+      });
+      const updatedData = data?.map((e: any) => {
+        const key = fnKey(e);
+        const newData = tempDataByKey.current[key];
+        return { ...e, ...newData };
+      });
+      setData((old) => ({ ...old, data: updatedData }));
+    };
     return columns.reduce((acc: MUIDataTableColumnDef[], cur: IColumn) => {
       const columnConvert = convertColumn({
         data: data.data,
@@ -586,6 +593,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
         translate: t,
         classes,
         onChange,
+        onChangeAll,
         fnKey,
         curData: tempDataByKey.current,
         editId: editId.current,

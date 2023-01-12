@@ -36,7 +36,7 @@ const DropdownCell: React.FC<DropdownCellProps> = ({ id, value: initialValue, on
 
   React.useEffect(() => {
     setValue(initialValue);
-  }, [id]);
+  }, [id, initialValue]);
 
   const handleChange = (e: SelectChangeEvent) => {
     onChange(e.target.value);

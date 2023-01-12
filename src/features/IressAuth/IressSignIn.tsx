@@ -38,16 +38,16 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     maxWidth: 460,
   },
-  radioField: {
-    display: 'flex',
-    alignItems: 'center',
-  },
   formContainer: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     flex: 1,
     width: '100%',
+  },
+  messageError: {
+    textAlign: 'center',
+    color: theme.palette.error.main,
   },
 }));
 
@@ -59,6 +59,7 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
   const classes = useStyles();
   const { hideSubModal, showSubModal } = useGlobalModalContext();
   const dispatch = useDispatch();
+  const [error, setError] = React.useState('');
   const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
     const body = {
       password: values.password,
@@ -76,20 +77,24 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
         hideSubModal();
       })
       .catch((err) => {
-        showSubModal({
-          title: 'lang_confirm_code',
-          component: ConfirmCode,
-          styleModal: { minWidth: 440 },
-          props: {
-            title: 'lang_confirm_cancel_text',
-            isCancelPage: true,
-            emailConfirm: false,
-            onSubmit: () => {
-              console.log('xin chao');
+        // 401
+        if (err.error === 100005) {
+          return showSubModal({
+            title: 'lang_confirm_code',
+            component: ConfirmCode,
+            styleModal: { minWidth: 440 },
+            props: {
+              title: 'lang_confirm_cancel_text',
+              isCancelPage: true,
+              emailConfirm: false,
+              onSubmit: () => {
+                console.log('xin chao');
+              },
+              values: values,
             },
-            values: values,
-          },
-        });
+          });
+        }
+        err.error && setError(`error_code_${err.error}`);
       });
   };
 
@@ -113,6 +118,7 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
             value={values.site_name}
             onChange={handleChange}
             onBlur={handleBlur}
+            clearValue={setFieldValue}
             error={touched.site_name && Boolean(errors.site_name)}
             helperText={touched.site_name && errors.site_name}
           />
@@ -127,6 +133,7 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
             value={values.username}
             onChange={handleChange}
             onBlur={handleBlur}
+            clearValue={setFieldValue}
             error={touched.username && Boolean(errors.username)}
             helperText={touched.username && errors.username}
           />
@@ -142,6 +149,7 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
             value={values.password}
             onChange={(v: string) => setFieldValue('password', validate.removeSpace(v))}
             onBlur={handleBlur}
+            styleIcon={{ color: '#758695' }}
             error={touched.password && Boolean(errors.password)}
             helperText={touched.password && errors.password}
           />
@@ -151,6 +159,7 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
   };
 
   const submitButton = (form: FormikProps<initialValuesType>) => {
+    const { isValid, touched } = form;
     return (
       <Grid item xs={12}>
         <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
@@ -158,7 +167,7 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
             <Trans>lang_cancel</Trans>
           </Button>
 
-          <Button variant="contained" type="submit">
+          <Button variant="contained" type="submit" disabled={!isValid || !Object.keys(touched).length}>
             <Trans>lang_sign_in</Trans>
           </Button>
         </Stack>
@@ -183,6 +192,14 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
             <React.Fragment>
               <Form noValidate className={classes.formContainer}>
                 <Grid container spacing={2}>
+                  {error ? (
+                    <Grid item xs={12}>
+                      <Typography className={classes.messageError}>
+                        <Trans>{error}</Trans>
+                      </Typography>
+                    </Grid>
+                  ) : null}
+
                   {HeaderTitle()}
                   {renderContent(form)}
                   {submitButton(form)}

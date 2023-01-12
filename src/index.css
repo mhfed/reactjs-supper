@@ -88,11 +88,11 @@ select:-webkit-autofill:focus {
   border-radius: 8px;
 }
 
-.light #segment_subscribers-listbox > li {
+.light #segment_subscribers-listbox>li {
   background-color: #ffffff;
 }
 
-.light #segment_subscribers-listbox > li:hover {
+.light #segment_subscribers-listbox>li:hover {
   background-color: #e1fff4 !important;
 }
 
@@ -114,22 +114,22 @@ fieldset.MuiFormControl-root {
   padding: 16px 0;
 }
 
-fieldset.MuiFormControl-root > span {
+fieldset.MuiFormControl-root>span {
   padding: 0 24px;
   margin: 0;
 }
 
-fieldset.MuiFormControl-root .MuiFormGroup-root > label {
+fieldset.MuiFormControl-root .MuiFormGroup-root>label {
   padding: 0 24px 0 18px;
   margin: 0;
 }
 
-.dark fieldset.MuiFormControl-root .MuiFormGroup-root > label:hover,
-.light fieldset.MuiFormControl-root .MuiFormGroup-root > label:hover {
+.dark fieldset.MuiFormControl-root .MuiFormGroup-root>label:hover,
+.light fieldset.MuiFormControl-root .MuiFormGroup-root>label:hover {
   background: rgba(0, 199, 127, 0.08);
 }
 
-fieldset.MuiFormControl-root .MuiFormGroup-root > label:last-child {
+fieldset.MuiFormControl-root .MuiFormGroup-root>label:last-child {
   display: none;
 }
 
@@ -169,4 +169,10 @@ fieldset.MuiFormControl-root .MuiFormGroup-root > label:last-child {
 .ReactCodeInput {
   display: flex !important;
   gap: 19px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

@@ -16,7 +16,7 @@ const RenderOTPForm = (props: any) => {
       </Typography>
       <ReactCodeInput
         // id="pinCode"
-        type="text"
+        type="number"
         name={'phone_otp'}
         className="ReactCodeInput"
         isValid={!error}
@@ -52,15 +52,6 @@ const RenderOTPForm = (props: any) => {
           textAlign: 'center',
         }}
       />
-      {error ? (
-        <Grid item xs={12} sm={12} textAlign="center">
-          <FormHelperText error style={{ textAlign: 'center' }}>
-            <Trans>lang_wrong_otp</Trans>
-          </FormHelperText>
-        </Grid>
-      ) : (
-        <React.Fragment />
-      )}
     </React.Fragment>
   );
 };
