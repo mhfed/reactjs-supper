@@ -23,6 +23,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { isIressLoginSelector } from 'selectors/app.selector';
 import ConfirmModal from 'components/molecules/ConfirmModal';
 import { iressLogout } from 'actions/app.action';
+import { useGlobalModalContext } from 'containers/Modal';
+import FetchReport from 'features/FetchReport ';
 
 type AutocompleteAsyncFieldProps = {
   id?: string;
@@ -40,7 +42,17 @@ type AutocompleteAsyncFieldProps = {
   getChipLabel?: (opt: LooseObject) => string;
   getUrl: (text: string) => string;
 };
-const useStyles = makeStyles((theme) => ({}));
+const useStyles = makeStyles((theme) => ({
+  container: {
+    '& .MuiChip-root': {
+      background: theme.palette.background.other5,
+      border: 'none',
+    },
+    '& .MuiChip-label': {
+      color: theme.palette.secondary.main,
+    },
+  },
+}));
 
 const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   isOptionEqualToValue,
@@ -63,7 +75,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   const isIressLogin = useSelector(isIressLoginSelector);
   const dispatch = useDispatch();
   const [logoutModalOpen, setLogoutModalOpen] = React.useState(false);
-
+  const { showSubModal } = useGlobalModalContext();
   function _renderHelperText() {
     if (error) {
       return (
@@ -133,8 +145,20 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
     if (isIressLogin) {
       onShowLogoutConfirm();
     } else {
+      showSubModal({
+        title: 'lang_sign_in',
+        component: FetchReport,
+        styleModal: { minWidth: 440 },
+        props: {
+          title: 'lang_confirm_cancel_text',
+          isCancelPage: true,
+          emailConfirm: false,
+          onSubmit: () => {
+            console.log('xin chao');
+          },
+        },
+      });
     }
-    console.log('YOLO');
   };
 
   const onCloseLogout = () => {
@@ -151,7 +175,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
 
   return (
     <Box>
-      <FormControl required fullWidth error={error}>
+      <FormControl required fullWidth error={error} className={classes.container}>
         <Autocomplete
           onBlur={onBlur}
           multiple

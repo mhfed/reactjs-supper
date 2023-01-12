@@ -20,6 +20,9 @@ import { PasswordField, InputField } from 'components/fields';
 import httpRequest from 'services/httpRequest';
 import { postLogin } from 'apis/request.url';
 import ConfirmCode from './ConfirmCode';
+import { useDispatch } from 'react-redux';
+import { IAuthActionTypes } from 'models/IAuthState';
+import moment from 'moment';
 
 interface FetchReportProps {}
 
@@ -36,10 +39,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     maxWidth: 460,
   },
-  radioField: {
-    display: 'flex',
-    alignItems: 'center',
-  },
   formContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -47,47 +46,56 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     width: '100%',
   },
+  messageError: {
+    textAlign: 'center',
+    color: theme.palette.error.main,
+  },
 }));
 
 export const isOptionEqualToValue = (option: LooseObject, value: LooseObject) => {
   return option.username === value.username;
 };
 
-const STATE_FORM = {
-  LOGIN: 'LOGIN',
-  CONFIRM_CODE: 'CONFIRM_CODE',
-};
-
 const FetchReport: React.FC<FetchReportProps> = (props) => {
   const classes = useStyles();
-  const { showModal, hideModal, hideSubModal, showSubModal } = useGlobalModalContext();
-
+  const { hideSubModal, showSubModal } = useGlobalModalContext();
+  const dispatch = useDispatch();
+  const [error, setError] = React.useState('');
   const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
-    showSubModal({
-      title: 'lang_confirm_code',
-      component: ConfirmCode,
-      styleModal: { minWidth: 440 },
-      props: {
-        title: 'lang_confirm_cancel_text',
-        isCancelPage: true,
-        emailConfirm: false,
-        onSubmit: () => {
-          console.log('xin chao');
-        },
-      },
-    });
-    // const body = {
-    //   username: 'demo3',
-    //   password: 'Demosg3@123',
-    // };
-    // httpRequest
-    //   .post(postLogin(), body)
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    const body = {
+      ...values,
+    };
+    httpRequest
+      .post(postLogin(), body, { headers: { 'site-name': values.site_name } })
+      .then(async (res) => {
+        console.log(res.data);
+        const bodyPayload = {
+          access_token: res.data.access_token,
+          expire_time: moment().local().add(58, 'minutes'),
+        };
+        // console.log(res.data);
+        dispatch({ type: IAuthActionTypes.LOGIN_FETCH_REPORT, payload: { dataUser: bodyPayload, statusLoginDataUser: true } });
+        hideSubModal();
+      })
+      .catch((err) => {
+        if (err.error === 100005) {
+          showSubModal({
+            title: 'lang_confirm_code',
+            component: ConfirmCode,
+            styleModal: { minWidth: 440 },
+            props: {
+              title: 'lang_confirm_cancel_text',
+              isCancelPage: true,
+              emailConfirm: false,
+              onSubmit: () => {
+                console.log('xin chao');
+              },
+              values: values,
+            },
+          });
+        }
+        err.error && setError(`error_code_${err.error}`);
+      });
   };
 
   const handleClearData = (form: FormikProps<initialValuesType>) => {
@@ -106,9 +114,11 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
             label="lang_sitename"
             required
             fullWidth
+            inputProps={{ maxLength: 255 }}
             value={values.site_name}
             onChange={handleChange}
             onBlur={handleBlur}
+            clearValue={setFieldValue}
             error={touched.site_name && Boolean(errors.site_name)}
             helperText={touched.site_name && errors.site_name}
           />
@@ -119,9 +129,11 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
             label="lang_iress_account"
             required
             fullWidth
+            inputProps={{ maxLength: 50 }}
             value={values.username}
             onChange={handleChange}
             onBlur={handleBlur}
+            clearValue={setFieldValue}
             error={touched.username && Boolean(errors.username)}
             helperText={touched.username && errors.username}
           />
@@ -137,6 +149,7 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
             value={values.password}
             onChange={(v: string) => setFieldValue('password', validate.removeSpace(v))}
             onBlur={handleBlur}
+            styleIcon={{ color: '#758695' }}
             error={touched.password && Boolean(errors.password)}
             helperText={touched.password && errors.password}
           />
@@ -146,6 +159,8 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
   };
 
   const submitButton = (form: FormikProps<initialValuesType>) => {
+    const { isValid } = form;
+
     return (
       <Grid item xs={12}>
         <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
@@ -153,7 +168,7 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
             <Trans>lang_cancel</Trans>
           </Button>
 
-          <Button variant="contained" type="submit">
+          <Button variant="contained" type="submit" disabled={!isValid}>
             <Trans>lang_sign_in</Trans>
           </Button>
         </Stack>
@@ -175,10 +190,19 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={submitForm}>
         {(form: FormikProps<initialValuesType>) => {
           console.log(form.values);
+
           return (
             <React.Fragment>
               <Form noValidate className={classes.formContainer}>
                 <Grid container spacing={2}>
+                  {error ? (
+                    <Grid item xs={12}>
+                      <Typography className={classes.messageError}>
+                        <Trans>{error}</Trans>
+                      </Typography>
+                    </Grid>
+                  ) : null}
+
                   {HeaderTitle()}
                   {renderContent(form)}
                   {submitButton(form)}
@@ -204,6 +228,10 @@ const initialValues: initialValuesType = {
   password: '',
 };
 
-const validationSchema = yup.object().shape({});
+const validationSchema = yup.object().shape({
+  site_name: yup.string().required('lang_please_enter_sitename').max(255),
+  username: yup.string().required('lang_please_enter_email'),
+  password: yup.string().required('lang_please_enter_password'),
+});
 
 export default FetchReport;

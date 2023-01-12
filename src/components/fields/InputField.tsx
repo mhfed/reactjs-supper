@@ -10,6 +10,8 @@ import React from 'react';
 import TextField from '@mui/material/TextField';
 import { Trans } from 'react-i18next';
 import { FormikErrors } from 'formik';
+import { Box, IconButton, InputAdornment } from '@mui/material';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 type TextFieldProps = {
   id?: string;
@@ -34,10 +36,40 @@ type TextFieldProps = {
   style?: React.CSSProperties | undefined;
   dir?: 'rtl';
   variant?: 'standard' | 'filled' | 'outlined' | undefined;
+  clearValue?: (field: string, value: any, shouldValidate?: boolean | undefined) => void;
 };
 
 const InputField: React.FC<TextFieldProps> = ({ label, helperText, ...props }) => {
-  return <TextField {...props} label={<Trans>{label}</Trans>} helperText={<Trans>{helperText}</Trans>}></TextField>;
+  const clearValue = () => {
+    props?.clearValue && props.clearValue(props?.name || '', '');
+  };
+
+  return (
+    <TextField
+      {...props}
+      label={<Trans>{label}</Trans>}
+      InputProps={{
+        ...props.inputProps,
+        endAdornment: (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {props?.value && props?.clearValue ? (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  sx={{ fontSize: 16, color: '#758695' }}
+                  onClick={clearValue}
+                  edge="end"
+                >
+                  <CancelIcon />
+                </IconButton>
+              </InputAdornment>
+            ) : null}
+          </Box>
+        ),
+      }}
+      helperText={<Trans>{helperText}</Trans>}
+    ></TextField>
+  );
 };
 
 export default InputField;

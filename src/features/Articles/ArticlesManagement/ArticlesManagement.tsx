@@ -169,7 +169,7 @@ const ArticlesManagement: React.FC<SegmentManagementProps> = () => {
   return (
     <div className={classes.container}>
       <CustomTable
-        name="segment"
+        name="articles"
         fnKey={getRowId}
         ref={gridRef}
         onTableChange={onTableChange}

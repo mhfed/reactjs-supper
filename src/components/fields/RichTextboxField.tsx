@@ -17,23 +17,24 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Box from '@mui/material/Box';
 import { Trans, useTranslation } from 'react-i18next';
+import { alpha } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    border: `1px solid rgba(255, 255, 255, 0.23)`,
+    border: `1px solid ${alpha(theme.palette.text.primary, 0.23)}`,
     borderRadius: 4,
     minHeight: 200,
     '& *': {
       boxSizing: 'initial',
-      color: theme.palette.text.primary,
     },
     '& br': {
       color: theme.palette.text.primary,
     },
     '& .rdw-editor-toolbar': {
       border: 'none',
-      borderBottom: `1px solid rgba(255, 255, 255, 0.23)`,
-      background: 'transparent',
+      borderBottom: `1px solid ${alpha(theme.palette.text.primary, 0.23)}`,
+      background: theme.palette.background.other2,
+      color: theme.palette.common.black,
     },
     '& .rdw-editor-main': {
       padding: theme.spacing(0, 1),
@@ -44,6 +45,31 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.text.secondary,
       },
     },
+    '& .rdw-dropdown-wrapper': {
+      background: theme.palette.common.white,
+      '& .rdw-dropdown-selectedtext': {
+        '& span': {
+          color: theme.palette.common.black,
+        },
+      },
+      border: 'none',
+      '& .rdw-dropdown-optionwrapper': {
+        '& *': {
+          color: theme.palette.common.black,
+        },
+        border: 'none',
+        boxShadow: theme.shadows[1],
+        '& .rdw-dropdownoption-active': {
+          background: alpha(theme.palette.primary.main, 0.16),
+        },
+        '& .rdw-dropdownoption-highlighted': {
+          background: alpha(theme.palette.primary.main, 0.08),
+        },
+      },
+    },
+  },
+  '.rdw-image-modal': {
+    color: theme.palette.common.black,
   },
 }));
 
@@ -134,6 +160,14 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
           onEditorStateChange={handleChange}
           placeholder={t(placeholder) as string}
           toolbar={{
+            options: ['inline', 'blockType', 'list', 'image', 'textAlign'],
+            inline: { inDropdown: false, options: ['bold', 'italic'] },
+            list: {
+              inDropdown: false,
+              options: ['ordered', 'unordered'],
+            },
+            textAlign: { inDropdown: false, options: ['left', 'center', 'right'] },
+            link: { inDropdown: true },
             image: {
               uploadCallback: uploadImageCallBack,
               alt: { present: false, mandatory: false },

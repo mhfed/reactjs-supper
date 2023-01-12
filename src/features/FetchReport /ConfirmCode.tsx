@@ -17,8 +17,15 @@ import { useGlobalModalContext } from 'containers/Modal';
 import { Grid } from '@mui/material';
 import { InputCodeField } from 'components/fields';
 import { useTheme } from '@mui/styles';
+import httpRequest from 'services/httpRequest';
+import { postLogin } from 'apis/request.url';
+import { useDispatch } from 'react-redux';
+import { IAuthActionTypes } from 'models/IAuthState';
+import moment from 'moment';
 
-interface FetchReportProps {}
+interface FetchReportProps {
+  values?: any;
+}
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -59,6 +66,8 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
   const classes = useStyles();
   const pinRef = React.useRef<any[]>();
   const theme = useTheme();
+  const dispatch = useDispatch();
+  const { hideSubModal } = useGlobalModalContext();
 
   React.useEffect(() => {
     const inputField = pinRef.current as any;
@@ -66,23 +75,27 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
   }, []);
 
   const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
-    clearPin();
+    // clearPin();
+    const previousForm = props.values;
+    const body = {
+      ...previousForm,
+      '2fa_code': values.inputCode,
+    };
+    httpRequest
+      .post(postLogin(), body, { headers: { 'site-name': previousForm.site_name } })
+      .then(async (res) => {
+        // IAuthActionTypes
+        const bodyPayload = {
+          access_token: res.data.access_token,
+          expire_time: moment().local().add(58, 'minutes'),
+        };
 
-    formikHelpers.setFieldError('inputCode', 'adwawd');
-
-    formikHelpers.validateForm();
-    // const body = {
-    //   username: 'demo3',
-    //   password: 'Demosg3@123',
-    // };
-    // httpRequest
-    //   .post(postLogin(), body)
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+        dispatch({ type: IAuthActionTypes.LOGIN_FETCH_REPORT, payload: { dataUser: bodyPayload, statusLoginDataUser: true } });
+        hideSubModal();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const clearPin = () => {
@@ -118,6 +131,8 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
   };
 
   const submitButton = (form: FormikProps<initialValuesType>) => {
+    const { isValid } = form;
+    console.log(isValid);
     return (
       <Grid item xs={12}>
         <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>

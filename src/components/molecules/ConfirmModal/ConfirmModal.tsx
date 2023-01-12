@@ -55,9 +55,9 @@ const AlertConfirm = ({
         </DialogTitle>
       )}
       <DialogContent>
-        <DialogContentText>
+        <Typography>
           <Trans>{alertContent}</Trans>
-        </DialogContentText>
+        </Typography>
       </DialogContent>
       <DialogActions>
         {onClose ? (

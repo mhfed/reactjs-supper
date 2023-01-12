@@ -1,19 +1,22 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import makeStyles from '@mui/styles/makeStyles';
 import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+import CancelIcon from '@mui/icons-material/Cancel';
 import InputBase from '@mui/material/InputBase';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import { Trans } from 'react-i18next';
 import clsx from 'clsx';
+import { IFileUpload } from 'models/ICommon';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     width: 'initial',
     maxWidth: '100%',
+    position: 'relative',
   },
   container: {
     display: 'flex',
@@ -27,19 +30,24 @@ const useStyles = makeStyles((theme) => ({
     minHeight: 100,
     cursor: 'pointer',
     borderRadius: '8px',
-    background: '#1B2029',
+    background: theme.palette.background.other2,
+  },
+  imageContainer: {
+    minHeight: 200,
   },
   errorContainer: {
     borderColor: theme.palette.error.main,
   },
+  previewContainer: {
+    border: 'none',
+    minHeight: 'unset',
+    background: 'transparent',
+  },
   removeImage: {
     position: 'absolute',
-    top: 0,
-    right: 0,
+    top: -8,
+    right: -8,
     zIndex: 11,
-    '& svg': {
-      fill: theme.palette.common.black,
-    },
   },
   inputFileHidden: {
     position: 'absolute',
@@ -50,16 +58,34 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     width: '100%',
     height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
     position: 'relative',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  notCenter: {
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
   },
   previewImage: {
-    zIndex: '1',
+    position: 'relative',
+    padding: theme.spacing(1, 1, 0, 0),
     width: '100%',
-    height: '100%',
-    objectFit: 'cover',
+    maxWidth: 300,
+    '& img': {
+      zIndex: '1',
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+    },
   },
+  previewFile: {
+    width: '100%',
+    borderBottom: `1px dotted ${theme.palette.primary.main}`,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  removeFile: {},
   asterisk: {
     color: theme.palette.error.main,
   },
@@ -76,12 +102,13 @@ type AttachmentFieldProps = {
   label: string;
   onChange: (data: any) => void;
   setFieldTouched?: any;
-  style?: React.CSSProperties;
+  image?: boolean;
 };
 
 const AttachmentField: React.FC<AttachmentFieldProps> = (props) => {
   const classes = useStyles();
   const {
+    image,
     error,
     selectText = 'lang_choose_file',
     required,
@@ -90,11 +117,10 @@ const AttachmentField: React.FC<AttachmentFieldProps> = (props) => {
     maxSize = 10 * 1000 * 1000, // bytes
     name,
     label,
-    style = {},
     setFieldTouched,
     onChange,
   } = props;
-  const [url, setUrl] = React.useState('');
+  const [file, setFile] = React.useState<IFileUpload>({});
   const refInput = React.useRef<HTMLInputElement>();
 
   /**
@@ -103,27 +129,29 @@ const AttachmentField: React.FC<AttachmentFieldProps> = (props) => {
    */
   const onChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFieldTouched?.(name, true);
-    const file = e.target?.files?.[0];
-    if (!file) return;
-    const { size: fileSize, name: fileName } = file;
+    const chooseFile = e.target?.files?.[0];
+    if (!chooseFile) return;
+    const { size: fileSize, name: fileName } = chooseFile;
     const extension = (fileName + '').match(/([^.]*)$/)?.[0]?.toLowerCase();
     if (fileSize > maxSize || (extension && !accept.includes(extension))) {
-      onChange({
+      const fileObj = {
         name: fileName,
         size: fileSize,
         extension,
-      });
-      url && setUrl('');
+      };
+      onChange(fileObj);
+      setFile(fileObj);
       refInput.current && (refInput.current.value = '');
     } else {
-      const objUrl = URL.createObjectURL(file);
-      setUrl(objUrl);
-      onChange({
+      const objUrl = URL.createObjectURL(chooseFile);
+      const fileObj = {
         url: objUrl,
         name: fileName,
         size: fileSize,
         extension,
-      });
+      };
+      setFile(fileObj);
+      onChange(fileObj);
     }
   };
 
@@ -147,24 +175,9 @@ const AttachmentField: React.FC<AttachmentFieldProps> = (props) => {
    */
   const onRemove = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setUrl('');
+    setFile({});
     refInput.current && (refInput.current.value = '');
     onChange('');
-  };
-
-  /**
-   * Render preview image for file selected
-   * @returns HTML UI show preview image
-   */
-  const renderPreview = () => {
-    return (
-      <React.Fragment>
-        <IconButton onClick={onRemove} className={classes.removeImage}>
-          <CloseIcon />
-        </IconButton>
-        <img alt="attachment_field_preview_img" className={classes.previewImage} src={url} />
-      </React.Fragment>
-    );
   };
 
   return (
@@ -177,8 +190,12 @@ const AttachmentField: React.FC<AttachmentFieldProps> = (props) => {
       </InputLabel>
       <label
         htmlFor={`input_file_for_${name}`}
-        className={clsx(classes.container, error && classes.errorContainer)}
-        style={style}
+        className={clsx(
+          classes.container,
+          image && classes.imageContainer,
+          error && classes.errorContainer,
+          file.url && classes.previewContainer,
+        )}
       >
         <InputBase
           type="file"
@@ -190,9 +207,23 @@ const AttachmentField: React.FC<AttachmentFieldProps> = (props) => {
           onChange={onChangeFile}
           className={classes.inputFileHidden}
         />
-        <FormControl className={classes.inputContainer} error={error}>
-          {url ? (
-            renderPreview()
+        <FormControl className={clsx(classes.inputContainer, file.url && classes.notCenter)} error={error}>
+          {file.url ? (
+            image ? (
+              <Box className={classes.previewImage}>
+                <IconButton onClick={onRemove} className={classes.removeImage}>
+                  <CancelIcon />
+                </IconButton>
+                <img alt="attachment_field_preview_img" src={file.url} />
+              </Box>
+            ) : (
+              <Box className={classes.previewFile}>
+                <Typography color="primary">{file.name}</Typography>
+                <IconButton onClick={onRemove} className={classes.removeFile}>
+                  <CancelIcon />
+                </IconButton>
+              </Box>
+            )
           ) : (
             <React.Fragment>
               <Typography sx={{ px: 1 }} color="primary" variant="body1">

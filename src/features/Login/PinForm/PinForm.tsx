@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 12,
     overflow: 'hidden',
     flex: 1,
-    maxWidth: 336,
+    maxWidth: 360,
     flexDirection: 'column',
     alignItems: 'center',
   },
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
   paddingTop: {
-    paddingTop: theme.spacing(5),
+    paddingTop: theme.spacing(6),
   },
   keyboardContainer: {
     display: 'flex',
@@ -212,7 +212,7 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
   const onNext = () => {
     oldPinRef.current = [...pinRef.current];
     setStepInfo(step + 1);
-    setNumber([...pinRef.current]);
+    setNumber([]);
   };
 
   const renderHeader = () => {

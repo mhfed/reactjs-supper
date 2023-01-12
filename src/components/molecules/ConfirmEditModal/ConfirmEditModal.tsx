@@ -55,6 +55,7 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
   const [email, setEmail] = React.useState('');
   const [error, setError] = React.useState('');
   const timeoutId = React.useRef<number | null>(null);
+  const ref = React.useRef<HTMLInputElement>(null);
   const user = useSelector(userSelector);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,6 +90,7 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
       return;
     }
     if (e.target.value.includes(' ')) {
+      ref.current && (ref.current.value = e.target.value.replace(/\s/g, ''));
       setEmail(e.target.value.replace(/\s/g, ''));
     }
   };
@@ -111,6 +113,7 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
       )}
       {emailConfirm ? (
         <TextField
+          inputRef={ref}
           id="userLoginId"
           name="userLoginId"
           sx={{ mt: 2 }}

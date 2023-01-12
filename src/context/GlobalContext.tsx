@@ -24,8 +24,10 @@ type IAction = {
   payload: any;
 };
 
+const lastTheme = window.localStorage.getItem('lastTheme');
+
 const initialState = {
-  modeTheme: process.env.REACT_APP_THEME,
+  modeTheme: lastTheme || process.env.REACT_APP_THEME,
   language: process.env.REACT_APP_LANGUAGE,
   setModeTheme: () => {},
   setLanguage: () => {},
@@ -58,6 +60,7 @@ const GlobalProvider = ({ children }: IProps) => {
   const _handleSetModeTheme = (mode: string) => {
     document.body.classList.remove('dark', 'light');
     document.body.classList.add(mode);
+    window.localStorage.setItem('lastTheme', mode);
     dispatch({
       type: 'SET_MODE_THEME',
       payload: mode,
