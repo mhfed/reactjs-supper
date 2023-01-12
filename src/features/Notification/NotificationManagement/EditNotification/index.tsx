@@ -159,7 +159,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
             .then(async () => {
               dispatch(
                 enqueueSnackbarAction({
-                  message: 'lang_send_notification_successfully',
+                  message: 'lang_update_notification_successfully',
                   key: new Date().getTime() + Math.random(),
                   variant: 'success',
                 }),
@@ -176,7 +176,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
             .catch((err) => {
               dispatch(
                 enqueueSnackbarAction({
-                  message: 'lang_send_notification_unsuccessfully',
+                  message: 'lang_update_notification_unsuccessfully',
                   key: new Date().getTime() + Math.random(),
                   variant: 'error',
                 }),

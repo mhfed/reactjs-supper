@@ -13,6 +13,8 @@ import FormSiteNameNotification from './FormSiteNameNotification';
 import httpRequest from 'services/httpRequest';
 import { getNotificationUrl } from 'apis/request.url';
 import EditNotification from '../EditNotification';
+import EditIcon from '@mui/icons-material/Edit';
+
 interface DetailNotificationProps {
   dataForm: any;
   typePage: 'DETAIL' | 'EDIT';
@@ -132,7 +134,7 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
     return (
       <Stack direction="row" justifyContent="end" alignItems="center" spacing={3} className={classes.buttonWrapper}>
         {form.values.delivery_type === DELIVERY_TYPE.Instant ? null : (
-          <Button variant="contained" onClick={onEdit}>
+          <Button variant="contained" startIcon={<EditIcon />} onClick={onEdit}>
             <Trans>lang_edit</Trans>
           </Button>
         )}
