@@ -173,3 +173,6 @@ export function getSearchSitenameUrl(searchText: string) {
 export const getListReportUrl = ({ page = 1, rowsPerPage = +process.env.REACT_APP_DEFAULT_PAGE_SIZE }) => {
   return `/v1/reports?page_id=${page}&page_size=${rowsPerPage}`;
 };
+export const getReportUrl = () => {
+  return `/v1/reports`;
+};

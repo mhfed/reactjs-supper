@@ -11,10 +11,10 @@ import { useDispatch } from 'react-redux';
 import CustomTable, { COLUMN_TYPE } from 'components/molecules/CustomTable';
 import makeStyles from '@mui/styles/makeStyles';
 import { FIELD, STATUS_OPTIONS, STATUS_OPTIONS_HEADER } from './ReportConstants';
-import { ITableConfig } from 'models/ICommon';
+import { ITableConfig, LooseObject } from 'models/ICommon';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import httpRequest from 'services/httpRequest';
-import { getListReportUrl } from 'apis/request.url';
+import { getListReportUrl, getReportUrl } from 'apis/request.url';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -31,12 +31,16 @@ const Report: React.FC<ReportProps> = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
+  const dicReport = React.useRef<any>({});
 
   const getData = async () => {
     try {
       gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
       const response: any = await httpRequest.get(getListReportUrl(config));
+      response.data.map((e: any) => {
+        dicReport.current[e[FIELD.TEMPLATE_ID]] = e;
+      }, {});
       gridRef?.current?.setData?.(response);
     } catch (error) {
       gridRef?.current?.setData?.();
@@ -114,6 +118,36 @@ const Report: React.FC<ReportProps> = () => {
     gridRef?.current?.setData?.();
   });
 
+  const confirmEditReport = React.useCallback(async (data: any, callback: () => void) => {
+    try {
+      await httpRequest.put(getReportUrl(), { data: data });
+      callback?.();
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_update_user_information_successfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
+    } catch (error) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_update_user_information_unsuccessfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        }),
+      );
+    }
+  }, []);
+  const onSaveReport = (dicDataChanged: LooseObject, cb: any) => {
+    const data = Object.keys(dicDataChanged).map((k) => ({
+      ...dicDataChanged[k],
+      [FIELD.SITE_NAME]: dicReport.current[k][FIELD.SITE_NAME] || '',
+      [FIELD.TEMPLATE_ID]: k,
+    }));
+    confirmEditReport(data, cb);
+  };
+
   return (
     <div className={classes.container}>
       <CustomTable
@@ -122,6 +156,7 @@ const Report: React.FC<ReportProps> = () => {
         name="user_management"
         fnKey={getRowId}
         ref={gridRef}
+        onSave={onSaveReport}
         onRowDbClick={onRowDbClick}
         onTableChange={onTableChange}
         columns={columns}
