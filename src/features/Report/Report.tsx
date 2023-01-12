@@ -136,7 +136,7 @@ const Report: React.FC<ReportProps> = () => {
 
   const confirmEditReport = React.useCallback(async (data: any, callback: () => void) => {
     try {
-      await httpRequest.put(getReportUrl(), { data: data });
+      await httpRequest.put(getReportUrl(), data);
       callback?.();
       dispatch(
         enqueueSnackbarAction({
@@ -158,7 +158,7 @@ const Report: React.FC<ReportProps> = () => {
   const onSaveReport = (dicDataChanged: LooseObject, cb: any) => {
     const data = Object.keys(dicDataChanged).map((k) => ({
       ...dicDataChanged[k],
-      [FIELD.SITE_NAME]: dicReport.current[k][FIELD.SITE_NAME] || '',
+      [FIELD.SITE_NAME]: dicReport.current[k][FIELD.SITE_NAME] || 'iress.com.vn',
       [FIELD.TEMPLATE_ID]: k,
     }));
     confirmEditReport(data, cb);
