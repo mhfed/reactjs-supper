@@ -13,7 +13,7 @@ import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { yup } from 'helpers';
 import { LooseObject } from 'models/ICommon';
 import { Trans } from 'react-i18next';
-// import { useGlobalModalContext } from 'containers/Modal';
+import { useGlobalModalContext } from 'containers/Modal';
 import { Grid } from '@mui/material';
 import { InputCodeField } from 'components/fields';
 import { useTheme } from '@mui/styles';
@@ -67,6 +67,7 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
   const pinRef = React.useRef<any[]>();
   const theme = useTheme();
   const dispatch = useDispatch();
+  const { hideSubModal } = useGlobalModalContext();
 
   React.useEffect(() => {
     const inputField = pinRef.current as any;
@@ -130,6 +131,8 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
   };
 
   const submitButton = (form: FormikProps<initialValuesType>) => {
+    const { isValid } = form;
+    console.log(isValid);
     return (
       <Grid item xs={12}>
         <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>

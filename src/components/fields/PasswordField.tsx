@@ -13,7 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
 import { Trans } from 'react-i18next';
-import { Box, Button } from '@mui/material';
+import { Box, Button, SxProps, Theme } from '@mui/material';
 import { FormikErrors } from 'formik';
 import { makeStyles } from '@mui/styles';
 
@@ -44,6 +44,7 @@ type TextFieldProps = {
   generate?: boolean;
   onChange?: (e: string) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  styleIcon?: SxProps<Theme>;
 };
 
 const PasswordField: React.FC<TextFieldProps> = ({ label, helperText, value, generate, maxLength = 25, ...props }) => {
@@ -80,7 +81,12 @@ const PasswordField: React.FC<TextFieldProps> = ({ label, helperText, value, gen
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             {value ? (
               <InputAdornment position="end">
-                <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} edge="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  edge="end"
+                  sx={{ ...props.styleIcon }}
+                >
                   {!visibility ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>

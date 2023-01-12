@@ -261,6 +261,8 @@
   "lang_pin_not_match": "PIN did not match. Please try again",
   "lang_confirm_your_new_pin": "Confirm Your New PIN",
   "error_code_ERR_NETWORK": "Network Error",
+  "error_code_100002": "An error occurred, please contact your administrator",
+  "error_code_100003": "You have been logged out as you have lost your session",
   "error_code_INVALID_TIME": "Expiration time must be larger than schedule time",
   "error_code_INVALID_ARGUMENT": "Client specified an invalid argument. Check error message and error details for more information",
   "error_code_INVALID_TOKEN": "1 Failed PIN Attempt",
