@@ -23,7 +23,9 @@ import { useDispatch } from 'react-redux';
 import { IAuthActionTypes } from 'models/IAuthState';
 import moment from 'moment';
 
-interface IressSignInProps {}
+interface IressSignInProps {
+  cbAfterSignIn?: () => void;
+}
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -75,6 +77,7 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
         };
         dispatch({ type: IAuthActionTypes.IRESS_LOGIN, payload: { ...bodyPayload } });
         hideSubModal();
+        if (props?.cbAfterSignIn) props?.cbAfterSignIn();
       })
       .catch((err) => {
         // 401
@@ -87,9 +90,7 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
               title: 'lang_confirm_cancel_text',
               isCancelPage: true,
               emailConfirm: false,
-              onSubmit: () => {
-                console.log('xin chao');
-              },
+              cbAfterSignInCode: props?.cbAfterSignIn,
               values: values,
             },
           });
