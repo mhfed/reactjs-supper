@@ -1,7 +1,7 @@
 /*
  * Created on Fri Jan 06 2023
  *
- * Fetch report
+ * Iress Sign In
  *
  * Copyright (c) 2023 - Novus Fintech
  */
@@ -13,7 +13,6 @@ import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { validate, yup } from 'helpers';
 import { LooseObject } from 'models/ICommon';
 import { Trans } from 'react-i18next';
-import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import { useGlobalModalContext } from 'containers/Modal';
 import { Grid } from '@mui/material';
 import { PasswordField, InputField } from 'components/fields';
@@ -24,7 +23,7 @@ import { useDispatch } from 'react-redux';
 import { IAuthActionTypes } from 'models/IAuthState';
 import moment from 'moment';
 
-interface FetchReportProps {}
+interface IressSignInProps {}
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -56,25 +55,25 @@ export const isOptionEqualToValue = (option: LooseObject, value: LooseObject) =>
   return option.username === value.username;
 };
 
-const FetchReport: React.FC<FetchReportProps> = (props) => {
+const IressSignIn: React.FC<IressSignInProps> = (props) => {
   const classes = useStyles();
   const { hideSubModal, showSubModal } = useGlobalModalContext();
   const dispatch = useDispatch();
   const [error, setError] = React.useState('');
   const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
     const body = {
-      ...values,
+      password: values.password,
+      username: values.username,
     };
     httpRequest
       .post(postLogin(), body, { headers: { 'site-name': values.site_name } })
       .then(async (res) => {
-        console.log(res.data);
         const bodyPayload = {
-          access_token: res.data.access_token,
-          expire_time: moment().local().add(58, 'minutes'),
+          iressAccessToken: res.data.access_token,
+          iressExpiredTime: moment().local().add(58, 'minutes'),
+          sitename: values.site_name,
         };
-        // console.log(res.data);
-        dispatch({ type: IAuthActionTypes.LOGIN_FETCH_REPORT, payload: { dataUser: bodyPayload, statusLoginDataUser: true } });
+        dispatch({ type: IAuthActionTypes.IRESS_LOGIN, payload: { ...bodyPayload } });
         hideSubModal();
       })
       .catch((err) => {
@@ -180,7 +179,7 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
     return (
       <Grid item xs={12}>
         <Typography>
-          <Trans>lang_title_fetch_report</Trans>
+          <Trans>lang_please_sign_in_iress</Trans>
         </Typography>
       </Grid>
     );
@@ -189,8 +188,6 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
     <div className={classes.wrapper}>
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={submitForm}>
         {(form: FormikProps<initialValuesType>) => {
-          console.log(form.values);
-
           return (
             <React.Fragment>
               <Form noValidate className={classes.formContainer}>
@@ -234,4 +231,4 @@ const validationSchema = yup.object().shape({
   password: yup.string().required('lang_please_enter_password'),
 });
 
-export default FetchReport;
+export default IressSignIn;

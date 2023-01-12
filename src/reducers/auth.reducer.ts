@@ -21,17 +21,27 @@ const initialState: IAuthState = {
   step: IAuthStep.LOGIN,
   roles: [],
   user: {},
-  dataUser: {},
-  statusLoginDataUser: false,
+  sitename: null,
+  iressAccessToken: null,
+  iressExpiredTime: null,
 };
 
 const reducer = (state = initialState, { type, payload }: IAuthActionCreator) => {
   switch (type) {
-    case IAuthActionTypes.LOGIN_FETCH_REPORT: {
+    case IAuthActionTypes.IRESS_LOGIN: {
       return {
         ...state,
-        dataUser: payload.dataUser,
-        statusLoginDataUser: payload.statusLoginDataUser,
+        sitename: payload.sitename,
+        iressAccessToken: payload.iressAccessToken,
+        iressExpiredTime: payload.iressExpiredTime,
+      };
+    }
+    case IAuthActionTypes.IRESS_LOGOUT: {
+      return {
+        ...state,
+        sitename: null,
+        iressAccessToken: null,
+        iressExpiredTime: null,
       };
     }
     case IAuthActionTypes.UPDATE_TOKEN:

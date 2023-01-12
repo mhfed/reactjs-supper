@@ -18,7 +18,6 @@ const initialState: IAppState = {
   },
   notifications: {},
   isExpired: false,
-  isIressLogin: false,
 };
 
 const reducer = (state = initialState, { type, payload }: IAppActionCreator) => {
@@ -33,20 +32,10 @@ const reducer = (state = initialState, { type, payload }: IAppActionCreator) => 
         ...state,
         isLoading: payload,
       };
-    case IAppActionTypes.IRESS_LOGOUT:
-      return {
-        ...state,
-        isIressLogin: false,
-      };
     case IAppActionTypes.SET_CONNECTING:
       return {
         ...state,
         isConnecting: payload,
-      };
-    case IAppActionTypes.SET_IRESS_LOGIN:
-      return {
-        ...state,
-        isIressLogin: payload,
       };
     case IAppActionTypes.SET_DIALOG:
       return {

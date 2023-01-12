@@ -11,6 +11,24 @@ import { createSelector } from 'reselect';
 // types
 import IRootState from 'models/IRootState';
 
+export const iressTokenSelector = createSelector(
+  (state: IRootState) => state.auth,
+  (app) => app.iressAccessToken,
+);
+
+export const iressSitenameSelector = createSelector(
+  (state: IRootState) => state.auth,
+  (app) => app.sitename,
+);
+
+export const isExpiredSelector = createSelector(
+  (state: IRootState) => state.auth,
+  (app) => {
+    const expiredTime = app.iressExpiredTime;
+    return expiredTime && expiredTime < Date.now();
+  },
+);
+
 export const isLoadingSelector = createSelector(
   (state: IRootState) => state.auth,
   (app) => app.isLoading,

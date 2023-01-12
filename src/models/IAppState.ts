@@ -13,8 +13,6 @@ export const IAppActionTypes = {
   ENQUEUE_SNACKBAR: 'APP/ENQUEUE_SNACKBAR',
   REMOVE_SNACKBAR: 'APP/REMOVE_SNACKBAR',
   SET_EXPIRED: 'APP/SET_EXPIRED',
-  SET_IRESS_LOGIN: 'APP/SET_IRESS_LOGIN',
-  IRESS_LOGOUT: 'APP/IRESS_LOGOUT',
 };
 
 type IDialog = {
@@ -26,7 +24,6 @@ type IDialog = {
 export type IAppState = {
   isConnecting: boolean;
   isLoading: boolean;
-  isIressLogin: boolean;
   dialog: IDialog;
   notifications: any;
   isExpired: boolean;

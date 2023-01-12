@@ -23,7 +23,7 @@ import { useDispatch } from 'react-redux';
 import { IAuthActionTypes } from 'models/IAuthState';
 import moment from 'moment';
 
-interface FetchReportProps {
+interface ConfirmCodeProps {
   values?: any;
 }
 
@@ -62,13 +62,14 @@ const STATE_FORM = {
   CONFIRM_CODE: 'CONFIRM_CODE',
 };
 
-const FetchReport: React.FC<FetchReportProps> = (props) => {
+const ConfirmCode: React.FC<ConfirmCodeProps> = (props) => {
   const classes = useStyles();
   const pinRef = React.useRef<any[]>();
   const theme = useTheme();
   const dispatch = useDispatch();
   const { hideSubModal } = useGlobalModalContext();
   const [errorMessage, setErrorMessage] = React.useState('');
+
   React.useEffect(() => {
     const inputField = pinRef.current as any;
     if (inputField.textInput[0]) inputField.textInput[0].focus();
@@ -78,7 +79,8 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
     // clearPin();
     const previousForm = props?.values || {};
     const body = {
-      ...previousForm,
+      password: previousForm.password,
+      username: previousForm.username,
       '2fa_code': values.inputCode,
     };
     httpRequest
@@ -86,11 +88,11 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
       .then(async (res) => {
         // IAuthActionTypes
         const bodyPayload = {
-          access_token: res.data.access_token,
-          expire_time: moment().local().add(58, 'minutes'),
+          iressAccessToken: res.data.access_token,
+          iressExpiredTime: moment().local().add(58, 'minutes'),
+          sitename: previousForm.site_name,
         };
-
-        dispatch({ type: IAuthActionTypes.LOGIN_FETCH_REPORT, payload: { dataUser: bodyPayload, statusLoginDataUser: true } });
+        dispatch({ type: IAuthActionTypes.IRESS_LOGIN, payload: { ...bodyPayload } });
         hideSubModal();
       })
       .catch((err) => {
@@ -203,4 +205,4 @@ const initialValues: initialValuesType = {
 
 const validationSchema = yup.object().shape({});
 
-export default FetchReport;
+export default ConfirmCode;

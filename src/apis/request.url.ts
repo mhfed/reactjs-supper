@@ -171,10 +171,19 @@ export function getArticlesUrl(articlesId?: string) {
 export function getNotificationUrl(notificationId: string) {
   return `v1/dynamic-push/notifications/${notificationId || ''}`;
 }
+
+// Articles - v1
 export function getSearchSitenameUrl(searchText: string) {
   return `v1/dynamic-push/site-name/query?search=${searchText}`;
 }
+export function getSearchSecurityCodeUrl(searchText: string) {
+  return `v1/securities/query?search=${searchText}`;
+}
+export function getUploadUrl() {
+  return 'v1/file/upload';
+}
 
+// Report - v1
 export const getListReportUrl = ({ page = 1, rowsPerPage = +process.env.REACT_APP_DEFAULT_PAGE_SIZE }) => {
   return `/v1/reports?page_id=${page}&page_size=${rowsPerPage}`;
 };

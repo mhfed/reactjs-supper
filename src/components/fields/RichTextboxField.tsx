@@ -18,6 +18,8 @@ import FormLabel from '@mui/material/FormLabel';
 import Box from '@mui/material/Box';
 import { Trans, useTranslation } from 'react-i18next';
 import { alpha } from '@mui/material';
+import { getUploadUrl } from 'apis/request.url';
+import httpRequest from 'services/httpRequest';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -67,9 +69,13 @@ const useStyles = makeStyles((theme) => ({
         },
       },
     },
-  },
-  '.rdw-image-modal': {
-    color: theme.palette.common.black,
+    '& .rdw-image-modal': {
+      color: theme.palette.common.black,
+    },
+    '& .rdw-option-active': {
+      background: theme.palette.primary.main,
+      borderColor: 'transparent',
+    },
   },
 }));
 
@@ -118,30 +124,30 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
 
   function handleChange(v: any) {
     setEditorState(v);
-    onChange?.(draftToHtml(convertToRaw(v.getCurrentContent())));
+    const strValue = draftToHtml(convertToRaw(v.getCurrentContent()));
+    onChange?.(strValue);
   }
 
   function uploadImageCallBack(file: File) {
     try {
-      // return new Promise((resolve, reject) => {
-      //   const formData = new FormData();
-      //   formData.append("passport", file);
-      //   axios
-      //     .post("/item/upload", formData)
-      //     .then((response) => {
-      //       if (response?.data) {
-      //         const imgUrl = response.data
-      //           .map((e) => makeDriverImageToViewable(e.viewLink))
-      //           .join("|");
-      //         resolve({ data: { link: imgUrl } });
-      //       }
-      //     })
-      //     .catch((error) => {
-      //       reject(error);
-      //     });
-      // });
+      return new Promise((resolve, reject) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        httpRequest
+          .post(getUploadUrl(), formData)
+          .then((response) => {
+            if (response?.data?.url) {
+              resolve({ data: { link: response.data.url } });
+            } else {
+              reject('upload unsuccessfully');
+            }
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
     } catch (error) {
-      console.error(error);
+      console.error('Richtextbox upload image error: ', error);
     }
   }
 
@@ -172,7 +178,7 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
               uploadCallback: uploadImageCallBack,
               alt: { present: false, mandatory: false },
               previewImage: false,
-              defaultSize: { maxWidth: '100%', minHeight: '200px' },
+              defaultSize: { maxWidth: '100%', height: '200px' },
             },
           }}
         />

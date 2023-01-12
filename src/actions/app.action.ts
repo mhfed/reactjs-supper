@@ -7,17 +7,8 @@
  */
 import { IAppActionTypes, INotifer } from 'models/IAppState';
 
-export const iressLogout = () => ({
-  type: IAppActionTypes.IRESS_LOGOUT,
-});
-
 export const showExpiredPopup = () => ({
   type: IAppActionTypes.SET_EXPIRED,
-});
-
-export const setIressLogin = (isIressLogin: boolean) => ({
-  type: IAppActionTypes.SET_IRESS_LOGIN,
-  payload: isIressLogin,
 });
 
 export const setLoading = (isLoading: boolean) => ({
