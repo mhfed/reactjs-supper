@@ -78,8 +78,9 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
         hideSubModal();
       })
       .catch((err) => {
+        // 401
         if (err.error === 100005) {
-          showSubModal({
+          return showSubModal({
             title: 'lang_confirm_code',
             component: ConfirmCode,
             styleModal: { minWidth: 440 },
@@ -159,8 +160,7 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
   };
 
   const submitButton = (form: FormikProps<initialValuesType>) => {
-    const { isValid } = form;
-
+    const { isValid, touched } = form;
     return (
       <Grid item xs={12}>
         <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
@@ -168,7 +168,7 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
             <Trans>lang_cancel</Trans>
           </Button>
 
-          <Button variant="contained" type="submit" disabled={!isValid}>
+          <Button variant="contained" type="submit" disabled={!isValid || !Object.keys(touched).length}>
             <Trans>lang_sign_in</Trans>
           </Button>
         </Stack>

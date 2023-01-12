@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { makeStyles } from '@mui/styles';
-import { Stack, Button, Typography } from '@mui/material';
+import { Stack, Button, Typography, FormHelperText } from '@mui/material';
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { yup } from 'helpers';
 import { LooseObject } from 'models/ICommon';
@@ -68,7 +68,7 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const { hideSubModal } = useGlobalModalContext();
-
+  const [errorMessage, setErrorMessage] = React.useState('');
   React.useEffect(() => {
     const inputField = pinRef.current as any;
     if (inputField.textInput[0]) inputField.textInput[0].focus();
@@ -76,7 +76,7 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
 
   const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
     // clearPin();
-    const previousForm = props.values;
+    const previousForm = props?.values || {};
     const body = {
       ...previousForm,
       '2fa_code': values.inputCode,
@@ -94,7 +94,9 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
         hideSubModal();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err.error);
+        setErrorMessage(`error_code_${err.error}`);
+        clearPin();
       });
   };
 
@@ -110,7 +112,7 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
   };
 
   const renderContent = (form: FormikProps<initialValuesType>) => {
-    const { values, handleChange, handleBlur, touched, errors, setFieldValue } = form || {};
+    const { setFieldValue, setFieldTouched } = form || {};
 
     return (
       <React.Fragment>
@@ -118,21 +120,26 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
           <InputCodeField
             onChangeOTP={(e: string) => {
               setFieldValue('inputCode', e);
+              setFieldTouched('inputCode', true);
             }}
             pinRef={pinRef}
-            error={errors.inputCode}
+            error={errorMessage}
             OTP_LENGTH={6}
             theme={theme}
             // onResendOTP={onResendOTP}
           />
+          <Grid item xs={12} sm={12} textAlign="left">
+            <FormHelperText error style={{ textAlign: 'left' }}>
+              <Trans>{errorMessage}</Trans>
+            </FormHelperText>
+          </Grid>
         </Grid>
       </React.Fragment>
     );
   };
 
   const submitButton = (form: FormikProps<initialValuesType>) => {
-    const { isValid } = form;
-    console.log(isValid);
+    const { values } = form;
     return (
       <Grid item xs={12}>
         <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
@@ -140,7 +147,12 @@ const FetchReport: React.FC<FetchReportProps> = (props) => {
             <Trans>lang_cancel</Trans>
           </Button> */}
 
-          <Button variant="contained" type="submit" style={{ textTransform: 'uppercase' }}>
+          <Button
+            variant="contained"
+            type="submit"
+            style={{ textTransform: 'uppercase' }}
+            disabled={values.inputCode.length !== 6}
+          >
             <Trans>lang_verify</Trans>
           </Button>
         </Stack>
