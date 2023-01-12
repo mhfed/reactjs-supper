@@ -108,7 +108,6 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
         title,
         message,
         url: 'https://abc.com/',
-        icon: 'https://media.istockphoto.com/photos/hand-touching-virtual-world-with-connection-network-global-data-and-picture-id1250474241',
         mobile_push: true,
       };
     }
@@ -122,7 +121,6 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
         title,
         message,
         url: 'https://abc.com/',
-        // icon: 'https://media.istockphoto.com/photos/hand-touching-virtual-world-with-connection-network-global-data-and-picture-id1250474241',
         mobile_push: true,
         site_name: sitename,
       };
