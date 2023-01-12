@@ -25,7 +25,11 @@ import { SITENAME_OPTIONS, SECURITY_TYPE_OPTIONS, SITENAME } from '../ArticlesCo
 import { IFileUpload } from 'models/ICommon';
 import Button from 'components/atoms/ButtonBase';
 import { Trans } from 'react-i18next';
-import { getSearchSitenameUrl, getSearchSecurityCodeUrl } from 'apis/request.url';
+import { getSearchSitenameUrl, getSearchSecurityCodeUrl, getUploadUrl } from 'apis/request.url';
+import { enqueueSnackbarAction } from 'actions/app.action';
+import { useDispatch } from 'react-redux';
+import httpRequest from 'services/httpRequest';
+import { ICreateArticlesBody } from 'models/IArticles';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -47,9 +51,29 @@ type ArticlesCreateFormProps = {
 
 const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const handleFormSubmit = async (values: any) => {
-    console.log('YOLO: ', values);
+    try {
+      // const body:ICreateArticlesBody = {
+      //   subject: values.subject;
+      //   content: values.content;
+      //   image: string;
+      //   attachment_url?: string;
+      //   attachment_name?: string;
+      //   site_name: string[];
+      //   securities: string[];
+      //   security_type: string;
+      // }
+    } catch (error) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: error?.errorCodeLang,
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        }),
+      );
+    }
   };
 
   const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, setFieldTouched } = useFormik({
@@ -65,15 +89,15 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate }) => 
           <Grid item container spacing={2} xs={12} md={6} sx={{ height: 'fit-content' }}>
             <Grid item xs={12}>
               <InputField
-                name="title"
+                name="subject"
                 label="lang_title"
                 required
                 fullWidth
-                value={values.title}
+                value={values.subject}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={touched.title && Boolean(errors.title)}
-                helperText={touched.title && errors.title}
+                error={touched.subject && Boolean(errors.subject)}
+                helperText={touched.subject && errors.subject}
               />
             </Grid>
             <Grid item xs={12}>
@@ -94,7 +118,7 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate }) => 
                 selectText="lang_choose_image"
                 helperText="(JPEG, JPG, PNG, HEIC)"
                 accept=".png, .heic, .jpeg, .jpg"
-                error={touched.title && Boolean(errors.title)}
+                error={touched.image && Boolean(errors.image)}
                 setFieldTouched={setFieldTouched}
                 onChange={(file: IFileUpload) => setFieldValue('image', file)}
               />
@@ -115,19 +139,19 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate }) => 
           <Grid item container spacing={2} xs={12} md={6} sx={{ height: 'fit-content' }}>
             <Grid item xs={12}>
               <RadioGroupField
-                name="sitename"
+                name="site_name"
                 label="lang_sitename"
                 data={SITENAME_OPTIONS}
                 required
                 rowItems
-                value={values.sitename}
+                value={values.site_name}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={touched?.sitename && Boolean(errors?.sitename)}
-                helperText={touched.sitename && errors.sitename}
+                error={touched?.site_name && Boolean(errors?.site_name)}
+                helperText={touched.site_name && errors.site_name}
               />
             </Grid>
-            {values.sitename === SITENAME.CUSTOM ? (
+            {values.site_name === SITENAME.CUSTOM ? (
               <Grid item xs={12}>
                 <AutoCompleteField
                   name="sitename_custom"
@@ -193,11 +217,11 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate }) => 
 export default ArticlesCreateForm;
 
 const initialValues = {
-  title: '',
+  subject: '',
   content: '',
   image: '',
   file: '',
-  sitename: SITENAME.ALL_SITES,
+  site_name: SITENAME.ALL_SITES,
   sitename_custom: [],
   security_code: '',
   security_type: '',
