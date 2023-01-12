@@ -33,8 +33,8 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
         : ''
     }`;
   }
-  const valueExpire = (values?.expire_time || '').replace(/[A-z]/, '');
-  const typeExpire = (values?.expire_time || '').replace(/[0-9]/, '');
+  const valueExpire = (values?.expire_time || '').replace(/[A-z]/g, '');
+  const typeExpire = (values?.expire_time || '').replace(/[0-9]/g, '');
   const expired_preview = `${valueExpire || '0'} ${EXPIRE_OPTION_FILTER[typeExpire]}`;
   values.type_url = 'Articles';
 

@@ -94,8 +94,8 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   if (props.dataForm) {
     initialValues = props.dataForm || {};
     initialValues.type_url = 'Article';
-    const valueExpire = (initialValues?.expire_time || '').replace(/[A-z]/, '');
-    const typeExpire = (initialValues?.expire_time || '').replace(/[0-9]/, '');
+    const valueExpire = (initialValues?.expire_time || '').replace(/[A-z]/g, '');
+    const typeExpire = (initialValues?.expire_time || '').replace(/[0-9]/g, '');
     initialValues.expire = valueExpire;
     initialValues.type_expired = typeExpire;
     initialValues.schedule = initialValues.schedule_time as any;
