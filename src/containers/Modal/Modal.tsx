@@ -130,7 +130,7 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
           <Paper className={clsx(classes.container, store.fullScreen && classes.fullScreenModal)} style={store?.styleModal || {}}>
             {store.title ? (
               <Box className={classes.header}>
-                <Typography>
+                <Typography fontWeight={700}>
                   <Trans>{store.title}</Trans>
                 </Typography>
                 {store.showBtnClose && <CloseIcon className={classes.iconClose} onClick={hideModal} />}
@@ -144,7 +144,7 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
         <Modal className={classes.modal} open={!!store.subOpen}>
           <Paper className={classes.container} style={store?.styleModal || {}}>
             <Box className={classes.header}>
-              <Typography>
+              <Typography fontWeight={700}>
                 <Trans>{store.subTitle}</Trans>
               </Typography>
             </Box>

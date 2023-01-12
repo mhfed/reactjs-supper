@@ -77,7 +77,7 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
   const renderHeader = () => {
     return (
       <Box className={classes.header}>
-        <Typography>
+        <Typography fontWeight={700}>
           <Trans>{'lang_notifications_details'}</Trans>
         </Typography>
         <CloseIcon className={classes.iconClose} onClick={handleClose} />

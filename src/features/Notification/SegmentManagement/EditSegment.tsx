@@ -208,7 +208,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
   const renderHeader = () => {
     return (
       <Box className={classes.header}>
-        <Typography>
+        <Typography fontWeight={700}>
           <Trans>{stateForm === STATE_FORM.DETAIL ? 'lang_segment_details' : 'lang_edit_segment'}</Trans>
         </Typography>
         <CloseIcon className={classes.iconClose} onClick={handleClose} />
