@@ -41,13 +41,21 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'start',
   },
 }));
+type TypeButtonHeader = {
+  label: string;
+  onClick: () => void;
+  variant?: 'contained' | 'outlined' | 'text' | string;
+  isShow?: boolean;
+  sx?: any;
+  disabled?: boolean;
+};
 
 type CustomSearchProps = {
   searchText: string;
   handleSearch: (text: string) => void;
   handleEdit: (action: string) => void;
   isEditMode: boolean;
-  listBtn?: Array<{ label: string; onClick: () => void }>;
+  listBtn?: Array<TypeButtonHeader>;
   editable: boolean;
   isNodata: boolean;
 };
@@ -82,18 +90,22 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
     <div className={classes.container}>
       <div className={classes.listBtn}>
         {listBtn &&
-          listBtn?.map((btn, i) => (
-            <Button
-              key={i}
-              network
-              variant="contained"
-              className={clsx(!listBtn && classes.hidden)}
-              sx={{ mr: 1 }}
-              onClick={btn.onClick}
-            >
-              <Trans>{btn.label}</Trans>
-            </Button>
-          ))}
+          listBtn?.map(
+            (btn: any, i) =>
+              btn.isShow && (
+                <Button
+                  key={i}
+                  network
+                  disabled={isEditMode}
+                  variant={btn.variant || 'contained'}
+                  className={clsx(!btn.isShow && classes.hidden)}
+                  sx={{ mr: 1, ...btn.sx }}
+                  onClick={btn.onClick}
+                >
+                  <Trans>{btn.label}</Trans>
+                </Button>
+              ),
+          )}
         {isEditMode ? (
           <div className={clsx(!editable && classes.hidden)}>
             <Button variant="outlined" startIcon={<ModeEditIcon />} onClick={() => handleEdit(ACTIONS.CANCEL)} sx={{ mr: 1 }}>

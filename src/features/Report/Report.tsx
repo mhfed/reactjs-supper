@@ -18,6 +18,8 @@ import { getListReportUrl, getReportUrl } from 'apis/request.url';
 import IressSignIn from 'features/IressAuth';
 import { useGlobalModalContext } from 'containers/Modal';
 import { iressSitenameSelector, iressTokenSelector } from 'selectors/auth.selector';
+import { iressLogout } from 'actions/auth.action';
+import ConfirmModal from 'components/molecules/ConfirmModal';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -38,6 +40,7 @@ const Report: React.FC<ReportProps> = () => {
   const iressToken = useSelector(iressTokenSelector);
   const sitename = useSelector(iressSitenameSelector);
   const { showSubModal } = useGlobalModalContext();
+  const [logoutModalOpen, setLogoutModalOpen] = React.useState(false);
 
   const getData = async () => {
     try {
@@ -82,8 +85,6 @@ const Report: React.FC<ReportProps> = () => {
     }
   };
 
-  const handleSignOut = () => {};
-
   const onTableChange = () => {
     // getData();
   };
@@ -119,20 +120,6 @@ const Report: React.FC<ReportProps> = () => {
         type: COLUMN_TYPE.ACTION,
         getActions,
         label: ' ',
-      },
-    ];
-  }, []);
-
-  const listBtn = React.useMemo(() => {
-    return [
-      {
-        label: 'lang_fetch_report',
-        onClick: handleFetch,
-      },
-      {
-        label: 'lang_sign_out',
-        onClick: handleSignOut,
-        variant: 'outlined',
       },
     ];
   }, []);
@@ -176,12 +163,35 @@ const Report: React.FC<ReportProps> = () => {
     }));
     confirmEditReport(data, cb);
   };
+  const onCloseLogout = () => {
+    setLogoutModalOpen(false);
+  };
+  const handleSignOut = () => {
+    setLogoutModalOpen(true);
+  };
+  const onConfirmLogout = async () => {
+    dispatch(iressLogout());
+  };
 
+  const listBtnHeader = [
+    {
+      label: 'lang_fetch_report',
+      onClick: handleFetch,
+      isShow: true,
+    },
+    {
+      label: 'lang_sign_out',
+      onClick: handleSignOut,
+      variant: 'outlined',
+      isShow: iressToken ? true : false,
+      sx: { color: '#FF435F', borderColor: '#FF435F' },
+    },
+  ];
   return (
     <div className={classes.container}>
       <CustomTable
         editable
-        listBtn={listBtn}
+        listBtn={listBtnHeader}
         name="user_management"
         fnKey={getRowId}
         ref={gridRef}
@@ -189,7 +199,14 @@ const Report: React.FC<ReportProps> = () => {
         onRowDbClick={onRowDbClick}
         onTableChange={onTableChange}
         columns={columns}
-        noDataText="lang_no_matching_records_found"
+        // noDataText="lang_no_matching_records_found"
+      />
+      <ConfirmModal
+        open={logoutModalOpen}
+        alertTitle="lang_sign_out"
+        alertContent="lang_confirm_logout"
+        onClose={onCloseLogout}
+        onSubmit={onConfirmLogout}
       />
     </div>
   );
