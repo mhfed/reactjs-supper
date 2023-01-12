@@ -57,6 +57,18 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     width: '100%',
   },
+  ChipTags: {
+    color: '#27A6E7',
+    backgroundColor: '#E3EFFD',
+    border: 'none',
+    '&:hover': {
+      backgroundColor: '#08D98D',
+      color: '#ffffff',
+    },
+    '&:hover svg': {
+      fill: '#ffffff',
+    },
+  },
 }));
 
 const STATE_FORM = {
