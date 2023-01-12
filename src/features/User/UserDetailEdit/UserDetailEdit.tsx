@@ -176,7 +176,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
   const renderHeader = () => {
     return (
       <Box className={classes.header}>
-        <Typography>
+        <Typography fontWeight={700}>
           <Trans>lang_user_details</Trans>
         </Typography>
         <CloseIcon className={classes.iconClose} onClick={handleClose} />

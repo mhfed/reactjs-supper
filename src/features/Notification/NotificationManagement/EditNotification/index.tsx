@@ -106,7 +106,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   const renderHeader = () => {
     return (
       <Box className={classes.header}>
-        <Typography>
+        <Typography fontWeight={700}>
           <Trans>{'lang_edit_notification'}</Trans>
         </Typography>
         <CloseIcon className={classes.iconClose} onClick={handleClose} />
