@@ -10,17 +10,20 @@ import React from 'react';
 import ArticlesCreateForm from './ArticlesCreateForm';
 import ArticlesPreviewForm from './ArticlesPreviewForm';
 import { STEP } from '../ArticlesConstants';
+import { LooseObject } from 'models/ICommon';
 
 const CreateNewArticles = () => {
   const [step, setStep] = React.useState<number>(STEP.CREATE);
+  const data = React.useRef<LooseObject>({});
 
-  const onCreate = () => {
+  const onCreate = (values: LooseObject) => {
+    data.current = values;
     setStep(STEP.PREVIEW);
   };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      {step === STEP.CREATE ? <ArticlesCreateForm onCreate={onCreate} /> : <ArticlesPreviewForm />}
+      {step === STEP.CREATE ? <ArticlesCreateForm onCreate={onCreate} /> : <ArticlesPreviewForm values={data.current} />}
     </div>
   );
 };

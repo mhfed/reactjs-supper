@@ -15,7 +15,8 @@ import PreviewField from './PreviewField';
 import RadioGroupField from './RadioGroupField';
 import DatePickerField from './DatePickerField';
 import AutocompleteFreeSoloField from './AutocompleteFreeSoloField';
-import AttachmentField from './AttachmentField';
+import ImageField from './ImageField';
+import FileField from './FileField';
 import AuthAutoCompleteField from './AuthAutoCompleteField';
 import AutoCompleteField from './AutoCompleteField';
 import InputCodeField from './InputCodeField';
@@ -29,7 +30,8 @@ export {
   RadioGroupField,
   DatePickerField,
   AutocompleteFreeSoloField,
-  AttachmentField,
+  ImageField,
+  FileField,
   AuthAutoCompleteField,
   AutoCompleteField,
   InputCodeField,

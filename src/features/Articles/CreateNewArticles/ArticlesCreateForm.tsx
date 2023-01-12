@@ -11,7 +11,8 @@ import {
   InputField,
   RichTextboxField,
   RadioGroupField,
-  AttachmentField,
+  ImageField,
+  FileField,
   AuthAutoCompleteField,
   SelectField,
   AutoCompleteField,
@@ -22,14 +23,10 @@ import { useFormik } from 'formik';
 import { yup } from 'helpers';
 import makeStyles from '@mui/styles/makeStyles';
 import { SITENAME_OPTIONS, SECURITY_TYPE_OPTIONS, SITENAME } from '../ArticlesConstants';
-import { IFileUpload } from 'models/ICommon';
+import { IFileUpload, LooseObject } from 'models/ICommon';
 import Button from 'components/atoms/ButtonBase';
 import { Trans } from 'react-i18next';
-import { getSearchSitenameUrl, getSearchSecurityCodeUrl, getUploadUrl } from 'apis/request.url';
-import { enqueueSnackbarAction } from 'actions/app.action';
-import { useDispatch } from 'react-redux';
-import httpRequest from 'services/httpRequest';
-import { ICreateArticlesBody } from 'models/IArticles';
+import { getSearchSitenameUrl, getSearchSecurityCodeUrl } from 'apis/request.url';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -46,34 +43,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type ArticlesCreateFormProps = {
-  onCreate: () => void;
+  onCreate: (values: LooseObject) => void;
 };
 
 const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
 
-  const handleFormSubmit = async (values: any) => {
-    try {
-      // const body:ICreateArticlesBody = {
-      //   subject: values.subject;
-      //   content: values.content;
-      //   image: string;
-      //   attachment_url?: string;
-      //   attachment_name?: string;
-      //   site_name: string[];
-      //   securities: string[];
-      //   security_type: string;
-      // }
-    } catch (error) {
-      dispatch(
-        enqueueSnackbarAction({
-          message: error?.errorCodeLang,
-          key: new Date().getTime() + Math.random(),
-          variant: 'error',
-        }),
-      );
-    }
+  const handleFormSubmit = async (values: LooseObject) => {
+    onCreate(values);
   };
 
   const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, setFieldTouched } = useFormik({
@@ -106,31 +83,32 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate }) => 
                 placeholder="lang_enter_your_content"
                 label="lang_content"
                 value={values.content}
-                onChange={(e) => console.log('YOLO: ', e)}
+                onChange={(e) => setFieldValue('content', e)}
+                error={touched.content && Boolean(errors.content)}
+                helperText={touched.content && errors.content}
               />
             </Grid>
             <Grid item xs={12}>
-              <AttachmentField
+              <ImageField
                 required
-                image
                 name="image"
                 label="lang_thumbnail_image"
-                selectText="lang_choose_image"
                 helperText="(JPEG, JPG, PNG, HEIC)"
                 accept=".png, .heic, .jpeg, .jpg"
                 error={touched.image && Boolean(errors.image)}
+                errorText={touched.image && errors.image}
                 setFieldTouched={setFieldTouched}
                 onChange={(file: IFileUpload) => setFieldValue('image', file)}
               />
             </Grid>
             <Grid item xs={12}>
-              <AttachmentField
+              <FileField
                 name="file"
                 label="lang_file_attachment"
-                selectText="lang_choose_file"
                 helperText="(PDF)"
                 accept=".pdf"
                 error={touched.file && Boolean(errors.file)}
+                errorText={touched.file && errors.file}
                 setFieldTouched={setFieldTouched}
                 onChange={(file: IFileUpload) => setFieldValue('image', file)}
               />
@@ -172,17 +150,17 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate }) => 
             )}
             <Grid item xs={12}>
               <AuthAutoCompleteField
-                name="security_code"
+                name="securities"
                 label="lang_security_code"
                 required
                 getUrl={getSearchSecurityCodeUrl}
                 isOptionEqualToValue={(opt, select) => opt.securities === select.securities}
                 getOptionLabel={(opt) => opt.securities}
-                value={values.security_code}
-                onChange={(value) => setFieldValue('security_code', value)}
+                value={values.securities}
+                onChange={(value) => setFieldValue('securities', value)}
                 onBlur={handleBlur}
-                error={touched.security_code && Boolean(errors.security_code)}
-                helperText={(touched.security_code && errors.security_code) as string}
+                error={touched.securities && Boolean(errors.securities)}
+                helperText={(touched.securities && errors.securities) as string}
               />
             </Grid>
             <Grid item xs={12}>
@@ -204,7 +182,7 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate }) => 
             <Button variant="outlined">
               <Trans>lang_clear</Trans>
             </Button>
-            <Button variant="contained" sx={{ ml: 2 }} network>
+            <Button type="submit" variant="contained" sx={{ ml: 2 }} network>
               <Trans>lang_create</Trans>
             </Button>
           </Grid>
@@ -223,8 +201,16 @@ const initialValues = {
   file: '',
   site_name: SITENAME.ALL_SITES,
   sitename_custom: [],
-  security_code: '',
+  securities: [],
   security_type: '',
 };
 
-const validationSchema = yup.object().shape({});
+const validationSchema = yup.object().shape({
+  subject: yup.string().required('lang_please_enter_title'),
+  content: yup.string().required('lang_please_enter_content'),
+  image: yup.object().required('lang_please_choose_image'),
+  site_name: yup.string().required('lang_please_choose_sitename'),
+  sitename_custom: yup.array().min(1, 'lang_please_choose_sitename').required('lang_please_choose_sitename'),
+  securities: yup.array().min(1, 'lang_must_have_at_least_one_security_code').required('lang_please_enter_security_code'),
+  security_type: yup.string().required('lang_please_choose_security_type'),
+});

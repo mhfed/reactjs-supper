@@ -106,6 +106,7 @@ export type IModalProps = {
 };
 
 export type IFileUpload = {
+  file?: File;
   url?: string;
   name?: string;
   size?: number;

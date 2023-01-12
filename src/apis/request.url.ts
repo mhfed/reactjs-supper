@@ -165,7 +165,7 @@ export function getListSubscriberSegmenttUrl({
 export function getSegmentUrl(segmentId?: string) {
   return `v1/dynamic-push/segment/${segmentId || ''}`;
 }
-export function getArticlesUrl(articlesId?: string) {
+export function getArticlesByIdUrl(articlesId?: string) {
   return `v1//articles/${articlesId || ''}`;
 }
 export function getNotificationUrl(notificationId: string) {
@@ -181,6 +181,9 @@ export function getSearchSecurityCodeUrl(searchText: string) {
 }
 export function getUploadUrl() {
   return 'v1/file/upload';
+}
+export function getArticlesUrl() {
+  return 'v1/articles';
 }
 
 // Report - v1

@@ -14,12 +14,14 @@ import htmlToDraft from 'html-to-draftjs';
 import { Editor } from 'react-draft-wysiwyg';
 import makeStyles from '@mui/styles/makeStyles';
 import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
 import FormLabel from '@mui/material/FormLabel';
 import Box from '@mui/material/Box';
 import { Trans, useTranslation } from 'react-i18next';
 import { alpha } from '@mui/material';
 import { getUploadUrl } from 'apis/request.url';
 import httpRequest from 'services/httpRequest';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -77,6 +79,9 @@ const useStyles = makeStyles((theme) => ({
       borderColor: 'transparent',
     },
   },
+  errorContainer: {
+    border: `1px solid ${theme.palette.error.main}`,
+  },
 }));
 
 type RichTextboxProps = {
@@ -85,13 +90,15 @@ type RichTextboxProps = {
   required?: boolean;
   value?: any;
   onChange: (a: any) => void;
+  error?: boolean;
+  helperText?: any;
 };
 type RichTextboxHandle = {
   reset: () => void;
 };
 
 const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props, ref) => {
-  const { required = false, label, value, onChange, placeholder } = props;
+  const { required = false, label, value, onChange, placeholder, error, helperText } = props;
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -151,13 +158,22 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
     }
   }
 
+  function _renderHelperText() {
+    if (error) {
+      return (
+        <FormHelperText error>
+          <Trans>{helperText}</Trans>
+        </FormHelperText>
+      );
+    }
+  }
+
   return (
-    <FormControl fullWidth>
-      <FormLabel sx={{ mb: 0.5 }}>
+    <FormControl required={required} error={error} fullWidth>
+      <FormLabel required={required} error={error} sx={{ mb: 0.5 }}>
         <Trans>{label}</Trans>
-        {required ? ' *' : ''}
       </FormLabel>
-      <Box className={classes.container}>
+      <Box className={clsx(classes.container, error && classes.errorContainer)}>
         <Editor
           editorState={editorState}
           toolbarClassName="toolbarClassName"
@@ -183,6 +199,7 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
           }}
         />
       </Box>
+      {_renderHelperText()}
     </FormControl>
   );
 });

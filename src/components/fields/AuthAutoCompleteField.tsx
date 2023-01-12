@@ -8,13 +8,14 @@
 
 import React from 'react';
 import httpRequest from 'services/httpRequest';
+import CircularProgress from '@mui/material/CircularProgress';
 import makeStyles from '@mui/styles/makeStyles';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
-import Stack from '@mui/material/Stack';
 import { LooseObject } from 'models/ICommon';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import InputAdornment from '@mui/material/InputAdornment';
 import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
 import { Trans } from 'react-i18next';
@@ -40,7 +41,7 @@ type AutocompleteAsyncFieldProps = {
   options?: LooseObject[];
   getOptionLabel?: (opt: LooseObject) => string;
   getChipLabel?: (opt: LooseObject) => string;
-  getUrl: (text: string) => string;
+  getUrl?: (text: string) => string;
 };
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -51,6 +52,17 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiChip-label': {
       color: theme.palette.secondary.main,
     },
+    '& .MuiAutocomplete-inputRoot': {
+      paddingRight: theme.spacing(1),
+    },
+    '& input': {
+      flex: 1,
+    },
+  },
+  tagContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
 }));
 
@@ -71,12 +83,15 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
 }) => {
   const classes = useStyles();
   const [options, setOptions] = React.useState(initialData || []);
+  const [loading, setLoading] = React.useState(false);
   const timeoutId = React.useRef<number | null>(null);
   const iressToken = useSelector(iressTokenSelector);
   const sitename = useSelector(iressSitenameSelector);
   const dispatch = useDispatch();
+  const inputRef = React.useRef<HTMLInputElement>(null);
   const [logoutModalOpen, setLogoutModalOpen] = React.useState(false);
-  const { showSubModal } = useGlobalModalContext();
+  const { showSubModal, hideSubModal } = useGlobalModalContext();
+
   function _renderHelperText() {
     if (error) {
       return (
@@ -92,14 +107,17 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   const getData = async (searchText: string) => {
     try {
       if (getUrl) {
+        setLoading(true);
         const { data: response } = await httpRequest.get(getUrl(searchText), {
           headers: { 'token-app': iressToken, 'site-name': sitename },
         });
+        setLoading(false);
         setOptions(response || []);
       } else {
         return;
       }
     } catch (error) {
+      setLoading(false);
       console.error('AutocompleteField getData error: ', error);
     }
   };
@@ -109,11 +127,11 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const searcText = e.target.value;
-    if (searcText.length > 1) {
+    const searchText = e.target.value;
+    if (searchText.length > 1) {
       timeoutId.current && window.clearTimeout(timeoutId.current);
       timeoutId.current = window.setTimeout(() => {
-        getData(searcText);
+        getData(searchText);
       }, process.env.REACT_APP_DEBOUNCE_TIME);
     }
   };
@@ -157,7 +175,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
           isCancelPage: true,
           emailConfirm: false,
           onSubmit: () => {
-            console.log('xin chao');
+            hideSubModal();
           },
         },
       });
@@ -180,11 +198,17 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
     <Box>
       <FormControl required fullWidth error={error} className={classes.container}>
         <Autocomplete
+          loading={loading}
+          noOptionsText={inputRef.current?.value ? <Trans>lang_no_matching_records_found</Trans> : ''}
+          loadingText={
+            <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+              <CircularProgress color="secondary" size={24} />
+            </Box>
+          }
           onBlur={onBlur}
           multiple
           disableClearable
           disabled={!iressToken}
-          freeSolo
           id={id}
           value={value}
           defaultValue={[]}
@@ -194,31 +218,35 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
           getOptionLabel={_getOptionLabel}
           isOptionEqualToValue={_isOptionEqualToValue}
           renderTags={(value: readonly string[], getTagProps) => (
-            <Stack gap={16}>
-              {value.map((option: any, index: number) => (
-                <Chip
-                  variant="outlined"
-                  label={_getChipLabel(option)}
-                  {...getTagProps({ index })}
-                  title={_getOptionLabel(option)}
-                  key={`autocomplete_chip_${id}_${index}`}
-                />
-              ))}
-            </Stack>
+            <Box className={classes.tagContainer}>
+              {value.length &&
+                value.map((option: any, index: number) => (
+                  <Chip
+                    variant="outlined"
+                    label={_getChipLabel(option)}
+                    {...getTagProps({ index })}
+                    title={_getOptionLabel(option)}
+                    key={`autocomplete_chip_${id}_${index}`}
+                  />
+                ))}
+            </Box>
           )}
           renderInput={(params) => (
             <TextField
               required={required}
               {...params}
-              value={value}
+              inputRef={inputRef}
               label={<Trans>{label}</Trans>}
               error={error}
               onChange={handleTextChange}
               InputProps={{
+                ...params.InputProps,
                 endAdornment: (
-                  <Button network variant={iressToken ? 'text' : 'contained'} onClick={handleIressAuth}>
-                    <Trans>{iressToken ? 'lang_sign_out' : 'lang_sign_in'}</Trans>
-                  </Button>
+                  <InputAdornment position="end">
+                    <Button network variant={iressToken ? 'text' : 'contained'} onClick={handleIressAuth}>
+                      <Trans>{iressToken ? 'lang_sign_out' : 'lang_sign_in'}</Trans>
+                    </Button>
+                  </InputAdornment>
                 ),
               }}
             ></TextField>

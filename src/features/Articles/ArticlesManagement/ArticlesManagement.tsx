@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { getArticlesListUrl, getArticlesUrl } from 'apis/request.url';
+import { getArticlesListUrl, getArticlesByIdUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import httpRequest from 'services/httpRequest';
@@ -64,7 +64,7 @@ const ArticlesManagement: React.FC<SegmentManagementProps> = () => {
   }, []);
   const confirmDeleteArticles = React.useCallback(async (articlesId: string) => {
     try {
-      await httpRequest.delete(getArticlesUrl(articlesId));
+      await httpRequest.delete(getArticlesByIdUrl(articlesId));
       dispatch(
         enqueueSnackbarAction({
           message: 'lang_delete_article_successfully',

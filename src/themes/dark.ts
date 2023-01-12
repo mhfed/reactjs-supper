@@ -86,7 +86,7 @@ const darkTheme = createTheme({
           },
         },
         asterisk: {
-          color: '#FF435F',
+          color: '#FF435F !important',
         },
       },
     },

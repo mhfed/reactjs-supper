@@ -78,14 +78,6 @@ const useStyles = makeStyles((theme) => ({
       objectFit: 'cover',
     },
   },
-  previewFile: {
-    width: '100%',
-    borderBottom: `1px dotted ${theme.palette.primary.main}`,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  removeFile: {},
   asterisk: {
     color: theme.palette.error.main,
   },
@@ -94,33 +86,34 @@ const useStyles = makeStyles((theme) => ({
 type AttachmentFieldProps = {
   selectText?: string;
   helperText?: string;
+  errorText?: any;
   accept?: string;
   maxSize?: number;
   error?: boolean;
   required?: boolean;
   name: string;
   label: string;
-  onChange: (data: any) => void;
+  onChange?: (data: any) => void;
   setFieldTouched?: any;
-  image?: boolean;
+  value?: IFileUpload;
 };
 
 const AttachmentField: React.FC<AttachmentFieldProps> = (props) => {
   const classes = useStyles();
   const {
-    image,
     error,
-    selectText = 'lang_choose_file',
     required,
     helperText = 'JPEG, JPG, PNG, HEIC',
     accept = '.png, .heic, .jpeg, .jpg',
     maxSize = 10 * 1000 * 1000, // bytes
     name,
     label,
+    value = {},
     setFieldTouched,
+    errorText,
     onChange,
   } = props;
-  const [file, setFile] = React.useState<IFileUpload>({});
+  const [file, setFile] = React.useState<IFileUpload>(value);
   const refInput = React.useRef<HTMLInputElement>();
 
   /**
@@ -135,23 +128,25 @@ const AttachmentField: React.FC<AttachmentFieldProps> = (props) => {
     const extension = (fileName + '').match(/([^.]*)$/)?.[0]?.toLowerCase();
     if (fileSize > maxSize || (extension && !accept.includes(extension))) {
       const fileObj = {
+        file: chooseFile,
         name: fileName,
         size: fileSize,
         extension,
       };
-      onChange(fileObj);
+      onChange?.(fileObj);
       setFile(fileObj);
       refInput.current && (refInput.current.value = '');
     } else {
       const objUrl = URL.createObjectURL(chooseFile);
       const fileObj = {
+        file: chooseFile,
         url: objUrl,
         name: fileName,
         size: fileSize,
         extension,
       };
       setFile(fileObj);
-      onChange(fileObj);
+      onChange?.(fileObj);
     }
   };
 
@@ -163,7 +158,7 @@ const AttachmentField: React.FC<AttachmentFieldProps> = (props) => {
     if (error) {
       return (
         <FormHelperText sx={{ pl: 1.5 }} error>
-          <Trans>{error}</Trans>
+          <Trans>{errorText}</Trans>
         </FormHelperText>
       );
     }
@@ -177,7 +172,7 @@ const AttachmentField: React.FC<AttachmentFieldProps> = (props) => {
     e.preventDefault();
     setFile({});
     refInput.current && (refInput.current.value = '');
-    onChange('');
+    onChange?.('');
   };
 
   return (
@@ -192,7 +187,7 @@ const AttachmentField: React.FC<AttachmentFieldProps> = (props) => {
         htmlFor={`input_file_for_${name}`}
         className={clsx(
           classes.container,
-          image && classes.imageContainer,
+          classes.imageContainer,
           error && classes.errorContainer,
           file.url && classes.previewContainer,
         )}
@@ -209,25 +204,16 @@ const AttachmentField: React.FC<AttachmentFieldProps> = (props) => {
         />
         <FormControl className={clsx(classes.inputContainer, file.url && classes.notCenter)} error={error}>
           {file.url ? (
-            image ? (
-              <Box className={classes.previewImage}>
-                <IconButton onClick={onRemove} className={classes.removeImage}>
-                  <CancelIcon />
-                </IconButton>
-                <img alt="attachment_field_preview_img" src={file.url} />
-              </Box>
-            ) : (
-              <Box className={classes.previewFile}>
-                <Typography color="primary">{file.name}</Typography>
-                <IconButton onClick={onRemove} className={classes.removeFile}>
-                  <CancelIcon />
-                </IconButton>
-              </Box>
-            )
+            <Box className={classes.previewImage}>
+              <IconButton onClick={onRemove} className={classes.removeImage}>
+                <CancelIcon />
+              </IconButton>
+              <img alt="attachment_field_preview_img" src={file.url} />
+            </Box>
           ) : (
             <React.Fragment>
               <Typography sx={{ px: 1 }} color="primary" variant="body1">
-                <Trans>{selectText}</Trans>
+                <Trans>lang_choose_image</Trans>
               </Typography>
               <FormHelperText error={false} sx={{ pl: 1 }}>
                 {helperText}
