@@ -386,6 +386,14 @@ type TableHandle = {
   getQuery: any;
   getConfig: any;
 };
+type TypeButtonHeader = {
+  label: string;
+  onClick: () => void;
+  variant?: 'contained' | 'outlined' | 'text' | string;
+  isShow?: boolean;
+  sx?: any;
+  disabled?: boolean;
+};
 
 type TableProps = {
   onTableChange: () => void;
@@ -394,7 +402,7 @@ type TableProps = {
   rowsPerPageOptions?: number[];
   data?: ITableData;
   editable?: boolean;
-  listBtn?: Array<{ label: string; onClick: () => void }>;
+  listBtn?: Array<TypeButtonHeader>;
   onSave?: (dataChanged: LooseObject, cb: any) => void;
   fnKey: (data: any) => string;
   noChangeKey?: string;
