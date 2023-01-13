@@ -238,7 +238,7 @@ const initialValues: initialValuesType = {
 };
 
 const validationSchema = yup.object().shape({
-  site_name: yup.string().required('lang_please_enter_sitename').max(255),
+  site_name: yup.string().required('lang_please_enter_sitename'),
   username: yup.string().required('lang_please_enter_email'),
   password: yup.string().required('lang_please_enter_password'),
 });

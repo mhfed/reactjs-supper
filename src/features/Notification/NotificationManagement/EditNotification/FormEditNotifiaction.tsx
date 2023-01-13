@@ -41,6 +41,24 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                 id="subscribers"
               />
             </Grid>
+            <Grid item xs={12}>
+              <InputField
+                name="message"
+                label="lang_message"
+                required
+                fullWidth
+                value={values.message}
+                onChange={handleChange}
+                onBlur={(e) => {
+                  setFieldValue('message', values.message.trim());
+                  handleBlur(e);
+                }}
+                error={touched.message && Boolean(errors.message)}
+                helperText={touched.message && errors.message}
+                multiline
+                rows={5}
+              />
+            </Grid>
           </React.Fragment>
         );
       }
@@ -74,7 +92,10 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             fullWidth
             value={values.title}
             onChange={handleChange}
-            onBlur={handleBlur}
+            onBlur={(e) => {
+              setFieldValue('title', values.title.trim());
+              handleBlur(e);
+            }}
             error={touched.title && Boolean(errors.title)}
             helperText={touched.title && errors.title}
           />
@@ -138,6 +159,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                   <InputField
                     name="expire"
                     label="lang_expire"
+                    required
                     fullWidth
                     value={values.expire}
                     onChange={(e) => {

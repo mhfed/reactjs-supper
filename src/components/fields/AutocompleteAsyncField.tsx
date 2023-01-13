@@ -75,6 +75,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   const classes = useStyles();
   const TagSucessBg = theme.palette.mode === 'dark' ? '' : theme.palette.background.default;
   const [options, setOptions] = React.useState([]);
+  const inputRef = React.useRef<HTMLInputElement>(null);
   const timeoutId = React.useRef<number | null>(null);
 
   function _renderHelperText() {
@@ -109,6 +110,11 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, options: LooseObject[], reason: string) => {
     props.onChange?.(options);
+    setOptions([]);
+  };
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    props.onBlur?.(e);
+    setOptions([]);
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -119,15 +125,18 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
       timeoutId.current = window.setTimeout(() => {
         getData(Searchkey);
       }, 400);
+    } else {
+      setOptions([]);
     }
   };
 
   return (
     <FormControl required sx={{ minWidth: 120, width: props.fullWidth ? '100%' : '' }} error={props.error}>
       <Autocomplete
-        onBlur={props.onBlur}
+        onBlur={handleBlur}
         multiple
-        freeSolo
+        freeSolo={inputRef.current?.value ? false : true}
+        noOptionsText={inputRef.current?.value ? <Trans>lang_no_matching_records_found</Trans> : ''}
         disableClearable
         id={props.id}
         value={value}
@@ -154,7 +163,11 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
               label={option.username}
               {...getTagProps({ index })}
               title={`${option.username} (${option.site_name})`}
-              style={{ marginRight: theme.spacing(2), marginBottom: theme.spacing(1) }}
+              style={{
+                marginTop: theme.spacing(1),
+                marginRight: theme.spacing(2),
+                marginBottom: theme.spacing(1),
+              }}
               className={clsx(theme.palette.mode === 'dark' ? '' : classes.ChipTags, 'customTitle')}
               key={option?.username}
             />
@@ -164,10 +177,15 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
           <TextField
             required={props.required}
             {...params}
+            inputRef={inputRef}
             value={value}
             label={<Trans>{label}</Trans>}
             error={props.error}
             onChange={handleTextChange}
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: '',
+            }}
           ></TextField>
         )}
       />

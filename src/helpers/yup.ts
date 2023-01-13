@@ -10,11 +10,14 @@ import moment from 'moment';
 import * as yup from 'yup';
 import validate from './validate';
 
+const urlPattern = /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+
 declare module 'yup' {
   interface StringSchema {
     checkEmail(message: string): any;
     checkValidField(message: string): any;
     compareTimes(message?: string): any;
+    checkValidUrl(message?: string): any;
   }
 }
 
@@ -34,8 +37,20 @@ yup.addMethod(yup.string, 'checkEmail', function (message = 'lang_email_invalid'
 yup.addMethod(yup.string, 'checkValidField', function (message = 'lang_date_of_birth_invalid') {
   return this.test('checkValidField', '', function (value) {
     const { path, createError } = this;
-    const date = moment(value);
+    const formatDate = typeof value === 'string' && value.length === 13 ? Number(value) : value;
+    const date = moment(formatDate);
     if (date.isValid()) {
+      return true;
+    } else {
+      return createError({ path, message: message });
+    }
+  });
+});
+
+yup.addMethod(yup.string, 'checkValidUrl', function (message = 'lang_invalid_url') {
+  return this.test('checkValidUrl', '', function (value: string) {
+    const { path, createError } = this;
+    if (urlPattern.test(value)) {
       return true;
     } else {
       return createError({ path, message: message });
