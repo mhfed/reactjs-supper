@@ -97,7 +97,7 @@ export default function SignIn() {
         </Typography>
       </div>
       <Box className={classes.loginForm}>
-        <ErrorCollapse error={error} />
+        <ErrorCollapse error={{ text: error + '', time: Date.now() }} />
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <InputField
             id="email"

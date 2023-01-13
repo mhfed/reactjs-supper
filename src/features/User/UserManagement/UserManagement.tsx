@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { getSearchUserUrl, getUserDetailUrl, getResetUserPasswordUrl, getUserDetailByIdUrl } from 'apis/request.url';
+import { getSearchUserUrl, getUserDetailUrl, getUserDetailByIdUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import httpRequest from 'services/httpRequest';

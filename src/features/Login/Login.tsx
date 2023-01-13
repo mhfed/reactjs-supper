@@ -20,6 +20,9 @@ import PinForm from './PinForm';
 import SetPassword from './SetPassword';
 import { Trans } from 'react-i18next';
 import { IAuthStep } from 'models/IAuthState';
+import themes from 'themes';
+import { THEMES } from 'configs';
+import { ThemeProvider, StyledEngineProvider, responsiveFontSizes } from '@mui/material/styles';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -77,28 +80,32 @@ export default function SignIn() {
   const password = useRef('');
 
   return (
-    <Container component="main" className={classes.container} maxWidth="md">
-      <CssBaseline />
-      <Box className={classes.loginContainer}>
-        {step === IAuthStep.LOGIN ? (
-          <LoginForm />
-        ) : step === IAuthStep.ENTER_PIN ? (
-          <PinForm />
-        ) : [IAuthStep.SET_PIN, IAuthStep.FORCE_SET_PIN].includes(step) ? (
-          <PinForm isSetPin isFirstTime={step === IAuthStep.SET_PIN} password={password.current} />
-        ) : step === IAuthStep.SET_PASSWORD ? (
-          <SetPassword setNewPassord={(pw) => (password.current = pw)} />
-        ) : (
-          <Typography>Page not found</Typography>
-        )}
-        <div className={classes.loginLogo}>
-          <img alt="loginLogo" src="/assets/images/login-logo.svg" />
-          <Typography variant="h3" sx={{ pt: 2 }}>
-            <Trans>lang_cms_portal</Trans>
-          </Typography>
-        </div>
-      </Box>
-      <Footer />
-    </Container>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={responsiveFontSizes(themes(1))}>
+        <Container component="main" className={classes.container} maxWidth="md">
+          <CssBaseline />
+          <Box className={classes.loginContainer}>
+            {step === IAuthStep.LOGIN ? (
+              <LoginForm />
+            ) : step === IAuthStep.ENTER_PIN ? (
+              <PinForm />
+            ) : [IAuthStep.SET_PIN, IAuthStep.FORCE_SET_PIN].includes(step) ? (
+              <PinForm isSetPin isFirstTime={step === IAuthStep.SET_PIN} password={password.current} />
+            ) : step === IAuthStep.SET_PASSWORD ? (
+              <SetPassword setNewPassord={(pw) => (password.current = pw)} />
+            ) : (
+              <Typography>Page not found</Typography>
+            )}
+            <div className={classes.loginLogo}>
+              <img alt="loginLogo" src="/assets/images/login-logo.svg" />
+              <Typography variant="h3" sx={{ pt: 2 }}>
+                <Trans>lang_cms_portal</Trans>
+              </Typography>
+            </div>
+          </Box>
+          <Footer />
+        </Container>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 }

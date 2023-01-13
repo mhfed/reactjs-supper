@@ -36,15 +36,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type ErrorCollapseProps = {
-  error?: string | null;
+  error?: { text: string; time: number } | null;
 };
 
-const ErrorCollapse: React.FC<ErrorCollapseProps> = ({ error = '' }) => {
+const ErrorCollapse: React.FC<ErrorCollapseProps> = ({ error = { text: '' } }) => {
   const classes = useStyles();
   const errorRef = React.useRef<HTMLDivElement>(null);
+  const timeoutId = React.useRef<number>(0);
 
   React.useEffect(() => {
-    if (error) {
+    if (error?.text) {
+      timeoutId.current && window.clearTimeout(timeoutId.current);
+      timeoutId.current = window.setTimeout(() => {
+        errorRef?.current?.classList?.remove(classes.show);
+      }, process.env.REACT_APP_AUTO_HIDE_SNACKBAR);
       errorRef?.current?.classList?.add(classes.show);
     } else {
       errorRef?.current?.classList?.remove(classes.show);
@@ -53,7 +58,7 @@ const ErrorCollapse: React.FC<ErrorCollapseProps> = ({ error = '' }) => {
 
   return (
     <Typography ref={errorRef} align="center" className={classes.errorContainer}>
-      {error ? <Trans>{error}</Trans> : ''}
+      {error?.text ? <Trans>{error.text}</Trans> : ''}
     </Typography>
   );
 };

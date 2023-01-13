@@ -17,8 +17,8 @@ class Validate {
   };
 
   removeVietnamese = (str: string) => {
-    str = str.replace(/\s+/g, ' ');
-    str = str.trim();
+    // str = str.replace(/\s+/g, ' ');
+    // str = str.trim();
     str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, '');
     str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, '');
     str = str.replace(/ì|í|ị|ỉ|ĩ/g, '');
@@ -37,6 +37,7 @@ class Validate {
   };
 
   isValidEmail = (value: string): string => {
+    value = (value + '').trim();
     const engEmail = this.removeVietnamese(value);
     if (engEmail.length !== value.length) return 'lang_email_invalid';
     const pattern = this.getEmailPattern();

@@ -141,11 +141,11 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
 
   const columns = React.useMemo(() => {
     return [
-      {
-        name: FIELD.AUDIENCES,
-        label: 'lang_audiences',
-        formatter: (data: any) => data?.['segment_name'] || data?.[FIELD.AUDIENCES]?.[0]?.['subscriber'] || '',
-      },
+      // {
+      //   name: FIELD.AUDIENCES,
+      //   label: 'lang_audiences',
+      //   formatter: (data: any) => data?.['segment_name'] || data?.[FIELD.AUDIENCES]?.[0]?.['subscriber'] || '',
+      // },
       {
         name: FIELD.DELIVERY_TYPE,
         label: 'lang_delivery_type',

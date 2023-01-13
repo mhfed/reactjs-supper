@@ -22,6 +22,7 @@ import store from 'stores';
 import { IAuthType } from 'models/IAuthState';
 import { updateUserInfo, updateToken } from 'actions/auth.action';
 import { axiosInstance } from 'services/initRequest';
+import { clearStorage } from 'helpers';
 
 class AuthService {
   intervalId = 0;
@@ -67,7 +68,6 @@ class AuthService {
         data: {
           username: email,
           password: CryptoJS.AES.encrypt(password, session.key).toString(),
-          provider: 'paritech',
           storage_token: true,
           session_id: `${sessionId}`,
         },
@@ -153,7 +153,6 @@ class AuthService {
         data: {
           username: (email + '').toLowerCase(),
           password: CryptoJS.AES.encrypt(password, session.key).toString(),
-          provider: 'paritech',
           storage_token: true,
           session_id: `${sessionId}`,
         },
@@ -186,7 +185,7 @@ class AuthService {
 
   logOut = () => {
     httpRequest.post(getLogoutUrl());
-    localStorage.clear();
+    clearStorage();
   };
 
   getAccessToken = () => store.getState().auth.accessToken;

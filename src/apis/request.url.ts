@@ -73,7 +73,7 @@ export function postSiteNameSend() {
   return `/v1/dynamic-push/site-name/send`;
 }
 export function postLogin() {
-  return `https://iress-wealth-dev-api.equix.app/mobile/login`;
+  return `https://iress-wealth-dev-api.equix.app/mobile/login?isCMS=true`;
 }
 
 export function getReports() {
@@ -182,8 +182,8 @@ export function getSearchSecurityCodeUrl(searchText: string) {
 export function getUploadUrl() {
   return 'v1/file/upload';
 }
-export function getArticlesUrl() {
-  return 'v1/articles';
+export function getArticlesUrl(articlesId = '') {
+  return `v1/articles/${articlesId}`;
 }
 
 // Report - v1

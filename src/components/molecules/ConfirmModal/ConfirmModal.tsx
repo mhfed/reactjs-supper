@@ -46,7 +46,7 @@ const AlertConfirm = ({
   const classes = useStyles(styles)();
 
   return (
-    <Dialog open={open} fullWidth maxWidth="sm" onClose={onClose} className={classes.container}>
+    <Dialog open={open} fullWidth maxWidth="sm" className={classes.container}>
       {alertTitle && (
         <DialogTitle>
           <Typography variant="h5">

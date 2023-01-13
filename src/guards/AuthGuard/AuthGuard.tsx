@@ -8,11 +8,7 @@
 
 import React, { FC } from 'react';
 import { Navigate } from 'react-router-dom';
-
-// configs
 import { PATH_NAME } from 'configs';
-
-// services
 import authService from 'services/authService';
 
 type AuthGuardProps = {
@@ -23,7 +19,7 @@ const AuthGuard: FC<AuthGuardProps> = ({ children }) => {
   const isAuth = authService.getAccessToken();
   const isAutoLoging = window.localStorage.getItem('isAutoLoging');
 
-  if (!isAuth && !isAutoLoging) return <Navigate to={PATH_NAME.LOGIN} />;
+  if (!isAuth && isAutoLoging !== 'true') return <Navigate to={PATH_NAME.LOGIN} />;
 
   return <>{children}</>;
 };
