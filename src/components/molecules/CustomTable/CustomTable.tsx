@@ -318,7 +318,7 @@ function convertColumn({
         customBodyRender: (value) => {
           return (
             <Typography component="span" noWrap>
-              {value ? moment(value).format('DD/MM/YY HH:mm:ss') : process.env.REACT_APP_DEFAULT_VALUE}
+              {value ? moment(value).local().format('DD/MM/YY HH:mm:ss') : process.env.REACT_APP_DEFAULT_VALUE}
             </Typography>
           );
         },
