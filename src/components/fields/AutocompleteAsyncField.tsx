@@ -109,6 +109,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, options: LooseObject[], reason: string) => {
     props.onChange?.(options);
+    setOptions([]);
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
