@@ -130,6 +130,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
               InputProps={{
                 readOnly: true,
               }}
+              multiline
               fullWidth
               variant={'standard'}
               value={values.title}
