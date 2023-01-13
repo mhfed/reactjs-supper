@@ -195,6 +195,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                     <InputField
                       name="expire"
                       label="lang_expire"
+                      required
                       fullWidth
                       value={values.expire}
                       onChange={(e) => {
