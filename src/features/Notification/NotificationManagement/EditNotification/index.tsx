@@ -331,7 +331,11 @@ const validationSchema = yup.object().shape({
     is: (delivery_type: 'Instant' | 'Schedule', notification_type: Notification_Type) => {
       return delivery_type === DELIVERY_TYPE.Schedule && notification_type === NOTIFICATION_TYPE.Direct;
     },
-    then: yup.string().required('lang_please_select_schedule_time').compareTimes(),
+    then: yup
+      .string()
+      .required('lang_please_select_schedule_time')
+      .checkValidField('lang_please_select_schedule_time')
+      .compareTimes(),
     // .checkValidField('lang_schedule_time_required'),
   }),
   segment: yup.mixed().when('notification_type', (value, schema) => {

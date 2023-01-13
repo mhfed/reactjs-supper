@@ -37,7 +37,8 @@ yup.addMethod(yup.string, 'checkEmail', function (message = 'lang_email_invalid'
 yup.addMethod(yup.string, 'checkValidField', function (message = 'lang_date_of_birth_invalid') {
   return this.test('checkValidField', '', function (value) {
     const { path, createError } = this;
-    const date = moment(value);
+    const formatDate = typeof value === 'string' && value.length === 13 ? Number(value) : value;
+    const date = moment(formatDate);
     if (date.isValid()) {
       return true;
     } else {
