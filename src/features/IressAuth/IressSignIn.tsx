@@ -25,7 +25,7 @@ import { IAuthActionTypes } from 'models/IAuthState';
 import moment from 'moment';
 
 interface IressSignInProps {
-  cbAfterSignIn?: () => void;
+  cbAfterSignIn?: (token?: string, sitename?: string) => void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -80,7 +80,7 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
         };
         dispatch({ type: IAuthActionTypes.IRESS_LOGIN, payload: { ...bodyPayload } });
         hideSubModal();
-        if (props?.cbAfterSignIn) props?.cbAfterSignIn();
+        if (props?.cbAfterSignIn) props?.cbAfterSignIn(res.data.access_token, values.site_name);
       })
       .catch((err) => {
         // 401

@@ -99,7 +99,8 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
                   disabled={isEditMode}
                   variant={btn.variant || 'contained'}
                   className={clsx(!btn.isShow && classes.hidden)}
-                  sx={{ mr: 1, ...btn.sx }}
+                  sx={{ mr: 1 }}
+                  color={btn.color || 'primary'}
                   onClick={btn.onClick}
                 >
                   <Trans>{btn.label}</Trans>
