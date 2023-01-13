@@ -1,4 +1,5 @@
 {
+  "lang_invalid_url": "Invalid URL",
   "lang_please_choose_sitename": "Please choose sitename",
   "lang_must_have_at_least_one_security_code": "Must have at least 1 security code",
   "lang_create_articles_successfully": "Create articles successfully",
