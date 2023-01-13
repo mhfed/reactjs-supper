@@ -37,6 +37,7 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
               InputProps={{
                 readOnly: true,
               }}
+              multiline
               fullWidth
               variant={'standard'}
               value={values.title}
