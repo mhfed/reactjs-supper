@@ -11,6 +11,7 @@ import Modal from '@mui/material/Modal';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
 import { LooseObject, IModalProps } from 'models/ICommon';
 import { Trans } from 'react-i18next';
 import makeStyles from '@mui/styles/makeStyles';
@@ -38,12 +39,10 @@ const useStyles = makeStyles((theme) => ({
   header: {
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'center',
     width: '100%',
     padding: theme.spacing(1),
     background: theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.background.other4,
-  },
-  iconClose: {
-    cursor: 'pointer',
   },
 }));
 
@@ -133,7 +132,11 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
                 <Typography fontWeight={700}>
                   <Trans>{store.title}</Trans>
                 </Typography>
-                {store.showBtnClose && <CloseIcon className={classes.iconClose} onClick={hideModal} />}
+                {store.showBtnClose && (
+                  <IconButton onClick={hideModal}>
+                    <CloseIcon />
+                  </IconButton>
+                )}
               </Box>
             ) : (
               <></>

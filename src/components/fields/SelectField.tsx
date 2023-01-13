@@ -68,7 +68,7 @@ const SelectField: React.FC<SelectFieldProps> = ({ preview, label, helperText, v
         id={props.id}
         label={label ? <Trans>{label}</Trans> : ''}
         value={value}
-        disabled={preview}
+        readOnly={preview}
         sx={{ textTransform: textTransform ? textTransform : 'none' }}
         MenuProps={{
           PaperProps: {

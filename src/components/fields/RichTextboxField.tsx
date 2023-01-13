@@ -99,7 +99,7 @@ type RichTextboxProps = {
   label: string;
   required?: boolean;
   value?: any;
-  onChange: (a: any) => void;
+  onChange?: (a: any) => void;
   error?: boolean;
   helperText?: any;
   preview?: boolean;

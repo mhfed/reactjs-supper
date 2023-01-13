@@ -68,30 +68,6 @@ const UserManagement: React.FC<UserManagementProps> = () => {
     getData();
   }, []);
 
-  const confirmResetPassword = React.useCallback(async (userLoginId: string) => {
-    try {
-      await httpRequest.post(getResetUserPasswordUrl(), {
-        data: { user_login_id: userLoginId, type: 'forgot_password' },
-      });
-      dispatch(
-        enqueueSnackbarAction({
-          message: 'lang_sending_reset_password_success',
-          key: new Date().getTime() + Math.random(),
-          variant: 'success',
-        }),
-      );
-      hideModal();
-    } catch (error) {
-      dispatch(
-        enqueueSnackbarAction({
-          message: error?.errorCodeLang,
-          key: new Date().getTime() + Math.random(),
-          variant: 'error',
-        }),
-      );
-    }
-  }, []);
-
   const confirmForceChangePassword = React.useCallback(async (userId: string, isChangingPassword: boolean | number) => {
     try {
       await httpRequest.put(getUserDetailByIdUrl(userId), {

@@ -172,7 +172,8 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
         styleModal: { minWidth: 440 },
         props: {
           title: 'lang_confirm_cancel_text',
-          isCancelPage: true,
+          cancelText: 'lang_no',
+          confirmText: 'lang_yes',
           emailConfirm: false,
           onSubmit: () => {
             hideSubModal();
