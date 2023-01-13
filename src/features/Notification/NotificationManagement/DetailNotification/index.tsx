@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     textTransform: 'uppercase',
-    marginBottom: theme.spacing(2),
+    // marginBottom: theme.spacing(2),
   },
   iconClose: {
     cursor: 'pointer',
@@ -91,7 +91,7 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
   const renderHeader = () => {
     return (
       <Box className={classes.header}>
-        <Typography fontWeight={700}>
+        <Typography className={classes.title} fontWeight={700}>
           <Trans>{'lang_notifications_details'}</Trans>
         </Typography>
         <CloseIcon className={classes.iconClose} onClick={handleClose} />

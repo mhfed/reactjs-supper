@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     textTransform: 'uppercase',
-    marginBottom: theme.spacing(1),
+    // marginBottom: theme.spacing(1),
     width: '100%',
     fontWeight: 700,
   },
@@ -119,7 +119,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   const renderHeader = () => {
     return (
       <Box className={classes.header}>
-        <Typography fontWeight={700}>
+        <Typography className={classes.title} fontWeight={700}>
           <Trans>{'lang_edit_notification'}</Trans>
         </Typography>
         <CloseIcon className={classes.iconClose} onClick={handleClose} />
