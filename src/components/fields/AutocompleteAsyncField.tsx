@@ -75,6 +75,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   const classes = useStyles();
   const TagSucessBg = theme.palette.mode === 'dark' ? '' : theme.palette.background.default;
   const [options, setOptions] = React.useState([]);
+  const inputRef = React.useRef<HTMLInputElement>(null);
   const timeoutId = React.useRef<number | null>(null);
 
   function _renderHelperText() {
@@ -111,6 +112,10 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
     props.onChange?.(options);
     setOptions([]);
   };
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    props.onBlur?.(e);
+    setOptions([]);
+  };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const Searchkey = e.target.value.trim();
@@ -120,15 +125,18 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
       timeoutId.current = window.setTimeout(() => {
         getData(Searchkey);
       }, 400);
+    } else {
+      setOptions([]);
     }
   };
 
   return (
     <FormControl required sx={{ minWidth: 120, width: props.fullWidth ? '100%' : '' }} error={props.error}>
       <Autocomplete
-        onBlur={props.onBlur}
+        onBlur={handleBlur}
         multiple
-        freeSolo
+        freeSolo={inputRef.current?.value ? false : true}
+        noOptionsText={inputRef.current?.value ? <Trans>lang_no_matching_records_found</Trans> : ''}
         disableClearable
         id={props.id}
         value={value}
@@ -169,10 +177,15 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
           <TextField
             required={props.required}
             {...params}
+            inputRef={inputRef}
             value={value}
             label={<Trans>{label}</Trans>}
             error={props.error}
             onChange={handleTextChange}
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: '',
+            }}
           ></TextField>
         )}
       />
