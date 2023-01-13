@@ -130,76 +130,86 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
     let urlSendNoti = '';
     let bodySendNoti = {};
-
-    //Body and url type Direct
-
-    if (values.notification_type === NOTIFICATION_TYPE.Direct) {
-      const { title, message, expire, type_expired, delivery_type } = values;
-      urlSendNoti = getNotificationUrl(props.dataForm.notification_id);
-      bodySendNoti = {
-        title,
-        message,
-        url: 'https://abc.com/',
-        mobile_push: true,
-        desktop_push: true,
-        email_push: true,
-        sms_push: true,
-        subscribers: (values?.subscribers || []).map((x) => {
-          const { subscriber, site_name, username } = x || {};
-          return {
-            username: subscriber || username,
-            site_name,
-          };
+    if (!diff(values, initialValues)) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'Lang_there_is_no_change_in_the_notification',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
         }),
-      };
-      let expireTime = Number(expire);
-      if (expireTime) bodySendNoti = { ...bodySendNoti, expire_time: `${expireTime}${type_expired}` };
-
-      if (delivery_type === DELIVERY_TYPE.Schedule) {
-        bodySendNoti = { ...bodySendNoti, schedule_time: moment(values?.schedule).toDate().getTime() };
-      }
+      );
     }
 
-    showSubModal({
-      title: 'lang_confirm',
-      component: ConfirmEditModal,
-      props: {
-        title: 'lang_describe_confirm_edit',
-        titleTransValues: { segment: values.segment_id },
-        onSubmit: () => {
-          httpRequest
-            .put(urlSendNoti, bodySendNoti)
-            .then(async () => {
-              dispatch(
-                enqueueSnackbarAction({
-                  message: 'lang_update_notification_successfully',
-                  key: new Date().getTime() + Math.random(),
-                  variant: 'success',
-                }),
-              );
-              props.reCallChangeTable && props.reCallChangeTable();
-              if (props.typePage === 'EDIT') {
+    //Body and url type Direct
+    else {
+      if (values.notification_type === NOTIFICATION_TYPE.Direct) {
+        const { title, message, expire, type_expired, delivery_type } = values;
+        urlSendNoti = getNotificationUrl(props.dataForm.notification_id);
+        bodySendNoti = {
+          title,
+          message,
+          url: 'https://abc.com/',
+          mobile_push: true,
+          desktop_push: true,
+          email_push: true,
+          sms_push: true,
+          subscribers: (values?.subscribers || []).map((x) => {
+            const { subscriber, site_name, username } = x || {};
+            return {
+              username: subscriber || username,
+              site_name,
+            };
+          }),
+        };
+        let expireTime = Number(expire);
+        if (expireTime) bodySendNoti = { ...bodySendNoti, expire_time: `${expireTime}${type_expired}` };
+
+        if (delivery_type === DELIVERY_TYPE.Schedule) {
+          bodySendNoti = { ...bodySendNoti, schedule_time: moment(values?.schedule).toDate().getTime() };
+        }
+      }
+
+      showSubModal({
+        title: 'lang_confirm',
+        component: ConfirmEditModal,
+        props: {
+          title: 'lang_describe_confirm_edit',
+          titleTransValues: { segment: values.segment_id },
+          onSubmit: () => {
+            httpRequest
+              .put(urlSendNoti, bodySendNoti)
+              .then(async () => {
+                dispatch(
+                  enqueueSnackbarAction({
+                    message: 'lang_update_notification_successfully',
+                    key: new Date().getTime() + Math.random(),
+                    variant: 'success',
+                  }),
+                );
+                props.reCallChangeTable && props.reCallChangeTable();
+                if (props.typePage === 'EDIT') {
+                  hideSubModal();
+                  hideModal();
+                } else {
+                  const response: any = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
+                  onBack(response);
+                }
+              })
+              .catch((err) => {
+                dispatch(
+                  enqueueSnackbarAction({
+                    message: 'lang_update_notification_unsuccessfully',
+                    key: new Date().getTime() + Math.random(),
+                    variant: 'error',
+                  }),
+                );
                 hideSubModal();
-                hideModal();
-              } else {
-                const response: any = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
-                onBack(response);
-              }
-            })
-            .catch((err) => {
-              dispatch(
-                enqueueSnackbarAction({
-                  message: 'lang_update_notification_unsuccessfully',
-                  key: new Date().getTime() + Math.random(),
-                  variant: 'error',
-                }),
-              );
-              hideSubModal();
-              console.log(err);
-            });
+                console.log(err);
+              });
+          },
         },
-      },
-    });
+      });
+    }
   };
 
   const onBack = (dataForm?: any) => {
