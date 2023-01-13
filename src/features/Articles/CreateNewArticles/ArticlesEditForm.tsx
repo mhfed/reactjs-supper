@@ -28,12 +28,15 @@ import { yup, checkDiffArticlesEdit } from 'helpers';
 import makeStyles from '@mui/styles/makeStyles';
 import { SITENAME_OPTIONS, SECURITY_TYPE_OPTIONS, SITENAME } from '../ArticlesConstants';
 import { IFileUpload, LooseObject } from 'models/ICommon';
-import { IArticlesFormData } from 'models/IArticles';
+import { IArticlesFormData, ICreateArticlesBody } from 'models/IArticles';
 import Button from 'components/atoms/ButtonBase';
 import { Trans } from 'react-i18next';
-import { getSearchSitenameUrl, getSearchSecurityCodeUrl } from 'apis/request.url';
+import { getSearchSitenameUrl, getSearchSecurityCodeUrl, getArticlesUrl, getUploadUrl } from 'apis/request.url';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
+import httpRequest from 'services/httpRequest';
+import { useDispatch } from 'react-redux';
+import { enqueueSnackbarAction } from 'actions/app.action';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -69,9 +72,47 @@ type ArticlesEditFormProps = {
 const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, onCancel, editFirst }) => {
   const classes = useStyles();
   const { showSubModal, hideModal, hideSubModal } = useGlobalModalContext();
+  const dispatch = useDispatch();
 
   const handleFormSubmit = async (values: LooseObject) => {
-    console.log('YOLO: ', values);
+    try {
+      const formData = new FormData();
+      formData.append('file', values.image.file);
+      const { data: imageResponse } = await httpRequest.post(getUploadUrl(), formData);
+      const body: ICreateArticlesBody = {
+        subject: values.subject,
+        content: values.content,
+        image: imageResponse.url,
+        site_name:
+          values.site_name === SITENAME.CUSTOM ? values.sitename_custom.map((e: any) => e.site_name) : [values.site_name],
+        securities: values.securities.map((e: any) => e.securities),
+        security_type: values.security_type,
+      };
+      if (values.file?.file) {
+        const formData = new FormData();
+        formData.append('file', values.file.file);
+        const { data: fileResponse } = await httpRequest.put(getUploadUrl(), formData);
+        body.attachment_url = fileResponse.url;
+        body.attachment_name = values.file.name;
+      }
+      await httpRequest.post(getArticlesUrl(initValues.article_id), body);
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_update_articles_successfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
+      hideModal();
+    } catch (error) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_update_articles_unsuccessfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        }),
+      );
+    }
   };
 
   const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {

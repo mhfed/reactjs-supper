@@ -182,8 +182,8 @@ export function getSearchSecurityCodeUrl(searchText: string) {
 export function getUploadUrl() {
   return 'v1/file/upload';
 }
-export function getArticlesUrl() {
-  return 'v1/articles';
+export function getArticlesUrl(articlesId = '') {
+  return `v1/articles/${articlesId}`;
 }
 
 // Report - v1
