@@ -92,7 +92,8 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
             styleModal: { minWidth: 440 },
             props: {
               title: 'lang_confirm_cancel_text',
-              isCancelPage: true,
+              cancelText: 'lang_no',
+              confirmText: 'lang_yes',
               emailConfirm: false,
               cbAfterSignInCode: props?.cbAfterSignIn,
               values: values,

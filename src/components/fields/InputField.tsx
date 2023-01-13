@@ -50,11 +50,11 @@ const InputField: React.FC<TextFieldProps> = ({ label, helperText, preview = fal
     <TextField
       {...props}
       variant={preview ? 'standard' : variant}
-      disabled={preview ? true : props.disabled}
       value={value}
       label={<Trans>{label}</Trans>}
       InputProps={{
         ...(InputProps || {}),
+        readOnly: preview ? true : InputProps?.readOnly,
         endAdornment: (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             {value && props?.clearValue && !preview ? (

@@ -16,7 +16,8 @@ import CustomTable, { COLUMN_TYPE } from 'components/molecules/CustomTable';
 import makeStyles from '@mui/styles/makeStyles';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
-
+import ArticlesDetail from '../CreateNewArticles/ArticlesDetail';
+import { convertArticlesDataToDetailForm } from 'helpers';
 import { FIELD } from '../../Notification/NotificationConstants';
 
 const useStyles = makeStyles(() => ({
@@ -88,20 +89,35 @@ const ArticlesManagement: React.FC<SegmentManagementProps> = () => {
     return [
       {
         label: 'lang_view_detail',
-        onClick: async (data: any) => {
-          console.log('click in view detail');
+        onClick: (data: any) => {
+          showModal({
+            component: ArticlesDetail,
+            showBtnClose: true,
+            fullScreen: true,
+            props: {
+              data: convertArticlesDataToDetailForm(data),
+            },
+          });
         },
       },
       {
         label: 'lang_edit',
         onClick: async (data: any) => {
-          console.log('click in view edit');
+          showModal({
+            component: ArticlesDetail,
+            showBtnClose: true,
+            fullScreen: true,
+            props: {
+              isEdit: true,
+              editFirst: true,
+              data: convertArticlesDataToDetailForm(data),
+            },
+          });
         },
       },
       {
         label: 'lang_delete',
         onClick: (data: any) => {
-          console.log('click in view delete:', data);
           showModal({
             title: 'lang_confirm',
             component: ConfirmEditModal,

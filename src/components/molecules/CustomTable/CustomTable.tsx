@@ -450,7 +450,8 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
             props: {
               title: 'lang_confirm_cancel_text',
               emailConfirm: false,
-              isCancelPage: true,
+              cancelText: 'lang_no',
+              confirmText: 'lang_yes',
               onSubmit: () => {
                 tempDataByKey.current = {};
                 setEditMode(false);

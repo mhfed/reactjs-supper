@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { Autocomplete, TextField, Chip } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 import httpRequest from 'services/httpRequest';
 import makeStyles from '@mui/styles/makeStyles';
 import { Trans } from 'react-i18next';
@@ -15,6 +16,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Stack from '@mui/material/Stack';
 import { LooseObject } from 'models/ICommon';
+import Box from '@mui/material/Box';
 
 const useStyles = makeStyles((theme) => ({
   chipContainer: {
@@ -63,8 +65,10 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   getUrl,
 }) => {
   const classes = useStyles();
+  const [loading, setLoading] = React.useState(false);
   const [options, setOptions] = React.useState(initialData || []);
   const timeoutId = React.useRef<number | null>(null);
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
   function _renderHelperText() {
     if (error) {
@@ -81,12 +85,15 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   const getData = async (searchText: string) => {
     try {
       if (getUrl) {
+        setLoading(true);
         const response: any = await httpRequest.get(getUrl(searchText));
+        setLoading(false);
         setOptions(response || []);
       } else {
         return;
       }
     } catch (error) {
+      setLoading(false);
       console.error('AutocompleteField getData error: ', error);
     }
   };
@@ -134,7 +141,13 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   return (
     <FormControl required fullWidth error={error}>
       <Autocomplete
-        onBlur={onBlur}
+        loading={loading}
+        noOptionsText={inputRef.current?.value ? <Trans>lang_no_matching_records_found</Trans> : ''}
+        loadingText={
+          <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+            <CircularProgress color="secondary" size={24} />
+          </Box>
+        }
         multiple
         disableClearable
         freeSolo
@@ -177,6 +190,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
           <TextField
             required={required}
             {...params}
+            inputRef={inputRef}
             variant={preview ? 'standard' : 'outlined'}
             value={value}
             label={<Trans>{label}</Trans>}

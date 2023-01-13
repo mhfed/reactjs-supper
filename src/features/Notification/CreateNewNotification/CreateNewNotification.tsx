@@ -159,7 +159,8 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
         component: ConfirmEditModal,
         props: {
           title: 'lang_confirm_cancel_text',
-          isCancelPage: true,
+          cancelText: 'lang_no',
+          confirmText: 'lang_yes',
           emailConfirm: false,
           onSubmit: () => {
             resetForm();
