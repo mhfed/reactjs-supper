@@ -27,6 +27,8 @@ export const SECURITY_TYPE_OPTIONS = [
   { label: 'lang_statistics', value: 'Statistics' },
   { label: 'lang_foreign_exchange', value: 'Foreign Exchange' },
   { label: 'lang_indices', value: 'Indices' },
+  { label: 'lang_funds', value: 'Funds' },
+  { label: 'lang_other', value: 'Other' },
 ];
 
 export const SITENAME = {

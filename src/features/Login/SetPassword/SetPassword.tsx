@@ -97,7 +97,7 @@ const SetPassword: React.FC<SetPasswordProps> = ({ setNewPassord }) => {
         <Typography variant="subtitle1" align="center" sx={{ width: '100%', px: 3, pt: 3 }}>
           <Trans>lang_password_invalid</Trans>
         </Typography>
-        <ErrorCollapse error={error} />
+        <ErrorCollapse error={{ text: error + '', time: Date.now() }} />
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <PasswordField
             id="password"

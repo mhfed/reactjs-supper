@@ -106,6 +106,7 @@ export const login = (email: string, password: string) => async (dispatch: Dispa
     error,
     accessToken,
   } = await authService.loginWithEmailAndPassword(email, password);
+  window.localStorage.setItem('lastEmailLogin', email);
   if (error) {
     const { errorCode, errorCodeLang, token } = error;
     if (errorCode === 2059 || (errorCode === 2057 && token)) {
@@ -114,7 +115,6 @@ export const login = (email: string, password: string) => async (dispatch: Dispa
       dispatch({ type: IAuthActionTypes.LOGIN_FAILURE, payload: { error: errorCodeLang, token } });
     }
   } else {
-    window.localStorage.setItem('lastEmailLogin', email);
     window.localStorage.setItem('lastDeviceId', deviceID);
     refreshToken && window.localStorage.setItem(`${email}_refreshToken`, refreshToken);
     dispatch({
