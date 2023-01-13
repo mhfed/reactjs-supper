@@ -24,7 +24,7 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
 
   let delivery_type_preview = `${values?.delivery_type || ''}`;
 
-  if (values.notification_type !== Direct) {
+  if (values.notification_type === Direct) {
     delivery_type_preview += ` ${
       values?.schedule_time
         ? moment(values?.schedule_time || '')
