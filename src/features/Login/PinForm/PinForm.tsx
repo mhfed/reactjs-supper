@@ -272,8 +272,8 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
         <FormHelperText error sx={{ pt: 1, textAlign: 'center' }}>
           <Trans>{errorMessage || errorAuth}</Trans>
         </FormHelperText>
-        {stepName.current === PIN_STEP.SET_YOUR_PIN ? (
-          <Typography variant="subtitle1" align="center" sx={{ width: '100%', py: 2 }}>
+        {stepName.current === PIN_STEP.SET_YOUR_PIN || stepName.current === PIN_STEP.ENTER_YOUR_PIN ? (
+          <Typography variant="body2" align="center" sx={{ width: '100%', py: 2 }}>
             <Trans>lang_set_pin_tip</Trans>
           </Typography>
         ) : (
