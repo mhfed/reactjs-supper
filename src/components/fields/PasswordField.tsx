@@ -19,7 +19,7 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
   btnGenerate: {
-    marginLeft: 1,
+    marginLeft: theme.spacing(1),
     textTransform: 'capitalize',
     background: theme.palette.mode === 'dark' ? 'rgba(0, 199, 127, 0.08)' : '#E1FFF4',
   },
