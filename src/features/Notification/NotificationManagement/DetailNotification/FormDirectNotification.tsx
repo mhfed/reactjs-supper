@@ -119,7 +119,6 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
                   InputProps={{
                     readOnly: true,
                   }}
-                  required
                   fullWidth
                   variant={'standard'}
                   value={expired_preview}
