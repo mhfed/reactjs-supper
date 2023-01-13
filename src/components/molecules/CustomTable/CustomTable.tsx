@@ -31,144 +31,146 @@ import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from '../ConfirmEditModal';
 import DropdownHeaderCell from './DropdownHeaderCell';
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: 'flex',
-    flex: 1,
-    position: 'relative',
-    flexDirection: 'column',
-    height: '100%',
-    width: '100%',
-    background: theme.palette.background.paper,
-    minHeight: 0,
-    '& .MuiSelect-select': {
-      padding: theme.spacing(0.5, 4, 0.5, 1.5),
-    },
-    '& .MuiToolbar-root': {
-      background: theme.palette.background.other4,
-      padding: 0,
-      justifyContent: 'flex-end',
-      '& > div:last-child': {
-        flex: 'initial',
-      },
-    },
-    '& > div:first-child': {
-      borderRadius: 8,
+const useStyles = (props: TableProps) =>
+  makeStyles((theme) => ({
+    container: {
       display: 'flex',
       flex: 1,
+      position: 'relative',
       flexDirection: 'column',
       height: '100%',
-      minHeight: 0,
-      boxShadow: 'none',
-      '& > div:nth-child(3)': {
-        background: theme.palette.mode === 'dark' ? theme.palette.background.other1 : theme.palette.background.default,
-        borderRadius: 8,
-        boxShadow: theme.shadows[1],
-        flex: 1,
-        overflowY: 'hidden',
-      },
-    },
-    '& .MuiTableCell-footer': {
+      width: '100%',
       background: theme.palette.background.paper,
-      border: 'none',
-    },
-    '& .MuiTableCell-root': {
-      overflow: 'hidden',
-      padding: theme.spacing(1),
-      border: 'none',
-      '&:not(.MuiTableCell-footer)': {
-        maxWidth: 600,
+      minHeight: 0,
+      '& .MuiSelect-select': {
+        padding: theme.spacing(0.5, 4, 0.5, 1.5),
       },
-      '& .warning': {
-        '&.bg': {
-          background: theme.palette.hover.warning,
+      '& .MuiToolbar-root': {
+        background: theme.palette.background.other4,
+        padding: 0,
+        justifyContent: 'flex-end',
+        '& > div:last-child': {
+          flex: 'initial',
         },
-        color: theme.palette.warning.main,
       },
-      '& .error': {
-        '&.bg': {
-          background: theme.palette.hover.error,
+      '& > div:first-child': {
+        borderRadius: 8,
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'column',
+        height: '100%',
+        minHeight: 0,
+        boxShadow: 'none',
+        '& > div:nth-child(3)': {
+          background: theme.palette.mode === 'dark' ? theme.palette.background.other1 : theme.palette.background.default,
+          borderRadius: 8,
+          boxShadow: theme.shadows[1],
+          flex: 1,
+          overflowY: 'hidden',
         },
-        color: theme.palette.error.main,
       },
-      '& .success': {
-        '&.bg': {
+      '& .MuiTableCell-footer': {
+        background: theme.palette.background.paper,
+        border: 'none',
+      },
+      '& .MuiTableCell-root': {
+        overflow: 'hidden',
+        padding: theme.spacing(1),
+        border: 'none',
+        '&:not(.MuiTableCell-footer)': {
+          maxWidth: 600,
+        },
+        '& .warning': {
+          '&.bg': {
+            background: theme.palette.hover.warning,
+          },
+          color: theme.palette.warning.main,
+        },
+        '& .error': {
+          '&.bg': {
+            background: theme.palette.hover.error,
+          },
+          color: theme.palette.error.main,
+        },
+        '& .success': {
+          '&.bg': {
+            background: theme.palette.hover.success,
+          },
+          color: theme.palette.success.main,
+        },
+      },
+      '& .MuiTableCell-head': {
+        borderRadius: 8,
+        overflow: 'hidden',
+        background: theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.background.other1,
+        borderRight: '2px solid transparent',
+        textAlign: props.textAlign || 'center',
+        '& [class*="MUIDataTableHeadCell-data"]': {
+          whiteSpace: 'nowrap',
+        },
+        '& *': {
+          color: theme.palette.common.white,
+          textTransform: 'uppercase !important',
+        },
+        '& button': {
+          width: '100%',
+          marginLeft: 0,
+          marginRight: 0,
+        },
+        '&:nth-last-child(2)': {
+          borderTopRightRadius: 0,
+          borderBottomRightRadius: 0,
+          border: 'none',
+          '& > span:first-child': {
+            marginLeft: theme.spacing(3),
+          },
+        },
+        '&:last-child': {
+          borderTopLeftRadius: 0,
+          borderBottomLeftRadius: 0,
+          border: 'none',
+        },
+      },
+      '& .MuiTableRow-root': {
+        '&:nth-child(odd)': {
+          background: theme.palette.mode === 'dark' ? theme.palette.background.other1 : theme.palette.background.default,
+        },
+        '&:nth-child(even)': {
+          background: theme.palette.background.other2,
+        },
+        '&:hover': {
           background: theme.palette.hover.success,
         },
-        color: theme.palette.success.main,
       },
-    },
-    '& .MuiTableCell-head': {
-      borderRadius: 8,
-      overflow: 'hidden',
-      background: theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.background.other1,
-      borderRight: '2px solid transparent',
-      '& [class*="MUIDataTableHeadCell-data"]': {
-        whiteSpace: 'nowrap',
-      },
-      '& *': {
-        color: theme.palette.common.white,
-        textTransform: 'uppercase !important',
-      },
-      '& button': {
-        width: '100%',
-        marginLeft: 0,
-        marginRight: 0,
-      },
-      '&:nth-last-child(2)': {
-        borderTopRightRadius: 0,
-        borderBottomRightRadius: 0,
-        border: 'none',
-        '& > span:first-child': {
-          marginLeft: theme.spacing(3),
+      '& .MuiTable-root': {
+        '& .MuiTablePagination-root': {
+          padding: 0,
+          paddingTop: 2,
+        },
+        '& .MuiTablePagination-actions': {
+          flex: 'none !important',
         },
       },
-      '&:last-child': {
-        borderTopLeftRadius: 0,
-        borderBottomLeftRadius: 0,
-        border: 'none',
+    },
+    centerContent: {
+      pointerEvents: 'none',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      margin: 'auto',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    inputCell: {
+      minWidth: 200,
+      '& input': {
+        padding: theme.spacing(0.5, 1),
       },
     },
-    '& .MuiTableRow-root': {
-      '&:nth-child(odd)': {
-        background: theme.palette.mode === 'dark' ? theme.palette.background.other1 : theme.palette.background.default,
-      },
-      '&:nth-child(even)': {
-        background: theme.palette.background.other2,
-      },
-      '&:hover': {
-        background: theme.palette.hover.success,
-      },
-    },
-    '& .MuiTable-root': {
-      '& .MuiTablePagination-root': {
-        padding: 0,
-        paddingTop: 2,
-      },
-      '& .MuiTablePagination-actions': {
-        flex: 'none !important',
-      },
-    },
-  },
-  centerContent: {
-    pointerEvents: 'none',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    margin: 'auto',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  inputCell: {
-    minWidth: 200,
-    '& input': {
-      padding: theme.spacing(0.5, 1),
-    },
-  },
-}));
+  }));
 
 function convertColumn({
   data,
@@ -405,6 +407,7 @@ type TableProps = {
   data?: ITableData;
   editable?: boolean;
   listBtn?: Array<TypeButtonHeader>;
+  textAlign?: string;
   onSave?: (dataChanged: LooseObject, cb: any) => void;
   fnKey: (data: any) => string;
   noChangeKey?: string;
@@ -414,7 +417,7 @@ type TableProps = {
 };
 
 const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, ref) => {
-  const classes = useStyles();
+  const classes = useStyles(props)();
   const {
     name,
     noChangeKey,
@@ -427,6 +430,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     listBtn = [],
     fnKey,
     defaultSort,
+    textAlign = 'center',
   } = props;
   const [data, setData] = React.useState<ITableData>(props.data || DATA_DEFAULT);
   const [isEditMode, setEditMode] = React.useState(false);

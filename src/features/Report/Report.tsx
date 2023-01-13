@@ -42,13 +42,13 @@ const Report: React.FC<ReportProps> = () => {
   const { showSubModal } = useGlobalModalContext();
   const [logoutModalOpen, setLogoutModalOpen] = React.useState(false);
 
-  const getData = async () => {
+  const getData = async (token?: string, sn?: string) => {
     try {
       gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
 
       const response: any = await httpRequest.get(getListReportUrl(config), {
-        headers: { 'token-app': iressToken, 'site-name': sitename },
+        headers: { 'token-app': token || iressToken, 'site-name': sn || sitename },
       });
 
       response.data.map((e: any) => {
@@ -184,7 +184,7 @@ const Report: React.FC<ReportProps> = () => {
       onClick: handleSignOut,
       variant: 'outlined',
       isShow: iressToken ? true : false,
-      sx: { color: '#FF435F', borderColor: '#FF435F' },
+      color: 'error',
     },
   ];
   return (
