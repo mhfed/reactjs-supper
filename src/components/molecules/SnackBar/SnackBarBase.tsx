@@ -36,7 +36,7 @@ const Notifier = () => {
 
       // display snackbar using notistack
       enqueueSnackbar(t(ele.message), {
-        autoHideDuration: 3000,
+        autoHideDuration: process.env.REACT_APP_AUTO_HIDE_SNACKBAR,
         key: ele.key,
         variant: ele.variant,
         disableWindowBlurListener: true,

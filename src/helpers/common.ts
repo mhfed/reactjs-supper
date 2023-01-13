@@ -1,6 +1,12 @@
 import { IArticlesDataManagement, IArticlesFormData } from 'models/IArticles';
 import { SITENAME } from 'features/Articles/ArticlesConstants';
 
+export const clearStorage = () => {
+  const lastTheme = window.localStorage.getItem('lastTheme');
+  window.localStorage.clear();
+  window.localStorage.setItem('lastTheme', lastTheme + '');
+};
+
 export const convertArticlesDataToDetailForm = (data: IArticlesDataManagement) => {
   return {
     article_id: data.article_id,

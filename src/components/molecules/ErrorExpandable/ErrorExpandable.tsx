@@ -42,9 +42,14 @@ type ErrorCollapseProps = {
 const ErrorCollapse: React.FC<ErrorCollapseProps> = ({ error = '' }) => {
   const classes = useStyles();
   const errorRef = React.useRef<HTMLDivElement>(null);
+  const timeoutId = React.useRef<number>(0);
 
   React.useEffect(() => {
     if (error) {
+      timeoutId.current && window.clearTimeout(timeoutId.current);
+      timeoutId.current = window.setTimeout(() => {
+        errorRef?.current?.classList?.remove(classes.show);
+      }, process.env.REACT_APP_AUTO_HIDE_SNACKBAR);
       errorRef?.current?.classList?.add(classes.show);
     } else {
       errorRef?.current?.classList?.remove(classes.show);

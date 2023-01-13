@@ -205,19 +205,6 @@ function convertColumn({
     case COLUMN_TYPE.DROPDOWN_WITH_BG:
       res.options = {
         ...res.options,
-        customHeadLabelRender: (columnMeta) => {
-          if (isEditMode) {
-            return (
-              <DropdownHeaderCell
-                id={editId + ''}
-                label={columnMeta.label}
-                options={column.dataOptionsHeader!}
-                onChange={(v) => onChangeAll?.(data, columnMeta.name, v)}
-              />
-            );
-          }
-          return <Trans>{columnMeta.label}</Trans>;
-        },
         customBodyRender: (value, tableMeta: MUIDataTableMeta) => {
           if (isEditMode) {
             const rowData = data[tableMeta.rowIndex];
@@ -246,6 +233,21 @@ function convertColumn({
           );
         },
       };
+      if (column.dataOptionsHeader) {
+        res.options.customHeadLabelRender = (columnMeta) => {
+          if (isEditMode) {
+            return (
+              <DropdownHeaderCell
+                id={editId + ''}
+                label={columnMeta.label}
+                options={column.dataOptionsHeader!}
+                onChange={(v) => onChangeAll?.(data, columnMeta.name, v)}
+              />
+            );
+          }
+          return <Trans>{columnMeta.label}</Trans>;
+        };
+      }
       break;
     case COLUMN_TYPE.DROPDOWN:
       res.options = {

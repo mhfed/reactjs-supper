@@ -8,7 +8,7 @@
 
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import { enqueueSnackbarAction, setLoading, showExpiredPopup } from 'actions/app.action';
-import { logout } from 'actions/auth.action';
+import { clearStorage } from 'helpers';
 
 export type IConfig = AxiosRequestConfig & {
   showSpinner?: boolean;
@@ -121,7 +121,7 @@ export default function initRequest(store: any) {
           break;
         }
         case 401: {
-          window.localStorage.clear();
+          clearStorage();
           window.location.reload();
           break;
         }

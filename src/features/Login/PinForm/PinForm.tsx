@@ -114,6 +114,10 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
   const hasNext = React.useRef(false);
   const navigate = useNavigate();
 
+  React.useEffect(() => {
+    if (errorAuth) clearPin();
+  }, [errorAuth]);
+
   const clearPin = () => {
     pinRef.current = [];
     setNumber([]);
@@ -145,7 +149,6 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
         }
       }
     } else {
-      clearPin();
       dispatch(verifyPin(pin, navigate) as any);
     }
   };
@@ -211,6 +214,7 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
 
   const onNext = () => {
     oldPinRef.current = [...pinRef.current];
+    pinRef.current = [];
     setStepInfo(step + 1);
     setNumber([]);
   };
