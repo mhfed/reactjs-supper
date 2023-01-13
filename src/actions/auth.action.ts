@@ -14,7 +14,6 @@ import { PATH_NAME } from 'configs';
 import { NavigateFunction } from 'react-router-dom';
 
 const updateAxiosAuthConfig = (baseUrl: string, accessToken: string, pin: string, refreshToken?: string) => {
-  window.localStorage.setItem('isAutoLoging', 'false');
   window.localStorage.setItem('uniqSeries', btoa(pin));
   const lastEmailLogin = window.localStorage.getItem('lastEmailLogin');
   refreshToken && window.localStorage.setItem(`${lastEmailLogin}_refreshToken`, refreshToken);
