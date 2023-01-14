@@ -19,6 +19,8 @@ import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import DetailNotification from './DetailNotification';
 import EditNotification from './EditNotification';
+import { Inotifiaction } from 'models/INotification';
+import { AxiosResponse } from 'axios';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -106,7 +108,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     if (data[FIELD.STATUS] !== NOTIFICATION_STATUS.TRIGGERED) {
       actions.push({
         label: 'lang_edit',
-        onClick: async (data: any) => {
+        onClick: async (data: Inotifiaction) => {
           const response: any = await httpRequest.get(getNotificationUrl(data?.notification_id));
 
           const formatData = (response?.subscribers || []).map((e: any) => ({ ...e, username: e.subscriber }));
@@ -219,7 +221,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     ];
   }, []);
 
-  const onRowDbClick = () => {};
+  const onRowDbClick = () => { };
 
   const getRowId = (data: any) => {
     return data[FIELD.NOTIFICATION_ID];

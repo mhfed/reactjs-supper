@@ -30,11 +30,12 @@ import FormCreateNotifiaction from './FormEditNotifiaction';
 import CloseIcon from '@mui/icons-material/Close';
 import { diff } from 'deep-diff';
 import DetailNotification from '../DetailNotification';
+import { Inotifiaction, ISubscriber } from 'models/INotification';
 
-interface CreateNewNotificationProps {
-  dataForm: any;
+interface EditNotificationProps {
+  dataForm: Inotifiaction;
   typePage: 'DETAIL' | 'EDIT';
-  listSubscribers?: any;
+  listSubscribers?: ISubscriber;
   defaultValue: any;
   reCallChangeTable?: () => {};
 }
@@ -84,12 +85,12 @@ export const isOptionEqualToValue = (option: LooseObject, value: LooseObject) =>
   return option.username === value.username;
 };
 
-const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
+const EditNotification: React.FC<EditNotificationProps> = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { showModal, hideModal, showSubModal, hideSubModal } = useGlobalModalContext();
-  const formRef = React.useRef<any>({});
-  let initialValues: initialValuesType = initialValuesDefault;
+  const formRef = React.useRef<any>();
+  let initialValues: any = initialValuesDefault;
 
   if (props.dataForm) {
     initialValues = props.dataForm || {};
@@ -351,4 +352,4 @@ const validationSchema = yup.object().shape({
   type_url: yup.string().required('lang_url_require'),
 });
 
-export default CreateNewNotification;
+export default EditNotification;
