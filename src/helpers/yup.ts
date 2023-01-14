@@ -8,16 +8,20 @@
 
 import moment from 'moment';
 import * as yup from 'yup';
+import { AnyObject } from 'yup/lib/types';
 import validate from './validate';
 
 const urlPattern = /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
 
+type methodString = yup.StringSchema<string | undefined, AnyObject, string | undefined>;
+
 declare module 'yup' {
   interface StringSchema {
-    checkEmail(message: string): any;
-    checkValidField(message: string): any;
-    compareTimes(message?: string): any;
-    checkValidUrl(message?: string): any;
+    checkEmail(message: string): methodString;
+    checkValidField(message: string): methodString;
+    compareTimesLocal(message?: string): methodString;
+    checkValidUrl(message?: string): methodString;
+    compareTimes(message?: string): methodString;
   }
 }
 
@@ -58,13 +62,29 @@ yup.addMethod(yup.string, 'checkValidUrl', function (message = 'lang_invalid_url
   });
 });
 
-yup.addMethod(yup.string, 'compareTimes', function (message = 'lang_expire_date_require') {
-  return this.test('compareTimes', '', function (value) {
+yup.addMethod(yup.string, 'compareTimesLocal', function (message = 'lang_expire_date_require') {
+  return this.test('compareTimesLocal', '', function (value) {
     const { path, createError } = this;
     const localTime = moment().toDate().getTime();
     const valueTime = moment(value).toDate().getTime();
 
     if (localTime > valueTime) return createError({ path, message: message });
+    return true;
+  });
+});
+
+yup.addMethod(yup.string, 'compareTimes', function (message = 'lang_expire_date_require') {
+  return this.test('compareTimes', '', function (value, context) {
+    const { path, createError } = this;
+    const { expire, type_expired } = context.parent;
+
+    const timeCompare = moment()
+      .add(expire, (type_expired + '').toLowerCase())
+      .toDate()
+      .getTime();
+    const valueCompare = moment(value).toDate().getTime();
+
+    if (valueCompare > timeCompare) return createError({ path, message: message });
     return true;
   });
 });

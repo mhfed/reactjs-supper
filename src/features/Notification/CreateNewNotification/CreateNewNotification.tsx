@@ -24,7 +24,7 @@ import { useGlobalModalContext } from 'containers/Modal';
 import FormCreateNotifiaction from './Components/FormCreateNotifiaction';
 import FormReviewNotification from './Components/FormReviewNotification';
 
-interface CreateNewNotificationProps {}
+interface CreateNewNotificationProps { }
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -280,7 +280,8 @@ const validationSchema = yup.object().shape({
       .string()
       .required('lang_please_select_schedule_time')
       .checkValidField('lang_please_select_schedule_time')
-      .compareTimes(),
+      .compareTimesLocal()
+      .compareTimes('error_code_INVALID_TIME'),
   }),
   segment: yup.mixed().when('notification_type', (value, schema) => {
     return value === NOTIFICATION_TYPE.Segment ? schema.required('lang_please_select_segment') : schema;
