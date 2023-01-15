@@ -60,8 +60,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   ChipTags: {
-    color: '#27A6E7',
-    backgroundColor: '#E3EFFD',
+    backgroundColor: '#E8ECEF',
     border: 'none',
     '&:hover': {
       backgroundColor: '#08D98D',
@@ -145,7 +144,7 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
   return (
     <div className={classes.divCointainer}>
       {renderHeader()}
-      <Formik initialValues={dataForm} onSubmit={() => {}}>
+      <Formik initialValues={dataForm} onSubmit={() => { }}>
         {(form: FormikProps<initialValuesType>) => {
           return (
             <React.Fragment>
