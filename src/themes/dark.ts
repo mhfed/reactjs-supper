@@ -61,7 +61,7 @@ const darkTheme = createTheme({
         root: {
           overflow: 'hidden',
           '&.Mui-error': {
-            '& input': {
+            '& input, & textarea': {
               color: '#FF435F',
               '&:-webkit-autofill': {
                 WebkitTextFillColor: '#FF435F',
