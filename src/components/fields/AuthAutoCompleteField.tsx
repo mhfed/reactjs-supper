@@ -14,6 +14,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import { LooseObject } from 'models/ICommon';
 import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import Autocomplete from '@mui/material/Autocomplete';
 import InputAdornment from '@mui/material/InputAdornment';
 import Chip from '@mui/material/Chip';
@@ -22,10 +23,10 @@ import { Trans } from 'react-i18next';
 import Button from 'components/atoms/ButtonBase';
 import { useDispatch, useSelector } from 'react-redux';
 import { iressTokenSelector, iressSitenameSelector } from 'selectors/auth.selector';
-import ConfirmModal from 'components/molecules/ConfirmModal';
 import { iressLogout } from 'actions/auth.action';
 import { useGlobalModalContext } from 'containers/Modal';
 import IressSignIn from 'features/IressAuth';
+import Confirm from 'containers/Modal/Confirm';
 
 type AutocompleteAsyncFieldProps = {
   id?: string;
@@ -89,8 +90,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   const sitename = useSelector(iressSitenameSelector);
   const dispatch = useDispatch();
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const [logoutModalOpen, setLogoutModalOpen] = React.useState(false);
-  const { showSubModal, hideSubModal } = useGlobalModalContext();
+  const { showModal, showSubModal, hideSubModal, hideModal } = useGlobalModalContext();
 
   function _renderHelperText() {
     if (error) {
@@ -117,8 +117,23 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
         return;
       }
     } catch (error) {
-      setLoading(false);
-      console.error('AutocompleteField getData error: ', error);
+      if (error.errorCode === 100000) {
+        dispatch(iressLogout());
+        showSubModal({
+          title: 'lang_sign_in',
+          component: IressSignIn,
+          styleModal: { minWidth: 440 },
+          props: {
+            title: 'lang_please_sign_in_to_select_security_code',
+            onSubmit: () => {
+              hideSubModal();
+            },
+          },
+        });
+      } else {
+        setLoading(false);
+        console.error('AutocompleteField getData error: ', error);
+      }
     }
   };
 
@@ -164,7 +179,17 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
 
   const handleIressAuth = () => {
     if (iressToken) {
-      onShowLogoutConfirm();
+      showSubModal({
+        component: Confirm,
+        props: {
+          title: 'lang_confirm',
+          content: 'lang_confirm_logout',
+          onSubmit: () => {
+            dispatch(iressLogout());
+            hideSubModal();
+          },
+        },
+      });
     } else {
       showSubModal({
         title: 'lang_sign_in',
@@ -178,18 +203,6 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
         },
       });
     }
-  };
-
-  const onCloseLogout = () => {
-    setLogoutModalOpen(false);
-  };
-
-  const onShowLogoutConfirm = () => {
-    setLogoutModalOpen(true);
-  };
-
-  const onConfirmLogout = () => {
-    dispatch(iressLogout());
   };
 
   return (
@@ -252,13 +265,6 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
         />
         {_renderHelperText()}
       </FormControl>
-      <ConfirmModal
-        open={logoutModalOpen}
-        alertTitle="lang_sign_out"
-        alertContent="lang_confirm_logout"
-        onClose={onCloseLogout}
-        onSubmit={onConfirmLogout}
-      />
     </Box>
   );
 };
