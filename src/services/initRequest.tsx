@@ -138,7 +138,7 @@ export default function initRequest(store: any) {
       }
       const error_lang_key = `error_code_${errorCode}`;
 
-      if (errorCode === 2032) {
+      if (errorCode === 'ECONNABORTED') {
         // timeout 5000
         store.dispatch(
           enqueueSnackbarAction({
