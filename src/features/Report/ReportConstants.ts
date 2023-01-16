@@ -18,12 +18,12 @@ export const STATUS_OPTIONS_HEADER = [
 export const STATUS_OPTIONS = [
   {
     label: 'lang_enabled',
-    value: 0,
+    value: 1,
     color: 'warning',
   },
   {
     label: 'lang_disabled',
-    value: 1,
+    value: 0,
     color: 'success',
   },
 ];
