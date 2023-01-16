@@ -187,9 +187,24 @@ export function getArticlesUrl(articlesId = '') {
 }
 
 // Report - v1
-export const getListReportUrl = ({ page = 1, rowsPerPage = +process.env.REACT_APP_DEFAULT_PAGE_SIZE }) => {
-  return `/v1/reports?page_id=${page}&page_size=${rowsPerPage}`;
+export const getListReportUrl = ({
+  page = 1,
+  rowsPerPage = +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
+  searchText = '',
+  sort,
+}: {
+  page: number;
+  rowsPerPage: number;
+  searchText: string | null;
+  sort: ISortConfig | null;
+}) => {
+  let url = `/v1/reports?page_id=${page}&page_size=${rowsPerPage}`;
+  if (searchText) url += `&search=${searchText}`;
+  // if (sort?.sortField) url += `&sort_field=${sort.sortField}`;
+  // if (sort?.sortType) url += `&sort_type=${sort.sortType}`;
+  return url;
 };
+
 export const getReportUrl = () => {
   return `/v1/reports`;
 };

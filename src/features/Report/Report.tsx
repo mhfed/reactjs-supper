@@ -68,27 +68,10 @@ const Report: React.FC<ReportProps> = () => {
     }
   };
 
-  const handleFetch = () => {
-    // do something
-    console.log('handle fetch report');
-    if (iressToken) {
-      getData();
-    } else {
-      showSubModal({
-        title: 'lang_sign_in',
-        component: IressSignIn,
-        styleModal: { minWidth: 440 },
-        props: {
-          cbAfterSignIn: getData,
-        },
-      });
-    }
+  const onTableChange = () => {
+    getData();
   };
 
-  const onTableChange = () => {
-    // getData();
-  };
-  const getActions = () => {};
   const columns = React.useMemo(() => {
     return [
       {
@@ -118,7 +101,7 @@ const Report: React.FC<ReportProps> = () => {
       {
         name: 'ACTION_COLUMN',
         type: COLUMN_TYPE.ACTION,
-        getActions,
+        getActions: () => {},
         label: ' ',
       },
     ];
@@ -129,10 +112,6 @@ const Report: React.FC<ReportProps> = () => {
   const getRowId = (data: any) => {
     return data[FIELD.TEMPLATE_ID];
   };
-
-  React.useEffect(() => {
-    gridRef?.current?.setData?.();
-  }, []);
 
   const confirmEditReport = React.useCallback(async (data: any, callback: () => void) => {
     try {
@@ -155,6 +134,7 @@ const Report: React.FC<ReportProps> = () => {
       );
     }
   }, []);
+
   const onSaveReport = (dicDataChanged: LooseObject, cb: any) => {
     const data = Object.keys(dicDataChanged).map((k) => ({
       ...dicDataChanged[k],
@@ -163,16 +143,49 @@ const Report: React.FC<ReportProps> = () => {
     }));
     confirmEditReport(data, cb);
   };
+
+  /**
+   * Handle click button fetch data
+   */
+  const handleFetch = () => {
+    if (iressToken) {
+      getData();
+    } else {
+      showSubModal({
+        title: 'lang_sign_in',
+        component: IressSignIn,
+        styleModal: { minWidth: 440 },
+        props: {
+          cbAfterSignIn: getData,
+        },
+      });
+    }
+  };
+
+  /**
+   * Handle close popup when click cancel on modal
+   */
   const onCloseLogout = () => {
     setLogoutModalOpen(false);
   };
+
+  /**
+   * Handle click button SignOut
+   */
   const handleSignOut = () => {
     setLogoutModalOpen(true);
   };
+
+  /**
+   * Handle logout iress account
+   */
   const onConfirmLogout = async () => {
     dispatch(iressLogout());
   };
 
+  /**
+   * List button of header table
+   */
   const listBtnHeader = [
     {
       label: 'lang_fetch_report',
@@ -187,6 +200,11 @@ const Report: React.FC<ReportProps> = () => {
       color: 'error',
     },
   ];
+
+  React.useEffect(() => {
+    gridRef?.current?.setData?.();
+  }, []);
+
   return (
     <div className={classes.container}>
       <CustomTable
@@ -199,7 +217,8 @@ const Report: React.FC<ReportProps> = () => {
         onRowDbClick={onRowDbClick}
         onTableChange={onTableChange}
         columns={columns}
-        noDataText="lang_no_matching_records_found"
+        noDataText="lang_no_data"
+        noChangeKey="lang_there_is_no_change_in_the_report_information"
       />
       <ConfirmModal
         open={logoutModalOpen}
