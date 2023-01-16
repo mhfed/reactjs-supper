@@ -191,6 +191,7 @@ const Report: React.FC<ReportProps> = () => {
       label: 'lang_fetch_report',
       onClick: handleFetch,
       isShow: true,
+      disabledEditMode: true,
     },
     {
       label: 'lang_sign_out',

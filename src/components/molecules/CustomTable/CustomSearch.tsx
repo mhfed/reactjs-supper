@@ -47,7 +47,7 @@ type TypeButtonHeader = {
   variant?: 'contained' | 'outlined' | 'text' | string;
   isShow?: boolean;
   sx?: any;
-  disabled?: boolean;
+  disabledEditMode?: boolean;
 };
 
 type CustomSearchProps = {
@@ -96,7 +96,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
                 <Button
                   key={i}
                   network
-                  disabled={isEditMode}
+                  disabled={btn.disabledEditMode && isEditMode}
                   variant={btn.variant || 'contained'}
                   className={clsx(!btn.isShow && classes.hidden)}
                   sx={{ mr: 1 }}
