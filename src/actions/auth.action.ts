@@ -160,6 +160,6 @@ export const iressLogout = () => ({
 });
 
 export const iressLogin = (iressAccessToken: string | null, iressExpiredTime: number | null) => ({
-  type: IAuthActionTypes.IRESS_LOGOUT,
+  type: IAuthActionTypes.IRESS_LOGIN,
   payload: { iressAccessToken, iressExpiredTime },
 });

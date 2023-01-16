@@ -8,6 +8,7 @@
 
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import { enqueueSnackbarAction, setLoading, showExpiredPopup } from 'actions/app.action';
+import { iressLogout } from 'actions/auth.action';
 import { clearStorage } from 'helpers';
 
 export type IConfig = AxiosRequestConfig & {

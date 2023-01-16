@@ -17,9 +17,9 @@ import httpRequest from 'services/httpRequest';
 import { getListReportUrl, getReportUrl } from 'apis/request.url';
 import IressSignIn from 'features/IressAuth';
 import { useGlobalModalContext } from 'containers/Modal';
+import Confirm from 'containers/Modal/Confirm';
 import { iressSitenameSelector, iressTokenSelector } from 'selectors/auth.selector';
 import { iressLogout } from 'actions/auth.action';
-import ConfirmModal from 'components/molecules/ConfirmModal';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -39,12 +39,7 @@ const Report: React.FC<ReportProps> = () => {
   const dicReport = React.useRef<any>({});
   const iressToken = useSelector(iressTokenSelector);
   const sitename = useSelector(iressSitenameSelector);
-  const { showSubModal } = useGlobalModalContext();
-  const [logoutModalOpen, setLogoutModalOpen] = React.useState(false);
-
-  React.useEffect(() => {
-    getData();
-  }, []);
+  const { showSubModal, hideSubModal } = useGlobalModalContext();
 
   const getData = async (token?: string, sn?: string) => {
     try {
@@ -66,14 +61,27 @@ const Report: React.FC<ReportProps> = () => {
 
       gridRef?.current?.setData?.(response);
     } catch (error) {
-      gridRef?.current?.setData?.();
-      dispatch(
-        enqueueSnackbarAction({
-          message: error?.errorCodeLang,
-          key: new Date().getTime() + Math.random(),
-          variant: 'error',
-        }),
-      );
+      if (error.errorCode === 100000) {
+        dispatch(iressLogout());
+        showSubModal({
+          title: 'lang_sign_in',
+          component: IressSignIn,
+          styleModal: { minWidth: 440 },
+          props: {
+            title: 'lang_please_sign_in_to_fetch_report',
+            cbAfterSignIn: getData,
+          },
+        });
+      } else {
+        gridRef?.current?.setData?.();
+        dispatch(
+          enqueueSnackbarAction({
+            message: error?.errorCodeLang,
+            key: new Date().getTime() + Math.random(),
+            variant: 'error',
+          }),
+        );
+      }
     }
   };
 
@@ -170,25 +178,18 @@ const Report: React.FC<ReportProps> = () => {
     confirmEditReport(data, cb);
   };
 
-  /**
-   * Handle close popup when click cancel on modal
-   */
-  const onCloseLogout = () => {
-    setLogoutModalOpen(false);
-  };
-
-  /**
-   * Handle click button SignOut
-   */
   const handleSignOut = () => {
-    setLogoutModalOpen(true);
-  };
-
-  /**
-   * Handle logout iress account
-   */
-  const onConfirmLogout = async () => {
-    dispatch(iressLogout());
+    showSubModal({
+      component: Confirm,
+      props: {
+        title: 'lang_confirm',
+        content: 'lang_confirm_logout',
+        onSubmit: () => {
+          dispatch(iressLogout());
+          hideSubModal();
+        },
+      },
+    });
   };
 
   /**
@@ -211,7 +212,7 @@ const Report: React.FC<ReportProps> = () => {
   ];
 
   React.useEffect(() => {
-    gridRef?.current?.setData?.();
+    getData();
   }, []);
 
   return (
@@ -228,13 +229,6 @@ const Report: React.FC<ReportProps> = () => {
         columns={columns}
         noChangeKey="lang_there_is_no_change_in_the_report_information"
         noDataText="lang_no_data"
-      />
-      <ConfirmModal
-        open={logoutModalOpen}
-        alertTitle="lang_sign_out"
-        alertContent="lang_confirm_logout"
-        onClose={onCloseLogout}
-        onSubmit={onConfirmLogout}
       />
     </div>
   );
