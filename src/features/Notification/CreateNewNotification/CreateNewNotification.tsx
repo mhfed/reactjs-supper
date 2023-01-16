@@ -24,7 +24,7 @@ import { useGlobalModalContext } from 'containers/Modal';
 import FormCreateNotifiaction from './Components/FormCreateNotifiaction';
 import FormReviewNotification from './Components/FormReviewNotification';
 
-interface CreateNewNotificationProps { }
+interface CreateNewNotificationProps {}
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -270,8 +270,9 @@ const validationSchema = yup.object().shape({
       ? schema.min(1, 'lang_select_segment_subcriber').required('lang_select_segment_subcriber')
       : schema;
   }),
-  title: yup.string().required('lang_please_enter_title').max(64, 'lang_validate_title'),
-  message: yup.string().required('lang_please_enter_message').max(192, 'lang_validate_message'),
+  title: yup.string().trim().required('lang_please_enter_title').max(64, 'lang_validate_title'),
+  message: yup.string().trim().required('lang_please_enter_message').max(192, 'lang_validate_message'),
+  expire: yup.string().trim().required('lang_enter_expire'),
   schedule: yup.string().when(['delivery_type', 'notification_type'], {
     is: (delivery_type: 'Instant' | 'Schedule', notification_type: Notification_Type) => {
       return delivery_type === DELIVERY_TYPE.Schedule && notification_type === NOTIFICATION_TYPE.Direct;
