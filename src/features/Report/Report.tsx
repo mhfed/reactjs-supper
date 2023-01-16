@@ -132,7 +132,7 @@ const Report: React.FC<ReportProps> = () => {
 
   React.useEffect(() => {
     gridRef?.current?.setData?.();
-  });
+  }, []);
 
   const confirmEditReport = React.useCallback(async (data: any, callback: () => void) => {
     try {
@@ -140,7 +140,7 @@ const Report: React.FC<ReportProps> = () => {
       callback?.();
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_update_user_information_successfully',
+          message: 'lang_update_report_information_successfully',
           key: new Date().getTime() + Math.random(),
           variant: 'success',
         }),
@@ -148,7 +148,7 @@ const Report: React.FC<ReportProps> = () => {
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_update_user_information_unsuccessfully',
+          message: 'lang_update_report_information_unsuccessfully',
           key: new Date().getTime() + Math.random(),
           variant: 'error',
         }),
@@ -192,14 +192,14 @@ const Report: React.FC<ReportProps> = () => {
       <CustomTable
         editable
         listBtn={listBtnHeader}
-        name="user_management"
+        name="report"
         fnKey={getRowId}
         ref={gridRef}
         onSave={onSaveReport}
         onRowDbClick={onRowDbClick}
         onTableChange={onTableChange}
         columns={columns}
-        // noDataText="lang_no_matching_records_found"
+        noDataText="lang_no_matching_records_found"
       />
       <ConfirmModal
         open={logoutModalOpen}
