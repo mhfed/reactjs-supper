@@ -78,7 +78,6 @@ const Report: React.FC<ReportProps> = () => {
   };
 
   const handleFetch = () => {
-    // do something
     console.log('handle fetch report');
     if (iressToken) {
       getData(iressToken, sitename + '');
@@ -96,9 +95,9 @@ const Report: React.FC<ReportProps> = () => {
   };
 
   const onTableChange = () => {
-    // getData();
+    getData();
   };
-  const getActions = () => {};
+
   const columns = React.useMemo(() => {
     return [
       {
@@ -128,7 +127,7 @@ const Report: React.FC<ReportProps> = () => {
       {
         name: 'ACTION_COLUMN',
         type: COLUMN_TYPE.ACTION,
-        getActions,
+        getActions: () => {},
         label: ' ',
       },
     ];
@@ -140,17 +139,13 @@ const Report: React.FC<ReportProps> = () => {
     return data[FIELD.TEMPLATE_ID];
   };
 
-  React.useEffect(() => {
-    gridRef?.current?.setData?.();
-  });
-
   const confirmEditReport = React.useCallback(async (data: any, callback: () => void) => {
     try {
       await httpRequest.put(getReportUrl(), data);
       callback?.();
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_update_user_information_successfully',
+          message: 'lang_update_report_information_successfully',
           key: new Date().getTime() + Math.random(),
           variant: 'success',
         }),
@@ -158,13 +153,14 @@ const Report: React.FC<ReportProps> = () => {
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_update_user_information_unsuccessfully',
+          message: 'lang_update_report_information_unsuccessfully',
           key: new Date().getTime() + Math.random(),
           variant: 'error',
         }),
       );
     }
   }, []);
+
   const onSaveReport = (dicDataChanged: LooseObject, cb: any) => {
     const data = Object.keys(dicDataChanged).map((k) => ({
       ...dicDataChanged[k],
@@ -173,16 +169,31 @@ const Report: React.FC<ReportProps> = () => {
     }));
     confirmEditReport(data, cb);
   };
+
+  /**
+   * Handle close popup when click cancel on modal
+   */
   const onCloseLogout = () => {
     setLogoutModalOpen(false);
   };
+
+  /**
+   * Handle click button SignOut
+   */
   const handleSignOut = () => {
     setLogoutModalOpen(true);
   };
+
+  /**
+   * Handle logout iress account
+   */
   const onConfirmLogout = async () => {
     dispatch(iressLogout());
   };
 
+  /**
+   * List button of header table
+   */
   const listBtnHeader = [
     {
       label: 'lang_fetch_report',
@@ -197,19 +208,25 @@ const Report: React.FC<ReportProps> = () => {
       color: 'error',
     },
   ];
+
+  React.useEffect(() => {
+    gridRef?.current?.setData?.();
+  }, []);
+
   return (
     <div className={classes.container}>
       <CustomTable
         editable
         listBtn={listBtnHeader}
-        name="user_management"
+        name="report"
         fnKey={getRowId}
         ref={gridRef}
         onSave={onSaveReport}
         onRowDbClick={onRowDbClick}
         onTableChange={onTableChange}
         columns={columns}
-        // noDataText="lang_no_matching_records_found"
+        noDataText="lang_no_data"
+        noChangeKey="lang_there_is_no_change_in_the_report_information"
       />
       <ConfirmModal
         open={logoutModalOpen}

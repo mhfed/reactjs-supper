@@ -1,0 +1,40 @@
+export type ISubscriber = {
+  subscriber: string;
+  site_name: string;
+  delivered: boolean;
+  clicked: boolean;
+}[];
+
+export type Inotifiaction = {
+  notification_id: string;
+  title: string;
+  message: string;
+  url: string;
+  icon: string;
+  large_image: null;
+  audience_id: null;
+  title_attr: null;
+  message_attr: null;
+  url_attr: null;
+  expire_time: string;
+  schedule_time: null;
+  desktop_push: number;
+  mobile_push: number;
+  sms_push: number;
+  email_push: number;
+  status: 'Triggered' | 'Pending';
+  notification_type: 'Direct' | 'Segment' | 'Sitename';
+  delivery_type: 'Instant' | 'Schedule';
+  actor: string;
+  trigger_time: number;
+  last_updated: number;
+  environment: null;
+  symbol: null;
+  exchange: null;
+  subscribers: ISubscriber;
+  delivered: number;
+  clicked: number;
+  create_time: number;
+  attempted: number;
+  ctr: number;
+};
