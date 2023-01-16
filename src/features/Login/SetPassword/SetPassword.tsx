@@ -34,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: '#272B3B',
   },
   form: {
     width: '100%', // Fix IE 11 issue.

@@ -50,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     width: '100%',
     padding: theme.spacing(1),
-    background: theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.background.other4,
   },
   formContainer: {
     display: 'flex',
@@ -58,17 +57,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     flex: 1,
     width: '100%',
-  },
-  ChipTags: {
-    backgroundColor: '#E8ECEF',
-    border: 'none',
-    '&:hover': {
-      backgroundColor: '#08D98D',
-      color: '#ffffff',
-    },
-    '&:hover svg': {
-      fill: '#ffffff',
-    },
   },
 }));
 
@@ -144,7 +132,7 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
   return (
     <div className={classes.divCointainer}>
       {renderHeader()}
-      <Formik initialValues={dataForm} onSubmit={() => { }}>
+      <Formik initialValues={dataForm} onSubmit={() => {}}>
         {(form: FormikProps<initialValuesType>) => {
           return (
             <React.Fragment>

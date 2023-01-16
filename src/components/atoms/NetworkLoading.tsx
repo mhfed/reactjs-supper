@@ -38,7 +38,6 @@ const useStyles = makeStyles((theme) =>
       pointerEvents: 'none',
       justifyContent: 'inherit',
       alignItems: 'inherit',
-      color: '#fff',
     },
   }),
 );

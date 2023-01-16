@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 150,
     lineHeight: '150px',
     fontWeight: 700,
-    color: '#252932',
     textShadow: 'rgba(61, 61, 61, 0.3) 1px 1px, rgba(61, 61, 61, 0.2) 2px 2px, rgba(61, 61, 61, 0.3) 3px 3px;fontSize: 150',
   },
   desc: {

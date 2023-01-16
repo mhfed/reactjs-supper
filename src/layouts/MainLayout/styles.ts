@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexGrow: 1,
     minHeight: '100vh',
     padding: theme.spacing(3, 3, 0, 3),
-    background: theme.palette.background.other4,
+    background: theme.palette.background.main,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,

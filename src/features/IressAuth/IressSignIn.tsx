@@ -156,7 +156,6 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
             value={values.password}
             onChange={(v: string) => setFieldValue('password', validate.removeSpace(v))}
             onBlur={handleBlur}
-            styleIcon={{ color: '#758695' }}
             error={touched.password && Boolean(errors.password)}
             helperText={touched.password && errors.password}
           />

@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     width: '100%',
     padding: theme.spacing(1, 2),
-    background: theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.background.other4,
+    background: theme.palette.background.headerModal,
   },
   contentContainer: {
     display: 'flex',

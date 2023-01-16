@@ -34,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 8,
     overflow: 'hidden',
     minWidth: '40vw',
-    background: theme.palette.mode === 'dark' ? theme.palette.background.paper : theme.palette.background.default,
   },
   header: {
     display: 'flex',
@@ -42,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     width: '100%',
     padding: theme.spacing(1),
-    background: theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.background.other4,
+    background: theme.palette.background.headerModal,
   },
 }));
 

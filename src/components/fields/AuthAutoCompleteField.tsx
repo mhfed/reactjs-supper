@@ -31,7 +31,6 @@ import Confirm from 'containers/Modal/Confirm';
 const useStyles = makeStyles((theme) => ({
   container: {
     '& .MuiChip-root': {
-      background: theme.palette.background.other5,
       border: 'none',
     },
     '& .MuiChip-label': {
@@ -237,6 +236,7 @@ const AuthAutocompleteField: React.FC<AuthAutoCompleteFieldProps> = ({
                     variant="outlined"
                     label={_getChipLabel(option)}
                     {...getTagProps({ index })}
+                    color="secondary"
                     title={_getOptionLabel(option)}
                     key={`autocomplete_chip_${id}_${index}`}
                   />

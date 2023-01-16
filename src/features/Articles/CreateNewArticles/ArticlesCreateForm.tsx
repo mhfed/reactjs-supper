@@ -34,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     width: '100%',
     padding: theme.spacing(3),
-    background: theme.palette.mode === 'dark' ? theme.palette.background.other2 : theme.palette.background.default,
     '& form': {
       display: 'flex',
       flex: 1,
@@ -237,6 +236,6 @@ const validationSchema = yup.object().shape({
       ? schema.min(1, 'lang_please_enter_sitename').required('lang_please_enter_sitename')
       : schema;
   }),
-  // securities: yup.array().min(1, 'lang_please_select_security_code').required('lang_please_select_security_code'),
+  securities: yup.array().min(1, 'lang_please_select_security_code').required('lang_please_select_security_code'),
   security_type: yup.string().required('lang_please_select_security_type'),
 });

@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import makeStyles from '@mui/styles/makeStyles';
 import IconButton from '@mui/material/IconButton';
-import CancelIcon from '@mui/icons-material/Cancel';
+import CloseCircle from 'assets/icons/CloseCircle';
 import InputBase from '@mui/material/InputBase';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -30,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
     minHeight: 100,
     cursor: 'pointer',
     borderRadius: '8px',
-    background: theme.palette.background.other2,
+    borderColor: theme.palette.background.attachmentBorder,
+    background: theme.palette.background.attachment,
   },
   errorContainer: {
     borderColor: theme.palette.error.main,
@@ -68,9 +69,7 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: `1px dotted ${theme.palette.text.primary}`,
   },
   removeFile: {
-    '& svg': {
-      fill: theme.palette.mode === 'dark' ? theme.palette.common.white : '#758695',
-    },
+    '& svg': {},
   },
   asterisk: {
     color: theme.palette.error.main,
@@ -209,7 +208,7 @@ const FileField: React.FC<AttachmentFieldProps> = (props) => {
                 <></>
               ) : (
                 <IconButton onClick={onRemove} className={classes.removeFile}>
-                  <CancelIcon />
+                  <CloseCircle />
                 </IconButton>
               )}
             </Box>

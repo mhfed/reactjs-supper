@@ -39,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
   },
   title: {
-    backgroundColor: '#1F2332',
     padding: theme.spacing(1.5),
     display: 'flex',
     width: '100%',
@@ -53,7 +52,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#272B3B',
   },
   loginLogo: {
     display: 'flex',

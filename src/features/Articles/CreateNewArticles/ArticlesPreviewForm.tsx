@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    background: theme.palette.mode === 'dark' ? theme.palette.background.other2 : theme.palette.background.default,
     flex: 1,
     width: '100%',
     padding: theme.spacing(3),

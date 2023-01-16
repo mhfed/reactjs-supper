@@ -30,6 +30,10 @@ const darkTheme = createTheme({
       styleOverrides: {
         root: {
           height: 24,
+          '&.MuiChip-colorSecondary': {
+            border: 'none',
+            backgroundColor: '#3A425E',
+          },
         },
       },
     },
@@ -99,8 +103,12 @@ const darkTheme = createTheme({
       styleOverrides: {
         root: {
           '&.Mui-disabled': {
+            backgroundColor: '#758695 !important',
             pointerEvents: 'unset',
             cursor: 'not-allowed',
+            '&.MuiIconButton-root': {
+              backgroundColor: 'unset !important',
+            },
           },
           '&.MuiButton-text': {
             textTransform: 'capitalize',
@@ -124,12 +132,18 @@ const darkTheme = createTheme({
     },
     background: {
       default: '#13161F',
-      paper: '#272B3B',
-      other1: '#262B3E',
-      other2: '#1F2332',
-      other3: '#758695',
-      other4: '#272B3B',
-      other5: '#3A425E',
+      paper: '#1F2332',
+      main: '#272B3B',
+      menu: '#13161F',
+      headerCell: '#13161F',
+      oddRow: '#262B3E',
+      evenRow: '#1F2332',
+      headerModal: '#1F2332',
+      iconButton: '#758695',
+      attachment: '#3A425E',
+      attachmentBorder: '#758695',
+      closeIcon: '#ffffff',
+      closeIconBg: '#1F2332',
     },
     primary: {
       main: '#00C77F',

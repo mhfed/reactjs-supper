@@ -71,12 +71,7 @@ const InputField: React.FC<TextFieldProps> = ({
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             {value && props?.clearValue && !preview ? (
               <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  sx={{ fontSize: 16, color: '#758695' }}
-                  onClick={clearValue}
-                  edge="end"
-                >
+                <IconButton aria-label="toggle password visibility" onClick={clearValue} edge="end">
                   <CancelIcon />
                 </IconButton>
               </InputAdornment>

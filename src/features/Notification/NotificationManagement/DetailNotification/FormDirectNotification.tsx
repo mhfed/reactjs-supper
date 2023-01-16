@@ -12,9 +12,7 @@ import clsx from 'clsx';
 
 interface FormDirectNotificationProps {
   form: FormikProps<initialValuesType>;
-  classes: ClassNameMap<
-    'divCointainer' | 'containerForm' | 'buttonWrapper' | 'title' | 'iconClose' | 'header' | 'formContainer' | 'ChipTags'
-  >;
+  classes: ClassNameMap<'divCointainer' | 'containerForm' | 'buttonWrapper' | 'title' | 'iconClose' | 'header' | 'formContainer'>;
 }
 
 const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, classes }) => {
@@ -117,7 +115,7 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
                     {...getTagProps({ index })}
                     style={{ marginRight: theme.spacing(2) }}
                     title={`${option} (${values.subscribers[index].site_name})`}
-                    className={clsx(theme.palette.mode === 'dark' ? '' : classes.ChipTags, 'customTitle')}
+                    className="customTitle"
                     key={index}
                   />
                 ))

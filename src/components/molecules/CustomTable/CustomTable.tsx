@@ -46,7 +46,7 @@ const useStyles = (props: TableProps) =>
         padding: theme.spacing(0.5, 4, 0.5, 1.5),
       },
       '& .MuiToolbar-root': {
-        background: theme.palette.background.other4,
+        background: theme.palette.background.main,
         padding: 0,
         justifyContent: 'flex-end',
         '& > div:last-child': {
@@ -62,7 +62,6 @@ const useStyles = (props: TableProps) =>
         minHeight: 0,
         boxShadow: 'none',
         '& > div:nth-child(3)': {
-          background: theme.palette.mode === 'dark' ? theme.palette.background.other1 : theme.palette.background.default,
           borderRadius: 8,
           boxShadow: theme.shadows[1],
           flex: 1,
@@ -102,7 +101,7 @@ const useStyles = (props: TableProps) =>
       '& .MuiTableCell-head': {
         borderRadius: 8,
         overflow: 'hidden',
-        background: theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.background.other1,
+        background: theme.palette.background.headerCell,
         borderRight: '2px solid transparent',
         textAlign: props.textAlign || 'center',
         '& [class*="MUIDataTableHeadCell-data"]': {
@@ -133,10 +132,10 @@ const useStyles = (props: TableProps) =>
       },
       '& .MuiTableRow-root': {
         '&:nth-child(odd)': {
-          background: theme.palette.mode === 'dark' ? theme.palette.background.other1 : theme.palette.background.default,
+          background: theme.palette.background.oddRow,
         },
         '&:nth-child(even)': {
-          background: theme.palette.background.other2,
+          background: theme.palette.background.evenRow,
         },
         '&:hover': {
           background: theme.palette.hover.success,
