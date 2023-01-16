@@ -16,6 +16,7 @@ import Button from 'components/atoms/ButtonBase';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { ACTIONS } from './TableConstants';
 import clsx from 'clsx';
+import { Grid } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -88,47 +89,51 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
 
   return (
     <div className={classes.container}>
-      <div className={classes.listBtn}>
-        {listBtn &&
-          listBtn?.map(
-            (btn: any, i) =>
-              btn.isShow && (
-                <Button
-                  key={i}
-                  network
-                  disabled={btn.disabledEditMode && isEditMode}
-                  variant={btn.variant || 'contained'}
-                  className={clsx(!btn.isShow && classes.hidden)}
-                  sx={{ mr: 1 }}
-                  color={btn.color || 'primary'}
-                  onClick={btn.onClick}
-                >
-                  <Trans>{btn.label}</Trans>
-                </Button>
-              ),
+      <Grid container direction="row" justifyContent="start" alignItems="center" rowSpacing={1} sx={{ mb: { md: 1, lg: 0 } }}>
+        <Grid item>
+          {listBtn &&
+            listBtn?.map(
+              (btn: any, i) =>
+                btn.isShow && (
+                  <Button
+                    key={i}
+                    network
+                    disabled={btn.disabledEditMode && isEditMode}
+                    variant={btn.variant || 'contained'}
+                    className={clsx(!btn.isShow && classes.hidden)}
+                    sx={{ mr: 1 }}
+                    color={btn.color || 'primary'}
+                    onClick={btn.onClick}
+                  >
+                    <Trans>{btn.label}</Trans>
+                  </Button>
+                ),
+            )}
+        </Grid>
+        <Grid item>
+          {isEditMode ? (
+            <div className={clsx(!editable && classes.hidden)}>
+              <Button variant="outlined" onClick={() => handleEdit(ACTIONS.CANCEL)} sx={{ mr: 1 }}>
+                <Trans>lang_cancel</Trans>
+              </Button>
+              <Button network variant="contained" startIcon={<ModeEditIcon />} onClick={() => handleEdit(ACTIONS.SAVE)}>
+                <Trans>lang_save</Trans>
+              </Button>
+            </div>
+          ) : (
+            <Button
+              network
+              variant="contained"
+              className={clsx(!editable && classes.hidden)}
+              disabled={isNodata}
+              startIcon={<ModeEditIcon />}
+              onClick={() => handleEdit(ACTIONS.EDIT)}
+            >
+              <Trans>lang_edit</Trans>
+            </Button>
           )}
-        {isEditMode ? (
-          <div className={clsx(!editable && classes.hidden)}>
-            <Button variant="outlined" onClick={() => handleEdit(ACTIONS.CANCEL)} sx={{ mr: 1 }}>
-              <Trans>lang_cancel</Trans>
-            </Button>
-            <Button network variant="contained" startIcon={<ModeEditIcon />} onClick={() => handleEdit(ACTIONS.SAVE)}>
-              <Trans>lang_save</Trans>
-            </Button>
-          </div>
-        ) : (
-          <Button
-            network
-            variant="contained"
-            className={clsx(!editable && classes.hidden)}
-            disabled={isNodata}
-            startIcon={<ModeEditIcon />}
-            onClick={() => handleEdit(ACTIONS.EDIT)}
-          >
-            <Trans>lang_edit</Trans>
-          </Button>
-        )}
-      </div>
+        </Grid>
+      </Grid>
       <TextField
         inputRef={inputRef}
         variant="outlined"
