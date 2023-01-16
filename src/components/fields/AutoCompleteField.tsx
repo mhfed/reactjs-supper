@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type AutocompleteAsyncFieldProps = {
+type AutocompleteFieldProps = {
   id?: string;
   label?: string;
   name?: string;
@@ -56,7 +56,7 @@ type AutocompleteAsyncFieldProps = {
   getUrl: (text: string) => string;
 };
 
-const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
+const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   isOptionEqualToValue,
   label,
   required,
@@ -96,7 +96,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
         setLoading(true);
         const response: any = await httpRequest.get(getUrl(searchText));
         setLoading(false);
-        setOptions(response || []);
+        setOptions(response?.data || response || []);
       } else {
         return;
       }
@@ -212,4 +212,4 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   );
 };
 
-export default AutocompleteAsyncField;
+export default AutocompleteField;

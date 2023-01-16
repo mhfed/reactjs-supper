@@ -149,14 +149,17 @@ export function getArticlesListUrl({
   // if (sort?.sortType) url += `&sort_type=${sort.sortType}`;
   return url;
 }
+export function getSearchSubscribersUrl(searchText = '') {
+  return `v1/subscriber/subscribers/query?page_id=1&page_size=50&search=${searchText}`;
+}
 export function getListSubscriberSegmenttUrl({
   page = 1,
   rowsPerPage = 50,
   searchText = '',
 }: {
-  page: number;
-  rowsPerPage: number;
-  searchText: string | null;
+  page?: number;
+  rowsPerPage?: number;
+  searchText?: string | null;
 }) {
   let url = `v1/subscriber/subscribers/query?page_id=${page}&page_size=${rowsPerPage}`;
   if (searchText) url += `&search=${searchText}`;

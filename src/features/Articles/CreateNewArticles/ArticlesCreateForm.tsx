@@ -13,9 +13,9 @@ import {
   RadioGroupField,
   ImageField,
   FileField,
-  AuthAutoCompleteField,
   SelectField,
-  AutoCompleteField,
+  AutocompleteField,
+  AuthAutocompleteField,
 } from 'components/fields';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -152,7 +152,7 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
             </Grid>
             {values.site_name === SITENAME.CUSTOM ? (
               <Grid item xs={12}>
-                <AutoCompleteField
+                <AutocompleteField
                   name="sitename_custom"
                   label="lang_enter_sitename"
                   required
@@ -170,7 +170,7 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
               <></>
             )}
             <Grid item xs={12}>
-              <AuthAutoCompleteField
+              <AuthAutocompleteField
                 name="securities"
                 label="lang_security_code"
                 required

@@ -137,7 +137,7 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
         enqueueSnackbarAction({
           message: 'Lang_there_is_no_change_in_the_notification',
           key: new Date().getTime() + Math.random(),
-          variant: 'success',
+          variant: 'warning',
         }),
       );
     }

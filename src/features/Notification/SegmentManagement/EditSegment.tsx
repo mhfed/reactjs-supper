@@ -10,14 +10,14 @@ import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { Button, Stack, Typography, Grid, Box, Chip, useTheme } from '@mui/material';
 import { Trans } from 'react-i18next';
-import { InputField, AutocompleteAsyncField, PreviewField } from 'components/fields';
+import { InputField, AutocompleteField, PreviewField } from 'components/fields';
 import { useFormik } from 'formik';
 import { yup } from 'helpers';
 import httpRequest from 'services/httpRequest';
 import { putDataUpdateSegmentByID } from 'apis/request.url';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { useDispatch } from 'react-redux';
-import { Autocomplete, TextField, FormLabel } from '@mui/material';
+import { Autocomplete, TextField } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
@@ -25,6 +25,7 @@ import { LooseObject } from 'models/ICommon';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import clsx from 'clsx';
+import { getSearchSubscribersUrl } from 'apis/request.url';
 
 const useStyles = makeStyles((theme) => ({
   divCointainer: {
@@ -186,7 +187,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
         enqueueSnackbarAction({
           message: 'lang_there_is_no_change_in_the_segment_information',
           key: new Date().getTime() + Math.random(),
-          variant: 'success',
+          variant: 'warning',
         }),
       );
     } else {
@@ -307,18 +308,19 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
                 />
               </Grid>
               <Grid item xs={12}>
-                <AutocompleteAsyncField
-                  onBlur={handleBlur}
-                  isOptionEqualToValue={isOptionEqualToValue}
-                  onChange={(v: string) => setFieldValue('segment_subscribers', v)}
-                  error={touched.segment_subscribers && Boolean(errors.segment_subscribers)}
-                  helperText={touched.segment_subscribers && errors.segment_subscribers}
-                  value={values.segment_subscribers}
-                  required
-                  defaultValue={defaultArray}
-                  fullWidth
+                <AutocompleteField
+                  name="segment_subscribers"
                   label="lang_subscribers"
-                  id="segment_subscribers"
+                  required
+                  getUrl={getSearchSubscribersUrl}
+                  isOptionEqualToValue={isOptionEqualToValue}
+                  getOptionLabel={(option) => `${option.username} (${option.site_name})`}
+                  getChipLabel={(option) => option.username}
+                  value={values.segment_subscribers}
+                  onChange={(value) => setFieldValue('segment_subscribers', value)}
+                  onBlur={handleBlur}
+                  error={touched.segment_subscribers && Boolean(errors.segment_subscribers)}
+                  helperText={(touched.segment_subscribers && errors.segment_subscribers) as string}
                 />
               </Grid>
             </Grid>

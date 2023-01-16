@@ -9,7 +9,6 @@
 import InputField from './InputField';
 import PasswordField from './PasswordField';
 import SelectField from './SelectField';
-import AutocompleteAsyncField from './AutocompleteAsyncField';
 import RichTextboxField from './RichTextboxField';
 import PreviewField from './PreviewField';
 import RadioGroupField from './RadioGroupField';
@@ -17,14 +16,13 @@ import DatePickerField from './DatePickerField';
 import AutocompleteFreeSoloField from './AutocompleteFreeSoloField';
 import ImageField from './ImageField';
 import FileField from './FileField';
-import AuthAutoCompleteField from './AuthAutoCompleteField';
-import AutoCompleteField from './AutoCompleteField';
 import InputCodeField from './InputCodeField';
+import AutocompleteField from './AutocompleteField';
+import AuthAutocompleteField from './AuthAutocompleteField';
 export {
   InputField,
   PasswordField,
   SelectField,
-  AutocompleteAsyncField,
   PreviewField,
   RichTextboxField,
   RadioGroupField,
@@ -32,7 +30,7 @@ export {
   AutocompleteFreeSoloField,
   ImageField,
   FileField,
-  AuthAutoCompleteField,
-  AutoCompleteField,
+  AutocompleteField,
+  AuthAutocompleteField,
   InputCodeField,
 };

@@ -9,9 +9,10 @@ import {
   DELIVERY_TYPE,
 } from 'features/Notification/CreateNewNotification/NotificationConstant';
 import RadioGroupField from 'components/fields/RadioGroupField';
-import { AutocompleteAsyncField, InputField, SelectField, DatePickerField } from 'components/fields';
+import { AutocompleteField, InputField, SelectField, DatePickerField } from 'components/fields';
 import { initialValuesType, isOptionEqualToValue } from './index';
 import { ClassNameMap } from 'notistack';
+import { getSearchSubscribersUrl } from 'apis/request.url';
 
 interface FormCreateNotifiactionProps {
   form: FormikProps<initialValuesType>;
@@ -27,18 +28,19 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
         return (
           <React.Fragment>
             <Grid item xs={12} style={{ paddingBottom: 3 }}>
-              <AutocompleteAsyncField
-                onBlur={handleBlur}
-                isOptionEqualToValue={isOptionEqualToValue}
-                onChange={(v: string) => setFieldValue('subscribers', v)}
-                error={touched.subscribers && Boolean(errors.subscribers)}
-                helperText={touched.subscribers && errors.subscribers}
-                value={values.subscribers}
-                required
+              <AutocompleteField
+                name="subscribers"
                 label="lang_subscribers"
-                defaultValue={[]}
-                fullWidth
-                id="subscribers"
+                required
+                getUrl={getSearchSubscribersUrl}
+                isOptionEqualToValue={isOptionEqualToValue}
+                getOptionLabel={(option) => `${option.username} (${option.site_name})`}
+                getChipLabel={(option) => option.username}
+                value={values.subscribers}
+                onChange={(value) => setFieldValue('subscribers', value)}
+                onBlur={handleBlur}
+                error={touched.subscribers && Boolean(errors.subscribers)}
+                helperText={(touched.subscribers && errors.subscribers) as string}
               />
             </Grid>
             <Grid item xs={12}>
