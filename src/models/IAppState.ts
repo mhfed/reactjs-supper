@@ -37,5 +37,5 @@ export type IAppActionCreator = {
 export type INotifer = {
   key: number | string;
   message?: string | React.ReactNode;
-  variant?: 'success' | 'error' | 'warning' | 'info';
+  variant?: 'success' | 'error' | 'warning' | 'info' | string;
 };

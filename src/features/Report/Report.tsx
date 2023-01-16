@@ -199,6 +199,8 @@ const Report: React.FC<ReportProps> = () => {
         onRowDbClick={onRowDbClick}
         onTableChange={onTableChange}
         columns={columns}
+        noChangeKey="lang_there_is_no_change_in_the_report_information"
+        noChangeType="success"
         // noDataText="lang_no_matching_records_found"
       />
       <ConfirmModal
