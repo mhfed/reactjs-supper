@@ -17,8 +17,8 @@ import AutocompleteFreeSoloField from './AutocompleteFreeSoloField';
 import ImageField from './ImageField';
 import FileField from './FileField';
 import InputCodeField from './InputCodeField';
-import AutocompleteField from './AutocompleteField';
-import AuthAutocompleteField from './AuthAutocompleteField';
+import AutocompleteField from './AutoCompleteField';
+import AuthAutocompleteField from './AuthAutoCompleteField';
 export {
   InputField,
   PasswordField,
