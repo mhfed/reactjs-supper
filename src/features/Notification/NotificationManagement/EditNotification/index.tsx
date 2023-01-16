@@ -135,7 +135,8 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
     if (!diff(values, initialValues)) {
       dispatch(
         enqueueSnackbarAction({
-          message: 'Lang_there_is_no_change_in_the_notification',
+          // message: 'Lang_there_is_no_change_in_the_notification',
+          message: 'lang_there_is_nothing_to_change',
           key: new Date().getTime() + Math.random(),
           variant: 'warning',
         }),
