@@ -227,7 +227,6 @@ const Report: React.FC<ReportProps> = () => {
         onRowDbClick={onRowDbClick}
         onTableChange={onTableChange}
         columns={columns}
-        noChangeKey="lang_there_is_no_change_in_the_report_information"
         noDataText="lang_no_data"
       />
     </div>

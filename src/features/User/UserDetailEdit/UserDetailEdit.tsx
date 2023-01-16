@@ -82,9 +82,10 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
     if (!isChanged) {
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_there_is_no_change_in_the_user_information',
+          // message: 'lang_there_is_no_change_in_the_user_information',
+          message: 'lang_there_is_nothing_to_change',
           key: new Date().getTime() + Math.random(),
-          variant: 'success',
+          variant: 'warning',
         }),
       );
     } else {

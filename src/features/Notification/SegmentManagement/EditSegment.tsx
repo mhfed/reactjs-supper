@@ -173,9 +173,10 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
     if (values.segment_name === initialValues.segment_name && !isChangeSubscriber) {
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_there_is_no_change_in_the_segment_information',
+          // message: 'lang_there_is_no_change_in_the_segment_information',
+          message: 'lang_there_is_nothing_to_change',
           key: new Date().getTime() + Math.random(),
-          variant: 'success',
+          variant: 'warning',
         }),
       );
     } else {
