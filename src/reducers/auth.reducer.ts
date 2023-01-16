@@ -92,7 +92,7 @@ const reducer = (state = initialState, { type, payload }: IAuthActionCreator) =>
     case IAuthActionTypes.SET_PASSWORD_FAILURE:
       return {
         ...state,
-        error: payload.error,
+        error: payload.error + '|' + Date.now(),
         isLoading: false,
       };
     case IAuthActionTypes.LOGOUT:
@@ -112,7 +112,7 @@ const reducer = (state = initialState, { type, payload }: IAuthActionCreator) =>
         email: payload.email,
         isLoading: false,
         createPasswordToken: payload.createPasswordToken,
-        error: payload?.error || '',
+        error: payload.error + '|' + Date.now(),
         step: IAuthStep.SET_PASSWORD,
       };
     case IAuthActionTypes.SILENT_LOGIN:

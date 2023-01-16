@@ -171,10 +171,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
         component: IressSignIn,
         styleModal: { minWidth: 440 },
         props: {
-          title: 'lang_confirm_cancel_text',
-          cancelText: 'lang_no',
-          confirmText: 'lang_yes',
-          emailConfirm: false,
+          title: 'lang_please_sign_in_to_select_security_code',
           onSubmit: () => {
             hideSubModal();
           },

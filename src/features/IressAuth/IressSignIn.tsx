@@ -24,10 +24,6 @@ import { useDispatch } from 'react-redux';
 import { IAuthActionTypes } from 'models/IAuthState';
 import moment from 'moment';
 
-interface IressSignInProps {
-  cbAfterSignIn?: (token?: string, sitename?: string) => void;
-}
-
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     display: 'flex',
@@ -53,6 +49,11 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.error.main,
   },
 }));
+
+interface IressSignInProps {
+  cbAfterSignIn?: (token?: string, sitename?: string) => void;
+  title: string;
+}
 
 export const isOptionEqualToValue = (option: LooseObject, value: LooseObject) => {
   return option.username === value.username;
@@ -191,7 +192,7 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
     return (
       <Grid item xs={12}>
         <Typography>
-          <Trans>lang_please_sign_in_iress</Trans>
+          <Trans>{props.title}</Trans>
         </Typography>
       </Grid>
     );

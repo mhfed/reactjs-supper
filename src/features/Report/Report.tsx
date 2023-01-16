@@ -42,14 +42,23 @@ const Report: React.FC<ReportProps> = () => {
   const { showSubModal } = useGlobalModalContext();
   const [logoutModalOpen, setLogoutModalOpen] = React.useState(false);
 
+  React.useEffect(() => {
+    getData();
+  }, []);
+
   const getData = async (token?: string, sn?: string) => {
     try {
       gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
 
-      const response: any = await httpRequest.get(getListReportUrl(config), {
-        headers: { 'token-app': token || iressToken, 'site-name': sn || sitename },
-      });
+      const headerConfig: { headers?: LooseObject } = {};
+      if (token && sn) {
+        headerConfig.headers = {
+          'token-app': token || iressToken,
+          'site-name': sn || sitename,
+        };
+      }
+      const response: any = await httpRequest.get(getListReportUrl(config), headerConfig);
 
       response.data.map((e: any) => {
         dicReport.current[e[FIELD.TEMPLATE_ID]] = e;
@@ -69,16 +78,16 @@ const Report: React.FC<ReportProps> = () => {
   };
 
   const handleFetch = () => {
-    // do something
     console.log('handle fetch report');
     if (iressToken) {
-      getData();
+      getData(iressToken, sitename + '');
     } else {
       showSubModal({
         title: 'lang_sign_in',
         component: IressSignIn,
         styleModal: { minWidth: 440 },
         props: {
+          title: 'lang_please_sign_in_to_fetch_report',
           cbAfterSignIn: getData,
         },
       });
@@ -86,9 +95,9 @@ const Report: React.FC<ReportProps> = () => {
   };
 
   const onTableChange = () => {
-    // getData();
+    getData();
   };
-  const getActions = () => {};
+
   const columns = React.useMemo(() => {
     return [
       {
@@ -118,7 +127,7 @@ const Report: React.FC<ReportProps> = () => {
       {
         name: 'ACTION_COLUMN',
         type: COLUMN_TYPE.ACTION,
-        getActions,
+        getActions: () => {},
         label: ' ',
       },
     ];
@@ -130,17 +139,13 @@ const Report: React.FC<ReportProps> = () => {
     return data[FIELD.TEMPLATE_ID];
   };
 
-  React.useEffect(() => {
-    gridRef?.current?.setData?.();
-  });
-
   const confirmEditReport = React.useCallback(async (data: any, callback: () => void) => {
     try {
       await httpRequest.put(getReportUrl(), data);
       callback?.();
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_update_user_information_successfully',
+          message: 'lang_update_report_information_successfully',
           key: new Date().getTime() + Math.random(),
           variant: 'success',
         }),
@@ -148,13 +153,14 @@ const Report: React.FC<ReportProps> = () => {
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_update_user_information_unsuccessfully',
+          message: 'lang_update_report_information_unsuccessfully',
           key: new Date().getTime() + Math.random(),
           variant: 'error',
         }),
       );
     }
   }, []);
+
   const onSaveReport = (dicDataChanged: LooseObject, cb: any) => {
     const data = Object.keys(dicDataChanged).map((k) => ({
       ...dicDataChanged[k],
@@ -163,21 +169,37 @@ const Report: React.FC<ReportProps> = () => {
     }));
     confirmEditReport(data, cb);
   };
+
+  /**
+   * Handle close popup when click cancel on modal
+   */
   const onCloseLogout = () => {
     setLogoutModalOpen(false);
   };
+
+  /**
+   * Handle click button SignOut
+   */
   const handleSignOut = () => {
     setLogoutModalOpen(true);
   };
+
+  /**
+   * Handle logout iress account
+   */
   const onConfirmLogout = async () => {
     dispatch(iressLogout());
   };
 
+  /**
+   * List button of header table
+   */
   const listBtnHeader = [
     {
       label: 'lang_fetch_report',
       onClick: handleFetch,
       isShow: true,
+      disabledEditMode: true,
     },
     {
       label: 'lang_sign_out',
@@ -187,12 +209,17 @@ const Report: React.FC<ReportProps> = () => {
       color: 'error',
     },
   ];
+
+  React.useEffect(() => {
+    gridRef?.current?.setData?.();
+  }, []);
+
   return (
     <div className={classes.container}>
       <CustomTable
         editable
         listBtn={listBtnHeader}
-        name="user_management"
+        name="report"
         fnKey={getRowId}
         ref={gridRef}
         onSave={onSaveReport}
@@ -201,7 +228,7 @@ const Report: React.FC<ReportProps> = () => {
         columns={columns}
         noChangeKey="lang_there_is_no_change_in_the_report_information"
         noChangeType="success"
-        // noDataText="lang_no_matching_records_found"
+        noDataText="lang_no_data"
       />
       <ConfirmModal
         open={logoutModalOpen}

@@ -20,12 +20,13 @@ type TextFieldProps = {
   type?: string;
   error?: boolean;
   disabled?: boolean;
+  readOnly?: boolean;
   value?: string;
   helperText?: string | boolean | undefined | FormikErrors<any>[] | FormikErrors<any> | string[];
   fullWidth?: boolean;
   sx?: any;
+  maxLength?: number;
   inputProps?: any;
-  InputProps?: any;
   required?: boolean;
   autoFocus?: boolean;
   autoComplete?: string;
@@ -41,7 +42,16 @@ type TextFieldProps = {
   preview?: boolean;
 };
 
-const InputField: React.FC<TextFieldProps> = ({ label, helperText, preview = false, value, variant, InputProps, ...props }) => {
+const InputField: React.FC<TextFieldProps> = ({
+  label,
+  helperText,
+  preview = false,
+  value,
+  variant,
+  maxLength,
+  readOnly,
+  ...props
+}) => {
   const clearValue = () => {
     props?.clearValue && props.clearValue(props?.name || '', '');
   };
@@ -52,9 +62,11 @@ const InputField: React.FC<TextFieldProps> = ({ label, helperText, preview = fal
       variant={preview ? 'standard' : variant}
       value={value}
       label={<Trans>{label}</Trans>}
+      inputProps={{
+        maxLength: maxLength || 1000,
+      }}
       InputProps={{
-        ...(InputProps || {}),
-        readOnly: preview ? true : InputProps?.readOnly,
+        readOnly: preview ? true : readOnly,
         endAdornment: (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             {value && props?.clearValue && !preview ? (

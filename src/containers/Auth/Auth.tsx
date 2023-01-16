@@ -28,7 +28,6 @@ const Auth: FC<AuthProps> = ({ children }) => {
       const uniqSeries = window.localStorage.getItem('uniqSeries');
       const pin = atob(uniqSeries + '');
       if (pin && isStaySignedIn && lastDeviceId && refreshToken) {
-        window.localStorage.setItem('isAutoLoging', 'true');
         dispatch(autoLogin(refreshToken, lastDeviceId, pin, navigate) as any);
       }
     }

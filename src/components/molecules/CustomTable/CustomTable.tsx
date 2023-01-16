@@ -396,7 +396,7 @@ type TypeButtonHeader = {
   variant?: 'contained' | 'outlined' | 'text' | string;
   isShow?: boolean;
   sx?: any;
-  disabled?: boolean;
+  disabledEditMode?: boolean;
 };
 
 type TableProps = {
