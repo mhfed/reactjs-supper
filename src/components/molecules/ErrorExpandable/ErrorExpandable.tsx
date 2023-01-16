@@ -36,16 +36,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type ErrorCollapseProps = {
-  error?: { text: string; time: number } | null;
+  error?: string | null;
 };
 
-const ErrorCollapse: React.FC<ErrorCollapseProps> = ({ error = { text: '' } }) => {
+const ErrorCollapse: React.FC<ErrorCollapseProps> = ({ error = '' }) => {
   const classes = useStyles();
   const errorRef = React.useRef<HTMLDivElement>(null);
   const timeoutId = React.useRef<number>(0);
 
   React.useEffect(() => {
-    if (error?.text) {
+    if (error) {
       timeoutId.current && window.clearTimeout(timeoutId.current);
       timeoutId.current = window.setTimeout(() => {
         errorRef?.current?.classList?.remove(classes.show);
@@ -56,9 +56,10 @@ const ErrorCollapse: React.FC<ErrorCollapseProps> = ({ error = { text: '' } }) =
     }
   }, [error]);
 
+  const errorText = error?.split('|')[0];
   return (
     <Typography ref={errorRef} align="center" className={classes.errorContainer}>
-      {error?.text ? <Trans>{error.text}</Trans> : ''}
+      <Trans>{errorText}</Trans>
     </Typography>
   );
 };

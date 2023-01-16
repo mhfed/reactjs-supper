@@ -37,9 +37,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
           <InputField
             name="segment"
             label="lang_segment"
-            InputProps={{
-              readOnly: true,
-            }}
+            preview
             fullWidth
             variant={'standard'}
             value={(values.segment as any)?.name}
@@ -124,25 +122,13 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
             {renderField()}
           </Grid>
           <Grid item xs={12}>
-            <InputField
-              name="title"
-              label="lang_title"
-              InputProps={{
-                readOnly: true,
-              }}
-              multiline
-              fullWidth
-              variant={'standard'}
-              value={values.title}
-            />
+            <InputField name="title" label="lang_title" preview multiline fullWidth variant={'standard'} value={values.title} />
           </Grid>
           <Grid item xs={12}>
             <InputField
               name="message"
               label="lang_message"
-              InputProps={{
-                readOnly: true,
-              }}
+              preview
               fullWidth
               variant={'standard'}
               value={values.message}
@@ -150,16 +136,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
             />
           </Grid>
           <Grid item xs={12}>
-            <InputField
-              name="type_url"
-              label="lang_type_url"
-              InputProps={{
-                readOnly: true,
-              }}
-              fullWidth
-              variant={'standard'}
-              value={values.type_url}
-            />
+            <InputField name="type_url" label="lang_type_url" preview fullWidth variant={'standard'} value={values.type_url} />
           </Grid>
         </Grid>
         <Grid item container xs={12} md={6} spacing={2} style={{ height: 'fit-content' }}>
@@ -169,9 +146,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
                 <InputField
                   // name="message"
                   label="lang_delivery_type"
-                  InputProps={{
-                    readOnly: true,
-                  }}
+                  preview
                   fullWidth
                   variant={'standard'}
                   value={delivery_type_preview}
@@ -185,9 +160,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
                 <InputField
                   // name="message"
                   label="lang_delivery_type"
-                  InputProps={{
-                    readOnly: true,
-                  }}
+                  preview
                   fullWidth
                   variant={'standard'}
                   value={delivery_type_preview}
@@ -197,9 +170,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
                 <InputField
                   // name="message"
                   label="lang_expire"
-                  InputProps={{
-                    readOnly: true,
-                  }}
+                  preview
                   fullWidth
                   variant={'standard'}
                   value={expired_preview}

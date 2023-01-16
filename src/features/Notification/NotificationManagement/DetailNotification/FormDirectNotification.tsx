@@ -47,38 +47,17 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
             <InputField
               name="notification_type"
               label="lang_notification_type"
-              InputProps={{
-                readOnly: true,
-              }}
+              preview
               fullWidth
               variant={'standard'}
               value={values.notification_type}
             />
           </Grid>
           <Grid item xs={12}>
-            <InputField
-              name="title"
-              label="lang_title"
-              InputProps={{
-                readOnly: true,
-              }}
-              fullWidth
-              multiline
-              variant={'standard'}
-              value={values.title}
-            />
+            <InputField name="title" label="lang_title" preview fullWidth multiline variant={'standard'} value={values.title} />
           </Grid>
           <Grid item xs={12}>
-            <InputField
-              name="type_url"
-              label="lang_type_url"
-              InputProps={{
-                readOnly: true,
-              }}
-              fullWidth
-              variant={'standard'}
-              value={values?.type_url}
-            />
+            <InputField name="type_url" label="lang_type_url" preview fullWidth variant={'standard'} value={values?.type_url} />
           </Grid>
         </Grid>
         <Grid item container xs={12} md={6} spacing={3} style={{ height: 'fit-content' }}>
@@ -88,9 +67,7 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
                 <InputField
                   // name="message"
                   label="lang_delivery_type"
-                  InputProps={{
-                    readOnly: true,
-                  }}
+                  preview
                   fullWidth
                   variant={'standard'}
                   value={delivery_type_preview}
@@ -104,9 +81,7 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
                 <InputField
                   // name="message"
                   label="lang_delivery_type"
-                  InputProps={{
-                    readOnly: true,
-                  }}
+                  preview
                   fullWidth
                   variant={'standard'}
                   value={delivery_type_preview}
@@ -116,9 +91,7 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
                 <InputField
                   // name="message"
                   label="lang_expire"
-                  InputProps={{
-                    readOnly: true,
-                  }}
+                  preview
                   fullWidth
                   variant={'standard'}
                   value={expired_preview}
@@ -169,9 +142,7 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
             <InputField
               name="message"
               label="lang_message"
-              InputProps={{
-                readOnly: true,
-              }}
+              preview
               fullWidth
               variant={'standard'}
               value={values.message}

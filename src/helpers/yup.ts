@@ -13,6 +13,9 @@ import validate from './validate';
 const urlPattern = /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
 
 declare module 'yup' {
+  interface MixedSchema<TType, TContext, TOut> {
+    checkFile(message: string, maxSize?: number, accept?: string): any;
+  }
   interface StringSchema {
     checkEmail(message: string): any;
     checkValidField(message: string): any;
@@ -65,6 +68,22 @@ yup.addMethod(yup.string, 'compareTimes', function (message = 'lang_expire_date_
     const valueTime = moment(value).toDate().getTime();
 
     if (localTime > valueTime) return createError({ path, message: message });
+    return true;
+  });
+});
+
+yup.addMethod(yup.mixed, 'checkFile', function (message, maxSize = 10000000, accept = '.jpeg, .jpg, .png, .heic') {
+  return this.test('checkFile', '', function (value) {
+    const { path, createError } = this;
+    if ([null, undefined, ''].includes(value)) {
+      return createError({ path, message });
+    }
+    if (value.size && value.size > maxSize)
+      return createError({
+        path,
+        message: 'lang_field_size_limit_exceeded',
+      });
+    if (value.extension && !accept.includes(value.extension)) return createError({ path, message: 'lang_file_format_error' });
     return true;
   });
 });
