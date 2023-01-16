@@ -200,6 +200,7 @@ const Report: React.FC<ReportProps> = () => {
       label: 'lang_fetch_report',
       onClick: handleFetch,
       isShow: true,
+      disabledEditMode: true,
     },
     {
       label: 'lang_sign_out',
@@ -226,8 +227,9 @@ const Report: React.FC<ReportProps> = () => {
         onRowDbClick={onRowDbClick}
         onTableChange={onTableChange}
         columns={columns}
-        noDataText="lang_no_data"
         noChangeKey="lang_there_is_no_change_in_the_report_information"
+        noChangeType="success"
+        noDataText="lang_no_data"
       />
     </div>
   );

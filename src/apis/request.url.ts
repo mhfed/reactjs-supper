@@ -200,8 +200,8 @@ export const getListReportUrl = ({
 }) => {
   let url = `/v1/reports?page_id=${page}&page_size=${rowsPerPage}`;
   if (searchText) url += `&search=${searchText}`;
-  // if (sort?.sortField) url += `&sort_field=${sort.sortField}`;
-  // if (sort?.sortType) url += `&sort_type=${sort.sortType}`;
+  if (sort?.sortField) url += `&sort_field=${sort.sortField}`;
+  if (sort?.sortType) url += `&sort_type=${sort.sortType}`;
   return url;
 };
 
