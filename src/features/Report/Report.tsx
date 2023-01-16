@@ -228,7 +228,6 @@ const Report: React.FC<ReportProps> = () => {
         onTableChange={onTableChange}
         columns={columns}
         noChangeKey="lang_there_is_no_change_in_the_report_information"
-        noChangeType="success"
         noDataText="lang_no_data"
       />
     </div>

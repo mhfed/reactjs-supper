@@ -413,7 +413,6 @@ type TableProps = {
   noChangeKey?: string;
   name: string;
   noDataText?: string;
-  noChangeType?: string;
   defaultSort?: LooseObject;
 };
 
@@ -422,7 +421,6 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
   const {
     name,
     noChangeKey,
-    noChangeType,
     columns = [],
     onTableChange,
     onRowDbClick = null,
@@ -479,7 +477,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
             enqueueSnackbarAction({
               message: noChangeKey || 'lang_there_is_nothing_to_change',
               key: new Date().getTime() + Math.random(),
-              variant: noChangeType || 'warning',
+              variant: 'warning',
             }),
           );
           setEditMode(false);
