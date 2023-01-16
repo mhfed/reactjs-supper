@@ -28,22 +28,6 @@ import { useGlobalModalContext } from 'containers/Modal';
 import IressSignIn from 'features/IressAuth';
 import Confirm from 'containers/Modal/Confirm';
 
-type AutocompleteAsyncFieldProps = {
-  id?: string;
-  label?: string;
-  name?: string;
-  error?: boolean;
-  value?: any;
-  helperText?: string;
-  isOptionEqualToValue?: (option: LooseObject, value: LooseObject) => boolean;
-  required?: boolean;
-  onChange?: (e: any) => void;
-  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  options?: LooseObject[];
-  getOptionLabel?: (opt: LooseObject) => string;
-  getChipLabel?: (opt: LooseObject) => string;
-  getUrl?: (text: string) => string;
-};
 const useStyles = makeStyles((theme) => ({
   container: {
     '& .MuiChip-root': {
@@ -67,7 +51,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
+type AuthAutoCompleteFieldProps = {
+  id?: string;
+  label?: string;
+  name?: string;
+  error?: boolean;
+  value?: any;
+  helperText?: string;
+  isOptionEqualToValue?: (option: LooseObject, value: LooseObject) => boolean;
+  required?: boolean;
+  onChange?: (e: any) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  options?: LooseObject[];
+  getOptionLabel?: (opt: LooseObject) => string;
+  getChipLabel?: (opt: LooseObject) => string;
+  getUrl?: (text: string) => string;
+};
+
+const AuthAutocompleteField: React.FC<AuthAutoCompleteFieldProps> = ({
   isOptionEqualToValue,
   label,
   required,
@@ -269,4 +270,4 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   );
 };
 
-export default AutocompleteAsyncField;
+export default AuthAutocompleteField;
