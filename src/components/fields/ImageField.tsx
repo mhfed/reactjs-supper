@@ -200,6 +200,7 @@ const AttachmentField: React.FC<AttachmentFieldProps> = (props) => {
         <InputBase
           type="file"
           inputRef={refInput}
+          disabled={preview}
           id={`input_file_for_${name}`}
           inputProps={{
             accept: accept,
