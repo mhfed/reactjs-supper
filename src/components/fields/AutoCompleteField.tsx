@@ -21,7 +21,6 @@ import clsx from 'clsx';
 const useStyles = makeStyles((theme) => ({
   chipContainer: {
     '& .MuiChip-root': {
-      background: theme.palette.background.other5,
       border: 'none',
     },
     '& .MuiChip-label': {
@@ -186,6 +185,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
                     variant="outlined"
                     label={_getChipLabel(option)}
                     {...getTagProps({ index })}
+                    color="secondary"
                     className={classes.chipContainer}
                     title={_getOptionLabel(option)}
                     key={`autocomplete_chip_${id}_${index}`}

@@ -15,11 +15,17 @@ import typography from './typography';
 // Override Mui's theme typings to include the new theme property
 declare module '@mui/material/styles' {
   interface TypeBackground {
-    other1: string;
-    other2: string;
-    other3: string;
-    other4: string;
-    other5: string;
+    main?: string;
+    menu?: string;
+    headerCell?: string;
+    oddRow?: string;
+    evenRow?: string;
+    headerModal?: string;
+    iconButton?: string;
+    attachment?: string;
+    attachmentBorder?: string;
+    closeIconBg?: string;
+    closeIcon?: string;
   }
   interface PaletteColor {
     success: string;

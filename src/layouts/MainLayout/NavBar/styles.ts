@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexShrink: 0,
     },
     drawerPaper: {
-      background: theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.background.other3,
+      background: theme.palette.background.menu,
       width: `${process.env.REACT_APP_DRAWER_WIDTH}px`,
       paddingBottom: 50,
     },

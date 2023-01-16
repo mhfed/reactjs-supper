@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   btnGenerate: {
     marginLeft: theme.spacing(1),
     textTransform: 'capitalize',
-    background: theme.palette.mode === 'dark' ? 'rgba(0, 199, 127, 0.08)' : '#E1FFF4',
+    background: theme.palette.hover.success,
   },
 }));
 
@@ -44,7 +44,6 @@ type TextFieldProps = {
   generate?: boolean;
   onChange?: (e: string) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  styleIcon?: SxProps<Theme>;
 };
 
 const PasswordField: React.FC<TextFieldProps> = ({ label, helperText, value, generate, maxLength = 25, ...props }) => {
@@ -81,12 +80,7 @@ const PasswordField: React.FC<TextFieldProps> = ({ label, helperText, value, gen
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             {value ? (
               <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  edge="end"
-                  sx={{ ...props.styleIcon }}
-                >
+                <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} edge="end">
                   {!visibility ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>

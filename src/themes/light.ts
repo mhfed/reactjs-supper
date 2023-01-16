@@ -31,6 +31,10 @@ const lightTheme = createTheme({
       styleOverrides: {
         root: {
           height: 24,
+          '&.MuiChip-colorSecondary': {
+            border: 'none',
+            backgroundColor: '#E3EFFD',
+          },
         },
       },
     },
@@ -61,6 +65,9 @@ const lightTheme = createTheme({
       styleOverrides: {
         root: {
           overflow: 'hidden',
+          '& input': {
+            backgroundColor: '#ffffff',
+          },
           '&.Mui-error': {
             '& input, & textarea': {
               color: '#FF435F',
@@ -100,8 +107,12 @@ const lightTheme = createTheme({
       styleOverrides: {
         root: {
           '&.Mui-disabled': {
+            backgroundColor: '#758695 !important',
             pointerEvents: 'unset',
             cursor: 'not-allowed',
+            '&.MuiIconButton-root': {
+              backgroundColor: 'unset !important',
+            },
           },
           '&.MuiButton-text': {
             textTransform: 'capitalize',
@@ -126,11 +137,17 @@ const lightTheme = createTheme({
     background: {
       default: '#FFFFFF',
       paper: '#FFFFFF',
-      other1: '#3A425E',
-      other2: '#F2F8FF',
-      other3: '#13161F',
-      other4: '#E8ECEF',
-      other5: '#E3EFFD',
+      main: '#E8ECEF',
+      menu: '#13161F',
+      headerCell: '#3A425E',
+      oddRow: '#FFFFFF',
+      evenRow: '#F2F8FF',
+      headerModal: '#E8ECEF',
+      iconButton: '#E8ECEF',
+      attachment: '#F2F8FF',
+      attachmentBorder: '#262B3E',
+      closeIcon: '#758695',
+      closeIconBg: '#FFFFFF',
     },
     primary: {
       main: '#00C77F',

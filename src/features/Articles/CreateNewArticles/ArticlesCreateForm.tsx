@@ -34,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     width: '100%',
     padding: theme.spacing(3),
-    background: theme.palette.mode === 'dark' ? theme.palette.background.other2 : theme.palette.background.default,
     '& form': {
       display: 'flex',
       flex: 1,

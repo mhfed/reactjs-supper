@@ -2,8 +2,8 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import makeStyles from '@mui/styles/makeStyles';
-import IconButton from '@mui/material/IconButton';
-import CancelIcon from '@mui/icons-material/Cancel';
+import IconButton from 'components/atoms/IconButton';
+import CloseCircle from 'assets/icons/CloseCircle';
 import InputBase from '@mui/material/InputBase';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -30,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
     minHeight: 100,
     cursor: 'pointer',
     borderRadius: '8px',
-    background: theme.palette.background.other2,
+    borderColor: theme.palette.background.attachmentBorder,
+    background: theme.palette.background.attachment,
   },
   imageContainer: {
     minHeight: 200,
@@ -42,15 +43,6 @@ const useStyles = makeStyles((theme) => ({
     border: 'none',
     minHeight: 'unset',
     background: 'transparent',
-  },
-  removeImage: {
-    position: 'absolute',
-    top: -8,
-    right: -8,
-    zIndex: 11,
-    '& svg': {
-      fill: theme.palette.mode === 'dark' ? theme.palette.common.white : '#758695',
-    },
   },
   inputFileHidden: {
     position: 'absolute',
@@ -214,8 +206,8 @@ const AttachmentField: React.FC<AttachmentFieldProps> = (props) => {
               {preview ? (
                 <></>
               ) : (
-                <IconButton onClick={onRemove} className={classes.removeImage}>
-                  <CancelIcon />
+                <IconButton onClick={onRemove}>
+                  <CloseCircle />
                 </IconButton>
               )}
               <img alt="attachment_field_preview_img" src={file.url} />

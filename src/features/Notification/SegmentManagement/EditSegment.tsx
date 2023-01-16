@@ -59,19 +59,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     padding: theme.spacing(1),
     textTransform: 'uppercase',
-    background: theme.palette.mode === 'dark' ? theme.palette.background.default : theme.palette.background.other4,
-  },
-  ChipTags: {
-    color: '#27A6E7',
-    backgroundColor: '#E3EFFD',
-    border: 'none',
-    '&:hover': {
-      backgroundColor: '#08D98D',
-      color: '#ffffff',
-    },
-    '&:hover svg': {
-      fill: '#ffffff',
-    },
+    background: theme.palette.background.headerModal,
   },
 }));
 
@@ -247,7 +235,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
                           {...getTagProps({ index })}
                           style={{ marginRight: theme.spacing(2) }}
                           title={`${values.segment_subscribers[index].username} (${values.segment_subscribers[index].site_name})`}
-                          className={clsx(theme.palette.mode === 'dark' ? '' : classes.ChipTags, 'customTitle')}
+                          className="customTitle"
                           key={index}
                         />
                       ))

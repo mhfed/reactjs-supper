@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flex: 1,
     height: '100%',
-    background: theme.palette.mode === 'dark' ? theme.palette.background.other2 : theme.palette.background.default,
     flexDirection: 'column',
     alignItems: 'flex-start',
     padding: theme.spacing(5),
@@ -45,18 +44,6 @@ const useStyles = makeStyles((theme) => ({
   title: {
     textTransform: 'uppercase',
     marginBottom: theme.spacing(2),
-  },
-  ChipTags: {
-    color: '#27A6E7',
-    backgroundColor: '#E3EFFD',
-    border: 'none',
-    '&:hover': {
-      backgroundColor: '#08D98D',
-      color: '#ffffff',
-    },
-    '&:hover svg': {
-      fill: '#ffffff',
-    },
   },
 }));
 
@@ -166,7 +153,7 @@ const Sample = () => {
                           label={option}
                           style={{ marginRight: theme.spacing(2) }}
                           title={`${values.segment_subscribers[index].username} (${values.segment_subscribers[index].site_name})`}
-                          className={clsx(theme.palette.mode === 'dark' ? '' : classes.ChipTags, 'customTitle')}
+                          className="customTitle"
                           key={index}
                         />
                       ))
