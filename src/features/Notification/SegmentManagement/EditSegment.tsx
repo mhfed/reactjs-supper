@@ -186,7 +186,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
         enqueueSnackbarAction({
           message: 'lang_there_is_no_change_in_the_segment_information',
           key: new Date().getTime() + Math.random(),
-          variant: 'success',
+          variant: 'warning',
         }),
       );
     } else {
