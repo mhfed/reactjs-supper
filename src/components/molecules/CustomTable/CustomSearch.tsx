@@ -109,7 +109,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
           )}
         {isEditMode ? (
           <div className={clsx(!editable && classes.hidden)}>
-            <Button variant="outlined" startIcon={<ModeEditIcon />} onClick={() => handleEdit(ACTIONS.CANCEL)} sx={{ mr: 1 }}>
+            <Button variant="outlined" onClick={() => handleEdit(ACTIONS.CANCEL)} sx={{ mr: 1 }}>
               <Trans>lang_cancel</Trans>
             </Button>
             <Button network variant="contained" startIcon={<ModeEditIcon />} onClick={() => handleEdit(ACTIONS.SAVE)}>
