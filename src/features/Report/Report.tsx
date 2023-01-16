@@ -42,14 +42,23 @@ const Report: React.FC<ReportProps> = () => {
   const { showSubModal } = useGlobalModalContext();
   const [logoutModalOpen, setLogoutModalOpen] = React.useState(false);
 
+  React.useEffect(() => {
+    getData();
+  }, []);
+
   const getData = async (token?: string, sn?: string) => {
     try {
       gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
 
-      const response: any = await httpRequest.get(getListReportUrl(config), {
-        headers: { 'token-app': token || iressToken, 'site-name': sn || sitename },
-      });
+      const headerConfig: { headers?: LooseObject } = {};
+      if (token && sn) {
+        headerConfig.headers = {
+          'token-app': token || iressToken,
+          'site-name': sn || sitename,
+        };
+      }
+      const response: any = await httpRequest.get(getListReportUrl(config), headerConfig);
 
       response.data.map((e: any) => {
         dicReport.current[e[FIELD.TEMPLATE_ID]] = e;
@@ -65,6 +74,23 @@ const Report: React.FC<ReportProps> = () => {
           variant: 'error',
         }),
       );
+    }
+  };
+
+  const handleFetch = () => {
+    console.log('handle fetch report');
+    if (iressToken) {
+      getData(iressToken, sitename + '');
+    } else {
+      showSubModal({
+        title: 'lang_sign_in',
+        component: IressSignIn,
+        styleModal: { minWidth: 440 },
+        props: {
+          title: 'lang_please_sign_in_to_fetch_report',
+          cbAfterSignIn: getData,
+        },
+      });
     }
   };
 
@@ -142,24 +168,6 @@ const Report: React.FC<ReportProps> = () => {
       [FIELD.TEMPLATE_ID]: k,
     }));
     confirmEditReport(data, cb);
-  };
-
-  /**
-   * Handle click button fetch data
-   */
-  const handleFetch = () => {
-    if (iressToken) {
-      getData();
-    } else {
-      showSubModal({
-        title: 'lang_sign_in',
-        component: IressSignIn,
-        styleModal: { minWidth: 440 },
-        props: {
-          cbAfterSignIn: getData,
-        },
-      });
-    }
   };
 
   /**

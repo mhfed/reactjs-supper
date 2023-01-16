@@ -14,9 +14,9 @@ import makeStyles from '@mui/styles/makeStyles';
 import { Trans } from 'react-i18next';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
-import Stack from '@mui/material/Stack';
 import { LooseObject } from 'models/ICommon';
 import Box from '@mui/material/Box';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   chipContainer: {
@@ -26,6 +26,14 @@ const useStyles = makeStyles((theme) => ({
     },
     '& .MuiChip-label': {
       color: theme.palette.secondary.main,
+    },
+  },
+  previewContainer: {
+    '& input': {
+      display: 'none',
+    },
+    '& .MuiChip-root': {
+      margin: 3,
     },
   },
 }));
@@ -139,7 +147,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
   };
 
   return (
-    <FormControl required fullWidth error={error}>
+    <FormControl required fullWidth error={error} className={clsx(preview && classes.previewContainer)}>
       <Autocomplete
         loading={loading}
         noOptionsText={inputRef.current?.value ? <Trans>lang_no_matching_records_found</Trans> : ''}
@@ -160,7 +168,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
         getOptionLabel={_getOptionLabel}
         isOptionEqualToValue={_isOptionEqualToValue}
         renderTags={(value: readonly string[], getTagProps) => (
-          <Stack gap={16}>
+          <Box>
             {value.length &&
               value.map((option: any, index: number) =>
                 preview ? (
@@ -184,7 +192,7 @@ const AutocompleteAsyncField: React.FC<AutocompleteAsyncFieldProps> = ({
                   />
                 ),
               )}
-          </Stack>
+          </Box>
         )}
         renderInput={(params) => (
           <TextField

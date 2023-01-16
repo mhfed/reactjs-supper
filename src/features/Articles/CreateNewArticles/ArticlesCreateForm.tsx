@@ -88,6 +88,7 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
                 label="lang_title"
                 required
                 fullWidth
+                maxLength={255}
                 value={values.subject}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -228,13 +229,14 @@ const initialValues = {
 const validationSchema = yup.object().shape({
   subject: yup.string().required('lang_please_enter_title'),
   content: yup.string().required('lang_please_enter_content'),
-  image: yup.object().required('lang_please_choose_image'),
-  site_name: yup.string().required('lang_please_choose_sitename'),
+  // @ts-ignore
+  image: yup.mixed().checkFile('lang_please_choose_image'),
+  site_name: yup.string().required('lang_please_enter_sitename'),
   sitename_custom: yup.array().when(['site_name'], (sitename, schema) => {
     return sitename === SITENAME.CUSTOM
-      ? schema.min(1, 'lang_please_choose_sitename').required('lang_please_choose_sitename')
+      ? schema.min(1, 'lang_please_enter_sitename').required('lang_please_enter_sitename')
       : schema;
   }),
-  securities: yup.array().min(1, 'lang_must_have_at_least_one_security_code').required('lang_please_enter_security_code'),
-  security_type: yup.string().required('lang_please_choose_security_type'),
+  securities: yup.array().min(1, 'lang_please_select_security_code').required('lang_please_select_security_code'),
+  security_type: yup.string().required('lang_please_select_security_type'),
 });
