@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { InputField, RichTextboxField, ImageField, FileField, SelectField, AutoCompleteField } from 'components/fields';
+import { InputField, RichTextboxField, ImageField, FileField, SelectField, AutocompleteField } from 'components/fields';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -131,7 +131,7 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
             </Grid>
             <Grid item xs={12}>
               {values.sitename_custom?.length ? (
-                <AutoCompleteField
+                <AutocompleteField
                   name="sitename_custom"
                   label="lang_sitename"
                   required
@@ -145,7 +145,7 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
               )}
             </Grid>
             <Grid item xs={12}>
-              <AutoCompleteField
+              <AutocompleteField
                 preview
                 name="securities"
                 label="lang_security_code"

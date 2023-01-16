@@ -9,6 +9,9 @@
 import React from 'react';
 import { SnackbarProvider } from 'notistack';
 import makeStyles from '@mui/styles/makeStyles';
+import CheckMarkedCircleOutline from 'assets/icons/CheckMarkedCircleOutline';
+import AlertCircleOutline from 'assets/icons/AlertCircleOutline';
+import AlertOutline from 'assets/icons/AlertOutline';
 
 const useStyles = makeStyles((theme) => ({
   contentRoot: {
@@ -37,6 +40,11 @@ const MyStackbarProvider: React.FC<MyStackbarProviderProps> = ({ children }) => 
 
   return (
     <SnackbarProvider
+      iconVariant={{
+        success: <CheckMarkedCircleOutline />,
+        error: <AlertCircleOutline />,
+        warning: <AlertOutline />,
+      }}
       autoHideDuration={process.env.REACT_APP_AUTO_HIDE_SNACKBAR || 3000}
       anchorOrigin={{
         vertical: 'top',

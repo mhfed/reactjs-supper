@@ -10,9 +10,10 @@ import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { Button, Stack, Typography, Grid, Chip, useTheme } from '@mui/material';
 import { Trans } from 'react-i18next';
-import { InputField, AutocompleteAsyncField, PreviewField } from 'components/fields';
+import { InputField, AutocompleteField, PreviewField } from 'components/fields';
 import { useFormik } from 'formik';
 import { yup } from 'helpers';
+import { getSearchSubscribersUrl } from 'apis/request.url';
 import { useGlobalModalContext } from 'containers/Modal';
 import httpRequest from 'services/httpRequest';
 import { postCreateSegment } from 'apis/request.url';
@@ -210,18 +211,19 @@ const Sample = () => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <AutocompleteAsyncField
-                  onBlur={handleBlur}
-                  isOptionEqualToValue={isOptionEqualToValue}
-                  onChange={(v: string) => setFieldValue('segment_subscribers', v)}
-                  error={touched.segment_subscribers && Boolean(errors.segment_subscribers)}
-                  helperText={touched.segment_subscribers && errors.segment_subscribers}
-                  value={values.segment_subscribers}
-                  required
+                <AutocompleteField
+                  name="segment_subscribers"
                   label="lang_subscribers"
-                  defaultValue={defaultArray}
-                  fullWidth
-                  id="segment_subscribers"
+                  required
+                  getUrl={getSearchSubscribersUrl}
+                  isOptionEqualToValue={isOptionEqualToValue}
+                  getOptionLabel={(option) => `${option.username} (${option.site_name})`}
+                  getChipLabel={(option) => option.username}
+                  value={values.segment_subscribers}
+                  onChange={(value) => setFieldValue('segment_subscribers', value)}
+                  onBlur={handleBlur}
+                  error={touched.segment_subscribers && Boolean(errors.segment_subscribers)}
+                  helperText={(touched.segment_subscribers && errors.segment_subscribers) as string}
                 />
               </Grid>
             </Grid>

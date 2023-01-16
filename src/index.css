@@ -193,3 +193,7 @@ figure {
 .rdw-image-modal-upload-option-label {
   line-break: anywhere;
 }
+
+.SnackbarItem-message svg {
+  margin-right: 8px;
+}
