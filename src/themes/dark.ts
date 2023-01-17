@@ -147,6 +147,8 @@ const darkTheme = createTheme({
       attachmentBorder: '#758695',
       closeIcon: '#ffffff',
       closeIconBg: '#1F2332',
+      disabled: '#758695',
+      option: '#272B3B',
     },
     primary: {
       main: '#00C77F',
