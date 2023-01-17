@@ -27,6 +27,8 @@ import { IFileUpload, LooseObject } from 'models/ICommon';
 import Button from 'components/atoms/ButtonBase';
 import { Trans } from 'react-i18next';
 import { getSearchSitenameUrl, getSearchSecurityCodeUrl } from 'apis/request.url';
+import { useGlobalModalContext } from 'containers/Modal';
+import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -49,6 +51,7 @@ type ArticlesCreateFormProps = {
 
 const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, values: initValues }) => {
   const classes = useStyles();
+  const { showSubModal, hideSubModal } = useGlobalModalContext();
 
   const handleFormSubmit = async (values: LooseObject) => {
     onCreate(values);
@@ -72,8 +75,21 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
   });
 
   const onClear = () => {
-    setValues(initialValues, false);
-    setTouched({});
+    showSubModal({
+      title: 'lang_confirm_cancel',
+      component: ConfirmEditModal,
+      props: {
+        title: 'lang_confirm_cancel_text',
+        emailConfirm: false,
+        cancelText: 'lang_no',
+        confirmText: 'lang_yes',
+        onSubmit: () => {
+          hideSubModal();
+          setValues(initialValues, false);
+          setTouched({});
+        },
+      },
+    });
   };
 
   return (

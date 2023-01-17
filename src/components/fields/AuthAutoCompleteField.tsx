@@ -14,7 +14,6 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import { LooseObject } from 'models/ICommon';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import Autocomplete from '@mui/material/Autocomplete';
 import InputAdornment from '@mui/material/InputAdornment';
 import Chip from '@mui/material/Chip';
@@ -26,7 +25,7 @@ import { iressTokenSelector, iressSitenameSelector } from 'selectors/auth.select
 import { iressLogout } from 'actions/auth.action';
 import { useGlobalModalContext } from 'containers/Modal';
 import IressSignIn from 'features/IressAuth';
-import Confirm from 'containers/Modal/Confirm';
+import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import authService from 'services/authService';
 
 const useStyles = makeStyles((theme) => ({
@@ -181,10 +180,11 @@ const AuthAutocompleteField: React.FC<AuthAutoCompleteFieldProps> = ({
   const handleIressAuth = () => {
     if (iressToken) {
       showSubModal({
-        component: Confirm,
+        title: 'lang_confirm',
+        component: ConfirmEditModal,
         props: {
-          title: 'lang_confirm',
-          content: 'lang_confirm_logout',
+          title: 'lang_confirm_logout',
+          emailConfirm: false,
           onSubmit: () => {
             dispatch(iressLogout());
             hideSubModal();

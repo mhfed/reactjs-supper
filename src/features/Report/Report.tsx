@@ -17,7 +17,7 @@ import httpRequest from 'services/httpRequest';
 import { getListReportUrl, getReportUrl } from 'apis/request.url';
 import IressSignIn from 'features/IressAuth';
 import { useGlobalModalContext } from 'containers/Modal';
-import Confirm from 'containers/Modal/Confirm';
+import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import { iressSitenameSelector, iressTokenSelector } from 'selectors/auth.selector';
 import { iressLogout } from 'actions/auth.action';
 import authService from 'services/authService';
@@ -181,10 +181,11 @@ const Report: React.FC<ReportProps> = () => {
 
   const handleSignOut = () => {
     showSubModal({
-      component: Confirm,
+      title: 'lang_confirm',
+      component: ConfirmEditModal,
       props: {
-        title: 'lang_confirm',
-        content: 'lang_confirm_logout',
+        title: 'lang_confirm_logout',
+        emailConfirm: false,
         onSubmit: () => {
           dispatch(iressLogout());
           hideSubModal();
