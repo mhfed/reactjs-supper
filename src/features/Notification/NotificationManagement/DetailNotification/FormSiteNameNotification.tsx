@@ -14,7 +14,7 @@ interface FormDirectNotificationProps {
 const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, classes }) => {
   const { values } = form;
   values.type_url = 'Articles';
-  let defaultArray = Array.isArray(values.subscribers) ? values.subscribers.map((x: any) => x?.site_name) : [];
+  let defaultArray = Array.isArray(values.subscribers) ? Array.from(new Set(values.subscribers.map((x: any) => x?.site_name))) : [];
 
   return (
     <React.Fragment>
