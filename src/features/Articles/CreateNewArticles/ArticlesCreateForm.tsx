@@ -92,6 +92,7 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
     });
   };
 
+  console.log('YOLO: ', errors);
   return (
     <Paper className={classes.container}>
       <form noValidate onSubmit={handleSubmit}>
