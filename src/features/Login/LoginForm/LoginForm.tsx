@@ -88,7 +88,6 @@ export default function SignIn() {
       dispatch(clearError());
     }
   };
-
   return (
     <Paper className={classes.container}>
       <div className={classes.title}>
@@ -98,7 +97,14 @@ export default function SignIn() {
       </div>
       <Box className={classes.loginForm}>
         <ErrorCollapse error={error} />
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+        <form
+          className={classes.form}
+          noValidate
+          onSubmit={handleSubmit}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') handleSubmit();
+          }}
+        >
           <InputField
             id="email"
             name="email"
