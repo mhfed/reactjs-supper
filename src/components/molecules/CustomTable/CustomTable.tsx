@@ -31,6 +31,7 @@ import { useDispatch } from 'react-redux';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from '../ConfirmEditModal';
 import DropdownHeaderCell from './DropdownHeaderCell';
+import { hideTooltip } from 'helpers';
 
 const useStyles = (props: TableProps) =>
   makeStyles((theme) => ({
@@ -564,6 +565,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     if (['propsUpdate', 'onFilterDialogOpen', 'onFilterDialogClose'].includes(action)) return;
     timeoutId.current && window.clearTimeout(timeoutId.current);
     timeoutId.current = window.setTimeout(() => {
+      hideTooltip();
       const filterObj = getFilterObj(tableState);
       config.current = { ...tableState, ...filterObj };
       switch (action) {
