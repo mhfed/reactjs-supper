@@ -297,7 +297,7 @@
   "error_code_100003": "You have been logged out as you have lost your session",
   "error_code_INVALID_TIME": "Expiration time must be larger than schedule time",
   "error_code_INVALID_ARGUMENT": "Unfortunately, we cannot process your request right now. Please try again late",
-  "error_code_INVALID_TOKEN": "1 Failed PIN Attempt",
+  "error_code_INVALID_TOKEN": "{{count}} Failed PIN Attempt",
   "error_code_2001": "Please enter full name",
   "error_code_USER_NOT_EXIST": "",
   "error_code_INVALID_SEGMENTATION": "",

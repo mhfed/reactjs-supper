@@ -155,6 +155,7 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
       {
         name: FIELD.NUMBER_OF_SUBSCRIBERS,
         label: 'lang_number_of_subscribers',
+        sort: false,
       },
       {
         name: FIELD.LAST_UPDATED,
