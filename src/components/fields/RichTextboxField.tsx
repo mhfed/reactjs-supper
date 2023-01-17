@@ -146,9 +146,15 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
   );
 
   function handleChange(v: any) {
-    setEditorState(v);
-    const strValue = draftToHtml(convertToRaw(v.getCurrentContent()));
-    onChange?.(strValue);
+    try {
+      console.log('YOLO: handleChange');
+      setEditorState(v);
+      const rawContent = convertToRaw(v.getCurrentContent());
+      const strValue = draftToHtml(rawContent);
+      onChange?.(strValue);
+    } catch (error) {
+      console.error('handleChange richtexbox error: ', error);
+    }
   }
 
   function uploadImageCallBack(file: File) {
@@ -199,6 +205,7 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
             wrapperClassName="wrapperClassName"
             editorClassName="editorClassName"
             onEditorStateChange={handleChange}
+            handlePastedText={() => false}
             placeholder={t(placeholder) as string}
             toolbar={{
               options: ['inline', 'blockType', 'list', 'image', 'textAlign'],

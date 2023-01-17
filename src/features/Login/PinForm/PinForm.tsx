@@ -264,13 +264,14 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
     }
   };
 
+  const errorCodeAuth = (errorAuth + '').split('|')[0];
   return (
     <Paper className={classes.wrapper}>
       {renderHeader()}
       <div className={clsx(classes.pinBody, stepName.current !== PIN_STEP.SET_YOUR_PIN && classes.paddingTop)}>
         <PinInput ref={pinInputRef} data={number} />
         <FormHelperText error sx={{ pt: 1, textAlign: 'center' }}>
-          <Trans>{errorMessage || errorAuth}</Trans>
+          <Trans>{errorMessage || errorCodeAuth}</Trans>
         </FormHelperText>
         {stepName.current === PIN_STEP.SET_YOUR_PIN || stepName.current === PIN_STEP.ENTER_YOUR_PIN ? (
           <Typography variant="body2" align="center" sx={{ width: '100%', py: 2 }}>

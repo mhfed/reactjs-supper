@@ -20,7 +20,7 @@ interface FormCreateNotifiactionProps {
 }
 
 const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, classes, ...rest }) => {
-  const { values, handleChange, handleBlur, touched, errors, setFieldValue } = form || {};
+  const { values, handleChange, handleBlur, touched, errors, setFieldValue, setFieldTouched } = form || {};
 
   const renderAutocompleteField = () => {
     switch (values.notification_type) {
@@ -38,7 +38,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                 getChipLabel={(option) => option.username}
                 value={values.subscribers}
                 onChange={(value) => setFieldValue('subscribers', value)}
-                onBlur={handleBlur}
+                onBlur={() => setFieldTouched('subscribers', true)}
                 error={touched.subscribers && Boolean(errors.subscribers)}
                 helperText={(touched.subscribers && errors.subscribers) as string}
               />
