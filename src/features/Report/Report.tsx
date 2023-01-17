@@ -228,6 +228,7 @@ const Report: React.FC<ReportProps> = () => {
         name="report"
         fnKey={getRowId}
         ref={gridRef}
+        noChangeKey="lang_there_is_no_change_in_the_report_information"
         onSave={onSaveReport}
         onRowDbClick={onRowDbClick}
         onTableChange={onTableChange}
