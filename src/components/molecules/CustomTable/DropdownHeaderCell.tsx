@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'center',
     width: '100%',
     '& > div:last-child': {
       width: 'fit-content',
