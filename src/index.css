@@ -182,7 +182,7 @@ input[type='number']::-webkit-outer-spin-button {
   margin: 0;
 }
 
-figure {
+/* figure {
   pointer-events: none;
 }
 
@@ -192,6 +192,10 @@ figure {
 
 .rdw-image-modal-upload-option-label {
   line-break: anywhere;
+} */
+
+.rdw-image-alignment-options-popup {
+  color: #000000;
 }
 
 .SnackbarItem-message svg {
