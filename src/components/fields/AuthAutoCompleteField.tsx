@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type AuthAutoCompleteFieldProps = {
+type AuthAutocompleteFieldProps = {
   id?: string;
   label?: string;
   name?: string;
@@ -67,7 +67,7 @@ type AuthAutoCompleteFieldProps = {
   getUrl?: (text: string) => string;
 };
 
-const AuthAutocompleteField: React.FC<AuthAutoCompleteFieldProps> = ({
+const AuthAutocompleteField: React.FC<AuthAutocompleteFieldProps> = ({
   isOptionEqualToValue,
   label,
   required,
