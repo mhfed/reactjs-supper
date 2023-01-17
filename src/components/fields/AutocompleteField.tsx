@@ -194,7 +194,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
                     label={_getChipLabel(option)}
                     {...getTagProps({ index })}
                     color="secondary"
-                    className={classes.chipContainer}
+                    className={clsx(classes.chipContainer, 'customTitle')}
                     title={_getOptionLabel(option)}
                     key={`autocomplete_chip_${id}_${index}`}
                   />

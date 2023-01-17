@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 4,
-    minWidth: 300,
+    minWidth: 360,
   },
   collapseBtn: {
     border: 'none',
