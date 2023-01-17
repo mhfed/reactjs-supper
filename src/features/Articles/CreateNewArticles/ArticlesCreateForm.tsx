@@ -247,7 +247,7 @@ const validationSchema = yup.object().shape({
   // @ts-ignore
   image: yup.mixed().checkFile('lang_please_choose_image'),
   // @ts-ignore
-  file: yup.mixed().checkFile('', 100000, '.pdf'),
+  file: yup.mixed().checkFile('', 10000000, '.pdf'),
   site_name: yup.string().required('lang_please_enter_sitename'),
   sitename_custom: yup.array().when(['site_name'], (sitename, schema) => {
     return sitename === SITENAME.CUSTOM
