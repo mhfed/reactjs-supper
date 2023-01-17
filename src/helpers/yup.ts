@@ -88,10 +88,10 @@ yup.addMethod(yup.string, 'compareTimesLocal', function (message = 'lang_expire_
   });
 });
 
-yup.addMethod(yup.mixed, 'checkFile', function (message, maxSize = 10000000, accept = '.jpeg, .jpg, .png, .heic') {
+yup.addMethod(yup.mixed, 'checkFile', function (message = '', maxSize = 10000000, accept = '.jpeg, .jpg, .png, .heic') {
   return this.test('checkFile', '', function (value) {
     const { path, createError } = this;
-    if ([null, undefined, ''].includes(value)) {
+    if (message && [null, undefined, ''].includes(value)) {
       return createError({ path, message });
     }
     if (value.size && value.size > maxSize)
