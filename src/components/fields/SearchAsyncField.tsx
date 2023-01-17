@@ -11,6 +11,7 @@ export default function SearchAsyncField(props: any) {
   const [options, setOptions] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const timeoutId = React.useRef<any>();
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
   const isError = rest?.error || false;
   const helperText = rest?.helperText || false;
@@ -64,7 +65,7 @@ export default function SearchAsyncField(props: any) {
           {...rest}
           onChange={_onChange}
           disableClearable
-          freeSolo
+          freeSolo={!!inputRef.current?.value && inputRef.current?.value?.length > 2 ? false : true}
           open={open}
           onOpen={() => {
             setOpen(true);
@@ -83,6 +84,7 @@ export default function SearchAsyncField(props: any) {
               {...rest}
               variant={variant}
               error={isError}
+              inputRef={inputRef}
               helperText={_renderHelperText()}
               onChange={onChangeText}
               label={<Trans>{label || ''}</Trans>}

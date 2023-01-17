@@ -165,7 +165,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
         }
         multiple
         disableClearable
-        freeSolo
+        freeSolo={!!inputRef.current?.value && inputRef.current?.value?.length > 2 ? false : true}
         id={id}
         onBlur={onBlur}
         value={value}
@@ -212,6 +212,10 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
             label={<Trans>{label}</Trans>}
             error={error}
             onChange={handleTextChange}
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: null,
+            }}
           ></TextField>
         )}
       />
