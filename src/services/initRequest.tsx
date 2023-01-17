@@ -157,7 +157,11 @@ export default function initRequest(store: any) {
         store.dispatch(showExpiredPopup());
       }
 
-      const finalError: any = { ...(error.response?.data || {}), errorCode: +errorCode, errorCodeLang: error_lang_key };
+      const finalError: any = {
+        ...(error.response?.data || {}),
+        errorCode: +errorCode || errorCode,
+        errorCodeLang: error_lang_key,
+      };
       return Promise.reject(finalError);
     },
   );

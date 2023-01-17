@@ -217,10 +217,12 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
               textAlign: { inDropdown: false, options: ['left', 'center', 'right'] },
               link: { inDropdown: true },
               image: {
+                className: 'phongkaka',
+                alignmentEnabled: true,
                 uploadCallback: uploadImageCallBack,
                 alt: { present: false, mandatory: false },
-                previewImage: false,
-                defaultSize: { maxWidth: '100%', height: '200px' },
+                previewImage: true,
+                defaultSize: { maxWidth: '100%', width: '100%', height: 'auto' },
               },
             }}
           />

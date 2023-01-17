@@ -62,3 +62,10 @@ export const checkDiffArticlesEdit = (oldData: IArticlesFormData, newData: IArti
   if (oldData.image?.name !== newData.image?.name) return true;
   return false;
 };
+
+export const hideTooltip = () => {
+  const tooltip = document.getElementById('tooltip');
+  if (tooltip) {
+    tooltip.style.opacity = '0';
+  }
+};

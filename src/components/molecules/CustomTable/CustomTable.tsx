@@ -24,12 +24,14 @@ import moment from 'moment-timezone';
 import Kebab from 'components/atoms/Kebab';
 import DropdownCell from './DropdownCell';
 import InputCell from './InputCell';
+import CustomChip from './CustomChip';
 import CustomStack from './CustomStack';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { useDispatch } from 'react-redux';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from '../ConfirmEditModal';
 import DropdownHeaderCell from './DropdownHeaderCell';
+import { hideTooltip } from 'helpers';
 
 const useStyles = (props: TableProps) =>
   makeStyles((theme) => ({
@@ -337,12 +339,26 @@ function convertColumn({
         },
       };
       break;
-    case COLUMN_TYPE.MULTIPLE_TAG:
+    case COLUMN_TYPE.BREAK_LINE:
       res.options = {
         ...res.options,
         customBodyRender: (value = []) => {
           return value.length ? (
             <CustomStack data={value} />
+          ) : (
+            <Typography component="span" sx={{ minWidth: 360 }} noWrap>
+              {process.env.REACT_APP_DEFAULT_VALUE}
+            </Typography>
+          );
+        },
+      };
+      break;
+    case COLUMN_TYPE.MULTIPLE_TAG:
+      res.options = {
+        ...res.options,
+        customBodyRender: (value = []) => {
+          return value.length ? (
+            <CustomChip data={value} />
           ) : (
             <Typography component="span" sx={{ minWidth: 360 }} noWrap>
               {process.env.REACT_APP_DEFAULT_VALUE}
@@ -549,6 +565,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     if (['propsUpdate', 'onFilterDialogOpen', 'onFilterDialogClose'].includes(action)) return;
     timeoutId.current && window.clearTimeout(timeoutId.current);
     timeoutId.current = window.setTimeout(() => {
+      hideTooltip();
       const filterObj = getFilterObj(tableState);
       config.current = { ...tableState, ...filterObj };
       switch (action) {

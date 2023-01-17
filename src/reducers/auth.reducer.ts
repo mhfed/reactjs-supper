@@ -24,6 +24,7 @@ const initialState: IAuthState = {
   sitename: null,
   iressAccessToken: null,
   iressExpiredTime: null,
+  count: null,
 };
 
 const reducer = (state = initialState, { type, payload }: IAuthActionCreator) => {
@@ -87,8 +88,14 @@ const reducer = (state = initialState, { type, payload }: IAuthActionCreator) =>
         error: '',
         isLoading: false,
       };
-    case IAuthActionTypes.LOGIN_FAILURE:
     case IAuthActionTypes.PIN_FAILURE:
+      return {
+        ...state,
+        error: payload.error + '|' + Date.now(),
+        isLoading: false,
+        count: payload.count || 0,
+      };
+    case IAuthActionTypes.LOGIN_FAILURE:
     case IAuthActionTypes.SET_PASSWORD_FAILURE:
       return {
         ...state,

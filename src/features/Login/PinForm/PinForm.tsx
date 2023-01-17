@@ -18,10 +18,11 @@ import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { Trans } from 'react-i18next';
 import PinInput from './PinInput';
-import { verifyPin, setPinFirstTime, forceSetPin } from 'actions/auth.action';
-import { errorSelector } from 'selectors/auth.selector';
+import { verifyPin, setPinFirstTime, forceSetPin, logout } from 'actions/auth.action';
+import { errorSelector, failedCountSelector } from 'selectors/auth.selector';
 import { useNavigate } from 'react-router-dom';
 import { LIST_KEYBOARD, PIN_STEP, LIST_STEP_ENTER_PIN, LIST_STEP_SET_PIN } from './PinConstants';
+import ConfirmModal from 'components/molecules/ConfirmModal';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -105,6 +106,7 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
   const [step, setStep] = React.useState(0);
   const [number, setNumber] = React.useState<string[]>([]);
   const errorAuth = useSelector(errorSelector);
+  const failedCount = useSelector(failedCountSelector);
   const [errorMessage, setError] = React.useState('');
   const pinRef = React.useRef<string[]>([]);
   const oldPinRef = React.useRef<string[]>([]);
@@ -113,10 +115,18 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
   const stepName = React.useRef(listStep.current[step]);
   const hasNext = React.useRef(false);
   const navigate = useNavigate();
+  const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (errorAuth) clearPin();
   }, [errorAuth]);
+
+  React.useEffect(() => {
+    if (failedCount === 3) {
+      window.localStorage.removeItem('failedCount');
+      setOpen(true);
+    }
+  }, [failedCount]);
 
   const clearPin = () => {
     pinRef.current = [];
@@ -264,6 +274,10 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
     }
   };
 
+  const onLogout = () => {
+    dispatch(logout as any);
+  };
+
   const errorCodeAuth = (errorAuth + '').split('|')[0];
   return (
     <Paper className={classes.wrapper}>
@@ -271,7 +285,7 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
       <div className={clsx(classes.pinBody, stepName.current !== PIN_STEP.SET_YOUR_PIN && classes.paddingTop)}>
         <PinInput ref={pinInputRef} data={number} />
         <FormHelperText error sx={{ pt: 1, textAlign: 'center' }}>
-          <Trans>{errorMessage || errorCodeAuth}</Trans>
+          <Trans values={{ count: failedCount }}>{errorMessage || errorCodeAuth}</Trans>
         </FormHelperText>
         {stepName.current === PIN_STEP.SET_YOUR_PIN || stepName.current === PIN_STEP.ENTER_YOUR_PIN ? (
           <Typography variant="body2" align="center" sx={{ width: '100%', py: 2 }}>
@@ -282,6 +296,7 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
         )}
         <div className={classes.keyboardContainer}>{mapKeyBoard()}</div>
       </div>
+      <ConfirmModal open={open} alertContent="error_code_852008" textSubmit="lang_ok" onSubmit={onLogout} />
     </Paper>
   );
 };

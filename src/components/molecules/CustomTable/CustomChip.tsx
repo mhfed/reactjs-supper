@@ -8,14 +8,18 @@
 
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 import { Trans } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 4,
+    minWidth: 360,
+  },
   collapseBtn: {
-    justifyContent: 'flex-start',
     border: 'none',
   },
 }));
@@ -32,27 +36,27 @@ const CustomChip: React.FC<CustomStackProps> = ({ data = [] }) => {
     setShow((old) => !old);
   };
 
-  const isLargeData = data.length > 3;
+  const isLargeData = data.length > 9;
   let displayData = [...data];
   if (isLargeData && !show) {
-    displayData = data.slice(0, 3);
+    displayData = data.slice(0, 9);
   }
   return (
-    <Stack direction="column">
-      {displayData.map((e: string) => (
-        <Typography key={e}>{e}</Typography>
+    <div className={classes.container}>
+      {displayData.map((e: string, i: number) => (
+        <Chip key={`custom_chip_${e}_${i}`} label={e} />
       ))}
       {isLargeData && (
         <Chip
           className={classes.collapseBtn}
-          key={'custom_Stack_expand_collapse_icon'}
+          key={`custom_chip_expand_collapse_icon`}
           onClick={handleShow}
           variant="outlined"
           color="primary"
           label={<Trans>{show ? 'lang_hide' : 'lang_show_more'}</Trans>}
         />
       )}
-    </Stack>
+    </div>
   );
 };
 
