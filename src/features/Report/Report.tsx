@@ -64,6 +64,13 @@ const Report: React.FC<ReportProps> = () => {
     } catch (error) {
       if (authService.checkIressSessionLogout(error.errorCode)) {
         dispatch(iressLogout());
+        dispatch(
+          enqueueSnackbarAction({
+            message: error?.errorCode,
+            key: new Date().getTime() + Math.random(),
+            variant: 'error',
+          }),
+        );
         showSubModal({
           title: 'lang_sign_in',
           component: IressSignIn,
