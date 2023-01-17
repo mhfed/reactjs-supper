@@ -19,12 +19,12 @@ export const STATUS_OPTIONS = [
   {
     label: 'lang_enabled',
     value: 1,
-    color: 'warning',
+    color: 'success',
   },
   {
     label: 'lang_disabled',
     value: 0,
-    color: 'success',
+    color: 'warning',
   },
 ];
 export const FIELD = {

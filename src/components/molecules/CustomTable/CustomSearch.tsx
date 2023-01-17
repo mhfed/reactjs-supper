@@ -115,7 +115,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
               <Button variant="outlined" onClick={() => handleEdit(ACTIONS.CANCEL)} sx={{ mr: 1 }}>
                 <Trans>lang_cancel</Trans>
               </Button>
-              <Button network variant="contained" startIcon={<ModeEditIcon />} onClick={() => handleEdit(ACTIONS.SAVE)}>
+              <Button network variant="contained" onClick={() => handleEdit(ACTIONS.SAVE)}>
                 <Trans>lang_save</Trans>
               </Button>
             </div>

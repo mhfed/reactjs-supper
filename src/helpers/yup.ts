@@ -31,7 +31,7 @@ declare module 'yup' {
 yup.addMethod(yup.string, 'checkRequired', function (message) {
   return this.test('checkRequired', message, function (value) {
     const { path, createError } = this;
-    value = (value + '').trim();
+    value = value ? (value + '').trim() : value;
     if ([null, undefined, ''].includes(value)) {
       return createError({ path, message });
     }
@@ -87,18 +87,19 @@ yup.addMethod(yup.string, 'compareTimesLocal', function (message = 'lang_expire_
   });
 });
 
-yup.addMethod(yup.mixed, 'checkFile', function (message, maxSize = 10000000, accept = '.jpeg, .jpg, .png, .heic') {
+yup.addMethod(yup.mixed, 'checkFile', function (message = '', maxSize = 10000000, accept = '.jpeg, .jpg, .png, .heic') {
   return this.test('checkFile', '', function (value) {
     const { path, createError } = this;
-    if ([null, undefined, ''].includes(value)) {
+    if (message && [null, undefined, ''].includes(value)) {
       return createError({ path, message });
     }
-    if (value.size && value.size > maxSize)
+    if (value && value.size && value.size > maxSize)
       return createError({
         path,
         message: 'lang_field_size_limit_exceeded',
       });
-    if (value.extension && !accept.includes(value.extension)) return createError({ path, message: 'lang_file_format_error' });
+    if (value && value.extension && !accept.includes(value.extension))
+      return createError({ path, message: 'lang_file_format_error' });
     return true;
   });
 });

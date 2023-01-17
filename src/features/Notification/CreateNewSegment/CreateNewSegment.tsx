@@ -8,9 +8,9 @@
 
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import { Button, Stack, Typography, Grid, Chip, useTheme, Paper } from '@mui/material';
+import { Button, Stack, Typography, Grid, useTheme, Paper } from '@mui/material';
 import { Trans } from 'react-i18next';
-import { InputField, AutocompleteField, PreviewField } from 'components/fields';
+import { InputField, AutocompleteField } from 'components/fields';
 import { useFormik } from 'formik';
 import { yup } from 'helpers';
 import { getSearchSubscribersUrl } from 'apis/request.url';
@@ -124,115 +124,96 @@ const Sample = () => {
     setFieldValue('segment_name', values.segment_name.trim());
     handleBlur(e);
   };
-
+  // const renderButton = () => {
+  //   switch (stateForm) {
+  //     case STATE_FORM.PREVIEW:
+  //       return (
+  //         <Stack className={classes.buttonWrapper} direction="row" spacing={2}>
+  //           <Button variant="outlined" onClick={handleReturn}>
+  //             <Trans>lang_return</Trans>
+  //           </Button>
+  //           <Button variant="contained" type="submit">
+  //             <Trans>lang_confirm</Trans>
+  //           </Button>
+  //         </Stack>
+  //       );
+  //     default:
+  //       return (
+  //         <Stack className={classes.buttonWrapper} direction="row" spacing={2}>
+  //           <Button variant="outlined" onClick={handleClearData}>
+  //             <Trans>lang_clear</Trans>
+  //           </Button>
+  //           <Button variant="contained" type="submit">
+  //             <Trans>{isPreview ? 'lang_confirm' : 'lang_create'}</Trans>
+  //           </Button>
+  //         </Stack>
+  //       );
+  //   }
+  // };
   const renderContent = (stateForm: string) => {
-    let defaultArray = Array.isArray(values.segment_subscribers) ? values.segment_subscribers.map((x: any) => x.username) : [];
-    switch (stateForm) {
-      case STATE_FORM.PREVIEW:
-        return (
-          <Paper className={classes.wrapper}>
-            <form className={classes.container} noValidate onSubmit={handleSubmit}>
-              <Grid container spacing={2}>
-                <Grid item xs={8}>
-                  <Typography className={classes.title}>
-                    <Trans>lang_preview_new_segment</Trans>
-                  </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <PreviewField sx={{ mb: 2, mr: 4 }} label="lang_segment_name" value={values.segment_name} />
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControl sx={{ minWidth: 120, width: '100%' }}>
-                    <Autocomplete
-                      multiple
-                      id="tags-readOnly"
-                      options={values.segment_subscribers}
-                      defaultValue={defaultArray}
-                      readOnly
-                      freeSolo
-                      renderTags={(value: readonly string[], getTagProps) =>
-                        value.map((option: any, index: number) => (
-                          <Chip
-                            variant="outlined"
-                            {...getTagProps({ index })}
-                            label={option}
-                            style={{ marginRight: theme.spacing(2) }}
-                            title={`${values.segment_subscribers[index].username} (${values.segment_subscribers[index].site_name})`}
-                            className="customTitle"
-                            key={index}
-                          />
-                        ))
-                      }
-                      renderInput={(params) => (
-                        <TextField {...params} variant="standard" label={<Trans>lang_subscribers</Trans>}></TextField>
-                      )}
-                    />
-                  </FormControl>
-                </Grid>
-              </Grid>
-              <Stack className={classes.buttonWrapper} direction="row" spacing={2}>
-                <Button variant="outlined" onClick={handleReturn}>
-                  <Trans>lang_return</Trans>
-                </Button>
-                <Button variant="contained" type="submit">
-                  <Trans>lang_confirm</Trans>
-                </Button>
-              </Stack>
-            </form>
-          </Paper>
-        );
-      default:
-        defaultArray = Array.isArray(values.segment_subscribers) ? values.segment_subscribers : [];
-        return (
-          <Paper className={classes.wrapper}>
-            <form className={classes.container} noValidate onSubmit={handleSubmit}>
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <InputField
-                    id="segment_name"
-                    name="segment_name"
-                    sx={{ mb: 2, mr: 4 }}
-                    label="lang_segment_name"
-                    required
-                    fullWidth
-                    value={values.segment_name}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      setFieldValue('segment_name', e.target.value.trimStart());
-                    }}
-                    onBlur={handleBlurInput}
-                    error={touched.segment_name && Boolean(errors.segment_name)}
-                    helperText={touched.segment_name && errors.segment_name}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <AutocompleteField
-                    name="segment_subscribers"
-                    label="lang_subscribers"
-                    required
-                    getUrl={getSearchSubscribersUrl}
-                    isOptionEqualToValue={isOptionEqualToValue}
-                    getOptionLabel={(option) => `${option.username} (${option.site_name})`}
-                    getChipLabel={(option) => option.username}
-                    value={values.segment_subscribers}
-                    onChange={(value) => setFieldValue('segment_subscribers', value)}
-                    onBlur={handleBlur}
-                    error={touched.segment_subscribers && Boolean(errors.segment_subscribers)}
-                    helperText={(touched.segment_subscribers && errors.segment_subscribers) as string}
-                  />
-                </Grid>
-              </Grid>
-              <Stack className={classes.buttonWrapper} direction="row" spacing={2}>
-                <Button variant="outlined" onClick={handleClearData}>
-                  <Trans>lang_clear</Trans>
-                </Button>
-                <Button variant="contained" type="submit">
-                  <Trans>lang_create</Trans>
-                </Button>
-              </Stack>
-            </form>
-          </Paper>
-        );
+    const isPreview = stateForm === STATE_FORM.PREVIEW;
+    let defaultArray = [];
+    if (Array.isArray(values.segment_subscribers)) {
+      defaultArray = isPreview ? values.segment_subscribers.map((x: any) => x.username) : values.segment_subscribers;
     }
+    return (
+      <Paper className={classes.wrapper}>
+        <form className={classes.container} noValidate onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            {isPreview && (
+              <Grid item xs={8}>
+                <Typography className={classes.title}>
+                  <Trans>lang_preview_new_segment</Trans>
+                </Typography>
+              </Grid>
+            )}
+            <Grid item xs={6}>
+              <InputField
+                id="segment_name"
+                name="segment_name"
+                sx={{ mb: 2, mr: 4 }}
+                label="lang_segment_name"
+                required
+                fullWidth
+                preview={isPreview}
+                value={values.segment_name}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setFieldValue('segment_name', e.target.value.trimStart());
+                }}
+                onBlur={handleBlurInput}
+                error={touched.segment_name && Boolean(errors.segment_name)}
+                helperText={touched.segment_name && errors.segment_name}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <AutocompleteField
+                name="segment_subscribers"
+                label="lang_subscribers"
+                required
+                preview={isPreview}
+                getUrl={getSearchSubscribersUrl}
+                isOptionEqualToValue={isOptionEqualToValue}
+                getOptionLabel={(option) => `${option.username} (${option.site_name})`}
+                getChipLabel={(option) => option.username}
+                value={values.segment_subscribers}
+                onChange={(value) => setFieldValue('segment_subscribers', value)}
+                onBlur={handleBlur}
+                error={touched.segment_subscribers && Boolean(errors.segment_subscribers)}
+                helperText={(touched.segment_subscribers && errors.segment_subscribers) as string}
+              />
+            </Grid>
+          </Grid>
+          <Stack className={classes.buttonWrapper} direction="row" spacing={2}>
+            <Button variant="outlined" onClick={isPreview ? handleReturn : handleClearData}>
+              <Trans>{isPreview ? 'lang_return' : 'lang_clear'}</Trans>
+            </Button>
+            <Button variant="contained" type="submit">
+              <Trans>{isPreview ? 'lang_confirm' : 'lang_create'}</Trans>
+            </Button>
+          </Stack>
+        </form>
+      </Paper>
+    );
   };
   const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, resetForm } = useFormik({
     initialValues: initialValues,

@@ -120,6 +120,9 @@ const lightTheme = createTheme({
           '&.MuiButton-text': {
             textTransform: 'capitalize',
           },
+          '&.MuiButton-outlined': {
+            backgroundColor: '#ffffff',
+          },
         },
       },
     },
