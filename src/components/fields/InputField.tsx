@@ -61,8 +61,8 @@ const InputField: React.FC<TextFieldProps> = ({
     <TextField
       {...props}
       required={preview ? false : required}
-      variant={preview ? 'standard' : variant}
-      value={value}
+      variant={preview && !variant ? 'standard' : variant}
+      value={preview ? value || '--' : value}
       label={<Trans>{label}</Trans>}
       inputProps={{
         maxLength: maxLength || 1000,
