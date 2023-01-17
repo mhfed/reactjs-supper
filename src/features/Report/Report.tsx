@@ -64,6 +64,13 @@ const Report: React.FC<ReportProps> = () => {
     } catch (error) {
       if (authService.checkIressSessionLogout(error.errorCode)) {
         dispatch(iressLogout());
+        dispatch(
+          enqueueSnackbarAction({
+            message: error?.errorCode,
+            key: new Date().getTime() + Math.random(),
+            variant: 'error',
+          }),
+        );
         showSubModal({
           title: 'lang_sign_in',
           component: IressSignIn,
@@ -228,6 +235,7 @@ const Report: React.FC<ReportProps> = () => {
         name="report"
         fnKey={getRowId}
         ref={gridRef}
+        noChangeKey="lang_there_is_no_change_in_the_report_information"
         onSave={onSaveReport}
         onRowDbClick={onRowDbClick}
         onTableChange={onTableChange}
