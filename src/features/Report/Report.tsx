@@ -56,11 +56,11 @@ const Report: React.FC<ReportProps> = () => {
       }
       const response: any = await httpRequest.get(getListReportUrl(config), headerConfig);
 
-      response.data.map((e: any) => {
+      response.data.data.map((e: any) => {
         dicReport.current[e[FIELD.TEMPLATE_ID]] = e;
       }, {});
 
-      gridRef?.current?.setData?.(response);
+      gridRef?.current?.setData?.(response.data);
     } catch (error) {
       if (authService.checkIressSessionLogout(error.errorCode)) {
         dispatch(iressLogout());
@@ -173,7 +173,7 @@ const Report: React.FC<ReportProps> = () => {
   const onSaveReport = (dicDataChanged: LooseObject, cb: any) => {
     const data = Object.keys(dicDataChanged).map((k) => ({
       ...dicDataChanged[k],
-      [FIELD.SITE_NAME]: dicReport.current[k][FIELD.SITE_NAME] || 'iress.com.vn',
+      [FIELD.SITE_NAME]: dicReport.current[k][FIELD.SITE_NAME],
       [FIELD.TEMPLATE_ID]: k,
     }));
     confirmEditReport(data, cb);
