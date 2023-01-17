@@ -38,7 +38,7 @@ type SelectFieldProps = {
   options?: Array<Options>;
 };
 
-const SelectField: React.FC<SelectFieldProps> = ({ preview, label, helperText, value, textTransform, ...props }) => {
+const SelectField: React.FC<SelectFieldProps> = ({ preview, label, helperText, value, textTransform, required, ...props }) => {
   function _renderHelperText() {
     if (props.error) {
       return (
@@ -51,7 +51,7 @@ const SelectField: React.FC<SelectFieldProps> = ({ preview, label, helperText, v
 
   return (
     <FormControl
-      required={props?.required}
+      required={preview ? false : required}
       error={props.error}
       sx={{
         minWidth: 120,
@@ -64,6 +64,7 @@ const SelectField: React.FC<SelectFieldProps> = ({ preview, label, helperText, v
       <Select
         {...props}
         labelId={props.id}
+        required={preview ? false : required}
         variant={preview ? 'standard' : 'outlined'}
         id={props.id}
         label={label ? <Trans>{label}</Trans> : ''}

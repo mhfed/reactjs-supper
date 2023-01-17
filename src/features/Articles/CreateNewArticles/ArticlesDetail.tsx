@@ -104,7 +104,7 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
                 value={values.security_type}
               />
             </Grid>
-            {values.file?.file ? (
+            {values.file?.name || values.file?.url ? (
               <Grid item xs={12}>
                 <FileField
                   preview
@@ -131,6 +131,7 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
             <Grid item xs={12}>
               {values.sitename_custom?.length ? (
                 <AutocompleteField
+                  preview
                   name="sitename_custom"
                   label="lang_sitename"
                   required
