@@ -21,6 +21,7 @@ export const COLUMN_TYPE = {
   DATETIME: 'datetime',
   LINK: 'link',
   MULTIPLE_TAG: 'multiple_tag',
+  BREAK_LINE: 'break_line',
   INPUT: 'input',
   ACTION: 'action',
 };

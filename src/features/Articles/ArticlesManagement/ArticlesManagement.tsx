@@ -142,6 +142,7 @@ const ArticlesManagement: React.FC<SegmentManagementProps> = () => {
       {
         name: FIELD.SITENAME,
         label: 'lang_sitename',
+        type: COLUMN_TYPE.BREAK_LINE,
         sort: false,
       },
       {
