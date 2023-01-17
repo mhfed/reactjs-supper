@@ -10,7 +10,7 @@ import React from 'react';
 import { yup } from 'helpers';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
-import { InputField, PreviewField, SelectField } from 'components/fields';
+import { InputField, SelectField } from 'components/fields';
 import { useFormik } from 'formik';
 import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -191,25 +191,41 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
         <Box>
           <Grid container spacing={4}>
             <Grid item xs={6}>
-              <PreviewField label="lang_full_name" value={values.full_name} />
+              <InputField id="full_name" preview label="lang_full_name" fullWidth value={values.full_name} />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField label="lang_status" value={values.status} options={USER_STATUS_OPTIONS} />
+              <SelectField
+                id="status"
+                value={values.status}
+                options={USER_STATUS_OPTIONS}
+                label="lang_status"
+                fullWidth
+                preview
+                textTransform="uppercase"
+              />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField label="lang_user_login" value={values.user_login} />
+              <InputField id="user_login" preview label="lang_user_login" fullWidth value={values.user_login} />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField label="lang_last_active" value={formatDate(values.last_time)} />
+              <InputField id="last_active" preview label="lang_last_active" fullWidth value={formatDate(values.last_time)} />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField label="lang_sitename" value={values.site_name} options={SITE_NAME_OPTIONS} />
+              <SelectField
+                id="site_name"
+                value={values.site_name}
+                options={SITE_NAME_OPTIONS}
+                label="lang_sitename"
+                fullWidth
+                preview
+                textTransform="uppercase"
+              />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField label="lang_create_time" value={formatDate(values.create_time)} />
+              <InputField id="create_time" preview label="lang_create_time" fullWidth value={formatDate(values.create_time)} />
             </Grid>
             <Grid item xs={12}>
-              <PreviewField label="lang_notes" value={values.note} multiline />
+              <InputField id="notes" preview label="lang_notes" fullWidth value={values.note} multiline />
             </Grid>
           </Grid>
         </Box>
@@ -250,14 +266,26 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
               />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField required label="lang_user_login" value={values.user_login} variant={'outlined'} disabled />
+              <InputField
+                required
+                id="user_login"
+                variant={'outlined'}
+                preview
+                label="lang_user_login"
+                fullWidth
+                value={values.user_login}
+                disabled
+              />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField
+              <InputField
                 required
-                label="lang_last_active"
-                value={formatDate(values.last_time)}
+                id="last_active"
                 variant={'outlined'}
+                preview
+                label="lang_last_active"
+                fullWidth
+                value={formatDate(values.last_time)}
                 disabled
               />
             </Grid>
@@ -278,11 +306,14 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
               />
             </Grid>
             <Grid item xs={6}>
-              <PreviewField
+              <InputField
                 required
-                label="lang_create_time"
-                value={formatDate(values.create_time)}
+                id="create_time"
+                preview
                 variant={'outlined'}
+                label="lang_create_time"
+                fullWidth
+                value={formatDate(values.create_time)}
                 disabled
               />
             </Grid>
