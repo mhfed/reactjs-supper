@@ -120,11 +120,12 @@ const Report: React.FC<ReportProps> = () => {
       {
         name: FIELD.TEMPLATE_ID,
         label: 'lang_template_id',
+        sort: false,
       },
-
       {
         name: FIELD.SITE_NAME,
         label: 'lang_sitename',
+        sort: false,
       },
       {
         name: FIELD.STATUS,
@@ -132,6 +133,7 @@ const Report: React.FC<ReportProps> = () => {
         dataOptions: STATUS_OPTIONS,
         dataOptionsHeader: STATUS_OPTIONS_HEADER,
         type: COLUMN_TYPE.DROPDOWN_WITH_BG,
+        sort: false,
       },
       {
         name: 'ACTION_COLUMN',
