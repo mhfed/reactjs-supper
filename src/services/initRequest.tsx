@@ -19,6 +19,7 @@ export type IConfig = AxiosRequestConfig & {
 type IError = {
   response: {
     data: {
+      error?: string | number;
       errorCode?: string | number;
       error_code?: string | number;
     };
@@ -116,7 +117,8 @@ export default function initRequest(store: any) {
       // }
 
       // handle errors
-      let errorCode = error.response?.data?.errorCode || error.response?.data?.error_code || error.code || '';
+      let errorCode =
+        error.response?.data?.error || error.response?.data?.errorCode || error.response?.data?.error_code || error.code || '';
       switch (error.response?.status) {
         case 400: {
           break;

@@ -191,6 +191,10 @@ class AuthService {
   getAccessToken = () => store.getState().auth.accessToken;
 
   isAuthenticated = () => !!this.getAccessToken();
+
+  checkIressSessionLogout = (errorCode: number) => {
+    return [100000, 100003].includes(errorCode);
+  };
 }
 
 const authService = new AuthService();
