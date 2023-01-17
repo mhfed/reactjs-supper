@@ -13,7 +13,6 @@ import RichTextboxField from './RichTextboxField';
 import PreviewField from './PreviewField';
 import RadioGroupField from './RadioGroupField';
 import DatePickerField from './DatePickerField';
-import AutocompleteFreeSoloField from './AutocompleteFreeSoloField';
 import ImageField from './ImageField';
 import FileField from './FileField';
 import InputCodeField from './InputCodeField';
@@ -27,7 +26,6 @@ export {
   RichTextboxField,
   RadioGroupField,
   DatePickerField,
-  AutocompleteFreeSoloField,
   ImageField,
   FileField,
   AutocompleteField,
