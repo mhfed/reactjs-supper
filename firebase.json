@@ -2,10 +2,29 @@
   "hosting": {
     "public": "build",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "X-Frame-Options",
+            "value": "sameorigin"
+          }
+        ]
+      }
+    ],
     "rewrites": [
       {
         "source": "**",
         "destination": "/index.html"
+      },
+      {
+        "source": "/dynamic/**",
+        "dynamicLinks": true
+      },
+      {
+        "source": "/share/**",
+        "dynamicLinks": true
       }
     ]
   }
