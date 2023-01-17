@@ -8,6 +8,7 @@
 
 import moment from 'moment';
 import * as yup from 'yup';
+import { MixedSchema } from 'yup/lib/mixed';
 import { AnyObject } from 'yup/lib/types';
 import validate from './validate';
 
@@ -16,9 +17,7 @@ const urlPattern = /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-
 type methodString = yup.StringSchema<string | undefined, AnyObject, string | undefined>;
 
 declare module 'yup' {
-  interface MixedSchema<TType, TContext, TOut> {
-    checkFile(message: string, maxSize?: number, accept?: string): any;
-  }
+  interface MixedSchema<TType, TContext, TOut> {}
   interface StringSchema {
     checkRequired(message: string): methodString;
     checkEmail(message: string): methodString;
@@ -120,4 +119,12 @@ yup.addMethod(yup.string, 'compareTimes', function (message = 'lang_expire_date_
   });
 });
 
-export default yup;
+interface MixSchemaField extends MixedSchema<undefined, AnyObject> {
+  checkFile(message: string, maxSize?: number, accept?: string): any;
+}
+
+// eslint-disable-next-line import/no-anonymous-default-export
+export default {
+  ...yup,
+  mixed: yup.mixed as () => MixSchemaField,
+};

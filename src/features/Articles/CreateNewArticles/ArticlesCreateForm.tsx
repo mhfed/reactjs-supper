@@ -244,7 +244,6 @@ const initialValues = {
 const validationSchema = yup.object().shape({
   subject: yup.string().checkRequired('lang_please_enter_title'),
   content: yup.string().checkRequired('lang_please_enter_content'),
-  // @ts-ignore
   image: yup.mixed().checkFile('lang_please_choose_image'),
   site_name: yup.string().required('lang_please_enter_sitename'),
   sitename_custom: yup.array().when(['site_name'], (sitename, schema) => {
