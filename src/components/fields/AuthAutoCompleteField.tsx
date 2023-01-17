@@ -27,6 +27,7 @@ import { iressLogout } from 'actions/auth.action';
 import { useGlobalModalContext } from 'containers/Modal';
 import IressSignIn from 'features/IressAuth';
 import Confirm from 'containers/Modal/Confirm';
+import authService from 'services/authService';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -117,7 +118,7 @@ const AuthAutocompleteField: React.FC<AuthAutoCompleteFieldProps> = ({
         return;
       }
     } catch (error) {
-      if (error.errorCode === 100000 || error.errorCode === 100003) {
+      if (authService.checkIressSessionLogout(error.errorCode)) {
         dispatch(iressLogout());
         showSubModal({
           title: 'lang_sign_in',

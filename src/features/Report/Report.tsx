@@ -20,6 +20,7 @@ import { useGlobalModalContext } from 'containers/Modal';
 import Confirm from 'containers/Modal/Confirm';
 import { iressSitenameSelector, iressTokenSelector } from 'selectors/auth.selector';
 import { iressLogout } from 'actions/auth.action';
+import authService from 'services/authService';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -61,7 +62,7 @@ const Report: React.FC<ReportProps> = () => {
 
       gridRef?.current?.setData?.(response);
     } catch (error) {
-      if (error.errorCode === 100000 || error.errorCode === 100003) {
+      if (authService.checkIressSessionLogout(error.errorCode)) {
         dispatch(iressLogout());
         showSubModal({
           title: 'lang_sign_in',
