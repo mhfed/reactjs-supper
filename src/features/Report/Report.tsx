@@ -49,6 +49,7 @@ const Report: React.FC<ReportProps> = () => {
 
       const headerConfig: { headers?: LooseObject } = {};
       if (token && sn) {
+        config.page = 1;
         headerConfig.headers = {
           'token-app': token || iressToken,
           'site-name': sn || sitename,
