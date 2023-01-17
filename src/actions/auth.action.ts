@@ -66,8 +66,14 @@ export const verifyPin = (pin: string, navigate: NavigateFunction) => async (dis
 
   const { refreshToken, accessToken, baseUrl, error } = await authService.verifyPin(pin);
   if (error) {
-    dispatch({ type: IAuthActionTypes.PIN_FAILURE, payload: { error: error?.errorCodeLang } });
+    let count = '0';
+    if (error.errorCode === 'INVALID_TOKEN') {
+      count = window.localStorage.getItem('failedCount') || '0';
+      window.localStorage.setItem('failedCount', +count + 1 + '');
+    }
+    dispatch({ type: IAuthActionTypes.PIN_FAILURE, payload: { error: error?.errorCodeLang, count: +count + 1 } });
   } else {
+    window.localStorage.removeItem('failedCount');
     updateAxiosAuthConfig(baseUrl, accessToken, pin);
     dispatch({
       type: IAuthActionTypes.PIN_SUCCESS,
@@ -130,7 +136,7 @@ export const login = (email: string, password: string) => async (dispatch: Dispa
   }
 };
 
-export const logout = () => (dispatch: Dispatch<any>) => {
+export const logout = (dispatch: Dispatch<any>) => {
   authService.logOut();
   clearAxiosAuthConfig();
   dispatch({ type: IAuthActionTypes.LOGOUT });

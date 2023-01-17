@@ -46,7 +46,7 @@ function DenyView() {
   const dispatch = useDispatch();
 
   const _handleLogout = () => {
-    dispatch(logout() as any);
+    dispatch(logout as any);
     navigate(PATH_NAME.LOGIN);
   };
 

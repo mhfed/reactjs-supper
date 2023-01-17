@@ -39,7 +39,7 @@ function Account({ ...classes }) {
   };
 
   const _handleLogout = () => {
-    dispatch(logout() as any);
+    dispatch(logout as any);
     navigate(PATH_NAME.LOGIN);
     setAnchorEl(null);
   };

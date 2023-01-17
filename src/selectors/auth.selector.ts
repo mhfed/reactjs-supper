@@ -63,3 +63,8 @@ export const errorSelector = createSelector(
   (state: IRootState) => state.auth,
   (auth) => auth.error,
 );
+
+export const failedCountSelector = createSelector(
+  (state: IRootState) => state.auth,
+  (auth) => auth.count,
+);
