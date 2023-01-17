@@ -189,6 +189,7 @@ const Report: React.FC<ReportProps> = () => {
         onSubmit: () => {
           dispatch(iressLogout());
           hideSubModal();
+          getData();
         },
       },
     });
