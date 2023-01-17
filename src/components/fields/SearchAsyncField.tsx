@@ -44,7 +44,7 @@ export default function SearchAsyncField(props: any) {
 
   function onChangeText(e: any) {
     if (!open) setOpen(true);
-    const text = e.target.value || '';
+    const text = e.target.value.trim() || '';
     timeoutId.current && clearTimeout(timeoutId.current);
     timeoutId.current = setTimeout(() => getListSuggestAddress(text), 500);
   }

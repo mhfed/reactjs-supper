@@ -113,7 +113,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const searcText = e.target.value;
+    const searcText = e.target.value.trim();
     if (searcText.length > 1) {
       timeoutId.current && window.clearTimeout(timeoutId.current);
       timeoutId.current = window.setTimeout(() => {
