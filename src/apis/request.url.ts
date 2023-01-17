@@ -172,6 +172,10 @@ export function getNotificationUrl(notificationId: string) {
   return `v1/dynamic-push/notifications/${notificationId || ''}`;
 }
 
+export function getListSiteNametUrl(searchText = '') {
+  return `v1/dynamic-push/site-name/query?search=${searchText}`;
+}
+
 // Articles - v1
 export function getSearchSitenameUrl(searchText: string) {
   return `v1/dynamic-push/site-name/query?search=${searchText}`;

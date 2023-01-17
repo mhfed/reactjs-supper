@@ -53,6 +53,7 @@ type AutocompleteFieldProps = {
   getOptionLabel?: (opt: LooseObject) => string;
   getChipLabel?: (opt: LooseObject) => string;
   getUrl: (text: string) => string;
+  formatData?: (data: any) => any[];
 };
 
 const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
@@ -70,6 +71,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   getOptionLabel,
   getChipLabel,
   getUrl,
+  formatData,
 }) => {
   const classes = useStyles();
   const [loading, setLoading] = React.useState(false);
@@ -95,6 +97,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
         setLoading(true);
         const response: any = await httpRequest.get(getUrl(searchText));
         setLoading(false);
+        if (formatData) return setOptions(formatData(response));
         setOptions(response?.data || response || []);
       } else {
         return;
@@ -159,17 +162,17 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
         disableClearable
         freeSolo
         id={id}
+        onBlur={onBlur}
         value={value}
         defaultValue={[]}
         onChange={handleChange}
         options={options}
-        clearOnBlur
         getOptionLabel={_getOptionLabel}
         isOptionEqualToValue={_isOptionEqualToValue}
         renderTags={(value: readonly string[], getTagProps) => (
           <Box>
-            {value.length &&
-              value.map((option: any, index: number) =>
+            {value?.length &&
+              value?.map((option: any, index: number) =>
                 preview ? (
                   <Chip
                     sx={{ mb: '1px' }}
