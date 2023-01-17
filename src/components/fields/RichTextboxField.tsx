@@ -86,7 +86,6 @@ const useStyles = makeStyles((theme) => ({
   previewContainer: {
     marginTop: 8,
     borderBottom: `1px solid ${alpha(theme.palette.text.primary, 0.7)}`,
-    color: theme.palette.text.disabled,
     padding: theme.spacing(0.5, 0, 0.5, 0),
     '& p': {
       margin: 0,

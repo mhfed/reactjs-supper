@@ -34,6 +34,9 @@ const darkTheme = createTheme({
             border: 'none',
             backgroundColor: '#3A425E',
           },
+          '&.Mui-disabled': {
+            opacity: 1,
+          },
         },
       },
     },

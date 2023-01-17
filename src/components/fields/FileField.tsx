@@ -198,12 +198,7 @@ const FileField: React.FC<AttachmentFieldProps> = (props) => {
         <FormControl className={clsx(classes.inputContainer, file.url && classes.notCenter)} error={error}>
           {file.url ? (
             <Box className={clsx(classes.previewFile, preview && classes.isPreview)}>
-              <Typography
-                color={preview ? 'gray' : 'primary'}
-                sx={{ overflow: 'hidden', textOverflow: 'ellipsis', width: '100%', pl: 0.5 }}
-              >
-                {file.name}
-              </Typography>
+              <Typography sx={{ overflow: 'hidden', textOverflow: 'ellipsis', width: '100%', pl: 0.5 }}>{file.name}</Typography>
               {preview ? (
                 <></>
               ) : (

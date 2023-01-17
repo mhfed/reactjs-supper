@@ -35,6 +35,9 @@ const lightTheme = createTheme({
             border: 'none',
             backgroundColor: '#E3EFFD',
           },
+          '&.Mui-disabled': {
+            opacity: 1,
+          },
         },
       },
     },
