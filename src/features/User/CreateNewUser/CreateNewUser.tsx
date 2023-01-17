@@ -10,7 +10,7 @@ import React from 'react';
 import { yup } from 'helpers';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
-import { InputField, PasswordField, PreviewField, SelectField } from 'components/fields';
+import { InputField, PasswordField, SelectField } from 'components/fields';
 import { useFormik } from 'formik';
 import { Box, Button, Grid, Paper, Stack, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -128,23 +128,46 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
-                  <PreviewField label="lang_full_name" value={values.full_name} />
+                  <InputField preview id="full_name" name="full_name" label="lang_full_name" fullWidth value={values.full_name} />
                 </Grid>
                 <Grid item xs={6}>
-                  <PreviewField label="lang_sitename" value={values.site_name} options={SITE_NAME_OPTIONS} />
+                  <SelectField
+                    id="site_name"
+                    value={values.site_name}
+                    options={SITE_NAME_OPTIONS}
+                    label="lang_sitename"
+                    fullWidth
+                    preview
+                    textTransform="uppercase"
+                  />
                 </Grid>
                 <Grid item xs={6}>
-                  <PreviewField label="lang_user_login" value={values.user_login} />
+                  <InputField
+                    preview
+                    id="full_name"
+                    name="full_name"
+                    label="lang_user_login"
+                    fullWidth
+                    value={values.user_login}
+                  />
                 </Grid>
                 <Grid item xs={6}>
-                  <PreviewField label="lang_status" value={values.status} options={USER_STATUS_OPTIONS} />
+                  <SelectField
+                    id="status"
+                    value={values.status}
+                    options={USER_STATUS_OPTIONS}
+                    label="lang_status"
+                    fullWidth
+                    preview
+                    textTransform="uppercase"
+                  />
                 </Grid>
                 <Grid item xs={6}>
-                  <PreviewField label="lang_password" value={values.password} />
+                  <InputField preview id="password" name="password" label="lang_password" fullWidth value={values.password} />
                 </Grid>
                 <Grid item xs={6}></Grid>
                 <Grid item xs={6}>
-                  <PreviewField label="lang_notes" value={values.note} multiline />
+                  <InputField id="notes" preview label="lang_notes" fullWidth value={values.note} multiline />
                 </Grid>
               </Grid>
             </Box>

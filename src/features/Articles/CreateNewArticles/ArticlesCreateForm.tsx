@@ -245,7 +245,6 @@ const initialValues = {
 const validationSchema = yup.object().shape({
   subject: yup.string().checkRequired('lang_please_enter_title'),
   content: yup.string().checkRequired('lang_please_enter_content'),
-  // @ts-ignore
   image: yup.mixed().checkFile('lang_please_choose_image'),
   // @ts-ignore
   file: yup.mixed().checkFile('', 10000000, '.pdf'),
