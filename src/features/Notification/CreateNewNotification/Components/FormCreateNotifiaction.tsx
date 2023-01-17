@@ -10,16 +10,20 @@ import {
   DELIVERY_TYPE,
 } from '../NotificationConstant';
 import RadioGroupField from 'components/fields/RadioGroupField';
-import { AutocompleteField, InputField, SelectField, DatePickerField, AutocompleteFreeSoloField } from 'components/fields';
+import { AutocompleteField, InputField, SelectField, DatePickerField } from 'components/fields';
 import { initialValuesType, isOptionEqualToValue } from '../CreateNewNotification';
 import { ClassNameMap } from 'notistack';
 import SearchAsyncField from 'components/fields/SearchAsyncField';
-import { getSearchSubscribersUrl } from 'apis/request.url';
+import { getListSiteNametUrl, getSearchSubscribersUrl } from 'apis/request.url';
 
 interface FormCreateNotifiactionProps {
   form: FormikProps<initialValuesType>;
   classes: ClassNameMap<'wrapper' | 'radioField' | 'formContainer'>;
 }
+
+export const isOptionEqualToValueSiteName = (option: any, value: any) => {
+  return option === value;
+};
 
 const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, classes, ...rest }) => {
   const { values, handleChange, handleBlur, touched, errors, setFieldValue, setFieldTouched } = form || {};
@@ -50,19 +54,20 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
         return (
           <React.Fragment>
             <Grid item xs={12} style={{ paddingBottom: 3 }}>
-              <AutocompleteFreeSoloField
+              <AutocompleteField
                 name="sitename"
                 label="lang_sitename"
                 required
-                fullWidth
+                getUrl={getListSiteNametUrl}
+                isOptionEqualToValue={isOptionEqualToValueSiteName}
+                getOptionLabel={(option) => `${option || ''}`}
+                getChipLabel={(option: any) => option}
                 value={values.sitename}
-                onChange={(v: any) => setFieldValue('sitename', v)}
-                onBlur={(v) => {
-                  setFieldTouched('sitename', true);
-                  handleBlur(v);
-                }}
+                formatData={(data = []) => data?.map((e: { site_name: string }) => e.site_name)}
+                onChange={(value) => setFieldValue('sitename', value)}
+                onBlur={() => setFieldTouched('sitename', true)}
                 error={touched.sitename && Boolean(errors.sitename)}
-                helperText={touched.sitename && errors.sitename}
+                helperText={(touched.sitename && errors.sitename) as string}
               />
             </Grid>
           </React.Fragment>
