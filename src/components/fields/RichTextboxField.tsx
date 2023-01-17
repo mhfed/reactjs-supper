@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
     '& .rdw-editor-toolbar': {
       border: 'none',
       borderBottom: `1px solid ${alpha(theme.palette.text.primary, 0.23)}`,
+      background: theme.palette.background.attachment,
       color: theme.palette.common.black,
     },
     '& .rdw-editor-main': {

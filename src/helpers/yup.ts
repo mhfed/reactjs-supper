@@ -20,6 +20,7 @@ declare module 'yup' {
     checkFile(message: string, maxSize?: number, accept?: string): any;
   }
   interface StringSchema {
+    checkRequired(message: string): methodString;
     checkEmail(message: string): methodString;
     checkValidField(message: string): methodString;
     compareTimesLocal(message?: string): methodString;
@@ -27,6 +28,17 @@ declare module 'yup' {
     compareTimes(message?: string): methodString;
   }
 }
+
+yup.addMethod(yup.string, 'checkRequired', function (message) {
+  return this.test('checkRequired', message, function (value) {
+    const { path, createError } = this;
+    value = (value + '').trim();
+    if ([null, undefined, ''].includes(value)) {
+      return createError({ path, message });
+    }
+    return true;
+  });
+});
 
 yup.addMethod(yup.string, 'checkEmail', function (message = 'lang_email_invalid') {
   return this.test('email', message, function (value) {

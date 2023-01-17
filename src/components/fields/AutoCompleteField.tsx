@@ -146,7 +146,12 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   };
 
   return (
-    <FormControl required fullWidth error={error} className={clsx(preview && classes.previewContainer)}>
+    <FormControl
+      required={preview ? false : required}
+      fullWidth
+      error={error}
+      className={clsx(preview && classes.previewContainer)}
+    >
       <Autocomplete
         loading={loading}
         noOptionsText={inputRef.current?.value ? <Trans>lang_no_matching_records_found</Trans> : ''}
@@ -196,7 +201,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
         )}
         renderInput={(params) => (
           <TextField
-            required={required}
+            required={preview ? false : required}
             {...params}
             inputRef={inputRef}
             variant={preview ? 'standard' : 'outlined'}

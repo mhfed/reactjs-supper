@@ -61,7 +61,7 @@ const Report: React.FC<ReportProps> = () => {
 
       gridRef?.current?.setData?.(response.data);
     } catch (error) {
-      if (error.errorCode === 100000) {
+      if (error.errorCode === 100000 || error.errorCode === 100003) {
         dispatch(iressLogout());
         showSubModal({
           title: 'lang_sign_in',

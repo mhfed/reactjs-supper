@@ -124,6 +124,7 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
           <Grid item xs={12}>
             {values.sitename_custom?.length ? (
               <AutocompleteField
+                preview
                 name="sitename_custom"
                 label="lang_sitename"
                 required
