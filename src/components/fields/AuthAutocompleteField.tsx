@@ -30,12 +30,6 @@ import authService from 'services/authService';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    '& .MuiChip-root': {
-      border: 'none',
-    },
-    '& .MuiChip-label': {
-      color: theme.palette.secondary.main,
-    },
     '& .MuiAutocomplete-inputRoot': {
       paddingRight: `${theme.spacing(1)} !important`,
     },
@@ -207,67 +201,65 @@ const AuthAutocompleteField: React.FC<AuthAutocompleteFieldProps> = ({
   };
 
   return (
-    <Box>
-      <FormControl required fullWidth error={error} className={classes.container}>
-        <Autocomplete
-          loading={loading}
-          noOptionsText={inputRef.current?.value ? <Trans>lang_no_matching_records_found</Trans> : ''}
-          loadingText={
-            <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-              <CircularProgress color="secondary" size={24} />
-            </Box>
-          }
-          onBlur={onBlur}
-          multiple
-          disableClearable
-          disabled={!iressToken}
-          id={id}
-          value={value}
-          defaultValue={[]}
-          onChange={handleChange}
-          options={options}
-          clearOnBlur
-          getOptionLabel={_getOptionLabel}
-          isOptionEqualToValue={_isOptionEqualToValue}
-          renderTags={(value: readonly string[], getTagProps) => (
-            <Box className={classes.tagContainer}>
-              {value.length &&
-                value.map((option: any, index: number) => (
-                  <Chip
-                    variant="outlined"
-                    label={_getChipLabel(option)}
-                    {...getTagProps({ index })}
-                    color="secondary"
-                    title={_getOptionLabel(option)}
-                    key={`autocomplete_chip_${id}_${index}`}
-                  />
-                ))}
-            </Box>
-          )}
-          renderInput={(params) => (
-            <TextField
-              required={required}
-              {...params}
-              inputRef={inputRef}
-              label={<Trans>{label}</Trans>}
-              error={error}
-              onChange={handleTextChange}
-              InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Button network variant={iressToken ? 'text' : 'contained'} onClick={handleIressAuth}>
-                      <Trans>{iressToken ? 'lang_sign_out' : 'lang_sign_in'}</Trans>
-                    </Button>
-                  </InputAdornment>
-                ),
-              }}
-            ></TextField>
-          )}
-        />
-        {_renderHelperText()}
-      </FormControl>
-    </Box>
+    <FormControl required fullWidth error={error} className={classes.container}>
+      <Autocomplete
+        loading={loading}
+        noOptionsText={inputRef.current?.value ? <Trans>lang_no_matching_records_found</Trans> : ''}
+        loadingText={
+          <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+            <CircularProgress color="secondary" size={24} />
+          </Box>
+        }
+        onBlur={onBlur}
+        multiple
+        disableClearable
+        disabled={!iressToken}
+        id={id}
+        value={value}
+        defaultValue={[]}
+        onChange={handleChange}
+        options={options}
+        clearOnBlur
+        getOptionLabel={_getOptionLabel}
+        isOptionEqualToValue={_isOptionEqualToValue}
+        renderTags={(value: readonly string[], getTagProps) => (
+          <Box className={classes.tagContainer}>
+            {value.length &&
+              value.map((option: any, index: number) => (
+                <Chip
+                  variant="outlined"
+                  label={_getChipLabel(option)}
+                  {...getTagProps({ index })}
+                  color="secondary"
+                  title={_getOptionLabel(option)}
+                  key={`autocomplete_chip_${id}_${index}`}
+                />
+              ))}
+          </Box>
+        )}
+        renderInput={(params) => (
+          <TextField
+            required={required}
+            {...params}
+            inputRef={inputRef}
+            label={<Trans>{label}</Trans>}
+            error={error}
+            onChange={handleTextChange}
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Button network variant={iressToken ? 'text' : 'contained'} onClick={handleIressAuth}>
+                    <Trans>{iressToken ? 'lang_sign_out' : 'lang_sign_in'}</Trans>
+                  </Button>
+                </InputAdornment>
+              ),
+            }}
+          ></TextField>
+        )}
+      />
+      {_renderHelperText()}
+    </FormControl>
   );
 };
 

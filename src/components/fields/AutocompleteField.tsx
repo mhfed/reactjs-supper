@@ -19,24 +19,10 @@ import Box from '@mui/material/Box';
 import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
-  chipContainer: {
-    margin: `${theme.spacing(0.5)} ${theme.spacing(1)} ${theme.spacing(0.5)} 0px`,
-    '& .MuiChip-root': {
-      border: 'none',
-    },
-    '& .MuiChip-label': {
-      color: theme.palette.secondary.main,
-    },
-  },
-  chipTags: {
-    margin: `${theme.spacing(0.5)} ${theme.spacing(1)} ${theme.spacing(0.5)} 0px`,
-  },
+  container: {},
   previewContainer: {
     '& input': {
       display: 'none',
-    },
-    '& .MuiChip-root': {
-      margin: 3,
     },
   },
 }));
@@ -55,7 +41,7 @@ type AutocompleteFieldProps = {
   options?: LooseObject[];
   getOptionLabel?: (opt: LooseObject) => string;
   getChipLabel?: (opt: LooseObject) => string;
-  getUrl: (text: string) => string;
+  getUrl?: (text: string) => string;
   formatData?: (data: any) => any[];
 };
 
@@ -160,7 +146,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
       required={preview ? false : required}
       fullWidth
       error={error}
-      className={clsx(preview && classes.previewContainer)}
+      className={clsx(classes.container, preview && classes.previewContainer)}
     >
       <Autocomplete
         loading={loading}
@@ -187,10 +173,8 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
               value?.map((option: any, index: number) =>
                 preview ? (
                   <Chip
-                    sx={{ mb: '1px' }}
-                    variant="outlined"
+                    {...getTagProps({ index })}
                     label={_getChipLabel(option)}
-                    className={classes.chipTags}
                     disabled={true}
                     deleteIcon={<></>}
                     title={_getOptionLabel(option)}
@@ -202,7 +186,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
                     label={_getChipLabel(option)}
                     {...getTagProps({ index })}
                     color="secondary"
-                    className={clsx(classes.chipContainer, 'customTitle')}
+                    className={'customTitle'}
                     title={_getOptionLabel(option)}
                     key={`autocomplete_chip_${name}_${index}`}
                   />

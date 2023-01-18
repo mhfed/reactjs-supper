@@ -1,14 +1,11 @@
 import React from 'react';
-import { Typography, Grid, Chip, useTheme } from '@mui/material';
-import { Trans } from 'react-i18next';
-import { InputField } from 'components/fields';
+import Grid from '@mui/material/Grid';
+import { InputField, AutocompleteField } from 'components/fields';
 import { FormikProps } from 'formik';
-import { Autocomplete, TextField } from '@mui/material';
 import { initialValuesType } from '../../CreateNewNotification/CreateNewNotification';
 import { EXPIRE_OPTION_FILTER, NOTIFICATION_TYPE } from '../../CreateNewNotification/NotificationConstant';
 import moment from 'moment';
 import { ClassNameMap } from '@mui/styles';
-import clsx from 'clsx';
 
 interface FormDirectNotificationProps {
   form: FormikProps<initialValuesType>;
@@ -17,7 +14,6 @@ interface FormDirectNotificationProps {
 
 const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, classes }) => {
   const { values } = form;
-  const theme = useTheme();
   const { Segment, Sitename, Direct } = NOTIFICATION_TYPE;
 
   let delivery_type_preview = `${values?.delivery_type || ''}`;
@@ -100,39 +96,17 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
         </Grid>
         <Grid item container xs={12} spacing={3}>
           <Grid item xs={12}>
-            <Autocomplete
-              multiple
-              id="tags-readOnly"
-              options={[]}
-              value={defaultArray}
-              readOnly
-              freeSolo
-              renderTags={(value: readonly string[], getTagProps) =>
-                value.map((option: any, index: number) => (
-                  <Chip
-                    variant="outlined"
-                    label={option}
-                    {...getTagProps({ index })}
-                    style={{ marginRight: theme.spacing(2) }}
-                    title={`${option} (${values.subscribers[index].site_name})`}
-                    className="customTitle"
-                    key={index}
-                  />
-                ))
-              }
-              // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant="standard"
-                  label={
-                    <Typography>
-                      <Trans>lang_subscribers</Trans>
-                    </Typography>
-                  }
-                ></TextField>
-              )}
-            />
+            <Grid item xs={12}>
+              <AutocompleteField
+                preview
+                name="sitename_custom"
+                label="lang_subscribers"
+                required
+                isOptionEqualToValue={(opt, select) => opt.site_name === select.site_name}
+                getOptionLabel={(opt) => opt.site_name}
+                value={values.subscribers}
+              />
+            </Grid>
           </Grid>
         </Grid>
         <Grid item container xs={12} spacing={3}>
