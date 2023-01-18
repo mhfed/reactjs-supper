@@ -201,3 +201,7 @@ input[type='number']::-webkit-outer-spin-button {
 .SnackbarItem-message svg {
   margin-right: 8px;
 }
+
+.dark .rdw-option-wrapper img {
+  filter: brightness(0) invert(1);
+}

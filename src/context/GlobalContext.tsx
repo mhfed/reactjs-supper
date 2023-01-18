@@ -57,6 +57,11 @@ const reducer = (state: IContext, { type, payload }: IAction) => {
 const GlobalProvider = ({ children }: IProps) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  React.useEffect(() => {
+    document.body.classList.remove('light', 'dark');
+    document.body.classList.add(lastTheme + '');
+  }, []);
+
   const _handleSetModeTheme = (mode: string) => {
     document.body.classList.remove('dark', 'light');
     document.body.classList.add(mode);
