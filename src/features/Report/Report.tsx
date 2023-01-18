@@ -63,10 +63,9 @@ const Report: React.FC<ReportProps> = () => {
       gridRef?.current?.setData?.(response.data);
     } catch (error) {
       if (authService.checkIressSessionLogout(error.errorCode)) {
-        dispatch(iressLogout());
         dispatch(
           enqueueSnackbarAction({
-            message: error?.errorCode,
+            message: `error_code_${error?.errorCode}`,
             key: new Date().getTime() + Math.random(),
             variant: 'error',
           }),
@@ -90,11 +89,11 @@ const Report: React.FC<ReportProps> = () => {
           }),
         );
       }
+      gridRef?.current?.setLoading?.(false);
     }
   };
 
   const handleFetch = () => {
-    console.log('handle fetch report');
     if (iressToken) {
       getData(iressToken, sitename + '');
     } else {
