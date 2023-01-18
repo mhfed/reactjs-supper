@@ -102,8 +102,8 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
                 name="sitename_custom"
                 label="lang_subscribers"
                 required
-                isOptionEqualToValue={(opt, select) => opt.site_name === select.site_name}
-                getOptionLabel={(opt) => opt.site_name}
+                isOptionEqualToValue={(opt, select) => opt.subscriber === select.subscriber}
+                getOptionLabel={(opt) => opt.subscriber}
                 value={values.subscribers}
               />
             </Grid>
