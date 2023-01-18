@@ -292,7 +292,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
               <Button variant="outlined" onClick={handleCancel}>
                 <Trans>lang_cancel</Trans>
               </Button>
-              <Button type="submit" variant="contained" sx={{ ml: 2 }} network>
+              <Button type="submit" variant="contained" sx={{ ml: 2 }} network scrollToTop>
                 <Trans>lang_save</Trans>
               </Button>
             </Grid>

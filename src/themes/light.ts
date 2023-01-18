@@ -109,7 +109,7 @@ const lightTheme = createTheme({
     MuiButtonBase: {
       styleOverrides: {
         root: {
-          '&.Mui-disabled:not(.MuiRadio-root)': {
+          '&.Mui-disabled:not(.MuiRadio-root):not(.MuiChip-root)': {
             backgroundColor: '#758695 !important',
             pointerEvents: 'unset',
             cursor: 'not-allowed',

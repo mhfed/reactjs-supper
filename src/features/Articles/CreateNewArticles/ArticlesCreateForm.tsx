@@ -220,7 +220,7 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
             <Button variant="outlined" onClick={onClear}>
               <Trans>lang_clear</Trans>
             </Button>
-            <Button type="submit" variant="contained" sx={{ ml: 2 }} network>
+            <Button type="submit" variant="contained" sx={{ ml: 2 }} network scrollToTop>
               <Trans>lang_create</Trans>
             </Button>
           </Grid>
