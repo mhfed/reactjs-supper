@@ -64,6 +64,7 @@ const Report: React.FC<ReportProps> = () => {
       gridRef?.current?.setData?.(response.data);
     } catch (error) {
       if (authService.checkIressSessionLogout(error.errorCode)) {
+        dispatch(iressLogout());
         dispatch(
           enqueueSnackbarAction({
             message: `error_code_${error?.errorCode}`,
