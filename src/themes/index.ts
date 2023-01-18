@@ -21,6 +21,7 @@ declare module '@mui/material/styles' {
     oddRow?: string;
     evenRow?: string;
     headerModal?: string;
+    contentModal?: string;
     iconButton?: string;
     attachment?: string;
     attachmentBorder?: string;

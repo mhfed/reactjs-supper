@@ -12,13 +12,14 @@ import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { InputField, SelectField } from 'components/fields';
 import { useFormik } from 'formik';
-import { Box, Button, Grid, Stack, Typography } from '@mui/material';
+import { Box, Grid, Stack } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Trans } from 'react-i18next';
 import httpRequest from 'services/httpRequest';
 import { getUserDetailUrl } from 'apis/request.url';
 import EditIcon from '@mui/icons-material/Edit';
-import CloseIcon from '@mui/icons-material/Close';
+import HeaderModal from 'components/atoms/HeaderModal';
+import Button from 'components/atoms/ButtonBase';
 import { SITE_NAME_OPTIONS, USER_STATUS_OPTIONS } from '../UserConstants';
 import moment from 'moment-timezone';
 import { useGlobalModalContext } from 'containers/Modal';
@@ -35,19 +36,11 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
-    background: theme.palette.background.main,
     justifyContent: 'space-between',
     padding: theme.spacing(3),
     '& .MuiGrid-item': {
       paddingTop: theme.spacing(3),
     },
-  },
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    width: '100%',
-    padding: theme.spacing(1, 2),
-    background: theme.palette.background.headerModal,
   },
   iconClose: {
     cursor: 'pointer',
@@ -174,18 +167,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
   const handleClose = () => {
     handleBackOrClose(true);
   };
-  React.useEffect(() => {}, []);
 
-  const renderHeader = () => {
-    return (
-      <Box className={classes.header}>
-        <Typography fontWeight={700}>
-          <Trans>lang_user_details</Trans>
-        </Typography>
-        <CloseIcon className={classes.iconClose} onClick={handleClose} />
-      </Box>
-    );
-  };
   const renderContent = (editMode: boolean) => {
     if (!editMode) {
       return (
@@ -354,7 +336,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
     } else {
       return (
         <Stack direction="row" justifyContent="end" alignItems="center">
-          <Button variant="contained" startIcon={<EditIcon />} onClick={handleTurnOnEditMode}>
+          <Button variant="contained" startIcon={<EditIcon />} network onClick={handleTurnOnEditMode}>
             <Trans>lang_edit</Trans>
           </Button>
         </Stack>
@@ -363,7 +345,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
   };
   return (
     <>
-      {renderHeader()}
+      <HeaderModal title="lang_user_details" onClose={handleClose} />
       <form className={classes.form} noValidate onSubmit={handleSubmit}>
         {renderContent(editMode)}
         {renderButton(editMode)}

@@ -149,6 +149,7 @@ const lightTheme = createTheme({
       oddRow: '#FFFFFF',
       evenRow: '#F2F8FF',
       headerModal: '#E8ECEF',
+      contentModal: '#FFFFFF',
       iconButton: '#E8ECEF',
       attachment: '#F2F8FF',
       attachmentBorder: '#262B3E',

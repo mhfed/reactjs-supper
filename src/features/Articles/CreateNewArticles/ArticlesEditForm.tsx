@@ -19,11 +19,8 @@ import {
 } from 'components/fields';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
+import HeaderModal from 'components/atoms/HeaderModal';
 import { useFormik } from 'formik';
-import CloseIcon from '@mui/icons-material/Close';
 import { yup, checkDiffArticlesEdit } from 'helpers';
 import makeStyles from '@mui/styles/makeStyles';
 import { SITENAME_OPTIONS, SECURITY_TYPE_OPTIONS, SITENAME } from '../ArticlesConstants';
@@ -42,24 +39,15 @@ const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
     flex: 1,
-    background: theme.palette.background.main,
     width: '100%',
     overflow: 'auto',
+    background: theme.palette.background.contentModal,
     padding: theme.spacing(3),
     '& form': {
       display: 'flex',
       flex: 1,
       width: '100%',
     },
-  },
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    textTransform: 'uppercase',
-    padding: theme.spacing(1, 2),
-    background: theme.palette.background.headerModal,
   },
 }));
 
@@ -71,7 +59,7 @@ type ArticlesEditFormProps = {
 
 const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, onCancel, editFirst }) => {
   const classes = useStyles();
-  const { showSubModal, hideModal, hideSubModal } = useGlobalModalContext();
+  const { showSubModal, hideModal } = useGlobalModalContext();
   const dispatch = useDispatch();
 
   const handleFormSubmit = async (values: LooseObject) => {
@@ -115,7 +103,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
     }
   };
 
-  const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleCancel = () => {
     const isDiff = checkDiffArticlesEdit(initValues, values);
     if (isDiff) {
       showSubModal({
@@ -156,21 +144,9 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
     onSubmit: handleFormSubmit,
   });
 
-  const onClear = () => {
-    setValues(initialValues, false);
-    setTouched({});
-  };
-
   return (
     <>
-      <Box className={classes.header}>
-        <Typography fontWeight={700}>
-          <Trans>lang_edit_articles</Trans>
-        </Typography>
-        <IconButton onClick={handleCancel}>
-          <CloseIcon />
-        </IconButton>
-      </Box>
+      <HeaderModal title="lang_edit_articles" onClose={handleCancel} />
       <Paper className={classes.container}>
         <form noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>

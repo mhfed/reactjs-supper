@@ -9,14 +9,10 @@
 import React, { useState, createContext, useContext } from 'react';
 import Modal from '@mui/material/Modal';
 import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
 import { LooseObject, IModalProps } from 'models/ICommon';
-import { Trans } from 'react-i18next';
 import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
-import CloseIcon from '@mui/icons-material/Close';
+import HeaderModal from 'components/atoms/HeaderModal';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -33,15 +29,8 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     borderRadius: 8,
     overflow: 'hidden',
+    background: theme.palette.background.contentModal,
     minWidth: '40vw',
-  },
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    padding: theme.spacing(1, 2),
-    background: theme.palette.background.headerModal,
   },
 }));
 
@@ -126,32 +115,13 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
       <>
         <Modal className={classes.modal} open={!!store.open}>
           <Paper className={clsx(classes.container, store.fullScreen && classes.fullScreenModal)} style={store?.styleModal || {}}>
-            {store.title ? (
-              <Box className={classes.header}>
-                <Typography fontWeight={700}>
-                  <Trans>{store.title}</Trans>
-                </Typography>
-                {store.showBtnClose && (
-                  <IconButton onClick={hideModal}>
-                    <CloseIcon />
-                  </IconButton>
-                )}
-              </Box>
-            ) : (
-              <></>
-            )}
+            {store.title ? <HeaderModal title={store.title} onClose={hideModal} /> : <></>}
             {Component && <Component {...(store.props || {})} onClose={hideModal} />}
           </Paper>
         </Modal>
         <Modal className={classes.modal} open={!!store.subOpen}>
           <Paper className={classes.container} style={store?.styleModal || {}}>
-            {store.subTitle && (
-              <Box className={classes.header}>
-                <Typography fontWeight={700}>
-                  <Trans>{store.subTitle}</Trans>
-                </Typography>
-              </Box>
-            )}
+            {store.subTitle && <HeaderModal title={store.subTitle} onClose={hideModal} />}
             {SubComponent && <SubComponent {...(store.subProps || {})} onClose={hideSubModal} />}
           </Paper>
         </Modal>

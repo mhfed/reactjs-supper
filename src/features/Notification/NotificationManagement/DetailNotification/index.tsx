@@ -1,10 +1,11 @@
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import { Button, Stack, Typography, Box } from '@mui/material';
+import Button from 'components/atoms/ButtonBase';
+import Stack from '@mui/material/Stack';
 import { Trans } from 'react-i18next';
 import { Formik, FormikProps } from 'formik';
 import { useGlobalModalContext } from 'containers/Modal';
-import CloseIcon from '@mui/icons-material/Close';
+import HeaderModal from 'components/atoms/HeaderModal';
 import { initialValuesType } from '../../CreateNewNotification/CreateNewNotification';
 import { DELIVERY_TYPE, NOTIFICATION_TYPE } from '../../CreateNewNotification/NotificationConstant';
 import FormDirectNotification from './FormDirectNotification';
@@ -38,18 +39,8 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 24,
     paddingBottom: 24,
   },
-  title: {
-    textTransform: 'uppercase',
-    // marginBottom: theme.spacing(2),
-  },
   iconClose: {
     cursor: 'pointer',
-  },
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    width: '100%',
-    padding: theme.spacing(1),
   },
   formContainer: {
     display: 'flex',
@@ -73,17 +64,6 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
     if (typePage === STATE_FORM.DETAIL) {
       hideModal();
     }
-  };
-
-  const renderHeader = () => {
-    return (
-      <Box className={classes.header}>
-        <Typography className={classes.title} fontWeight={700}>
-          <Trans>{'lang_notifications_details'}</Trans>
-        </Typography>
-        <CloseIcon className={classes.iconClose} onClick={handleClose} />
-      </Box>
-    );
   };
 
   const renderContent = (form: FormikProps<initialValuesType>) => {
@@ -121,7 +101,7 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
     return (
       <Stack direction="row" justifyContent="end" alignItems="center" spacing={3} className={classes.buttonWrapper}>
         {form.values.delivery_type === DELIVERY_TYPE.Instant ? null : (
-          <Button variant="contained" startIcon={<EditIcon />} onClick={onEdit}>
+          <Button variant="contained" startIcon={<EditIcon />} network onClick={onEdit}>
             <Trans>lang_edit</Trans>
           </Button>
         )}
@@ -131,7 +111,7 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
 
   return (
     <div className={classes.divCointainer}>
-      {renderHeader()}
+      <HeaderModal title="lang_notifications_details" onClose={handleClose} />
       <Formik initialValues={dataForm} onSubmit={() => {}}>
         {(form: FormikProps<initialValuesType>) => {
           return (

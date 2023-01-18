@@ -8,13 +8,15 @@ import { Trans } from 'react-i18next';
 
 interface FormDirectNotificationProps {
   form: FormikProps<initialValuesType>;
-  classes: ClassNameMap<'divCointainer' | 'containerForm' | 'buttonWrapper' | 'title' | 'iconClose' | 'header' | 'formContainer'>;
+  classes: ClassNameMap<'divCointainer' | 'containerForm' | 'buttonWrapper' | 'iconClose' | 'formContainer'>;
 }
 
 const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, classes }) => {
   const { values } = form;
   values.type_url = 'Articles';
-  let defaultArray = Array.isArray(values.subscribers) ? Array.from(new Set(values.subscribers.map((x: any) => x?.site_name))) : [];
+  let defaultArray = Array.isArray(values.subscribers)
+    ? Array.from(new Set(values.subscribers.map((x: any) => x?.site_name)))
+    : [];
 
   return (
     <React.Fragment>

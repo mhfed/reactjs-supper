@@ -119,7 +119,7 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
   const renderHeader = () => {
     return (
       <Box className={classes.header}>
-        <Typography className={classes.title} fontWeight={700}>
+        <Typography className={classes.title} variant="h6">
           <Trans>{'lang_edit_notification'}</Trans>
         </Typography>
         <CloseIcon className={classes.iconClose} onClick={handleClose} />

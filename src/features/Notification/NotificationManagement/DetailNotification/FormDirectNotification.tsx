@@ -12,7 +12,7 @@ import clsx from 'clsx';
 
 interface FormDirectNotificationProps {
   form: FormikProps<initialValuesType>;
-  classes: ClassNameMap<'divCointainer' | 'containerForm' | 'buttonWrapper' | 'title' | 'iconClose' | 'header' | 'formContainer'>;
+  classes: ClassNameMap<'divCointainer' | 'containerForm' | 'buttonWrapper' | 'iconClose' | 'formContainer'>;
 }
 
 const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, classes }) => {

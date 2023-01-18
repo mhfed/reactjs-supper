@@ -8,7 +8,7 @@
 
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import { Button, Stack, Typography, Grid, Box, Chip, useTheme } from '@mui/material';
+import { Stack, Grid, Chip, useTheme } from '@mui/material';
 import { Trans } from 'react-i18next';
 import { InputField, AutocompleteField, PreviewField } from 'components/fields';
 import { useFormik } from 'formik';
@@ -23,8 +23,8 @@ import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import { LooseObject } from 'models/ICommon';
 import EditIcon from '@mui/icons-material/Edit';
-import CloseIcon from '@mui/icons-material/Close';
-import clsx from 'clsx';
+import HeaderModal from 'components/atoms/HeaderModal';
+import Button from 'components/atoms/ButtonBase';
 import { getSearchSubscribersUrl } from 'apis/request.url';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   container: {
-    background: theme.palette.background.main,
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
@@ -53,14 +52,6 @@ const useStyles = makeStyles((theme) => ({
   },
   iconClose: {
     cursor: 'pointer',
-  },
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    width: '100%',
-    padding: theme.spacing(1, 2),
-    textTransform: 'uppercase',
-    background: theme.palette.background.headerModal,
   },
 }));
 
@@ -197,16 +188,6 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
     return option.username === value.username;
   }, []);
 
-  const renderHeader = () => {
-    return (
-      <Box className={classes.header}>
-        <Typography fontWeight={700}>
-          <Trans>{stateForm === STATE_FORM.DETAIL ? 'lang_segment_details' : 'lang_edit_segment'}</Trans>
-        </Typography>
-        <CloseIcon className={classes.iconClose} onClick={handleClose} />
-      </Box>
-    );
-  };
   const renderContent = () => {
     let defaultArray = Array.isArray(values.segment_subscribers) ? values.segment_subscribers.map((x: any) => x.username) : [];
     switch (stateForm) {
@@ -250,12 +231,10 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
               </Grid>
             </Grid>
             <Stack className={classes.buttonWrapper} direction="row" spacing={2}>
-              {/* <Button variant="outlined" onClick={handleCancel}>
-                <Trans>lang_cancel</Trans>
-              </Button> */}
               <Button
                 variant="contained"
                 startIcon={<EditIcon />}
+                network
                 onClick={() => {
                   setStateForm(STATE_FORM.EDIT);
                 }}
@@ -334,7 +313,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
 
   return (
     <div className={classes.divCointainer}>
-      {renderHeader()}
+      <HeaderModal title={stateForm === STATE_FORM.DETAIL ? 'lang_segment_details' : 'lang_edit_segment'} onClose={handleClose} />
       {renderContent()}
     </div>
   );

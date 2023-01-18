@@ -10,8 +10,7 @@ import React from 'react';
 import { InputField, RichTextboxField, ImageField, FileField, SelectField, AutocompleteField } from 'components/fields';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
+import HeaderModal from 'components/atoms/HeaderModal';
 import Paper from '@mui/material/Paper';
 import makeStyles from '@mui/styles/makeStyles';
 import Button from 'components/atoms/ButtonBase';
@@ -21,7 +20,6 @@ import { SITENAME_OPTIONS, SECURITY_TYPE_OPTIONS } from '../ArticlesConstants';
 import { IArticlesFormData } from 'models/IArticles';
 import { useDispatch } from 'react-redux';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
-import CloseIcon from '@mui/icons-material/Close';
 import { useGlobalModalContext } from 'containers/Modal';
 import ArticlesEditForm from './ArticlesEditForm';
 
@@ -38,23 +36,14 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     flex: 1,
     overflow: 'auto',
+    background: theme.palette.background.contentModal,
     width: '100%',
-    background: theme.palette.background.main,
     padding: theme.spacing(3),
   },
   btnContainer: {
     display: 'flex',
     justifyContent: 'flex-end',
     paddingTop: theme.spacing(3),
-  },
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    textTransform: 'uppercase',
-    padding: theme.spacing(1, 2),
-    background: theme.palette.background.headerModal,
   },
 }));
 
@@ -81,14 +70,7 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
   const renderDetailPreview = () => {
     return (
       <>
-        <Box className={classes.header}>
-          <Typography fontWeight={700}>
-            <Trans>lang_articles_details</Trans>
-          </Typography>
-          <IconButton onClick={hideModal}>
-            <CloseIcon />
-          </IconButton>
-        </Box>
+        <HeaderModal title="lang_articles_details" onClose={hideModal} />
         <Box className={classes.container}>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>

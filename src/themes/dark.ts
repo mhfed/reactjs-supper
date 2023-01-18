@@ -142,6 +142,7 @@ const darkTheme = createTheme({
       oddRow: '#262B3E',
       evenRow: '#1F2332',
       headerModal: '#1F2332',
+      contentModal: '#272B3B',
       iconButton: '#758695',
       attachment: '#3A425E',
       attachmentBorder: '#758695',
