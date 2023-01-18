@@ -1,4 +1,5 @@
 import { IArticlesDataManagement, IArticlesFormData } from 'models/IArticles';
+import { IFileUpload } from 'models/ICommon';
 import { SITENAME } from 'features/Articles/ArticlesConstants';
 
 export const clearStorage = () => {
@@ -68,4 +69,8 @@ export const hideTooltip = () => {
   if (tooltip) {
     tooltip.style.opacity = '0';
   }
+};
+
+export const isBlobFile = (file: IFileUpload) => {
+  return file?.name?.includes('blob:http');
 };

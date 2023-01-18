@@ -34,6 +34,7 @@ import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import httpRequest from 'services/httpRequest';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
+import { isBlobFile } from 'helpers';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -64,19 +65,28 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
 
   const handleFormSubmit = async (values: LooseObject) => {
     try {
-      const formData = new FormData();
-      formData.append('file', values.image.file);
-      const { data: imageResponse } = await httpRequest.post(getUploadUrl(), formData);
       const body: ICreateArticlesBody = {
         subject: values.subject,
         content: values.content,
-        image: imageResponse.url,
         site_name:
           values.site_name === SITENAME.CUSTOM ? values.sitename_custom.map((e: any) => e.site_name) : [values.site_name],
         securities: values.securities.map((e: any) => e.securities),
         security_type: values.security_type,
       };
-      if (values.file?.file) {
+      if (values.image.url) {
+        body.image = values.image.url;
+      }
+      if (values.file.url) {
+        body.attachment_url = values.file.url;
+        body.attachment_name = values.file.name || 'attachment_name';
+      }
+      if (isBlobFile(values.image)) {
+        const formData = new FormData();
+        formData.append('file', values.image.file);
+        const { data: imageResponse } = await httpRequest.post(getUploadUrl(), formData);
+        body.image = imageResponse.url;
+      }
+      if (isBlobFile(values.file)) {
         const formData = new FormData();
         formData.append('file', values.file.file);
         const { data: fileResponse } = await httpRequest.post(getUploadUrl(), formData);

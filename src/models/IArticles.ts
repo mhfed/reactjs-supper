@@ -3,7 +3,7 @@ import { IFileUpload, LooseObject } from './ICommon';
 export type ICreateArticlesBody = {
   subject: string;
   content: string;
-  image: string;
+  image?: string;
   attachment_url?: string;
   attachment_name?: string;
   site_name: string[];
