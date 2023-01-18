@@ -60,7 +60,10 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                 required
                 getUrl={getListSiteNametUrl}
                 isOptionEqualToValue={isOptionEqualToValueSiteName}
-                getOptionLabel={(option) => `${option || ''}`}
+                getOptionLabel={(option) => {
+                  console.log('option in site name:', option);
+                  return `${option || ''}`;
+                }}
                 getChipLabel={(option: any) => option}
                 value={values.sitename}
                 formatData={(data = []) => data?.map((e: { site_name: string }) => e.site_name)}
