@@ -244,16 +244,16 @@ const initialValues = {
 };
 
 const validationSchema = yup.object().shape({
-  // subject: yup.string().checkRequired('lang_please_enter_title'),
+  subject: yup.string().checkRequired('lang_please_enter_title'),
   content: yup.string().checkRequired('lang_please_enter_content'),
-  // image: yup.mixed().checkFile('lang_please_choose_image'),
-  // file: yup.mixed().checkFile('', 10000000, '.pdf'),
-  // site_name: yup.string().required('lang_please_enter_sitename'),
-  // sitename_custom: yup.array().when(['site_name'], (sitename, schema) => {
-  //   return sitename === SITENAME.CUSTOM
-  //     ? schema.min(1, 'lang_please_enter_sitename').required('lang_please_enter_sitename')
-  //     : schema;
-  // }),
-  // securities: yup.array().min(1, 'lang_please_select_security_code').required('lang_please_select_security_code'),
-  // security_type: yup.string().required('lang_please_select_security_type'),
+  image: yup.mixed().checkFile('lang_please_choose_image'),
+  file: yup.mixed().checkFile('', 10000000, '.pdf'),
+  site_name: yup.string().required('lang_please_enter_sitename'),
+  sitename_custom: yup.array().when(['site_name'], (sitename, schema) => {
+    return sitename === SITENAME.CUSTOM
+      ? schema.min(1, 'lang_please_enter_sitename').required('lang_please_enter_sitename')
+      : schema;
+  }),
+  securities: yup.array().min(1, 'lang_please_select_security_code').required('lang_please_select_security_code'),
+  security_type: yup.string().required('lang_please_select_security_type'),
 });

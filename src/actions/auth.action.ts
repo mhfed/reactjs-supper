@@ -20,7 +20,7 @@ const updateAxiosAuthConfig = (baseUrl: string, accessToken: string, pin: string
   axiosInstance.defaults.baseURL = `https://${baseUrl}`;
   axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
   axiosInstance.defaults.headers.common['environment'] = 'iress-wealth-app';
-  authService.getUserDetail(lastEmailLogin as string);
+  lastEmailLogin && authService.getUserDetail(lastEmailLogin as string);
   authService.autoRenewToken();
 };
 
