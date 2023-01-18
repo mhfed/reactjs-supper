@@ -20,12 +20,16 @@ import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   chipContainer: {
+    margin: `${theme.spacing(0.5)} ${theme.spacing(1)} ${theme.spacing(0.5)} 0px`,
     '& .MuiChip-root': {
       border: 'none',
     },
     '& .MuiChip-label': {
       color: theme.palette.secondary.main,
     },
+  },
+  chipTags: {
+    margin: `${theme.spacing(0.5)} ${theme.spacing(1)} ${theme.spacing(0.5)} 0px`,
   },
   previewContainer: {
     '& input': {
@@ -186,6 +190,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
                     sx={{ mb: '1px' }}
                     variant="outlined"
                     label={_getChipLabel(option)}
+                    className={classes.chipTags}
                     disabled={true}
                     deleteIcon={<></>}
                     title={_getOptionLabel(option)}
