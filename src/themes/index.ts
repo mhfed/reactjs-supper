@@ -26,6 +26,8 @@ declare module '@mui/material/styles' {
     attachmentBorder?: string;
     closeIconBg?: string;
     closeIcon?: string;
+    disabled?: string;
+    option?: string;
   }
   interface PaletteColor {
     success: string;

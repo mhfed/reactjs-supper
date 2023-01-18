@@ -126,7 +126,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
           confirmText: 'lang_yes',
           emailConfirm: false,
           onSubmit: () => {
-            hideSubModal();
+            hideModal();
             onCancel();
           },
         },

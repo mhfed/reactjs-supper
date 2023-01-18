@@ -154,6 +154,8 @@ const lightTheme = createTheme({
       attachmentBorder: '#262B3E',
       closeIcon: '#758695',
       closeIconBg: '#FFFFFF',
+      disabled: '#758695',
+      option: '#FFFFFF',
     },
     primary: {
       main: '#00C77F',

@@ -20,12 +20,16 @@ import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   chipContainer: {
+    margin: `${theme.spacing(0.5)} ${theme.spacing(1)} ${theme.spacing(0.5)} 0px`,
     '& .MuiChip-root': {
       border: 'none',
     },
     '& .MuiChip-label': {
       color: theme.palette.secondary.main,
     },
+  },
+  chipTags: {
+    margin: `${theme.spacing(0.5)} ${theme.spacing(1)} ${theme.spacing(0.5)} 0px`,
   },
   previewContainer: {
     '& input': {
@@ -38,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type AutocompleteFieldProps = {
-  id?: string;
   label?: string;
   name?: string;
   error?: boolean;
@@ -65,7 +68,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   error,
   onBlur,
   options: initialData,
-  id,
+  name,
   onChange,
   preview,
   getOptionLabel,
@@ -166,7 +169,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
         multiple
         disableClearable
         freeSolo={!!inputRef.current?.value && inputRef.current?.value?.length > 2 ? false : true}
-        id={id}
+        id={name}
         onBlur={onBlur}
         value={value}
         defaultValue={[]}
@@ -183,10 +186,11 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
                     sx={{ mb: '1px' }}
                     variant="outlined"
                     label={_getChipLabel(option)}
+                    className={classes.chipTags}
                     disabled={true}
                     deleteIcon={<></>}
                     title={_getOptionLabel(option)}
-                    key={`autocomplete_chip_${id}_${index}`}
+                    key={`autocomplete_chip_${name}_${index}`}
                   />
                 ) : (
                   <Chip
@@ -196,7 +200,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
                     color="secondary"
                     className={clsx(classes.chipContainer, 'customTitle')}
                     title={_getOptionLabel(option)}
-                    key={`autocomplete_chip_${id}_${index}`}
+                    key={`autocomplete_chip_${name}_${index}`}
                   />
                 ),
               )}

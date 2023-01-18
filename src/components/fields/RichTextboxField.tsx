@@ -29,6 +29,17 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 4,
     minHeight: 200,
     marginTop: '0.875rem',
+    '& .rdw-option-wrapper': {
+      background: 'transparent',
+      border: 'none',
+      '&:hover': {
+        background: theme.palette.hover.success,
+        boxShadow: 'none',
+      },
+      '&:active': {
+        boxShadow: 'none',
+      },
+    },
     '& *': {
       boxSizing: 'initial',
     },
@@ -39,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
       border: 'none',
       borderBottom: `1px solid ${alpha(theme.palette.text.primary, 0.23)}`,
       background: theme.palette.background.attachment,
-      color: theme.palette.common.black,
+      color: theme.palette.text.primary,
     },
     '& .rdw-editor-main': {
       padding: theme.spacing(0, 1),
@@ -51,16 +62,28 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     '& .rdw-dropdown-wrapper': {
-      background: theme.palette.common.white,
+      '&:hover': {
+        background: theme.palette.background.option,
+        boxShadow: 'none',
+      },
+      background: theme.palette.background.option,
+      borderRadius: 4,
       '& .rdw-dropdown-selectedtext': {
         '& span': {
-          color: theme.palette.common.black,
+          color: theme.palette.text.primary,
         },
+      },
+      '& .rdw-dropdown-carettoopen': {
+        borderTopColor: theme.palette.text.primary,
+      },
+      '& .rdw-dropdown-carettclose': {
+        borderBottomColor: theme.palette.text.primary,
       },
       border: 'none',
       '& .rdw-dropdown-optionwrapper': {
+        background: theme.palette.background.paper,
         '& *': {
-          color: theme.palette.common.black,
+          color: theme.palette.text.primary,
         },
         border: 'none',
         boxShadow: theme.shadows[1],
@@ -73,7 +96,28 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     '& .rdw-image-modal': {
-      color: theme.palette.common.black,
+      background: theme.palette.background.paper,
+      color: theme.palette.text.primary,
+      boxShadow: theme.shadows[1],
+      borderColor: theme.palette.divider,
+      '& .rdw-image-modal-upload-option': {
+        background: theme.palette.background.oddRow,
+      },
+      '& input': {
+        color: theme.palette.text.primary,
+        background: theme.palette.background.oddRow,
+        borderColor: theme.palette.divider,
+      },
+      '& .rdw-image-modal-btn': {
+        '&:hover': {
+          boxShadow: 'none',
+        },
+        background: theme.palette.primary.main,
+        border: 'none',
+        '&:disabled': {
+          background: theme.palette.background.disabled,
+        },
+      },
     },
     '& .rdw-option-active': {
       background: theme.palette.primary.main,
@@ -99,6 +143,7 @@ type RichTextboxProps = {
   required?: boolean;
   value?: any;
   onChange?: (a: any) => void;
+  onBlur?: () => void;
   error?: boolean;
   helperText?: any;
   preview?: boolean;
@@ -108,7 +153,7 @@ type RichTextboxHandle = {
 };
 
 const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props, ref) => {
-  const { required = false, label, value, onChange, placeholder, error, helperText, preview } = props;
+  const { required = false, label, value, onChange, onBlur, placeholder, error, helperText, preview } = props;
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -145,11 +190,19 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
     [],
   );
 
+  function handleBlur() {
+    onBlur?.();
+    const isEmpty = convertToRaw(editorState.getCurrentContent()).blocks.every((b) => b.text.trim() === '');
+    if (isEmpty) {
+      reset();
+      onChange?.('');
+    }
+  }
+
   function handleChange(v: any) {
     try {
-      console.log('YOLO: handleChange');
-      setEditorState(v);
       const rawContent = convertToRaw(v.getCurrentContent());
+      setEditorState(v);
       const strValue = draftToHtml(rawContent);
       onChange?.(strValue);
     } catch (error) {
@@ -190,6 +243,17 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
     }
   }
 
+  const listIcon = {
+    bold: '/assets/icons/bold-light.svg',
+    italic: '/assets/icons/italic-light.svg',
+    ordered: '/assets/icons/number-list-light.svg',
+    unordered: '/assets/icons/order-list-light.svg',
+    left: '/assets/icons/align-left-light.svg',
+    center: '/assets/icons/align-center-light.svg',
+    right: '/assets/icons/align-right-light.svg',
+    image: '/assets/icons/insert-image-light.svg',
+  };
+
   return (
     <FormControl required={required} error={error} fullWidth sx={{ mt: 1 }}>
       <InputLabel required={required} error={error} shrink sx={{ ml: '-1rem' }}>
@@ -205,19 +269,33 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
             wrapperClassName="wrapperClassName"
             editorClassName="editorClassName"
             onEditorStateChange={handleChange}
+            onBlur={handleBlur}
             handlePastedText={() => false}
             placeholder={t(placeholder) as string}
             toolbar={{
               options: ['inline', 'blockType', 'list', 'image', 'textAlign'],
-              inline: { inDropdown: false, options: ['bold', 'italic'] },
+              inline: {
+                inDropdown: false,
+                options: ['bold', 'italic'],
+                bold: { icon: listIcon['bold'] },
+                italic: { icon: listIcon['italic'] },
+              },
               list: {
                 inDropdown: false,
                 options: ['ordered', 'unordered'],
+                ordered: { icon: listIcon['ordered'] },
+                unordered: { icon: listIcon['unordered'] },
               },
-              textAlign: { inDropdown: false, options: ['left', 'center', 'right'] },
+              textAlign: {
+                inDropdown: false,
+                options: ['left', 'center', 'right'],
+                left: { icon: listIcon['left'] },
+                center: { icon: listIcon['center'] },
+                right: { icon: listIcon['right'] },
+              },
               link: { inDropdown: true },
               image: {
-                className: 'phongkaka',
+                icon: listIcon['image'],
                 alignmentEnabled: true,
                 uploadCallback: uploadImageCallBack,
                 alt: { present: false, mandatory: false },

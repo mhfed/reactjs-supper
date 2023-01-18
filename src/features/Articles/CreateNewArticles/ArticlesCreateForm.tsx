@@ -119,6 +119,7 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
                 label="lang_content"
                 value={values.content}
                 onChange={(e) => setFieldValue('content', e)}
+                onBlur={() => setFieldTouched('content', true)}
                 error={touched.content && Boolean(errors.content)}
                 helperText={touched.content && errors.content}
               />
@@ -246,7 +247,6 @@ const validationSchema = yup.object().shape({
   subject: yup.string().checkRequired('lang_please_enter_title'),
   content: yup.string().checkRequired('lang_please_enter_content'),
   image: yup.mixed().checkFile('lang_please_choose_image'),
-  // @ts-ignore
   file: yup.mixed().checkFile('', 10000000, '.pdf'),
   site_name: yup.string().required('lang_please_enter_sitename'),
   sitename_custom: yup.array().when(['site_name'], (sitename, schema) => {
