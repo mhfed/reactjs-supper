@@ -35,8 +35,9 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
+    background: theme.palette.background.main,
     justifyContent: 'space-between',
-    padding: theme.spacing(5),
+    padding: theme.spacing(3),
     '& .MuiGrid-item': {
       paddingTop: theme.spacing(3),
     },
@@ -45,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     width: '100%',
-    padding: theme.spacing(1),
+    padding: theme.spacing(1, 2),
     background: theme.palette.background.headerModal,
   },
   iconClose: {

@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     overflow: 'auto',
     width: '100%',
+    background: theme.palette.background.main,
     padding: theme.spacing(3),
   },
   btnContainer: {
@@ -52,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     width: '100%',
     textTransform: 'uppercase',
-    padding: theme.spacing(1),
+    padding: theme.spacing(1, 2),
     background: theme.palette.background.headerModal,
   },
 }));

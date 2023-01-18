@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    padding: theme.spacing(1),
+    padding: theme.spacing(1, 2),
     background: theme.palette.background.headerModal,
   },
 }));

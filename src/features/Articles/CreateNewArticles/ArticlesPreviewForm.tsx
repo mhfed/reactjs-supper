@@ -21,6 +21,7 @@ import httpRequest from 'services/httpRequest';
 import { ICreateArticlesBody } from 'models/IArticles';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
+import { Typography } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -88,6 +89,9 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
   const sitename = sitenameOption?.label ? t(sitenameOption.label) : '';
   return (
     <Paper className={classes.container}>
+      <Typography variant="h6" sx={{ textTransform: 'uppercase', mb: 2 }}>
+        <Trans>lang_preview_new_article</Trans>
+      </Typography>
       <Grid container spacing={2} sx={{ flex: 1, justifyContent: 'flex-start' }}>
         <Grid item container spacing={2} xs={12} md={6}>
           <Grid item xs={12}>

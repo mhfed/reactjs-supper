@@ -34,11 +34,12 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   container: {
+    background: theme.palette.background.main,
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
-    padding: theme.spacing(5),
+    padding: theme.spacing(3),
     borderRadius: 8,
   },
   buttonWrapper: {
@@ -57,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     width: '100%',
-    padding: theme.spacing(1),
+    padding: theme.spacing(1, 2),
     textTransform: 'uppercase',
     background: theme.palette.background.headerModal,
   },

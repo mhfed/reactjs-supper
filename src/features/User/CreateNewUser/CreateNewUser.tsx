@@ -121,7 +121,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
         return (
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <Box>
-              <Grid container spacing={4}>
+              <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <Typography className={classes.title}>
                     <Trans>lang_preview_create_new_user</Trans>
@@ -186,12 +186,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
         return (
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <Box>
-              <Grid container spacing={4}>
-                <Grid item xs={12}>
-                  <Typography className={classes.title}>
-                    <Trans>lang_user_details</Trans>
-                  </Typography>
-                </Grid>
+              <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <InputField
                     id="full_name"

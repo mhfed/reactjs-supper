@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
     flex: 1,
+    background: theme.palette.background.main,
     width: '100%',
     overflow: 'auto',
     padding: theme.spacing(3),
@@ -57,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     width: '100%',
     textTransform: 'uppercase',
-    padding: theme.spacing(1),
+    padding: theme.spacing(1, 2),
     background: theme.palette.background.headerModal,
   },
 }));
