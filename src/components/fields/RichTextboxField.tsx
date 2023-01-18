@@ -8,7 +8,7 @@
 
 import React, { useImperativeHandle, forwardRef } from 'react';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { EditorState, convertToRaw, ContentState } from 'draft-js';
+import { EditorState, convertToRaw, ContentState, RichUtils } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import { Editor } from 'react-draft-wysiwyg';
@@ -269,6 +269,14 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
             wrapperClassName="wrapperClassName"
             editorClassName="editorClassName"
             onEditorStateChange={handleChange}
+            handleKeyCommand={(command) => {
+              const newState = RichUtils.handleKeyCommand(editorState, command);
+              if (newState) {
+                handleChange(newState);
+                return 'handled';
+              }
+              return 'not-handled';
+            }}
             onBlur={handleBlur}
             handlePastedText={() => false}
             placeholder={t(placeholder) as string}
