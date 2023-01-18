@@ -166,7 +166,7 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
         <Button variant="outlined" onClick={onReturn}>
           <Trans>lang_return</Trans>
         </Button>
-        <Button variant="contained" sx={{ ml: 2 }} network onClick={onConfirm}>
+        <Button variant="contained" sx={{ ml: 2 }} network scrollToTop onClick={onConfirm}>
           <Trans>lang_confirm</Trans>
         </Button>
       </Box>

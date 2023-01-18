@@ -15,14 +15,34 @@ import { useSelector } from 'react-redux';
 type ButtonBaseProps = ButtonProps & {
   network?: boolean;
   isLoading?: boolean;
+  scrollToTop?: boolean;
   children: React.ReactNode;
 };
 
-const ButtonBase: React.FC<ButtonBaseProps> = ({ network = false, children, isLoading = false, disabled, sx = {}, ...props }) => {
+const ButtonBase: React.FC<ButtonBaseProps> = ({
+  network = false,
+  children,
+  isLoading = false,
+  disabled,
+  sx = {},
+  onClick,
+  scrollToTop,
+  ...props
+}) => {
   const isConnecting = useSelector(isConnectingSelector);
 
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    scrollToTop && window.scrollTo(0, 0);
+    onClick?.(e);
+  };
+
   return (
-    <Button {...props} sx={{ whiteSpace: 'nowrap', ...sx }} disabled={disabled || (network && isConnecting)}>
+    <Button
+      {...props}
+      onClick={handleClick}
+      sx={{ whiteSpace: 'nowrap', ...sx }}
+      disabled={disabled || (network && isConnecting)}
+    >
       {children}
       {isLoading && <CircularProgress color="secondary" size={24} sx={{ position: 'absolute' }} />}
     </Button>
