@@ -38,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type AutocompleteFieldProps = {
-  id?: string;
   label?: string;
   name?: string;
   error?: boolean;
@@ -65,7 +64,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   error,
   onBlur,
   options: initialData,
-  id,
+  name,
   onChange,
   preview,
   getOptionLabel,
@@ -166,7 +165,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
         multiple
         disableClearable
         freeSolo={!!inputRef.current?.value && inputRef.current?.value?.length > 2 ? false : true}
-        id={id}
+        id={name}
         onBlur={onBlur}
         value={value}
         defaultValue={[]}
@@ -186,7 +185,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
                     disabled={true}
                     deleteIcon={<></>}
                     title={_getOptionLabel(option)}
-                    key={`autocomplete_chip_${id}_${index}`}
+                    key={`autocomplete_chip_${name}_${index}`}
                   />
                 ) : (
                   <Chip
@@ -196,7 +195,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
                     color="secondary"
                     className={clsx(classes.chipContainer, 'customTitle')}
                     title={_getOptionLabel(option)}
-                    key={`autocomplete_chip_${id}_${index}`}
+                    key={`autocomplete_chip_${name}_${index}`}
                   />
                 ),
               )}
