@@ -22,7 +22,6 @@ import { alpha } from '@mui/material';
 import { getUploadUrl } from 'apis/request.url';
 import httpRequest from 'services/httpRequest';
 import clsx from 'clsx';
-import { useTheme } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -144,6 +143,7 @@ type RichTextboxProps = {
   required?: boolean;
   value?: any;
   onChange?: (a: any) => void;
+  onBlur?: () => void;
   error?: boolean;
   helperText?: any;
   preview?: boolean;
@@ -153,73 +153,9 @@ type RichTextboxHandle = {
 };
 
 const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props, ref) => {
-  const { required = false, label, value, onChange, placeholder, error, helperText, preview } = props;
+  const { required = false, label, value, onChange, onBlur, placeholder, error, helperText, preview } = props;
   const classes = useStyles();
   const { t } = useTranslation();
-  const theme = useTheme();
-
-  const getToolbar = () => {
-    const listIcon =
-      theme.palette.mode === 'dark'
-        ? {
-            bold: '/assets/icons/bold.svg',
-            italic: '/assets/icons/italic.svg',
-            ordered: '/assets/icons/number-list.svg',
-            unordered: '/assets/icons/order-list.svg',
-            left: '/assets/icons/align-left.svg',
-            center: '/assets/icons/align-center.svg',
-            right: '/assets/icons/align-right.svg',
-            image: '/assets/icons/insert-image.svg',
-          }
-        : {
-            bold: '/assets/icons/bold-light.svg',
-            italic: '/assets/icons/italic-light.svg',
-            ordered: '/assets/icons/number-list-light.svg',
-            unordered: '/assets/icons/order-list-light.svg',
-            left: '/assets/icons/align-left-light.svg',
-            center: '/assets/icons/align-center-light.svg',
-            right: '/assets/icons/align-right-light.svg',
-            image: '/assets/icons/insert-image-light.svg',
-          };
-    return {
-      options: ['inline', 'blockType', 'list', 'image', 'textAlign'],
-      inline: {
-        inDropdown: false,
-        options: ['bold', 'italic'],
-        bold: { icon: listIcon['bold'] },
-        italic: { icon: listIcon['italic'] },
-      },
-      list: {
-        inDropdown: false,
-        options: ['ordered', 'unordered'],
-        ordered: { icon: listIcon['ordered'] },
-        unordered: { icon: listIcon['unordered'] },
-      },
-      textAlign: {
-        inDropdown: false,
-        options: ['left', 'center', 'right'],
-        left: { icon: listIcon['left'] },
-        center: { icon: listIcon['center'] },
-        right: { icon: listIcon['right'] },
-      },
-      link: { inDropdown: true },
-      image: {
-        icon: listIcon['image'],
-        alignmentEnabled: true,
-        uploadCallback: uploadImageCallBack,
-        alt: { present: false, mandatory: false },
-        previewImage: true,
-        defaultSize: { maxWidth: '100%', width: '100%', height: 'auto' },
-      },
-    };
-  };
-
-  const [options, setOptions] = React.useState(getToolbar());
-
-  React.useEffect(() => {
-    console.log('YOLO: ', theme.palette.mode);
-    setOptions(getToolbar());
-  }, [theme.palette.mode]);
 
   const convertData = (data: any) => {
     if (!data) return EditorState.createEmpty();
@@ -254,11 +190,19 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
     [],
   );
 
+  function handleBlur() {
+    onBlur?.();
+    const isEmpty = convertToRaw(editorState.getCurrentContent()).blocks.every((b) => b.text.trim() === '');
+    if (isEmpty) {
+      reset();
+      onChange?.('');
+    }
+  }
+
   function handleChange(v: any) {
     try {
-      console.log('YOLO: handleChange');
-      setEditorState(v);
       const rawContent = convertToRaw(v.getCurrentContent());
+      setEditorState(v);
       const strValue = draftToHtml(rawContent);
       onChange?.(strValue);
     } catch (error) {
@@ -299,6 +243,17 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
     }
   }
 
+  const listIcon = {
+    bold: '/assets/icons/bold-light.svg',
+    italic: '/assets/icons/italic-light.svg',
+    ordered: '/assets/icons/number-list-light.svg',
+    unordered: '/assets/icons/order-list-light.svg',
+    left: '/assets/icons/align-left-light.svg',
+    center: '/assets/icons/align-center-light.svg',
+    right: '/assets/icons/align-right-light.svg',
+    image: '/assets/icons/insert-image-light.svg',
+  };
+
   return (
     <FormControl required={required} error={error} fullWidth sx={{ mt: 1 }}>
       <InputLabel required={required} error={error} shrink sx={{ ml: '-1rem' }}>
@@ -314,9 +269,40 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
             wrapperClassName="wrapperClassName"
             editorClassName="editorClassName"
             onEditorStateChange={handleChange}
+            onBlur={handleBlur}
             handlePastedText={() => false}
             placeholder={t(placeholder) as string}
-            toolbar={options}
+            toolbar={{
+              options: ['inline', 'blockType', 'list', 'image', 'textAlign'],
+              inline: {
+                inDropdown: false,
+                options: ['bold', 'italic'],
+                bold: { icon: listIcon['bold'] },
+                italic: { icon: listIcon['italic'] },
+              },
+              list: {
+                inDropdown: false,
+                options: ['ordered', 'unordered'],
+                ordered: { icon: listIcon['ordered'] },
+                unordered: { icon: listIcon['unordered'] },
+              },
+              textAlign: {
+                inDropdown: false,
+                options: ['left', 'center', 'right'],
+                left: { icon: listIcon['left'] },
+                center: { icon: listIcon['center'] },
+                right: { icon: listIcon['right'] },
+              },
+              link: { inDropdown: true },
+              image: {
+                icon: listIcon['image'],
+                alignmentEnabled: true,
+                uploadCallback: uploadImageCallBack,
+                alt: { present: false, mandatory: false },
+                previewImage: true,
+                defaultSize: { maxWidth: '100%', width: '100%', height: 'auto' },
+              },
+            }}
           />
         </Box>
       )}
