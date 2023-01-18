@@ -27,76 +27,7 @@ export const isOptionEqualToValueSiteName = (option: any, value: any) => {
 
 const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, classes, ...rest }) => {
   const { values, handleChange, handleBlur, touched, errors, setFieldValue, setFieldTouched } = form || {};
-  const { Segment, Sitename } = NOTIFICATION_TYPE;
-
-  const renderAutocompleteField = () => {
-    switch (values.notification_type) {
-      case Segment: {
-        return (
-          <React.Fragment>
-            <Grid item xs={12} style={{ paddingBottom: 3 }}>
-              <SearchAsyncField
-                name="segment"
-                label="lang_segment"
-                required
-                fullWidth
-                value={values.segment}
-                onChange={(v: any) => setFieldValue('segment', v)}
-                onBlur={handleBlur}
-                error={touched.segment && Boolean(errors.segment)}
-                helperText={touched.segment && errors.segment}
-              />
-            </Grid>
-          </React.Fragment>
-        );
-      }
-      case Sitename: {
-        return (
-          <React.Fragment>
-            <Grid item xs={12} style={{ paddingBottom: 3 }}>
-              <AutocompleteField
-                name="sitename"
-                label="lang_sitename"
-                required
-                getUrl={getListSiteNametUrl}
-                isOptionEqualToValue={isOptionEqualToValueSiteName}
-                getOptionLabel={(option) => `${option || ''}`}
-                getChipLabel={(option: any) => option}
-                value={values.sitename}
-                formatData={(data = []) => data?.map((e: { site_name: string }) => e.site_name)}
-                onChange={(value) => setFieldValue('sitename', value)}
-                onBlur={() => setFieldTouched('sitename', true)}
-                error={touched.sitename && Boolean(errors.sitename)}
-                helperText={(touched.sitename && errors.sitename) as string}
-              />
-            </Grid>
-          </React.Fragment>
-        );
-      }
-      default: {
-        return (
-          <React.Fragment>
-            <Grid item xs={12} style={{ paddingBottom: 3 }}>
-              <AutocompleteField
-                name="subscribers"
-                label="lang_subscribers"
-                required
-                getUrl={getSearchSubscribersUrl}
-                isOptionEqualToValue={isOptionEqualToValue}
-                getOptionLabel={(option) => `${option.username} (${option.site_name})`}
-                getChipLabel={(option) => option.username}
-                value={values.subscribers}
-                onChange={(value) => setFieldValue('subscribers', value)}
-                onBlur={() => setFieldTouched('subscribers', true)}
-                error={touched.subscribers && Boolean(errors.subscribers)}
-                helperText={(touched.subscribers && errors.subscribers) as string}
-              />
-            </Grid>
-          </React.Fragment>
-        );
-      }
-    }
-  };
+  const { Segment, Sitename, Direct } = NOTIFICATION_TYPE;
 
   return (
     <Grid container spacing={2}>
@@ -115,7 +46,58 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             helperText={touched.notification_type && errors.notification_type}
           />
         </Grid>
-        {renderAutocompleteField()}
+        {values.notification_type === Segment && (
+          <Grid item xs={12} style={{ paddingBottom: 3 }}>
+            <SearchAsyncField
+              name="segment"
+              label="lang_segment"
+              required
+              fullWidth
+              value={values.segment}
+              onChange={(v: any) => setFieldValue('segment', v)}
+              onBlur={handleBlur}
+              error={touched.segment && Boolean(errors.segment)}
+              helperText={touched.segment && errors.segment}
+            />
+          </Grid>
+        )}
+        {values.notification_type === Sitename && (
+          <Grid item xs={12} style={{ paddingBottom: 3 }}>
+            <AutocompleteField
+              name="sitename"
+              label="lang_sitename"
+              required
+              getUrl={getListSiteNametUrl}
+              isOptionEqualToValue={isOptionEqualToValueSiteName}
+              getOptionLabel={(option) => `${option || ''}`}
+              getChipLabel={(option: any) => option}
+              value={values.sitename}
+              formatData={(data = []) => data?.map((e: { site_name: string }) => e.site_name)}
+              onChange={(value) => setFieldValue('sitename', value)}
+              onBlur={() => setFieldTouched('sitename', true)}
+              error={touched.sitename && Boolean(errors.sitename)}
+              helperText={(touched.sitename && errors.sitename) as string}
+            />
+          </Grid>
+        )}
+        {values.notification_type === Direct && (
+          <Grid item xs={12} style={{ paddingBottom: 3 }}>
+            <AutocompleteField
+              name="subscribers"
+              label="lang_subscribers"
+              required
+              getUrl={getSearchSubscribersUrl}
+              isOptionEqualToValue={isOptionEqualToValue}
+              getOptionLabel={(option) => `${option.username} (${option.site_name})`}
+              getChipLabel={(option) => option.username}
+              value={values.subscribers}
+              onChange={(value) => setFieldValue('subscribers', value)}
+              onBlur={() => setFieldTouched('subscribers', true)}
+              error={touched.subscribers && Boolean(errors.subscribers)}
+              helperText={(touched.subscribers && errors.subscribers) as string}
+            />
+          </Grid>
+        )}
         <Grid item xs={12}>
           <InputField
             name="title"

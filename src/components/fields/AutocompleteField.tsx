@@ -78,6 +78,10 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   const timeoutId = React.useRef<number | null>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
+  React.useEffect(() => {
+    console.log('YOLO: ', name);
+  }, []);
+
   function _renderHelperText() {
     if (error) {
       return (
@@ -205,6 +209,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
           <TextField
             required={preview ? false : required}
             {...params}
+            id={name}
             inputRef={inputRef}
             variant={preview ? 'standard' : 'outlined'}
             value={value}
