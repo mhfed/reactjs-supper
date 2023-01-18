@@ -79,11 +79,11 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
       if (values.file?.file) {
         const formData = new FormData();
         formData.append('file', values.file.file);
-        const { data: fileResponse } = await httpRequest.put(getUploadUrl(), formData);
+        const { data: fileResponse } = await httpRequest.post(getUploadUrl(), formData);
         body.attachment_url = fileResponse.url;
         body.attachment_name = values.file.name;
       }
-      await httpRequest.post(getArticlesUrl(initValues.article_id), body);
+      await httpRequest.put(getArticlesUrl(initValues.article_id), body);
       dispatch(
         enqueueSnackbarAction({
           message: 'lang_update_articles_successfully',
