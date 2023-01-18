@@ -215,7 +215,6 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
     <Paper className={classes.wrapper}>
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={submitForm}>
         {(form: FormikProps<initialValuesType>) => {
-          console.log(form.values);
           return (
             <React.Fragment>
               {HeaderTitle()}
