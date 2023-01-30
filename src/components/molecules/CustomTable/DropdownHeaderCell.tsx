@@ -1,7 +1,7 @@
 /*
  * Created on Fri Jan 06 2023
  *
- * Dropdown cell for custom table
+ * Dropdown header cell for custom table, use for apply all column case
  *
  * Copyright (c) 2023 - Novus Fintech
  */
@@ -37,6 +37,10 @@ const DropdownHeaderCell: React.FC<DropdownHeaderCellProps> = ({ id, onChange, o
   const classes = useStyles();
   const [value, setValue] = React.useState<any>('');
 
+  /**
+   * Handle select change at header cell for apply all column
+   * @param e select change event
+   */
   const handleChange = (e: SelectChangeEvent) => {
     onChange(e.target.value);
     setValue(e.target.value);

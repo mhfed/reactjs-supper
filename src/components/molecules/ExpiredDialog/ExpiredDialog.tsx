@@ -1,3 +1,11 @@
+/*
+ * Created on Mon Jan 30 2023
+ *
+ * Expired dialog when have expired error from backend with any request
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import ConfirmModal from '../ConfirmModal';
 import { useSelector } from 'react-redux';
 import { isExpiredSelector } from 'selectors/app.selector';
@@ -6,6 +14,9 @@ import { clearStorage } from 'helpers';
 const ExpiredDialog = () => {
   const isExpired = useSelector(isExpiredSelector);
 
+  /**
+   * Clear local storage and reload web when user confirm expired
+   */
   const onExpired = () => {
     clearStorage();
     window.location.reload();

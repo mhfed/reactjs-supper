@@ -21,14 +21,25 @@ const Notifier = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { t } = useTranslation();
 
+  /**
+   * Saved notification id to displayed list
+   * @param id notification id
+   */
   const storeDisplayed = (id: string | number) => {
     displayed = [...displayed, id];
   };
 
+  /**
+   * Remove notification id from displayed list
+   * @param id notification id
+   */
   const removeDisplayed = (id: string | number) => {
     displayed = [...displayed.filter((key) => id !== key)];
   };
 
+  /**
+   * Show new notification
+   */
   useEffect(() => {
     Object.values(notifications).forEach((ele: any) => {
       // do nothing if snackbar is already displayed

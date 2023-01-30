@@ -30,10 +30,17 @@ const InputCell: React.FC<DropdownCellProps> = ({ id, value: initialValue, onCha
   const classes = useStyles();
   const [value, setValue] = React.useState(initialValue);
 
+  /**
+   * Update new value for input cell when field id changed
+   */
   React.useEffect(() => {
     setValue(initialValue);
   }, [id]);
 
+  /**
+   * Handle input cell change data
+   * @param e input change event
+   */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.target.title = e.target.value;
     onChange(e.target.value);

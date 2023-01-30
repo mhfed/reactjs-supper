@@ -19,6 +19,9 @@ const Auth: FC<AuthProps> = ({ children }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  /**
+   * Handle auto login
+   */
   useEffect(() => {
     async function initAuth() {
       const isStaySignedIn = window.localStorage.getItem('isStaySignedIn') === 'true';

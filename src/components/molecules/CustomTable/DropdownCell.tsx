@@ -34,10 +34,17 @@ const DropdownCell: React.FC<DropdownCellProps> = ({ id, value: initialValue, on
   const classes = useStyles();
   const [value, setValue] = React.useState(initialValue);
 
+  /**
+   * Update dropdown selected value when value or field id changed
+   */
   React.useEffect(() => {
     setValue(initialValue);
   }, [id, initialValue]);
 
+  /**
+   * Handle dropdown change event, set value and call table cell onchange
+   * @param e Select change event
+   */
   const handleChange = (e: SelectChangeEvent) => {
     onChange(e.target.value);
     setValue(e.target.value);

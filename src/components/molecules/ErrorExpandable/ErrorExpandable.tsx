@@ -44,6 +44,9 @@ const ErrorCollapse: React.FC<ErrorCollapseProps> = ({ error = '' }) => {
   const errorRef = React.useRef<HTMLDivElement>(null);
   const timeoutId = React.useRef<number>(0);
 
+  /**
+   * Handle show error and auto hide after config time
+   */
   React.useEffect(() => {
     if (error) {
       timeoutId.current && window.clearTimeout(timeoutId.current);

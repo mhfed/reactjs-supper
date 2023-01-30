@@ -70,6 +70,10 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
   const { modalProps } = store || {};
   const classes = useStyles();
 
+  /**
+   * Show new modal
+   * @param modalProps modal props
+   */
   const showModal = (modalProps: IModalProps) => {
     setStore({
       ...store,
@@ -82,6 +86,10 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
     });
   };
 
+  /**
+   * Show sub modal
+   * @param modalProps modal props
+   */
   const showSubModal = (modalProps: IModalProps) => {
     setStore({
       ...store,
@@ -93,6 +101,9 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
     });
   };
 
+  /**
+   * Hide all modal
+   */
   const hideModal = () => {
     setStore({
       ...store,
@@ -101,6 +112,9 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
     });
   };
 
+  /**
+   * Hide sub modal
+   */
   const hideSubModal = () => {
     setStore({
       ...store,
@@ -108,6 +122,10 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
     });
   };
 
+  /**
+   * Render modal content
+   * @returns HTML
+   */
   const renderComponent = () => {
     const Component = store.component;
     const SubComponent = store.subComponent;

@@ -26,6 +26,7 @@ type IAction = {
 
 const lastTheme = window.localStorage.getItem('lastTheme');
 
+// initial state for global
 const initialState = {
   modeTheme: lastTheme || process.env.REACT_APP_THEME,
   language: process.env.REACT_APP_LANGUAGE,
@@ -57,11 +58,18 @@ const reducer = (state: IContext, { type, payload }: IAction) => {
 const GlobalProvider = ({ children }: IProps) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  /**
+   * initial set correct theme class for body
+   */
   React.useEffect(() => {
     document.body.classList.remove('light', 'dark');
     document.body.classList.add(lastTheme + '');
   }, []);
 
+  /**
+   * Handle theme changed
+   * @param mode selected theme
+   */
   const _handleSetModeTheme = (mode: string) => {
     document.body.classList.remove('dark', 'light');
     document.body.classList.add(mode);
@@ -72,6 +80,10 @@ const GlobalProvider = ({ children }: IProps) => {
     });
   };
 
+  /**
+   * Handle lanuage changed
+   * @param language selected language
+   */
   const _handleChangeLanguage = (language: string) => {
     dispatch({
       type: 'SET_LANGUAGE',

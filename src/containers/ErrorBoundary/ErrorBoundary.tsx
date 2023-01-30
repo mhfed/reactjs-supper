@@ -19,7 +19,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import Typography from '@mui/material/Typography';
 
 type DefaultPageProps = {
   children?: React.ReactNode;
@@ -61,6 +60,9 @@ const DefaultPage: FC<DefaultPageProps> = ({ children }) => {
     };
   }, [memorizedSyncLog]);
 
+  /**
+   * Show exception dialog
+   */
   function ErrorFallbackUI({ resetErrorBoundary }: FallbackProps) {
     return (
       <Dialog onClose={resetErrorBoundary} fullWidth open>
