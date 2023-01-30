@@ -10,8 +10,17 @@ import React from 'react';
 import { Trans } from 'react-i18next';
 import ReactCodeInput from 'react-code-input';
 import { Typography } from '@mui/material';
+import { DefaultTheme } from '@mui/styles';
 
-const RenderOTPForm = (props: any) => {
+type InputCodeFieldProps = {
+  onChangeOTP?: (e: string) => void;
+  pinRef?: React.MutableRefObject<any[] | undefined>;
+  error?: string;
+  OTP_LENGTH: number;
+  theme: DefaultTheme;
+};
+
+const InputCodeField: React.FC<InputCodeFieldProps> = (props: any) => {
   const { onChangeOTP, pinRef, error, OTP_LENGTH, theme } = props;
   return (
     <React.Fragment>
@@ -59,4 +68,4 @@ const RenderOTPForm = (props: any) => {
     </React.Fragment>
   );
 };
-export default RenderOTPForm;
+export default InputCodeField;

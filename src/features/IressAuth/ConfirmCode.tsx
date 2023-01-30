@@ -134,7 +134,6 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = (props) => {
             error={errorMessage}
             OTP_LENGTH={6}
             theme={theme}
-            // onResendOTP={onResendOTP}
           />
           <Grid item xs={12} sm={12} textAlign="left">
             <FormHelperText error style={{ textAlign: 'left' }}>

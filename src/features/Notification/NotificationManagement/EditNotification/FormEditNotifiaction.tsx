@@ -1,3 +1,11 @@
+/*
+ * Created on Mon Jan 30 2023
+ *
+ * This feature allow user edit notification status pending
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import { Grid } from '@mui/material';
 import { FormikProps } from 'formik';

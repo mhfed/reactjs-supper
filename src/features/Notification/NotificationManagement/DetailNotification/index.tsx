@@ -1,3 +1,11 @@
+/*
+ * Created on Mon Jan 30 2023
+ *
+ * This Form allow user can see detail noti
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import Button from 'components/atoms/ButtonBase';
