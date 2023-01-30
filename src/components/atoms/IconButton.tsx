@@ -1,7 +1,7 @@
 /*
  * Created on Fri Jan 06 2023
  *
- * Base button with connection check
+ * Icon button with background fill
  *
  * Copyright (c) 2023 - Novus Fintech
  */

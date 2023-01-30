@@ -15,12 +15,11 @@ import Radio from '@mui/material/Radio';
 import FormHelperText from '@mui/material/FormHelperText';
 import { Trans } from 'react-i18next';
 
-// interface RadioField {}
-
 const RadioGroupField = (props: any) => {
   const { label, data, style, translate = true, rowItems, helperText, ...rest } = props;
 
   const isError = rest?.error || false;
+
   /**
    * Render helper text or error text
    * @returns translated text

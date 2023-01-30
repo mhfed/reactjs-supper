@@ -31,6 +31,10 @@ const ButtonBase: React.FC<ButtonBaseProps> = ({
 }) => {
   const isConnecting = useSelector(isConnectingSelector);
 
+  /**
+   * Handle onclick and scroll to top for case change step screen
+   * @param e click event
+   */
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     scrollToTop && window.scrollTo(0, 0);
     onClick?.(e);

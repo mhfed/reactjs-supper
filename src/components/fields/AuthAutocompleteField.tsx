@@ -1,7 +1,7 @@
 /*
  * Created on Fri Jan 06 2023
  *
- * Autocomplete field with dynamic data from async request
+ * Autocomplete field with iress auth required
  *
  * Copyright (c) 2023 - Novus Fintech
  */
@@ -84,20 +84,12 @@ const AuthAutocompleteField: React.FC<AuthAutocompleteFieldProps> = ({
   const sitename = useSelector(iressSitenameSelector);
   const dispatch = useDispatch();
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const { showModal, showSubModal, hideSubModal, hideModal } = useGlobalModalContext();
+  const { showSubModal, hideSubModal } = useGlobalModalContext();
 
-  function _renderHelperText() {
-    if (error) {
-      return (
-        <FormHelperText error>
-          <span style={{ marginTop: '3px' }}>
-            <Trans>{helperText}</Trans>
-          </span>
-        </FormHelperText>
-      );
-    }
-  }
-
+  /**
+   * Get options data with text search base on url props.
+   * @param searchText search text in autocomplete
+   */
   const getData = async (searchText: string) => {
     try {
       if (getUrl) {
@@ -131,10 +123,19 @@ const AuthAutocompleteField: React.FC<AuthAutocompleteFieldProps> = ({
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, options: LooseObject[], reason: string) => {
+  /**
+   * Change cuatocomplete selected option
+   * @param e change event
+   * @param options new options changed
+   */
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, options: LooseObject[]) => {
     onChange?.(options);
   };
 
+  /**
+   * Handle search text change with debounce
+   * @param e input change event
+   */
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchText = e.target.value;
     if (searchText.length > 1) {
@@ -145,6 +146,10 @@ const AuthAutocompleteField: React.FC<AuthAutocompleteFieldProps> = ({
     }
   };
 
+  /**
+   * Get custom label for chip component
+   * @param opt option data
+   */
   const _getChipLabel = (opt: LooseObject) => {
     if (getChipLabel) {
       return getChipLabel(opt);
@@ -155,6 +160,10 @@ const AuthAutocompleteField: React.FC<AuthAutocompleteFieldProps> = ({
     }
   };
 
+  /**
+   * Get display label for option
+   * @param opt option data
+   */
   const _getOptionLabel = (opt: LooseObject) => {
     if (getOptionLabel) {
       return getOptionLabel(opt);
@@ -163,6 +172,11 @@ const AuthAutocompleteField: React.FC<AuthAutocompleteFieldProps> = ({
     }
   };
 
+  /**
+   * Compare function to check selected options
+   * @param option option data
+   * @param selected selected data
+   */
   const _isOptionEqualToValue = (option: LooseObject, selected: LooseObject) => {
     if (isOptionEqualToValue) {
       return isOptionEqualToValue(option, selected);
@@ -171,6 +185,9 @@ const AuthAutocompleteField: React.FC<AuthAutocompleteFieldProps> = ({
     }
   };
 
+  /**
+   * Open iress auth login show confirm logout popup
+   */
   const handleIressAuth = () => {
     if (iressToken) {
       showSubModal({
@@ -258,7 +275,13 @@ const AuthAutocompleteField: React.FC<AuthAutocompleteFieldProps> = ({
           ></TextField>
         )}
       />
-      {_renderHelperText()}
+      {error && (
+        <FormHelperText error>
+          <span style={{ marginTop: '3px' }}>
+            <Trans>{helperText}</Trans>
+          </span>
+        </FormHelperText>
+      )}
     </FormControl>
   );
 };

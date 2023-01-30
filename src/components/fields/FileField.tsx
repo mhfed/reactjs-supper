@@ -1,3 +1,11 @@
+/*
+ * Created on Mon Jan 30 2023
+ *
+ * Field to choose file attachment
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -110,6 +118,9 @@ const FileField: React.FC<AttachmentFieldProps> = (props) => {
   const [file, setFile] = React.useState<IFileUpload>(value);
   const refInput = React.useRef<HTMLInputElement>();
 
+  /**
+   * Reset file data when file changed to empty
+   */
   React.useEffect(() => {
     if (file && !value) {
       setFile({});

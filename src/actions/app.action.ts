@@ -7,31 +7,36 @@
  */
 import { IAppActionTypes, INotifer } from 'models/IAppState';
 
+/**
+ * Show expired popup when receivered expired error from backend
+ */
 export const showExpiredPopup = () => ({
   type: IAppActionTypes.SET_EXPIRED,
 });
 
+/**
+ * Set app loading
+ * @param isLoading loading status
+ */
 export const setLoading = (isLoading: boolean) => ({
   type: IAppActionTypes.SET_LOADING,
   payload: isLoading,
 });
 
+/**
+ * Set connect status when network connect, disconnect
+ * @param isConnecting connect status
+ * @returns
+ */
 export const setConnecting = (isConnecting: boolean) => ({
   type: IAppActionTypes.SET_CONNECTING,
   payload: isConnecting,
 });
 
-export const setDialog = (isShow: boolean, type: string = 'error', content: React.ReactNode = '') => ({
-  type: IAppActionTypes.SET_DIALOG,
-  payload: {
-    dialog: {
-      type,
-      isShow,
-      content,
-    },
-  },
-});
-
+/**
+ * Show notification on screen
+ * @param notification notification data
+ */
 export const enqueueSnackbarAction = (notification: INotifer) => {
   return {
     type: IAppActionTypes.ENQUEUE_SNACKBAR,
@@ -43,6 +48,10 @@ export const enqueueSnackbarAction = (notification: INotifer) => {
   };
 };
 
+/**
+ * Remove notification from screen
+ * @param key notification id
+ */
 export const removeSnackbar = (key: string | number | undefined) => ({
   type: IAppActionTypes.REMOVE_SNACKBAR,
   payload: key,

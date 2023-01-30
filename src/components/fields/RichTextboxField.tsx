@@ -1,7 +1,7 @@
 /*
  * Created on Fri Jan 06 2023
  *
- * RichTextbox to create articles
+ * RichTextbox to create articles content
  *
  * Copyright (c) 2023 - Novus Fintech
  */
@@ -157,6 +157,11 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
   const classes = useStyles();
   const { t } = useTranslation();
 
+  /**
+   * Convert data to display in richtextbox with first load
+   * @param data html string data to convert to data use for rich textbox
+   * @returns data converted
+   */
   const convertData = (data: any) => {
     if (!data) return EditorState.createEmpty();
     if (typeof data === 'string') {
@@ -172,16 +177,25 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
 
   const [editorState, setEditorState] = React.useState(() => convertData(value));
 
+  /**
+   * Reset richtextbox content when value change to empty
+   */
   React.useEffect(() => {
     if (editorState && value === '') {
       setEditorState(EditorState.createEmpty());
     }
   }, [value]);
 
+  /**
+   * Reset richtextbox content
+   */
   const reset = () => {
     setEditorState(EditorState.createEmpty());
   };
 
+  /**
+   * Mock reset function to use on parent component
+   */
   useImperativeHandle(
     ref,
     () => ({
@@ -190,6 +204,9 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
     [],
   );
 
+  /**
+   * Handle field blur and check empty data, if empty reset richtextbox content
+   */
   function handleBlur() {
     onBlur?.();
     const isEmpty = convertToRaw(editorState.getCurrentContent()).blocks.every((b) => b.text.trim() === '');
@@ -199,6 +216,10 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
     }
   }
 
+  /**
+   * Convert richtextbox content to html string and handle onchange field
+   * @param v richtextbox change event
+   */
   function handleChange(v: any) {
     try {
       const rawContent = convertToRaw(v.getCurrentContent());
@@ -210,6 +231,10 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
     }
   }
 
+  /**
+   * Handle image upload and show preview on richtextbox content
+   * @param file Image file data
+   */
   function uploadImageCallBack(file: File) {
     try {
       return new Promise((resolve, reject) => {
@@ -233,16 +258,9 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
     }
   }
 
-  function _renderHelperText() {
-    if (error) {
-      return (
-        <FormHelperText error>
-          <Trans>{helperText}</Trans>
-        </FormHelperText>
-      );
-    }
-  }
-
+  /**
+   * List custom icon to custom richtexbox toolbar
+   */
   const listIcon = {
     bold: '/assets/icons/bold-light.svg',
     italic: '/assets/icons/italic-light.svg',
@@ -314,7 +332,11 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
           />
         </Box>
       )}
-      {_renderHelperText()}
+      {error && (
+        <FormHelperText error>
+          <Trans>{helperText}</Trans>
+        </FormHelperText>
+      )}
     </FormControl>
   );
 });

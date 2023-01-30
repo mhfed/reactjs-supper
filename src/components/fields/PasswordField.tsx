@@ -13,7 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
 import { Trans } from 'react-i18next';
-import { Box, Button, SxProps, Theme } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { FormikErrors } from 'formik';
 import { makeStyles } from '@mui/styles';
 
@@ -49,14 +49,26 @@ type TextFieldProps = {
 const PasswordField: React.FC<TextFieldProps> = ({ label, helperText, value, generate, maxLength = 25, ...props }) => {
   const classes = useStyles();
   const [visibility, setVisibility] = React.useState(false);
+
+  /**
+   * Toogle show/hide eyes icon
+   */
   const handleClickShowPassword = () => {
     setVisibility((state) => !state);
   };
 
+  /**
+   * Auto generate new password
+   */
   const handleGenPass = () => {
     const pass = autogenPass();
     props.onChange?.(pass);
   };
+
+  /**
+   * Handle password change input
+   * @param e input change event
+   */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     props.onChange?.(e.target.value);
   };

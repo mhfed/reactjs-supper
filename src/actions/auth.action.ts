@@ -13,6 +13,13 @@ import { axiosInstance } from 'services/initRequest';
 import { PATH_NAME } from 'configs';
 import { NavigateFunction } from 'react-router-dom';
 
+/**
+ * Set axios auth config, get user detail, handle auto refresh token after login
+ * @param baseUrl base url from backend
+ * @param accessToken access token from backend
+ * @param pin user pin
+ * @param refreshToken refresh token from backend
+ */
 const updateAxiosAuthConfig = (baseUrl: string, accessToken: string, pin: string, refreshToken?: string) => {
   window.localStorage.setItem('uniqSeries', btoa(pin));
   const lastEmailLogin = window.localStorage.getItem('lastEmailLogin');
@@ -24,11 +31,19 @@ const updateAxiosAuthConfig = (baseUrl: string, accessToken: string, pin: string
   authService.autoRenewToken();
 };
 
+/**
+ * Clear axios auth config when logout
+ */
 const clearAxiosAuthConfig = () => {
   axiosInstance.defaults.baseURL = process.env.REACT_APP_ENDPOINT_URL;
   delete axiosInstance.defaults.headers.common['Authorization'];
 };
 
+/**
+ * Handle set pin when first time login
+ * @param pin user pin
+ * @param navigate react router action to navigate screen after login success
+ */
 export const setPinFirstTime = (pin: string, navigate: NavigateFunction) => async (dispatch: Dispatch<any>) => {
   dispatch({ type: IAuthActionTypes.PIN_REQUEST });
 
@@ -45,6 +60,12 @@ export const setPinFirstTime = (pin: string, navigate: NavigateFunction) => asyn
   }
 };
 
+/**
+ * Set pin after user be force change password.
+ * @param pin user pin
+ * @param password user password
+ * @param navigate react router action to navigate screen after login success
+ */
 export const forceSetPin = (pin: string, password: string, navigate: NavigateFunction) => async (dispatch: Dispatch<any>) => {
   dispatch({ type: IAuthActionTypes.PIN_REQUEST });
 
@@ -61,6 +82,11 @@ export const forceSetPin = (pin: string, password: string, navigate: NavigateFun
   }
 };
 
+/**
+ * Verify user pin after login
+ * @param pin user pin
+ * @param navigate react router action to navigate screen after login success
+ */
 export const verifyPin = (pin: string, navigate: NavigateFunction) => async (dispatch: Dispatch<any>) => {
   dispatch({ type: IAuthActionTypes.PIN_REQUEST });
 
@@ -83,24 +109,44 @@ export const verifyPin = (pin: string, navigate: NavigateFunction) => async (dis
   }
 };
 
+/**
+ * Switch to set pin screen
+ */
 export const setPinAfterChangePass = () => ({
   type: IAuthActionTypes.FORCE_SET_PIN,
 });
 
+/**
+ * Clear auth error
+ */
 export const clearError = () => ({
   type: IAuthActionTypes.CLEAR_ERROR,
 });
 
+/**
+ * Set current user info
+ * @param userInfo user data
+ */
 export const updateUserInfo = (userInfo: any) => ({
   type: IAuthActionTypes.UPDATE_USER_INFO,
   payload: userInfo,
 });
 
+/**
+ * Update token after renew token
+ * @param data new auth data include access token, device id...
+ * @returns
+ */
 export const updateToken = (data: any) => ({
   type: IAuthActionTypes.UPDATE_TOKEN,
   payload: data,
 });
 
+/**
+ * Handle login with email and password
+ * @param email user email login
+ * @param password user password
+ */
 export const login = (email: string, password: string) => async (dispatch: Dispatch<any>) => {
   dispatch({ type: IAuthActionTypes.LOGIN_REQUEST });
 
@@ -136,12 +182,23 @@ export const login = (email: string, password: string) => async (dispatch: Dispa
   }
 };
 
+/**
+ * Handle logout
+ * @param dispatch redux dispatch action
+ */
 export const logout = (dispatch: Dispatch<any>) => {
   authService.logOut();
   clearAxiosAuthConfig();
   dispatch({ type: IAuthActionTypes.LOGOUT });
 };
 
+/**
+ * Handle auto login when user tick on stayed login
+ * @param saveRefreshToken saved refresh token
+ * @param deviceID last device id saved
+ * @param pin user pin
+ * @param navigate react router action to navigate screen after login success
+ */
 export const autoLogin =
   (saveRefreshToken: string, deviceID: string, pin: string, navigate: NavigateFunction) => async (dispatch: Dispatch<any>) => {
     dispatch({
@@ -161,10 +218,18 @@ export const autoLogin =
     }
   };
 
+/**
+ * Handle iress logout
+ */
 export const iressLogout = () => ({
   type: IAuthActionTypes.IRESS_LOGOUT,
 });
 
+/**
+ * Save iress auth data to redux to fetch report or search security code to create new articles
+ * @param iressAccessToken access token
+ * @param iressExpiredTime expire time
+ */
 export const iressLogin = (iressAccessToken: string | null, iressExpiredTime: number | null) => ({
   type: IAuthActionTypes.IRESS_LOGIN,
   payload: { iressAccessToken, iressExpiredTime },

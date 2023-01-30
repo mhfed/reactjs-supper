@@ -10,7 +10,7 @@ import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { Stack, Grid, Chip, useTheme } from '@mui/material';
 import { Trans } from 'react-i18next';
-import { InputField, AutocompleteField, PreviewField } from 'components/fields';
+import { InputField, AutocompleteField } from 'components/fields';
 import { useFormik } from 'formik';
 import { yup } from 'helpers';
 import httpRequest from 'services/httpRequest';
@@ -196,10 +196,10 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
           <form className={classes.container} noValidate onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                <PreviewField sx={{ mb: 2 }} label="lang_segment_name" value={values.segment_name} />
+                <InputField preview label="lang_segment_name" value={values.segment_name} />
               </Grid>
               <Grid item xs={6}>
-                <PreviewField sx={{ mb: 2 }} label="lang_segment_id" value={values.segment_id} />
+                <InputField preview label="lang_segment_id" value={values.segment_id} />
               </Grid>
               <Grid item xs={12}>
                 <FormControl sx={{ minWidth: 120, width: '100%' }}>
@@ -267,14 +267,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
                 />
               </Grid>
               <Grid item xs={6}>
-                <PreviewField
-                  sx={{ mb: 2 }}
-                  label="lang_segment_id"
-                  value={values.segment_id}
-                  variant="outlined"
-                  disabled
-                  required
-                />
+                <InputField preview label="lang_segment_id" value={values.segment_id} disabled required />
               </Grid>
               <Grid item xs={12}>
                 <AutocompleteField

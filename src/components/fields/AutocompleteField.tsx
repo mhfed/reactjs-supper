@@ -68,22 +68,10 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   const timeoutId = React.useRef<number | null>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  React.useEffect(() => {
-    console.log('YOLO: ', name);
-  }, []);
-
-  function _renderHelperText() {
-    if (error) {
-      return (
-        <FormHelperText error>
-          <span style={{ marginTop: '3px' }}>
-            <Trans>{helperText}</Trans>
-          </span>
-        </FormHelperText>
-      );
-    }
-  }
-
+  /**
+   * Get options data with text search base on url props.
+   * @param searchText search text in autocomplete
+   */
   const getData = async (searchText: string) => {
     try {
       if (getUrl) {
@@ -101,10 +89,19 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, options: LooseObject[], reason: string) => {
+  /**
+   * Change cuatocomplete selected option
+   * @param e change event
+   * @param options new options changed
+   */
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, options: LooseObject[]) => {
     onChange?.(options);
   };
 
+  /**
+   * Handle search text change with debounce
+   * @param e input change event
+   */
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searcText = e.target.value.trim();
     if (searcText.length > 1) {
@@ -115,6 +112,10 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
     }
   };
 
+  /**
+   * Get custom label for chip component
+   * @param opt option data
+   */
   const _getChipLabel = (opt: LooseObject) => {
     if (getChipLabel) {
       return getChipLabel(opt);
@@ -125,6 +126,10 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
     }
   };
 
+  /**
+   * Get display label for option
+   * @param opt option data
+   */
   const _getOptionLabel = (opt: LooseObject) => {
     if (getOptionLabel) {
       return getOptionLabel(opt);
@@ -133,6 +138,11 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
     }
   };
 
+  /**
+   * Compare function to check selected options
+   * @param option option data
+   * @param selected selected data
+   */
   const _isOptionEqualToValue = (option: LooseObject, selected: LooseObject) => {
     if (isOptionEqualToValue) {
       return isOptionEqualToValue(option, selected);
@@ -212,7 +222,13 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
           ></TextField>
         )}
       />
-      {_renderHelperText()}
+      {error && (
+        <FormHelperText error>
+          <span style={{ marginTop: '3px' }}>
+            <Trans>{helperText}</Trans>
+          </span>
+        </FormHelperText>
+      )}
     </FormControl>
   );
 };

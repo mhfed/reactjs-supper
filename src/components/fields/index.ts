@@ -10,7 +10,6 @@ import InputField from './InputField';
 import PasswordField from './PasswordField';
 import SelectField from './SelectField';
 import RichTextboxField from './RichTextboxField';
-import PreviewField from './PreviewField';
 import RadioGroupField from './RadioGroupField';
 import DatePickerField from './DatePickerField';
 import ImageField from './ImageField';
@@ -22,7 +21,6 @@ export {
   InputField,
   PasswordField,
   SelectField,
-  PreviewField,
   RichTextboxField,
   RadioGroupField,
   DatePickerField,

@@ -9,7 +9,6 @@
 import * as React from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { useTheme } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import KebabIcon from '@mui/icons-material/MoreVert';
 import { IKebabItem, LooseObject } from 'models/ICommon';
@@ -31,11 +30,11 @@ const Kebab: React.FC<KebabProps> = ({ items = [], data = {} }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<any>(null);
   const open = Boolean(anchorEl);
-  const theme = useTheme();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };

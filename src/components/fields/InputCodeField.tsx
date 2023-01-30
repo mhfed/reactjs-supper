@@ -1,11 +1,15 @@
+/*
+ * Created on Mon Jan 30 2023
+ *
+ * Input code field for iress login fail
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
-import Grid from '@mui/material/Grid';
-// import Typography from '@mui/material/Typography';
 import { Trans } from 'react-i18next';
 import ReactCodeInput from 'react-code-input';
-import FormHelperText from '@mui/material/FormHelperText';
 import { Typography } from '@mui/material';
-// import ResendButton from './ResendButton';
 
 const RenderOTPForm = (props: any) => {
   const { onChangeOTP, pinRef, error, OTP_LENGTH, theme } = props;
