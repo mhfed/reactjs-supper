@@ -32,15 +32,20 @@ const CustomChip: React.FC<CustomStackProps> = ({ data = [] }) => {
   const classes = useStyles();
   const [show, setShow] = React.useState(false);
 
+  /**
+   * Handle show more or hide cell data
+   */
   const handleShow = () => {
     setShow((old) => !old);
   };
 
+  // if data length greater than 9 display show more button
   const isLargeData = data.length > 9;
   let displayData = [...data];
   if (isLargeData && !show) {
     displayData = data.slice(0, 9);
   }
+
   return (
     <div className={classes.container}>
       {displayData.map((e: string, i: number) => (

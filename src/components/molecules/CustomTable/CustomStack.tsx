@@ -28,15 +28,20 @@ const CustomChip: React.FC<CustomStackProps> = ({ data = [] }) => {
   const classes = useStyles();
   const [show, setShow] = React.useState(false);
 
+  /**
+   * Handle show more or hide cell data
+   */
   const handleShow = () => {
     setShow((old) => !old);
   };
 
+  // if data length greater than 3 display show more button
   const isLargeData = data.length > 3;
   let displayData = [...data];
   if (isLargeData && !show) {
     displayData = data.slice(0, 3);
   }
+
   return (
     <Stack direction="column">
       {displayData.map((e: string) => (

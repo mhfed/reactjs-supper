@@ -173,17 +173,22 @@ const useStyles = (props: TableProps) =>
     },
   }));
 
+/**
+ * Handle and convert custom column with user data to library readable column data
+ * @param param0 data need to handle table column converter
+ * @returns new column use for Mui datatables
+ */
 function convertColumn({
-  data,
-  column,
-  isEditMode,
-  translate,
-  classes,
-  onChange,
-  onChangeAll,
-  fnKey,
-  curData,
-  editId,
+  data, // current table data
+  column, // custom column data
+  isEditMode, // edit mode status
+  translate, // translate function to translate text
+  classes, // style with mateial ui classes
+  onChange, // Handle change data with editable cell at edit mode
+  onChangeAll, // Apply all change for one column with new data select from header dropdown
+  fnKey, // Function to find row id
+  curData, // Table changed data
+  editId, // id of edit session
 }: {
   editId: number;
   data: LooseObject[];
@@ -196,6 +201,7 @@ function convertColumn({
   onChangeAll?: (data: any, name: string, value: string | number) => void;
   fnKey: (data: any) => string;
 }): MUIDataTableColumnDef {
+  // Common column data
   const res: MUIDataTableColumnDef = {
     name: column.name,
     label: translate ? translate(column.label) : column.label,
@@ -205,6 +211,7 @@ function convertColumn({
     },
   };
   switch (column.type) {
+    // render dropdown cell with bacjground color at edit mode
     case COLUMN_TYPE.DROPDOWN_WITH_BG:
       res.options = {
         ...res.options,
@@ -236,6 +243,7 @@ function convertColumn({
           );
         },
       };
+      // if have apply all option at header
       if (column.dataOptionsHeader) {
         res.options.customHeadLabelRender = (columnMeta) => {
           if (isEditMode) {
@@ -252,6 +260,8 @@ function convertColumn({
         };
       }
       break;
+
+    // Render cell with dropdown at edit mode
     case COLUMN_TYPE.DROPDOWN:
       res.options = {
         ...res.options,
@@ -287,6 +297,8 @@ function convertColumn({
         },
       };
       break;
+
+    // Render cell with input at edit mode
     case COLUMN_TYPE.INPUT:
       res.options = {
         ...res.options,
@@ -315,6 +327,8 @@ function convertColumn({
         },
       };
       break;
+
+    // Render cell with date time formatted
     case COLUMN_TYPE.DATETIME:
       res.options = {
         ...res.options,
@@ -327,6 +341,8 @@ function convertColumn({
         },
       };
       break;
+
+    // render cell with a clickable link will open new window at browser
     case COLUMN_TYPE.LINK:
       res.options = {
         ...res.options,
@@ -339,6 +355,8 @@ function convertColumn({
         },
       };
       break;
+
+    // Render cell with data as array and each element one line
     case COLUMN_TYPE.BREAK_LINE:
       res.options = {
         ...res.options,
@@ -353,6 +371,8 @@ function convertColumn({
         },
       };
       break;
+
+    // Render cell with data as array and each element is a chip tag
     case COLUMN_TYPE.MULTIPLE_TAG:
       res.options = {
         ...res.options,
@@ -367,6 +387,8 @@ function convertColumn({
         },
       };
       break;
+
+    // Render action column with a kebab icon and user can choose action from kebab icon dropdown
     case COLUMN_TYPE.ACTION:
       res.options = {
         ...res.options,
@@ -379,6 +401,8 @@ function convertColumn({
         },
       };
       break;
+
+    // default render cell as display text cell
     default:
       res.options = {
         ...res.options,
@@ -445,7 +469,6 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     listBtn = [],
     fnKey,
     defaultSort,
-    textAlign = 'center',
   } = props;
   const [data, setData] = React.useState<ITableData>(props.data || DATA_DEFAULT);
   const [isEditMode, setEditMode] = React.useState(false);
@@ -457,12 +480,18 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
   const dispatch = useDispatch();
   const { showSubModal, hideSubModal } = useGlobalModalContext();
 
+  /**
+   * Handle user action at table toolbar button group
+   * @param action action name
+   */
   const handleEdit = (action: string) => {
     switch (action) {
+      // Turn on edit mode
       case ACTIONS.EDIT:
         editId.current = +new Date();
         setEditMode(true);
         break;
+      // Cancel edit mode, reset data to normal, show confirm when have user data changed
       case ACTIONS.CANCEL:
         if (Object.keys(tempDataByKey.current).length && editable) {
           showSubModal({
@@ -486,6 +515,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           setEditMode(false);
         }
         break;
+      // Handle save new data user changed
       case ACTIONS.SAVE:
         if (!Object.keys(tempDataByKey.current).length) {
           dispatch(
@@ -512,6 +542,10 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     }
   };
 
+  /**
+   * Get table config data as page id, sort field....to request new data at parent component
+   * @returns config data
+   */
   const getConfig = () => {
     return {
       ...(config.current || {}),
@@ -520,6 +554,10 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     };
   };
 
+  /**
+   * Get elastic search query body with search text, sort column and can extend both filter
+   * @returns elastic search query body use for parent component request
+   */
   const getQuery = () => {
     const query: any = { query: { bool: { must: [] } }, sort: [] };
     if (config.current?.searchText) query.query.bool.must.push({ query_string: { query: `*${config.current.searchText}*` } });
@@ -535,6 +573,10 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     return query;
   };
 
+  /**
+   * Set new data for table
+   * @param response data receiver from backend with pagination data
+   */
   const setDataTable = (response: ResponseDataPaging) => {
     setData((old) => ({
       data: response ? response.data : [],
@@ -545,10 +587,17 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     }));
   };
 
+  /**
+   * Set table loading
+   * @param isLoading loading status
+   */
   const setLoading = (isLoading: boolean) => {
     setData((old) => ({ ...old, isLoading }));
   };
 
+  /**
+   * Regis some function to use from parent component
+   */
   React.useImperativeHandle(
     ref,
     () => ({
@@ -561,6 +610,11 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     [],
   );
 
+  /**
+   * Handle table action as page change, page size change, search, sort...
+   * @param action table action name
+   * @param tableState current table state
+   */
   const _onTableChange = (action: string, tableState: MUIDataTableState) => {
     if (['propsUpdate', 'onFilterDialogOpen', 'onFilterDialogClose'].includes(action)) return;
     timeoutId.current && window.clearTimeout(timeoutId.current);
@@ -590,6 +644,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     }, 500);
   };
 
+  // list column after convert from user schema to readable column schema for mui datatable library
   const listColumn: MUIDataTableColumnDef[] = React.useMemo(() => {
     const onChange = (name: string, value: string | number, rowIndex: number) => {
       const row: any = data.data[rowIndex];
@@ -634,6 +689,14 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     }, []);
   }, [columns, isEditMode, data]);
 
+  /**
+   * Handle file download with corect cell data by column type
+   * @param buildHead library function to handle download csv file
+   * @param buildBody library function to handle download csv file
+   * @param curColumns current table column
+   * @param arrData current table data
+   * @returns file data handled
+   */
   const onDownload = (buildHead: (columns: any) => string, buildBody: (data: any) => string, curColumns: any, arrData: any) => {
     const formatData = formatDataBeforeExportCsv(curColumns, columns, arrData, data.data, t);
     const columnNoAction = curColumns.filter((e: any) => e.name !== 'ACTION_COLUMN');

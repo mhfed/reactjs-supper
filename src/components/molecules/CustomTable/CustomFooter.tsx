@@ -31,10 +31,18 @@ const CustomFooter: React.FC<CustomFooterProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  /**
+   * Handle page size change
+   * @param event Dropdown change event
+   */
   const handleRowChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     changeRowsPerPage(event.target.value);
   };
 
+  /**
+   * Handle page change
+   * @param event click event
+   */
   const handlePageChange = (e: React.MouseEvent<HTMLButtonElement> | null, page: number) => {
     changePage(page);
   };

@@ -60,6 +60,10 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
   const ref = React.useRef<HTMLInputElement>(null);
   const user = useSelector(userSelector);
 
+  /**
+   * Handle email change and check error
+   * @param e input change event
+   */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     timeoutId.current && window.clearTimeout(timeoutId.current);
@@ -78,6 +82,9 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
     }, process.env.REACT_APP_DEBOUNCE_TIME);
   };
 
+  /**
+   * Handle confiem email
+   */
   const handleConfirm = () => {
     if (emailConfirm && (email + '').replace(/\s/g, '').toLowerCase() !== (user.user_login_id + '').toLowerCase()) {
       setError('lang_email_did_not_match');

@@ -74,6 +74,10 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const timeoutId = React.useRef<number | null>(null);
 
+  /**
+   * Handle search new data with search text
+   * @param e input change event
+   */
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     timeoutId.current && window.clearTimeout(timeoutId.current);
     timeoutId.current = window.setTimeout(() => {
@@ -81,6 +85,9 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
     }, process.env.REACT_APP_DEBOUNCE_TIME);
   };
 
+  /**
+   * Clear search text and reset table data
+   */
   const clearSearch = () => {
     inputRef.current && (inputRef.current.value = '');
     handleSearch('');
