@@ -63,6 +63,10 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
   const { showSubModal, hideModal } = useGlobalModalContext();
   const dispatch = useDispatch();
 
+  /**
+   * Handle submit edit articles
+   * @param values Form value
+   */
   const handleFormSubmit = async (values: LooseObject) => {
     try {
       const body: ICreateArticlesBody = {
@@ -113,6 +117,9 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
     }
   };
 
+  /**
+   * Handle cancel edit, show confirm if user changed data
+   */
   const handleCancel = () => {
     const isDiff = checkDiffArticlesEdit(initValues, values);
     if (isDiff) {
@@ -137,18 +144,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
     }
   };
 
-  const {
-    values,
-    errors,
-    touched,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    setFieldValue,
-    setFieldTouched,
-    setTouched,
-    setValues,
-  } = useFormik({
+  const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, setFieldTouched } = useFormik({
     initialValues: { ...initialValues, ...initValues },
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,

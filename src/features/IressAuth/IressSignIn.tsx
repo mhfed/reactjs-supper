@@ -65,7 +65,12 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
   const dispatch = useDispatch();
   const [error, setError] = React.useState('');
   const [loading, setLoading] = React.useState(false);
-  const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
+
+  /**
+   * Handle iress login
+   * @param values form data
+   */
+  const submitForm = (values: initialValuesType) => {
     const body = {
       password: values.password,
       username: values.username,
@@ -105,8 +110,10 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
       });
   };
 
-  const handleClearData = (form: FormikProps<initialValuesType>) => {
-    // const { resetForm, values } = form;
+  /**
+   * close iress signin popup
+   */
+  const handleClearData = () => {
     hideSubModal();
   };
 
@@ -169,7 +176,7 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
     return (
       <Grid item xs={12}>
         <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
-          <Button variant="outlined" onClick={() => handleClearData(form)}>
+          <Button variant="outlined" onClick={() => handleClearData()}>
             <Trans>lang_cancel</Trans>
           </Button>
 

@@ -1,7 +1,7 @@
 /*
  * Created on Fri Jan 06 2023
  *
- * Articles create form
+ * Articles create form with formik
  *
  * Copyright (c) 2023 - Novus Fintech
  */
@@ -53,6 +53,10 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
   const classes = useStyles();
   const { showSubModal, hideSubModal } = useGlobalModalContext();
 
+  /**
+   * Handle articles create submit
+   * @param values form data
+   */
   const handleFormSubmit = async (values: LooseObject) => {
     onCreate(values);
   };
@@ -74,6 +78,9 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
     onSubmit: handleFormSubmit,
   });
 
+  /**
+   * Hanle clear form data
+   */
   const onClear = () => {
     showSubModal({
       title: 'lang_confirm_cancel',
@@ -92,7 +99,6 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
     });
   };
 
-  console.log('YOLO: ', errors);
   return (
     <Paper className={classes.container}>
       <form noValidate onSubmit={handleSubmit}>

@@ -30,14 +30,17 @@ const useStyles = makeStyles(() => ({
 }));
 
 type TableHandle = React.ElementRef<typeof CustomTable>;
-type SegmentManagementProps = {};
+type ArticlesManagementProps = {};
 
-const ArticlesManagement: React.FC<SegmentManagementProps> = () => {
+const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
   const { showModal, hideModal } = useGlobalModalContext();
 
+  /**
+   * Get list articles
+   */
   const getData = async () => {
     try {
       gridRef?.current?.setLoading?.(true);
@@ -56,6 +59,9 @@ const ArticlesManagement: React.FC<SegmentManagementProps> = () => {
     }
   };
 
+  /**
+   * Get new data when table change
+   */
   const onTableChange = () => {
     getData();
   };
@@ -63,6 +69,10 @@ const ArticlesManagement: React.FC<SegmentManagementProps> = () => {
   React.useEffect(() => {
     getData();
   }, []);
+
+  /**
+   * Handle delete articles
+   */
   const confirmDeleteArticles = React.useCallback(async (articlesId: string) => {
     try {
       await httpRequest.delete(getArticlesUrl(articlesId));
@@ -85,7 +95,12 @@ const ArticlesManagement: React.FC<SegmentManagementProps> = () => {
       );
     }
   }, []);
-  const getActions = (data: any) => {
+
+  /**
+   * Get action for table row
+   * @returns action list
+   */
+  const getActions = () => {
     return [
       {
         label: 'lang_view_detail',
@@ -132,6 +147,7 @@ const ArticlesManagement: React.FC<SegmentManagementProps> = () => {
     ];
   };
 
+  // table column schema
   const columns = React.useMemo(() => {
     return [
       {
@@ -173,8 +189,11 @@ const ArticlesManagement: React.FC<SegmentManagementProps> = () => {
     ];
   }, []);
 
-  const onRowDbClick = () => {};
-
+  /**
+   * Get table row id
+   * @param data row data
+   * @returns id of row
+   */
   const getRowId = (data: any) => {
     return data[FIELD.ARTICLES_ID];
   };
@@ -186,7 +205,6 @@ const ArticlesManagement: React.FC<SegmentManagementProps> = () => {
         fnKey={getRowId}
         ref={gridRef}
         onTableChange={onTableChange}
-        onRowDbClick={onRowDbClick}
         columns={columns}
         noDataText="lang_no_matching_records_found"
       />

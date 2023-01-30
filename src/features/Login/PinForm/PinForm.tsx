@@ -117,10 +117,16 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
 
+  /**
+   * If have auth error clear current pin
+   */
   React.useEffect(() => {
     if (errorAuth) clearPin();
   }, [errorAuth]);
 
+  /**
+   * if input pin failure 3 times, show popup force user reload because security reason
+   */
   React.useEffect(() => {
     if (failedCount === 3) {
       window.localStorage.removeItem('failedCount');
@@ -128,16 +134,26 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
     }
   }, [failedCount]);
 
+  /**
+   * Clear pin
+   */
   const clearPin = () => {
     pinRef.current = [];
     setNumber([]);
   };
 
+  /**
+   * Change pin step
+   * @param value step value
+   */
   const setStepInfo = (value: number) => {
     setStep(value);
     stepName.current = listStep.current[value];
   };
 
+  /**
+   * Handle and verify pin
+   */
   const checkPin = () => {
     const pin = pinRef.current.join('');
     const oldPin = oldPinRef.current.join('');
@@ -163,6 +179,9 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
     }
   };
 
+  /**
+   * Handle user keyboard pin input
+   */
   const handleKeyBoard = React.useCallback((item: string) => {
     timeoutId.current && clearTimeout(timeoutId.current);
     if (item === 'Backspace') {
@@ -180,8 +199,11 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
         checkPin();
       }
     }
-  }, []); // eslint-disable-line
+  }, []);
 
+  /**
+   * Listener keydown event
+   */
   React.useEffect(() => {
     const handleKeyboardPress = (e: React.KeyboardEvent) => {
       if (e.key === 'Backspace' || /^\d+$/.test(e.key)) {
@@ -192,8 +214,12 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
     return () => {
       document.removeEventListener('keydown', handleKeyboardPress as any);
     };
-  }, []); // eslint-disable-line
+  }, []);
 
+  /**
+   * render keyboard buttons
+   * @returns HTML
+   */
   const mapKeyBoard = () => {
     const keyboard = LIST_KEYBOARD.map((item, index) => {
       return (
@@ -213,6 +239,9 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
     return keyboard;
   };
 
+  /**
+   * Handle back to previous step
+   */
   const onBack = () => {
     hasNext.current = true;
     errorMessage && setError('');
@@ -222,6 +251,9 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
     setNumber([...pinRef.current]);
   };
 
+  /**
+   * Switch to next step
+   */
   const onNext = () => {
     oldPinRef.current = [...pinRef.current];
     pinRef.current = [];
@@ -229,6 +261,10 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
     setNumber([]);
   };
 
+  /**
+   * render pin form header
+   * @returns HTML
+   */
   const renderHeader = () => {
     switch (stepName.current) {
       case PIN_STEP.SET_YOUR_PIN:
@@ -274,6 +310,9 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
     }
   };
 
+  /**
+   * Handle logout when user confirm logout from security popup
+   */
   const onLogout = () => {
     dispatch(logout as any);
   };

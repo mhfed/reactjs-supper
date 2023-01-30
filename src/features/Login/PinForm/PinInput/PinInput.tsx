@@ -54,6 +54,9 @@ const PinInput: ForwardRefRenderFunction<PinInputHandle, PinInputProps> = ({ dat
   const classes = useStyles();
   const [show, setShow] = React.useState(true);
 
+  /**
+   * Regis show show, hide pin symbol for parent component use
+   */
   useImperativeHandle(
     ref,
     () => ({

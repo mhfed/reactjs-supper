@@ -77,6 +77,7 @@ export default function SignIn() {
   const step = useSelector(stepSelector);
   const password = useRef('');
 
+  // Login screen always use dark mode
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={responsiveFontSizes(themes(1))}>

@@ -1,3 +1,11 @@
+/*
+ * Created on Mon Jan 30 2023
+ *
+ * Set new or change password form
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import { useFormik } from 'formik';
 import { yup } from 'helpers';
@@ -62,6 +70,10 @@ const SetPassword: React.FC<SetPasswordProps> = ({ setNewPassord }) => {
   const token = useSelector(createPasswordTokenSelector);
   const email = useSelector(userLoginSelector);
 
+  /**
+   * Handle submit new password
+   * @param values form data
+   */
   const handleFormSubmit = async (values: IChangePassValues) => {
     try {
       setNewPassord(values.password);

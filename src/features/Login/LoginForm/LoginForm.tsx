@@ -68,20 +68,32 @@ export default function SignIn() {
   const dispatch = useDispatch();
   const isLoading = useSelector(isLoadingSelector);
 
+  /**
+   * Handle login with email and password
+   * @param values form data
+   */
   const handleFormSubmit = async (values: ILoginValues) => {
     dispatch(login((values.email + '').replace(/\s/g, '').toLocaleLowerCase(), values.password) as any);
   };
 
+  /**
+   * Save user stayed login status
+   * @param e checkbox input event
+   */
   const onStaySignedIn = (e: React.ChangeEvent<HTMLInputElement>) => {
     window.localStorage.setItem('isStaySignedIn', e.target.checked + '');
   };
 
-  const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue } = useFormik({
+  const { values, errors, touched, handleBlur, handleSubmit, setFieldValue } = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,
   });
 
+  /**
+   * Preprocess email user input
+   * @param e inputn change event
+   */
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFieldValue('email', validate.removeSpace(e.target.value));
     if (error) {

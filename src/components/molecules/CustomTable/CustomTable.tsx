@@ -440,7 +440,7 @@ type TypeButtonHeader = {
 
 type TableProps = {
   onTableChange: () => void;
-  onRowDbClick: (index: number) => void;
+  onRowDbClick?: (index: number) => void;
   columns: MUIDataTableColumnDef[];
   rowsPerPageOptions?: number[];
   data?: ITableData;

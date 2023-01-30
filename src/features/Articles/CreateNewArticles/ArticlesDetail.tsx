@@ -18,7 +18,6 @@ import { Trans, useTranslation } from 'react-i18next';
 import { getSearchSitenameUrl, getSearchSecurityCodeUrl } from 'apis/request.url';
 import { SITENAME_OPTIONS, SECURITY_TYPE_OPTIONS } from '../ArticlesConstants';
 import { IArticlesFormData } from 'models/IArticles';
-import { useDispatch } from 'react-redux';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { useGlobalModalContext } from 'containers/Modal';
 import ArticlesEditForm from './ArticlesEditForm';
@@ -56,10 +55,12 @@ type ArticlesDetailProps = {
 const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = false, editFirst = false }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const [isEditMode, setEditMode] = React.useState(isEdit);
-  const { showModal, hideModal } = useGlobalModalContext();
+  const { hideModal } = useGlobalModalContext();
 
+  /**
+   * Switch to edit screen
+   */
   const onEdit = () => {
     setEditMode(true);
   };
@@ -67,6 +68,10 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
   const sitenameOption = SITENAME_OPTIONS.find((e) => e.value === values.site_name);
   const sitename = sitenameOption?.label ? t(sitenameOption.label) : '';
 
+  /**
+   * render detail form
+   * @returns HTML
+   */
   const renderDetailPreview = () => {
     return (
       <>
@@ -153,6 +158,9 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
     );
   };
 
+  /**
+   * Come back to detail view from edit mode
+   */
   const onCancel = () => {
     setEditMode(false);
   };

@@ -1,3 +1,11 @@
+/*
+ * Created on Mon Jan 30 2023
+ *
+ * Constant for articles
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 export const STEP = {
   CREATE: 0,
   PREVIEW: 1,

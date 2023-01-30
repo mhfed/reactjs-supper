@@ -1,7 +1,7 @@
 /*
  * Created on Fri Jan 06 2023
  *
- * Fetch report
+ * Show confirm code when iress login failed
  *
  * Copyright (c) 2023 - Novus Fintech
  */
@@ -58,11 +58,6 @@ export const isOptionEqualToValue = (option: LooseObject, value: LooseObject) =>
   return option.username === value.username;
 };
 
-const STATE_FORM = {
-  LOGIN: 'LOGIN',
-  CONFIRM_CODE: 'CONFIRM_CODE',
-};
-
 const ConfirmCode: React.FC<ConfirmCodeProps> = (props) => {
   const classes = useStyles();
   const pinRef = React.useRef<any[]>();
@@ -71,13 +66,19 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = (props) => {
   const { hideSubModal } = useGlobalModalContext();
   const [errorMessage, setErrorMessage] = React.useState('');
 
+  /**
+   * Focus on code input at first load
+   */
   React.useEffect(() => {
     const inputField = pinRef.current as any;
     if (inputField.textInput[0]) inputField.textInput[0].focus();
   }, []);
 
-  const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
-    // clearPin();
+  /**
+   * Verify iress code
+   * @param values code data
+   */
+  const submitForm = (values: initialValuesType) => {
     const previousForm = props?.values || {};
     const body = {
       password: previousForm.password,
@@ -104,6 +105,9 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = (props) => {
       });
   };
 
+  /**
+   * Clear code input
+   */
   const clearPin = () => {
     const inputField = pinRef.current as any;
     if (inputField.textInput[0]) inputField.textInput[0].focus();
@@ -186,7 +190,6 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = (props) => {
                   {HeaderTitle()}
                   {renderContent(form)}
                   {submitButton(form)}
-                  {/* <button onClick={clearPin}>clear field</button> */}
                 </Grid>
               </Form>
             </React.Fragment>

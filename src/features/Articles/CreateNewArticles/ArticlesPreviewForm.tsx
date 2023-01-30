@@ -1,7 +1,7 @@
 /*
  * Created on Fri Jan 06 2023
  *
- * Articles create form
+ * Articles preview before submit create
  *
  * Copyright (c) 2023 - Novus Fintech
  */
@@ -44,6 +44,9 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
+  /**
+   * Handle create new articles
+   */
   const onConfirm = async () => {
     try {
       const formData = new FormData();
