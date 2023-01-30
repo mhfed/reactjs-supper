@@ -43,6 +43,7 @@ type AutocompleteFieldProps = {
   getChipLabel?: (opt: LooseObject) => string;
   getUrl?: (text: string) => string;
   formatData?: (data: any) => any[];
+  multiple?: boolean;
 };
 
 const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
@@ -61,6 +62,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   getChipLabel,
   getUrl,
   formatData,
+  multiple = true,
 }) => {
   const classes = useStyles();
   const [loading, setLoading] = React.useState(false);
@@ -166,7 +168,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
             <CircularProgress color="secondary" size={24} />
           </Box>
         }
-        multiple
+        multiple={multiple}
         disableClearable
         freeSolo={!!inputRef.current?.value && inputRef.current?.value?.length > 1 ? false : true}
         id={name}
