@@ -50,8 +50,8 @@ export function getUserDetailUrl(userId?: string) {
 export function postCreateSegment() {
   return '/v1/dynamic-push/segment/create';
 }
-export function getSearchSegment(query?: string) {
-  return `/v1/dynamic-push/segment/query${query}`;
+export function getSearchSegment(text?: string) {
+  return `/v1/dynamic-push/segment/query?search=${text}`;
 }
 export function postDirectSend() {
   return '/v1/dynamic-push/direct/send';

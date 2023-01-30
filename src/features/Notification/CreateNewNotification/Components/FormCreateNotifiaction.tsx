@@ -13,8 +13,8 @@ import RadioGroupField from 'components/fields/RadioGroupField';
 import { AutocompleteField, InputField, SelectField, DatePickerField } from 'components/fields';
 import { initialValuesType, isOptionEqualToValue } from '../CreateNewNotification';
 import { ClassNameMap } from 'notistack';
-import SearchAsyncField from 'components/fields/SearchAsyncField';
-import { getListSiteNametUrl, getSearchSubscribersUrl } from 'apis/request.url';
+import { getListSiteNametUrl, getSearchSegment, getSearchSubscribersUrl } from 'apis/request.url';
+import { LooseObject } from 'models/ICommon';
 
 interface FormCreateNotifiactionProps {
   form: FormikProps<initialValuesType>;
@@ -48,16 +48,20 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
         </Grid>
         {values.notification_type === Segment && (
           <Grid item xs={12} style={{ paddingBottom: 3 }}>
-            <SearchAsyncField
+            <AutocompleteField
               name="segment"
               label="lang_segment"
               required
-              fullWidth
+              multiple={false}
+              getUrl={getSearchSegment}
+              isOptionEqualToValue={(option: LooseObject, value: LooseObject) => option?.name === value?.name}
+              getOptionLabel={(option) => option?.name || ''}
+              getChipLabel={(option) => option?.name || ''}
               value={values.segment}
-              onChange={(v: any) => setFieldValue('segment', v)}
-              onBlur={handleBlur}
+              onChange={(value) => setFieldValue('segment', value)}
+              onBlur={() => setFieldTouched('segment', true)}
               error={touched.segment && Boolean(errors.segment)}
-              helperText={touched.segment && errors.segment}
+              helperText={(touched.segment && errors.segment) as string}
             />
           </Grid>
         )}
