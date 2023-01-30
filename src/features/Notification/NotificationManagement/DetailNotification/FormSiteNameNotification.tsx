@@ -1,10 +1,9 @@
 import React from 'react';
-import { Autocomplete, Grid, TextField, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 import { InputField, AutocompleteField } from 'components/fields';
 import { FormikProps } from 'formik';
 import { initialValuesType } from '../../CreateNewNotification/CreateNewNotification';
 import { ClassNameMap } from '@mui/styles';
-import { Trans } from 'react-i18next';
 
 interface FormDirectNotificationProps {
   form: FormikProps<initialValuesType>;

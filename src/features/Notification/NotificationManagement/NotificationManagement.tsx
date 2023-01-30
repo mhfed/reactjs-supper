@@ -20,7 +20,6 @@ import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import DetailNotification from './DetailNotification';
 import EditNotification from './EditNotification';
 import { Inotifiaction } from 'models/INotification';
-import { AxiosResponse } from 'axios';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -221,7 +220,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     ];
   }, []);
 
-  const onRowDbClick = () => { };
+  const onRowDbClick = () => {};
 
   const getRowId = (data: any) => {
     return data[FIELD.NOTIFICATION_ID];

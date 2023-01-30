@@ -10,7 +10,7 @@ import React from 'react';
 import { makeStyles } from '@mui/styles';
 import { Stack, Typography } from '@mui/material';
 import Button from 'components/atoms/ButtonBase';
-import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
+import { Form, Formik, FormikProps } from 'formik';
 import { validate, yup } from 'helpers';
 import { LooseObject } from 'models/ICommon';
 import { Trans } from 'react-i18next';

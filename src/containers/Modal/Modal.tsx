@@ -67,7 +67,6 @@ type GlobalModalProps = {
 
 const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
   const [store, setStore] = useState<LooseObject>({});
-  const { modalProps } = store || {};
   const classes = useStyles();
 
   /**

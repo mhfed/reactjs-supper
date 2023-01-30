@@ -12,12 +12,13 @@ import { MixedSchema } from 'yup/lib/mixed';
 import { AnyObject } from 'yup/lib/types';
 import validate from './validate';
 
+// eslint-disable-next-line no-useless-escape
 const urlPattern = /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
 
 type methodString = yup.StringSchema<string | undefined, AnyObject, string | undefined>;
 
 declare module 'yup' {
-  interface MixedSchema<TType, TContext, TOut> {}
+  interface MixedSchema {}
   interface StringSchema {
     checkRequired(message: string): methodString;
     checkEmail(message: string): methodString;

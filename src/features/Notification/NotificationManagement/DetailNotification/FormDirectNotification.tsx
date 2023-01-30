@@ -32,7 +32,6 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
   const expired_preview = `${valueExpire || '0'} ${EXPIRE_OPTION_FILTER[typeExpire]}`;
   values.type_url = 'Articles';
 
-  let defaultArray = Array.isArray(values.subscribers) ? values.subscribers.map((x: any) => x?.subscriber) : [];
   return (
     <React.Fragment>
       <Grid container spacing={3} className={classes.containerForm}>

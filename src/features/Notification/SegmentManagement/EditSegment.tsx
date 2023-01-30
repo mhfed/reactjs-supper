@@ -149,11 +149,11 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
       console.error('Create new segment handleFormSubmit error: ', error);
     }
   };
-  const compareArray = (array1: any, array2: any) => {
+  const compareArray = (array1: any[], array2: any[]) => {
     const arrayString1 = array1.map((x: any) => x.username);
     const arrayString2 = array2.map((x: any) => x.username);
     let isChange = false;
-    arrayString1.map((element: any) => {
+    arrayString1.forEach((element: any) => {
       if (!arrayString2.includes(element)) {
         isChange = true;
       }
@@ -298,7 +298,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
         );
     }
   };
-  const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, resetForm } = useFormik({
+  const { values, errors, touched, handleBlur, handleSubmit, setFieldValue, resetForm } = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,

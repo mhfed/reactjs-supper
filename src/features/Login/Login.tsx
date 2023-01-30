@@ -21,7 +21,6 @@ import SetPassword from './SetPassword';
 import { Trans } from 'react-i18next';
 import { IAuthStep } from 'models/IAuthState';
 import themes from 'themes';
-import { THEMES } from 'configs';
 import { ThemeProvider, StyledEngineProvider, responsiveFontSizes } from '@mui/material/styles';
 
 const useStyles = makeStyles((theme) => ({

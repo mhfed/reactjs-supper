@@ -17,7 +17,6 @@ import { PATH_NAME } from 'configs';
 import { IChildNavBar } from 'models/INavBar';
 import NavBarItem from './NavBarItem';
 import useStyles from './styles';
-import { useTheme } from '@mui/material';
 
 type IProps = {
   isDrawer: boolean;
@@ -33,7 +32,6 @@ type IChildRoutes = {
 function NavBar({ isDrawer }: IProps) {
   const classes = useStyles();
   const location = useLocation();
-  const theme = useTheme();
 
   const renderNavItems = ({ items, pathname, depth }: IChildNavBar) => {
     return <List disablePadding>{items?.reduce((acc, curr) => renderChildRoutes({ acc, curr, pathname, depth }), [])}</List>;

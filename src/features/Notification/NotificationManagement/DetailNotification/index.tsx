@@ -67,7 +67,7 @@ const STATE_FORM = {
 const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataForm }) => {
   const classes = useStyles();
   const { hideModal, showModal } = useGlobalModalContext();
-  const { Segment, Sitename, Direct } = NOTIFICATION_TYPE;
+  const { Segment, Direct } = NOTIFICATION_TYPE;
   const handleClose = () => {
     if (typePage === STATE_FORM.DETAIL) {
       hideModal();

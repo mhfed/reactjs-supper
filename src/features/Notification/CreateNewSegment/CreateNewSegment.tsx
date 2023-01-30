@@ -8,7 +8,7 @@
 
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import { Button, Stack, Typography, Grid, useTheme, Paper } from '@mui/material';
+import { Button, Stack, Typography, Grid, Paper } from '@mui/material';
 import { Trans } from 'react-i18next';
 import { InputField, AutocompleteField } from 'components/fields';
 import { useFormik } from 'formik';
@@ -19,11 +19,8 @@ import httpRequest from 'services/httpRequest';
 import { postCreateSegment } from 'apis/request.url';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { useDispatch } from 'react-redux';
-import { Autocomplete, TextField } from '@mui/material';
-import FormControl from '@mui/material/FormControl';
 import { LooseObject } from 'models/ICommon';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
-import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -58,7 +55,6 @@ const STATE_FORM = {
 
 const Sample = () => {
   const classes = useStyles();
-  const theme = useTheme();
   const dispatch = useDispatch();
   const { showModal, hideModal } = useGlobalModalContext();
   const [stateForm, setStateForm] = React.useState(STATE_FORM.CREATE);
@@ -152,10 +148,7 @@ const Sample = () => {
   // };
   const renderContent = (stateForm: string) => {
     const isPreview = stateForm === STATE_FORM.PREVIEW;
-    let defaultArray = [];
-    if (Array.isArray(values.segment_subscribers)) {
-      defaultArray = isPreview ? values.segment_subscribers.map((x: any) => x.username) : values.segment_subscribers;
-    }
+
     return (
       <Paper className={classes.wrapper}>
         <form className={classes.container} noValidate onSubmit={handleSubmit}>
@@ -215,7 +208,7 @@ const Sample = () => {
       </Paper>
     );
   };
-  const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, resetForm } = useFormik({
+  const { values, errors, touched, handleBlur, handleSubmit, setFieldValue, resetForm } = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,

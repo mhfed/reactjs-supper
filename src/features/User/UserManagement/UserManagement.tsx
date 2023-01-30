@@ -44,7 +44,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
       const config: ITableConfig = gridRef?.current?.getConfig?.();
       const queryBody: any = gridRef?.current?.getQuery?.();
       const response: any = await httpRequest.post(getSearchUserUrl(config), queryBody);
-      response.data.map((e: any) => {
+      (response?.data || [])?.forEach((e: any) => {
         dicUser.current[e[FIELD.USER_ID]] = e;
       }, {});
       gridRef?.current?.setData?.(response);
@@ -226,6 +226,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
   const confirmEditUser = React.useCallback(async (data: any, callback: () => void) => {
     try {
       const bodyData = data?.map((e: LooseObject) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { user_login_id, ...rest } = e;
         return rest;
       });

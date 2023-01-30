@@ -108,7 +108,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
         },
       };
       const user_id = dataForm.user_id;
-      const response: any = await httpRequest.put(getUserDetailUrl(user_id), body);
+      await httpRequest.put(getUserDetailUrl(user_id), body);
 
       dispatch(
         enqueueSnackbarAction({

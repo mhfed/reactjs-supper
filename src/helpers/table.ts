@@ -33,7 +33,7 @@ function formatDataBeforeExportCsv(curColumn: any, rawColumns: any, curData: any
       index: e.index,
       data: [],
     };
-    curColumn.map((c: any) => {
+    (curColumn || []).forEach((c: any) => {
       const column = dicColumn[c.name];
       const formatter = column?.formatter;
       const rawValue = rawData[index][c.name] || ` ${process.env.REACT_APP_DEFAULT_VALUE}`;

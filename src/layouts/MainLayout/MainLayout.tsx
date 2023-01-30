@@ -7,7 +7,6 @@
  */
 
 import React, { useState, useCallback, FC } from 'react';
-import { useTheme } from '@mui/material';
 import clsx from 'clsx';
 import { Outlet } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -21,7 +20,6 @@ import useStyles from './styles';
 
 const MainLayout: FC = () => {
   const classes = useStyles();
-  const theme = useTheme();
   const [isDrawer, setIsDrawer] = useState(true);
 
   const _handleToogleDrawer = useCallback(() => {

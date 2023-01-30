@@ -7,7 +7,7 @@
  */
 
 import React, { useState, memo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
@@ -17,7 +17,6 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import { PATH_NAME } from 'configs';
 import { logout } from 'actions/auth.action';
 import ConfirmModal from 'components/molecules/ConfirmModal';
-import { userSelector } from 'selectors/auth.selector';
 import { useGlobalContext } from 'context/GlobalContext';
 import { THEMES } from 'configs';
 
@@ -25,7 +24,6 @@ function Account({ ...classes }) {
   const { t: translate } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector(userSelector);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = React.useState(false);
   const { setModeTheme } = useGlobalContext();

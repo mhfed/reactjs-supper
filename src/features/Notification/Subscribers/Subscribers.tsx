@@ -15,7 +15,6 @@ import CustomTable, { COLUMN_TYPE } from 'components/molecules/CustomTable';
 import makeStyles from '@mui/styles/makeStyles';
 import { FIELD } from '../NotificationConstants';
 import { ITableConfig } from 'models/ICommon';
-import { useGlobalModalContext } from 'containers/Modal';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -33,7 +32,6 @@ const Subscribers: React.FC<SubscribersProps> = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
-  const { showModal } = useGlobalModalContext();
 
   const getData = async () => {
     try {

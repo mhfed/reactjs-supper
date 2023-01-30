@@ -57,7 +57,7 @@ const Report: React.FC<ReportProps> = () => {
       }
       const response: any = await httpRequest.get(getListReportUrl(config), headerConfig);
 
-      response.data.data.map((e: any) => {
+      (response.data.data || [])?.forEach((e: any) => {
         dicReport.current[e[FIELD.TEMPLATE_ID]] = e;
       }, {});
 

@@ -8,7 +8,6 @@
 
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import { enqueueSnackbarAction, setLoading, showExpiredPopup } from 'actions/app.action';
-import { iressLogout } from 'actions/auth.action';
 import { clearStorage } from 'helpers';
 
 export type IConfig = AxiosRequestConfig & {
@@ -44,9 +43,6 @@ const requestConfig: IConfig = {
 };
 
 export const axiosInstance = axios.create(requestConfig);
-
-const { CancelToken } = axios;
-let cancel: any = null;
 
 export default function initRequest(store: any) {
   let requestCount = 0;
