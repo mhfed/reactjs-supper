@@ -97,3 +97,8 @@ export const STATE_FORM = {
   CREATE: 'CREATE',
   PREVIEW: 'PREVIEW',
 };
+
+export const NOTIFICATION_STATUS = {
+  TRIGGERED: 'Triggered',
+  PENDING: 'Pending',
+};
