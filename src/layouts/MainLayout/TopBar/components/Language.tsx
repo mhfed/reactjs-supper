@@ -18,15 +18,26 @@ function Language({ ...classes }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { setLanguage, language } = useGlobalContext();
 
+  /**
+   * open language menu
+   * @param event click event
+   */
   const _handleOpenLanguage = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
+  /**
+   * Handle change language and close language menu
+   * @param lang language selected
+   */
   const _handleChooseLanguage = (lang: string) => () => {
     setLanguage(lang);
     setAnchorEl(null);
   };
 
+  /**
+   * Close menu
+   */
   const handleClose = () => {
     setAnchorEl(null);
   };

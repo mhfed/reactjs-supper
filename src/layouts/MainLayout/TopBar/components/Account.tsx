@@ -28,28 +28,47 @@ function Account({ ...classes }) {
   const [open, setOpen] = React.useState(false);
   const { setModeTheme } = useGlobalContext();
 
+  /**
+   * Open menu
+   * @param event click event
+   */
   const _handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
+  /**
+   * close menu
+   */
   const _handleClose = () => {
     setAnchorEl(null);
   };
 
+  /**
+   * Handle logout
+   */
   const _handleLogout = () => {
     dispatch(logout as any);
     navigate(PATH_NAME.LOGIN);
     setAnchorEl(null);
   };
 
+  /**
+   * close logout confirm popup
+   */
   const onCloseLogout = () => {
     setOpen(false);
   };
 
+  /**
+   * open logout confirm popup
+   */
   const onShowLogoutConfirm = () => {
     setOpen(true);
   };
 
+  /**
+   * Confirm logout handle
+   */
   const onConfirmLogout = () => {
     setModeTheme(THEMES.DARK);
     _handleLogout();

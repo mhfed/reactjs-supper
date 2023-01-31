@@ -54,6 +54,7 @@ export default function initRequest(store: any) {
     }
   }
 
+  // Handle axios request
   axiosInstance.interceptors.request.use(
     (config: IConfig) => {
       // // cancel token
@@ -80,6 +81,7 @@ export default function initRequest(store: any) {
     },
   );
 
+  // handle axios response
   axiosInstance.interceptors.response.use(
     (res: any) => {
       if (res.config?.showSpinner) {
