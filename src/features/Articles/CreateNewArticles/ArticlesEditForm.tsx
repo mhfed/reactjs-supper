@@ -55,10 +55,11 @@ const useStyles = makeStyles((theme) => ({
 type ArticlesEditFormProps = {
   data: IArticlesFormData;
   onCancel: () => void;
+  onSuccess?: () => void;
   editFirst: boolean;
 };
 
-const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, onCancel, editFirst }) => {
+const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, onCancel, editFirst, onSuccess }) => {
   const classes = useStyles();
   const { showSubModal, hideModal } = useGlobalModalContext();
   const dispatch = useDispatch();
@@ -105,6 +106,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
           variant: 'success',
         }),
       );
+      onSuccess?.();
       hideModal();
     } catch (error) {
       dispatch(

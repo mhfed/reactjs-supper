@@ -82,21 +82,32 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
    * Hanle clear form data
    */
   const onClear = () => {
-    showSubModal({
-      title: 'lang_confirm_cancel',
-      component: ConfirmEditModal,
-      props: {
-        title: 'lang_confirm_cancel_text',
-        emailConfirm: false,
-        cancelText: 'lang_no',
-        confirmText: 'lang_yes',
-        onSubmit: () => {
-          hideSubModal();
-          setValues(initialValues, false);
-          setTouched({});
+    if (
+      values.subject ||
+      values.content ||
+      values.image?.file ||
+      values.file?.file ||
+      values.site_name !== SITENAME.ALL_SITES ||
+      values.sitename_custom?.length ||
+      values.securities?.length ||
+      values.security_type
+    ) {
+      showSubModal({
+        title: 'lang_confirm_cancel',
+        component: ConfirmEditModal,
+        props: {
+          title: 'lang_confirm_cancel_text',
+          emailConfirm: false,
+          cancelText: 'lang_no',
+          confirmText: 'lang_yes',
+          onSubmit: () => {
+            hideSubModal();
+            setValues(initialValues, false);
+            setTouched({});
+          },
         },
-      },
-    });
+      });
+    }
   };
 
   return (

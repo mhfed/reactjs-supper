@@ -14,6 +14,16 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { FormikErrors } from 'formik';
+import makeStyles from '@mui/styles/makeStyles';
+import clsx from 'clsx';
+
+const useStyles = makeStyles((theme) => ({
+  previewContainer: {
+    '& .MuiSelect-icon': {
+      display: 'none',
+    },
+  },
+}));
 
 type Options = {
   label: string;
@@ -48,8 +58,11 @@ const SelectField: React.FC<SelectFieldProps> = ({
   error,
   ...props
 }) => {
+  const classes = useStyles();
+
   return (
     <FormControl
+      className={clsx(preview && classes.previewContainer)}
       required={preview ? false : required}
       error={error}
       sx={{

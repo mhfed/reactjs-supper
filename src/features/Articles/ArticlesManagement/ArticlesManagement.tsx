@@ -111,6 +111,7 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
             fullScreen: true,
             props: {
               data: convertArticlesDataToDetailForm(data),
+              successCb: () => getData(),
             },
           });
         },
@@ -126,6 +127,7 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
               isEdit: true,
               editFirst: true,
               data: convertArticlesDataToDetailForm(data),
+              successCb: () => getData(),
             },
           });
         },

@@ -50,9 +50,10 @@ type ArticlesDetailProps = {
   data: IArticlesFormData;
   isEdit?: boolean;
   editFirst?: boolean;
+  successCb?: () => void;
 };
 
-const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = false, editFirst = false }) => {
+const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = false, editFirst = false, successCb }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [isEditMode, setEditMode] = React.useState(isEdit);
@@ -167,7 +168,11 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
 
   return (
     <Paper className={classes.wrapper}>
-      {isEditMode ? <ArticlesEditForm editFirst={editFirst} data={values} onCancel={onCancel} /> : renderDetailPreview()}
+      {isEditMode ? (
+        <ArticlesEditForm editFirst={editFirst} data={values} onCancel={onCancel} onSuccess={successCb} />
+      ) : (
+        renderDetailPreview()
+      )}
     </Paper>
   );
 };
