@@ -17,11 +17,19 @@ const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     width: '100%',
-    '& > div:last-child': {
-      width: 'fit-content',
+    '& .MuiInputBase-root': {
+      backgroundColor: 'transparent',
     },
+    '& fieldset': {
+      borderColor: theme.palette.common.white,
+      borderWidth: '1px',
+      borderStyle: 'inset',
+    },
+  },
+  label: {
+    flex: 1,
   },
 }));
 
@@ -48,7 +56,10 @@ const DropdownHeaderCell: React.FC<DropdownHeaderCellProps> = ({ id, onChange, o
 
   return (
     <div className={classes.container}>
-      <Trans>{label}</Trans>
+      <div className={classes.label}>
+        {' '}
+        <Trans>{label}</Trans>
+      </div>
       <Select value={value} onChange={handleChange} displayEmpty sx={style} renderValue={() => ''}>
         {options.map((option, index) => (
           <MenuItem value={option.value} key={`MenuItem_${index}`}>

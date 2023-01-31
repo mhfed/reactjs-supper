@@ -8,11 +8,11 @@
 export const STATUS_OPTIONS_HEADER = [
   {
     label: 'lang_enabled_for_all',
-    value: 0,
+    value: 1,
   },
   {
     label: 'lang_disabled_for_all',
-    value: 1,
+    value: 0,
   },
 ];
 export const STATUS_OPTIONS = [
