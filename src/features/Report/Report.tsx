@@ -124,7 +124,11 @@ const Report: React.FC<ReportProps> = () => {
    * recall data when table change
    */
   const onTableChange = () => {
-    getData();
+    if (iressToken) {
+      getData(iressToken, sitename + '');
+    } else {
+      getData();
+    }
   };
 
   // table columns
