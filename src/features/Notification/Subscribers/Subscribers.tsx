@@ -33,6 +33,9 @@ const Subscribers: React.FC<SubscribersProps> = () => {
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
 
+  /**
+   * Get list subscriber
+   */
   const getData = async () => {
     try {
       gridRef?.current?.setLoading?.(true);
@@ -51,14 +54,21 @@ const Subscribers: React.FC<SubscribersProps> = () => {
     }
   };
 
+  /**
+   * Recall data when table changed
+   */
   const onTableChange = () => {
     getData();
   };
 
+  /**
+   * Get data at first load
+   */
   React.useEffect(() => {
     getData();
   }, []);
 
+  // table columns
   const columns = React.useMemo(() => {
     return [
       {
@@ -92,8 +102,11 @@ const Subscribers: React.FC<SubscribersProps> = () => {
     ];
   }, []);
 
-  const onRowDbClick = () => {};
-
+  /**
+   * Get row id by row data
+   * @param data row data
+   * @returns row id
+   */
   const getRowId = (data: any) => {
     return data[FIELD.SEGMENT_ID];
   };
@@ -105,7 +118,6 @@ const Subscribers: React.FC<SubscribersProps> = () => {
         fnKey={getRowId}
         ref={gridRef}
         onTableChange={onTableChange}
-        onRowDbClick={onRowDbClick}
         columns={columns}
         noDataText="lang_no_matching_records_found"
       />

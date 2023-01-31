@@ -93,7 +93,6 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             helperText={touched.notification_type && errors.notification_type}
           />
         </Grid>
-        {/* {renderAutocompleteField()} */}
         <Grid item xs={12}>
           <InputField
             name="title"
@@ -110,21 +109,6 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             helperText={touched.title && errors.title}
           />
         </Grid>
-        {/* <Grid item xs={12}>
-          <InputField
-            name="message"
-            label="lang_message"
-            required
-            fullWidth
-            value={values.message}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.message && Boolean(errors.message)}
-            helperText={touched.message && errors.message}
-            multiline
-            rows={5}
-          />
-        </Grid> */}
         <Grid item xs={12}>
           <SelectField
             options={TYPE_URL_OPTIONS}

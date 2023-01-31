@@ -58,6 +58,10 @@ const Sample = () => {
   const dispatch = useDispatch();
   const { showModal, hideModal } = useGlobalModalContext();
   const [stateForm, setStateForm] = React.useState(STATE_FORM.CREATE);
+
+  /**
+   * Handle check diff and show popup confirm clear form data
+   */
   const handleClearData = () => {
     if (JSON.stringify(values) !== JSON.stringify(initialValues))
       showModal({
@@ -76,9 +80,17 @@ const Sample = () => {
       });
   };
 
+  /**
+   * Come back to create mode
+   */
   const handleReturn = () => {
     setStateForm(STATE_FORM.CREATE);
   };
+
+  /**
+   * Handle submit create new segment
+   * @param values form data
+   */
   const handleFormSubmit = async (values: any) => {
     try {
       if (stateForm === STATE_FORM.CREATE) {
@@ -112,40 +124,22 @@ const Sample = () => {
     }
   };
 
+  /**
+   * Compare function to check selected option for multiple select Subscribers
+   */
   const isOptionEqualToValue = React.useCallback((option: LooseObject, value: LooseObject) => {
     return option.username === value.username;
   }, []);
 
+  /**
+   * trim value and set data fomatted for segment name input
+   * @param e input focus event
+   */
   const handleBlurInput = (e: React.FocusEvent<HTMLInputElement>) => {
     setFieldValue('segment_name', values.segment_name.trim());
     handleBlur(e);
   };
-  // const renderButton = () => {
-  //   switch (stateForm) {
-  //     case STATE_FORM.PREVIEW:
-  //       return (
-  //         <Stack className={classes.buttonWrapper} direction="row" spacing={2}>
-  //           <Button variant="outlined" onClick={handleReturn}>
-  //             <Trans>lang_return</Trans>
-  //           </Button>
-  //           <Button variant="contained" type="submit">
-  //             <Trans>lang_confirm</Trans>
-  //           </Button>
-  //         </Stack>
-  //       );
-  //     default:
-  //       return (
-  //         <Stack className={classes.buttonWrapper} direction="row" spacing={2}>
-  //           <Button variant="outlined" onClick={handleClearData}>
-  //             <Trans>lang_clear</Trans>
-  //           </Button>
-  //           <Button variant="contained" type="submit">
-  //             <Trans>{isPreview ? 'lang_confirm' : 'lang_create'}</Trans>
-  //           </Button>
-  //         </Stack>
-  //       );
-  //   }
-  // };
+
   const renderContent = (stateForm: string) => {
     const isPreview = stateForm === STATE_FORM.PREVIEW;
 

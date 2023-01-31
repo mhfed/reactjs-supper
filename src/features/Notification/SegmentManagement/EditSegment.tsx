@@ -77,6 +77,10 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
 
   const dispatch = useDispatch();
   const [stateForm, setStateForm] = React.useState(typePage || STATE_FORM.DETAIL);
+
+  /**
+   * Handle close form when detail mode or back to detail at edit mode
+   */
   const handleClose = () => {
     if (stateForm === STATE_FORM.DETAIL) {
       hideModal();
@@ -84,6 +88,11 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
       handleCancelEdit(true);
     }
   };
+
+  /**
+   * Handle cancel button press, check diff and show confirm cancel popup
+   * @param isXbutton is press from close modal button
+   */
   const handleCancelEdit = (isXbutton: boolean) => {
     const isChangeSubscriber = compareArray(values.segment_subscribers, initialValues.segment_subscribers);
     if (values.segment_name === initialValues.segment_name && !isChangeSubscriber) {
@@ -106,6 +115,10 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
       });
     }
   };
+
+  /**
+   * Similar close button, handle cancel and close modal
+   */
   const handleCancel = () => {
     if (typePage === STATE_FORM.DETAIL && stateForm === STATE_FORM.EDIT) {
       handleCancelEdit(false);
@@ -114,11 +127,19 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
     }
   };
 
+  /**
+   * Trim data and set segment name
+   * @param e input focus event
+   */
   const handleBlurInput = (e: React.FocusEvent<HTMLInputElement>) => {
     setFieldValue('segment_name', values.segment_name.trim());
     handleBlur(e);
   };
 
+  /**
+   * handle submit edit segment
+   * @param values form data
+   */
   const handleFormSubmit = async (values: any) => {
     try {
       const subcribersArray = values.segment_subscribers.map((x: any) => ({ username: x.username, site_name: x.site_name }));
@@ -149,6 +170,13 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
       console.error('Create new segment handleFormSubmit error: ', error);
     }
   };
+
+  /**
+   * Check diff two array
+   * @param array1 list data before edit
+   * @param array2 list data edited
+   * @returns true if diff
+   */
   const compareArray = (array1: any[], array2: any[]) => {
     const arrayString1 = array1.map((x: any) => x.username);
     const arrayString2 = array2.map((x: any) => x.username);
@@ -160,6 +188,10 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
     });
     return isChange;
   };
+
+  /**
+   * Handle save edited data
+   */
   const onSave = () => {
     const isChangeSubscriber = compareArray(values.segment_subscribers, initialValues.segment_subscribers);
     if (values.segment_name === initialValues.segment_name && !isChangeSubscriber) {
@@ -184,6 +216,10 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
       });
     }
   };
+
+  /**
+   * Compare function to check selected option for list subscribers
+   */
   const isOptionEqualToValue = React.useCallback((option: LooseObject, value: LooseObject) => {
     return option.username === value.username;
   }, []);

@@ -37,6 +37,9 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
   const gridRef = React.useRef<TableHandle>(null);
   const { showModal, hideModal } = useGlobalModalContext();
 
+  /**
+   * Get list segment
+   */
   const getData = async () => {
     try {
       gridRef?.current?.setLoading?.(true);
@@ -55,14 +58,23 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
     }
   };
 
+  /**
+   * recall data when table changed
+   */
   const onTableChange = () => {
     getData();
   };
 
+  /**
+   * get data at first load
+   */
   React.useEffect(() => {
     getData();
   }, []);
 
+  /**
+   * Handle delete segment
+   */
   const confirmDeleteSegment = React.useCallback(async (segmentId: string) => {
     try {
       await httpRequest.delete(getSegmentUrl(segmentId));
@@ -86,7 +98,11 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
     }
   }, []);
 
-  const getActions = (data: any) => {
+  /**
+   * Get list action row segment row
+   * @returns list action
+   */
+  const getActions = () => {
     return [
       {
         label: 'lang_view_detail',
@@ -137,6 +153,9 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
     ];
   };
 
+  /**
+   * Table columns
+   */
   const columns = React.useMemo(() => {
     return [
       {
@@ -171,8 +190,11 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
     ];
   }, []);
 
-  const onRowDbClick = () => {};
-
+  /**
+   * Get row id by row data
+   * @param data row data
+   * @returns row id
+   */
   const getRowId = (data: any) => {
     return data[FIELD.SEGMENT_ID];
   };
@@ -184,7 +206,6 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
         fnKey={getRowId}
         ref={gridRef}
         onTableChange={onTableChange}
-        onRowDbClick={onRowDbClick}
         columns={columns}
         noDataText="lang_no_matching_records_found"
       />

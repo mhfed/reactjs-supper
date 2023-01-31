@@ -17,6 +17,7 @@ const urlPattern = /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-
 
 type methodString = yup.StringSchema<string | undefined, AnyObject, string | undefined>;
 
+// declare custom yup method
 declare module 'yup' {
   interface MixedSchema {}
   interface StringSchema {
@@ -29,6 +30,9 @@ declare module 'yup' {
   }
 }
 
+/**
+ * Custom required method with check trim value
+ */
 yup.addMethod(yup.string, 'checkRequired', function (message) {
   return this.test('checkRequired', message, function (value) {
     const { path, createError } = this;
@@ -40,6 +44,9 @@ yup.addMethod(yup.string, 'checkRequired', function (message) {
   });
 });
 
+/**
+ * Check email validation
+ */
 yup.addMethod(yup.string, 'checkEmail', function (message = 'lang_email_invalid') {
   return this.test('email', message, function (value) {
     const { path, createError } = this;

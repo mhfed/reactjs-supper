@@ -11,6 +11,11 @@ import { IGridConfig } from 'models/ICommon';
 import { COLUMN_TYPE } from 'components/molecules/CustomTable';
 import moment from 'moment-timezone';
 
+/**
+ * Get sort and filter state of table
+ * @param tableState table current state
+ * @returns object contain sort or filter state of table
+ */
 function getFilterObj(tableState: MUIDataTableState): IGridConfig {
   const sortObj = {
     sortField: tableState.sortOrder?.name,
@@ -22,6 +27,15 @@ function getFilterObj(tableState: MUIDataTableState): IGridConfig {
   return res;
 }
 
+/**
+ * Format data to export to csv file with correct format each column
+ * @param curColumn current table columns
+ * @param rawColumns original columns
+ * @param curData current table data
+ * @param rawData original table data
+ * @param translate translate function
+ * @returns list data formatted
+ */
 function formatDataBeforeExportCsv(curColumn: any, rawColumns: any, curData: any, rawData: any, translate: any) {
   const dicColumn = rawColumns.reduce((acc: any, cur: MUIDataTableColumn) => {
     acc[cur.name] = cur;

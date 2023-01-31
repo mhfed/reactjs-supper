@@ -1,3 +1,11 @@
+/*
+ * Created on Tue Jan 31 2023
+ *
+ * Detail notification screen with notification type is segment
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import { Grid } from '@mui/material';
 import { InputField } from 'components/fields';
