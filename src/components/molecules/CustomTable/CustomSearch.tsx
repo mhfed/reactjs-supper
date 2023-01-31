@@ -95,7 +95,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
 
   return (
     <div className={classes.container}>
-      <Grid container direction="row" justifyContent="start" alignItems="center" rowSpacing={1} sx={{ mb: { md: 1, lg: 0 } }}>
+      <Grid container direction="row" justifyContent="start" alignItems="center" rowSpacing={1}>
         <Grid item>
           {listBtn &&
             listBtn?.map(
