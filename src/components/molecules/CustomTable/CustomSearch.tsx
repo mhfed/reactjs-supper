@@ -79,9 +79,10 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
    * @param e input change event
    */
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const searchVal = e.target.value.trim();
     timeoutId.current && window.clearTimeout(timeoutId.current);
     timeoutId.current = window.setTimeout(() => {
-      handleSearch(e.target.value);
+      if ((searchVal && searchVal.length >= 2) || e.target.value === '') handleSearch(searchVal);
     }, process.env.REACT_APP_DEBOUNCE_TIME);
   };
 
