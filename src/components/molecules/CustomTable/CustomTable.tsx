@@ -171,6 +171,9 @@ const useStyles = (props: TableProps) =>
         padding: theme.spacing(0.5, 1),
       },
     },
+    thCustomLabel: {
+      marginLeft: theme.spacing(3),
+    },
   }));
 
 /**
@@ -246,17 +249,20 @@ function convertColumn({
       // if have apply all option at header
       if (column.dataOptionsHeader) {
         res.options.customHeadLabelRender = (columnMeta) => {
-          if (isEditMode) {
-            return (
-              <DropdownHeaderCell
-                id={editId + ''}
-                label={columnMeta.label}
-                options={column.dataOptionsHeader!}
-                onChange={(v) => onChangeAll?.(data, columnMeta.name, v)}
-              />
-            );
-          }
-          return <Trans>{columnMeta.label}</Trans>;
+          return (
+            <div className={classes.thCustomLabel}>
+              {isEditMode ? (
+                <DropdownHeaderCell
+                  id={editId + ''}
+                  label={columnMeta.label}
+                  options={column.dataOptionsHeader!}
+                  onChange={(v) => onChangeAll?.(data, columnMeta.name, v)}
+                />
+              ) : (
+                <Trans>{columnMeta.label}</Trans>
+              )}
+            </div>
+          );
         };
       }
       break;
