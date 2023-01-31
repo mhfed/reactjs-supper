@@ -10,10 +10,10 @@ import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import { enqueueSnackbarAction, setLoading, showExpiredPopup } from 'actions/app.action';
 import { clearStorage } from 'helpers';
 
-export type IConfig = AxiosRequestConfig & {
+export interface IConfig extends AxiosRequestConfig {
   showSpinner?: boolean;
   tokenApp?: string | null;
-};
+}
 
 type IError = {
   response: {
@@ -56,7 +56,7 @@ export default function initRequest(store: any) {
 
   // Handle axios request
   axiosInstance.interceptors.request.use(
-    (config: any) => {
+    (config: IConfig) => {
       // // cancel token
       // if (cancel) {
       //   cancel(); // cancel request
