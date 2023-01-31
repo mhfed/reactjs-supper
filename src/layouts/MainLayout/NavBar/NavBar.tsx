@@ -33,10 +33,20 @@ function NavBar({ isDrawer }: IProps) {
   const classes = useStyles();
   const location = useLocation();
 
+  /**
+   * Render list menu item
+   * @param param0 list item data, parent path name, group level
+   * @returns HTML
+   */
   const renderNavItems = ({ items, pathname, depth }: IChildNavBar) => {
     return <List disablePadding>{items?.reduce((acc, curr) => renderChildRoutes({ acc, curr, pathname, depth }), [])}</List>;
   };
 
+  /**
+   * Return list navigation item
+   * @param param0 list data return, current item, path name, level
+   * @returns array of list item html
+   */
   const renderChildRoutes = ({ acc, curr, pathname, depth = 0 }: IChildRoutes) => {
     const key = curr.title + depth;
     const active = pathname.includes(curr.href);

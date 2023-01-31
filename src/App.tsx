@@ -36,6 +36,11 @@ function App() {
   const type = modeTheme === THEMES.LIGHT ? 0 : 1;
   const dispatch = useDispatch();
 
+  /**
+   * Set default timezone australia
+   * Check network connect
+   * Handle tooltip
+   */
   useEffect(() => {
     moment.tz.setDefault('Australia/Sydney');
     window.addEventListener('online', () => {
@@ -137,6 +142,7 @@ function App() {
     };
   }, []);
 
+  // Handle change language
   useEffect(() => {
     i18n.changeLanguage(language);
   }, [language, i18n]);

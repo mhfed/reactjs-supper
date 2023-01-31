@@ -45,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type AuthAutocompleteFieldProps = {
-  id?: string;
   label?: string;
   name?: string;
   error?: boolean;
@@ -68,9 +67,9 @@ const AuthAutocompleteField: React.FC<AuthAutocompleteFieldProps> = ({
   helperText,
   value,
   error,
+  name,
   onBlur,
   options: initialData,
-  id,
   onChange,
   getOptionLabel,
   getChipLabel,
@@ -233,7 +232,7 @@ const AuthAutocompleteField: React.FC<AuthAutocompleteFieldProps> = ({
         multiple
         disableClearable
         disabled={!iressToken}
-        id={id}
+        id={name}
         value={value}
         defaultValue={[]}
         onChange={handleChange}
@@ -251,7 +250,7 @@ const AuthAutocompleteField: React.FC<AuthAutocompleteFieldProps> = ({
                   {...getTagProps({ index })}
                   color="secondary"
                   title={_getOptionLabel(option)}
-                  key={`autocomplete_chip_${id}_${index}`}
+                  key={`autocomplete_chip_${name}_${index}`}
                 />
               ))}
           </Box>

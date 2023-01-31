@@ -27,6 +27,7 @@ const NavBarItem: FC<INavBarItem> = ({ active, depth, icon: Icon, title, open: o
 
   const style = { paddingLeft };
 
+  // return menu parent with children
   if (children) {
     return (
       <NavBarExpandItem active={active} title={t(title)} icon={Icon} open={openProp} style={style}>
@@ -35,6 +36,7 @@ const NavBarItem: FC<INavBarItem> = ({ active, depth, icon: Icon, title, open: o
     );
   }
 
+  // render normal menu item
   return (
     <ListItem className={clsx(classes.itemLeaf)} disableGutters key={title}>
       <Button

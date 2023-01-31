@@ -60,6 +60,9 @@ yup.addMethod(yup.string, 'checkEmail', function (message = 'lang_email_invalid'
   });
 });
 
+/**
+ * Check valid date
+ */
 yup.addMethod(yup.string, 'checkValidField', function (message = 'lang_date_of_birth_invalid') {
   return this.test('checkValidField', '', function (value) {
     const { path, createError } = this;
@@ -73,6 +76,9 @@ yup.addMethod(yup.string, 'checkValidField', function (message = 'lang_date_of_b
   });
 });
 
+/**
+ * Check valid url
+ */
 yup.addMethod(yup.string, 'checkValidUrl', function (message = 'lang_invalid_url') {
   return this.test('checkValidUrl', '', function (value: string) {
     const { path, createError } = this;
@@ -84,6 +90,9 @@ yup.addMethod(yup.string, 'checkValidUrl', function (message = 'lang_invalid_url
   });
 });
 
+/**
+ * Check expire date
+ */
 yup.addMethod(yup.string, 'compareTimesLocal', function (message = 'lang_expire_date_require') {
   return this.test('compareTimesLocal', '', function (value) {
     const { path, createError } = this;
@@ -95,6 +104,9 @@ yup.addMethod(yup.string, 'compareTimesLocal', function (message = 'lang_expire_
   });
 });
 
+/**
+ * Check file size and file type
+ */
 yup.addMethod(yup.mixed, 'checkFile', function (message = '', maxSize = 10000000, accept = '.jpeg, .jpg, .png, .heic') {
   return this.test('checkFile', '', function (value) {
     const { path, createError } = this;
@@ -112,6 +124,9 @@ yup.addMethod(yup.mixed, 'checkFile', function (message = '', maxSize = 10000000
   });
 });
 
+/**
+ * Check time expire
+ */
 yup.addMethod(yup.string, 'compareTimes', function (message = 'lang_expire_date_require') {
   return this.test('compareTimes', '', function (value, context) {
     const { path, createError } = this;

@@ -16,6 +16,9 @@ import { useGlobalContext } from 'context/GlobalContext';
 function DarkMode() {
   const { modeTheme, setModeTheme } = useGlobalContext();
 
+  /**
+   * handle theme change
+   */
   const _handleChangeTheme = () => {
     const type = modeTheme === THEMES.LIGHT ? THEMES.DARK : THEMES.LIGHT;
     setModeTheme(type);

@@ -27,6 +27,9 @@ import { clearStorage } from 'helpers';
 class AuthService {
   intervalId = 0;
 
+  /**
+   * Handle renew token request
+   */
   autoRenewToken = () => {
     this.intervalId && clearInterval(this.intervalId);
     this.intervalId = window.setInterval(() => {
@@ -49,6 +52,10 @@ class AuthService {
     }, process.env.REACT_APP_REFRESH_TOKEN_TIME);
   };
 
+  /**
+   * Get user detail, user group and save to redux store
+   * @param email user login email
+   */
   getUserDetail = async (email: string) => {
     try {
       const userDetailResponse: any = await httpRequest.get(getUserDetailByEmailUrl(email));
@@ -60,6 +67,11 @@ class AuthService {
     }
   };
 
+  /**
+   * Handle login with email and password
+   * @param email user login email
+   * @param password user login password
+   */
   loginWithEmailAndPassword = async (email: string, password: string) => {
     try {
       const sessionId = +new Date();
@@ -83,6 +95,10 @@ class AuthService {
     }
   };
 
+  /**
+   * Handle verify user pin request
+   * @param pin user pin
+   */
   verifyPin = async (pin: string) => {
     try {
       const refreshToken = store.getState().auth.refreshToken || '';
@@ -113,6 +129,10 @@ class AuthService {
     }
   };
 
+  /**
+   * Handle set pin at first time login
+   * @param pin user pin
+   */
   setPinFirstTime = async (pin: string) => {
     try {
       const accessTokenLogin = store.getState().auth.accessToken || '';
@@ -144,6 +164,11 @@ class AuthService {
     }
   };
 
+  /**
+   * Set pin after be force change password
+   * @param pin user pin
+   * @param password user login password
+   */
   forceSetPin = async (pin: string, password: string) => {
     try {
       const email = store.getState().auth.email || '';
@@ -183,15 +208,21 @@ class AuthService {
     }
   };
 
+  /**
+   * Handle logout
+   */
   logOut = () => {
     httpRequest.post(getLogoutUrl());
     clearStorage();
   };
 
+  // get access token from store
   getAccessToken = () => store.getState().auth.accessToken;
 
+  // check logined
   isAuthenticated = () => !!this.getAccessToken();
 
+  // check iress session expired
   checkIressSessionLogout = (errorCode: number) => {
     return [100000, 100003].includes(errorCode);
   };

@@ -28,6 +28,9 @@ function NavBarExpandItem({ active, title, icon: Icon, open = false, children, s
   const classes = useStyles();
   const [isExpand, setIsExpand] = useState(open);
 
+  /**
+   * Handle expand, collapse menu group
+   */
   const handleToggle = () => {
     setIsExpand((prevOpen: boolean) => !prevOpen);
   };

@@ -209,6 +209,9 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
    */
   function handleBlur() {
     onBlur?.();
+    const rawContent = convertToRaw(editorState.getCurrentContent());
+    const strValue = draftToHtml(rawContent);
+    if (strValue.includes('<img')) return;
     const isEmpty = convertToRaw(editorState.getCurrentContent()).blocks.every((b) => b.text.trim() === '');
     if (isEmpty) {
       reset();

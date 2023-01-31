@@ -15,7 +15,7 @@ import { Formik, FormikProps } from 'formik';
 import { useGlobalModalContext } from 'containers/Modal';
 import HeaderModal from 'components/atoms/HeaderModal';
 import { initialValuesType } from '../../CreateNewNotification/CreateNewNotification';
-import { DELIVERY_TYPE, NOTIFICATION_TYPE } from '../../CreateNewNotification/NotificationConstant';
+import { DELIVERY_TYPE, NOTIFICATION_STATUS, NOTIFICATION_TYPE } from '../../CreateNewNotification/NotificationConstant';
 import FormDirectNotification from './FormDirectNotification';
 import FormSegmentNotification from './FormSegmentNotification';
 import FormSiteNameNotification from './FormSiteNameNotification';
@@ -108,7 +108,7 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
   const submitButton = (form: FormikProps<initialValuesType>) => {
     return (
       <Stack direction="row" justifyContent="end" alignItems="center" spacing={3} className={classes.buttonWrapper}>
-        {form.values.delivery_type === DELIVERY_TYPE.Instant ? null : (
+        {form.values.delivery_type === DELIVERY_TYPE.Instant || dataForm?.status === NOTIFICATION_STATUS.TRIGGERED ? null : (
           <Button variant="contained" startIcon={<EditIcon />} network onClick={onEdit}>
             <Trans>lang_edit</Trans>
           </Button>
