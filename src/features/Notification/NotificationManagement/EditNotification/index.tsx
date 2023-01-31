@@ -79,6 +79,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * Compare function to check selected subscriber at multiple select
+ * @param option option data
+ * @param value selected data
+ * @returns true if selected
+ */
 export const isOptionEqualToValue = (option: LooseObject, value: LooseObject) => {
   return option.username === value.username;
 };
@@ -100,6 +106,9 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
     initialValues.schedule = initialValues.schedule_time as any;
   }
 
+  /**
+   * Check diff and show popup confirm close modal
+   */
   const handleClose = () => {
     const { values } = formRef?.current;
     if (diff(values, initialValues))
@@ -116,25 +125,18 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
       });
     hideModal();
   };
-  const renderHeader = () => {
-    return (
-      <Box className={classes.header}>
-        <Typography className={classes.title} variant="h6">
-          <Trans>{'lang_edit_notification'}</Trans>
-        </Typography>
-        <CloseIcon className={classes.iconClose} onClick={handleClose} />
-      </Box>
-    );
-  };
 
-  const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
+  /**
+   * Handle submit form
+   * @param values form data
+   */
+  const submitForm = (values: initialValuesType) => {
     let urlSendNoti = '';
     let bodySendNoti = {};
     if (!diff(values, initialValues)) {
       dispatch(
         enqueueSnackbarAction({
           message: 'Lang_there_is_no_change_in_the_notification',
-          // message: 'lang_there_is_nothing_to_change',
           key: new Date().getTime() + Math.random(),
           variant: 'warning',
         }),
@@ -213,6 +215,10 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
     }
   };
 
+  /**
+   * Back to detail preview mode
+   * @param dataForm form data
+   */
   const onBack = (dataForm?: any) => {
     showModal({
       component: DetailNotification,
@@ -225,6 +231,10 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
     });
   };
 
+  /**
+   * Close modal at edit page or back to detail view only when user cancel
+   * @param form formik form
+   */
   const onCancel = (form: FormikProps<initialValuesType>) => {
     const { values } = form;
     if (diff(values, initialValues))
@@ -253,13 +263,17 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
     return <FormCreateNotifiaction classes={classes} form={form} />;
   };
 
+  /**
+   * render footer buttons
+   * @param form formik form
+   * @returns HTML
+   */
   const submitButton = (form: FormikProps<initialValuesType>) => {
     return (
       <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
         <Button variant="outlined" onClick={() => onCancel(form)}>
           <Trans>{props.typePage === 'EDIT' ? 'lang_cancel' : 'lang_back'}</Trans>
         </Button>
-
         <Button variant="contained" type="submit">
           <Trans>lang_save</Trans>
         </Button>
@@ -269,7 +283,12 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
 
   return (
     <React.Fragment>
-      {renderHeader()}
+      <Box className={classes.header}>
+        <Typography className={classes.title} variant="h6">
+          <Trans>{'lang_edit_notification'}</Trans>
+        </Typography>
+        <CloseIcon className={classes.iconClose} onClick={handleClose} />
+      </Box>
       <Paper className={classes.wrapper}>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={submitForm}>
           {(form: FormikProps<initialValuesType>) => {

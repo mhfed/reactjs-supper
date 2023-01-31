@@ -1,3 +1,11 @@
+/*
+ * Created on Tue Jan 31 2023
+ *
+ * Functions use common
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import { IArticlesDataManagement, IArticlesFormData } from 'models/IArticles';
 import { IFileUpload } from 'models/ICommon';
 import { SITENAME } from 'features/Articles/ArticlesConstants';

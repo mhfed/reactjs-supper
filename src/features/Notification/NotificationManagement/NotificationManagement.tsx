@@ -39,6 +39,9 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
   const gridRef = React.useRef<TableHandle>(null);
   const { showModal, hideModal } = useGlobalModalContext();
 
+  /**
+   * Get list notification
+   */
   const getData = async () => {
     try {
       gridRef?.current?.setLoading?.(true);
@@ -57,14 +60,23 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     }
   };
 
+  /**
+   * recall data when table changed
+   */
   const onTableChange = () => {
     getData();
   };
 
+  /**
+   * get data at first load
+   */
   React.useEffect(() => {
     getData();
   }, []);
 
+  /**
+   * Handle delete notification
+   */
   const confirmDeleteNotification = React.useCallback(async (notificationId: string) => {
     try {
       await httpRequest.delete(getNotificationUrl(notificationId));
@@ -88,6 +100,10 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     }
   }, []);
 
+  /**
+   * Get action row by row data
+   * @param data row data
+   */
   const getActions = (data: any) => {
     const actions = [];
     actions.push({
@@ -140,6 +156,9 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     return actions;
   };
 
+  /**
+   * table column
+   */
   const columns = React.useMemo(() => {
     return [
       // {
@@ -220,22 +239,18 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     ];
   }, []);
 
-  const onRowDbClick = () => {};
-
+  /**
+   * get row id by row data
+   * @param data row data
+   * @returns row id
+   */
   const getRowId = (data: any) => {
     return data[FIELD.NOTIFICATION_ID];
   };
 
   return (
     <div className={classes.container}>
-      <CustomTable
-        name="notification"
-        fnKey={getRowId}
-        ref={gridRef}
-        onTableChange={onTableChange}
-        onRowDbClick={onRowDbClick}
-        columns={columns}
-      />
+      <CustomTable name="notification" fnKey={getRowId} ref={gridRef} onTableChange={onTableChange} columns={columns} />
     </div>
   );
 };

@@ -19,10 +19,11 @@ const AuthGuard: FC<AuthGuardProps> = ({ children }) => {
   const isAuth = authService.getAccessToken();
   const isStaySignedIn = window.localStorage.getItem('isStaySignedIn') === 'true';
 
+  // if not login or not auto login navigate to login page
   if (!isAuth && !isStaySignedIn) {
     return <Navigate to={PATH_NAME.LOGIN} />;
   }
-
+  // else show router
   return <>{children}</>;
 };
 

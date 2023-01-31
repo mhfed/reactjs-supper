@@ -58,11 +58,17 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
   const dispatch = useDispatch();
   const [stateForm, setStateForm] = React.useState(STATE_FORM.CREATE);
 
+  /**
+   * Switch to preview mode
+   * @param values form data
+   */
   const handleShowPreSubmit = async (values: any) => {
     setStateForm(STATE_FORM.PREVIEW);
   };
 
-  // Handle Submit Form
+  /**
+   * Handle submit create new user
+   */
   const handleFormSubmit = async () => {
     try {
       const body = {
@@ -105,15 +111,19 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
     onSubmit: handleShowPreSubmit,
   });
 
+  /**
+   * Handle reset form data
+   */
   const handleClearData = () => {
     resetForm();
   };
 
+  /**
+   * Back to create mode
+   */
   const handleReturn = () => {
     setStateForm(STATE_FORM.CREATE);
   };
-
-  React.useEffect(() => {}, []);
 
   const renderContent = (stateForm: string) => {
     switch (stateForm) {

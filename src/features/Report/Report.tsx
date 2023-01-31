@@ -42,12 +42,18 @@ const Report: React.FC<ReportProps> = () => {
   const sitename = useSelector(iressSitenameSelector);
   const { showSubModal, hideSubModal } = useGlobalModalContext();
 
+  /**
+   * Get list report byb default or with iress auth
+   * @param token iress token
+   * @param sn sitename
+   */
   const getData = async (token?: string, sn?: string) => {
     try {
       gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
 
       const headerConfig: { headers?: LooseObject } = {};
+      // if have iress auth data get report by iress
       if (token && sn) {
         config.page = 1;
         headerConfig.headers = {
@@ -95,6 +101,9 @@ const Report: React.FC<ReportProps> = () => {
     }
   };
 
+  /**
+   * Handle fetch report or show iress login popup when not login yet
+   */
   const handleFetch = () => {
     if (iressToken) {
       getData(iressToken, sitename + '');
@@ -111,10 +120,14 @@ const Report: React.FC<ReportProps> = () => {
     }
   };
 
+  /**
+   * recall data when table change
+   */
   const onTableChange = () => {
     getData();
   };
 
+  // table columns
   const columns = React.useMemo(() => {
     return [
       {
@@ -152,12 +165,18 @@ const Report: React.FC<ReportProps> = () => {
     ];
   }, []);
 
-  const onRowDbClick = () => {};
-
+  /**
+   * Get row id by row data
+   * @param data row data
+   * @returns row id
+   */
   const getRowId = (data: any) => {
     return data[FIELD.TEMPLATE_ID];
   };
 
+  /**
+   * Handle show edit report modal
+   */
   const confirmEditReport = React.useCallback(async (data: any, callback: () => void) => {
     try {
       await httpRequest.put(getReportUrl(), data);
@@ -180,6 +199,11 @@ const Report: React.FC<ReportProps> = () => {
     }
   }, []);
 
+  /**
+   * Handle save edited reports
+   * @param dicDataChanged list row changed
+   * @param cb success callback when save success
+   */
   const onSaveReport = (dicDataChanged: LooseObject, cb: any) => {
     const data = Object.keys(dicDataChanged).map((k) => ({
       ...dicDataChanged[k],
@@ -189,6 +213,9 @@ const Report: React.FC<ReportProps> = () => {
     confirmEditReport(data, cb);
   };
 
+  /**
+   * Handle iress signout
+   */
   const handleSignOut = () => {
     showSubModal({
       title: 'lang_confirm',
@@ -224,6 +251,9 @@ const Report: React.FC<ReportProps> = () => {
     },
   ];
 
+  /**
+   * Get data at first load
+   */
   React.useEffect(() => {
     getData();
   }, []);
@@ -238,7 +268,6 @@ const Report: React.FC<ReportProps> = () => {
         ref={gridRef}
         noChangeKey="lang_there_is_no_change_in_the_report_information"
         onSave={onSaveReport}
-        onRowDbClick={onRowDbClick}
         onTableChange={onTableChange}
         columns={columns}
         noDataText="lang_no_data"

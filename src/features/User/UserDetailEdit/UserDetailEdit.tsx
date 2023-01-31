@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 
 type UserDetailProps = {};
 
+// format date to display on ui
 const formatDate = (valueFormat: number | string) => {
   if (!valueFormat) return '--';
   return moment(valueFormat).format('DD/MM/YYYY HH:mm:ss');
@@ -70,7 +71,9 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
     note: dataForm.note || '',
   };
 
-  // Handle show modal confirm
+  /**
+   * Check data change and show popup confirm
+   */
   const handleBeforeSubmit = () => {
     const isChanged = diff(initialValues, values);
     if (!isChanged) {
@@ -96,7 +99,9 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
     }
   };
 
-  // Handle Submit Form
+  /**
+   * Handle submit update user
+   */
   const handleFormSubmit = async () => {
     try {
       const body = {
@@ -137,9 +142,17 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
     onSubmit: handleBeforeSubmit,
   });
 
+  /**
+   * turn on edit mode
+   */
   const handleTurnOnEditMode = () => {
     setEditMode(true);
   };
+
+  /**
+   * Check diff and show modal confirm close and handle close all modal
+   * @param closeModal true if want to close modal
+   */
   const handleBackOrClose = (closeModal?: boolean) => {
     const isChanged = diff(initialValues, values);
     if (isChanged) {
@@ -160,10 +173,13 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
         },
       });
     } else {
-      hideSubModal();
       hideModal();
     }
   };
+
+  /**
+   * Handle close modal button x
+   */
   const handleClose = () => {
     handleBackOrClose(true);
   };

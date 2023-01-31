@@ -38,6 +38,9 @@ const UserManagement: React.FC<UserManagementProps> = () => {
   const { showModal, hideModal } = useGlobalModalContext();
   const dicUser = React.useRef<any>({});
 
+  /**
+   * Get list user
+   */
   const getData = async () => {
     try {
       gridRef?.current?.setLoading?.(true);
@@ -60,14 +63,23 @@ const UserManagement: React.FC<UserManagementProps> = () => {
     }
   };
 
+  /**
+   * Recall data when table changed
+   */
   const onTableChange = () => {
     getData();
   };
 
+  /**
+   * Get data at first load
+   */
   React.useEffect(() => {
     getData();
   }, []);
 
+  /**
+   * Handle show popup confirm fort user must to change password
+   */
   const confirmForceChangePassword = React.useCallback(async (userId: string, isChangingPassword: boolean | number) => {
     try {
       await httpRequest.put(getUserDetailByIdUrl(userId), {
@@ -92,6 +104,9 @@ const UserManagement: React.FC<UserManagementProps> = () => {
     }
   }, []);
 
+  /**
+   * Handle delete user
+   */
   const confirmDeleteUser = React.useCallback(async (userId: string) => {
     try {
       await httpRequest.delete(getUserDetailUrl(userId));
@@ -114,6 +129,9 @@ const UserManagement: React.FC<UserManagementProps> = () => {
     }
   }, []);
 
+  /**
+   * Get list row actions
+   */
   const actions = React.useMemo(() => {
     return [
       {
@@ -161,6 +179,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
     ];
   }, []);
 
+  // table columns
   const columns = React.useMemo(() => {
     return [
       {
@@ -217,12 +236,18 @@ const UserManagement: React.FC<UserManagementProps> = () => {
     ];
   }, []);
 
-  const onRowDbClick = () => {};
-
+  /**
+   * Get row id by row data
+   * @param data row data
+   * @returns row id
+   */
   const getRowId = (data: any) => {
     return data[FIELD.USER_ID];
   };
 
+  /**
+   * Handle update user
+   */
   const confirmEditUser = React.useCallback(async (data: any, callback: () => void) => {
     try {
       const bodyData = data?.map((e: LooseObject) => {
@@ -279,7 +304,6 @@ const UserManagement: React.FC<UserManagementProps> = () => {
         ref={gridRef}
         onSave={onSaveUser}
         onTableChange={onTableChange}
-        onRowDbClick={onRowDbClick}
         columns={columns}
         defaultSort={{ [FIELD.CREATE_TIME]: 'desc' }}
         noChangeKey="lang_there_is_no_change_in_the_user_information"

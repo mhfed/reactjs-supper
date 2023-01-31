@@ -1,3 +1,11 @@
+/*
+ * Created on Tue Jan 31 2023
+ *
+ * Detail notification screen with notification type is sitename
+ *
+ * Copyright (c) 2023 - Novus Fintech
+ */
+
 import React from 'react';
 import { Grid } from '@mui/material';
 import { InputField, AutocompleteField } from 'components/fields';
