@@ -210,7 +210,7 @@ const FileField: React.FC<AttachmentFieldProps> = (props) => {
           {file.url ? (
             <Box className={clsx(classes.previewFile, preview && classes.isPreview)}>
               <Typography sx={{ overflow: 'hidden', textOverflow: 'ellipsis', width: '100%', pl: 0.5 }}>
-                {file.url || file.name || ''}
+                {file.name || file.url || ''}
               </Typography>
               {preview ? (
                 <></>
