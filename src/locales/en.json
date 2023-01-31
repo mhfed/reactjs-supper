@@ -1,4 +1,5 @@
 {
+  "ALL_SITES": "ALL SITES",
   "lang_preview_new_article": "Preview New Article",
   "lang_ok": "Ok",
   "lang_there_is_no_change_in_the_report_information": "There is no change in the report information",
@@ -14,8 +15,8 @@
   "Lang_there_is_no_change_in_the_notification": "There is no change in the notification",
   "lang_invalid_url": "Invalid URL",
   "lang_must_have_at_least_one_security_code": "Must have at least 1 security code",
-  "lang_update_articles_successfully": "Create articles successfully",
-  "lang_update_articles_unsuccessfully": "Create articles unsuccessfully",
+  "lang_update_articles_successfully": "Update articles successfully",
+  "lang_update_articles_unsuccessfully": "Update articles unsuccessfully",
   "lang_create_articles_successfully": "Create articles successfully",
   "lang_create_articles_unsuccessfully": "Create articles unsuccessfully",
   "lang_please_select_security_code": "Please select security code",

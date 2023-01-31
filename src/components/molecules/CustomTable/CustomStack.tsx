@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
   collapseBtn: {
     justifyContent: 'flex-start',
     border: 'none',
+    '& .MuiChip-label': {
+      paddingLeft: 0,
+    },
   },
 }));
 
@@ -45,7 +48,9 @@ const CustomChip: React.FC<CustomStackProps> = ({ data = [] }) => {
   return (
     <Stack direction="column">
       {displayData.map((e: string) => (
-        <Typography key={e}>{e}</Typography>
+        <Typography key={e}>
+          <Trans>{e}</Trans>
+        </Typography>
       ))}
       {isLargeData && (
         <Chip

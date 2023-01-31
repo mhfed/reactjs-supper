@@ -182,6 +182,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
         name: FIELD.URL,
         label: 'lang_url',
         type: COLUMN_TYPE.LINK,
+        sort: false,
       },
       {
         name: FIELD.CREATED_TIME,

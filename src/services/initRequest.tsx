@@ -56,7 +56,7 @@ export default function initRequest(store: any) {
 
   // Handle axios request
   axiosInstance.interceptors.request.use(
-    (config: IConfig) => {
+    (config: any) => {
       // // cancel token
       // if (cancel) {
       //   cancel(); // cancel request

@@ -195,6 +195,8 @@ const AuthAutocompleteField: React.FC<AuthAutocompleteFieldProps> = ({
         props: {
           title: 'lang_confirm_logout',
           emailConfirm: false,
+          cancelText: 'lang_no',
+          confirmText: 'lang_yes',
           onSubmit: () => {
             dispatch(iressLogout());
             hideSubModal();
