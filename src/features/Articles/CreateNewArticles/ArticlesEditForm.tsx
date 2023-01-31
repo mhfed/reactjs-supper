@@ -122,7 +122,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
   /**
    * Handle cancel edit, show confirm if user changed data
    */
-  const handleCancel = () => {
+  const handleCancel = (cb?: Function) => {
     const isDiff = checkDiffArticlesEdit(initValues, values);
     if (isDiff) {
       showSubModal({
@@ -139,6 +139,8 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
           },
         },
       });
+    } else if (cb) {
+      cb();
     } else if (editFirst) {
       hideModal();
     } else {
@@ -154,7 +156,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
 
   return (
     <>
-      <HeaderModal title="lang_edit_articles" onClose={handleCancel} />
+      <HeaderModal title="lang_edit_articles" onClose={() => handleCancel()} />
       <Paper className={classes.container}>
         <form noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
@@ -274,7 +276,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
               />
             </Grid>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end', pb: 3 }}>
-              <Button variant="outlined" onClick={handleCancel}>
+              <Button variant="outlined" onClick={() => handleCancel()}>
                 <Trans>lang_cancel</Trans>
               </Button>
               <Button type="submit" variant="contained" sx={{ ml: 2 }} network scrollToTop>

@@ -7,7 +7,7 @@
  */
 
 import React, { FC } from 'react';
-import { NavLink as RouterLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import Button from '@mui/material/Button';
 import ListItem from '@mui/material/ListItem';
@@ -19,6 +19,7 @@ import { Trans, useTranslation } from 'react-i18next';
 const NavBarItem: FC<INavBarItem> = ({ active, depth, icon: Icon, title, open: openProp, href, children }) => {
   const classes = useStyles();
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   let paddingLeft = 24;
   if (depth > 0) {
@@ -36,14 +37,25 @@ const NavBarItem: FC<INavBarItem> = ({ active, depth, icon: Icon, title, open: o
     );
   }
 
+  const onMenuClick = () => {
+    if (window.confirmEdit) {
+      window.confirmEdit(() => {
+        navigate(href);
+      });
+    } else {
+      navigate(href);
+    }
+  };
+
   // render normal menu item
   return (
     <ListItem className={clsx(classes.itemLeaf)} disableGutters key={title}>
       <Button
         className={clsx(classes.buttonLeaf, `depth-${depth}`, active && classes.navBarItemActive)}
-        component={RouterLink}
+        // component={RouterLink}
+        onClick={onMenuClick}
         style={style}
-        to={href}
+        // to={href}
       >
         {Icon && <Icon className={classes.icon} size="20" />}
         <span className={classes.title}>

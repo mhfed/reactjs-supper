@@ -434,6 +434,7 @@ type TableHandle = {
   setData: (data?: ResponseDataPaging) => void;
   getQuery: any;
   getConfig: any;
+  checkChange: () => boolean;
 };
 type TypeButtonHeader = {
   label: string;
@@ -602,6 +603,14 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
   };
 
   /**
+   * Check table change data at edit mode
+   * @returns true if has changed
+   */
+  const checkChange = () => {
+    return !!Object.keys(tempDataByKey.current).length;
+  };
+
+  /**
    * Regis some function to use from parent component
    */
   React.useImperativeHandle(
@@ -612,6 +621,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
       setLoading: setLoading,
       getConfig: getConfig,
       getQuery: getQuery,
+      checkChange: checkChange,
     }),
     [],
   );

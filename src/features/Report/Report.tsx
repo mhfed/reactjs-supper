@@ -256,6 +256,30 @@ const Report: React.FC<ReportProps> = () => {
    */
   React.useEffect(() => {
     getData();
+    window.confirmEdit = (cb: () => void) => {
+      const hasChanged = gridRef?.current?.checkChange?.();
+      if (hasChanged) {
+        showSubModal({
+          title: 'lang_confirm_cancel',
+          component: ConfirmEditModal,
+          props: {
+            title: 'lang_confirm_cancel_text',
+            cancelText: 'lang_no',
+            confirmText: 'lang_yes',
+            emailConfirm: false,
+            onSubmit: () => {
+              hideSubModal();
+              cb?.();
+            },
+          },
+        });
+      } else {
+        cb?.();
+      }
+    };
+    return () => {
+      window.confirmEdit = null;
+    };
   }, []);
 
   return (
