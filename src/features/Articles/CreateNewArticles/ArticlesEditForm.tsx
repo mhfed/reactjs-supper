@@ -304,8 +304,8 @@ const initialValues = {
 };
 
 const validationSchema = yup.object().shape({
-  subject: yup.string().required('lang_please_enter_title'),
-  content: yup.string().required('lang_please_enter_content'),
+  subject: yup.string().trim().required('lang_please_enter_title'),
+  content: yup.string().trim().required('lang_please_enter_content'),
   image: yup.mixed().checkFile('lang_please_choose_image'),
   file: yup.mixed().checkFile('', 10000000, '.pdf'),
   site_name: yup.string().required('lang_please_enter_sitename'),
