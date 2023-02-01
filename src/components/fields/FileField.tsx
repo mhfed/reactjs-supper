@@ -40,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '8px',
     borderColor: theme.palette.background.attachmentBorder,
     background: theme.palette.background.attachment,
+    '&:hover': {
+      borderColor: theme.palette.hover.main,
+    },
   },
   errorContainer: {
     borderColor: theme.palette.error.main,
