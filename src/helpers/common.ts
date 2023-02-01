@@ -16,6 +16,10 @@ export const clearStorage = () => {
   window.localStorage.setItem('lastTheme', lastTheme + '');
 };
 
+const checkSiteName = (data?: string[]) => {
+  return data?.length === 1 && data[0] === SITENAME.ALL_SITES;
+};
+
 export const convertArticlesDataToDetailForm = (data: IArticlesDataManagement) => {
   return {
     article_id: data.article_id,
@@ -29,8 +33,9 @@ export const convertArticlesDataToDetailForm = (data: IArticlesDataManagement) =
     },
     securities: data?.securities?.map((e: string) => ({ securities: e })),
     security_type: data.security_type,
-    site_name: typeof data.site_name === 'string' ? data.site_name : SITENAME.CUSTOM,
-    sitename_custom: data.site_name?.length ? data.site_name.map((e: string) => ({ site_name: e })) : [],
+    site_name: typeof data.site_name === 'string' || checkSiteName(data.site_name) ? data.site_name : SITENAME.CUSTOM,
+    sitename_custom:
+      data.site_name?.length && !checkSiteName(data.site_name) ? data.site_name.map((e: string) => ({ site_name: e })) : [],
     subject: data.subject,
   };
 };
