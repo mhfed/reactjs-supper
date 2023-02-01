@@ -35,7 +35,6 @@ import httpRequest from 'services/httpRequest';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { isBlobFile } from 'helpers';
-import { diff } from 'deep-diff';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -70,7 +69,8 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
    * @param values Form value
    */
   const handleFormSubmit = async (values: LooseObject) => {
-    if (!diff(values, initValues)) {
+    const isDiff = checkDiffArticlesEdit(initValues, values);
+    if (!isDiff) {
       dispatch(
         enqueueSnackbarAction({
           message: 'lang_there_is_no_change_in_the_article_information',
@@ -78,7 +78,6 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
           variant: 'warning',
         }),
       );
-      hideModal();
     } else {
       try {
         const body: ICreateArticlesBody = {
