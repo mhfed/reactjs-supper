@@ -80,5 +80,5 @@ export const hideTooltip = () => {
 };
 
 export const isBlobFile = (file: IFileUpload) => {
-  return file?.name?.includes('blob:http');
+  return file?.url?.includes('blob:http');
 };

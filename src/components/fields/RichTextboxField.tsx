@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.text.primary,
     },
     '& .rdw-editor-main': {
+      maxHeight: 800,
       padding: theme.spacing(0, 1),
       color: theme.palette.text.primary,
     },
@@ -286,9 +287,6 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
         <Box className={clsx(classes.container, error && classes.errorContainer)}>
           <Editor
             editorState={editorState}
-            toolbarClassName="toolbarClassName"
-            wrapperClassName="wrapperClassName"
-            editorClassName="editorClassName"
             onEditorStateChange={handleChange}
             handleKeyCommand={(command) => {
               const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -308,6 +306,9 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
                 options: ['bold', 'italic'],
                 bold: { icon: listIcon['bold'] },
                 italic: { icon: listIcon['italic'] },
+              },
+              blockType: {
+                className: 'yolo',
               },
               list: {
                 inDropdown: false,
