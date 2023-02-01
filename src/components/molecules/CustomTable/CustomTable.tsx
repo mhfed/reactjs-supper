@@ -54,6 +54,9 @@ const useStyles = (props: TableProps) =>
         '& > div:last-child': {
           flex: 'initial',
         },
+        '& .MuiInputBase-root': {
+          background: 'transparent',
+        },
       },
       '& > div:first-child': {
         borderRadius: 8,
