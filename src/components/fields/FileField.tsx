@@ -19,6 +19,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import { Trans } from 'react-i18next';
 import clsx from 'clsx';
 import { IFileUpload } from 'models/ICommon';
+import { isBlobFile } from 'helpers';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -213,7 +214,7 @@ const FileField: React.FC<AttachmentFieldProps> = (props) => {
           {file.url ? (
             <Box className={clsx(classes.previewFile, preview && classes.isPreview)}>
               <Typography sx={{ overflow: 'hidden', textOverflow: 'ellipsis', width: '100%', pl: 0.5 }}>
-                {file.name || file.url || ''}
+                {isBlobFile(file) ? file.name : file.url || ''}
               </Typography>
               {preview ? (
                 <></>
