@@ -277,7 +277,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
             </Grid>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end', pb: 3 }}>
               <Button variant="outlined" onClick={() => handleCancel()}>
-                <Trans>lang_cancel</Trans>
+                <Trans>{editFirst ? 'lang_cancel' : 'lang_back'}</Trans>
               </Button>
               <Button type="submit" variant="contained" sx={{ ml: 2 }} network scrollToTop>
                 <Trans>lang_save</Trans>
