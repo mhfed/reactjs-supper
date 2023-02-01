@@ -138,7 +138,7 @@ const GlobalModal: React.FC<GlobalModalProps> = ({ children }) => {
         </Modal>
         <Modal className={classes.modal} open={!!store.subOpen}>
           <Paper className={classes.container} style={store?.styleModal || {}}>
-            {store.subTitle && <HeaderModal title={store.subTitle} onClose={hideModal} />}
+            {store.subTitle && <HeaderModal title={store.subTitle} onClose={hideSubModal} />}
             {SubComponent && <SubComponent {...(store.subProps || {})} onClose={hideSubModal} />}
           </Paper>
         </Modal>
