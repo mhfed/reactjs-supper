@@ -314,6 +314,6 @@ const validationSchema = yup.object().shape({
       ? schema.min(1, 'lang_please_enter_sitename').required('lang_please_enter_sitename')
       : schema;
   }),
-  securities: yup.array().min(1, 'lang_must_have_at_least_one_security_code').required('lang_please_select_security_code'),
+  securities: yup.array().min(1, 'lang_please_select_security_code').required('lang_please_select_security_code'),
   security_type: yup.string().required('lang_please_select_security_type'),
 });
