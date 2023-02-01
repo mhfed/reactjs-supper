@@ -9,6 +9,10 @@
           {
             "key": "X-Frame-Options",
             "value": "sameorigin"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, no-store, must-revalidate"
           }
         ]
       }
