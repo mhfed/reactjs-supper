@@ -70,7 +70,6 @@ function Account({ ...classes }) {
    * Confirm logout handle
    */
   const onConfirmLogout = () => {
-    setModeTheme(THEMES.DARK);
     _handleLogout();
   };
 
