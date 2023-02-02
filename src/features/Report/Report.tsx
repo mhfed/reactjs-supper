@@ -21,6 +21,7 @@ import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import { iressSitenameSelector, iressTokenSelector } from 'selectors/auth.selector';
 import { iressLogout } from 'actions/auth.action';
 import authService from 'services/authService';
+import useConfirmEdit from 'hooks/useConfirmEdit';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -42,6 +43,7 @@ const Report: React.FC<ReportProps> = () => {
   const iressToken = useSelector(iressTokenSelector);
   const sitename = useSelector(iressSitenameSelector);
   const { showSubModal, hideSubModal } = useGlobalModalContext();
+  const confirmEdit = useConfirmEdit(() => !!gridRef?.current?.checkChange?.());
 
   /**
    * Get list report byb default or with iress auth
@@ -262,30 +264,6 @@ const Report: React.FC<ReportProps> = () => {
    */
   React.useEffect(() => {
     getData();
-    window.confirmEdit = (cb: () => void) => {
-      const hasChanged = gridRef?.current?.checkChange?.();
-      if (hasChanged) {
-        showSubModal({
-          title: 'lang_confirm_cancel',
-          component: ConfirmEditModal,
-          props: {
-            title: 'lang_confirm_cancel_text',
-            cancelText: 'lang_no',
-            confirmText: 'lang_yes',
-            emailConfirm: false,
-            onSubmit: () => {
-              hideSubModal();
-              cb?.();
-            },
-          },
-        });
-      } else {
-        cb?.();
-      }
-    };
-    return () => {
-      window.confirmEdit = null;
-    };
   }, []);
 
   return (
