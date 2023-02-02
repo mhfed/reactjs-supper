@@ -8,6 +8,7 @@
 
 import React from 'react';
 import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import makeStyles from '@mui/styles/makeStyles';
 import IconButton from '@mui/material/IconButton';
@@ -213,9 +214,13 @@ const FileField: React.FC<AttachmentFieldProps> = (props) => {
         <FormControl className={clsx(classes.inputContainer, file.url && classes.notCenter)} error={error}>
           {file.url ? (
             <Box className={clsx(classes.previewFile, preview && classes.isPreview)}>
-              <Typography sx={{ overflow: 'hidden', textOverflow: 'ellipsis', width: '100%', pl: 0.5 }}>
+              <Link
+                sx={{ overflow: 'hidden', textOverflow: 'ellipsis', width: '100%', pl: 0.5 }}
+                target="_blank"
+                href={file.url || ''}
+              >
                 {isBlobFile(file) ? file.name : file.url || ''}
-              </Typography>
+              </Link>
               {preview ? (
                 <></>
               ) : (
