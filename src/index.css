@@ -159,8 +159,8 @@ fieldset.MuiFormControl-root .MuiFormGroup-root > label:last-child {
   text-overflow: initial;
 }
 
-.MuiChip-root + .MuiChip-root {
-  margin-left: 8px;
+.MuiChip-root ~ .MuiChip-root {
+  margin-right: 8px;
 }
 
 .MuiTypography-noWrap {
