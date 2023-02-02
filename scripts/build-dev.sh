@@ -1,4 +1,5 @@
-echo "console.log('%c$(date +"%H:%M %d/%m/%Y")', 'color: #0f0;font-size:36px')" > public/build-version.js
+# echo "console.log('%c$(date +"%H:%M %d/%m/%Y")', 'color: #0f0;font-size:36px')" > public/build-version.js
+rm -rf build/
 
 nextBundle="`date +'%b%d %Y %H:%M:%S'`"
 currentBundle="BUILD_TIME"
