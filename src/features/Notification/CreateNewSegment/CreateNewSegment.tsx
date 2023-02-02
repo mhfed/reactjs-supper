@@ -61,7 +61,7 @@ const Sample = () => {
   const { showModal, hideModal } = useGlobalModalContext();
   const [stateForm, setStateForm] = React.useState(STATE_FORM.CREATE);
   const valuesClone = React.useRef(initialValues);
-  const confirmEdit = useConfirmEdit(() => !!diff(initialValues, valuesClone.current));
+  const confirmEdit = useConfirmEdit(() => !!diff(initialValues, valuesClone.current)); // eslint-disable-line
 
   /**
    * Handle check diff and show popup confirm clear form data

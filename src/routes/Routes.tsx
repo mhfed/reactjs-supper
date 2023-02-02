@@ -6,7 +6,7 @@
  * Copyright (c) 2023 - Novus Fintech
  */
 
-import React, { Fragment, lazy, Suspense } from 'react';
+import React, { Fragment, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { PATH_NAME } from 'configs';
 import { IRoutes } from 'models/IRoutes';

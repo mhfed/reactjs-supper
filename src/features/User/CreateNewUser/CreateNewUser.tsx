@@ -60,7 +60,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
   const dispatch = useDispatch();
   const [stateForm, setStateForm] = React.useState(STATE_FORM.CREATE);
   const valuesClone = React.useRef(initialValues);
-  const confirmEdit = useConfirmEdit(() => !!diff(initialValues, valuesClone.current));
+  const confirmEdit = useConfirmEdit(() => !!diff(initialValues, valuesClone.current)); // eslint-disable-line
   /**
    * Switch to preview mode
    * @param values form data

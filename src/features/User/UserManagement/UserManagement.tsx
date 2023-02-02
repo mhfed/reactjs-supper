@@ -38,7 +38,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
   const gridRef = React.useRef<TableHandle>(null);
   const { showModal, hideModal } = useGlobalModalContext();
   const dicUser = React.useRef<any>({});
-  const confirmEdit = useConfirmEdit(() => !!gridRef?.current?.checkChange?.());
+  const confirmEdit = useConfirmEdit(() => !!gridRef?.current?.checkChange?.()); // eslint-disable-line
   /**
    * Get list user
    */
