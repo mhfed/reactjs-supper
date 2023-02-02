@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 4,
     minHeight: 200,
     marginTop: '0.875rem',
+    '&:hover': {
+      border: `1px solid ${theme.palette.hover.main}`,
+    },
     '& .rdw-option-wrapper': {
       background: 'transparent',
       border: 'none',

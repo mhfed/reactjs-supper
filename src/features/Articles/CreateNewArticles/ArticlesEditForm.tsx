@@ -69,53 +69,64 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
    * @param values Form value
    */
   const handleFormSubmit = async (values: LooseObject) => {
-    try {
-      const body: ICreateArticlesBody = {
-        subject: values.subject,
-        content: values.content,
-        site_name:
-          values.site_name === SITENAME.CUSTOM ? values.sitename_custom.map((e: any) => e.site_name) : [values.site_name],
-        securities: values.securities.map((e: any) => e.securities),
-        security_type: values.security_type,
-      };
-      if (values.image.url) {
-        body.image = values.image.url;
-      }
-      if (values.file.url) {
-        body.attachment_url = values.file.url;
-        body.attachment_name = values.file.name || 'attachment_name';
-      }
-      if (isBlobFile(values.image)) {
-        const formData = new FormData();
-        formData.append('file', values.image.file);
-        const { data: imageResponse } = await httpRequest.post(getUploadUrl(), formData);
-        body.image = imageResponse.url;
-      }
-      if (isBlobFile(values.file)) {
-        const formData = new FormData();
-        formData.append('file', values.file.file);
-        const { data: fileResponse } = await httpRequest.post(getUploadUrl(), formData);
-        body.attachment_url = fileResponse.url;
-        body.attachment_name = values.file.name;
-      }
-      await httpRequest.put(getArticlesUrl(initValues.article_id), body);
+    const isDiff = checkDiffArticlesEdit(initValues, values);
+    if (!isDiff) {
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_update_articles_successfully',
+          message: 'lang_there_is_no_change_in_the_article_information',
           key: new Date().getTime() + Math.random(),
-          variant: 'success',
+          variant: 'warning',
         }),
       );
-      onSuccess?.();
-      hideModal();
-    } catch (error) {
-      dispatch(
-        enqueueSnackbarAction({
-          message: 'lang_update_articles_unsuccessfully',
-          key: new Date().getTime() + Math.random(),
-          variant: 'error',
-        }),
-      );
+    } else {
+      try {
+        const body: ICreateArticlesBody = {
+          subject: values.subject,
+          content: values.content,
+          site_name:
+            values.site_name === SITENAME.CUSTOM ? values.sitename_custom.map((e: any) => e.site_name) : [values.site_name],
+          securities: values.securities.map((e: any) => e.securities),
+          security_type: values.security_type,
+        };
+        if (values.image.url) {
+          body.image = values.image.url;
+        }
+        if (values.file.url) {
+          body.attachment_url = values.file.url;
+          body.attachment_name = values.file.name || 'attachment_name';
+        }
+        if (isBlobFile(values.image)) {
+          const formData = new FormData();
+          formData.append('file', values.image.file);
+          const { data: imageResponse } = await httpRequest.post(getUploadUrl(), formData);
+          body.image = imageResponse.url;
+        }
+        if (isBlobFile(values.file)) {
+          const formData = new FormData();
+          formData.append('file', values.file.file);
+          const { data: fileResponse } = await httpRequest.post(getUploadUrl(), formData);
+          body.attachment_url = fileResponse.url;
+          body.attachment_name = values.file.name;
+        }
+        await httpRequest.put(getArticlesUrl(initValues.article_id), body);
+        dispatch(
+          enqueueSnackbarAction({
+            message: 'lang_update_articles_successfully',
+            key: new Date().getTime() + Math.random(),
+            variant: 'success',
+          }),
+        );
+        onSuccess?.();
+        hideModal();
+      } catch (error) {
+        dispatch(
+          enqueueSnackbarAction({
+            message: 'lang_update_articles_unsuccessfully',
+            key: new Date().getTime() + Math.random(),
+            variant: 'error',
+          }),
+        );
+      }
     }
   };
 
@@ -304,8 +315,8 @@ const initialValues = {
 };
 
 const validationSchema = yup.object().shape({
-  subject: yup.string().required('lang_please_enter_title'),
-  content: yup.string().required('lang_please_enter_content'),
+  subject: yup.string().trim().required('lang_please_enter_title'),
+  content: yup.string().trim().required('lang_please_enter_content'),
   image: yup.mixed().checkFile('lang_please_choose_image'),
   file: yup.mixed().checkFile('', 10000000, '.pdf'),
   site_name: yup.string().required('lang_please_enter_sitename'),

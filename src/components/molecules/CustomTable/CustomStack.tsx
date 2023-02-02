@@ -48,7 +48,7 @@ const CustomChip: React.FC<CustomStackProps> = ({ data = [] }) => {
   return (
     <Stack direction="column">
       {displayData.map((e: string) => (
-        <Typography key={e}>
+        <Typography key={e} noWrap>
           <Trans>{e}</Trans>
         </Typography>
       ))}
