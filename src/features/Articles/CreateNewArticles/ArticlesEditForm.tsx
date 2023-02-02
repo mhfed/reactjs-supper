@@ -65,10 +65,9 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
   const dispatch = useDispatch();
 
   /**
-   * Handle submit edit articles
-   * @param values Form value
+   * Check data change and show popup confirm
    */
-  const handleFormSubmit = async (values: LooseObject) => {
+  const handleBeforeSubmit = (values: LooseObject) => {
     const isDiff = checkDiffArticlesEdit(initValues, values);
     if (!isDiff) {
       dispatch(
@@ -79,54 +78,71 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
         }),
       );
     } else {
-      try {
-        const body: ICreateArticlesBody = {
-          subject: values.subject,
-          content: values.content,
-          site_name:
-            values.site_name === SITENAME.CUSTOM ? values.sitename_custom.map((e: any) => e.site_name) : [values.site_name],
-          securities: values.securities.map((e: any) => e.securities),
-          security_type: values.security_type,
-        };
-        if (values.image.url) {
-          body.image = values.image.url;
-        }
-        if (values.file.url) {
-          body.attachment_url = values.file.url;
-          body.attachment_name = values.file.name || 'attachment_name';
-        }
-        if (isBlobFile(values.image)) {
-          const formData = new FormData();
-          formData.append('file', values.image.file);
-          const { data: imageResponse } = await httpRequest.post(getUploadUrl(), formData);
-          body.image = imageResponse.url;
-        }
-        if (isBlobFile(values.file)) {
-          const formData = new FormData();
-          formData.append('file', values.file.file);
-          const { data: fileResponse } = await httpRequest.post(getUploadUrl(), formData);
-          body.attachment_url = fileResponse.url;
-          body.attachment_name = values.file.name;
-        }
-        await httpRequest.put(getArticlesUrl(initValues.article_id), body);
-        dispatch(
-          enqueueSnackbarAction({
-            message: 'lang_update_articles_successfully',
-            key: new Date().getTime() + Math.random(),
-            variant: 'success',
-          }),
-        );
-        onSuccess?.();
-        hideModal();
-      } catch (error) {
-        dispatch(
-          enqueueSnackbarAction({
-            message: 'lang_update_articles_unsuccessfully',
-            key: new Date().getTime() + Math.random(),
-            variant: 'error',
-          }),
-        );
+      showSubModal({
+        title: 'lang_confirm',
+        component: ConfirmEditModal,
+        props: {
+          title: 'lang_enter_your_email_to_edit_article',
+          emailConfirm: true,
+          titleTransValues: { user: values.user_login },
+          onSubmit: () => handleFormSubmit(values),
+        },
+      });
+    }
+  };
+
+  /**
+   * Handle submit edit articles
+   * @param values Form value
+   */
+  const handleFormSubmit = async (values: LooseObject) => {
+    try {
+      const body: ICreateArticlesBody = {
+        subject: values.subject,
+        content: values.content,
+        site_name:
+          values.site_name === SITENAME.CUSTOM ? values.sitename_custom.map((e: any) => e.site_name) : [values.site_name],
+        securities: values.securities.map((e: any) => e.securities),
+        security_type: values.security_type,
+      };
+      if (values.image.url) {
+        body.image = values.image.url;
       }
+      if (values.file.url) {
+        body.attachment_url = values.file.url;
+        body.attachment_name = values.file.name || 'attachment_name';
+      }
+      if (isBlobFile(values.image)) {
+        const formData = new FormData();
+        formData.append('file', values.image.file);
+        const { data: imageResponse } = await httpRequest.post(getUploadUrl(), formData);
+        body.image = imageResponse.url;
+      }
+      if (isBlobFile(values.file)) {
+        const formData = new FormData();
+        formData.append('file', values.file.file);
+        const { data: fileResponse } = await httpRequest.post(getUploadUrl(), formData);
+        body.attachment_url = fileResponse.url;
+        body.attachment_name = values.file.name;
+      }
+      await httpRequest.put(getArticlesUrl(initValues.article_id), body);
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_update_articles_successfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
+      onSuccess?.();
+      hideModal();
+    } catch (error) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_update_articles_unsuccessfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        }),
+      );
     }
   };
 
@@ -162,7 +178,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
   const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, setFieldTouched } = useFormik({
     initialValues: { ...initialValues, ...initValues },
     validationSchema: validationSchema,
-    onSubmit: handleFormSubmit,
+    onSubmit: handleBeforeSubmit,
   });
 
   return (
