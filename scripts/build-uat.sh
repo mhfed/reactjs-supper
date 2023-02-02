@@ -4,3 +4,7 @@ rm -rf build/
 nextBundle='iress-wealth-management-uat'
 currentBundle='iress-wealth-management-dev'
 sed -i -e "s/$currentBundle/$nextBundle/g" .firebaserc
+
+nextBundle="`date +'%b%d %Y %H:%M:%S'`"
+currentBundle="BUILD_TIME"
+sed -i -e "s/$currentBundle/$nextBundle/g" src/layouts/MainLayout/Navbar/Version.tsx

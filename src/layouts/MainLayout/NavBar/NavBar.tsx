@@ -17,6 +17,7 @@ import { PATH_NAME } from 'configs';
 import { IChildNavBar } from 'models/INavBar';
 import NavBarItem from './NavBarItem';
 import useStyles from './styles';
+import Version from './Version';
 
 type IProps = {
   isDrawer: boolean;
@@ -86,6 +87,7 @@ function NavBar({ isDrawer }: IProps) {
       <Divider />
 
       {renderNavItems({ items: navBarCommon as any, pathname: location.pathname })}
+      <Version />
     </Drawer>
   );
 }
