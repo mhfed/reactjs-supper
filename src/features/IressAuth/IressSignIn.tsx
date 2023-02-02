@@ -246,7 +246,7 @@ const initialValues: initialValuesType = {
 
 const validationSchema = yup.object().shape({
   site_name: yup.string().required('lang_please_enter_sitename'),
-  username: yup.string().required('lang_please_enter_email'),
+  username: yup.string().required('lang_please_enter_your_iress_account'),
   password: yup.string().required('lang_please_enter_password'),
 });
 
