@@ -65,7 +65,7 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = (props) => {
   const dispatch = useDispatch();
   const { hideSubModal } = useGlobalModalContext();
   const [errorMessage, setErrorMessage] = React.useState('');
-
+  const [disableVerify, setDisableVerify] = React.useState(true);
   /**
    * Focus on code input at first load
    */
@@ -101,6 +101,7 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = (props) => {
       .catch((err) => {
         // console.log(err.error);
         setErrorMessage(`error_code_${err.error}`);
+        setDisableVerify(true);
         clearPin();
       });
   };
@@ -129,6 +130,7 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = (props) => {
             onChangeOTP={(e: string) => {
               setFieldValue('inputCode', e);
               setFieldTouched('inputCode', true);
+              if (e.length === 6) setDisableVerify(false);
             }}
             pinRef={pinRef}
             error={errorMessage}
@@ -154,12 +156,7 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = (props) => {
             <Trans>lang_cancel</Trans>
           </Button> */}
 
-          <Button
-            variant="contained"
-            type="submit"
-            style={{ textTransform: 'uppercase' }}
-            disabled={values.inputCode.length !== 6}
-          >
+          <Button variant="contained" type="submit" style={{ textTransform: 'uppercase' }} disabled={disableVerify}>
             <Trans>lang_verify</Trans>
           </Button>
         </Stack>
