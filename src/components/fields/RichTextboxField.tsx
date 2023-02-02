@@ -132,6 +132,7 @@ const useStyles = makeStyles((theme) => ({
     border: `1px solid ${theme.palette.error.main}`,
   },
   previewContainer: {
+    pointerEvents: 'none',
     marginTop: 8,
     borderBottom: `1px solid ${alpha(theme.palette.text.primary, 0.7)}`,
     padding: theme.spacing(0.5, 0, 0.5, 0),
