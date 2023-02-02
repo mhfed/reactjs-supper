@@ -20,7 +20,7 @@ import {
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { useFormik } from 'formik';
-import { yup } from 'helpers';
+import { checkDiffArticlesEdit, yup } from 'helpers';
 import makeStyles from '@mui/styles/makeStyles';
 import { SITENAME_OPTIONS, SECURITY_TYPE_OPTIONS, SITENAME } from '../ArticlesConstants';
 import { IFileUpload, LooseObject } from 'models/ICommon';
@@ -29,6 +29,8 @@ import { Trans } from 'react-i18next';
 import { getSearchSitenameUrl, getSearchSecurityCodeUrl } from 'apis/request.url';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
+import useConfirmEdit from 'hooks/useConfirmEdit';
+import { diff } from 'deep-diff';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -52,7 +54,8 @@ type ArticlesCreateFormProps = {
 const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, values: initValues }) => {
   const classes = useStyles();
   const { showSubModal, hideSubModal } = useGlobalModalContext();
-
+  const valuesClone = React.useRef({});
+  const confirmEdit = useConfirmEdit(() => !!diff(initialValues, valuesClone.current));
   /**
    * Handle articles create submit
    * @param values form data
@@ -77,6 +80,10 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,
   });
+
+  React.useEffect(() => {
+    valuesClone.current = { ...values };
+  }, [values]);
 
   /**
    * Hanle clear form data
