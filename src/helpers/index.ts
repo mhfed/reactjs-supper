@@ -4,6 +4,13 @@ export { default as getCurrentDate } from './getCurrentDate';
 export { stableSort, getComparator } from './stableSort';
 export { timeConvert, secondToTime } from './timeConvert';
 export { getFilterObj, formatDataBeforeExportCsv } from './table';
-export { convertArticlesDataToDetailForm, checkDiffArticlesEdit, clearStorage, hideTooltip, isBlobFile } from './common';
+export {
+  convertArticlesDataToDetailForm,
+  checkDiffArticlesEdit,
+  clearStorage,
+  hideTooltip,
+  isBlobFile,
+  lazyLoad,
+} from './common';
 export { default as validate } from './validate';
 export { default as yup } from './yup';
