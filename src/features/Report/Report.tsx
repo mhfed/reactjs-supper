@@ -43,7 +43,7 @@ const Report: React.FC<ReportProps> = () => {
   const iressToken = useSelector(iressTokenSelector);
   const sitename = useSelector(iressSitenameSelector);
   const { showSubModal, hideSubModal } = useGlobalModalContext();
-  const confirmEdit = useConfirmEdit(() => !!gridRef?.current?.checkChange?.());
+  const confirmEdit = useConfirmEdit(() => !!gridRef?.current?.checkChange?.()); // eslint-disable-line
 
   /**
    * Get list report byb default or with iress auth

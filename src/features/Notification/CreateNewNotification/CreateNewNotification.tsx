@@ -68,7 +68,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   const dispatch = useDispatch();
   const { showModal, hideModal } = useGlobalModalContext();
   const valuesClone = React.useRef(initialValues);
-  const confirmEdit = useConfirmEdit(() => !!diff(initialValues, valuesClone.current));
+  const confirmEdit = useConfirmEdit(() => !!diff(initialValues, valuesClone.current)); // eslint-disable-line
 
   const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
     if (stateForm === STATE_FORM.CREATE) return setStateForm(STATE_FORM.PREVIEW);
