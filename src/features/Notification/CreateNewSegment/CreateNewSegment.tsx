@@ -21,6 +21,8 @@ import { enqueueSnackbarAction } from 'actions/app.action';
 import { useDispatch } from 'react-redux';
 import { LooseObject } from 'models/ICommon';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
+import useConfirmEdit from 'hooks/useConfirmEdit';
+import { diff } from 'deep-diff';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -58,6 +60,8 @@ const Sample = () => {
   const dispatch = useDispatch();
   const { showModal, hideModal } = useGlobalModalContext();
   const [stateForm, setStateForm] = React.useState(STATE_FORM.CREATE);
+  const valuesClone = React.useRef(initialValues);
+  const confirmEdit = useConfirmEdit(() => !!diff(initialValues, valuesClone.current));
 
   /**
    * Handle check diff and show popup confirm clear form data
@@ -207,6 +211,11 @@ const Sample = () => {
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,
   });
+
+  React.useEffect(() => {
+    valuesClone.current = { ...values };
+  }, [values]);
+
   return renderContent(stateForm);
 };
 const initialValues = {

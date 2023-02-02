@@ -18,6 +18,7 @@ import { ITableConfig, LooseObject } from 'models/ICommon';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import UserDetailEdit from '../UserDetailEdit';
+import useConfirmEdit from 'hooks/useConfirmEdit';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -37,7 +38,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
   const gridRef = React.useRef<TableHandle>(null);
   const { showModal, hideModal } = useGlobalModalContext();
   const dicUser = React.useRef<any>({});
-
+  const confirmEdit = useConfirmEdit(() => !!gridRef?.current?.checkChange?.());
   /**
    * Get list user
    */

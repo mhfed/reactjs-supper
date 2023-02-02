@@ -19,6 +19,8 @@ import { validate } from 'helpers';
 import { USER_STATUS_OPTIONS, SITE_NAME_OPTIONS } from '../UserConstants';
 import httpRequest from 'services/httpRequest';
 import { getUserDetailUrl } from 'apis/request.url';
+import { diff } from 'deep-diff';
+import useConfirmEdit from 'hooks/useConfirmEdit';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -57,7 +59,8 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [stateForm, setStateForm] = React.useState(STATE_FORM.CREATE);
-
+  const valuesClone = React.useRef(initialValues);
+  const confirmEdit = useConfirmEdit(() => !!diff(initialValues, valuesClone.current));
   /**
    * Switch to preview mode
    * @param values form data
@@ -110,6 +113,10 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
     validationSchema: validationSchema,
     onSubmit: handleShowPreSubmit,
   });
+
+  React.useEffect(() => {
+    valuesClone.current = { ...values };
+  }, [values]);
 
   /**
    * Handle reset form data

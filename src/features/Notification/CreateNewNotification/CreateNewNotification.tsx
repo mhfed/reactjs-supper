@@ -23,6 +23,8 @@ import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import { useGlobalModalContext } from 'containers/Modal';
 import FormCreateNotifiaction from './Components/FormCreateNotifiaction';
 import FormReviewNotification from './Components/FormReviewNotification';
+import useConfirmEdit from 'hooks/useConfirmEdit';
+import { diff } from 'deep-diff';
 
 interface CreateNewNotificationProps {}
 
@@ -65,6 +67,8 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   const [stateForm, setStateForm] = React.useState(STATE_FORM.CREATE);
   const dispatch = useDispatch();
   const { showModal, hideModal } = useGlobalModalContext();
+  const valuesClone = React.useRef(initialValues);
+  const confirmEdit = useConfirmEdit(() => !!diff(initialValues, valuesClone.current));
 
   const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
     if (stateForm === STATE_FORM.CREATE) return setStateForm(STATE_FORM.PREVIEW);
@@ -211,10 +215,12 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
       </Typography>
     );
   };
+
   return (
     <Paper className={classes.wrapper}>
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={submitForm}>
         {(form: FormikProps<initialValuesType>) => {
+          valuesClone.current = { ...form.values };
           return (
             <React.Fragment>
               {HeaderTitle()}
