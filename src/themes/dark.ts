@@ -107,6 +107,7 @@ const darkTheme = createTheme({
         root: {
           '&.Mui-disabled:not(.MuiRadio-root):not(.MuiChip-root)': {
             backgroundColor: '#758695 !important',
+            color: '#c5cbce !important',
             pointerEvents: 'unset',
             cursor: 'not-allowed',
             '&.MuiIconButton-root': {
