@@ -133,7 +133,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
   /**
    * Handle cancel edit, show confirm if user changed data
    */
-  const handleCancel = (cb?: Function) => {
+  const handleCancel = () => {
     const isDiff = checkDiffArticlesEdit(initValues, values);
     if (isDiff) {
       showSubModal({
@@ -145,13 +145,14 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
           confirmText: 'lang_yes',
           emailConfirm: false,
           onSubmit: () => {
-            hideSubModal();
-            onCancel();
+            if (editFirst) hideModal();
+            else {
+              hideSubModal();
+              onCancel();
+            }
           },
         },
       });
-    } else if (cb) {
-      cb();
     } else if (editFirst) {
       hideModal();
     } else {
