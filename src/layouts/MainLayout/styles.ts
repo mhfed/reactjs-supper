@@ -12,6 +12,7 @@ import makeStyles from '@mui/styles/makeStyles';
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: 'flex',
+    width: '100%',
   },
   container: {
     display: 'flex',

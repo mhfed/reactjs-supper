@@ -37,6 +37,7 @@ const Report: React.FC<ReportProps> = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
+  const callWithIress = React.useRef<boolean>(false);
   const dicReport = React.useRef<any>({});
   const iressToken = useSelector(iressTokenSelector);
   const sitename = useSelector(iressSitenameSelector);
@@ -49,6 +50,7 @@ const Report: React.FC<ReportProps> = () => {
    */
   const getData = async (token?: string, sn?: string) => {
     try {
+      if (token) callWithIress.current = true;
       gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
 
@@ -124,8 +126,8 @@ const Report: React.FC<ReportProps> = () => {
    * recall data when table change
    */
   const onTableChange = () => {
-    if (iressToken) {
-      getData(iressToken, sitename + '');
+    if (callWithIress.current) {
+      getData(iressToken + '', sitename + '');
     } else {
       getData();
     }

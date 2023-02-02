@@ -13,22 +13,23 @@ import { IRoutes } from 'models/IRoutes';
 import MainLayout from 'layouts/MainLayout';
 import AuthGuard from 'guards/AuthGuard';
 import RoleRoute from './RoleRoute';
+import { lazyLoad } from 'helpers';
 
 // modules
-const Error404View = lazy(() => import('features/Error404View'));
-const UserManagement = lazy(() => import('features/User/UserManagement'));
-const CreateNewUser = lazy(() => import('features/User/CreateNewUser'));
-const UserDetailEdit = lazy(() => import('features/User/UserDetailEdit'));
-const NotificationManagement = lazy(() => import('features/Notification/NotificationManagement'));
-const CreateNewNotification = lazy(() => import('features/Notification/CreateNewNotification'));
-const SegmentManagement = lazy(() => import('features/Notification/SegmentManagement'));
-const CreateNewSegment = lazy(() => import('features/Notification/CreateNewSegment'));
-const Subscribers = lazy(() => import('features/Notification/Subscribers'));
-const ArticlesManagement = lazy(() => import('features/Articles/ArticlesManagement'));
-const CreateNewArticles = lazy(() => import('features/Articles/CreateNewArticles'));
-const Report = lazy(() => import('features/Report'));
-const Login = lazy(() => import('features/Login'));
-const DenyView = lazy(() => import('features/DenyView'));
+const Error404View = lazyLoad(() => import('features/Error404View'));
+const UserManagement = lazyLoad(() => import('features/User/UserManagement'));
+const CreateNewUser = lazyLoad(() => import('features/User/CreateNewUser'));
+const UserDetailEdit = lazyLoad(() => import('features/User/UserDetailEdit'));
+const NotificationManagement = lazyLoad(() => import('features/Notification/NotificationManagement'));
+const CreateNewNotification = lazyLoad(() => import('features/Notification/CreateNewNotification'));
+const SegmentManagement = lazyLoad(() => import('features/Notification/SegmentManagement'));
+const CreateNewSegment = lazyLoad(() => import('features/Notification/CreateNewSegment'));
+const Subscribers = lazyLoad(() => import('features/Notification/Subscribers'));
+const ArticlesManagement = lazyLoad(() => import('features/Articles/ArticlesManagement'));
+const CreateNewArticles = lazyLoad(() => import('features/Articles/CreateNewArticles'));
+const Report = lazyLoad(() => import('features/Report'));
+const Login = lazyLoad(() => import('features/Login'));
+const DenyView = lazyLoad(() => import('features/DenyView'));
 
 const routesConfig: IRoutes[] = [
   {

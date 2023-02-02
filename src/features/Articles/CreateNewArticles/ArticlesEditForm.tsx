@@ -61,7 +61,7 @@ type ArticlesEditFormProps = {
 
 const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, onCancel, editFirst, onSuccess }) => {
   const classes = useStyles();
-  const { showSubModal, hideModal } = useGlobalModalContext();
+  const { showSubModal, hideSubModal, hideModal } = useGlobalModalContext();
   const dispatch = useDispatch();
 
   /**
@@ -145,7 +145,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
           confirmText: 'lang_yes',
           emailConfirm: false,
           onSubmit: () => {
-            hideModal();
+            hideSubModal();
             onCancel();
           },
         },
