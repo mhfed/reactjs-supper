@@ -155,6 +155,10 @@ fieldset.MuiFormControl-root .MuiFormGroup-root > label:last-child {
   pointer-events: none;
 }
 
+.MuiChip-label {
+  text-overflow: initial;
+}
+
 .MuiChip-root + .MuiChip-root {
   margin-left: 8px;
 }

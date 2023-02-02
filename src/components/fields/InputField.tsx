@@ -50,6 +50,7 @@ const InputField: React.FC<TextFieldProps> = ({
   variant,
   maxLength,
   readOnly,
+  fullWidth = true,
   required,
   ...props
 }) => {
@@ -60,6 +61,7 @@ const InputField: React.FC<TextFieldProps> = ({
   return (
     <TextField
       {...props}
+      fullWidth={fullWidth}
       required={preview ? false : required}
       variant={preview && !variant ? 'standard' : variant}
       value={preview ? value || '--' : value}
