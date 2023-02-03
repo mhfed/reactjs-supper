@@ -55,7 +55,7 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
   const classes = useStyles();
   const { showSubModal, hideSubModal } = useGlobalModalContext();
   const valuesClone = React.useRef({});
-  const confirmEdit = useConfirmEdit(() => !!diff(initialValues, valuesClone.current));
+  const confirmEdit = useConfirmEdit(() => !!diff(initialValues, valuesClone.current)); // eslint-disable-line
   /**
    * Handle articles create submit
    * @param values form data

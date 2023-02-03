@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiTextField-root': {
       maxWidth: 336,
     },
+    '& .MuiFormControl-root': {
+      background: theme.palette.mode === 'dark' ? 'transparent' : 'white',
+    },
     '& input': {
       padding: theme.spacing(1),
     },
