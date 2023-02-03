@@ -8,7 +8,8 @@
 
 import React from 'react';
 import { makeStyles } from '@mui/styles';
-import { Stack, Button, Typography, FormHelperText } from '@mui/material';
+import { Stack, Typography, FormHelperText } from '@mui/material';
+import Button from 'components/atoms/ButtonBase';
 import { Form, Formik, FormikProps } from 'formik';
 import { yup } from 'helpers';
 import { LooseObject } from 'models/ICommon';

@@ -13,8 +13,9 @@ import IconButton from '@mui/material/IconButton';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
 import { Trans } from 'react-i18next';
-import { Box, Button } from '@mui/material';
+import Box from '@mui/material/Box';
 import { FormikErrors } from 'formik';
+import Button from 'components/atoms/ButtonBase';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({

@@ -16,7 +16,7 @@ type ButtonBaseProps = ButtonProps & {
   network?: boolean;
   isLoading?: boolean;
   scrollToTop?: boolean;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 const ButtonBase: React.FC<ButtonBaseProps> = ({
@@ -50,6 +50,7 @@ const ButtonBase: React.FC<ButtonBaseProps> = ({
       onClick={handleClick}
       sx={{ whiteSpace: 'nowrap', ...sx }}
       disabled={disabled || (network && isConnecting)}
+      disableRipple
     >
       {children}
       {isLoading && <CircularProgress color="secondary" size={24} sx={{ position: 'absolute' }} />}

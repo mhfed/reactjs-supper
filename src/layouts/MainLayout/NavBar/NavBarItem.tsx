@@ -9,7 +9,7 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
-import Button from '@mui/material/Button';
+import Button from 'components/atoms/ButtonBase';
 import ListItem from '@mui/material/ListItem';
 import { INavBarItem } from 'models/INavBar';
 import NavBarExpandItem from './NavBarExpandItem';
