@@ -10,7 +10,7 @@ import React from 'react';
 import { makeStyles } from '@mui/styles';
 import { Stack, Typography } from '@mui/material';
 import Button from 'components/atoms/ButtonBase';
-import { Form, Formik, FormikProps } from 'formik';
+import { Form, Formik, FormikProps, FormikHelpers } from 'formik';
 import { validate, yup } from 'helpers';
 import { LooseObject } from 'models/ICommon';
 import { Trans } from 'react-i18next';
@@ -70,7 +70,7 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
    * Handle iress login
    * @param values form data
    */
-  const submitForm = (values: initialValuesType) => {
+  const submitForm = (values: initialValuesType, helper: FormikHelpers<initialValuesType>) => {
     const body = {
       password: values.password,
       username: values.username,
@@ -107,6 +107,8 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
           });
         }
         err.error && setError(`error_code_${err.error}`);
+        helper.setFieldError('username', ' ');
+        helper.setFieldError('password', ' ');
       });
   };
 
