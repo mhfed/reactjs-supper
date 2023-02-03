@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginLeft: 0,
-    width: `calc(100vw - ${process.env.REACT_APP_DRAWER_WIDTH}px)`,
+    width: `calc(100% - ${process.env.REACT_APP_DRAWER_WIDTH}px)`,
   },
   toolbar: {
     display: 'flex',
