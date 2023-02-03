@@ -303,7 +303,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
                 />
               </Grid>
               <Grid item xs={6}>
-                <InputField preview label="lang_segment_id" value={values.segment_id} disabled required />
+                <InputField preview variant="outlined" label="lang_segment_id" value={values.segment_id} disabled required />
               </Grid>
               <Grid item xs={12}>
                 <AutocompleteField
