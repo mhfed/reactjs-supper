@@ -52,6 +52,7 @@ const InputField: React.FC<TextFieldProps> = ({
   readOnly,
   fullWidth = true,
   required,
+  disabled,
   ...props
 }) => {
   const clearValue = () => {
@@ -62,8 +63,9 @@ const InputField: React.FC<TextFieldProps> = ({
     <TextField
       {...props}
       fullWidth={fullWidth}
+      disabled={disabled}
       required={preview ? false : required}
-      variant={preview && !variant ? 'standard' : variant}
+      variant={!disabled && preview && !variant ? 'standard' : variant}
       value={preview ? value || '--' : value}
       label={<Trans>{label}</Trans>}
       inputProps={{
