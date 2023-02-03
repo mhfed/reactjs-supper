@@ -19,9 +19,10 @@ import { InputCodeField } from 'components/fields';
 import { useTheme } from '@mui/styles';
 import httpRequest from 'services/httpRequest';
 import { postLogin } from 'apis/request.url';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IAuthActionTypes } from 'models/IAuthState';
 import moment from 'moment';
+import { baseUrlSelector } from 'selectors/auth.selector';
 
 interface ConfirmCodeProps {
   values?: any;
@@ -66,6 +67,8 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = (props) => {
   const { hideSubModal } = useGlobalModalContext();
   const [errorMessage, setErrorMessage] = React.useState('');
   const [disableVerify, setDisableVerify] = React.useState(true);
+  const baseUrl = useSelector(baseUrlSelector);
+
   /**
    * Focus on code input at first load
    */
@@ -86,7 +89,7 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = (props) => {
       '2fa_code': values.inputCode,
     };
     httpRequest
-      .post(postLogin(), body, { headers: { 'site-name': previousForm.site_name } })
+      .post(postLogin(baseUrl), body, { headers: { 'site-name': previousForm.site_name } })
       .then(async (res) => {
         // IAuthActionTypes
         const bodyPayload = {
