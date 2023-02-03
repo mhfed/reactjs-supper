@@ -8,7 +8,8 @@
 
 import React from 'react';
 import { makeStyles } from '@mui/styles';
-import { Paper, Stack, Button, Typography, Box } from '@mui/material';
+import { Paper, Stack, Typography, Box } from '@mui/material';
+import Button from 'components/atoms/ButtonBase';
 import { Form, Formik, FormikProps } from 'formik';
 import { yup } from 'helpers';
 import {
@@ -274,7 +275,7 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
         <Button variant="outlined" onClick={() => onCancel(form)}>
           <Trans>{props.typePage === 'EDIT' ? 'lang_cancel' : 'lang_back'}</Trans>
         </Button>
-        <Button variant="contained" type="submit">
+        <Button network variant="contained" type="submit">
           <Trans>lang_save</Trans>
         </Button>
       </Stack>

@@ -30,14 +30,18 @@ const ButtonBase: React.FC<ButtonBaseProps> = ({
   ...props
 }) => {
   const isConnecting = useSelector(isConnectingSelector);
+  const timeoutId = React.useRef<number>();
 
   /**
    * Handle onclick and scroll to top for case change step screen
    * @param e click event
    */
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    scrollToTop && window.scrollTo(0, 0);
-    onClick?.(e);
+    timeoutId.current && window.clearTimeout(timeoutId.current);
+    timeoutId.current = window.setTimeout(() => {
+      scrollToTop && window.scrollTo(0, 0);
+      onClick?.(e);
+    }, process.env.REACT_APP_DEBOUNCE_TIME);
   };
 
   return (

@@ -326,7 +326,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
               <Button variant="outlined" onClick={handleCancel}>
                 {typePage === STATE_FORM.DETAIL ? <Trans>lang_back</Trans> : <Trans>lang_cancel</Trans>}
               </Button>
-              <Button variant="contained" onClick={onSave}>
+              <Button network variant="contained" onClick={onSave}>
                 <Trans>lang_save</Trans>
               </Button>
             </Stack>

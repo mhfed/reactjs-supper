@@ -8,7 +8,8 @@
 
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import { Button, Stack, Typography, Grid, Paper } from '@mui/material';
+import { Stack, Typography, Grid, Paper } from '@mui/material';
+import Button from 'components/atoms/ButtonBase';
 import { Trans } from 'react-i18next';
 import { InputField, AutocompleteField } from 'components/fields';
 import { useFormik } from 'formik';
@@ -198,7 +199,7 @@ const Sample = () => {
             <Button variant="outlined" onClick={isPreview ? handleReturn : handleClearData}>
               <Trans>{isPreview ? 'lang_return' : 'lang_clear'}</Trans>
             </Button>
-            <Button variant="contained" type="submit">
+            <Button network variant="contained" type="submit">
               <Trans>{isPreview ? 'lang_confirm' : 'lang_create'}</Trans>
             </Button>
           </Stack>
