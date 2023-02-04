@@ -18,6 +18,7 @@ type AuthProps = {
 const Auth: FC<AuthProps> = ({ children }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [already, setAlready] = React.useState(false);
 
   /**
    * Handle auto login
@@ -31,11 +32,19 @@ const Auth: FC<AuthProps> = ({ children }) => {
       const uniqSeries = window.localStorage.getItem('uniqSeries');
       const pin = atob(uniqSeries + '');
       if (pin && isStaySignedIn && lastDeviceId && refreshToken) {
-        dispatch(autoLogin(refreshToken, lastDeviceId, pin, navigate) as any);
+        dispatch(
+          autoLogin(refreshToken, lastDeviceId, pin, navigate, () => {
+            setAlready(true);
+          }) as any,
+        );
+      } else {
+        setAlready(true);
       }
     }
     initAuth();
   }, [dispatch]);
+
+  if (!already) return <></>;
 
   return <>{children}</>;
 };

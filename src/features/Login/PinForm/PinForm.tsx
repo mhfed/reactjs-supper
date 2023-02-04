@@ -224,6 +224,7 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
     const keyboard = LIST_KEYBOARD.map((item, index) => {
       return (
         <Button
+          debounce={false}
           className={clsx(
             classes.keyboardButton,
             item === '' && classes.hiddenButton,
