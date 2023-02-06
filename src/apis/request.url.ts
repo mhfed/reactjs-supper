@@ -72,8 +72,8 @@ export function postDataUpdateSegmentByID(segmentID: string) {
 export function postSiteNameSend() {
   return `/v1/dynamic-push/site-name/send`;
 }
-export function postLogin() {
-  return `https://iress-wealth-dev-api.equix.app/mobile/login?type=adviser`;
+export function postLogin(baseUrl: string) {
+  return `https://${baseUrl.replace(/\/cms/g, '')}/mobile/login?type=adviser`;
 }
 
 export function getReports() {

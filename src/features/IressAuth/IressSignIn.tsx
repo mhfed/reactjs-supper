@@ -20,9 +20,10 @@ import { PasswordField, InputField } from 'components/fields';
 import httpRequest from 'services/httpRequest';
 import { postLogin } from 'apis/request.url';
 import ConfirmCode from './ConfirmCode';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IAuthActionTypes } from 'models/IAuthState';
 import moment from 'moment';
+import { baseUrlSelector } from 'selectors/auth.selector';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -65,6 +66,7 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
   const dispatch = useDispatch();
   const [error, setError] = React.useState('');
   const [loading, setLoading] = React.useState(false);
+  const baseUrl = useSelector(baseUrlSelector);
 
   /**
    * Handle iress login
@@ -77,7 +79,7 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
     };
     setLoading(true);
     httpRequest
-      .post(postLogin(), body, { headers: { 'site-name': values.site_name } })
+      .post(postLogin(baseUrl), body, { headers: { 'site-name': values.site_name } })
       .then(async (res) => {
         const bodyPayload = {
           iressAccessToken: res.data.access_token,

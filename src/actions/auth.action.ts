@@ -200,7 +200,8 @@ export const logout = (dispatch: Dispatch<any>) => {
  * @param navigate react router action to navigate screen after login success
  */
 export const autoLogin =
-  (saveRefreshToken: string, deviceID: string, pin: string, navigate: NavigateFunction) => async (dispatch: Dispatch<any>) => {
+  (saveRefreshToken: string, deviceID: string, pin: string, navigate: NavigateFunction, successCb: () => void) =>
+  async (dispatch: Dispatch<any>) => {
     dispatch({
       type: IAuthActionTypes.SILENT_LOGIN,
       payload: { refreshToken: saveRefreshToken, deviceID },
@@ -209,6 +210,7 @@ export const autoLogin =
     if (error) {
       dispatch({ type: IAuthActionTypes.PIN_FAILURE, payload: { error: error?.errorCodeLang } });
     } else {
+      successCb?.();
       updateAxiosAuthConfig(baseUrl, accessToken, pin);
       dispatch({
         type: IAuthActionTypes.PIN_SUCCESS,

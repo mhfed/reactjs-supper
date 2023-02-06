@@ -8,7 +8,8 @@
 
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import { Button, Stack, Typography, Grid, Paper } from '@mui/material';
+import { Stack, Typography, Grid, Paper } from '@mui/material';
+import Button from 'components/atoms/ButtonBase';
 import { Trans } from 'react-i18next';
 import { InputField, AutocompleteField } from 'components/fields';
 import { useFormik } from 'formik';
@@ -188,7 +189,7 @@ const Sample = () => {
                 getChipLabel={(option) => option.username}
                 value={values.segment_subscribers}
                 onChange={(value) => setFieldValue('segment_subscribers', value)}
-                onBlur={handleBlur}
+                onBlur={() => setFieldTouched('segment_subscribers', true, true)}
                 error={touched.segment_subscribers && Boolean(errors.segment_subscribers)}
                 helperText={(touched.segment_subscribers && errors.segment_subscribers) as string}
               />
@@ -198,7 +199,7 @@ const Sample = () => {
             <Button variant="outlined" onClick={isPreview ? handleReturn : handleClearData}>
               <Trans>{isPreview ? 'lang_return' : 'lang_clear'}</Trans>
             </Button>
-            <Button variant="contained" type="submit">
+            <Button network variant="contained" type="submit">
               <Trans>{isPreview ? 'lang_confirm' : 'lang_create'}</Trans>
             </Button>
           </Stack>
@@ -206,7 +207,7 @@ const Sample = () => {
       </Paper>
     );
   };
-  const { values, errors, touched, handleBlur, handleSubmit, setFieldValue, resetForm } = useFormik({
+  const { values, errors, touched, handleBlur, handleSubmit, setFieldValue, resetForm, setFieldTouched } = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,

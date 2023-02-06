@@ -8,7 +8,7 @@
 
 import React, { useState, memo } from 'react';
 import MenuItem from '@mui/material/MenuItem';
-import Button from '@mui/material/Button';
+import Button from 'components/atoms/ButtonBase';
 import Menu from '@mui/material/Menu';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { LANGUAGE } from 'configs';

@@ -8,7 +8,8 @@
 
 import React from 'react';
 import { makeStyles } from '@mui/styles';
-import { Stack, Button, Typography, FormHelperText } from '@mui/material';
+import { Stack, Typography, FormHelperText } from '@mui/material';
+import Button from 'components/atoms/ButtonBase';
 import { Form, Formik, FormikProps } from 'formik';
 import { yup } from 'helpers';
 import { LooseObject } from 'models/ICommon';
@@ -19,9 +20,10 @@ import { InputCodeField } from 'components/fields';
 import { useTheme } from '@mui/styles';
 import httpRequest from 'services/httpRequest';
 import { postLogin } from 'apis/request.url';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IAuthActionTypes } from 'models/IAuthState';
 import moment from 'moment';
+import { baseUrlSelector } from 'selectors/auth.selector';
 
 interface ConfirmCodeProps {
   values?: any;
@@ -66,6 +68,8 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = (props) => {
   const { hideSubModal } = useGlobalModalContext();
   const [errorMessage, setErrorMessage] = React.useState('');
   const [disableVerify, setDisableVerify] = React.useState(true);
+  const baseUrl = useSelector(baseUrlSelector);
+
   /**
    * Focus on code input at first load
    */
@@ -86,7 +90,7 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = (props) => {
       '2fa_code': values.inputCode,
     };
     httpRequest
-      .post(postLogin(), body, { headers: { 'site-name': previousForm.site_name } })
+      .post(postLogin(baseUrl), body, { headers: { 'site-name': previousForm.site_name } })
       .then(async (res) => {
         // IAuthActionTypes
         const bodyPayload = {

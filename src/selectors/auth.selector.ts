@@ -11,6 +11,11 @@ import { createSelector } from 'reselect';
 // types
 import IRootState from 'models/IRootState';
 
+export const baseUrlSelector = createSelector(
+  (state: IRootState) => state.auth,
+  (app) => app.baseUrl + '',
+);
+
 export const iressTokenSelector = createSelector(
   (state: IRootState) => state.auth,
   (app) => app.iressAccessToken,

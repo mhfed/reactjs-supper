@@ -14,15 +14,17 @@ import { useSelector } from 'react-redux';
 
 type ButtonBaseProps = ButtonProps & {
   network?: boolean;
+  debounce?: boolean;
   isLoading?: boolean;
   scrollToTop?: boolean;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 const ButtonBase: React.FC<ButtonBaseProps> = ({
   network = false,
   children,
   isLoading = false,
+  debounce = true,
   disabled,
   sx = {},
   onClick,
@@ -30,14 +32,23 @@ const ButtonBase: React.FC<ButtonBaseProps> = ({
   ...props
 }) => {
   const isConnecting = useSelector(isConnectingSelector);
+  const timeoutId = React.useRef<number>();
 
   /**
    * Handle onclick and scroll to top for case change step screen
    * @param e click event
    */
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    scrollToTop && window.scrollTo(0, 0);
-    onClick?.(e);
+    if (debounce) {
+      timeoutId.current && window.clearTimeout(timeoutId.current);
+      timeoutId.current = window.setTimeout(() => {
+        scrollToTop && window.scrollTo(0, 0);
+        onClick?.(e);
+      }, process.env.REACT_APP_DEBOUNCE_TIME);
+    } else {
+      scrollToTop && window.scrollTo(0, 0);
+      onClick?.(e);
+    }
   };
 
   return (
@@ -46,6 +57,7 @@ const ButtonBase: React.FC<ButtonBaseProps> = ({
       onClick={handleClick}
       sx={{ whiteSpace: 'nowrap', ...sx }}
       disabled={disabled || (network && isConnecting)}
+      disableRipple
     >
       {children}
       {isLoading && <CircularProgress color="secondary" size={24} sx={{ position: 'absolute' }} />}

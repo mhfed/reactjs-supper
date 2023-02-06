@@ -8,7 +8,8 @@
 
 import React from 'react';
 import { makeStyles } from '@mui/styles';
-import { Paper, Stack, Button, Typography } from '@mui/material';
+import { Paper, Stack, Typography } from '@mui/material';
+import Button from 'components/atoms/ButtonBase';
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { yup } from 'helpers';
 import { STATE_FORM, NOTIFICATION_TYPE, DELIVERY_TYPE, EXPIRE, Notification_Type } from './NotificationConstant';
@@ -199,7 +200,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
           </Button>
         )}
 
-        <Button variant="contained" type="submit">
+        <Button network variant="contained" type="submit">
           <Trans>{stateForm === STATE_FORM.PREVIEW ? 'lang_confirm' : 'lang_create'}</Trans>
         </Button>
       </Stack>

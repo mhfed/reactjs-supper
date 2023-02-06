@@ -37,7 +37,7 @@ type AutocompleteFieldProps = {
   required?: boolean;
   preview?: boolean;
   onChange?: (e: any) => void;
-  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onBlur?: () => void;
   options?: LooseObject[];
   getOptionLabel?: (opt: LooseObject) => string;
   getChipLabel?: (opt: LooseObject) => string;
@@ -96,7 +96,8 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
    * @param e change event
    * @param options new options changed
    */
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, options: LooseObject[]) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, options: LooseObject[], reason: string) => {
+    if (reason === 'removeOption') onBlur?.();
     onChange?.(options);
   };
 
@@ -173,6 +174,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
         freeSolo={!!inputRef.current?.value && inputRef.current?.value?.length > 1 ? false : true}
         id={name}
         onBlur={onBlur}
+        blurOnSelect
         value={value}
         defaultValue={[]}
         onChange={handleChange}

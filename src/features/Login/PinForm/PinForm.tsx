@@ -9,7 +9,7 @@
 import React from 'react';
 import BackspaceIcon from '@mui/icons-material/BackspaceOutlined';
 import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
+import Button from 'components/atoms/ButtonBase';
 import FormHelperText from '@mui/material/FormHelperText';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -224,6 +224,7 @@ const PinForm: React.FC<PinFormProps> = ({ isSetPin = false, isFirstTime = false
     const keyboard = LIST_KEYBOARD.map((item, index) => {
       return (
         <Button
+          debounce={false}
           className={clsx(
             classes.keyboardButton,
             item === '' && classes.hiddenButton,

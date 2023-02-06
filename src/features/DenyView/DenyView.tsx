@@ -9,15 +9,11 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Container, Typography, Grid, useTheme, useMediaQuery } from '@mui/material';
-
+import { Box, Container, Typography, Grid, useTheme, useMediaQuery } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-
-// configs
 import { PATH_NAME } from 'configs';
-
-// actions
 import { logout } from 'actions/auth.action';
+import Button from 'components/atoms/ButtonBase';
 
 const useStyles = makeStyles((theme) => ({
   root: {
