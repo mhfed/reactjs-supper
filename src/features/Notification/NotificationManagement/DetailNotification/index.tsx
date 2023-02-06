@@ -27,6 +27,7 @@ import EditIcon from '@mui/icons-material/Edit';
 interface DetailNotificationProps {
   dataForm: any;
   typePage: 'DETAIL' | 'EDIT';
+  reCallChangeTable?: () => void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -65,7 +66,7 @@ const STATE_FORM = {
   EDIT: 'EDIT',
 };
 
-const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataForm }) => {
+const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataForm, reCallChangeTable }) => {
   const classes = useStyles();
   const { hideModal, showModal } = useGlobalModalContext();
   const { Segment, Direct } = NOTIFICATION_TYPE;
@@ -102,6 +103,7 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
         typePage: 'DETAIL',
         dataForm: { ...dataForm, subscribers: formatData },
         defaultValue: dataForm,
+        reCallChangeTable: reCallChangeTable,
       },
     });
   };
