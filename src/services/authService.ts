@@ -212,7 +212,8 @@ class AuthService {
    * Handle logout
    */
   logOut = () => {
-    httpRequest.post(getLogoutUrl());
+    const accessTokenLogin = store.getState().auth.accessToken || '';
+    accessTokenLogin && httpRequest.post(getLogoutUrl());
     clearStorage();
   };
 

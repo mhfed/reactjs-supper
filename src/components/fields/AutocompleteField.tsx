@@ -174,7 +174,6 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
         freeSolo={!!inputRef.current?.value && inputRef.current?.value?.length > 1 ? false : true}
         id={name}
         onBlur={onBlur}
-        blurOnSelect
         value={value}
         defaultValue={[]}
         onChange={handleChange}
