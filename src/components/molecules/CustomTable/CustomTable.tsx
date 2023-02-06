@@ -59,6 +59,7 @@ const useStyles = (props: TableProps) =>
         },
       },
       '& > div:first-child': {
+        background: theme.palette.background.main,
         borderRadius: 8,
         display: 'flex',
         flex: 1,
