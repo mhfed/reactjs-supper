@@ -81,7 +81,7 @@ export default function SignIn() {
    * @param e checkbox input event
    */
   const onStaySignedIn = (e: React.ChangeEvent<HTMLInputElement>) => {
-    window.localStorage.setItem('isStaySignedIn', e.target.checked + '');
+    window.staySignedin = e.target.checked;
   };
 
   const { values, errors, touched, handleBlur, handleSubmit, setFieldValue } = useFormik({
