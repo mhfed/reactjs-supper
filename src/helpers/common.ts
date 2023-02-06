@@ -5,7 +5,7 @@
  *
  * Copyright (c) 2023 - Novus Fintech
  */
-import React from 'react';
+import { lazy } from 'react';
 import { IArticlesDataManagement, IArticlesFormData } from 'models/IArticles';
 import { IFileUpload } from 'models/ICommon';
 import { SITENAME } from 'features/Articles/ArticlesConstants';
@@ -122,34 +122,31 @@ export const isBlobFile = (file: IFileUpload) => {
 };
 
 /**
- * Retry download chunk load error module
- * @param fn import lazy function
- * @param retriesLeft count max to retry
- * @param interval interval time
- * @returns a promise
+ * Custom lazy load with retry and reload when error set timer
+ * @param componentImport import function
+ * @returns
  */
-const retry = (fn: Function, retriesLeft = 5, interval = 1000) => {
-  return new Promise((resolve, reject) => {
-    fn()
-      .then(resolve)
-      .catch((error: Error) => {
-        setTimeout(() => {
-          if (retriesLeft === 1) {
-            // reject('maximum retries exceeded');
-            reject(error);
-            return;
-          }
-          // Passing on "reject" is the important part
-          retry(fn, retriesLeft - 1, interval).then(resolve, reject);
-        }, interval);
-      });
-  });
-};
+export const lazyWithRetry = (componentImport: any) =>
+  lazy(async () => {
+    const pageHasAlreadyBeenForceRefreshed = JSON.parse(window.localStorage.getItem('page-has-been-force-refreshed') || 'false');
 
-/**
- * Custom lazy load module
- * @param fn import function
- * @returns a promise until import success
- */
-// @ts-ignore
-export const lazyLoad = (fn: Function) => React.lazy(() => retry(fn));
+    try {
+      const component = await componentImport();
+
+      window.localStorage.setItem('page-has-been-force-refreshed', 'false');
+
+      return component;
+    } catch (error) {
+      if (!pageHasAlreadyBeenForceRefreshed) {
+        // Assuming that the user is not on the latest version of the application.
+        // Let's refresh the page immediately.
+        window.localStorage.setItem('page-has-been-force-refreshed', 'true');
+        return window.location.reload();
+      }
+
+      // The page has already been reloaded
+      // Assuming that user is already using the latest version of the application.
+      // Let's let the application crash and raise the error.
+      throw error;
+    }
+  });
