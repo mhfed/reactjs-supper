@@ -341,7 +341,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
     if (editMode) {
       return (
         <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
-          <Button variant="outlined" onClick={() => handleBackOrClose()}>
+          <Button variant="outlined" onClick={() => handleBackOrClose()} scrollToTop>
             <Trans>lang_back</Trans>
           </Button>
           <Button variant="contained" type="submit">

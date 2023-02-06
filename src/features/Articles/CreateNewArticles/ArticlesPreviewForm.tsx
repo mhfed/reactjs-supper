@@ -170,7 +170,7 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
         </Grid>
       </Grid>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Button variant="outlined" onClick={onReturn}>
+        <Button variant="outlined" onClick={onReturn} scrollToTop>
           <Trans>lang_return</Trans>
         </Button>
         <Button variant="contained" sx={{ ml: 2 }} network scrollToTop onClick={onConfirm}>

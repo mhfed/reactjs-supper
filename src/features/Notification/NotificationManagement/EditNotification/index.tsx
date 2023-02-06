@@ -272,7 +272,7 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
   const submitButton = (form: FormikProps<initialValuesType>) => {
     return (
       <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
-        <Button variant="outlined" onClick={() => onCancel(form)}>
+        <Button variant="outlined" onClick={() => onCancel(form)} scrollToTop>
           <Trans>{props.typePage === 'EDIT' ? 'lang_cancel' : 'lang_back'}</Trans>
         </Button>
         <Button network variant="contained" type="submit">

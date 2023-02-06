@@ -190,7 +190,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
               </Grid>
             </Box>
             <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
-              <Button variant="outlined" onClick={handleReturn}>
+              <Button variant="outlined" onClick={handleReturn} scrollToTop>
                 <Trans>lang_return</Trans>
               </Button>
               <Button variant="contained" onClick={handleFormSubmit}>
