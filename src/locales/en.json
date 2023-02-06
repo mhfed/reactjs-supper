@@ -284,7 +284,7 @@
   "lang_password_required": "Password is required",
   "lang_password_invalid": "Your password must include 8-25 characters and contain at least one lowercase, one capital letter and one number",
   "lang_password": "Password",
-  "lang_set_pin_tip": "A 6-Digit PIN is required. Security PIN will help you login quickly and protect your account.",
+  "lang_set_pin_tip": "A 6-Digit PIN is required. Security PIN will help you signin quickly and protect your account.",
   "lang_forgot_pin": "Forgot PIN?",
   "lang_back": "Back",
   "lang_done": "Done",

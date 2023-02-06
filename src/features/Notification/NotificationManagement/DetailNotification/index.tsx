@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     marginLeft: 0,
     paddingRight: 24,
+    overflowY: 'auto',
   },
   buttonWrapper: {
     marginTop: 'auto',
