@@ -12,6 +12,7 @@ import { InputField, AutocompleteField } from 'components/fields';
 import { FormikProps } from 'formik';
 import { initialValuesType } from '../../CreateNewNotification/CreateNewNotification';
 import { ClassNameMap } from '@mui/styles';
+import { LooseObject } from 'models/ICommon';
 
 interface FormDirectNotificationProps {
   form: FormikProps<initialValuesType>;
@@ -21,6 +22,18 @@ interface FormDirectNotificationProps {
 const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, classes }) => {
   const { values } = form;
   values.type_url = 'Articles';
+
+  const sitenames = React.useMemo(() => {
+    const dicCheck: string[] = [];
+    const res: LooseObject[] = [];
+    values.subscribers.forEach((e) => {
+      if (!dicCheck.includes(e.site_name)) {
+        dicCheck.push(e.site_name);
+        res.push(e);
+      }
+    });
+    return res;
+  }, [values.subscribers]);
 
   return (
     <React.Fragment>
@@ -53,7 +66,7 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
             required
             isOptionEqualToValue={(opt, select) => opt.site_name === select.site_name}
             getOptionLabel={(opt) => opt.site_name}
-            value={values.subscribers}
+            value={sitenames}
           />
         </Grid>
         <Grid item xs={12} spacing={3}>
