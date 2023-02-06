@@ -15,8 +15,8 @@ import { useTheme } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    position: 'fixed',
-    bottom: 0,
+    // position: 'fixed',
+    // bottom: 0,
     padding: theme.spacing(1),
     display: 'flex',
     justifyContent: 'center',

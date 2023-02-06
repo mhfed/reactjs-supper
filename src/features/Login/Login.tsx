@@ -26,14 +26,16 @@ import { ThemeProvider, StyledEngineProvider, responsiveFontSizes } from '@mui/m
 const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    height: '100%',
+    height: '100vh',
+    flexDirection: 'column',
+    overflow: 'auto',
   },
   loginContainer: {
     display: 'flex',
-    flex: 1,
+    margin: 'auto',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
