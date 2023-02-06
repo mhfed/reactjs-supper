@@ -487,6 +487,8 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
   const config = React.useRef<ITableConfig | null>(null);
   const tempDataByKey = React.useRef<LooseObject>({});
   const editId = React.useRef<number>(0);
+  const dataBeforeEdit = React.useRef<any>({});
+  const isChangingAll = React.useRef(false);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { showSubModal, hideSubModal } = useGlobalModalContext();
@@ -500,6 +502,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
       // Turn on edit mode
       case ACTIONS.EDIT:
         editId.current = +new Date();
+        dataBeforeEdit.current = { ...data };
         setEditMode(true);
         break;
       // Cancel edit mode, reset data to normal, show confirm when have user data changed
@@ -517,7 +520,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
                 tempDataByKey.current = {};
                 setEditMode(false);
                 hideSubModal();
-                setEditMode(false);
+                if (isChangingAll.current) setData(dataBeforeEdit.current);
               },
             },
           });
@@ -689,6 +692,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
         const newData = tempDataByKey.current[key];
         return { ...e, ...newData };
       });
+      isChangingAll.current = true;
       setData((old) => ({ ...old, data: updatedData }));
     };
     return columns.reduce((acc: MUIDataTableColumnDef[], cur: IColumn) => {
