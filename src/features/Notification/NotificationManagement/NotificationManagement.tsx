@@ -116,6 +116,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
           props: {
             typePage: 'DETAIL',
             dataForm: data,
+            reCallChangeTable: onTableChange,
           },
         });
       },
@@ -125,9 +126,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
         label: 'lang_edit',
         onClick: async (data: Inotifiaction) => {
           const response: any = await httpRequest.get(getNotificationUrl(data?.notification_id));
-
           const formatData = (response?.subscribers || []).map((e: any) => ({ ...e, username: e.subscriber }));
-
           showModal({
             component: EditNotification,
             fullScreen: true,
