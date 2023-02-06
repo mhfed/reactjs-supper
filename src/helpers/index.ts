@@ -11,6 +11,7 @@ export {
   hideTooltip,
   isBlobFile,
   lazyLoad,
+  compareArray,
 } from './common';
 export { default as validate } from './validate';
 export { default as yup } from './yup';

@@ -26,6 +26,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import HeaderModal from 'components/atoms/HeaderModal';
 import Button from 'components/atoms/ButtonBase';
 import { getSearchSubscribersUrl } from 'apis/request.url';
+import { compareArray } from 'helpers';
 
 const useStyles = makeStyles((theme) => ({
   divCointainer: {
@@ -172,28 +173,13 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
   };
 
   /**
-   * Check diff two array
-   * @param array1 list data before edit
-   * @param array2 list data edited
-   * @returns true if diff
-   */
-  const compareArray = (array1: any[], array2: any[]) => {
-    const arrayString1 = array1.map((x: any) => x.username);
-    const arrayString2 = array2.map((x: any) => x.username);
-    let isChange = false;
-    arrayString1.forEach((element: any) => {
-      if (!arrayString2.includes(element)) {
-        isChange = true;
-      }
-    });
-    return isChange;
-  };
-
-  /**
    * Handle save edited data
    */
   const onSave = () => {
-    const isChangeSubscriber = compareArray(values.segment_subscribers, initialValues.segment_subscribers);
+    const isChangeSubscriber = compareArray(
+      values.segment_subscribers.map((e: { username: string }) => e.username),
+      initialValues.segment_subscribers.map((e: { username: string }) => e.username),
+    );
     if (values.segment_name === initialValues.segment_name && !isChangeSubscriber) {
       dispatch(
         enqueueSnackbarAction({
@@ -316,7 +302,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
                   getChipLabel={(option) => option.username}
                   value={values.segment_subscribers}
                   onChange={(value) => setFieldValue('segment_subscribers', value)}
-                  onBlur={handleBlur}
+                  onBlur={() => setFieldTouched('segment_subscribers', true, true)}
                   error={touched.segment_subscribers && Boolean(errors.segment_subscribers)}
                   helperText={(touched.segment_subscribers && errors.segment_subscribers) as string}
                 />
@@ -334,7 +320,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
         );
     }
   };
-  const { values, errors, touched, handleBlur, handleSubmit, setFieldValue, resetForm } = useFormik({
+  const { values, errors, touched, handleBlur, handleSubmit, setFieldValue, resetForm, setFieldTouched } = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,

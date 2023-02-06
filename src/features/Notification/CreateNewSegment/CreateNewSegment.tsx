@@ -189,7 +189,7 @@ const Sample = () => {
                 getChipLabel={(option) => option.username}
                 value={values.segment_subscribers}
                 onChange={(value) => setFieldValue('segment_subscribers', value)}
-                onBlur={handleBlur}
+                onBlur={() => setFieldTouched('segment_subscribers', true, true)}
                 error={touched.segment_subscribers && Boolean(errors.segment_subscribers)}
                 helperText={(touched.segment_subscribers && errors.segment_subscribers) as string}
               />
@@ -207,7 +207,7 @@ const Sample = () => {
       </Paper>
     );
   };
-  const { values, errors, touched, handleBlur, handleSubmit, setFieldValue, resetForm } = useFormik({
+  const { values, errors, touched, handleBlur, handleSubmit, setFieldValue, resetForm, setFieldTouched } = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,

@@ -269,7 +269,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
                   getOptionLabel={(opt) => opt.site_name}
                   value={values.sitename_custom}
                   onChange={(value) => setFieldValue('sitename_custom', value)}
-                  onBlur={handleBlur}
+                  onBlur={() => setFieldTouched('sitename_custom', true, true)}
                   error={touched.sitename_custom && Boolean(errors.sitename_custom)}
                   helperText={(touched.sitename_custom && errors.sitename_custom) as string}
                 />

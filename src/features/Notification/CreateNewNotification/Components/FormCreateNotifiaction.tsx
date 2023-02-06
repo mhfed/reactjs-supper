@@ -67,7 +67,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
               getChipLabel={(option) => option?.name || ''}
               value={values.segment}
               onChange={(value) => setFieldValue('segment', value)}
-              onBlur={() => setFieldTouched('segment', true)}
+              onBlur={() => setFieldTouched('segment', true, true)}
               error={touched.segment && Boolean(errors.segment)}
               helperText={(touched.segment && errors.segment) as string}
             />
@@ -86,7 +86,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
               value={values.sitename}
               formatData={(data = []) => data?.map((e: { site_name: string }) => e.site_name)}
               onChange={(value) => setFieldValue('sitename', value)}
-              onBlur={() => setFieldTouched('sitename', true)}
+              onBlur={() => setFieldTouched('sitename', true, true)}
               error={touched.sitename && Boolean(errors.sitename)}
               helperText={(touched.sitename && errors.sitename) as string}
             />
@@ -104,7 +104,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
               getChipLabel={(option) => option.username}
               value={values.subscribers}
               onChange={(value) => setFieldValue('subscribers', value)}
-              onBlur={() => setFieldTouched('subscribers', true)}
+              onBlur={() => setFieldTouched('subscribers', true, true)}
               error={touched.subscribers && Boolean(errors.subscribers)}
               helperText={(touched.subscribers && errors.subscribers) as string}
             />
