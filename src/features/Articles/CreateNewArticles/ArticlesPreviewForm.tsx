@@ -43,12 +43,14 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
   const classes = useStyles();
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const [loading, setLoading] = React.useState(false);
 
   /**
    * Handle create new articles
    */
   const onConfirm = async () => {
     try {
+      setLoading(true);
       const formData = new FormData();
       formData.append('file', values.image.file);
       const { data: imageResponse } = await httpRequest.post(getUploadUrl(), formData);
@@ -69,6 +71,7 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
         body.attachment_name = values.file.name;
       }
       await httpRequest.post(getArticlesUrl(), body);
+      setLoading(false);
       dispatch(
         enqueueSnackbarAction({
           message: 'lang_create_articles_successfully',
@@ -78,6 +81,7 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
       );
       onReset();
     } catch (error) {
+      setLoading(false);
       dispatch(
         enqueueSnackbarAction({
           message: 'lang_create_articles_unsuccessfully',
@@ -173,7 +177,7 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
         <Button variant="outlined" onClick={onReturn} scrollToTop>
           <Trans>lang_return</Trans>
         </Button>
-        <Button variant="contained" sx={{ ml: 2 }} network scrollToTop onClick={onConfirm}>
+        <Button variant="contained" sx={{ ml: 2 }} isLoading={loading} network scrollToTop onClick={onConfirm}>
           <Trans>lang_confirm</Trans>
         </Button>
       </Box>
