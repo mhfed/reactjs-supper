@@ -188,7 +188,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
       <Paper className={classes.container}>
         <form noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12}>
               <InputField
                 name="subject"
                 label="lang_title"
@@ -201,21 +201,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
                 helperText={touched.subject && errors.subject}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
-              <SelectField
-                options={SECURITY_TYPE_OPTIONS}
-                name="security_type"
-                label="lang_security_type"
-                required
-                fullWidth
-                value={values?.security_type}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched?.security_type && Boolean(errors?.security_type)}
-                helperText={touched.security_type && errors.security_type}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12}>
               <FileField
                 name="file"
                 label="lang_file_attachment"
@@ -228,8 +214,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
                 onChange={(file: IFileUpload) => setFieldValue('file', file)}
               />
             </Grid>
-            <Grid item xs={12} md={6}></Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12}>
               <ImageField
                 required
                 name="image"
@@ -243,7 +228,20 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
                 onChange={(file: IFileUpload) => setFieldValue('image', file)}
               />
             </Grid>
-            <Grid item xs={12} md={6}></Grid>
+            <Grid item xs={12}>
+              <SelectField
+                options={SECURITY_TYPE_OPTIONS}
+                name="security_type"
+                label="lang_security_type"
+                required
+                fullWidth
+                value={values?.security_type}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched?.security_type && Boolean(errors?.security_type)}
+                helperText={touched.security_type && errors.security_type}
+              />
+            </Grid>
             <Grid item xs={12}>
               <RadioGroupField
                 name="site_name"

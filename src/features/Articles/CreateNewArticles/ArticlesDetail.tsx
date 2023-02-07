@@ -79,19 +79,8 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
         <HeaderModal title="lang_articles_details" onClose={hideModal} />
         <Box className={classes.container}>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12}>
               <InputField preview name="subject" label="lang_title" fullWidth value={values.subject} />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <SelectField
-                preview
-                options={SECURITY_TYPE_OPTIONS}
-                name="security_type"
-                label="lang_security_type"
-                required
-                fullWidth
-                value={values.security_type}
-              />
             </Grid>
             {values.file?.name || values.file?.url ? (
               <Grid item xs={12}>
@@ -115,6 +104,17 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
                 helperText="(JPEG, JPG, PNG, HEIC)"
                 accept=".png, .heic, .jpeg, .jpg"
                 value={values.image}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <SelectField
+                preview
+                options={SECURITY_TYPE_OPTIONS}
+                name="security_type"
+                label="lang_security_type"
+                required
+                fullWidth
+                value={values.security_type}
               />
             </Grid>
             <Grid item xs={12}>

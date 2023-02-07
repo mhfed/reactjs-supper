@@ -102,19 +102,8 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
         <Trans>lang_preview_new_article</Trans>
       </Typography>
       <Grid container spacing={2} sx={{ flex: 1, justifyContent: 'flex-start' }}>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12}>
           <InputField preview name="subject" label="lang_title" fullWidth value={values.subject} />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <SelectField
-            preview
-            options={SECURITY_TYPE_OPTIONS}
-            name="security_type"
-            label="lang_security_type"
-            required
-            fullWidth
-            value={values.security_type}
-          />
         </Grid>
         {values.file?.file ? (
           <Grid item xs={12}>
@@ -131,6 +120,17 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
             helperText="(JPEG, JPG, PNG, HEIC)"
             accept=".png, .heic, .jpeg, .jpg"
             value={values.image}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <SelectField
+            preview
+            options={SECURITY_TYPE_OPTIONS}
+            name="security_type"
+            label="lang_security_type"
+            required
+            fullWidth
+            value={values.security_type}
           />
         </Grid>
         <Grid item xs={12}>
