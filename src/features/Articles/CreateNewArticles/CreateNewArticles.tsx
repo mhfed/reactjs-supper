@@ -41,13 +41,13 @@ const CreateNewArticles = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <>
       {step === STEP.CREATE ? (
         <ArticlesCreateForm onCreate={onCreate} values={data.current} />
       ) : (
         <ArticlesPreviewForm onReturn={onReturn} values={data.current} onReset={onReset} />
       )}
-    </div>
+    </>
   );
 };
 

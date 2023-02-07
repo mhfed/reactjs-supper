@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: 'space-between',
     flexGrow: 1,
     minHeight: '100vh',
+    maxHeight: 'fit-content',
     padding: theme.spacing(3, 3, 0, 3),
     background: theme.palette.background.main,
     transition: theme.transitions.create('margin', {
