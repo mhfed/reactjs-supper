@@ -135,7 +135,7 @@ const useStyles = makeStyles((theme) => ({
     pointerEvents: 'none',
     marginTop: 8,
     borderBottom: `1px solid ${alpha(theme.palette.text.primary, 0.7)}`,
-    padding: theme.spacing(0.5, 0, 0.5, 0),
+    padding: theme.spacing(0.5, 1, 0.5, 1),
     '& p': {
       margin: 0,
     },
