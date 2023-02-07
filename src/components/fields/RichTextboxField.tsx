@@ -141,6 +141,8 @@ const useStyles = makeStyles((theme) => ({
     },
     '& img': {
       margin: theme.spacing(1, 0),
+      width: '100%',
+      height: 'auto',
     },
   },
 }));
