@@ -22,6 +22,7 @@ import { ICreateArticlesBody } from 'models/IArticles';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { Typography } from '@mui/material';
+import useConfirmEdit from 'hooks/useConfirmEdit';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -43,6 +44,7 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
   const classes = useStyles();
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const confirmEdit = useConfirmEdit(() => true); // eslint-disable-line
 
   /**
    * Handle create new articles
