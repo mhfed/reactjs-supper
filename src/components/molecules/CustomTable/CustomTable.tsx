@@ -75,7 +75,7 @@ const useStyles = (props: TableProps) =>
         },
       },
       '& .MuiTableCell-footer': {
-        background: theme.palette.background.paper,
+        background: 'transparent',
         border: 'none',
       },
       '& .MuiTableCell-root': {

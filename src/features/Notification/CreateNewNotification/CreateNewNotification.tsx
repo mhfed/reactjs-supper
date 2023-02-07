@@ -191,7 +191,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
     return (
       <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
         {stateForm === STATE_FORM.PREVIEW ? (
-          <Button variant="outlined" onClick={onReturnPreviousPage}>
+          <Button variant="outlined" onClick={onReturnPreviousPage} scrollToTop>
             <Trans>lang_return</Trans>
           </Button>
         ) : (

@@ -309,7 +309,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
               </Grid>
             </Grid>
             <Stack className={classes.buttonWrapper} direction="row" spacing={2}>
-              <Button variant="outlined" onClick={handleCancel}>
+              <Button variant="outlined" onClick={handleCancel} scrollToTop>
                 {typePage === STATE_FORM.DETAIL ? <Trans>lang_back</Trans> : <Trans>lang_cancel</Trans>}
               </Button>
               <Button network variant="contained" onClick={onSave}>

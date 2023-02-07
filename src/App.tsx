@@ -42,6 +42,14 @@ function App() {
    * Handle tooltip
    */
   useEffect(() => {
+    // listener back action from browser
+    window.addEventListener('popstate', (event) => {
+      if (window.location.pathname.includes('/login')) {
+        event.preventDefault();
+        window.location.reload();
+      }
+    });
+    // set default timezon
     moment.tz.setDefault('Australia/Sydney');
     window.addEventListener('online', () => {
       dispatch(setConnecting(false));

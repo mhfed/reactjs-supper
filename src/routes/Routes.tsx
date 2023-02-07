@@ -13,23 +13,23 @@ import { IRoutes } from 'models/IRoutes';
 import MainLayout from 'layouts/MainLayout';
 import AuthGuard from 'guards/AuthGuard';
 import RoleRoute from './RoleRoute';
-import { lazyLoad } from 'helpers';
+import { lazyWithRetry } from 'helpers';
 
 // modules
-const Error404View = lazyLoad(() => import('features/Error404View'));
-const UserManagement = lazyLoad(() => import('features/User/UserManagement'));
-const CreateNewUser = lazyLoad(() => import('features/User/CreateNewUser'));
-const UserDetailEdit = lazyLoad(() => import('features/User/UserDetailEdit'));
-const NotificationManagement = lazyLoad(() => import('features/Notification/NotificationManagement'));
-const CreateNewNotification = lazyLoad(() => import('features/Notification/CreateNewNotification'));
-const SegmentManagement = lazyLoad(() => import('features/Notification/SegmentManagement'));
-const CreateNewSegment = lazyLoad(() => import('features/Notification/CreateNewSegment'));
-const Subscribers = lazyLoad(() => import('features/Notification/Subscribers'));
-const ArticlesManagement = lazyLoad(() => import('features/Articles/ArticlesManagement'));
-const CreateNewArticles = lazyLoad(() => import('features/Articles/CreateNewArticles'));
-const Report = lazyLoad(() => import('features/Report'));
-const Login = lazyLoad(() => import('features/Login'));
-const DenyView = lazyLoad(() => import('features/DenyView'));
+const Error404View = lazyWithRetry(() => import('features/Error404View'));
+const UserManagement = lazyWithRetry(() => import('features/User/UserManagement'));
+const CreateNewUser = lazyWithRetry(() => import('features/User/CreateNewUser'));
+const UserDetailEdit = lazyWithRetry(() => import('features/User/UserDetailEdit'));
+const NotificationManagement = lazyWithRetry(() => import('features/Notification/NotificationManagement'));
+const CreateNewNotification = lazyWithRetry(() => import('features/Notification/CreateNewNotification'));
+const SegmentManagement = lazyWithRetry(() => import('features/Notification/SegmentManagement'));
+const CreateNewSegment = lazyWithRetry(() => import('features/Notification/CreateNewSegment'));
+const Subscribers = lazyWithRetry(() => import('features/Notification/Subscribers'));
+const ArticlesManagement = lazyWithRetry(() => import('features/Articles/ArticlesManagement'));
+const CreateNewArticles = lazyWithRetry(() => import('features/Articles/CreateNewArticles'));
+const Report = lazyWithRetry(() => import('features/Report'));
+const Login = lazyWithRetry(() => import('features/Login'));
+const DenyView = lazyWithRetry(() => import('features/DenyView'));
 
 const routesConfig: IRoutes[] = [
   {

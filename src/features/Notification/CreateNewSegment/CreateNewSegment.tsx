@@ -196,7 +196,7 @@ const Sample = () => {
             </Grid>
           </Grid>
           <Stack className={classes.buttonWrapper} direction="row" spacing={2}>
-            <Button variant="outlined" onClick={isPreview ? handleReturn : handleClearData}>
+            <Button variant="outlined" onClick={isPreview ? handleReturn : handleClearData} scrollToTop>
               <Trans>{isPreview ? 'lang_return' : 'lang_clear'}</Trans>
             </Button>
             <Button network variant="contained" type="submit">

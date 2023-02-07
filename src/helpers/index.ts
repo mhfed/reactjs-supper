@@ -10,7 +10,7 @@ export {
   clearStorage,
   hideTooltip,
   isBlobFile,
-  lazyLoad,
+  lazyWithRetry,
   compareArray,
 } from './common';
 export { default as validate } from './validate';

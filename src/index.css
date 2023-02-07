@@ -190,17 +190,13 @@ input[type='number']::-webkit-outer-spin-button {
   margin: 0;
 }
 
-/* figure {
-  pointer-events: none;
+.DraftEditor-editorContainer figure {
+  margin: 0;
 }
 
-.rdw-image-modal-size {
-  pointer-events: none;
+.rdw-image-imagewrapper {
+  width: 100%;
 }
-
-.rdw-image-modal-upload-option-label {
-  line-break: anywhere;
-} */
 
 .rdw-image-alignment-options-popup {
   color: #000000;
