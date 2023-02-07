@@ -100,80 +100,76 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
         <Trans>lang_preview_new_article</Trans>
       </Typography>
       <Grid container spacing={2} sx={{ flex: 1, justifyContent: 'flex-start' }}>
-        <Grid item container spacing={2} xs={12} md={6}>
-          <Grid item xs={12}>
-            <InputField preview name="subject" label="lang_title" fullWidth value={values.subject} />
-          </Grid>
-          <Grid item xs={12}>
-            <RichTextboxField
-              preview
-              placeholder="lang_enter_your_content"
-              label="lang_content"
-              value={values.content}
-              onChange={(e) => console.log('YOLO: ', e)}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <ImageField
-              preview
-              name="image"
-              label="lang_thumbnail_image"
-              helperText="(JPEG, JPG, PNG, HEIC)"
-              accept=".png, .heic, .jpeg, .jpg"
-              value={values.image}
-            />
-          </Grid>
-          {values.file?.file ? (
-            <Grid item xs={12}>
-              <FileField preview name="file" label="lang_file_attachment" helperText="(PDF)" accept=".pdf" value={values.file} />
-            </Grid>
-          ) : (
-            <></>
-          )}
+        <Grid item xs={12} md={6}>
+          <InputField preview name="subject" label="lang_title" fullWidth value={values.subject} />
         </Grid>
-        <Grid item container spacing={2} xs={12} md={6}>
+        <Grid item xs={12} md={6}>
+          <SelectField
+            preview
+            options={SECURITY_TYPE_OPTIONS}
+            name="security_type"
+            label="lang_security_type"
+            required
+            fullWidth
+            value={values.security_type}
+          />
+        </Grid>
+        {values.file?.file ? (
           <Grid item xs={12}>
-            {values.sitename_custom?.length ? (
-              <AutocompleteField
-                preview
-                name="sitename_custom"
-                label="lang_sitename"
-                required
-                getUrl={getSearchSitenameUrl}
-                isOptionEqualToValue={(opt, select) => opt.site_name === select.site_name}
-                getOptionLabel={(opt) => opt.site_name}
-                value={values.sitename_custom}
-              />
-            ) : (
-              <InputField preview name="site_name" label="lang_sitename" required fullWidth value={sitename} />
-            )}
+            <FileField preview name="file" label="lang_file_attachment" helperText="(PDF)" accept=".pdf" value={values.file} />
           </Grid>
-          <Grid item xs={12}>
+        ) : (
+          <></>
+        )}
+        <Grid item xs={12}>
+          <ImageField
+            preview
+            name="image"
+            label="lang_thumbnail_image"
+            helperText="(JPEG, JPG, PNG, HEIC)"
+            accept=".png, .heic, .jpeg, .jpg"
+            value={values.image}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          {values.sitename_custom?.length ? (
             <AutocompleteField
               preview
-              name="securities"
-              label="lang_security_code"
+              name="sitename_custom"
+              label="lang_sitename"
               required
-              getUrl={getSearchSecurityCodeUrl}
-              isOptionEqualToValue={(opt, select) => opt.securities === select.securities}
-              getOptionLabel={(opt) => opt.securities}
-              value={values.securities}
+              getUrl={getSearchSitenameUrl}
+              isOptionEqualToValue={(opt, select) => opt.site_name === select.site_name}
+              getOptionLabel={(opt) => opt.site_name}
+              value={values.sitename_custom}
             />
-          </Grid>
-          <Grid item xs={12}>
-            <SelectField
-              preview
-              options={SECURITY_TYPE_OPTIONS}
-              name="security_type"
-              label="lang_security_type"
-              required
-              fullWidth
-              value={values.security_type}
-            />
-          </Grid>
+          ) : (
+            <InputField preview name="site_name" label="lang_sitename" required fullWidth value={sitename} />
+          )}
+        </Grid>
+        <Grid item xs={12}>
+          <AutocompleteField
+            preview
+            name="securities"
+            label="lang_security_code"
+            required
+            getUrl={getSearchSecurityCodeUrl}
+            isOptionEqualToValue={(opt, select) => opt.securities === select.securities}
+            getOptionLabel={(opt) => opt.securities}
+            value={values.securities}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <RichTextboxField
+            preview
+            placeholder="lang_enter_your_content"
+            label="lang_content"
+            value={values.content}
+            onChange={(e) => console.log('YOLO: ', e)}
+          />
         </Grid>
       </Grid>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
         <Button variant="outlined" onClick={onReturn} scrollToTop>
           <Trans>lang_return</Trans>
         </Button>

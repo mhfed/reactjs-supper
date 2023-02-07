@@ -196,6 +196,7 @@ input[type='number']::-webkit-outer-spin-button {
 
 .rdw-image-imagewrapper {
   width: 100%;
+  margin: 8px 0;
 }
 
 .rdw-image-alignment-options-popup {
@@ -213,4 +214,8 @@ input[type='number']::-webkit-outer-spin-button {
 span[data-text='true'],
 span[data-offset-key] {
   pointer-events: none;
+}
+
+.public-DraftStyleDefault-block {
+  margin: 8px 0 !important;
 }

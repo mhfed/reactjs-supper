@@ -35,7 +35,8 @@ const useStyles = makeStyles((theme) => ({
   },
   loginContainer: {
     display: 'flex',
-    margin: 'auto',
+    margin: 'auto 0',
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

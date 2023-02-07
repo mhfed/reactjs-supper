@@ -137,7 +137,10 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: `1px solid ${alpha(theme.palette.text.primary, 0.7)}`,
     padding: theme.spacing(0.5, 1, 0.5, 1),
     '& p': {
-      margin: 0,
+      margin: theme.spacing(1, 0),
+    },
+    '& img': {
+      margin: theme.spacing(1, 0),
     },
   },
 }));
@@ -155,6 +158,10 @@ type RichTextboxProps = {
 };
 type RichTextboxHandle = {
   reset: () => void;
+};
+
+const customEntityTransform = (entity: any, text: string) => {
+  return;
 };
 
 const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props, ref) => {
@@ -215,7 +222,7 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
   function handleBlur() {
     onBlur?.();
     const rawContent = convertToRaw(editorState.getCurrentContent());
-    const strValue = draftToHtml(rawContent);
+    const strValue = draftToHtml(rawContent, {}, false, customEntityTransform);
     if (strValue.includes('<img')) return;
     const isEmpty = convertToRaw(editorState.getCurrentContent()).blocks.every((b) => b.text.trim() === '');
     if (isEmpty) {
@@ -232,7 +239,7 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
     try {
       const rawContent = convertToRaw(v.getCurrentContent());
       setEditorState(v);
-      const strValue = draftToHtml(rawContent);
+      const strValue = draftToHtml(rawContent, {}, false, customEntityTransform);
       onChange?.(strValue);
     } catch (error) {
       console.error('handleChange richtexbox error: ', error);
