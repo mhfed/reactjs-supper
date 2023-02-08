@@ -39,14 +39,13 @@ const ButtonBase: React.FC<ButtonBaseProps> = ({
    * @param e click event
    */
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    scrollToTop && document.getElementById('root')?.scrollTo?.(0, 0);
     if (debounce) {
       timeoutId.current && window.clearTimeout(timeoutId.current);
       timeoutId.current = window.setTimeout(() => {
-        scrollToTop && document.getElementById('root')?.scrollTo?.(0, 0);
         onClick?.(e);
       }, process.env.REACT_APP_DEBOUNCE_TIME);
     } else {
-      scrollToTop && document.getElementById('root')?.scrollTo?.(0, 0);
       onClick?.(e);
     }
   };
