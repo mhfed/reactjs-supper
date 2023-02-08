@@ -35,6 +35,7 @@ export type INavBarItem = {
   title: string;
   open?: boolean;
   active?: boolean;
+  pathname?: string;
   href: string;
   label?: string;
   children?: any;

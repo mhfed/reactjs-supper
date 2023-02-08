@@ -16,7 +16,7 @@ import NavBarExpandItem from './NavBarExpandItem';
 import useStyles from './styles';
 import { Trans, useTranslation } from 'react-i18next';
 
-const NavBarItem: FC<INavBarItem> = ({ active, depth, icon: Icon, title, open: openProp, href, children }) => {
+const NavBarItem: FC<INavBarItem> = ({ active, pathname, depth, icon: Icon, title, open: openProp, href, children }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -38,6 +38,7 @@ const NavBarItem: FC<INavBarItem> = ({ active, depth, icon: Icon, title, open: o
   }
 
   const onMenuClick = () => {
+    if (pathname === href) return;
     if (window.confirmEdit) {
       window.confirmEdit(() => {
         navigate(href);
