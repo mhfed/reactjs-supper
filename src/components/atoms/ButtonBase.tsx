@@ -42,11 +42,11 @@ const ButtonBase: React.FC<ButtonBaseProps> = ({
     if (debounce) {
       timeoutId.current && window.clearTimeout(timeoutId.current);
       timeoutId.current = window.setTimeout(() => {
-        scrollToTop && window.scrollTo(0, 0);
+        scrollToTop && document.getElementById('root')?.scrollTo?.(0, 0);
         onClick?.(e);
       }, process.env.REACT_APP_DEBOUNCE_TIME);
     } else {
-      scrollToTop && window.scrollTo(0, 0);
+      scrollToTop && document.getElementById('root')?.scrollTo?.(0, 0);
       onClick?.(e);
     }
   };
