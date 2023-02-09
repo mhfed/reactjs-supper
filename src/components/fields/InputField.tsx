@@ -62,11 +62,11 @@ const InputField: React.FC<TextFieldProps> = ({
   };
 
   const _onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    onBlur?.(e);
     if (e.target.value !== (e.target.value + '').trim()) {
       e.target.value = (e.target.value + '').trim();
       onChange?.(e);
     }
-    onBlur?.(e);
   };
 
   return (
