@@ -169,12 +169,6 @@ const useStyles = (props: TableProps) =>
       justifyContent: 'center',
       alignItems: 'center',
     },
-    inputCell: {
-      minWidth: 200,
-      '& input': {
-        padding: theme.spacing(0.5, 1),
-      },
-    },
     thCustomLabel: {
       marginLeft: theme.spacing(3),
     },
@@ -323,7 +317,6 @@ function convertColumn({
             return (
               <InputCell
                 id={editId + cellId}
-                classeName={classes.inputCell}
                 value={curValue}
                 onChange={(v) => onChange?.(tableMeta.columnData.name, v, tableMeta.rowIndex)}
               />

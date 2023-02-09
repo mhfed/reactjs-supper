@@ -47,12 +47,21 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'block',
       paddingTop: 0,
       paddingBottom: 0,
+      '& > button': {
+        borderRadius: 0,
+        borderBottom: `1px solid ${theme.palette.divider}`,
+      },
+      '& ul li:last-child': {
+        '& button': {
+          borderRadius: 0,
+          borderBottom: `1px solid ${theme.palette.divider}`,
+        },
+      },
     },
     itemLeaf: {
       display: 'flex',
       paddingTop: 0,
       paddingBottom: 0,
-      '&:hover': {},
     },
     button: {
       padding: '10px 8px',

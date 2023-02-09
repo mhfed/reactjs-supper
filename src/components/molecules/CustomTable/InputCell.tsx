@@ -13,6 +13,10 @@ import TextField from '@mui/material/TextField';
 const useStyles = makeStyles((theme) => ({
   container: {
     width: '100%',
+    minWidth: 200,
+    '& input': {
+      padding: theme.spacing(0.5, 1),
+    },
     '& > div:first-child': {
       width: '100%',
     },
@@ -23,10 +27,9 @@ type DropdownCellProps = {
   id: string;
   value: string | number;
   onChange: (value: string | number) => void;
-  classeName: any;
 };
 
-const InputCell: React.FC<DropdownCellProps> = ({ id, value: initialValue, onChange, classeName }) => {
+const InputCell: React.FC<DropdownCellProps> = ({ id, value: initialValue, onChange }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(initialValue);
 
@@ -49,14 +52,7 @@ const InputCell: React.FC<DropdownCellProps> = ({ id, value: initialValue, onCha
 
   return (
     <div className={classes.container}>
-      <TextField
-        title={value + ''}
-        className={classeName}
-        variant="outlined"
-        fullWidth
-        value={value || ''}
-        onChange={handleChange}
-      />
+      <TextField title={value + ''} variant="outlined" fullWidth value={value || ''} onChange={handleChange} />
     </div>
   );
 };

@@ -101,7 +101,6 @@ function NavBar({ isDrawer }: IProps) {
           <img src={'/logo-full-dark.svg'} alt="Logo" title="logo" />
         </Link>
       </div>
-      <Divider />
 
       {renderNavItems({ items: navBarCommon as any, pathname: location.pathname })}
       <Version />
