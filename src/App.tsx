@@ -50,7 +50,7 @@ function App() {
       }
     });
     // set default timezon
-    moment.tz.setDefault('Australia/Sydney');
+    // moment.tz.setDefault('Australia/Sydney');
     window.addEventListener('online', () => {
       dispatch(setConnecting(false));
     });
