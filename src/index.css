@@ -237,3 +237,7 @@ span[data-offset-key] {
 .public-DraftStyleDefault-block {
   margin: 8px 0 !important;
 }
+
+.datatables-noprint {
+  display: none;
+}

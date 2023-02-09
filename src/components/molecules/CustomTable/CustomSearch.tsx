@@ -29,6 +29,8 @@ const useStyles = makeStyles((theme) => ({
     },
     '& .MuiFormControl-root': {
       background: theme.palette.mode === 'dark' ? 'transparent' : 'white',
+      borderRadius: 4,
+      overflow: 'hidden',
     },
     '& input': {
       padding: theme.spacing(1),
