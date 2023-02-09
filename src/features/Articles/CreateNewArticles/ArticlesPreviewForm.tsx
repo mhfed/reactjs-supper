@@ -162,13 +162,7 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
           />
         </Grid>
         <Grid item xs={12}>
-          <RichTextboxField
-            preview
-            placeholder="lang_enter_your_content"
-            label="lang_content"
-            value={values.content}
-            onChange={(e) => console.log('YOLO: ', e)}
-          />
+          <RichTextboxField preview placeholder="lang_enter_your_content" label="lang_content" value={values.content} />
         </Grid>
       </Grid>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>

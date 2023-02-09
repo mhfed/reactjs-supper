@@ -320,9 +320,6 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
                 bold: { icon: listIcon['bold'] },
                 italic: { icon: listIcon['italic'] },
               },
-              blockType: {
-                className: 'yolo',
-              },
               list: {
                 inDropdown: false,
                 options: ['ordered', 'unordered'],
