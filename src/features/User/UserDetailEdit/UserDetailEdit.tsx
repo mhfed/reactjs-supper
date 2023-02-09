@@ -173,7 +173,8 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
         },
       });
     } else {
-      hideModal();
+      setEditMode(false);
+      if (closeModal) hideModal();
     }
   };
 
@@ -361,7 +362,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
   };
   return (
     <>
-      <HeaderModal title="lang_user_details" onClose={handleClose} />
+      <HeaderModal title={editMode ? 'lang_edit_user' : 'lang_user_details'} onClose={handleClose} />
       <form className={classes.form} noValidate onSubmit={handleSubmit}>
         {renderContent(editMode)}
         {renderButton(editMode)}
