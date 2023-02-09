@@ -71,6 +71,7 @@ const useStyles = (props: TableProps) =>
           borderRadius: 8,
           boxShadow: theme.shadows[1],
           overflowY: 'hidden',
+          flex: 1,
         },
       },
       '& .MuiTableCell-footer': {
