@@ -98,7 +98,7 @@ function NavBar({ isDrawer }: IProps) {
     >
       <div className={classes.drawerHeader}>
         <Link to={PATH_NAME.ROOT} className={classes.navBar_link}>
-          <img src={'/logo-full-dark.svg'} alt="Logo" title="logo" />
+          <img src={'/logo-full-dark.svg'} alt="Logo" />
         </Link>
       </div>
 

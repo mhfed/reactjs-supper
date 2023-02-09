@@ -150,10 +150,7 @@ const IressSignIn: React.FC<IressSignInProps> = (props) => {
             inputProps={{ maxLength: 50 }}
             value={values.username}
             onChange={handleChange}
-            onBlur={(e) => {
-              handleBlur(e);
-              setFieldValue('username', e.target.value.trim());
-            }}
+            onBlur={handleBlur}
             clearValue={setFieldValue}
             error={touched.username && Boolean(errors.username)}
             helperText={touched.username && errors.username}

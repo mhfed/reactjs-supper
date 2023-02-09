@@ -136,15 +136,6 @@ const Sample = () => {
     return option.username === value.username;
   }, []);
 
-  /**
-   * trim value and set data fomatted for segment name input
-   * @param e input focus event
-   */
-  const handleBlurInput = (e: React.FocusEvent<HTMLInputElement>) => {
-    setFieldValue('segment_name', values.segment_name.trim());
-    handleBlur(e);
-  };
-
   const renderContent = (stateForm: string) => {
     const isPreview = stateForm === STATE_FORM.PREVIEW;
 
@@ -169,10 +160,8 @@ const Sample = () => {
                 fullWidth
                 preview={isPreview}
                 value={values.segment_name}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setFieldValue('segment_name', e.target.value.trimStart());
-                }}
-                onBlur={handleBlurInput}
+                onChange={handleChange}
+                onBlur={handleBlur}
                 error={touched.segment_name && Boolean(errors.segment_name)}
                 helperText={touched.segment_name && errors.segment_name}
               />
@@ -207,11 +196,12 @@ const Sample = () => {
       </Paper>
     );
   };
-  const { values, errors, touched, handleBlur, handleSubmit, setFieldValue, resetForm, setFieldTouched } = useFormik({
-    initialValues: initialValues,
-    validationSchema: validationSchema,
-    onSubmit: handleFormSubmit,
-  });
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue, resetForm, setFieldTouched } =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: validationSchema,
+      onSubmit: handleFormSubmit,
+    });
 
   React.useEffect(() => {
     valuesClone.current = { ...values };

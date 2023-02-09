@@ -323,6 +323,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
                 name="note"
                 label="lang_notes"
                 fullWidth
+                maxLength={255}
                 value={values.note}
                 onChange={handleChange}
                 onBlur={handleBlur}

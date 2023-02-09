@@ -52,7 +52,16 @@ const InputCell: React.FC<DropdownCellProps> = ({ id, value: initialValue, onCha
 
   return (
     <div className={classes.container}>
-      <TextField title={value ? value + '' : ''} variant="outlined" fullWidth value={value || ''} onChange={handleChange} />
+      <TextField
+        title={value ? value + '' : ''}
+        inputProps={{
+          maxLength: 255,
+        }}
+        variant="outlined"
+        fullWidth
+        value={value || ''}
+        onChange={handleChange}
+      />
     </div>
   );
 };
