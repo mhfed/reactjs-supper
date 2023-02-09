@@ -61,6 +61,7 @@ const Sample = () => {
   const dispatch = useDispatch();
   const { showModal, hideModal } = useGlobalModalContext();
   const [stateForm, setStateForm] = React.useState(STATE_FORM.CREATE);
+  const [loading, setLoading] = React.useState(false);
   const valuesClone = React.useRef(initialValues);
   const confirmEdit = useConfirmEdit(() => !!diff(initialValues, valuesClone.current)); // eslint-disable-line
 
@@ -101,6 +102,7 @@ const Sample = () => {
       if (stateForm === STATE_FORM.CREATE) {
         setStateForm(STATE_FORM.PREVIEW);
       } else {
+        setLoading(true);
         const subcribersArray = values.segment_subscribers.map((x: any) => ({ username: x.username, site_name: x.site_name }));
         const body = {
           name: values.segment_name,
@@ -116,8 +118,10 @@ const Sample = () => {
         );
         resetForm();
         setStateForm(STATE_FORM.CREATE);
+        setLoading(false);
       }
     } catch (error) {
+      setLoading(false);
       dispatch(
         enqueueSnackbarAction({
           message: 'lang_create_segment_unsuccessfully',
@@ -188,7 +192,7 @@ const Sample = () => {
             <Button variant="outlined" onClick={isPreview ? handleReturn : handleClearData} scrollToTop>
               <Trans>{isPreview ? 'lang_return' : 'lang_clear'}</Trans>
             </Button>
-            <Button network variant="contained" type="submit">
+            <Button network variant="contained" isLoading={loading} type="submit">
               <Trans>{isPreview ? 'lang_confirm' : 'lang_create'}</Trans>
             </Button>
           </Stack>
