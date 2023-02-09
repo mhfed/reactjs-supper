@@ -21,7 +21,7 @@ const NavBarItem: FC<INavBarItem> = ({ active, pathname, depth, icon: Icon, titl
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  let paddingLeft = 24;
+  let paddingLeft = 18;
   if (depth > 0) {
     paddingLeft = 40 + 8 * depth;
   }

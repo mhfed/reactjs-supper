@@ -31,7 +31,7 @@ function NavBarExpandItem({ active, title, icon: Icon, open = false, children, s
     <ListItem className={clsx(classes.item)} disableGutters key={title}>
       <Button className={clsx(classes.button, active && classes.listItemActive)} onClick={handleToggle} style={style}>
         {Icon && <Icon className={classes.icon} size="20" />}
-        <span className={classes.title}>{title}</span>
+        <span className={classes.parentTitle}>{title}</span>
         {isExpand ? <ExpandLessIcon /> : <ExpandMoreIcon />}
       </Button>
       <Collapse in={isExpand}>{children}</Collapse>

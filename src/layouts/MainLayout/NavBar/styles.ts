@@ -99,6 +99,11 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: 'auto',
       fontSize: '1rem',
     },
+    parentTitle: {
+      marginRight: 'auto',
+      fontSize: '1rem',
+      fontWeight: '700',
+    },
     navBar_link: {
       color: 'inherit',
       display: 'flex',
