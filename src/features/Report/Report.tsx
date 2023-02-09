@@ -278,7 +278,6 @@ const Report: React.FC<ReportProps> = () => {
         onSave={onSaveReport}
         onTableChange={onTableChange}
         columns={columns}
-        noDataText="lang_no_data"
       />
     </div>
   );

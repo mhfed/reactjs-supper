@@ -52,7 +52,11 @@ const NavBarItem: FC<INavBarItem> = ({ active, pathname, depth, icon: Icon, titl
   return (
     <ListItem className={clsx(classes.itemLeaf)} disableGutters key={title}>
       <Button
-        className={clsx(classes.buttonLeaf, `depth-${depth}`, active && classes.navBarItemActive)}
+        className={clsx(
+          classes.buttonLeaf,
+          `depth-${depth}`,
+          active && (depth > 0 ? classes.navBarItemActive : classes.listItemActive),
+        )}
         // component={RouterLink}
         onClick={onMenuClick}
         style={style}
