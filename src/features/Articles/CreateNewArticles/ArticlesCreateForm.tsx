@@ -20,7 +20,7 @@ import {
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { useFormik } from 'formik';
-import { checkDiffArticlesEdit, yup } from 'helpers';
+import { yup } from 'helpers';
 import makeStyles from '@mui/styles/makeStyles';
 import { SITENAME_OPTIONS, SECURITY_TYPE_OPTIONS, SITENAME } from '../ArticlesConstants';
 import { IFileUpload, LooseObject } from 'models/ICommon';

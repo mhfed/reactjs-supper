@@ -150,7 +150,7 @@ export default function initRequest(store: any) {
         return;
       }
 
-      if (errorCode === 2089) {
+      if (errorCode === 2089 || errorCode === 2013) {
         // Creating PIN request has expired
         store.dispatch(showExpiredPopup());
       }

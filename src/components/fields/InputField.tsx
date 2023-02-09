@@ -53,16 +53,28 @@ const InputField: React.FC<TextFieldProps> = ({
   fullWidth = true,
   required,
   disabled,
+  onBlur,
+  onChange,
   ...props
 }) => {
   const clearValue = () => {
     props?.clearValue && props.clearValue(props?.name || '', '');
   };
 
+  const _onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (e.target.value !== (e.target.value + '').trim()) {
+      e.target.value = (e.target.value + '').trim();
+      onChange?.(e);
+    }
+    onBlur?.(e);
+  };
+
   return (
     <TextField
       {...props}
       fullWidth={fullWidth}
+      onBlur={_onBlur}
+      onChange={onChange}
       disabled={disabled}
       required={preview ? false : required}
       variant={!disabled && preview && !variant ? 'standard' : variant}

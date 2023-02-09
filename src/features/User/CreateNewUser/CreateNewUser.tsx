@@ -20,8 +20,10 @@ import { validate } from 'helpers';
 import { USER_STATUS_OPTIONS, SITE_NAME_OPTIONS } from '../UserConstants';
 import httpRequest from 'services/httpRequest';
 import { getUserDetailUrl } from 'apis/request.url';
-import { diff } from 'deep-diff';
 import useConfirmEdit from 'hooks/useConfirmEdit';
+import { useGlobalModalContext } from 'containers/Modal';
+import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
+import { diff } from 'deep-diff';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -62,6 +64,8 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
   const [stateForm, setStateForm] = React.useState(STATE_FORM.CREATE);
   const valuesClone = React.useRef(initialValues);
   const confirmEdit = useConfirmEdit(() => !!diff(initialValues, valuesClone.current)); // eslint-disable-line
+  const { showSubModal, hideSubModal } = useGlobalModalContext();
+
   /**
    * Switch to preview mode
    * @param values form data
@@ -123,7 +127,22 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
    * Handle reset form data
    */
   const handleClearData = () => {
-    resetForm();
+    if (diff(initialValues, values)) {
+      showSubModal({
+        title: 'lang_confirm_cancel',
+        component: ConfirmEditModal,
+        props: {
+          title: 'lang_confirm_cancel_text',
+          emailConfirm: false,
+          cancelText: 'lang_no',
+          confirmText: 'lang_yes',
+          onSubmit: () => {
+            hideSubModal();
+            resetForm();
+          },
+        },
+      });
+    } else resetForm();
   };
 
   /**
