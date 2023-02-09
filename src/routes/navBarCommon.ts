@@ -6,7 +6,7 @@
  * Copyright (c) 2023 - Novus Fintech
  */
 
-import PeopleIcon from '@mui/icons-material/People';
+import PersonIcon from '@mui/icons-material/Person';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import ArticleIcon from '@mui/icons-material/Article';
 import AssessmentIcon from '@mui/icons-material/Assessment';
@@ -29,7 +29,7 @@ export const navBarCommon = [
   {
     title: 'lang_user_management',
     href: PATH_NAME.USER,
-    icon: PeopleIcon,
+    icon: PersonIcon,
     items: [
       {
         title: 'lang_create_new_user',
