@@ -18,7 +18,7 @@ export const isLoadingSelector = createSelector(
 
 export const isExpiredSelector = createSelector(
   (state: IRootState) => state.app,
-  (app) => app.isExpired,
+  (app) => app.expiredNoti,
 );
 
 export const isConnectingSelector = createSelector(

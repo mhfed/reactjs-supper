@@ -153,7 +153,7 @@ export default function initRequest(store: any) {
       if (errorCode === 2089 || errorCode === 2013) {
         // Creating PIN request has expired
         clearStorage();
-        store.dispatch(showExpiredPopup());
+        store.dispatch(showExpiredPopup(errorCode === 2013 ? 'error_code_852008' : ''));
       }
 
       const finalError: any = {

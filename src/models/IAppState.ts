@@ -26,7 +26,7 @@ export type IAppState = {
   isLoading: boolean;
   dialog: IDialog;
   notifications: any;
-  isExpired: boolean;
+  expiredNoti: string;
 };
 
 export type IAppActionCreator = {

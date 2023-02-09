@@ -17,7 +17,7 @@ const initialState: IAppState = {
     content: '',
   },
   notifications: {},
-  isExpired: false,
+  expiredNoti: '',
 };
 
 const reducer = (state = initialState, { type, payload }: IAppActionCreator) => {
@@ -25,7 +25,7 @@ const reducer = (state = initialState, { type, payload }: IAppActionCreator) => 
     case IAppActionTypes.SET_EXPIRED:
       return {
         ...state,
-        isExpired: true,
+        expiredNoti: payload,
       };
     case IAppActionTypes.SET_LOADING:
       return {

@@ -10,8 +10,9 @@ import { IAppActionTypes, INotifer } from 'models/IAppState';
 /**
  * Show expired popup when receivered expired error from backend
  */
-export const showExpiredPopup = () => ({
+export const showExpiredPopup = (text: string) => ({
   type: IAppActionTypes.SET_EXPIRED,
+  payload: text,
 });
 
 /**
