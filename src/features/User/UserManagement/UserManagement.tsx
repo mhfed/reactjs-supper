@@ -145,6 +145,7 @@ const UserManagement: React.FC<UserManagementProps> = () => {
             fullScreen: true,
             props: {
               dataForm: response,
+              callback: onTableChange,
             },
           });
         },

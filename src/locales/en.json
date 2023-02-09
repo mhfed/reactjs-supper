@@ -199,7 +199,7 @@
   "lang_view_detail": "View detail",
   "lang_force_to_change_password_unsuccessfully": "Force to change password unsuccessfully",
   "lang_force_to_change_password_successfully": "Force to change password  successfully",
-  "lang_confirm_force_change_password": "Do you want to force user login <0>{{user}}</0> to change password from next login?",
+  "lang_confirm_force_change_password": "Enter your email to force user login <0>{{user}}</0> to change password",
   "lang_confirm_cancel_force_change_password": "Do you want to cancel changing password request for user login <0>{{user}}</0>?",
   "error_code_ECONNABORTED": "Timeout, cannot be connected server",
   "error_code_5000": "Unable to delete user",

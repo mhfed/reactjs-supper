@@ -47,7 +47,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type UserDetailProps = {};
+type UserDetailProps = {
+  callback: () => void;
+};
 
 // format date to display on ui
 const formatDate = (valueFormat: number | string) => {
@@ -55,7 +57,7 @@ const formatDate = (valueFormat: number | string) => {
   return moment(valueFormat).format('DD/MM/YYYY HH:mm:ss');
 };
 
-const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
+const UserDetail: React.FC<UserDetailProps> = ({ dataForm, callback }: any) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [editMode, setEditMode] = React.useState(false);
@@ -123,6 +125,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm }: any) => {
         }),
       );
       hideModal();
+      callback?.();
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({

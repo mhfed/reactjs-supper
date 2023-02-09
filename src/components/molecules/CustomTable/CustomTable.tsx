@@ -70,7 +70,6 @@ const useStyles = (props: TableProps) =>
         '& > div:nth-child(3)': {
           borderRadius: 8,
           boxShadow: theme.shadows[1],
-          flex: 1,
           overflowY: 'hidden',
         },
       },
