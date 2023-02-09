@@ -45,14 +45,14 @@ const InputCell: React.FC<DropdownCellProps> = ({ id, value: initialValue, onCha
    * @param e input change event
    */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.target.title = e.target.value;
+    e.target.title = e.target.value || '';
     onChange(e.target.value);
     setValue(e.target.value);
   };
 
   return (
     <div className={classes.container}>
-      <TextField title={value + ''} variant="outlined" fullWidth value={value || ''} onChange={handleChange} />
+      <TextField title={value ? value + '' : ''} variant="outlined" fullWidth value={value || ''} onChange={handleChange} />
     </div>
   );
 };

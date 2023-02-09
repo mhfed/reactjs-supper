@@ -10,6 +10,7 @@ import { Theme } from '@mui/material/styles';
 
 import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
+import { alpha } from '@mui/material/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -49,12 +50,12 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingBottom: 0,
       '& > button': {
         borderRadius: 0,
-        borderBottom: `1px solid ${theme.palette.divider}`,
+        borderBottom: `1px solid ${alpha(theme.palette.common.white, 0.12)}`,
       },
       '& ul li:last-child': {
         '& button': {
           borderRadius: 0,
-          borderBottom: `1px solid ${theme.palette.divider}`,
+          borderBottom: `1px solid ${alpha(theme.palette.common.white, 0.12)}`,
         },
       },
     },

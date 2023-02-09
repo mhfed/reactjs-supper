@@ -81,7 +81,6 @@ function App() {
       target.addEventListener('mouseover', function (event: React.MouseEvent<HTMLElement>) {
         let title = '';
         if (target.title) {
-          target.titleH = target.title;
           target.title = '';
         }
         if (
@@ -89,15 +88,14 @@ function App() {
           targetCL.contains('MuiTableCell-root') ||
           targetCL.contains('MuiSelect-select') ||
           target.tagName === 'SPAN' ||
+          target.tagName === 'INPUT' ||
           target.tagName === 'BUTTON' ||
           target.tagName === 'P'
         ) {
           if (target.tagName !== 'INPUT') title = target.innerText + '';
           else {
-            title = target.value;
+            title = target.value || '';
           }
-        } else {
-          title = target.titleH;
         }
         title = (title + '')
           .replace(/\n/g, '')
