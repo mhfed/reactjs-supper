@@ -134,6 +134,9 @@ const useStyles = (props: TableProps) =>
           borderTopLeftRadius: 0,
           borderBottomLeftRadius: 0,
           border: 'none',
+          '& button': {
+            pointerEvents: 'none',
+          },
         },
       },
       '& .MuiTableRow-root': {

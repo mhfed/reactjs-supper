@@ -10,7 +10,7 @@ import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router';
 import Drawer from '@mui/material/Drawer';
-import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import { navBarCommon } from 'routes/navBarCommon';
 import { PATH_NAME } from 'configs';
@@ -102,7 +102,7 @@ function NavBar({ isDrawer }: IProps) {
         </Link>
       </div>
 
-      {renderNavItems({ items: navBarCommon as any, pathname: location.pathname })}
+      <Box className={classes.menuContainer}>{renderNavItems({ items: navBarCommon as any, pathname: location.pathname })}</Box>
       <Version />
     </Drawer>
   );

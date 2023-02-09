@@ -52,17 +52,19 @@ const useStyles = makeStyles((theme: Theme) =>
         borderRadius: 0,
         borderBottom: `1px solid ${alpha(theme.palette.common.white, 0.12)}`,
       },
+    },
+    itemLeaf: {
+      display: 'flex',
+      paddingTop: 0,
+      paddingBottom: 0,
+    },
+    menuContainer: {
       '& ul li:last-child': {
         '& button': {
           borderRadius: 0,
           borderBottom: `1px solid ${alpha(theme.palette.common.white, 0.12)}`,
         },
       },
-    },
-    itemLeaf: {
-      display: 'flex',
-      paddingTop: 0,
-      paddingBottom: 0,
     },
     button: {
       padding: '10px 8px',
