@@ -63,7 +63,7 @@ const NavBarItem: FC<INavBarItem> = ({ active, pathname, depth, icon: Icon, titl
         // to={href}
       >
         {Icon && <Icon className={classes.icon} size="20" />}
-        <span className={classes.title}>
+        <span className={depth > 0 ? classes.title : classes.parentTitle}>
           <Trans>{title}</Trans>
         </span>
       </Button>
