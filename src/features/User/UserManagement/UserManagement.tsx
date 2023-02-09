@@ -81,10 +81,10 @@ const UserManagement: React.FC<UserManagementProps> = () => {
   /**
    * Handle show popup confirm fort user must to change password
    */
-  const confirmForceChangePassword = React.useCallback(async (userId: string, isChangingPassword: boolean | number) => {
+  const confirmForceChangePassword = React.useCallback(async (userId: string) => {
     try {
       await httpRequest.put(getUserDetailByIdUrl(userId), {
-        data: { change_password: isChangingPassword ? 0 : 1 },
+        data: { change_password: 1 },
       });
       dispatch(
         enqueueSnackbarAction({
@@ -157,9 +157,9 @@ const UserManagement: React.FC<UserManagementProps> = () => {
             component: ConfirmEditModal,
             props: {
               emailConfirm: true,
-              title: data.change_password ? 'lang_confirm_cancel_force_change_password' : 'lang_confirm_force_change_password',
+              title: 'lang_confirm_force_change_password',
               titleTransValues: { user: data[FIELD.USER_LOGIN] },
-              onSubmit: () => confirmForceChangePassword(data[FIELD.USER_ID], data.change_password),
+              onSubmit: () => confirmForceChangePassword(data[FIELD.USER_ID]),
             },
           }),
       },

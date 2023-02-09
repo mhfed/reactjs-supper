@@ -9,7 +9,6 @@
 import ConfirmModal from '../ConfirmModal';
 import { useSelector } from 'react-redux';
 import { isExpiredSelector } from 'selectors/app.selector';
-import { clearStorage } from 'helpers';
 
 const ExpiredDialog = () => {
   const isExpired = useSelector(isExpiredSelector);
@@ -18,7 +17,6 @@ const ExpiredDialog = () => {
    * Clear local storage and reload web when user confirm expired
    */
   const onExpired = () => {
-    clearStorage();
     window.location.reload();
   };
 
