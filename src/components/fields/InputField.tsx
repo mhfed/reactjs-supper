@@ -81,7 +81,7 @@ const InputField: React.FC<TextFieldProps> = ({
       value={preview ? value || '--' : value}
       label={<Trans>{label}</Trans>}
       inputProps={{
-        maxLength: maxLength || 1000,
+        maxLength: maxLength || 255,
       }}
       InputProps={{
         readOnly: preview ? true : readOnly,
