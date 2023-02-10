@@ -116,6 +116,7 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
               typePage: 'DETAIL',
               dataForm: data,
               listSubscribers: response.subscribers,
+              callback: onTableChange,
             },
           });
         },
@@ -132,7 +133,7 @@ const SegmentManagement: React.FC<SegmentManagementProps> = () => {
               typePage: 'EDIT',
               dataForm: data,
               listSubscribers: response.subscribers,
-              onTableChange: onTableChange,
+              callback: onTableChange,
             },
           });
         },

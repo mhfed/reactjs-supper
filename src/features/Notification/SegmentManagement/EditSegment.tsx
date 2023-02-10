@@ -64,9 +64,9 @@ type EditSegmentProps = {
   typePage?: string;
   dataForm?: any;
   listSubscribers?: any;
-  onTableChange?: () => {};
+  callback?: () => void;
 };
-const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubscribers, onTableChange }) => {
+const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubscribers, callback }) => {
   const classes = useStyles();
   const theme = useTheme();
   const { showSubModal, hideModal, hideSubModal } = useGlobalModalContext();
@@ -147,7 +147,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
           variant: 'success',
         }),
       );
-      onTableChange && onTableChange();
+      callback && callback();
       hideSubModal();
       hideModal();
     } catch (error) {
