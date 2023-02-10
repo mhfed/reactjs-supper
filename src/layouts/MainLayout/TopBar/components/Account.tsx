@@ -17,8 +17,6 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import { PATH_NAME } from 'configs';
 import { logout } from 'actions/auth.action';
 import ConfirmModal from 'components/molecules/ConfirmModal';
-import { useGlobalContext } from 'context/GlobalContext';
-import { THEMES } from 'configs';
 
 function Account({ ...classes }) {
   const { t: translate } = useTranslation();
@@ -26,7 +24,6 @@ function Account({ ...classes }) {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = React.useState(false);
-  const { setModeTheme } = useGlobalContext();
 
   /**
    * Open menu
@@ -80,10 +77,9 @@ function Account({ ...classes }) {
         aria-controls="menu-appbar"
         aria-haspopup="true"
         onClick={_handleMenu}
-        color="inherit"
         size="large"
       >
-        <AccountCircle />
+        <AccountCircle color={anchorEl ? 'primary' : 'inherit'} />
       </IconButton>
       <Menu
         id="menu-appbar"

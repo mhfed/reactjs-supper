@@ -17,9 +17,9 @@ const useStyles = makeStyles((theme: Theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    '& svg': {
-      fill: theme.palette.text.primary,
-    },
+    // '& svg': {
+    //   fill: theme.palette.text.primary,
+    // },
     '& > *': {
       color: theme.palette.text.primary,
     },
