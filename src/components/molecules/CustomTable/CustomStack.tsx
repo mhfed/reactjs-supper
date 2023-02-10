@@ -20,6 +20,11 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiChip-label': {
       paddingLeft: 0,
     },
+    '&:hover': {
+      '& .MuiChip-label': {
+        textDecoration: 'underline',
+      },
+    },
   },
 }));
 

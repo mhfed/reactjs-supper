@@ -21,6 +21,11 @@ const useStyles = makeStyles((theme) => ({
   },
   collapseBtn: {
     border: 'none',
+    '&:hover': {
+      '& .MuiChip-label': {
+        textDecoration: 'underline',
+      },
+    },
   },
 }));
 
