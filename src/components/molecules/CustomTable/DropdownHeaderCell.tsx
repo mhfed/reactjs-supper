@@ -20,8 +20,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     width: '100%',
     '& .MuiSelect-select': {
-      padding: theme.spacing(0.5, 3, 0.5, 1.5),
-      paddingRight: theme.spacing(3),
+      paddingLeft: 6,
     },
     '& .MuiInputBase-root': {
       '&.Mui-focused': {
@@ -68,7 +67,23 @@ const DropdownHeaderCell: React.FC<DropdownHeaderCellProps> = ({ id, onChange, o
         {' '}
         <Trans>{label}</Trans>
       </div>
-      <Select value={value} onChange={handleChange} displayEmpty sx={style} renderValue={() => ''}>
+      <Select
+        MenuProps={{
+          anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'right',
+          },
+          transformOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+        }}
+        value={value}
+        onChange={handleChange}
+        displayEmpty
+        sx={style}
+        renderValue={() => ''}
+      >
         {options.map((option, index) => (
           <MenuItem value={option.value} key={`MenuItem_${index}`}>
             <Trans>{option.label}</Trans>
