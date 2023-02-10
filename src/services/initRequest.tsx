@@ -31,11 +31,6 @@ type IAxiosResponse = AxiosError & {
   };
 } & IError;
 
-// function getAccessToken() {
-//   const accessToken = window.localStorage.getItem('accessToken');
-//   return accessToken;
-// }
-
 const requestConfig: IConfig = {
   baseURL: process.env.REACT_APP_ENDPOINT_URL,
   timeout: 500000,
@@ -94,26 +89,6 @@ export default function initRequest(store: any) {
         decreaseRequestCount();
       }
 
-      // access token expired
-      // if(error.response.status === 401 && error.config._retry) {
-      //   error.config._retry = true;
-      //   try {
-      //     const result = await instance.post("/auth/refreshtoken", {
-      //       refreshToken: 'xxx'
-      //     });
-      //     window.localStorage.setItem("accessToken", result.data.accessToken);
-      //     axiosInstance.defaults.headers.common["x-access-token"] =  result.data.accessToken; (option 1)
-      //     axiosInstance.defaults.headers.common.Authorization = `Bearer ${result.data.accessToken}`; (option 2)
-
-      //     return instance(error.config);
-      //   } catch (err) {
-      //     if (err.response && err.response.data) {
-      //       return Promise.reject(err.response.data);
-      //     }
-      //     return Promise.reject(err);
-      //   }
-      // }
-
       // handle errors
       let errorCode =
         error.response?.data?.error || error.response?.data?.errorCode || error.response?.data?.error_code || error.code || '';
@@ -150,10 +125,18 @@ export default function initRequest(store: any) {
         return;
       }
 
-      if (errorCode === 2089 || errorCode === 2013) {
+      if (errorCode === 2089) {
         // Creating PIN request has expired
         clearStorage();
-        store.dispatch(showExpiredPopup(errorCode === 2013 ? 'error_code_852008' : ''));
+        store.dispatch(showExpiredPopup(''));
+      }
+
+      if (errorCode === 2013) {
+        // User inactive
+        if (store.getState().auth.accessToken) {
+          clearStorage();
+          store.dispatch(showExpiredPopup('error_code_852008'));
+        }
       }
 
       const finalError: any = {
