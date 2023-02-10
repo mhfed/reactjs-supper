@@ -36,7 +36,7 @@ const HeaderModal: React.FC<HeaderModalProps> = ({ title, onClose }) => {
 
   return (
     <Box className={classes.header}>
-      <Typography variant="h6">
+      <Typography variant="h6" sx={{ textTransform: 'uppercase' }}>
         <Trans>{title}</Trans>
       </Typography>
       {onClose && (
