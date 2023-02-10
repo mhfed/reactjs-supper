@@ -67,7 +67,7 @@ function App() {
       if (sheet?.insertRule) {
         sheet.insertRule('@keyframes hasTitle {from { opacity: 0.99; }to { opacity: 1; }}', 0);
         sheet.insertRule(
-          '[title], .MuiTypography-root, .MuiSelect-select, .MuiTableCell-root, span:not(.rdw-image-modal-btn-section), button, p{animation-duration: 0.001s;animation-name: hasTitle;}',
+          '[title], .MuiTypography-root, .MuiSelect-select, span:not(.rdw-image-modal-btn-section), button, p{animation-duration: 0.001s;animation-name: hasTitle;}',
           0,
         );
       }
@@ -85,7 +85,6 @@ function App() {
         }
         if (
           targetCL.contains('MuiTypography-root') ||
-          targetCL.contains('MuiTableCell-root') ||
           targetCL.contains('MuiSelect-select') ||
           target.tagName === 'SPAN' ||
           target.tagName === 'INPUT' ||

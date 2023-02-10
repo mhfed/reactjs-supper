@@ -62,6 +62,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [stateForm, setStateForm] = React.useState(STATE_FORM.CREATE);
+  const [loading, setLoading] = React.useState(false);
   const valuesClone = React.useRef(initialValues);
   const confirmEdit = useConfirmEdit(() => !!diff(initialValues, valuesClone.current)); // eslint-disable-line
   const { showSubModal, hideSubModal } = useGlobalModalContext();
@@ -79,6 +80,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
    */
   const handleFormSubmit = async () => {
     try {
+      setLoading(true);
       const body = {
         data: {
           status: values.status,
@@ -101,7 +103,9 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
       );
       resetForm();
       setStateForm(STATE_FORM.CREATE);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       dispatch(
         enqueueSnackbarAction({
           message: error?.errorCodeLang,
@@ -212,7 +216,7 @@ const CreateNewUser: React.FC<CreateNewUserProps> = () => {
               <Button variant="outlined" onClick={handleReturn} scrollToTop>
                 <Trans>lang_return</Trans>
               </Button>
-              <Button variant="contained" onClick={handleFormSubmit}>
+              <Button variant="contained" onClick={handleFormSubmit} isLoading={loading}>
                 <Trans>lang_confirm</Trans>
               </Button>
             </Stack>

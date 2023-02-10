@@ -66,6 +66,7 @@ export const isOptionEqualToValue = (option: LooseObject, value: LooseObject) =>
 const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   const classes = useStyles();
   const [stateForm, setStateForm] = React.useState(STATE_FORM.CREATE);
+  const [loading, setLoading] = React.useState(false);
   const dispatch = useDispatch();
   const { showModal, hideModal } = useGlobalModalContext();
   const valuesClone = React.useRef(initialValues);
@@ -73,6 +74,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
 
   const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
     if (stateForm === STATE_FORM.CREATE) return setStateForm(STATE_FORM.PREVIEW);
+    setLoading(true);
     let urlSendNoti = '';
     let bodySendNoti = {};
 
@@ -142,8 +144,10 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
         );
         formikHelpers.resetForm();
         setStateForm(STATE_FORM.CREATE);
+        setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         dispatch(
           enqueueSnackbarAction({
             message: err?.errorCodeLang || 'lang_send_notification_unsuccessfully',
@@ -200,7 +204,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
           </Button>
         )}
 
-        <Button network variant="contained" type="submit">
+        <Button network variant="contained" type="submit" isLoading={loading}>
           <Trans>{stateForm === STATE_FORM.PREVIEW ? 'lang_confirm' : 'lang_create'}</Trans>
         </Button>
       </Stack>
