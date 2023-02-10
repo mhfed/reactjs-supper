@@ -48,6 +48,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.down('md')]: {
       display: 'none',
     },
+    '& svg:hover': {
+      fill: theme.palette.primary.main,
+    },
   },
   textRole: {
     padding: '6px 16px',
