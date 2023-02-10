@@ -225,6 +225,7 @@ const AuthAutocompleteField: React.FC<AuthAutocompleteFieldProps> = ({
   return (
     <FormControl required fullWidth error={error} className={classes.container}>
       <Autocomplete
+        filterOptions={(x) => x}
         loading={loading}
         noOptionsText={inputRef.current?.value ? <Trans>lang_no_matching_records_found</Trans> : ''}
         loadingText={

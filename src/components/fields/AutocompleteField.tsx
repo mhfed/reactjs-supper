@@ -79,9 +79,9 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
       if (getUrl) {
         setLoading(true);
         const response: any = await httpRequest.get(getUrl(searchText));
-        setLoading(false);
         if (formatData) return setOptions(formatData(response));
         setOptions(response?.data || response || []);
+        setLoading(false);
       } else {
         return;
       }
@@ -162,6 +162,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
       className={clsx(classes.container, preview && classes.previewContainer)}
     >
       <Autocomplete
+        filterOptions={(x) => x}
         loading={loading}
         noOptionsText={inputRef.current?.value ? <Trans>lang_no_matching_records_found</Trans> : ''}
         loadingText={
@@ -171,7 +172,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
         }
         multiple={multiple}
         disableClearable
-        freeSolo={!!inputRef.current?.value && inputRef.current?.value?.length > 1 ? false : true}
+        // freeSolo={!!inputRef.current?.value && inputRef.current?.value?.length > 1 ? false : true}
         id={name}
         onBlur={onBlur}
         value={value}
