@@ -22,6 +22,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     padding: theme.spacing(2),
+    maxWidth: '40vw',
+    '& p': {
+      wordBreak: 'break-all',
+    },
   },
   btnContainer: {
     display: 'flex',
