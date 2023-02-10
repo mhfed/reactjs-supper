@@ -19,13 +19,21 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
+    '& .MuiSelect-select': {
+      padding: theme.spacing(0.5, 3, 0.5, 1.5),
+      paddingRight: theme.spacing(3),
+    },
     '& .MuiInputBase-root': {
+      '&.Mui-focused': {
+        '& svg': {
+          fill: theme.palette.primary.main,
+        },
+      },
       backgroundColor: 'transparent',
     },
     '& fieldset': {
-      borderColor: theme.palette.common.white,
-      borderWidth: '1px',
-      borderStyle: 'inset',
+      borderColor: theme.palette.divider,
+      borderWidth: 2,
     },
   },
   label: {

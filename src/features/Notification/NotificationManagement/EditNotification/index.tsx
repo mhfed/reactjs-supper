@@ -199,16 +199,27 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
                   onBack(response);
                 }
               })
-              .catch((err) => {
-                dispatch(
-                  enqueueSnackbarAction({
-                    message: err?.errorCodeLang || 'lang_update_notification_unsuccessfully',
-                    key: new Date().getTime() + Math.random(),
-                    variant: 'error',
-                  }),
-                );
+              .catch(async (err) => {
                 hideSubModal();
-                console.log(err);
+                if (err?.errorCode === 'INVALID_NOTIFICATION_STATUS') {
+                  dispatch(
+                    enqueueSnackbarAction({
+                      message: 'lang_noti_has_been_sent',
+                      key: new Date().getTime() + Math.random(),
+                      variant: 'error',
+                    }),
+                  );
+                  const response: any = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
+                  onBack(response);
+                } else {
+                  dispatch(
+                    enqueueSnackbarAction({
+                      message: err?.errorCodeLang || 'lang_update_notification_unsuccessfully',
+                      key: new Date().getTime() + Math.random(),
+                      variant: 'error',
+                    }),
+                  );
+                }
               });
           },
         },

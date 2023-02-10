@@ -682,7 +682,12 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
         const row: any = data[i];
         const key = fnKey(row);
         if (!tempDataByKey.current[key]) tempDataByKey.current[key] = {};
-        Object.assign(tempDataByKey.current[key], { [name]: value });
+        if (row[name] === value) {
+          delete tempDataByKey.current[key][name];
+          if (!Object.keys(tempDataByKey.current[key]).length) delete tempDataByKey.current[key];
+        } else {
+          Object.assign(tempDataByKey.current[key], { [name]: value });
+        }
       });
       const updatedData = data?.map((e: any) => {
         const key = fnKey(e);
