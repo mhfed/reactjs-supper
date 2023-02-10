@@ -131,7 +131,7 @@ export default function initRequest(store: any) {
         store.dispatch(showExpiredPopup(''));
       }
 
-      if (errorCode === 2013) {
+      if ([2013, 2022, 2023, 2032].includes(+errorCode)) {
         // User inactive
         if (store.getState().auth.accessToken) {
           clearStorage();
