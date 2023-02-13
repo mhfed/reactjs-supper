@@ -23,6 +23,8 @@ import httpRequest from 'services/httpRequest';
 import { getNotificationUrl } from 'apis/request.url';
 import EditNotification from '../EditNotification';
 import EditIcon from '@mui/icons-material/Edit';
+import { useDispatch } from 'react-redux';
+import { enqueueSnackbarAction } from 'actions/app.action';
 
 interface DetailNotificationProps {
   dataForm: any;
@@ -69,6 +71,7 @@ const STATE_FORM = {
 const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataForm, reCallChangeTable }) => {
   const classes = useStyles();
   const { hideModal, showModal } = useGlobalModalContext();
+  const dispatch = useDispatch();
   const { Segment, Direct } = NOTIFICATION_TYPE;
   const handleClose = () => {
     if (typePage === STATE_FORM.DETAIL) {
@@ -93,19 +96,27 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
 
   const onEdit = async () => {
     const response: any = await httpRequest.get(getNotificationUrl(dataForm?.notification_id));
-
     const formatData = (response?.subscribers || []).map((e: any) => ({ ...e, username: e.subscriber }));
-
-    showModal({
-      component: EditNotification,
-      fullScreen: true,
-      props: {
-        typePage: 'DETAIL',
-        dataForm: { ...dataForm, subscribers: formatData },
-        defaultValue: dataForm,
-        reCallChangeTable: reCallChangeTable,
-      },
-    });
+    if (response.status === NOTIFICATION_STATUS.TRIGGERED) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_noti_has_been_sent',
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        }),
+      );
+    } else {
+      showModal({
+        component: EditNotification,
+        fullScreen: true,
+        props: {
+          typePage: 'DETAIL',
+          dataForm: { ...dataForm, subscribers: formatData },
+          defaultValue: dataForm,
+          reCallChangeTable: reCallChangeTable,
+        },
+      });
+    }
   };
 
   const submitButton = (form: FormikProps<initialValuesType>) => {

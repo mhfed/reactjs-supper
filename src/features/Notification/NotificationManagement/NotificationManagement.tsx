@@ -127,15 +127,35 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
         onClick: async (data: Inotifiaction) => {
           const response: any = await httpRequest.get(getNotificationUrl(data?.notification_id));
           const formatData = (response?.subscribers || []).map((e: any) => ({ ...e, username: e.subscriber }));
-          showModal({
-            component: EditNotification,
-            fullScreen: true,
-            props: {
-              typePage: 'EDIT',
-              dataForm: { ...data, subscribers: formatData },
-              reCallChangeTable: onTableChange,
-            },
-          });
+          if (response.status === NOTIFICATION_STATUS.TRIGGERED) {
+            dispatch(
+              enqueueSnackbarAction({
+                message: 'lang_noti_has_been_sent',
+                key: new Date().getTime() + Math.random(),
+                variant: 'error',
+              }),
+            );
+            showModal({
+              component: DetailNotification,
+              fullScreen: true,
+              showBtnClose: true,
+              props: {
+                typePage: 'DETAIL',
+                dataForm: data,
+                reCallChangeTable: onTableChange,
+              },
+            });
+          } else {
+            showModal({
+              component: EditNotification,
+              fullScreen: true,
+              props: {
+                typePage: 'EDIT',
+                dataForm: { ...data, subscribers: formatData },
+                reCallChangeTable: onTableChange,
+              },
+            });
+          }
         },
       });
     }
