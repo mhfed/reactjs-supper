@@ -6,30 +6,29 @@
  * Copyright (c) 2023 - Novus Fintech
  */
 
-import React, { Fragment, Suspense } from 'react';
+import React, { Fragment, Suspense, lazy } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { PATH_NAME } from 'configs';
 import { IRoutes } from 'models/IRoutes';
 import MainLayout from 'layouts/MainLayout';
 import AuthGuard from 'guards/AuthGuard';
 import RoleRoute from './RoleRoute';
-import { lazyWithRetry } from 'helpers';
 
 // modules
-const Error404View = lazyWithRetry(() => import('features/Error404View'));
-const UserManagement = lazyWithRetry(() => import('features/User/UserManagement'));
-const CreateNewUser = lazyWithRetry(() => import('features/User/CreateNewUser'));
-const UserDetailEdit = lazyWithRetry(() => import('features/User/UserDetailEdit'));
-const NotificationManagement = lazyWithRetry(() => import('features/Notification/NotificationManagement'));
-const CreateNewNotification = lazyWithRetry(() => import('features/Notification/CreateNewNotification'));
-const SegmentManagement = lazyWithRetry(() => import('features/Notification/SegmentManagement'));
-const CreateNewSegment = lazyWithRetry(() => import('features/Notification/CreateNewSegment'));
-const Subscribers = lazyWithRetry(() => import('features/Notification/Subscribers'));
-const ArticlesManagement = lazyWithRetry(() => import('features/Articles/ArticlesManagement'));
-const CreateNewArticles = lazyWithRetry(() => import('features/Articles/CreateNewArticles'));
-const Report = lazyWithRetry(() => import('features/Report'));
-const Login = lazyWithRetry(() => import('features/Login'));
-const DenyView = lazyWithRetry(() => import('features/DenyView'));
+const Error404View = lazy(() => import('features/Error404View'));
+const UserManagement = lazy(() => import('features/User/UserManagement'));
+const CreateNewUser = lazy(() => import('features/User/CreateNewUser'));
+const UserDetailEdit = lazy(() => import('features/User/UserDetailEdit'));
+const NotificationManagement = lazy(() => import('features/Notification/NotificationManagement'));
+const CreateNewNotification = lazy(() => import('features/Notification/CreateNewNotification'));
+const SegmentManagement = lazy(() => import('features/Notification/SegmentManagement'));
+const CreateNewSegment = lazy(() => import('features/Notification/CreateNewSegment'));
+const Subscribers = lazy(() => import('features/Notification/Subscribers'));
+const ArticlesManagement = lazy(() => import('features/Articles/ArticlesManagement'));
+const CreateNewArticles = lazy(() => import('features/Articles/CreateNewArticles'));
+const Report = lazy(() => import('features/Report'));
+const Login = lazy(() => import('features/Login'));
+const DenyView = lazy(() => import('features/DenyView'));
 
 const routesConfig: IRoutes[] = [
   {

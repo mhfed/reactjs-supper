@@ -59,7 +59,24 @@ const DefaultPage: FC<DefaultPageProps> = ({ children }) => {
   /**
    * Show exception dialog
    */
-  function ErrorFallbackUI({ resetErrorBoundary }: FallbackProps) {
+  function ErrorFallbackUI({ resetErrorBoundary, error }: FallbackProps) {
+    if (/ChunkLoadError/.test(error.name)) {
+      // If this happens during a release you can show a new version alert
+      return (
+        <Dialog onClose={resetErrorBoundary} fullWidth open>
+          <DialogTitle component="h4">Error</DialogTitle>
+          <DialogContent>
+            <DialogContentText>A new version of your app is available!</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => window.location.reload()} color="primary" autoFocus>
+              Refresh
+            </Button>
+          </DialogActions>
+        </Dialog>
+      );
+    }
+
     return (
       <Dialog onClose={resetErrorBoundary} fullWidth open>
         <DialogTitle component="h4">Error</DialogTitle>
