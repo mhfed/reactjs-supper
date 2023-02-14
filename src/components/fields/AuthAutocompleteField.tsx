@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     '& .MuiChip-root': {
       marginLeft: 0,
-      marginRight: 0,
+      marginRight: 4,
     },
   },
 }));
