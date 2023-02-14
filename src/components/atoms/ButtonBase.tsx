@@ -56,6 +56,7 @@ const ButtonBase: React.FC<ButtonBaseProps> = ({
       onClick={handleClick}
       sx={{ whiteSpace: 'nowrap', ...sx }}
       disabled={isLoading || disabled || (network && isConnecting)}
+      disableRipple
     >
       {children}
       {isLoading && <CircularProgress color="secondary" size={24} sx={{ position: 'absolute' }} />}
