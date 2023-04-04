@@ -6,22 +6,20 @@
  * Copyright (c) 2023 - Novus Fintech
  */
 
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import CustomTable, { COLUMN_TYPE } from 'components/molecules/CustomTable';
 import makeStyles from '@mui/styles/makeStyles';
-import { FIELD, STATUS_OPTIONS, STATUS_OPTIONS_HEADER } from './ReportConstants';
-import { ITableConfig, LooseObject } from 'models/ICommon';
 import { enqueueSnackbarAction } from 'actions/app.action';
-import httpRequest from 'services/httpRequest';
 import { getListReportUrl, getReportUrl } from 'apis/request.url';
-import IressSignIn from 'features/IressAuth';
-import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
-import { iressSitenameSelector, iressTokenSelector } from 'selectors/auth.selector';
-import { iressLogout } from 'actions/auth.action';
-import authService from 'services/authService';
+import CustomTable, { COLUMN_TYPE } from 'components/molecules/CustomTable';
+import { useGlobalModalContext } from 'containers/Modal';
 import useConfirmEdit from 'hooks/useConfirmEdit';
+import { ITableConfig, LooseObject } from 'models/ICommon';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { iressSitenameSelector } from 'selectors/auth.selector';
+import httpRequest from 'services/httpRequest';
+import { FIELD, STATUS_OPTIONS, STATUS_OPTIONS_HEADER } from './ReportConstants';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -38,33 +36,22 @@ const Report: React.FC<ReportProps> = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
-  const callWithIress = React.useRef<boolean>(false);
   const dicReport = React.useRef<any>({});
-  const iressToken = useSelector(iressTokenSelector);
-  const sitename = useSelector(iressSitenameSelector);
-  const { showSubModal, hideSubModal } = useGlobalModalContext();
+  const { showModal, hideModal } = useGlobalModalContext();
   const confirmEdit = useConfirmEdit(() => !!gridRef?.current?.checkChange?.()); // eslint-disable-line
-
+  const sitename = useSelector(iressSitenameSelector);
   /**
    * Get list report byb default or with iress auth
    * @param token iress token
    * @param sn sitename
    */
-  const getData = async (token?: string, sn?: string) => {
+  const getData = async () => {
     try {
-      if (token) callWithIress.current = true;
       gridRef?.current?.setLoading?.(true);
-      const config: ITableConfig = gridRef?.current?.getConfig?.();
-
       const headerConfig: { headers?: LooseObject } = {};
-      // if have iress auth data get report by iress
-      if (token && sn) {
-        config.page = 1;
-        headerConfig.headers = {
-          'token-app': token || iressToken,
-          'site-name': sn || sitename,
-        };
-      }
+      const config: ITableConfig = gridRef?.current?.getConfig?.();
+      headerConfig.headers = { 'site-name': sitename };
+      config.page = 1;
       const response: any = await httpRequest.get(getListReportUrl(config), headerConfig);
 
       (response.data.data || [])?.forEach((e: any) => {
@@ -73,34 +60,14 @@ const Report: React.FC<ReportProps> = () => {
 
       gridRef?.current?.setData?.(response.data);
     } catch (error) {
-      if (authService.checkIressSessionLogout(error.errorCode)) {
-        dispatch(iressLogout());
-        dispatch(
-          enqueueSnackbarAction({
-            message: `error_code_${error?.errorCode}`,
-            key: new Date().getTime() + Math.random(),
-            variant: 'error',
-          }),
-        );
-        showSubModal({
-          title: 'lang_sign_in',
-          component: IressSignIn,
-          styleModal: { minWidth: 440 },
-          props: {
-            title: 'lang_please_sign_in_to_fetch_report',
-            cbAfterSignIn: getData,
-          },
-        });
-      } else {
-        gridRef?.current?.setData?.();
-        dispatch(
-          enqueueSnackbarAction({
-            message: error?.errorCodeLang,
-            key: new Date().getTime() + Math.random(),
-            variant: 'error',
-          }),
-        );
-      }
+      gridRef?.current?.setData?.();
+      dispatch(
+        enqueueSnackbarAction({
+          message: error?.errorCodeLang,
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        }),
+      );
       gridRef?.current?.setLoading?.(false);
     }
   };
@@ -109,30 +76,29 @@ const Report: React.FC<ReportProps> = () => {
    * Handle fetch report or show iress login popup when not login yet
    */
   const handleFetch = () => {
-    if (iressToken) {
-      getData(iressToken, sitename + '');
-    } else {
-      showSubModal({
-        title: 'lang_sign_in',
-        component: IressSignIn,
-        styleModal: { minWidth: 440 },
-        props: {
-          title: 'lang_please_sign_in_to_fetch_report',
-          cbAfterSignIn: getData,
+    showModal({
+      component: ConfirmEditModal,
+      props: {
+        emailConfirm: false,
+        title: 'lang_fetch_report_for_sitename',
+        titleTransValues: { sitename: sitename },
+        cancelText: 'lang_cancel',
+        confirmText: 'lang_fetch_report',
+        centerTitle: true,
+        centerButton: true,
+        onSubmit: () => {
+          getData();
+          hideModal();
         },
-      });
-    }
+      },
+    });
   };
 
   /**
    * recall data when table change
    */
   const onTableChange = () => {
-    if (callWithIress.current) {
-      getData(iressToken + '', sitename + '');
-    } else {
-      getData();
-    }
+    getData();
   };
 
   // table columns
@@ -222,25 +188,6 @@ const Report: React.FC<ReportProps> = () => {
   };
 
   /**
-   * Handle iress signout
-   */
-  const handleSignOut = () => {
-    showSubModal({
-      title: 'lang_confirm',
-      component: ConfirmEditModal,
-      props: {
-        title: 'lang_confirm_logout',
-        emailConfirm: false,
-        onSubmit: () => {
-          dispatch(iressLogout());
-          hideSubModal();
-          getData();
-        },
-      },
-    });
-  };
-
-  /**
    * List button of header table
    */
   const listBtnHeader = [
@@ -249,13 +196,6 @@ const Report: React.FC<ReportProps> = () => {
       onClick: handleFetch,
       isShow: true,
       disabledEditMode: true,
-    },
-    {
-      label: 'lang_sign_out',
-      onClick: handleSignOut,
-      variant: 'outlined',
-      isShow: iressToken ? true : false,
-      color: 'error',
     },
   ];
 

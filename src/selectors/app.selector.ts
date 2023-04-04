@@ -21,6 +21,11 @@ export const isExpiredSelector = createSelector(
   (app) => app.expiredNoti,
 );
 
+export const isAboutToExpiredSelector = createSelector(
+  (state: IRootState) => state.app,
+  (app) => app.isAboutToExpired,
+);
+
 export const isConnectingSelector = createSelector(
   (state: IRootState) => state.app,
   (app) => app.isConnecting,

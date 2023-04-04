@@ -6,22 +6,16 @@
  * Copyright (c) 2023 - Novus Fintech
  */
 
-import React, { useRef } from 'react';
-import { useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
+import { responsiveFontSizes, StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import makeStyles from '@mui/styles/makeStyles';
-import Container from '@mui/material/Container';
-import { stepSelector } from 'selectors/auth.selector';
 import Footer from 'layouts/MainLayout/Footer';
-import LoginForm from './LoginForm';
-import PinForm from './PinForm';
-import SetPassword from './SetPassword';
 import { Trans } from 'react-i18next';
-import { IAuthStep } from 'models/IAuthState';
 import themes from 'themes';
-import { ThemeProvider, StyledEngineProvider, responsiveFontSizes } from '@mui/material/styles';
+import LoginForm from './LoginForm';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -76,8 +70,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
-  const step = useSelector(stepSelector);
-  const password = useRef('');
 
   // Login screen always use dark mode
   return (
@@ -87,17 +79,7 @@ export default function SignIn() {
           <Container component="main" className={classes.container} maxWidth="md">
             <CssBaseline />
             <Box className={classes.loginContainer}>
-              {step === IAuthStep.LOGIN ? (
-                <LoginForm />
-              ) : step === IAuthStep.ENTER_PIN ? (
-                <PinForm />
-              ) : [IAuthStep.SET_PIN, IAuthStep.FORCE_SET_PIN].includes(step) ? (
-                <PinForm isSetPin isFirstTime={step === IAuthStep.SET_PIN} password={password.current} />
-              ) : step === IAuthStep.SET_PASSWORD ? (
-                <SetPassword setNewPassord={(pw) => (password.current = pw)} />
-              ) : (
-                <Typography>Page not found</Typography>
-              )}
+              <LoginForm />
               <div className={classes.loginLogo}>
                 <img alt="loginLogo" src="/assets/images/login-logo.svg" />
                 <Typography variant="h3" sx={{ pt: 2 }}>

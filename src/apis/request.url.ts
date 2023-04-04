@@ -212,3 +212,25 @@ export const getListReportUrl = ({
 export const getReportUrl = () => {
   return `/v1/reports`;
 };
+
+// Profolio - v1
+export const getPPIndicatorUrl = () => {
+  return `/v1/config/portfolio-performance-indicator`;
+};
+export const getPPIndicatorUpdateUrl = (sitename: string) => {
+  return `/v1/config/portfolio-performance-indicator?site_name=${sitename}`;
+};
+
+// Auth - v2
+
+export const getAuthUrlV2 = () => {
+  return '/v2/auth';
+};
+
+export const getRefreshUrlV2 = () => {
+  return '/v2/auth/refresh';
+};
+
+export const getLogoutUrlV2 = () => {
+  return '/v2/auth/logout';
+};

@@ -8,7 +8,7 @@
 
 import React, { useEffect, FC } from 'react';
 import { useDispatch } from 'react-redux';
-import { autoLogin } from 'actions/auth.action';
+import { autoLogin, autoLoginNew } from 'actions/auth.action';
 import { useNavigate } from 'react-router-dom';
 
 type AuthProps = {
@@ -25,15 +25,13 @@ const Auth: FC<AuthProps> = ({ children }) => {
    */
   useEffect(() => {
     async function initAuth() {
-      const isStaySignedIn = window.localStorage.getItem('isStaySignedIn') === 'true';
-      const lastEmailLogin = window.localStorage.getItem('lastEmailLogin');
-      const lastDeviceId = window.localStorage.getItem('lastDeviceId');
-      const refreshToken = window.localStorage.getItem(`${lastEmailLogin}_refreshToken`);
-      const uniqSeries = window.localStorage.getItem('uniqSeries');
-      const pin = atob(uniqSeries + '');
-      if (pin && isStaySignedIn && lastDeviceId && refreshToken) {
+      const lastUserId = window.localStorage.getItem(`lastUserId`);
+      const refreshToken = window.localStorage.getItem(`${lastUserId}_refreshToken`) as string;
+      const accessToken = window.localStorage.getItem(`${lastUserId}_accessToken`) as string;
+
+      if (accessToken && refreshToken) {
         dispatch(
-          autoLogin(refreshToken, lastDeviceId, pin, navigate, () => {
+          autoLoginNew(accessToken, refreshToken, navigate, () => {
             setAlready(true);
           }) as any,
         );

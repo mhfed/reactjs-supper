@@ -18,7 +18,7 @@ export const baseUrlSelector = createSelector(
 
 export const iressTokenSelector = createSelector(
   (state: IRootState) => state.auth,
-  (app) => app.iressAccessToken,
+  (app) => app.accessToken,
 );
 
 export const iressSitenameSelector = createSelector(

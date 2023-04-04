@@ -87,8 +87,7 @@ export type IHistory = {
 };
 
 export type ILoginValues = {
-  email: string;
-  password: string;
+  site_name: string;
 };
 
 export type IChangePassValues = {

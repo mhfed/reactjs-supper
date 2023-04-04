@@ -32,6 +32,14 @@ const updateAxiosAuthConfig = (baseUrl: string, accessToken: string, pin: string
   authService.autoRenewToken();
 };
 
+const updateAxiosAuthConfig2 = (accessToken: string, refreshToken?: string) => {
+  const lastUserId = window.localStorage.getItem('lastUserId');
+  refreshToken && window.localStorage.setItem(`${lastUserId}_refreshToken`, refreshToken);
+  axiosInstance.defaults.baseURL = process.env.REACT_APP_ENDPOINT_URL;
+  axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+  axiosInstance.defaults.headers.common['environment'] = 'iress-wealth-app';
+};
+
 /**
  * Clear axios auth config when logout
  */
@@ -57,7 +65,7 @@ export const setPinFirstTime = (pin: string, navigate: NavigateFunction) => asyn
       type: IAuthActionTypes.PIN_SUCCESS,
       payload: { refreshToken, accessToken, baseUrl },
     });
-    navigate(PATH_NAME.USER_MANAGEMENT);
+    navigate(PATH_NAME.NOTIFICATION_MANAGEMENT);
   }
 };
 
@@ -79,7 +87,7 @@ export const forceSetPin = (pin: string, password: string, navigate: NavigateFun
       type: IAuthActionTypes.PIN_SUCCESS,
       payload: { refreshToken, accessToken, baseUrl },
     });
-    navigate(PATH_NAME.USER_MANAGEMENT);
+    navigate(PATH_NAME.NOTIFICATION_MANAGEMENT);
   }
 };
 
@@ -106,7 +114,7 @@ export const verifyPin = (pin: string, navigate: NavigateFunction) => async (dis
       type: IAuthActionTypes.PIN_SUCCESS,
       payload: { refreshToken, accessToken, baseUrl },
     });
-    navigate(PATH_NAME.USER_MANAGEMENT);
+    navigate(PATH_NAME.NOTIFICATION_MANAGEMENT);
   }
 };
 
@@ -217,8 +225,16 @@ export const autoLogin =
         type: IAuthActionTypes.PIN_SUCCESS,
         payload: { refreshToken, accessToken, baseUrl },
       });
-      navigate(PATH_NAME.USER_MANAGEMENT);
+      navigate(PATH_NAME.NOTIFICATION_MANAGEMENT);
     }
+  };
+
+export const autoLoginNew =
+  (saveAccessToken: string, saveRefreshToken: string, navigate: NavigateFunction, successCb: () => void) =>
+  async (dispatch: Dispatch<any>) => {
+    successCb?.();
+    updateAxiosAuthConfig2(saveAccessToken, saveRefreshToken);
+    navigate(PATH_NAME.NOTIFICATION_MANAGEMENT);
   };
 
 /**
@@ -237,3 +253,63 @@ export const iressLogin = (iressAccessToken: string | null, iressExpiredTime: nu
   type: IAuthActionTypes.IRESS_LOGIN,
   payload: { iressAccessToken, iressExpiredTime },
 });
+
+/*
+* Created on Wed Mar 29 2023
+
+ * Handle login with code
+
+ * @param code
+ * @param redirect_uri
+ * @param site_name
+ * @returns
+ */
+export const loginIress =
+  (code: string, redirectUrL: string, sitename: string, navigate: NavigateFunction) => async (dispatch: Dispatch<any>) => {
+    dispatch({ type: IAuthActionTypes.LOGIN_REQUEST });
+    const { user_id, expires_in, capability, refreshToken, accessToken, error } = await authService.loginWithCodeFromIress(
+      code,
+      redirectUrL,
+      sitename,
+    );
+    window.localStorage.setItem('lastUserId', user_id);
+
+    updateAxiosAuthConfig2(accessToken, refreshToken);
+
+    if (error) {
+      const { errorCodeLang } = error;
+      dispatch({ type: IAuthActionTypes.LOGIN_FAILURE, payload: { error: errorCodeLang } });
+      console.log('loginIress error', error);
+    } else {
+      if (authService.checkPermissionLogin(capability)) {
+        refreshToken && window.localStorage.setItem(`${user_id}_refreshToken`, refreshToken);
+        accessToken && window.localStorage.setItem(`${user_id}_accessToken`, accessToken);
+
+        // login successfully
+        dispatch({
+          type: IAuthActionTypes.LOGIN_SUCCESS,
+          payload: {
+            refreshToken,
+            accessToken,
+            sitename,
+          },
+        });
+
+        // Show pop up renew token before token expired
+        authService.showPopupRenewToken(expires_in);
+
+        // Show pop up renew token before token expired
+        authService.showPopupExpired(expires_in);
+
+        // Remove localStorage
+        refreshToken && window.localStorage.removeItem(`${user_id}_refreshToken`);
+        accessToken && window.localStorage.removeItem(`${user_id}_accessToken`);
+
+        window.localStorage.removeItem(`${user_id}`);
+        window.localStorage.removeItem(`oldUrl`);
+        navigate(PATH_NAME.NOTIFICATION_MANAGEMENT);
+      } else {
+        dispatch({ type: IAuthActionTypes.LOGIN_FAILURE, payload: { error: 'error_dont_have_permission' } });
+      }
+    }
+  };

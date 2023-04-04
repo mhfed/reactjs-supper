@@ -54,7 +54,7 @@ const AlertConfirm = ({
         </DialogTitle>
       )}
       <DialogContent>
-        <Typography>
+        <Typography sx={{ textAlign: 'center' }}>
           <Trans>{alertContent}</Trans>
         </Typography>
       </DialogContent>

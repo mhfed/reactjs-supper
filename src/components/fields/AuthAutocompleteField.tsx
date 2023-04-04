@@ -6,26 +6,20 @@
  * Copyright (c) 2023 - Novus Fintech
  */
 
-import React from 'react';
-import httpRequest from 'services/httpRequest';
-import CircularProgress from '@mui/material/CircularProgress';
-import makeStyles from '@mui/styles/makeStyles';
-import FormHelperText from '@mui/material/FormHelperText';
-import FormControl from '@mui/material/FormControl';
-import { LooseObject } from 'models/ICommon';
-import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
+import CircularProgress from '@mui/material/CircularProgress';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
+import TextField from '@mui/material/TextField';
+import makeStyles from '@mui/styles/makeStyles';
+import { LooseObject } from 'models/ICommon';
+import React from 'react';
 import { Trans } from 'react-i18next';
-import Button from 'components/atoms/ButtonBase';
-import { useDispatch, useSelector } from 'react-redux';
-import { iressTokenSelector, iressSitenameSelector } from 'selectors/auth.selector';
-import { iressLogout } from 'actions/auth.action';
-import { useGlobalModalContext } from 'containers/Modal';
-import IressSignIn from 'features/IressAuth';
-import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
-import authService from 'services/authService';
+import { useSelector } from 'react-redux';
+import { iressSitenameSelector, iressTokenSelector } from 'selectors/auth.selector';
+import httpRequest from 'services/httpRequest';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -89,11 +83,7 @@ const AuthAutocompleteField: React.FC<AuthAutocompleteFieldProps> = ({
   const [options, setOptions] = React.useState(initialData || []);
   const [loading, setLoading] = React.useState(false);
   const timeoutId = React.useRef<number | null>(null);
-  const iressToken = useSelector(iressTokenSelector);
-  const sitename = useSelector(iressSitenameSelector);
-  const dispatch = useDispatch();
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const { showSubModal, hideSubModal } = useGlobalModalContext();
 
   /**
    * Get options data with text search base on url props.
@@ -103,32 +93,15 @@ const AuthAutocompleteField: React.FC<AuthAutocompleteFieldProps> = ({
     try {
       if (getUrl) {
         setLoading(true);
-        const { data: response } = await httpRequest.get(getUrl(searchText), {
-          headers: { 'token-app': iressToken, 'site-name': sitename },
-        });
+        const { data: response } = await httpRequest.get(getUrl(searchText));
         setLoading(false);
         setOptions(response || []);
       } else {
         return;
       }
     } catch (error) {
-      if (authService.checkIressSessionLogout(error.errorCode)) {
-        dispatch(iressLogout());
-        showSubModal({
-          title: 'lang_sign_in',
-          component: IressSignIn,
-          styleModal: { minWidth: 440 },
-          props: {
-            title: 'lang_please_sign_in_to_select_security_code',
-            onSubmit: () => {
-              hideSubModal();
-            },
-          },
-        });
-      } else {
-        setLoading(false);
-        console.error('AutocompleteField getData error: ', error);
-      }
+      setLoading(false);
+      console.error('AutocompleteField getData error: ', error);
     }
   };
 
@@ -194,40 +167,6 @@ const AuthAutocompleteField: React.FC<AuthAutocompleteFieldProps> = ({
     }
   };
 
-  /**
-   * Open iress auth login show confirm logout popup
-   */
-  const handleIressAuth = () => {
-    if (iressToken) {
-      showSubModal({
-        title: 'lang_confirm',
-        component: ConfirmEditModal,
-        props: {
-          title: 'lang_confirm_logout',
-          emailConfirm: false,
-          cancelText: 'lang_no',
-          confirmText: 'lang_yes',
-          onSubmit: () => {
-            dispatch(iressLogout());
-            hideSubModal();
-          },
-        },
-      });
-    } else {
-      showSubModal({
-        title: 'lang_sign_in',
-        component: IressSignIn,
-        styleModal: { minWidth: 440 },
-        props: {
-          title: 'lang_please_sign_in_to_select_security_code',
-          onSubmit: () => {
-            hideSubModal();
-          },
-        },
-      });
-    }
-  };
-
   return (
     <FormControl required fullWidth error={error} className={classes.container}>
       <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
@@ -243,7 +182,6 @@ const AuthAutocompleteField: React.FC<AuthAutocompleteFieldProps> = ({
           onBlur={onBlur}
           multiple
           disableClearable
-          disabled={!iressToken}
           id={name}
           value={value}
           defaultValue={[]}
@@ -278,14 +216,6 @@ const AuthAutocompleteField: React.FC<AuthAutocompleteFieldProps> = ({
             ></TextField>
           )}
         />
-        <Button
-          style={{ position: 'absolute', right: 8, marginLeft: 8 }}
-          network
-          variant={iressToken ? 'text' : 'contained'}
-          onClick={handleIressAuth}
-        >
-          <Trans>{iressToken ? 'lang_sign_out' : 'lang_sign_in'}</Trans>
-        </Button>
       </div>
       {error && (
         <FormHelperText error>

@@ -6,25 +6,23 @@
  * Copyright (c) 2023 - Novus Fintech
  */
 
-import { useFormik } from 'formik';
-import { yup } from 'helpers';
-import { useDispatch, useSelector } from 'react-redux';
-import { validate } from 'helpers';
-import Paper from '@mui/material/Paper';
-import Link from '@mui/material/Link';
-import Button from 'components/atoms/ButtonBase';
 import Box from '@mui/material/Box';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import makeStyles from '@mui/styles/makeStyles';
-import { clearError, login } from 'actions/auth.action';
-import { isLoadingSelector, errorSelector } from 'selectors/auth.selector';
-import { Trans } from 'react-i18next';
+import { loginIress } from 'actions/auth.action';
+import Button from 'components/atoms/ButtonBase';
+import { InputField } from 'components/fields';
 import ErrorCollapse from 'components/molecules/ErrorExpandable';
-import { InputField, PasswordField } from 'components/fields';
-import React from 'react';
+import { useFormik } from 'formik';
+import { yup } from 'helpers';
+import { checkExistURL } from 'helpers/common';
 import { ILoginValues } from 'models/ICommon';
+import React from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { errorSelector, isLoadingSelector } from 'selectors/auth.selector';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -34,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  heading: {
+    fontWeight: 700,
   },
   container: {
     borderRadius: 12,
@@ -52,13 +53,19 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    padding: theme.spacing(8, 4, 4, 4),
+    padding: theme.spacing(5, 4, 4, 4),
     [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(2),
     },
   },
   termsContainer: {
     textAlign: 'center',
+    marginBottom: theme.spacing(2),
+  },
+  buttonSignin: {
+    marginBottom: theme.spacing(1),
+    marginTop: theme.spacing(4),
+    fontWeight: 700,
   },
 }));
 
@@ -67,43 +74,54 @@ export default function SignIn() {
   const error = useSelector(errorSelector);
   const dispatch = useDispatch();
   const isLoading = useSelector(isLoadingSelector);
+  const navigate = useNavigate();
+  const { t } = useTranslation();
 
+  // fixed CLIENT_ID & RESPONSE_TYPE
+  const CLIENT_ID = 'swq7xlOvB8qD4iPqxpNn';
+  const RESPONSE_TYPE = 'code';
+  const redirectUrL = process.env.REACT_APP_REDIRECT_URL ?? '';
   /**
-   * Handle login with email and password
+   * Handle login by login Xpan Iress
    * @param values form data
    */
-  const handleFormSubmit = async (values: ILoginValues) => {
-    dispatch(login((values.email + '').replace(/\s/g, '').toLocaleLowerCase(), values.password) as any);
+  const handleFormSubmit = async (values: ILoginValues, { setFieldError }: any) => {
+    const sitename = (values.site_name + '').replace(/\s/g, '').toLocaleLowerCase();
+    const loginXplanURl =
+      sitename + '/oauth2/auth?client_id=' + CLIENT_ID + '&response_type=' + RESPONSE_TYPE + '&redirect_uri=' + redirectUrL;
+
+    const existURL = await checkExistURL(sitename);
+    if (existURL) {
+      localStorage.setItem('sitename', sitename);
+      window.open(loginXplanURl, '_self');
+    } else {
+      setFieldError('site_name', t('lang_sitename_is_invalid'));
+    }
   };
 
   /**
-   * Save user stayed login status
-   * @param e checkbox input event
+   * Handle if URI have code param => call api login
    */
-  const onStaySignedIn = (e: React.ChangeEvent<HTMLInputElement>) => {
-    window.staySignedin = e.target.checked;
-  };
+  React.useEffect(() => {
+    const sitename = localStorage.getItem('sitename') as string;
+    const loginCode = localStorage.getItem('loginCode') as string;
+    const oldUrl = localStorage.getItem('oldUrl') as any;
+    if (oldUrl?.includes('code=')) {
+      setFieldValue('site_name', sitename);
+      dispatch(loginIress(loginCode, redirectUrL, sitename, navigate) as any);
+    }
+  }, []);
 
-  const { values, errors, touched, handleBlur, handleSubmit, setFieldValue } = useFormik({
+  const { values, errors, touched, handleBlur, handleSubmit, handleChange, setFieldValue } = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,
   });
 
-  /**
-   * Preprocess email user input
-   * @param e inputn change event
-   */
-  const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFieldValue('email', validate.removeSpace(e.target.value));
-    if (error) {
-      dispatch(clearError());
-    }
-  };
   return (
     <Paper className={classes.container}>
       <div className={classes.title}>
-        <Typography variant="h5">
+        <Typography variant="h5" className={classes.heading}>
           <Trans>lang_sign_in_to_your_account</Trans>
         </Typography>
       </div>
@@ -117,48 +135,34 @@ export default function SignIn() {
             if (e.key === 'Enter') handleSubmit();
           }}
         >
+          <div className={classes.termsContainer}>
+            <Trans>lang_sign_in_to_access_to_Iress_CMS_portal</Trans>
+          </div>
           <InputField
-            id="email"
-            name="email"
-            sx={{ mb: 2 }}
-            label="lang_email"
+            id="site_name"
+            name="site_name"
+            label="lang_sitename"
             required
             fullWidth
-            autoComplete="email"
             autoFocus
-            value={values.email}
-            onChange={handleChangeEmail}
+            inputProps={{ maxLength: 255 }}
+            value={values.site_name}
+            onChange={handleChange}
             onBlur={handleBlur}
-            error={(touched.email && Boolean(errors.email)) || !!error}
-            helperText={touched.email && errors.email}
+            error={(touched.site_name && Boolean(errors.site_name)) || !!error}
+            helperText={touched.site_name && errors.site_name}
           />
-          <PasswordField
-            id="password"
-            name="password"
-            sx={{ mb: 2 }}
-            label="lang_password"
-            required
+          <Button
+            network
+            type="submit"
             fullWidth
-            value={values.password}
-            onChange={(v: string) => setFieldValue('password', validate.removeSpace(v))}
-            onBlur={handleBlur}
-            error={(touched.password && Boolean(errors.password)) || !!error}
-            helperText={touched.password && errors.password}
-          />
-          <FormControlLabel onChange={onStaySignedIn} control={<Checkbox />} label={<Trans>lang_stay_sign_in</Trans>} />
-          <Button network type="submit" fullWidth variant="contained" color="primary" sx={{ my: 2 }} isLoading={!!isLoading}>
+            variant="contained"
+            color="primary"
+            isLoading={!!isLoading}
+            className={classes.buttonSignin}
+          >
             <Trans>lang_sign_in</Trans>
           </Button>
-          <div className={classes.termsContainer}>
-            <Trans
-              components={[
-                <Link key="termsOfService" target="_blank" href={`/novus-fintech-privacy-policy.pdf?${+new Date()}`} />,
-                <Link key="privacyPolicy" target="_blank" href={`/novus-fintech-privacy-policy.pdf?${+new Date()}`} />,
-              ]}
-            >
-              lang_terms_of_service_and_privacy_policy
-            </Trans>
-          </div>
         </form>
       </Box>
     </Paper>
@@ -166,11 +170,9 @@ export default function SignIn() {
 }
 
 const initialValues = {
-  email: '',
-  password: '',
+  site_name: '',
 };
 
 const validationSchema = yup.object().shape({
-  email: yup.string().nullable(true).checkEmail('lang_email_invalid').required('lang_email_required'),
-  password: yup.string().required('lang_password_required').matches(validate.getPasswordPattern(), 'lang_password_invalid'),
+  site_name: yup.string().required('lang_site_name_required'),
 });

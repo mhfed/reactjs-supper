@@ -17,6 +17,14 @@ import { Trans } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { userSelector } from 'selectors/auth.selector';
 
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import { Link } from '@mui/material';
+
 const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
@@ -26,6 +34,10 @@ const useStyles = makeStyles((theme) => ({
     '& p': {
       wordBreak: 'break-all',
     },
+    '& .MuiTableCell-root': {
+      border: `1px solid ${theme.palette.background.attachmentBorder}`,
+      padding: theme.spacing(1.5, 2, 1.5, 2),
+    },
   },
   btnContainer: {
     display: 'flex',
@@ -34,8 +46,19 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     marginTop: theme.spacing(2),
   },
+  thead: {
+    fontWeight: 700,
+  },
+  linkProceed: {
+    padding: theme.spacing(2),
+  },
 }));
 
+type DataConfigureType = {
+  settingName?: string;
+  prevSetting?: string;
+  newSetting?: string;
+};
 type ConfirmEditUserModalProps = {
   title: string;
   cancelText?: string;
@@ -45,6 +68,11 @@ type ConfirmEditUserModalProps = {
   data?: LooseObject[];
   onClose: () => void;
   onSubmit: () => void;
+  configurationChange?: boolean;
+  dataConfigure?: DataConfigureType[];
+  centerButton?: boolean;
+  centerTitle?: boolean;
+  styleContainer?: React.CSSProperties;
 };
 
 const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
@@ -53,9 +81,14 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
   confirmText = 'lang_confirm',
   titleTransValues = {},
   emailConfirm = true,
+  configurationChange = false,
+  dataConfigure = [],
   data = [],
   onClose,
   onSubmit,
+  centerButton,
+  centerTitle,
+  styleContainer,
 }) => {
   const classes = useStyles();
   const [email, setEmail] = React.useState('');
@@ -92,6 +125,9 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
   const handleConfirm = () => {
     if (emailConfirm && (email + '').replace(/\s/g, '').toLowerCase() !== (user.user_login_id + '').toLowerCase()) {
       setError('lang_email_did_not_match');
+    }
+    if (configurationChange) {
+      onSubmit();
     } else {
       onSubmit();
     }
@@ -108,42 +144,92 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
     }
   };
 
+  /**
+   * Condition to render body of modal
+   * @returns JSX Element
+   */
+  const renderBody = () => {
+    if (configurationChange)
+      return (
+        <TableContainer>
+          <Table aria-label="table_configuration_change">
+            <TableHead>
+              <TableRow>
+                <TableCell>
+                  <Typography className={classes.thead}>
+                    <Trans>lang_setting_name</Trans>
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography className={classes.thead}>
+                    <Trans>lang_prev_settinge</Trans>
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography className={classes.thead}>
+                    <Trans>lang_new_setting</Trans>
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {dataConfigure?.map((e) => (
+                <TableRow key={e.settingName}>
+                  <TableCell>{e.settingName}</TableCell>
+                  <TableCell>{e.prevSetting}</TableCell>
+                  <TableCell>{e.newSetting}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <Link noWrap target="_blank" href={``} underline="none" className={classes.linkProceed}>
+            <Trans>lang_do_you_want_to_proceed</Trans>
+          </Link>
+        </TableContainer>
+      );
+
+    return (
+      <>
+        <Typography sx={{ mb: 1, textAlign: centerTitle ? 'center' : '' }}>
+          <Trans values={titleTransValues} components={[<strong key="strong" />]}>
+            {title}
+          </Trans>
+        </Typography>
+        {data.length && data.length < 6 ? (
+          data.map((e) => (
+            <Typography fontWeight="bold" key={e.user_id}>
+              {e.user_login_id}
+            </Typography>
+          ))
+        ) : (
+          <></>
+        )}
+        {emailConfirm ? (
+          <TextField
+            inputRef={ref}
+            id="userLoginId"
+            name="userLoginId"
+            sx={{ mt: 2 }}
+            label={<Trans>{'lang_your_email'}</Trans>}
+            required
+            fullWidth
+            autoComplete="email"
+            // value={email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={!!error}
+            helperText={<Trans>{error}</Trans>}
+          />
+        ) : (
+          <></>
+        )}
+      </>
+    );
+  };
   return (
-    <div className={classes.container}>
-      <Typography sx={{ mb: 1 }}>
-        <Trans values={titleTransValues} components={[<strong key="strong" />]}>
-          {title}
-        </Trans>
-      </Typography>
-      {data.length && data.length < 6 ? (
-        data.map((e) => (
-          <Typography fontWeight="bold" key={e.user_id}>
-            {e.user_login_id}
-          </Typography>
-        ))
-      ) : (
-        <></>
-      )}
-      {emailConfirm ? (
-        <TextField
-          inputRef={ref}
-          id="userLoginId"
-          name="userLoginId"
-          sx={{ mt: 2 }}
-          label={<Trans>{'lang_your_email'}</Trans>}
-          required
-          fullWidth
-          autoComplete="email"
-          // value={email}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          error={!!error}
-          helperText={<Trans>{error}</Trans>}
-        />
-      ) : (
-        <></>
-      )}
-      <div className={classes.btnContainer}>
+    <div className={classes.container} style={styleContainer}>
+      {renderBody()}
+      <div className={classes.btnContainer} style={{ justifyContent: centerButton ? 'center' : '' }}>
         <Button variant="outlined" onClick={onClose} sx={{ mr: 2 }}>
           <Trans>{cancelText}</Trans>
         </Button>

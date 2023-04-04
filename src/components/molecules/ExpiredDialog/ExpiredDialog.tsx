@@ -25,6 +25,7 @@ const ExpiredDialog = () => {
       open={!!expiredNoti}
       alertContent={expiredNoti || 'lang_creating_pin_request_has_expired'}
       onSubmit={onExpired}
+      textSubmit="lang_ok"
     />
   );
 };

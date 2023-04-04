@@ -17,12 +17,14 @@ type AuthGuardProps = {
 // @ts-ignore: Unreachable code error
 const AuthGuard: FC<AuthGuardProps> = ({ children }) => {
   const isAuth = authService.getAccessToken();
-  const isStaySignedIn = window.localStorage.getItem('isStaySignedIn') === 'true';
+  // const lastUserId = window.localStorage.getItem('lastUserId');
+  // const accessToken = window.localStorage.getItem(`${lastUserId}accessToken`);
 
   // if not login or not auto login navigate to login page
-  if (!isAuth && !isStaySignedIn) {
+  if (!isAuth) {
     return <Navigate to={PATH_NAME.LOGIN} />;
   }
+
   // else show router
   return <>{children}</>;
 };

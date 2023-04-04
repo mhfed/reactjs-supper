@@ -22,27 +22,24 @@ type IProps = {
 };
 
 const RoleRoute: FC<IProps> = ({ children, requireRoles = [] }) => {
-  const navigate = useNavigate();
-  const roles = useSelector(roleSelector);
+  // useEffect(() => {
+  //   if (!roles || requireRoles.length === 0) return;
 
-  useEffect(() => {
-    if (!roles || requireRoles.length === 0) return;
-
-    const checkRole = () => {
-      if (Array.isArray(requireRoles)) {
-        for (let index = 0; index < requireRoles.length; index++) {
-          const role = requireRoles[index];
-          if (!roles.includes(role)) return false;
-        }
-        return true;
-      } else {
-        return roles.includes(requireRoles);
-      }
-    };
-    if (!checkRole) {
-      navigate(PATH_NAME.ERROR_403, { replace: true });
-    }
-  }, [navigate, roles, requireRoles]);
+  //   const checkRole = () => {
+  //     if (Array.isArray(requireRoles)) {
+  //       for (let index = 0; index < requireRoles.length; index++) {
+  //         const role = requireRoles[index];
+  //         if (!roles.includes(role)) return false;
+  //       }
+  //       return true;
+  //     } else {
+  //       return roles.includes(requireRoles);
+  //     }
+  //   };
+  //   if (!checkRole()) {
+  //     navigate(PATH_NAME.ERROR_403, { replace: true });
+  //   }
+  // }, [navigate, roles, requireRoles]);
 
   return <>{children}</>;
 };

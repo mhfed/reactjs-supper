@@ -24,6 +24,7 @@ import GlobalModal from 'containers/Modal';
 import moment from 'moment-timezone';
 import { setConnecting } from 'actions/app.action';
 import ExpiredDialog from 'components/molecules/ExpiredDialog';
+import BeforeExpiredDialog from 'components/molecules/BeforeExpiredDialog';
 
 declare module '@mui/styles/defaultTheme' {
   interface DefaultTheme extends Theme {}
@@ -35,6 +36,11 @@ function App() {
   const { modeTheme, language } = useGlobalContext();
   const type = modeTheme === THEMES.LIGHT ? 0 : 1;
   const dispatch = useDispatch();
+
+  if (window.location.href.includes('code=')) localStorage.setItem('oldUrl', window.location.href);
+  const url = new URL(window.location.href);
+  const loginCode = url.searchParams.get('code');
+  if (loginCode) localStorage.setItem('loginCode', loginCode);
 
   /**
    * Set default timezone australia
@@ -163,6 +169,7 @@ function App() {
                 <Routes />
                 <SnackBarBase />
                 <ExpiredDialog />
+                <BeforeExpiredDialog />
               </GlobalModal>
             </SnackbarProvider>
           </Auth>

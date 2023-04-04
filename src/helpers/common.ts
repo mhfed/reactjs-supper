@@ -150,3 +150,20 @@ export const lazyWithRetry = (componentImport: any) =>
       throw error;
     }
   });
+
+function isValidUrl(url: string) {
+  const pattern = /^https?:\/\/[a-z0-9]+(?:[-.][a-z0-9]+)*(?::[0-9]{1,5})?(?:\/[^\/\r\n]+)*\.[a-z]{2,5}(?:[?#]\S*)?$/;
+  return !!pattern.test(url);
+}
+
+export const checkExistURL = async (url: string) => {
+  try {
+    const myURL = new URL(url);
+    if (!['https:', 'http:'].includes(myURL.protocol)) return false;
+    if (!isValidUrl(url)) return false;
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};

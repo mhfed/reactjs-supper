@@ -13,6 +13,7 @@ export const PATH_NAME = {
   USER: '/user',
   USER_DETAIL: '/user/user-detail',
   USER_MANAGEMENT: '/user/user_management',
+  PORTFOLIO: '/portfolio',
   CREATE_NEW_USER: '/user/create_user',
   NOTIFICATION: '/notification',
   NOTIFICATION_MANAGEMENT: '/notification/notification_management',

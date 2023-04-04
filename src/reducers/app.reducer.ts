@@ -18,6 +18,7 @@ const initialState: IAppState = {
   },
   notifications: {},
   expiredNoti: '',
+  isAboutToExpired: false,
 };
 
 const reducer = (state = initialState, { type, payload }: IAppActionCreator) => {
@@ -26,6 +27,11 @@ const reducer = (state = initialState, { type, payload }: IAppActionCreator) => 
       return {
         ...state,
         expiredNoti: payload,
+      };
+    case IAppActionTypes.SET_BEFORE_EXPIRED:
+      return {
+        ...state,
+        isAboutToExpired: payload,
       };
     case IAppActionTypes.SET_LOADING:
       return {

@@ -16,7 +16,8 @@ import RoleRoute from './RoleRoute';
 
 // modules
 const Error404View = lazy(() => import('features/Error404View'));
-const UserManagement = lazy(() => import('features/User/UserManagement'));
+// const UserManagement = lazy(() => import('features/User/UserManagement'));
+const Portfolio = lazy(() => import('features/Portfolio'));
 const CreateNewUser = lazy(() => import('features/User/CreateNewUser'));
 const UserDetailEdit = lazy(() => import('features/User/UserDetailEdit'));
 const NotificationManagement = lazy(() => import('features/Notification/NotificationManagement'));
@@ -33,7 +34,7 @@ const DenyView = lazy(() => import('features/DenyView'));
 const routesConfig: IRoutes[] = [
   {
     path: PATH_NAME.ROOT,
-    component: () => <Navigate to={PATH_NAME.USER_MANAGEMENT} replace />,
+    component: () => <Navigate to={PATH_NAME.NOTIFICATION_MANAGEMENT} replace />,
   },
   {
     path: PATH_NAME.ERROR_404,
@@ -52,11 +53,11 @@ const routesConfig: IRoutes[] = [
     guard: AuthGuard,
     layout: MainLayout,
     routes: [
-      {
-        path: PATH_NAME.USER_MANAGEMENT,
-        component: UserManagement,
-        requireRoles: [],
-      },
+      // {
+      //   path: PATH_NAME.USER_MANAGEMENT,
+      //   component: UserManagement,
+      //   requireRoles: [],
+      // },
       {
         path: PATH_NAME.CREATE_NEW_USER,
         component: CreateNewUser,
@@ -65,6 +66,11 @@ const routesConfig: IRoutes[] = [
       {
         path: PATH_NAME.USER_DETAIL,
         component: UserDetailEdit,
+        requireRoles: [],
+      },
+      {
+        path: PATH_NAME.PORTFOLIO,
+        component: Portfolio,
         requireRoles: [],
       },
       {

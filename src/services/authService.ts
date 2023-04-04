@@ -16,16 +16,23 @@ import {
   getUserDetailByEmailUrl,
   getUserGroupUrl,
   getLogoutUrl,
+  getAuthUrlV2,
+  getRefreshUrlV2,
 } from 'apis/request.url';
 import CryptoJS from 'react-native-crypto-js';
 import store from 'stores';
-import { IAuthType } from 'models/IAuthState';
+import { IAuthType, IAuthCapability } from 'models/IAuthState';
 import { updateUserInfo, updateToken } from 'actions/auth.action';
 import { axiosInstance } from 'services/initRequest';
 import { clearStorage } from 'helpers';
+import { showExpiredPopup, showPopupBeforeExpired } from 'actions/app.action';
 
 class AuthService {
   intervalId = 0;
+
+  timeoutExpired = 0;
+
+  timeoutAboutToExpired = 0;
 
   /**
    * Handle renew token request
@@ -226,6 +233,101 @@ class AuthService {
   // check iress session expired
   checkIressSessionLogout = (errorCode: number) => {
     return [100000, 100003].includes(errorCode);
+  };
+
+  /**
+   * Check permission to login
+   * @param capability are list role of user
+   * @returns
+   */
+  checkPermissionLogin = (capability: Array<string>) => {
+    const listRoleAccess = [IAuthCapability.EDIT_COMPLIANCE, IAuthCapability.EDIT_ALL_COMPLIANCE];
+    let hasAccess = false;
+    capability.forEach((c: any) => {
+      if (listRoleAccess.includes(c)) {
+        hasAccess = true;
+      }
+    });
+    return hasAccess;
+  };
+
+  /**
+   *
+   * @param code is fixed code of Iress
+   * @param redirect_uri redirect url
+   * @param site_name is sitename value
+   * @returns loginResponse
+   */
+  loginWithCodeFromIress = async (code: string, redirect_uri: string, site_name: string) => {
+    try {
+      const body = { code, redirect_uri };
+      const config = { headers: { 'site-name': site_name || 'https://plannercentralsg.xplan.iress.com.sg' } };
+      const { data: dataResponse }: any = await httpRequest.post(getAuthUrlV2(), body, config);
+      return {
+        expires_in: dataResponse.expires_in,
+        user_id: dataResponse.user_id,
+        capability: dataResponse.capability,
+        refreshToken: dataResponse.refresh_token,
+        accessToken: dataResponse.access_token,
+      };
+    } catch (error) {
+      return { error };
+    }
+  };
+
+  /**
+   * Trigger time to show Popup to renew token
+   * @param expireIn time expired of token
+   */
+  showPopupRenewToken = (expireIn: number) => {
+    const timeExpired = expireIn * 1000;
+    const isAboutToExpiredIn = timeExpired - (+process.env.REACT_APP_SHOW_POPUP_RENEW_TOKEN_AFTER || 60 * 60 * 15);
+
+    // Show pop up is about to expired
+    this.timeoutAboutToExpired && clearInterval(this.timeoutAboutToExpired);
+    this.timeoutAboutToExpired = window.setTimeout(() => {
+      store.dispatch(showPopupBeforeExpired(true));
+    }, isAboutToExpiredIn);
+  };
+
+  /**
+   * Trigger time to show Popup to renew token
+   * @param expireIn time expired of token
+   */
+  showPopupExpired = (expireIn: number) => {
+    const timeExpired = expireIn * 1000;
+    // Show pop up expired
+    this.timeoutExpired && clearInterval(this.timeoutExpired);
+    this.timeoutExpired = window.setTimeout(() => {
+      //hide popup is about to expired if user treo may
+      store.dispatch(showPopupBeforeExpired(false));
+      this.timeoutAboutToExpired && clearInterval(this.timeoutAboutToExpired);
+
+      store.dispatch(showExpiredPopup('lang_your_session_has_expired'));
+    }, timeExpired);
+  };
+
+  /**
+   * Handle renew token
+   */
+  processRenewToken = () => {
+    const refreshToken = store.getState().auth.refreshToken || '';
+    httpRequest
+      .post(getRefreshUrlV2(), {
+        refresh_token: refreshToken,
+      })
+      .then((res: any) => {
+        const data = res?.data;
+        store.dispatch(updateToken(data));
+        data.accessToken && (axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`);
+
+        //Reset show popup
+        authService.showPopupRenewToken(data.expires_in);
+        authService.showPopupExpired(data.expires_in);
+      })
+      .catch((error) => {
+        console.error('processRenewToken error: ', error);
+      });
   };
 }
 

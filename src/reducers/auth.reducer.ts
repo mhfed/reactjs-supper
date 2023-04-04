@@ -21,7 +21,7 @@ const initialState: IAuthState = {
   step: IAuthStep.LOGIN,
   roles: [],
   user: {},
-  sitename: null,
+  sitename: '',
   iressAccessToken: null,
   iressExpiredTime: null,
   count: null,
@@ -48,7 +48,6 @@ const reducer = (state = initialState, { type, payload }: IAuthActionCreator) =>
     case IAuthActionTypes.UPDATE_TOKEN:
       return {
         ...state,
-        deviceID: payload.deviceID,
         accessToken: payload.accessToken,
       };
     case IAuthActionTypes.UPDATE_USER_INFO:
@@ -70,12 +69,9 @@ const reducer = (state = initialState, { type, payload }: IAuthActionCreator) =>
     case IAuthActionTypes.LOGIN_SUCCESS:
       return {
         ...state,
-        email: payload.email,
         refreshToken: payload.refreshToken,
-        deviceID: payload.deviceID,
-        userType: payload.userType,
         accessToken: payload.accessToken,
-        step: payload.step,
+        sitename: payload.sitename,
         error: '',
         isLoading: false,
       };

@@ -13,6 +13,7 @@ export const IAppActionTypes = {
   ENQUEUE_SNACKBAR: 'APP/ENQUEUE_SNACKBAR',
   REMOVE_SNACKBAR: 'APP/REMOVE_SNACKBAR',
   SET_EXPIRED: 'APP/SET_EXPIRED',
+  SET_BEFORE_EXPIRED: 'APP/SET_BEFORE_EXPIRED',
 };
 
 type IDialog = {
@@ -27,6 +28,7 @@ export type IAppState = {
   dialog: IDialog;
   notifications: any;
   expiredNoti: string;
+  isAboutToExpired: boolean;
 };
 
 export type IAppActionCreator = {
