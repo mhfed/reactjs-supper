@@ -226,7 +226,7 @@ const Portfolio: React.FC<PortfolioProps> = () => {
    * Render preview screen
    * @returns Preview Screen JSX
    */
-  const renderPreviewScreen = () => {
+  const renderViewScreen = () => {
     return (
       <>
         <Box>
@@ -236,14 +236,21 @@ const Portfolio: React.FC<PortfolioProps> = () => {
             </Grid>
             <Grid item xs={6}>
               <SelectField
-                id="bundle_id"
-                value={values.bundle_id}
-                options={optionBundleID}
-                label="lang_bundle_id"
-                fullWidth
-                preview
-                textTransform="uppercase"
                 required
+                options={optionBundleID}
+                name="bundle_id"
+                label="lang_bundle_id"
+                id="bundle_id"
+                fullWidth
+                onBlur={handleBlur}
+                value={values.bundle_id}
+                onChange={(e: any) => {
+                  handleChangeBundleID(e);
+                  handleChange(e);
+                }}
+                error={touched.bundle_id && Boolean(errors.bundle_id)}
+                helperText={touched.bundle_id && errors.bundle_id}
+                textTransform="uppercase"
               />
             </Grid>
             <Grid item xs={6}>
@@ -360,7 +367,7 @@ const Portfolio: React.FC<PortfolioProps> = () => {
 
   return (
     <form className={classes.form} noValidate onSubmit={handleSubmit}>
-      {editMode ? renderEditScreen() : renderPreviewScreen()}
+      {editMode ? renderEditScreen() : renderViewScreen()}
     </form>
   );
 };
