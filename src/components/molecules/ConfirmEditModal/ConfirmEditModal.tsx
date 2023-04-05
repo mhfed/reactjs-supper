@@ -182,7 +182,7 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
               ))}
             </TableBody>
           </Table>
-          <Link noWrap target="_blank" href={``} underline="none" className={classes.linkProceed}>
+          <Link noWrap component="div" underline="none" className={classes.linkProceed}>
             <Trans>lang_do_you_want_to_proceed</Trans>
           </Link>
         </TableContainer>
