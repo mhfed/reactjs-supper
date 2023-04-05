@@ -58,7 +58,7 @@ type PortfolioProps = {};
 
 type ResponseDataType = {
   sitename: string;
-  list_configuration: { bundle_id: string; portfolio_performance_indicator: string };
+  list_configuration: ConfigurationType;
 };
 type ConfigurationType = {
   bundle_id: string;
@@ -73,19 +73,19 @@ const Portfolio: React.FC<PortfolioProps> = () => {
   const { showSubModal, hideModal, hideSubModal } = useGlobalModalContext();
   const sitename = useSelector(iressSitenameSelector) ?? '';
   const [optionBundleID, setOptionBundleID] = React.useState([]);
-  const dataListConfig = React.useRef<ConfigurationType[]>([]);
-  const initValuesClone = React.useRef(initialValues);
+  const dataListConfigRef = React.useRef<ConfigurationType[]>([]);
+  const viewValuesRef = React.useRef(initialValues);
 
   /**
    * Check data change and show popup confirm
    */
   const handleBeforeSubmit = () => {
-    const isChanged = diff(initValuesClone.current, values);
+    const isChanged = diff(viewValuesRef.current, values);
 
     const dataConfigure = [
       {
         settingName: 'Portfolio Performance Indicator',
-        prevSetting: initValuesClone.current.portfolio_performance_indicator,
+        prevSetting: viewValuesRef.current.portfolio_performance_indicator,
         newSetting: values.portfolio_performance_indicator,
       },
     ];
@@ -187,8 +187,9 @@ const Portfolio: React.FC<PortfolioProps> = () => {
   };
 
   const handleChangeBundleID = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const itemSlected = dataListConfig.current?.find((element) => element.bundle_id === e.target.value);
+    const itemSlected = dataListConfigRef.current?.find((element) => element.bundle_id === e.target.value);
     setFieldValue('portfolio_performance_indicator', itemSlected?.portfolio_performance_indicator);
+    viewValuesRef.current = { ...viewValuesRef.current, ...itemSlected };
   };
   const getData = async function () {
     try {
@@ -197,7 +198,7 @@ const Portfolio: React.FC<PortfolioProps> = () => {
         return { label: e.bundle_id, value: e.bundle_id };
       });
       setOptionBundleID(dataOptionBundleID);
-      dataListConfig.current = data?.list_configuration;
+      dataListConfigRef.current = data?.list_configuration;
 
       const initValues = {
         site_name: data.site_name,
@@ -207,7 +208,7 @@ const Portfolio: React.FC<PortfolioProps> = () => {
       resetForm({
         values: initValues,
       });
-      initValuesClone.current = { ...initValues };
+      viewValuesRef.current = { ...initValues };
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({
