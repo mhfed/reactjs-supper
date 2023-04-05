@@ -48,7 +48,7 @@ const reducer = (state = initialState, { type, payload }: IAuthActionCreator) =>
     case IAuthActionTypes.UPDATE_TOKEN:
       return {
         ...state,
-        accessToken: payload.accessToken,
+        accessToken: payload,
       };
     case IAuthActionTypes.UPDATE_USER_INFO:
       return {

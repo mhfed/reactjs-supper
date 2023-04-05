@@ -311,15 +311,16 @@ class AuthService {
    * Handle renew token
    */
   processRenewToken = () => {
-    const refreshToken = store.getState().auth.refreshToken || '';
+    const refreshToken = store.getState().auth.refreshToken;
     httpRequest
       .post(getRefreshUrlV2(), {
         refresh_token: refreshToken,
       })
       .then((res: any) => {
         const data = res?.data;
-        store.dispatch(updateToken(data));
-        data.accessToken && (axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`);
+        const accessToken = data.accessToken || data.access_token;
+        store.dispatch(updateToken(accessToken));
+        accessToken && (axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`);
 
         //Reset show popup
         authService.showPopupRenewToken(data.expires_in);
