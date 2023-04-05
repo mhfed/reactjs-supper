@@ -26,6 +26,7 @@ const BeforeExpiredDialog = () => {
 
   const handleRenewToken = () => {
     authService.processRenewToken();
+    showPopupBeforeExpired(false);
   };
 
   return (
