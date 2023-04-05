@@ -300,8 +300,8 @@ class AuthService {
     this.timeoutExpired && clearInterval(this.timeoutExpired);
     this.timeoutExpired = window.setTimeout(() => {
       //hide popup is about to expired if user treo may
-      store.dispatch(showPopupBeforeExpired(false));
-      this.timeoutAboutToExpired && clearInterval(this.timeoutAboutToExpired);
+      // store.dispatch(showPopupBeforeExpired(false));
+      // this.timeoutAboutToExpired && clearInterval(this.timeoutAboutToExpired);
 
       store.dispatch(showExpiredPopup('lang_your_session_has_expired'));
     }, timeExpired);
