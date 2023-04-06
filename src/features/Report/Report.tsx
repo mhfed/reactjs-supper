@@ -82,6 +82,7 @@ const Report: React.FC<ReportProps> = () => {
         emailConfirm: false,
         title: 'lang_fetch_report_for_sitename',
         titleTransValues: { sitename: sitename },
+        isTitleValuesBold: false,
         cancelText: 'lang_cancel',
         confirmText: 'lang_fetch_report',
         centerTitle: true,

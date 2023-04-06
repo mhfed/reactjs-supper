@@ -64,6 +64,7 @@ type ConfirmEditUserModalProps = {
   cancelText?: string;
   confirmText?: string;
   titleTransValues?: LooseObject;
+  isTitleValuesBold?: boolean;
   emailConfirm?: boolean;
   data?: LooseObject[];
   onClose: () => void;
@@ -80,6 +81,7 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
   cancelText = 'lang_cancel',
   confirmText = 'lang_confirm',
   titleTransValues = {},
+  isTitleValuesBold = true,
   emailConfirm = true,
   configurationChange = false,
   dataConfigure = [],
@@ -186,7 +188,7 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
     return (
       <>
         <Typography sx={{ mb: 1, textAlign: centerTitle ? 'center' : '' }}>
-          <Trans values={titleTransValues} components={[<strong key="strong" />]}>
+          <Trans values={titleTransValues} components={isTitleValuesBold ? [<span key="span" />] : [<strong key="strong" />]}>
             {title}
           </Trans>
         </Typography>
