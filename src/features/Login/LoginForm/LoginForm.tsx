@@ -18,7 +18,7 @@ import { useFormik } from 'formik';
 import { yup } from 'helpers';
 import { checkExistURL } from 'helpers/common';
 import { ILoginValues } from 'models/ICommon';
-import React from 'react';
+import React, { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -76,6 +76,7 @@ export default function SignIn() {
   const isLoading = useSelector(isLoadingSelector);
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const [disabled, setDisabled] = useState(false);
 
   // fixed CLIENT_ID & RESPONSE_TYPE
   const CLIENT_ID = 'swq7xlOvB8qD4iPqxpNn';
@@ -112,6 +113,13 @@ export default function SignIn() {
     }
   }, []);
 
+  /**
+   * if error disabled button signin
+   */
+  React.useEffect(() => {
+    setDisabled(true);
+  }, [error]);
+
   const { values, errors, touched, handleBlur, handleSubmit, handleChange, setFieldValue } = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
@@ -147,7 +155,10 @@ export default function SignIn() {
             autoFocus
             inputProps={{ maxLength: 255 }}
             value={values.site_name}
-            onChange={handleChange}
+            onChange={(e) => {
+              setDisabled(false);
+              handleChange(e);
+            }}
             onBlur={handleBlur}
             error={(touched.site_name && Boolean(errors.site_name)) || !!error}
             helperText={touched.site_name && errors.site_name}
@@ -158,6 +169,7 @@ export default function SignIn() {
             fullWidth
             variant="contained"
             color="primary"
+            disabled={disabled || Boolean(errors.site_name)}
             isLoading={!!isLoading}
             className={classes.buttonSignin}
           >
