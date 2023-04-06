@@ -164,7 +164,7 @@ const Portfolio: React.FC<PortfolioProps> = () => {
   };
 
   const handleBack = () => {
-    const isChanged = diff(initialValues, values);
+    const isChanged = diff(viewValuesRef.current, values);
     if (isChanged) {
       showSubModal({
         title: 'lang_confirm_cancel',
@@ -175,7 +175,6 @@ const Portfolio: React.FC<PortfolioProps> = () => {
           cancelText: 'lang_no',
           confirmText: 'lang_yes',
           onSubmit: () => {
-            resetForm();
             hideSubModal();
             setEditMode(false);
           },
