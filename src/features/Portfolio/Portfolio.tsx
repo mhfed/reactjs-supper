@@ -56,10 +56,6 @@ const useStyles = makeStyles((theme) => ({
 
 type PortfolioProps = {};
 
-type ResponseDataType = {
-  sitename: string;
-  list_configuration: ConfigurationType;
-};
 type ConfigurationType = {
   bundle_id: string;
   portfolio_performance_indicator: string;
@@ -68,7 +64,6 @@ type ConfigurationType = {
 const Portfolio: React.FC<PortfolioProps> = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [loading, setLoading] = React.useState(false);
   const [editMode, setEditMode] = React.useState(false);
   const { showSubModal, hideModal, hideSubModal } = useGlobalModalContext();
   const sitename = useSelector(iressSitenameSelector) ?? '';
@@ -120,7 +115,6 @@ const Portfolio: React.FC<PortfolioProps> = () => {
    */
   const handleFormSubmit = async () => {
     try {
-      setLoading(true);
       const newConfiguration = {
         bundle_id: values.bundle_id,
         portfolio_performance_indicator: values.portfolio_performance_indicator,
@@ -142,9 +136,7 @@ const Portfolio: React.FC<PortfolioProps> = () => {
         }),
       );
       hideModal();
-      setLoading(false);
     } catch (error) {
-      setLoading(false);
       dispatch(
         enqueueSnackbarAction({
           message: error?.errorCodeLang,

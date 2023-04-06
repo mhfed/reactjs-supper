@@ -6,15 +6,7 @@
  * Copyright (c) 2023 - Novus Fintech
  */
 
-import React, { FC, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-
-// configs
-import { PATH_NAME } from 'configs';
-
-// selectors
-import { roleSelector } from 'selectors/auth.selector';
+import React, { FC } from 'react';
 
 type IProps = {
   requireRoles: string[] | [];

@@ -152,7 +152,7 @@ export const lazyWithRetry = (componentImport: any) =>
   });
 
 function isValidUrl(url: string) {
-  const pattern = /^https?:\/\/[a-z0-9]+(?:[-.][a-z0-9]+)*(?::[0-9]{1,5})?(?:\/[^\/\r\n]+)*\.[a-z]{2,5}(?:[?#]\S*)?$/;
+  const pattern = /^https?:\/\/[a-z0-9]+(?:[-.][a-z0-9]+)*(?::[0-9]{1,5})?(?:\/[^/\r\n]+)*\.[a-z]{2,5}(?:[?#]\S*)?$/;
   return !!pattern.test(url);
 }
 

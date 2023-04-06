@@ -17,8 +17,6 @@ import makeStyles from '@mui/styles/makeStyles';
 import { LooseObject } from 'models/ICommon';
 import React from 'react';
 import { Trans } from 'react-i18next';
-import { useSelector } from 'react-redux';
-import { iressSitenameSelector, iressTokenSelector } from 'selectors/auth.selector';
 import httpRequest from 'services/httpRequest';
 
 const useStyles = makeStyles((theme) => ({

@@ -60,7 +60,6 @@ const formatDate = (valueFormat: number | string) => {
 const UserDetail: React.FC<UserDetailProps> = ({ dataForm, callback }: any) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [loading, setLoading] = React.useState(false);
   const [editMode, setEditMode] = React.useState(false);
   const { showSubModal, hideModal, hideSubModal } = useGlobalModalContext();
 
@@ -107,7 +106,6 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm, callback }: any) => {
    */
   const handleFormSubmit = async () => {
     try {
-      setLoading(true);
       const body = {
         data: {
           full_name: values.full_name,
@@ -128,9 +126,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm, callback }: any) => {
       );
       hideModal();
       callback?.();
-      setLoading(false);
     } catch (error) {
-      setLoading(false);
       dispatch(
         enqueueSnackbarAction({
           message: error?.errorCodeLang,

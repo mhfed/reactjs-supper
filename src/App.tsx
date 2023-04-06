@@ -21,7 +21,6 @@ import { THEMES } from 'configs';
 import Routes from 'routes/Routes';
 import { Theme } from '@mui/material/styles';
 import GlobalModal from 'containers/Modal';
-import moment from 'moment-timezone';
 import { setConnecting } from 'actions/app.action';
 import ExpiredDialog from 'components/molecules/ExpiredDialog';
 import BeforeExpiredDialog from 'components/molecules/BeforeExpiredDialog';

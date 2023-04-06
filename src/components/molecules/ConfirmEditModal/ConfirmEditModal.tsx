@@ -12,11 +12,7 @@ import { LooseObject } from 'models/ICommon';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from 'components/atoms/ButtonBase';
-import { validate } from 'helpers';
 import { Trans } from 'react-i18next';
-import { useSelector } from 'react-redux';
-import { userSelector } from 'selectors/auth.selector';
-
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -97,7 +93,6 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
   const [error, setError] = React.useState('');
   const timeoutId = React.useRef<number | null>(null);
   const ref = React.useRef<HTMLInputElement>(null);
-  const user = useSelector(userSelector);
 
   /**
    * Handle email change and check error
@@ -120,7 +115,8 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
    * Handle confiem email
    */
   const handleConfirm = () => {
-    if (emailConfirm && (email + '').replace(/\s/g, '').toLowerCase() !== (user.user_id + '').toLowerCase()) {
+    const userId = window.localStorage.getItem('lastUserId');
+    if (emailConfirm && (email + '').replace(/\s/g, '').toLowerCase() !== (userId + '').toLowerCase()) {
       setError('lang_user_id_did_not_match');
     }
     if (configurationChange) {

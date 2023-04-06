@@ -1,5 +1,3 @@
-import { IFileUpload, LooseObject } from './ICommon';
-
 export type ICreateArticlesBody = {
   subject: string;
   content: string;

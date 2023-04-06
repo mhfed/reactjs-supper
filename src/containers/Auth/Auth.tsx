@@ -8,7 +8,7 @@
 
 import React, { useEffect, FC } from 'react';
 import { useDispatch } from 'react-redux';
-import { autoLogin, autoLoginNew } from 'actions/auth.action';
+import { autoLoginNew } from 'actions/auth.action';
 import { useNavigate } from 'react-router-dom';
 
 type AuthProps = {

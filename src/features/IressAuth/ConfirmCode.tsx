@@ -151,8 +151,7 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = (props) => {
     );
   };
 
-  const submitButton = (form: FormikProps<initialValuesType>) => {
-    const { values } = form;
+  const submitButton = () => {
     return (
       <Grid item xs={12}>
         <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
@@ -189,7 +188,7 @@ const ConfirmCode: React.FC<ConfirmCodeProps> = (props) => {
                 <Grid container spacing={2}>
                   {HeaderTitle()}
                   {renderContent(form)}
-                  {submitButton(form)}
+                  {submitButton()}
                 </Grid>
               </Form>
             </React.Fragment>
