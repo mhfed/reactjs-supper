@@ -121,12 +121,19 @@ const Portfolio: React.FC<PortfolioProps> = () => {
   const handleFormSubmit = async () => {
     try {
       setLoading(true);
-      const body = {
-        site_name: values.site_name,
+      const newConfiguration = {
         bundle_id: values.bundle_id,
         portfolio_performance_indicator: values.portfolio_performance_indicator,
       };
+      const body = {
+        site_name: values.site_name,
+        ...newConfiguration,
+      };
       await httpRequest.put(getPPIndicatorUrl(), body);
+      dataListConfigRef.current = dataListConfigRef.current
+        .filter((item) => item.bundle_id !== newConfiguration.bundle_id)
+        .concat(newConfiguration);
+      viewValuesRef.current = { ...values };
       dispatch(
         enqueueSnackbarAction({
           message: 'lang_update_user_successfully',
@@ -175,6 +182,7 @@ const Portfolio: React.FC<PortfolioProps> = () => {
           cancelText: 'lang_no',
           confirmText: 'lang_yes',
           onSubmit: () => {
+            handleResetValues(values.bundle_id);
             hideSubModal();
             setEditMode(false);
           },
@@ -185,10 +193,13 @@ const Portfolio: React.FC<PortfolioProps> = () => {
     }
   };
 
+  const handleResetValues = (bundleId: string) => {
+    const configSelected = dataListConfigRef.current?.find((element) => element.bundle_id === bundleId);
+    setFieldValue('portfolio_performance_indicator', configSelected?.portfolio_performance_indicator);
+    viewValuesRef.current = { ...viewValuesRef.current, ...configSelected };
+  };
   const handleChangeBundleID = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const itemSlected = dataListConfigRef.current?.find((element) => element.bundle_id === e.target.value);
-    setFieldValue('portfolio_performance_indicator', itemSlected?.portfolio_performance_indicator);
-    viewValuesRef.current = { ...viewValuesRef.current, ...itemSlected };
+    handleResetValues(e.target.value);
   };
   const getData = async function () {
     try {
