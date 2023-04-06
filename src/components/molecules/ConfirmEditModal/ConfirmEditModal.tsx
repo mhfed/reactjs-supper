@@ -188,7 +188,7 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
     return (
       <>
         <Typography sx={{ mb: 1, textAlign: centerTitle ? 'center' : '' }}>
-          <Trans values={titleTransValues} components={isTitleValuesBold ? [<span key="span" />] : [<strong key="strong" />]}>
+          <Trans values={titleTransValues} components={isTitleValuesBold ? [<strong key="strong" />] : [<span key="span" />]}>
             {title}
           </Trans>
         </Typography>
