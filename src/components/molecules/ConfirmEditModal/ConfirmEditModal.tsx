@@ -106,15 +106,10 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
     timeoutId.current && window.clearTimeout(timeoutId.current);
     timeoutId.current = window.setTimeout(() => {
       if (value === '') {
-        setError('lang_plese_enter_email');
+        setError('lang_plese_enter_user_id');
       } else {
-        const errorCodeLang = validate.isValidEmail(value);
-        if (errorCodeLang && errorCodeLang !== error) {
-          setError(errorCodeLang);
-        } else if (!errorCodeLang) {
-          if (error) setError('');
-          setEmail(value);
-        }
+        if (error) setError('');
+        setEmail(value);
       }
     }, process.env.REACT_APP_DEBOUNCE_TIME);
   };
@@ -123,8 +118,8 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
    * Handle confiem email
    */
   const handleConfirm = () => {
-    if (emailConfirm && (email + '').replace(/\s/g, '').toLowerCase() !== (user.user_login_id + '').toLowerCase()) {
-      setError('lang_email_did_not_match');
+    if (emailConfirm && (email + '').replace(/\s/g, '').toLowerCase() !== (user.user_id + '').toLowerCase()) {
+      setError('lang_user_id_did_not_match');
     }
     if (configurationChange) {
       onSubmit();
@@ -135,7 +130,7 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     if (e.target.value === '') {
-      setError('lang_plese_enter_email');
+      setError('lang_plese_enter_user_id');
       return;
     }
     if (e.target.value.includes(' ')) {
@@ -210,10 +205,9 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
             id="userLoginId"
             name="userLoginId"
             sx={{ mt: 2 }}
-            label={<Trans>{'lang_your_email'}</Trans>}
+            label={<Trans>{'lang_user_id'}</Trans>}
             required
             fullWidth
-            autoComplete="email"
             // value={email}
             onChange={handleChange}
             onBlur={handleBlur}
