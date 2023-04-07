@@ -25,6 +25,7 @@ const initialState: IAuthState = {
   iressAccessToken: null,
   iressExpiredTime: null,
   count: null,
+  userId: null,
 };
 
 const reducer = (state = initialState, { type, payload }: IAuthActionCreator) => {
@@ -72,6 +73,7 @@ const reducer = (state = initialState, { type, payload }: IAuthActionCreator) =>
         refreshToken: payload.refreshToken,
         accessToken: payload.accessToken,
         sitename: payload.sitename,
+        userId: payload.userId,
         error: '',
         isLoading: false,
       };

@@ -59,9 +59,9 @@ export const userLoginSelector = createSelector(
   (auth) => auth.email,
 );
 
-export const userSelector = createSelector(
+export const userIdSelector = createSelector(
   (state: IRootState) => state.auth,
-  (auth) => auth.user,
+  (auth) => auth.userId,
 );
 
 export const errorSelector = createSelector(

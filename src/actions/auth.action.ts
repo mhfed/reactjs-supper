@@ -267,12 +267,12 @@ export const iressLogin = (iressAccessToken: string | null, iressExpiredTime: nu
 export const loginIress =
   (code: string, redirectUrL: string, sitename: string, navigate: NavigateFunction) => async (dispatch: Dispatch<any>) => {
     dispatch({ type: IAuthActionTypes.LOGIN_REQUEST });
-    const { user_id, expires_in, capability, refreshToken, accessToken, error } = await authService.loginWithCodeFromIress(
+    const { userId, expires_in, capability, refreshToken, accessToken, error } = await authService.loginWithCodeFromIress(
       code,
       redirectUrL,
       sitename,
     );
-    window.localStorage.setItem('lastUserId', user_id);
+    window.localStorage.setItem('lastUserId', userId);
 
     updateAxiosAuthConfig2(accessToken, refreshToken);
 
@@ -282,8 +282,8 @@ export const loginIress =
       console.log('loginIress error', error);
     } else {
       if (authService.checkPermissionLogin(capability)) {
-        refreshToken && window.localStorage.setItem(`${user_id}_refreshToken`, refreshToken);
-        accessToken && window.localStorage.setItem(`${user_id}_accessToken`, accessToken);
+        refreshToken && window.localStorage.setItem(`${userId}_refreshToken`, refreshToken);
+        accessToken && window.localStorage.setItem(`${userId}_accessToken`, accessToken);
 
         // login successfully
         dispatch({
@@ -292,6 +292,7 @@ export const loginIress =
             refreshToken,
             accessToken,
             sitename,
+            userId,
           },
         });
 
@@ -302,10 +303,10 @@ export const loginIress =
         authService.showPopupExpired(expires_in);
 
         // Remove localStorage
-        refreshToken && window.localStorage.removeItem(`${user_id}_refreshToken`);
-        accessToken && window.localStorage.removeItem(`${user_id}_accessToken`);
+        refreshToken && window.localStorage.removeItem(`${userId}_refreshToken`);
+        accessToken && window.localStorage.removeItem(`${userId}_accessToken`);
 
-        window.localStorage.removeItem(`${user_id}`);
+        window.localStorage.removeItem(`${userId}`);
         window.localStorage.removeItem(`oldUrl`);
         navigate(PATH_NAME.NOTIFICATION_MANAGEMENT);
       } else {

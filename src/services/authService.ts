@@ -261,11 +261,11 @@ class AuthService {
   loginWithCodeFromIress = async (code: string, redirect_uri: string, site_name: string) => {
     try {
       const body = { code, redirect_uri };
-      const config = { headers: { 'site-name': site_name || 'https://plannercentralsg.xplan.iress.com.sg' } };
+      const config = { headers: { 'site-name': site_name } };
       const { data: dataResponse }: any = await httpRequest.post(getAuthUrlV2(), body, config);
       return {
         expires_in: dataResponse.expires_in,
-        user_id: dataResponse.user_id,
+        userId: dataResponse.user_id,
         capability: dataResponse.capability,
         refreshToken: dataResponse.refresh_token,
         accessToken: dataResponse.access_token,

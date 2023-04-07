@@ -20,6 +20,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Link } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { userIdSelector } from 'selectors/auth.selector';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -93,6 +95,7 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
   const [error, setError] = React.useState('');
   const timeoutId = React.useRef<number | null>(null);
   const ref = React.useRef<HTMLInputElement>(null);
+  const userId = useSelector(userIdSelector);
 
   /**
    * Handle email change and check error
@@ -115,12 +118,8 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
    * Handle confiem email
    */
   const handleConfirm = () => {
-    const userId = window.localStorage.getItem('lastUserId');
     if (emailConfirm && (email + '').replace(/\s/g, '').toLowerCase() !== (userId + '').toLowerCase()) {
       setError('lang_user_id_did_not_match');
-    }
-    if (configurationChange) {
-      onSubmit();
     } else {
       onSubmit();
     }

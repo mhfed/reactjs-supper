@@ -53,6 +53,7 @@ export type IAuthState = {
   step: number;
   roles: string[] | null;
   user: any;
+  userId: string | null;
   sitename: string | null;
   iressAccessToken: string | null;
   iressExpiredTime: number | null;
