@@ -18,9 +18,12 @@ export const showExpiredPopup = (text: string) => ({
 /**
  * Show expired popup when before expired 15 minutes
  */
-export const showPopupBeforeExpired = (isAboutToExpiredSelector: boolean) => ({
+export const showPopupBeforeExpired = (isAboutToExpired: boolean, timeRemaining: number = 15) => ({
   type: IAppActionTypes.SET_BEFORE_EXPIRED,
-  payload: isAboutToExpiredSelector,
+  payload: {
+    isAboutToExpired,
+    timeRemaining,
+  },
 });
 
 /**

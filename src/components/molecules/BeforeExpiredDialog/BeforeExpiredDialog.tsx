@@ -9,13 +9,13 @@
 import { showPopupBeforeExpired } from 'actions/app.action';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { isAboutToExpiredSelector } from 'selectors/app.selector';
+import { dataStayinPopupSelector } from 'selectors/app.selector';
 import authService from 'services/authService';
 import store from 'stores';
 import ConfirmModal from '../ConfirmModal';
 
 const BeforeExpiredDialog = () => {
-  const isAboutToExpired = useSelector(isAboutToExpiredSelector);
+  const { isAboutToExpired, timeRemaining } = useSelector(dataStayinPopupSelector);
 
   /**
    * Close modal confirm expired
@@ -33,6 +33,7 @@ const BeforeExpiredDialog = () => {
     <ConfirmModal
       open={!!isAboutToExpired}
       alertContent="lang_session_is_about_to_expired"
+      timeRemaining={timeRemaining}
       onClose={handleClose}
       onSubmit={handleRenewToken}
       textSubmit="lang_yes"

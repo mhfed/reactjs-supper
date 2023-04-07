@@ -267,13 +267,15 @@ export const iressLogin = (iressAccessToken: string | null, iressExpiredTime: nu
 export const loginIress =
   (code: string, redirectUrL: string, sitename: string, navigate: NavigateFunction) => async (dispatch: Dispatch<any>) => {
     dispatch({ type: IAuthActionTypes.LOGIN_REQUEST });
-    const { userId, expires_in, capability, refreshToken, accessToken, error } = await authService.loginWithCodeFromIress(
+    const { userId, capability, refreshToken, accessToken, error } = await authService.loginWithCodeFromIress(
       code,
       redirectUrL,
       sitename,
     );
+    const expiresIn = 960;
     window.localStorage.setItem('lastUserId', userId);
 
+    // update axios
     updateAxiosAuthConfig2(accessToken, refreshToken);
 
     if (error) {
@@ -281,6 +283,7 @@ export const loginIress =
       dispatch({ type: IAuthActionTypes.LOGIN_FAILURE, payload: { error: errorCodeLang } });
       console.log('loginIress error', error);
     } else {
+      const timeBeginLogin = Date.now();
       if (authService.checkPermissionLogin(capability)) {
         refreshToken && window.localStorage.setItem(`${userId}_refreshToken`, refreshToken);
         accessToken && window.localStorage.setItem(`${userId}_accessToken`, accessToken);
@@ -293,14 +296,16 @@ export const loginIress =
             accessToken,
             sitename,
             userId,
+            timeBeginLogin,
+            expiresIn,
           },
         });
 
         // Show pop up renew token before token expired
-        authService.showPopupRenewToken(expires_in);
+        authService.showPopupRenewToken(expiresIn);
 
         // Show pop up renew token before token expired
-        authService.showPopupExpired(expires_in);
+        authService.showPopupExpired(expiresIn);
 
         // Remove localStorage
         refreshToken && window.localStorage.removeItem(`${userId}_refreshToken`);

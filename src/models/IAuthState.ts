@@ -58,6 +58,8 @@ export type IAuthState = {
   iressAccessToken: string | null;
   iressExpiredTime: number | null;
   count: number | null;
+  timeBeginLogin: number | null;
+  expiresIn: number | null;
 };
 
 export type IAuthActionCreator = {

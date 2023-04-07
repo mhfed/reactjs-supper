@@ -21,9 +21,9 @@ export const isExpiredSelector = createSelector(
   (app) => app.expiredNoti,
 );
 
-export const isAboutToExpiredSelector = createSelector(
+export const dataStayinPopupSelector = createSelector(
   (state: IRootState) => state.app,
-  (app) => app.isAboutToExpired,
+  (app) => app.dataStayinPopup,
 );
 
 export const isConnectingSelector = createSelector(

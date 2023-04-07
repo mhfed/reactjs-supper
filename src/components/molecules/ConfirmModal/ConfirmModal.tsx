@@ -27,6 +27,7 @@ type IProps = IStyles & {
   textCancel?: string | React.ReactNode;
   alertTitle?: React.ReactNode | string;
   alertContent: React.ReactNode | string;
+  timeRemaining?: string | number;
   onClose?: () => void;
   onSubmit: () => void;
 };
@@ -38,12 +39,14 @@ const AlertConfirm = ({
   textCancel = 'lang_cancel',
   alertTitle,
   alertContent,
+  timeRemaining = 15 * 1000 * 1000,
   onClose,
   onSubmit,
   ...styles
 }: IProps) => {
   const classes = useStyles(styles)();
-
+  const timeRemain = new Date(timeRemaining);
+  const minutes = timeRemain.getMinutes();
   return (
     <Dialog open={open} fullWidth maxWidth="sm" className={classes.container}>
       {alertTitle && (
@@ -55,7 +58,7 @@ const AlertConfirm = ({
       )}
       <DialogContent>
         <Typography sx={{ textAlign: 'center' }}>
-          <Trans>{alertContent}</Trans>
+          <Trans values={{ timeRemaining: minutes }}>{alertContent}</Trans>
         </Typography>
       </DialogContent>
       <DialogActions>

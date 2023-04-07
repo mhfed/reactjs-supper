@@ -264,7 +264,7 @@ class AuthService {
       const config = { headers: { 'site-name': site_name } };
       const { data: dataResponse }: any = await httpRequest.post(getAuthUrlV2(), body, config);
       return {
-        expires_in: dataResponse.expires_in,
+        expiresIn: dataResponse.expires_in,
         userId: dataResponse.user_id,
         capability: dataResponse.capability,
         refreshToken: dataResponse.refresh_token,
@@ -284,7 +284,7 @@ class AuthService {
     const isAboutToExpiredIn = timeExpired - (+process.env.REACT_APP_SHOW_POPUP_RENEW_TOKEN_AFTER || 60 * 60 * 15);
 
     // Show pop up is about to expired
-    this.timeoutAboutToExpired && clearInterval(this.timeoutAboutToExpired);
+    this.timeoutAboutToExpired && clearTimeout(this.timeoutAboutToExpired);
     this.timeoutAboutToExpired = window.setTimeout(() => {
       store.dispatch(showPopupBeforeExpired(true));
     }, isAboutToExpiredIn);
@@ -297,11 +297,11 @@ class AuthService {
   showPopupExpired = (expireIn: number) => {
     const timeExpired = expireIn * 1000;
     // Show pop up expired
-    this.timeoutExpired && clearInterval(this.timeoutExpired);
+    this.timeoutExpired && clearTimeout(this.timeoutExpired);
     this.timeoutExpired = window.setTimeout(() => {
       //hide popup is about to expired if user treo may
       // store.dispatch(showPopupBeforeExpired(false));
-      // this.timeoutAboutToExpired && clearInterval(this.timeoutAboutToExpired);
+      // this.timeoutAboutToExpired && clearTimeout(this.timeoutAboutToExpired);
 
       store.dispatch(showExpiredPopup('lang_your_session_has_expired'));
     }, timeExpired);

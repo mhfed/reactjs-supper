@@ -26,6 +26,8 @@ const initialState: IAuthState = {
   iressExpiredTime: null,
   count: null,
   userId: null,
+  timeBeginLogin: null,
+  expiresIn: null,
 };
 
 const reducer = (state = initialState, { type, payload }: IAuthActionCreator) => {
@@ -74,6 +76,8 @@ const reducer = (state = initialState, { type, payload }: IAuthActionCreator) =>
         accessToken: payload.accessToken,
         sitename: payload.sitename,
         userId: payload.userId,
+        timeBeginLogin: payload.timeBeginLogin,
+        expiresIn: payload.expiresIn,
         error: '',
         isLoading: false,
       };

@@ -7,8 +7,9 @@
  */
 
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
-import { enqueueSnackbarAction, setLoading, showExpiredPopup } from 'actions/app.action';
+import { enqueueSnackbarAction, setLoading, showExpiredPopup, showPopupBeforeExpired } from 'actions/app.action';
 import { clearStorage } from 'helpers';
+import { checkTimeExpired } from 'helpers/common';
 
 export type IConfig = AxiosRequestConfig & {
   showSpinner?: boolean;
@@ -64,6 +65,18 @@ export default function initRequest(store: any) {
       if (config?.showSpinner) {
         requestCount += 1;
         store.dispatch(setLoading(true));
+      }
+
+      // check case user sleep device
+      const timeBeginLogin = store.getState().auth.timeBeginLogin;
+      const expiresIn = store.getState().auth.expiresIn * 1000;
+      const timeTokenRemaining = checkTimeExpired(timeBeginLogin, expiresIn);
+      //time time Token Remaining
+      if (expiresIn && !timeTokenRemaining) {
+        return store.dispatch(showExpiredPopup('lang_your_session_has_expired'));
+      }
+      if (timeTokenRemaining > 0 && timeTokenRemaining < 15 * 60 * 1000) {
+        store.dispatch(showPopupBeforeExpired(true, timeTokenRemaining));
       }
 
       return config;

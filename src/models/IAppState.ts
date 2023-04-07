@@ -21,6 +21,10 @@ type IDialog = {
   isShow: boolean;
   content?: React.ReactNode | string;
 };
+type IStayinDialog = {
+  isAboutToExpired: boolean;
+  timeRemaining: number;
+};
 
 export type IAppState = {
   isConnecting: boolean;
@@ -28,7 +32,7 @@ export type IAppState = {
   dialog: IDialog;
   notifications: any;
   expiredNoti: string;
-  isAboutToExpired: boolean;
+  dataStayinPopup: IStayinDialog;
 };
 
 export type IAppActionCreator = {

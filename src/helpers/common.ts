@@ -156,6 +156,11 @@ function isValidUrl(url: string) {
   return !!pattern.test(url);
 }
 
+/**
+ *
+ * @param url is sitename user enter to login
+ * @returns url valid or invalid
+ */
 export const checkExistURL = async (url: string) => {
   try {
     const myURL = new URL(url);
@@ -167,3 +172,17 @@ export const checkExistURL = async (url: string) => {
     return false;
   }
 };
+
+/**
+ * Check token is expired or not when user do any action
+ * @param timeBeginLogin time when login success
+ * @param timeTokenExpired time when token expired
+ * @returns time token remaining
+ */
+export function checkTimeExpired(timeBeginLogin: number, timeTokenExpired: number) {
+  if (!timeBeginLogin || !timeTokenExpired) return 0;
+
+  const timeTokenRemaining = timeBeginLogin + timeTokenExpired - Date.now();
+  if (timeTokenRemaining < 0) return 0;
+  return timeTokenRemaining;
+}
