@@ -267,12 +267,11 @@ export const iressLogin = (iressAccessToken: string | null, iressExpiredTime: nu
 export const loginIress =
   (code: string, redirectUrL: string, sitename: string, navigate: NavigateFunction) => async (dispatch: Dispatch<any>) => {
     dispatch({ type: IAuthActionTypes.LOGIN_REQUEST });
-    const { userId, capability, refreshToken, accessToken, error } = await authService.loginWithCodeFromIress(
+    const { userId, expiresIn, capability, refreshToken, accessToken, error } = await authService.loginWithCodeFromIress(
       code,
       redirectUrL,
       sitename,
     );
-    const expiresIn = 960;
     window.localStorage.setItem('lastUserId', userId);
 
     // update axios

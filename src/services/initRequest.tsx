@@ -75,7 +75,7 @@ export default function initRequest(store: any) {
       if (expiresIn && !timeTokenRemaining) {
         return store.dispatch(showExpiredPopup('lang_your_session_has_expired'));
       }
-      if (timeTokenRemaining > 0 && timeTokenRemaining < 15 * 60 * 1000) {
+      if (expiresIn && timeTokenRemaining > 0 && timeTokenRemaining < 15 * 60 * 1000) {
         store.dispatch(showPopupBeforeExpired(true, timeTokenRemaining));
       }
 
