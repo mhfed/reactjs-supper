@@ -44,7 +44,7 @@ function TopBar({ isDrawer, handleToogleDrawer }: IProps) {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h5" sx={{ textTransform: 'uppercase' }}>
+        <Typography variant="h5" sx={{ textTransform: 'uppercase', fontWeight: 'bold' }}>
           <Trans>{title}</Trans>
         </Typography>
         <div className={classes.grow} />
