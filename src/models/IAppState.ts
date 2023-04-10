@@ -14,6 +14,7 @@ export const IAppActionTypes = {
   REMOVE_SNACKBAR: 'APP/REMOVE_SNACKBAR',
   SET_EXPIRED: 'APP/SET_EXPIRED',
   SET_BEFORE_EXPIRED: 'APP/SET_BEFORE_EXPIRED',
+  SET_STAYIN: 'APP/SET_STAYIN',
 };
 
 type IDialog = {
@@ -33,6 +34,7 @@ export type IAppState = {
   notifications: any;
   expiredNoti: string;
   dataStayinPopup: IStayinDialog;
+  isStayin: boolean;
 };
 
 export type IAppActionCreator = {

@@ -309,7 +309,7 @@ export const loginIress =
         // Remove localStorage
         refreshToken && window.localStorage.removeItem(`${userId}_refreshToken`);
         accessToken && window.localStorage.removeItem(`${userId}_accessToken`);
-
+        window.localStorage.removeItem('sitename');
         window.localStorage.removeItem(`${userId}`);
         window.localStorage.removeItem(`oldUrl`);
         navigate(PATH_NAME.NOTIFICATION_MANAGEMENT);

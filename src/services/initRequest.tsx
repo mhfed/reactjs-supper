@@ -69,16 +69,20 @@ export default function initRequest(store: any) {
       // if case refresh token . don't show any thing
       if (['/v2/auth/refresh'].includes(config.url)) return config;
 
+      // if user click no stay in
+      const isStayin = store.getState().app.isStayin;
+      if (!isStayin) return config;
+
       // check case user sleep device
       const timeBeginLogin = store.getState().auth.timeBeginLogin;
       const expiresIn = store.getState().auth.expiresIn * 1000;
-      const timeTokenRemaining = checkTimeExpired(timeBeginLogin, expiresIn);
-      //time time Token Remaining
 
+      //time time Token Remaining
+      const timeTokenRemaining = checkTimeExpired(timeBeginLogin, expiresIn);
       if (expiresIn && !timeTokenRemaining) {
         return store.dispatch(showExpiredPopup('lang_your_session_has_expired'));
       }
-      if (expiresIn && timeTokenRemaining > 0 && timeTokenRemaining < 15 * 60 * 1000) {
+      if (expiresIn && timeTokenRemaining > 0 && timeTokenRemaining < +process.env.REACT_APP_SHOW_POPUP_RENEW_TOKEN_AFTER) {
         store.dispatch(showPopupBeforeExpired(true, timeTokenRemaining));
       }
 

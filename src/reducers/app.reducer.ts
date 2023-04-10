@@ -22,6 +22,7 @@ const initialState: IAppState = {
     isAboutToExpired: false,
     timeRemaining: 0,
   },
+  isStayin: true,
 };
 
 const reducer = (state = initialState, { type, payload }: IAppActionCreator) => {
@@ -30,6 +31,11 @@ const reducer = (state = initialState, { type, payload }: IAppActionCreator) => 
       return {
         ...state,
         expiredNoti: payload,
+      };
+    case IAppActionTypes.SET_STAYIN:
+      return {
+        ...state,
+        isStayin: payload,
       };
     case IAppActionTypes.SET_BEFORE_EXPIRED:
       return {

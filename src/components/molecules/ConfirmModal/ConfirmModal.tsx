@@ -39,14 +39,17 @@ const AlertConfirm = ({
   textCancel = 'lang_cancel',
   alertTitle,
   alertContent,
-  timeRemaining = 15 * 1000 * 1000,
+  timeRemaining,
   onClose,
   onSubmit,
   ...styles
 }: IProps) => {
   const classes = useStyles(styles)();
-  const timeRemain = new Date(timeRemaining);
-  const minutesRemain = timeRemain.getMinutes();
+  let minutesRemain = 15;
+  if (timeRemaining) {
+    const timeRemain = new Date(timeRemaining);
+    minutesRemain = timeRemain.getMinutes();
+  }
   return (
     <Dialog open={open} fullWidth maxWidth="sm" className={classes.container}>
       {alertTitle && (

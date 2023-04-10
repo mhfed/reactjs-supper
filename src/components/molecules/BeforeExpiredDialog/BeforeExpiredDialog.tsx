@@ -6,7 +6,7 @@
  * Copyright (c) 2023 - Novus Fintech
  */
 
-import { showPopupBeforeExpired } from 'actions/app.action';
+import { setStayin, showPopupBeforeExpired } from 'actions/app.action';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { dataStayinPopupSelector } from 'selectors/app.selector';
@@ -22,6 +22,7 @@ const BeforeExpiredDialog = () => {
    */
   const handleClose = () => {
     store.dispatch(showPopupBeforeExpired(false));
+    store.dispatch(setStayin(false));
   };
 
   const handleRenewToken = () => {

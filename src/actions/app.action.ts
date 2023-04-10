@@ -18,12 +18,21 @@ export const showExpiredPopup = (text: string) => ({
 /**
  * Show expired popup when before expired 15 minutes
  */
-export const showPopupBeforeExpired = (isAboutToExpired: boolean, timeRemaining: number = 15) => ({
+export const showPopupBeforeExpired = (isAboutToExpired: boolean, timeRemaining?: number) => ({
   type: IAppActionTypes.SET_BEFORE_EXPIRED,
   payload: {
     isAboutToExpired,
     timeRemaining,
   },
+});
+
+/**
+ * Set app stayin
+ * @param isStayin is stay in
+ */
+export const setStayin = (isStayin: boolean) => ({
+  type: IAppActionTypes.SET_STAYIN,
+  payload: isStayin,
 });
 
 /**

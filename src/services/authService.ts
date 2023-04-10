@@ -21,7 +21,7 @@ import {
 } from 'apis/request.url';
 import CryptoJS from 'react-native-crypto-js';
 import store from 'stores';
-import { IAuthType, IAuthCapability } from 'models/IAuthState';
+import { IAuthType, IAuthCapability, IAuthActionTypes } from 'models/IAuthState';
 import { updateUserInfo, updateToken } from 'actions/auth.action';
 import { axiosInstance } from 'services/initRequest';
 import { clearStorage } from 'helpers';
@@ -281,7 +281,7 @@ class AuthService {
    */
   showPopupRenewToken = (expireIn: number) => {
     const timeExpired = expireIn * 1000;
-    const isAboutToExpiredIn = timeExpired - (+process.env.REACT_APP_SHOW_POPUP_RENEW_TOKEN_AFTER || 60 * 60 * 15);
+    const isAboutToExpiredIn = timeExpired - (+process.env.REACT_APP_SHOW_POPUP_RENEW_TOKEN_AFTER || 1000 * 60 * 15);
 
     // Show pop up is about to expired
     this.timeoutAboutToExpired && clearTimeout(this.timeoutAboutToExpired);
@@ -319,7 +319,17 @@ class AuthService {
       .then((res: any) => {
         const data = res?.data;
         const accessToken = data.accessToken || data.access_token;
-        store.dispatch(updateToken(accessToken));
+
+        const timeBeginLogin = Date.now();
+        store.dispatch({
+          type: IAuthActionTypes.UPDATE_TOKEN,
+          payload: {
+            accessToken,
+            expiresIn: data.expires_in,
+            timeBeginLogin,
+          },
+        });
+
         accessToken && (axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`);
 
         //Reset show popup
