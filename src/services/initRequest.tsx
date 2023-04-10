@@ -66,12 +66,15 @@ export default function initRequest(store: any) {
         requestCount += 1;
         store.dispatch(setLoading(true));
       }
+      // if case refresh token . don't show any thing
+      if (['/v2/auth/refresh'].includes(config.url)) return config;
 
       // check case user sleep device
       const timeBeginLogin = store.getState().auth.timeBeginLogin;
       const expiresIn = store.getState().auth.expiresIn * 1000;
       const timeTokenRemaining = checkTimeExpired(timeBeginLogin, expiresIn);
       //time time Token Remaining
+
       if (expiresIn && !timeTokenRemaining) {
         return store.dispatch(showExpiredPopup('lang_your_session_has_expired'));
       }

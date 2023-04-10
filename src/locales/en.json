@@ -12,7 +12,7 @@
   "lang_fetch_report_for_sitename": "Fetch report for Sitename “<0>{{sitename}}</0>”, do you want to continue?",
   "lang_your_session_has_expired": "Your session has expired. Please login again.",
   "lang_sitename_is_invalid": "Sitename is invalid",
-  "lang_session_is_about_to_expired": "Your session is about to expire after <0>{{timeRemaining}}</0> minutes.<br/> Do you want to stay signed in?",
+  "lang_session_is_about_to_expired": "Your session is about to expire after {{time}} minutes.<br/> Do you want to stay signed in?",
   "error_code_900000": "An error occurred, please contact your administrator",
   "error_dont_have_permission": "You don’t have permission to access to IRESS CMS. Please contact your advisor for more detail.",
   "lang_sign_in_to_access_to_Iress_CMS_portal": "Click “Sign in” to access to Iress CMS portal",

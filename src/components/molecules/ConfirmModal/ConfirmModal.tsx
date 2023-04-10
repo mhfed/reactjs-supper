@@ -46,7 +46,7 @@ const AlertConfirm = ({
 }: IProps) => {
   const classes = useStyles(styles)();
   const timeRemain = new Date(timeRemaining);
-  const minutes = timeRemain.getMinutes();
+  const minutesRemain = timeRemain.getMinutes();
   return (
     <Dialog open={open} fullWidth maxWidth="sm" className={classes.container}>
       {alertTitle && (
@@ -58,7 +58,7 @@ const AlertConfirm = ({
       )}
       <DialogContent>
         <Typography sx={{ textAlign: 'center' }}>
-          <Trans values={{ timeRemaining: minutes }}>{alertContent}</Trans>
+          <Trans values={{ time: minutesRemain }}>{alertContent}</Trans>
         </Typography>
       </DialogContent>
       <DialogActions>
