@@ -33,8 +33,6 @@ const updateAxiosAuthConfig = (baseUrl: string, accessToken: string, pin: string
 };
 
 const updateAxiosAuthConfig2 = (accessToken: string, refreshToken?: string) => {
-  const lastUserId = window.localStorage.getItem('lastUserId');
-  refreshToken && window.localStorage.setItem(`${lastUserId}_refreshToken`, refreshToken);
   axiosInstance.defaults.baseURL = process.env.REACT_APP_ENDPOINT_URL;
   axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
   axiosInstance.defaults.headers.common['environment'] = 'iress-wealth-app';
@@ -229,14 +227,6 @@ export const autoLogin =
     }
   };
 
-export const autoLoginNew =
-  (saveAccessToken: string, saveRefreshToken: string, navigate: NavigateFunction, successCb: () => void) =>
-  async (dispatch: Dispatch<any>) => {
-    successCb?.();
-    updateAxiosAuthConfig2(saveAccessToken, saveRefreshToken);
-    navigate(PATH_NAME.NOTIFICATION_MANAGEMENT);
-  };
-
 /**
  * Handle iress logout
  */
@@ -272,7 +262,6 @@ export const loginIress =
       redirectUrL,
       sitename,
     );
-    window.localStorage.setItem('lastUserId', userId);
 
     // update axios
     updateAxiosAuthConfig2(accessToken, refreshToken);
@@ -284,9 +273,6 @@ export const loginIress =
     } else {
       const timeBeginLogin = Date.now();
       if (authService.checkPermissionLogin(capability)) {
-        refreshToken && window.localStorage.setItem(`${userId}_refreshToken`, refreshToken);
-        accessToken && window.localStorage.setItem(`${userId}_accessToken`, accessToken);
-
         // login successfully
         dispatch({
           type: IAuthActionTypes.LOGIN_SUCCESS,
@@ -306,12 +292,6 @@ export const loginIress =
         // Show pop up renew token before token expired
         authService.showPopupExpired(expiresIn);
 
-        // Remove localStorage
-        refreshToken && window.localStorage.removeItem(`${userId}_refreshToken`);
-        accessToken && window.localStorage.removeItem(`${userId}_accessToken`);
-        window.localStorage.removeItem('sitename');
-        window.localStorage.removeItem(`${userId}`);
-        window.localStorage.removeItem(`oldUrl`);
         navigate(PATH_NAME.NOTIFICATION_MANAGEMENT);
       } else {
         dispatch({ type: IAuthActionTypes.LOGIN_FAILURE, payload: { error: 'error_dont_have_permission' } });

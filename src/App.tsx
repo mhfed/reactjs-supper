@@ -36,11 +36,6 @@ function App() {
   const type = modeTheme === THEMES.LIGHT ? 0 : 1;
   const dispatch = useDispatch();
 
-  if (window.location.href.includes('code=')) localStorage.setItem('oldUrl', window.location.href);
-  const url = new URL(window.location.href);
-  const loginCode = url.searchParams.get('code');
-  if (loginCode) localStorage.setItem('loginCode', loginCode);
-
   /**
    * Set default timezone australia
    * Check network connect

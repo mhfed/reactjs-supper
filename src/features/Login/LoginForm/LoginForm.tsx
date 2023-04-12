@@ -104,10 +104,11 @@ export default function SignIn() {
    * Handle if URI have code param => call api login
    */
   React.useEffect(() => {
+    const url = new URL(window.location.href);
+    const loginCode = url.searchParams.get('code') ?? '';
     const sitename = localStorage.getItem('sitename') ?? '';
-    const loginCode = localStorage.getItem('loginCode') ?? '';
-    const oldUrl = localStorage.getItem('oldUrl') ?? '';
-    if (oldUrl?.includes('code=')) {
+
+    if (loginCode && sitename) {
       setFieldValue('site_name', sitename);
       dispatch(loginIress(loginCode, redirectUrL, sitename, navigate) as any);
     }
