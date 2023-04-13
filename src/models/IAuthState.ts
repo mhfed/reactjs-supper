@@ -60,6 +60,7 @@ export type IAuthState = {
   count: number | null;
   timeBeginLogin: number | null;
   expiresIn: number | null;
+  capability: string[] | null;
 };
 
 export type IAuthActionCreator = {

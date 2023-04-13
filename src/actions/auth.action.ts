@@ -283,6 +283,7 @@ export const loginIress =
             userId,
             timeBeginLogin,
             expiresIn,
+            capability,
           },
         });
 

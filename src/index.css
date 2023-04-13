@@ -241,3 +241,11 @@ span[data-offset-key] {
 .datatables-noprint {
   display: none;
 }
+
+div[class*='MUIDataTableToolbarSelect-root'] {
+  display: none;
+}
+
+div[class*='MUIDataTableSelectCell-fixedLeft'] {
+  position: relative;
+}

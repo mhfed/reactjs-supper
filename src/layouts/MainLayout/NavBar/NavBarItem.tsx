@@ -62,7 +62,7 @@ const NavBarItem: FC<INavBarItem> = ({ active, pathname, depth, icon: Icon, titl
         style={style}
         // to={href}
       >
-        {Icon && <Icon className={classes.icon} size="20" />}
+        {Icon && <Icon className={classes.icon} size="20" style={{ marginRight: 8 }} />}
         <span className={depth > 0 ? classes.title : classes.parentTitle}>
           <Trans>{title}</Trans>
         </span>

@@ -460,6 +460,7 @@ type TableProps = {
   name: string;
   noDataText?: string;
   defaultSort?: LooseObject;
+  selectedRow?: boolean;
 };
 
 const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, ref) => {
@@ -476,6 +477,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     listBtn = [],
     fnKey,
     defaultSort,
+    selectedRow = false,
   } = props;
   const [data, setData] = React.useState<ITableData>(props.data || DATA_DEFAULT);
   const [isEditMode, setEditMode] = React.useState(false);
@@ -745,6 +747,12 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
               onRowDbClick?.(dataIndex);
             },
           }),
+          selectToolbarPlacement: 'none',
+          onRowSelectionChange: (currentRowsSelected: any[], allRowsSelected: any[], rowsSelected: any[]) => {
+            console.log('YOLO currentRowsSelected:', currentRowsSelected);
+            console.log('YOLO allRowsSelected:', allRowsSelected);
+            console.log('YOLO rowsSelected:', rowsSelected);
+          },
           customFooter: (count, page, rowsPerPage, changeRowsPerPage, changePage, textLabels) => {
             return (
               <CustomFooter
@@ -791,9 +799,8 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
             },
           },
           onDownload: onDownload,
-          selectableRows: 'single',
           selectableRowsOnClick: false,
-          selectableRowsHideCheckboxes: true,
+          selectableRowsHideCheckboxes: !selectedRow,
           responsive: 'standard',
           textLabels: {
             body: {

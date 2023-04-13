@@ -240,15 +240,16 @@ class AuthService {
    * @param capability are list role of user
    * @returns
    */
-  checkPermissionLogin = (capability: Array<string>) => {
-    const listRoleAccess = [IAuthCapability.EDIT_COMPLIANCE, IAuthCapability.EDIT_ALL_COMPLIANCE];
-    let hasAccess = false;
-    capability.forEach((c: any) => {
-      if (listRoleAccess.includes(c)) {
-        hasAccess = true;
-      }
-    });
-    return hasAccess;
+  checkPermissionLogin = (capability: Array<string> = []) => {
+    // const listRoleAccess = [IAuthCapability.EDIT_COMPLIANCE, IAuthCapability.EDIT_ALL_COMPLIANCE];
+    // let hasAccess = false;
+    // capability.forEach((c: any) => {
+    //   if (listRoleAccess.includes(c)) {
+    //     hasAccess = true;
+    //   }
+    // });
+    // return hasAccess;
+    return capability.includes(IAuthCapability.EDIT_COMPLIANCE) || capability.includes(IAuthCapability.EDIT_ALL_COMPLIANCE);
   };
 
   /**

@@ -57,6 +57,9 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       paddingTop: 0,
       paddingBottom: 0,
+      '& svg': {
+        marginRight: theme.spacing(1),
+      },
     },
     menuContainer: {
       '& ul li:last-child': {

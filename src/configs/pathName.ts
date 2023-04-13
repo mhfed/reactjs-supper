@@ -26,4 +26,5 @@ export const PATH_NAME = {
   CREATE_NEW_ARTICLES: '/article/create_article',
   ARTICLES_MANAGEMENT: '/article/articles_management',
   REPORT: '/report',
+  ACCESS_MANAGEMENT: '/access_management',
 };

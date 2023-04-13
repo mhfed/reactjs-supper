@@ -10,6 +10,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
+import VerifyUserIcon from 'assets/icons/VerifyUser';
 import { PATH_NAME } from 'configs';
 
 export const navBarTitle = {
@@ -24,6 +25,7 @@ export const navBarTitle = {
   [PATH_NAME.CREATE_NEW_ARTICLES]: 'lang_create_new_article',
   [PATH_NAME.ARTICLES_MANAGEMENT]: 'lang_articles_management',
   [PATH_NAME.REPORT]: 'lang_report',
+  [PATH_NAME.ACCESS_MANAGEMENT]: 'lang_access_management',
 };
 
 export const navBarCommon = [
@@ -94,6 +96,11 @@ export const navBarCommon = [
         href: PATH_NAME.ARTICLES_MANAGEMENT,
       },
     ],
+  },
+  {
+    title: 'lang_access_management',
+    icon: VerifyUserIcon,
+    href: PATH_NAME.ACCESS_MANAGEMENT,
   },
   {
     title: 'lang_report',
