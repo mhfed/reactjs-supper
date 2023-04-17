@@ -168,6 +168,7 @@ const AccessManagement: React.FC<ArticlesManagementProps> = () => {
   return (
     <div className={classes.container}>
       <CustomTable
+        editable
         name="articles"
         fnKey={getRowId}
         ref={gridRef}
@@ -175,6 +176,7 @@ const AccessManagement: React.FC<ArticlesManagementProps> = () => {
         selectedRow={true}
         columns={columns}
         noDataText="lang_no_matching_records_found"
+        showSitename
       />
     </div>
   );

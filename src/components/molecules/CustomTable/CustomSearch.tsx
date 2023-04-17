@@ -16,7 +16,6 @@ import Button from 'components/atoms/ButtonBase';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { ACTIONS } from './TableConstants';
 import clsx from 'clsx';
-import { Grid } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -44,6 +43,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'start',
+  },
+  rightContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 }));
 type TypeButtonHeader = {
@@ -114,8 +119,8 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
 
   return (
     <div className={classes.container}>
-      <Grid container direction="row" justifyContent="start" alignItems="center" rowSpacing={1}>
-        <Grid item>
+      <div className={classes.rightContainer}>
+        <div>
           {listBtn &&
             listBtn?.map(
               (btn: any, i) =>
@@ -134,14 +139,14 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
                   </Button>
                 ),
             )}
-        </Grid>
-        <Grid item>
+        </div>
+        <div>
           {isEditMode ? (
             <div className={clsx(!editable && classes.hidden)}>
               <Button variant="outlined" onClick={() => handleEdit(ACTIONS.CANCEL)} sx={{ mr: 1 }}>
                 <Trans>lang_cancel</Trans>
               </Button>
-              <Button network variant="contained" onClick={() => handleEdit(ACTIONS.SAVE)}>
+              <Button network variant="contained" onClick={() => handleEdit(ACTIONS.SAVE)} sx={{ mr: 1 }}>
                 <Trans>lang_save</Trans>
               </Button>
             </div>
@@ -153,29 +158,31 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
               disabled={isNodata}
               startIcon={<ModeEditIcon />}
               onClick={() => handleEdit(ACTIONS.EDIT)}
+              sx={{ mr: 1 }}
             >
               <Trans>lang_edit</Trans>
             </Button>
           )}
-        </Grid>
+        </div>
         {showSitename ? (
-          <Grid item>
+          <div>
             <TextField
               disabled
               variant="outlined"
               name="sitename"
+              sx={{ minWidth: 336, mr: 1 }}
               value={localStorage.getItem('sitename') || ''}
               InputLabelProps={{
                 shrink: false,
               }}
               fullWidth
             />
-          </Grid>
+          </div>
         ) : (
           <></>
         )}
         {customSearch ? (
-          <Grid item>
+          <div>
             <TextField
               inputRef={searchAppNameInputRef}
               variant="outlined"
@@ -184,6 +191,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
               InputLabelProps={{
                 shrink: false,
               }}
+              sx={{ width: 192 }}
               InputProps={{
                 endAdornment: searchText ? (
                   <InputAdornment position="end">
@@ -194,11 +202,11 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
               fullWidth
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e, true)}
             />
-          </Grid>
+          </div>
         ) : (
           <></>
         )}
-      </Grid>
+      </div>
       <TextField
         inputRef={inputRef}
         variant="outlined"
