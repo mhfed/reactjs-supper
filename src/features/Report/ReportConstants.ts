@@ -32,5 +32,6 @@ export const FIELD = {
   REPORT_TYPE: 'report_type',
   TEMPLATE_ID: 'id',
   SITE_NAME: 'site_name',
+  APP_NAME: 'app_name',
   STATUS: 'status',
 };

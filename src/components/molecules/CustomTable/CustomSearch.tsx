@@ -57,37 +57,42 @@ type TypeButtonHeader = {
 
 type CustomSearchProps = {
   searchText: string;
-  handleSearch: (text: string) => void;
+  handleSearch: (text: string, isCustomSearch?: boolean) => void;
   handleEdit: (action: string) => void;
   isEditMode: boolean;
   listBtn?: Array<TypeButtonHeader>;
   editable: boolean;
   isNodata: boolean;
+  showSitename: boolean;
+  customSearch: boolean;
 };
 
 const CustomSearch: React.FC<CustomSearchProps> = ({
   isNodata,
   editable,
   searchText = '',
+  customSearch = false,
   handleSearch,
   handleEdit,
   isEditMode,
   listBtn,
+  showSitename = false,
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const searchAppNameInputRef = React.useRef<HTMLInputElement | null>(null);
   const timeoutId = React.useRef<number | null>(null);
 
   /**
    * Handle search new data with search text
    * @param e input change event
    */
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>, isSearchAppname = false) => {
     const searchVal = e.target.value.trim();
     timeoutId.current && window.clearTimeout(timeoutId.current);
     timeoutId.current = window.setTimeout(() => {
-      if ((searchVal && searchVal.length >= 2) || e.target.value === '') handleSearch(searchVal);
+      if ((searchVal && searchVal.length >= 2) || e.target.value === '') handleSearch(searchVal, isSearchAppname);
     }, process.env.REACT_APP_DEBOUNCE_TIME);
   };
 
@@ -97,6 +102,14 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
   const clearSearch = () => {
     inputRef.current && (inputRef.current.value = '');
     handleSearch('');
+  };
+
+  /**
+   * Clear custom search text and reset table data
+   */
+  const clearCustomSearch = () => {
+    searchAppNameInputRef.current && (searchAppNameInputRef.current.value = '');
+    handleSearch('', true);
   };
 
   return (
@@ -145,6 +158,46 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
             </Button>
           )}
         </Grid>
+        {showSitename ? (
+          <Grid item>
+            <TextField
+              disabled
+              variant="outlined"
+              name="sitename"
+              value={localStorage.getItem('sitename') || ''}
+              InputLabelProps={{
+                shrink: false,
+              }}
+              fullWidth
+            />
+          </Grid>
+        ) : (
+          <></>
+        )}
+        {customSearch ? (
+          <Grid item>
+            <TextField
+              inputRef={searchAppNameInputRef}
+              variant="outlined"
+              name="search"
+              placeholder={t('lang_search_app_name') + ''}
+              InputLabelProps={{
+                shrink: false,
+              }}
+              InputProps={{
+                endAdornment: searchText ? (
+                  <InputAdornment position="end">
+                    <CancelIcon style={{ width: 16, height: 16, cursor: 'pointer' }} onClick={clearCustomSearch} />
+                  </InputAdornment>
+                ) : null,
+              }}
+              fullWidth
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e, true)}
+            />
+          </Grid>
+        ) : (
+          <></>
+        )}
       </Grid>
       <TextField
         inputRef={inputRef}
@@ -162,8 +215,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
           ) : null,
         }}
         fullWidth
-        // value={searchText || ''}
-        onChange={onChange}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e)}
       />
     </div>
   );

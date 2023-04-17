@@ -461,6 +461,8 @@ type TableProps = {
   noDataText?: string;
   defaultSort?: LooseObject;
   selectedRow?: boolean;
+  showSitename?: boolean;
+  searchAppName?: boolean;
 };
 
 const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, ref) => {
@@ -478,6 +480,8 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     fnKey,
     defaultSort,
     selectedRow = false,
+    showSitename = false,
+    searchAppName = false,
   } = props;
   const [data, setData] = React.useState<ITableData>(props.data || DATA_DEFAULT);
   const [isEditMode, setEditMode] = React.useState(false);
@@ -487,6 +491,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
   const editId = React.useRef<number>(0);
   const dataBeforeEdit = React.useRef<any>({});
   const isChangingAll = React.useRef(false);
+  const isCustomSearch = React.useRef(false);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { showSubModal, hideSubModal } = useGlobalModalContext();
@@ -646,7 +651,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
       switch (action) {
         case TABLE_ACTION.SEARCH:
           if (!tableState.searchText || tableState.searchText.length > 1) {
-            config.current.page = 0;
+            config.current.customSearch = isCustomSearch.current;
             onTableChange();
           }
           break;
@@ -773,10 +778,15 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
                 isNodata={isNodata}
                 editable={editable}
                 searchText={searchText}
-                handleSearch={handleSearch}
+                handleSearch={(text, searchType = false) => {
+                  isCustomSearch.current = searchType;
+                  handleSearch(text);
+                }}
                 isEditMode={isEditMode}
                 listBtn={listBtn}
                 handleEdit={handleEdit}
+                showSitename={showSitename}
+                customSearch={searchAppName}
               />
             );
           },

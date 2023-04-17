@@ -50,6 +50,9 @@ const Report: React.FC<ReportProps> = () => {
       gridRef?.current?.setLoading?.(true);
       const headerConfig: { headers?: LooseObject } = {};
       const config: ITableConfig = gridRef?.current?.getConfig?.();
+      if (config.customSearch) {
+        // handle search by app name
+      }
       headerConfig.headers = { 'site-name': sitename };
       config.page = 1;
       const response: any = await httpRequest.get(getListReportUrl(config), headerConfig);
@@ -219,6 +222,8 @@ const Report: React.FC<ReportProps> = () => {
         onSave={onSaveReport}
         onTableChange={onTableChange}
         columns={columns}
+        showSitename
+        searchAppName
       />
     </div>
   );

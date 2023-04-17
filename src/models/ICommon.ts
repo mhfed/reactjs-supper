@@ -62,6 +62,7 @@ export type ISortConfig = {
 
 export type IGridConfig = {
   sort: ISortConfig | null;
+  customSearch?: boolean;
 };
 
 export type ITableConfig = MUIDataTableState & IGridConfig;
