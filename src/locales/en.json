@@ -1,4 +1,9 @@
 {
+  "lang_cannot_edit_multiple_row_diff_user_id": "Cannot edit multiple User IDs having different App accesses",
+  "lang_please_select_at_least": "Please select at least one  User ID for editing",
+  "lang_do_you_want_to_process": "Do you want to proceed?",
+  "lang_app_name": "App Name",
+  "lang_app_name_is_required": "App Name is required",
   "lang_preview_edit_access": "Preview Edit Access",
   "lang_app_access_setup": "App Access Setup",
   "lang_search_app_name": "Search App Name",

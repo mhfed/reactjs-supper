@@ -159,7 +159,6 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
         }),
       );
       hideSubModal();
-      console.error('Create new segment handleFormSubmit error: ', error);
     }
   };
 

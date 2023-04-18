@@ -31,6 +31,8 @@ type AutocompleteFieldProps = {
   label?: string;
   name?: string;
   error?: boolean;
+  disabled?: boolean;
+  readOnly?: boolean;
   value?: any;
   helperText?: string;
   isOptionEqualToValue?: (option: LooseObject, value: LooseObject) => boolean;
@@ -62,6 +64,8 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   getChipLabel,
   getUrl,
   formatData,
+  disabled = false,
+  readOnly = false,
   multiple = true,
 }) => {
   const classes = useStyles();
@@ -170,6 +174,8 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
             <CircularProgress color="secondary" size={24} />
           </Box>
         }
+        disabled={disabled}
+        readOnly={readOnly}
         multiple={multiple}
         disableClearable
         // freeSolo={!!inputRef.current?.value && inputRef.current?.value?.length > 1 ? false : true}
@@ -185,7 +191,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
           <Box>
             {value?.length &&
               value?.map((option: any, index: number) =>
-                preview ? (
+                preview || disabled ? (
                   <Chip
                     {...getTagProps({ index })}
                     label={_getChipLabel(option)}

@@ -101,7 +101,7 @@ export const navBarCommon = [
     title: 'lang_access_management',
     icon: VerifyUserIcon,
     href: PATH_NAME.ACCESS_MANAGEMENT,
-    requireRoles: [USER_ROLE.EDIT_ALL_COMPLIANCE],
+    // requireRoles: [USER_ROLE.EDIT_ALL_COMPLIANCE],
   },
   {
     title: 'lang_report',

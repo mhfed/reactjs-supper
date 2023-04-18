@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { getArticlesListUrl, getArticlesUrl, getAccessManagement } from 'apis/request.url';
+import { getArticlesListUrl, getAccessManagement } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import httpRequest from 'services/httpRequest';
@@ -17,6 +17,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import { useGlobalModalContext } from 'containers/Modal';
 import { FIELD } from '../Notification/NotificationConstants';
 import AppAccessSetup from './AppAccessSetup';
+import ConfirmModal from 'components/molecules/ConfirmModal';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -35,9 +36,10 @@ const AccessManagement: React.FC<ArticlesManagementProps> = () => {
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
   const { showModal, hideModal } = useGlobalModalContext();
+  const [notif, setNotif] = React.useState('');
 
   /**
-   * Get list articles
+   * Get list access management
    */
   const getData = async () => {
     try {
@@ -114,15 +116,25 @@ const AccessManagement: React.FC<ArticlesManagementProps> = () => {
   };
 
   const onEdit = () => {
-    console.log('YOLO: ', gridRef.current?.getRowSelected());
-    showModal({
-      component: AppAccessSetup,
-      props: {
-        typePage: 'DETAIL',
-        data: [],
-        callback: onTableChange,
-      },
-    });
+    const selectedfdRows = gridRef.current?.getRowSelected();
+    if (!selectedfdRows?.length) {
+      setNotif('lang_please_select_at_least');
+    } else {
+      // const listHaveAppName = selectedfdRows.filter((e: any) => e.app_name)
+      // compare app name
+      const check = true;
+      if (check) {
+        setNotif('lang_cannot_edit_multiple_row_diff_user_id');
+      } else {
+        showModal({
+          component: AppAccessSetup,
+          props: {
+            data: selectedfdRows,
+            callback: onTableChange,
+          },
+        });
+      }
+    }
   };
 
   /**
@@ -150,6 +162,7 @@ const AccessManagement: React.FC<ArticlesManagementProps> = () => {
         noDataText="lang_no_matching_records_found"
         showSitename
       />
+      <ConfirmModal open={!!notif} onSubmit={() => setNotif('')} alertContent={notif} textSubmit="lang_ok" />
     </div>
   );
 };
