@@ -28,7 +28,6 @@ const initialState: IAuthState = {
   userId: null,
   timeBeginLogin: null,
   expiresIn: null,
-  capability: [],
 };
 
 const reducer = (state = initialState, { type, payload }: IAuthActionCreator) => {
@@ -81,7 +80,7 @@ const reducer = (state = initialState, { type, payload }: IAuthActionCreator) =>
         userId: payload.userId,
         timeBeginLogin: payload.timeBeginLogin,
         expiresIn: payload.expiresIn,
-        capability: payload.capability,
+        roles: payload.roles,
         error: '',
         isLoading: false,
       };

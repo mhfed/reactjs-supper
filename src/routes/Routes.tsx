@@ -13,6 +13,7 @@ import { IRoutes } from 'models/IRoutes';
 import MainLayout from 'layouts/MainLayout';
 import AuthGuard from 'guards/AuthGuard';
 import RoleRoute from './RoleRoute';
+import { USER_ROLE } from 'configs';
 
 // modules
 const Error404View = lazy(() => import('features/Error404View'));
@@ -102,7 +103,7 @@ const routesConfig: IRoutes[] = [
       {
         path: PATH_NAME.ARTICLES_MANAGEMENT,
         component: ArticlesManagement,
-        requireRoles: [],
+        requireRoles: [USER_ROLE.EDIT_ALL_COMPLIANCE],
       },
       {
         path: PATH_NAME.CREATE_NEW_ARTICLES,

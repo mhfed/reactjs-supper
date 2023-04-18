@@ -21,11 +21,12 @@ import {
 } from 'apis/request.url';
 import CryptoJS from 'react-native-crypto-js';
 import store from 'stores';
-import { IAuthType, IAuthCapability, IAuthActionTypes } from 'models/IAuthState';
+import { IAuthType, IAuthActionTypes } from 'models/IAuthState';
 import { updateUserInfo, updateToken } from 'actions/auth.action';
 import { axiosInstance } from 'services/initRequest';
 import { clearStorage } from 'helpers';
 import { showExpiredPopup, showPopupBeforeExpired } from 'actions/app.action';
+import { USER_ROLE } from 'configs';
 
 class AuthService {
   intervalId = 0;
@@ -241,7 +242,7 @@ class AuthService {
    * @returns
    */
   checkPermissionLogin = (capability: Array<string> = []) => {
-    // const listRoleAccess = [IAuthCapability.EDIT_COMPLIANCE, IAuthCapability.EDIT_ALL_COMPLIANCE];
+    // const listRoleAccess = [USER_ROLE.EDIT_COMPLIANCE, USER_ROLE.EDIT_ALL_COMPLIANCE];
     // let hasAccess = false;
     // capability.forEach((c: any) => {
     //   if (listRoleAccess.includes(c)) {
@@ -249,7 +250,7 @@ class AuthService {
     //   }
     // });
     // return hasAccess;
-    return capability.includes(IAuthCapability.EDIT_COMPLIANCE) || capability.includes(IAuthCapability.EDIT_ALL_COMPLIANCE);
+    return capability.includes(USER_ROLE.EDIT_COMPLIANCE) || capability.includes(USER_ROLE.EDIT_ALL_COMPLIANCE);
   };
 
   /**

@@ -11,7 +11,7 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 import VerifyUserIcon from 'assets/icons/VerifyUser';
-import { PATH_NAME } from 'configs';
+import { PATH_NAME, USER_ROLE } from 'configs';
 
 export const navBarTitle = {
   [PATH_NAME.CREATE_NEW_USER]: 'lang_create_new_user',
@@ -101,6 +101,7 @@ export const navBarCommon = [
     title: 'lang_access_management',
     icon: VerifyUserIcon,
     href: PATH_NAME.ACCESS_MANAGEMENT,
+    requireRoles: [USER_ROLE.EDIT_ALL_COMPLIANCE],
   },
   {
     title: 'lang_report',

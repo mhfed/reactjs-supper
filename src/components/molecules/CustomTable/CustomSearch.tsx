@@ -55,7 +55,6 @@ type TypeButtonHeader = {
   label: string;
   onClick: () => void;
   variant?: 'contained' | 'outlined' | 'text' | string;
-  isShow?: boolean;
   sx?: any;
   disabledEditMode?: boolean;
 };
@@ -121,47 +120,45 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
     <div className={classes.container}>
       <div className={classes.rightContainer}>
         <div>
-          {listBtn &&
-            listBtn?.map(
-              (btn: any, i) =>
-                btn.isShow && (
-                  <Button
-                    key={i}
-                    network
-                    disabled={btn.disabledEditMode && isEditMode}
-                    variant={btn.variant || 'contained'}
-                    className={clsx(!btn.isShow && classes.hidden)}
-                    sx={{ mr: 1 }}
-                    color={btn.color || 'primary'}
-                    onClick={btn.onClick}
-                  >
-                    <Trans>{btn.label}</Trans>
-                  </Button>
-                ),
-            )}
-        </div>
-        <div>
-          {isEditMode ? (
-            <div className={clsx(!editable && classes.hidden)}>
-              <Button variant="outlined" onClick={() => handleEdit(ACTIONS.CANCEL)} sx={{ mr: 1 }}>
-                <Trans>lang_cancel</Trans>
+          {listBtn ? (
+            listBtn?.map((btn: any, i) => (
+              <Button
+                key={i}
+                network
+                disabled={btn.disabledEditMode && isEditMode}
+                variant={btn.variant || 'contained'}
+                sx={{ mr: 1 }}
+                color={btn.color || 'primary'}
+                onClick={btn.onClick}
+              >
+                <Trans>{btn.label}</Trans>
               </Button>
-              <Button network variant="contained" onClick={() => handleEdit(ACTIONS.SAVE)} sx={{ mr: 1 }}>
-                <Trans>lang_save</Trans>
-              </Button>
-            </div>
+            ))
           ) : (
-            <Button
-              network
-              variant="contained"
-              className={clsx(!editable && classes.hidden)}
-              disabled={isNodata}
-              startIcon={<ModeEditIcon />}
-              onClick={() => handleEdit(ACTIONS.EDIT)}
-              sx={{ mr: 1 }}
-            >
-              <Trans>lang_edit</Trans>
-            </Button>
+            <div>
+              {isEditMode ? (
+                <div className={clsx(!editable && classes.hidden)}>
+                  <Button variant="outlined" onClick={() => handleEdit(ACTIONS.CANCEL)} sx={{ mr: 1 }}>
+                    <Trans>lang_cancel</Trans>
+                  </Button>
+                  <Button network variant="contained" onClick={() => handleEdit(ACTIONS.SAVE)} sx={{ mr: 1 }}>
+                    <Trans>lang_save</Trans>
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  network
+                  variant="contained"
+                  className={clsx(!editable && classes.hidden)}
+                  disabled={isNodata}
+                  startIcon={<ModeEditIcon />}
+                  onClick={() => handleEdit(ACTIONS.EDIT)}
+                  sx={{ mr: 1 }}
+                >
+                  <Trans>lang_edit</Trans>
+                </Button>
+              )}
+            </div>
           )}
         </div>
         {showSitename ? (

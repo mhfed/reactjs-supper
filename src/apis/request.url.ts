@@ -234,3 +234,9 @@ export const getRefreshUrlV2 = () => {
 export const getLogoutUrlV2 = () => {
   return '/v2/auth/logout';
 };
+
+// Access Management
+
+export const getAccessManagement = () => {
+  return '/v2/access-management';
+};

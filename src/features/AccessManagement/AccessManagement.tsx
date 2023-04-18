@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { getArticlesListUrl, getArticlesUrl } from 'apis/request.url';
+import { getArticlesListUrl, getArticlesUrl, getAccessManagement } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import httpRequest from 'services/httpRequest';
@@ -16,6 +16,7 @@ import CustomTable, { COLUMN_TYPE } from 'components/molecules/CustomTable';
 import makeStyles from '@mui/styles/makeStyles';
 import { useGlobalModalContext } from 'containers/Modal';
 import { FIELD } from '../Notification/NotificationConstants';
+import AppAccessSetup from './AppAccessSetup';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -67,53 +68,6 @@ const AccessManagement: React.FC<ArticlesManagementProps> = () => {
     getData();
   }, []);
 
-  /**
-   * Handle delete articles
-   */
-  const confirmDeleteArticles = React.useCallback(async (articlesId: string) => {
-    try {
-      await httpRequest.delete(getArticlesUrl(articlesId));
-      dispatch(
-        enqueueSnackbarAction({
-          message: 'lang_delete_article_successfully',
-          key: new Date().getTime() + Math.random(),
-          variant: 'success',
-        }),
-      );
-      onTableChange();
-      hideModal();
-    } catch (error) {
-      dispatch(
-        enqueueSnackbarAction({
-          message: 'lang_delete_article_unsuccessfully',
-          key: new Date().getTime() + Math.random(),
-          variant: 'error',
-        }),
-      );
-    }
-  }, []);
-
-  /**
-   * Get action for table row
-   * @returns action list
-   */
-  const getActions = () => {
-    return [
-      {
-        label: 'lang_view_detail',
-        onClick: (data: any) => {},
-      },
-      {
-        label: 'lang_edit',
-        onClick: async (data: any) => {},
-      },
-      {
-        label: 'lang_delete',
-        onClick: (data: any) => {},
-      },
-    ];
-  };
-
   // table column schema
   const columns = React.useMemo(() => {
     return [
@@ -147,12 +101,6 @@ const AccessManagement: React.FC<ArticlesManagementProps> = () => {
         label: 'lang_last_update',
         type: COLUMN_TYPE.DATETIME,
       },
-      {
-        name: 'ACTION_COLUMN',
-        type: COLUMN_TYPE.ACTION,
-        getActions,
-        label: ' ',
-      },
     ];
   }, []);
 
@@ -165,10 +113,34 @@ const AccessManagement: React.FC<ArticlesManagementProps> = () => {
     return data[FIELD.ARTICLES_ID];
   };
 
+  const onEdit = () => {
+    console.log('YOLO: ', gridRef.current?.getRowSelected());
+    showModal({
+      component: AppAccessSetup,
+      props: {
+        typePage: 'DETAIL',
+        data: [],
+        callback: onTableChange,
+      },
+    });
+  };
+
+  /**
+   * List button of header table
+   */
+  const listBtnHeader = [
+    {
+      label: 'lang_edit',
+      onClick: onEdit,
+      isShow: true,
+      disabledEditMode: true,
+    },
+  ];
+
   return (
     <div className={classes.container}>
       <CustomTable
-        editable
+        listBtn={listBtnHeader}
         name="articles"
         fnKey={getRowId}
         ref={gridRef}

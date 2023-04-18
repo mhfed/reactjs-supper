@@ -269,7 +269,6 @@ export const loginIress =
     if (error) {
       const { errorCodeLang } = error;
       dispatch({ type: IAuthActionTypes.LOGIN_FAILURE, payload: { error: errorCodeLang } });
-      console.log('loginIress error', error);
     } else {
       const timeBeginLogin = Date.now();
       if (authService.checkPermissionLogin(capability)) {
@@ -283,7 +282,7 @@ export const loginIress =
             userId,
             timeBeginLogin,
             expiresIn,
-            capability,
+            roles: capability,
           },
         });
 

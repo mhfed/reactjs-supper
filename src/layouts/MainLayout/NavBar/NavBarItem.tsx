@@ -15,8 +15,19 @@ import { INavBarItem } from 'models/INavBar';
 import NavBarExpandItem from './NavBarExpandItem';
 import useStyles from './styles';
 import { Trans, useTranslation } from 'react-i18next';
+import checkRole from 'helpers/checkRole';
 
-const NavBarItem: FC<INavBarItem> = ({ active, pathname, depth, icon: Icon, title, open: openProp, href, children }) => {
+const NavBarItem: FC<INavBarItem> = ({
+  active,
+  pathname,
+  depth,
+  icon: Icon,
+  title,
+  open: openProp,
+  href,
+  children,
+  requireRoles,
+}) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -47,6 +58,8 @@ const NavBarItem: FC<INavBarItem> = ({ active, pathname, depth, icon: Icon, titl
       navigate(href);
     }
   };
+
+  if (!checkRole(requireRoles)) return <></>;
 
   // render normal menu item
   return (

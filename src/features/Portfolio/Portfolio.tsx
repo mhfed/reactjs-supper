@@ -197,7 +197,7 @@ const Portfolio: React.FC<PortfolioProps> = () => {
     try {
       const { data }: LooseObject = await httpRequest.get(getPPIndicatorUpdateUrl(sitename));
       const dataOptionBundleID = data?.list_configuration.map((e: any) => {
-        return { label: e.bundle_id, value: e.bundle_id };
+        return { label: e.display_name, value: e.bundle_id };
       });
       setOptionBundleID(dataOptionBundleID);
       dataListConfigRef.current = data?.list_configuration;

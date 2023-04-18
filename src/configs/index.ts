@@ -1,4 +1,5 @@
 import { PATH_NAME } from './pathName';
+import { USER_ROLE } from './userRole';
 
 export const THEMES = {
   LIGHT: 'light',
@@ -15,4 +16,4 @@ const VERSION_PROJECT = {
   version: require('../../package.json').version,
 };
 
-export { PATH_NAME, VERSION_PROJECT };
+export { PATH_NAME, VERSION_PROJECT, USER_ROLE };

@@ -192,18 +192,6 @@ const Report: React.FC<ReportProps> = () => {
   };
 
   /**
-   * List button of header table
-   */
-  const listBtnHeader = [
-    {
-      label: 'lang_fetch_report',
-      onClick: handleFetch,
-      isShow: true,
-      disabledEditMode: true,
-    },
-  ];
-
-  /**
    * Get data at first load
    */
   React.useEffect(() => {
@@ -214,7 +202,6 @@ const Report: React.FC<ReportProps> = () => {
     <div className={classes.container}>
       <CustomTable
         editable
-        listBtn={listBtnHeader}
         name="report"
         fnKey={getRowId}
         ref={gridRef}

@@ -6,7 +6,10 @@
  * Copyright (c) 2023 - Novus Fintech
  */
 
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { PATH_NAME } from 'configs';
+import checkRole from 'helpers/checkRole';
 
 type IProps = {
   requireRoles: string[] | [];
@@ -14,24 +17,14 @@ type IProps = {
 };
 
 const RoleRoute: FC<IProps> = ({ children, requireRoles = [] }) => {
-  // useEffect(() => {
-  //   if (!roles || requireRoles.length === 0) return;
+  const navigate = useNavigate();
 
-  //   const checkRole = () => {
-  //     if (Array.isArray(requireRoles)) {
-  //       for (let index = 0; index < requireRoles.length; index++) {
-  //         const role = requireRoles[index];
-  //         if (!roles.includes(role)) return false;
-  //       }
-  //       return true;
-  //     } else {
-  //       return roles.includes(requireRoles);
-  //     }
-  //   };
-  //   if (!checkRole()) {
-  //     navigate(PATH_NAME.ERROR_403, { replace: true });
-  //   }
-  // }, [navigate, roles, requireRoles]);
+  useEffect(() => {
+    if (requireRoles.length === 0) return;
+    if (!checkRole(requireRoles)) {
+      navigate(PATH_NAME.ERROR_403, { replace: true });
+    }
+  }, [navigate, requireRoles]);
 
   return <>{children}</>;
 };

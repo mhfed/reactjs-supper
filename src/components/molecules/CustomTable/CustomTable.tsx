@@ -434,6 +434,7 @@ type TableHandle = {
   setData: (data?: ResponseDataPaging) => void;
   getQuery: any;
   getConfig: any;
+  getRowSelected: any;
   checkChange: () => boolean;
 };
 type TypeButtonHeader = {
@@ -492,6 +493,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
   const dataBeforeEdit = React.useRef<any>({});
   const isChangingAll = React.useRef(false);
   const isCustomSearch = React.useRef(false);
+  const selectedRows = React.useRef<LooseObject[]>([]);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { showSubModal, hideSubModal } = useGlobalModalContext();
@@ -572,6 +574,14 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
   };
 
   /**
+   * Get table config data as page id, sort field....to request new data at parent component
+   * @returns config data
+   */
+  const getRowSelected = () => {
+    return selectedRows.current;
+  };
+
+  /**
    * Get elastic search query body with search text, sort column and can extend both filter
    * @returns elastic search query body use for parent component request
    */
@@ -630,6 +640,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
       setData: setDataTable,
       setLoading: setLoading,
       getConfig: getConfig,
+      getRowSelected: getRowSelected,
       getQuery: getQuery,
       checkChange: checkChange,
     }),
@@ -754,9 +765,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
           }),
           selectToolbarPlacement: 'none',
           onRowSelectionChange: (currentRowsSelected: any[], allRowsSelected: any[], rowsSelected: any[]) => {
-            console.log('YOLO currentRowsSelected:', currentRowsSelected);
-            console.log('YOLO allRowsSelected:', allRowsSelected);
-            console.log('YOLO rowsSelected:', rowsSelected);
+            selectedRows.current = allRowsSelected.map((e) => data.data[e.dataIndex]);
           },
           customFooter: (count, page, rowsPerPage, changeRowsPerPage, changePage, textLabels) => {
             return (

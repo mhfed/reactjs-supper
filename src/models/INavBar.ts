@@ -39,6 +39,7 @@ export type INavBarItem = {
   href: string;
   label?: string;
   children?: any;
+  requireRoles?: string | string[];
 };
 
 export type INavBarExpandItem = {
