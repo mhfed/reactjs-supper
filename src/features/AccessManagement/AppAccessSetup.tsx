@@ -1,7 +1,7 @@
 /*
- * Created on Fri Jan 06 2023
+ * Created on Wed Apr 19 2023
  *
- * Segment detail and edit segment
+ * App access setup popup
  *
  * Copyright (c) 2023 - Novus Fintech
  */

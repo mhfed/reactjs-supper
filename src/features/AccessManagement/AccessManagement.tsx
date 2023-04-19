@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { getArticlesListUrl, getAccessManagement } from 'apis/request.url';
+import { getAccessManagementUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import httpRequest from 'services/httpRequest';
@@ -15,7 +15,6 @@ import { ITableConfig } from 'models/ICommon';
 import CustomTable, { COLUMN_TYPE } from 'components/molecules/CustomTable';
 import makeStyles from '@mui/styles/makeStyles';
 import { useGlobalModalContext } from 'containers/Modal';
-import { FIELD } from '../Notification/NotificationConstants';
 import AppAccessSetup from './AppAccessSetup';
 import ConfirmModal from 'components/molecules/ConfirmModal';
 
@@ -28,6 +27,13 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const FIELD = {
+  USER_ID: 'user_id',
+  LAST_ACTIVE: 'last_active',
+  LAST_UPDATED: 'last_updated',
+  APP_NAME: 'app_name',
+};
+
 type TableHandle = React.ElementRef<typeof CustomTable>;
 type ArticlesManagementProps = {};
 
@@ -35,7 +41,7 @@ const AccessManagement: React.FC<ArticlesManagementProps> = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
-  const { showModal, hideModal } = useGlobalModalContext();
+  const { showModal } = useGlobalModalContext();
   const [notif, setNotif] = React.useState('');
 
   /**
@@ -45,7 +51,7 @@ const AccessManagement: React.FC<ArticlesManagementProps> = () => {
     try {
       gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
-      const response: any = await httpRequest.get(getArticlesListUrl(config));
+      const response: any = await httpRequest.get(getAccessManagementUrl(config));
       gridRef?.current?.setData?.(response.data);
     } catch (error) {
       gridRef?.current?.setData?.();
@@ -74,34 +80,23 @@ const AccessManagement: React.FC<ArticlesManagementProps> = () => {
   const columns = React.useMemo(() => {
     return [
       {
-        name: FIELD.ACTOR,
-        label: 'lang_actor',
+        name: FIELD.USER_ID,
+        label: 'lang_user_id',
       },
       {
-        name: FIELD.SITENAME,
-        label: 'lang_sitename',
-        type: COLUMN_TYPE.BREAK_LINE,
-        sort: false,
-      },
-      {
-        name: FIELD.SUBJECT,
-        label: 'lang_title',
-      },
-      {
-        name: FIELD.ATTACHMENT_URL,
-        label: 'lang_attachment',
-        type: COLUMN_TYPE.LINK,
-        sort: false,
-      },
-      {
-        name: FIELD.CREATED_DATE,
-        label: 'lang_created_time',
+        name: FIELD.LAST_ACTIVE,
+        label: 'lang_last_active',
         type: COLUMN_TYPE.DATETIME,
       },
       {
         name: FIELD.LAST_UPDATED,
-        label: 'lang_last_update',
+        label: 'lang_last_updated',
         type: COLUMN_TYPE.DATETIME,
+      },
+      {
+        name: FIELD.APP_NAME,
+        label: 'lang_app_name',
+        type: COLUMN_TYPE.BREAK_LINE,
       },
     ];
   }, []);
@@ -112,7 +107,7 @@ const AccessManagement: React.FC<ArticlesManagementProps> = () => {
    * @returns id of row
    */
   const getRowId = (data: any) => {
-    return data[FIELD.ARTICLES_ID];
+    return data[FIELD.USER_ID];
   };
 
   const onEdit = () => {
