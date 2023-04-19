@@ -418,7 +418,7 @@ function convertColumn({
           if (column.formatter) formatValue = column.formatter(rowData);
           return (
             <Typography component="span" noWrap>
-              {[null, undefined].includes(value) ? process.env.REACT_APP_DEFAULT_VALUE : formatValue}
+              {formatValue || process.env.REACT_APP_DEFAULT_VALUE}
             </Typography>
           );
         },
@@ -605,13 +605,21 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
    * @param response data receiver from backend with pagination data
    */
   const setDataTable = (response: ResponseDataPaging) => {
-    setData((old) => ({
-      data: response ? response.data : [],
-      isLoading: false,
-      page: response ? response.current_page - 1 : data.page,
-      count: response ? response.total_count : data.count,
-      rowsPerPage: config.current?.rowsPerPage || +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
-    }));
+    if (Array.isArray(response)) {
+      setData((old) => ({
+        ...old,
+        data: response || [],
+        isLoading: false,
+      }));
+    } else {
+      setData((old) => ({
+        data: response ? response.data : [],
+        isLoading: false,
+        page: response ? response.current_page - 1 : data.page,
+        count: response ? response.total_count : data.count,
+        rowsPerPage: config.current?.rowsPerPage || +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
+      }));
+    }
   };
 
   /**

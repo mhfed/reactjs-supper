@@ -32,10 +32,11 @@ const updateAxiosAuthConfig = (baseUrl: string, accessToken: string, pin: string
   authService.autoRenewToken();
 };
 
-const updateAxiosAuthConfig2 = (accessToken: string, refreshToken?: string) => {
+const updateAxiosAuthConfig2 = (accessToken: string, refreshToken?: string, sitename?: string) => {
   axiosInstance.defaults.baseURL = process.env.REACT_APP_ENDPOINT_URL;
   axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
   axiosInstance.defaults.headers.common['environment'] = 'iress-wealth-app';
+  axiosInstance.defaults.headers.common['site-name'] = sitename;
 };
 
 /**
@@ -264,7 +265,7 @@ export const loginIress =
     );
 
     // update axios
-    updateAxiosAuthConfig2(accessToken, refreshToken);
+    updateAxiosAuthConfig2(accessToken, refreshToken, sitename);
 
     if (error) {
       const { errorCodeLang } = error;

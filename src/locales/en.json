@@ -1,4 +1,11 @@
 {
+  "lang_textbox": "Textbox",
+  "lang_datetime": "Datetime",
+  "lang_parameter_name": "Parameter Name",
+  "lang_parameter_type": "Parameter Type",
+  "lang_preview_edit_report": "Preview Edit Report",
+  "lang_report_setup": "Report Setup",
+  "lang_parameters": "Parameters",
   "lang_cannot_edit_multiple_row_diff_user_id": "Cannot edit multiple User IDs having different App accesses",
   "lang_please_select_at_least": "Please select at least one  User ID for editing",
   "lang_do_you_want_to_process": "Do you want to proceed?",

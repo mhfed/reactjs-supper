@@ -249,3 +249,22 @@ div[class*='MUIDataTableToolbarSelect-root'] {
 div[class*='MUIDataTableSelectCell-fixedLeft'] {
   position: relative;
 }
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #6b6c71;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6b6c71;
+}
+::-webkit-scrollbar-thumb:active {
+  background: #6b6c71;
+}

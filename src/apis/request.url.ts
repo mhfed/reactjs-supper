@@ -209,8 +209,8 @@ export const getListReportUrl = ({
   return url;
 };
 
-export const getReportUrl = () => {
-  return `/v1/reports`;
+export const getReportUrl = (path = '') => {
+  return `/v1/reports/${path}`;
 };
 
 // Profolio - v1
@@ -248,7 +248,7 @@ export function getAccessManagementUrl({
   searchText: string | null;
   sort: ISortConfig | null;
 }) {
-  let url = `v1/access_management/query?page_id=${page}&page_size=${rowsPerPage}`;
+  let url = `v1/access-management/query?page_id=${page}&page_size=${rowsPerPage}`;
   if (searchText) url += `&search=${searchText}`;
   if (sort?.sortField) url += `&sort_field=${sort.sortField}`;
   if (sort?.sortType) url += `&sort_type=${sort.sortType}`;

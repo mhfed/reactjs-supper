@@ -67,12 +67,14 @@ export type IGridConfig = {
 
 export type ITableConfig = MUIDataTableState & IGridConfig;
 
-export type ResponseDataPaging = {
-  current_page: number;
-  total_count: number;
-  total_pages: number;
-  data: LooseObject[];
-};
+export type ResponseDataPaging =
+  | {
+      current_page: number;
+      total_count: number;
+      total_pages: number;
+      data: LooseObject[];
+    }
+  | LooseObject[];
 
 export type ITableData = {
   data: object[];

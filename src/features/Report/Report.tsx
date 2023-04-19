@@ -9,7 +9,6 @@
 import makeStyles from '@mui/styles/makeStyles';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { getListReportUrl, getReportUrl } from 'apis/request.url';
-import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import CustomTable, { COLUMN_TYPE } from 'components/molecules/CustomTable';
 import { useGlobalModalContext } from 'containers/Modal';
 import useConfirmEdit from 'hooks/useConfirmEdit';
@@ -19,7 +18,8 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { iressSitenameSelector } from 'selectors/auth.selector';
 import httpRequest from 'services/httpRequest';
-import { FIELD, STATUS_OPTIONS, STATUS_OPTIONS_HEADER } from './ReportConstants';
+import { FIELD, STATUS_OPTIONS, REPORT_STATUS } from './ReportConstants';
+import EditReport, { ReportParam } from './EditReport';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -31,12 +31,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 type TableHandle = React.ElementRef<typeof CustomTable>;
 type ReportProps = {};
+type DicDataReport = {
+  [key: string]: LooseObject;
+};
 
 const Report: React.FC<ReportProps> = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
-  const dicReport = React.useRef<any>({});
+  const dicData = React.useRef<DicDataReport>({});
   const { showModal, hideModal } = useGlobalModalContext();
   const confirmEdit = useConfirmEdit(() => !!gridRef?.current?.checkChange?.()); // eslint-disable-line
   const sitename = useSelector(iressSitenameSelector);
@@ -48,21 +51,21 @@ const Report: React.FC<ReportProps> = () => {
   const getData = async () => {
     try {
       gridRef?.current?.setLoading?.(true);
-      const headerConfig: { headers?: LooseObject } = {};
       const config: ITableConfig = gridRef?.current?.getConfig?.();
       if (config.customSearch) {
         // handle search by app name
       }
-      headerConfig.headers = { 'site-name': sitename };
       config.page = 1;
-      const response: any = await httpRequest.get(getListReportUrl(config), headerConfig);
-
-      (response.data.data || [])?.forEach((e: any) => {
-        dicReport.current[e[FIELD.TEMPLATE_ID]] = e;
-      }, {});
-
+      const response: any = await httpRequest.get(getListReportUrl(config));
+      if (response.data?.data?.length) {
+        dicData.current = response.data.data.reduce((acc: LooseObject, cur: LooseObject) => {
+          acc[cur[FIELD.ID]] = cur;
+          return acc;
+        }, {});
+      }
       gridRef?.current?.setData?.(response.data);
     } catch (error) {
+      dicData.current = {};
       gridRef?.current?.setData?.();
       dispatch(
         enqueueSnackbarAction({
@@ -76,33 +79,69 @@ const Report: React.FC<ReportProps> = () => {
   };
 
   /**
-   * Handle fetch report or show iress login popup when not login yet
-   */
-  const handleFetch = () => {
-    showModal({
-      component: ConfirmEditModal,
-      props: {
-        emailConfirm: false,
-        title: 'lang_fetch_report_for_sitename',
-        titleTransValues: { sitename: sitename },
-        isTitleValuesBold: false,
-        cancelText: 'lang_cancel',
-        confirmText: 'lang_fetch_report',
-        centerTitle: true,
-        centerButton: true,
-        onSubmit: () => {
-          getData();
-          hideModal();
-        },
-      },
-    });
-  };
-
-  /**
    * recall data when table change
    */
   const onTableChange = () => {
     getData();
+  };
+
+  /**
+   * Update status for report
+   * @param data row data
+   */
+  const updateStatusReport = async (data: LooseObject, newStatus: string) => {
+    try {
+      gridRef?.current?.setLoading?.(true);
+      const config: ITableConfig = gridRef?.current?.getConfig?.();
+      if (config.customSearch) {
+        // handle search by app name
+      }
+      config.page = 1;
+      await httpRequest.put(getReportUrl('status'), {
+        [FIELD.ID]: data[FIELD.ID],
+        [FIELD.STATUS]: newStatus,
+      });
+      if (dicData.current[data[FIELD.ID]]) {
+        dicData.current[data[FIELD.ID]][FIELD.STATUS] = newStatus;
+        gridRef?.current?.setData?.(Object.values(dicData.current));
+      }
+    } catch (error) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: error?.errorCodeLang,
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        }),
+      );
+    }
+  };
+
+  /**
+   * Get action row by row data
+   * @param data row data
+   */
+  const getActions = (data: any) => {
+    const isEnabled = data[FIELD.STATUS] === REPORT_STATUS.ENABLED;
+    const actions = [
+      {
+        label: 'lang_edit',
+        onClick: (data: any) => {
+          showModal({
+            component: EditReport,
+            fullScreen: true,
+            props: {
+              data,
+              callback: onTableChange,
+            },
+          });
+        },
+      },
+      {
+        label: isEnabled ? 'lang_disabled' : 'lang_enabled',
+        onClick: (data: any) => updateStatusReport(data, isEnabled ? REPORT_STATUS.DISABLED : REPORT_STATUS.ENABLED),
+      },
+    ];
+    return actions;
   };
 
   // table columns
@@ -122,22 +161,30 @@ const Report: React.FC<ReportProps> = () => {
         sort: false,
       },
       {
-        name: FIELD.SITE_NAME,
-        label: 'lang_sitename',
-        sort: false,
+        name: FIELD.APP_NAME,
+        label: 'lang_app_name',
+        formatter: (data: any) => data?.application_user?.display_name,
+      },
+      {
+        name: FIELD.PARAMETERS,
+        label: 'lang_parameters',
+        formatter: (data: any) =>
+          data?.[FIELD.PARAMETERS]
+            .filter((x: ReportParam) => !!x.title)
+            .map((e: ReportParam) => e.title)
+            .join(', '),
       },
       {
         name: FIELD.STATUS,
         label: 'lang_status',
         dataOptions: STATUS_OPTIONS,
-        dataOptionsHeader: STATUS_OPTIONS_HEADER,
         type: COLUMN_TYPE.DROPDOWN_WITH_BG,
         sort: false,
       },
       {
         name: 'ACTION_COLUMN',
         type: COLUMN_TYPE.ACTION,
-        getActions: () => {},
+        getActions,
         label: ' ',
       },
     ];
@@ -149,46 +196,7 @@ const Report: React.FC<ReportProps> = () => {
    * @returns row id
    */
   const getRowId = (data: any) => {
-    return data[FIELD.TEMPLATE_ID];
-  };
-
-  /**
-   * Handle show edit report modal
-   */
-  const confirmEditReport = React.useCallback(async (data: any, callback: () => void) => {
-    try {
-      await httpRequest.put(getReportUrl(), data);
-      callback?.();
-      dispatch(
-        enqueueSnackbarAction({
-          message: 'lang_update_report_information_successfully',
-          key: new Date().getTime() + Math.random(),
-          variant: 'success',
-        }),
-      );
-    } catch (error) {
-      dispatch(
-        enqueueSnackbarAction({
-          message: 'lang_update_report_information_unsuccessfully',
-          key: new Date().getTime() + Math.random(),
-          variant: 'error',
-        }),
-      );
-    }
-  }, []);
-
-  /**
-   * Handle save edited reports
-   * @param dicDataChanged list row changed
-   * @param cb success callback when save success
-   */
-  const onSaveReport = (dicDataChanged: LooseObject, cb: any) => {
-    const data = Object.keys(dicDataChanged).map((k) => ({
-      ...dicDataChanged[k],
-      [FIELD.SITE_NAME]: dicReport.current[k][FIELD.SITE_NAME],
-      [FIELD.TEMPLATE_ID]: k,
-    }));
-    confirmEditReport(data, cb);
+    return data[FIELD.ID];
   };
 
   /**
@@ -206,7 +214,6 @@ const Report: React.FC<ReportProps> = () => {
         fnKey={getRowId}
         ref={gridRef}
         noChangeKey="lang_there_is_no_change_in_the_report_information"
-        onSave={onSaveReport}
         onTableChange={onTableChange}
         columns={columns}
         showSitename

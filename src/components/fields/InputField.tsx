@@ -19,6 +19,7 @@ type TextFieldProps = {
   name?: string;
   type?: string;
   error?: boolean;
+  shrink?: boolean;
   disabled?: boolean;
   readOnly?: boolean;
   value?: string;
@@ -50,6 +51,7 @@ const InputField: React.FC<TextFieldProps> = ({
   variant,
   maxLength,
   readOnly,
+  shrink,
   fullWidth = true,
   required,
   disabled,
@@ -83,6 +85,13 @@ const InputField: React.FC<TextFieldProps> = ({
       inputProps={{
         maxLength: maxLength || 255,
       }}
+      InputLabelProps={
+        shrink === false
+          ? {
+              shrink,
+            }
+          : {}
+      }
       InputProps={{
         readOnly: preview ? true : readOnly,
         endAdornment: (
