@@ -103,6 +103,7 @@ const Report: React.FC<ReportProps> = () => {
         gridRef?.current?.setData?.(Object.values(dicData.current));
       }
     } catch (error) {
+      gridRef?.current?.setLoading?.(false);
       dispatch(
         enqueueSnackbarAction({
           message: error?.errorCodeLang,
