@@ -103,7 +103,7 @@ const routesConfig: IRoutes[] = [
       {
         path: PATH_NAME.ARTICLES_MANAGEMENT,
         component: ArticlesManagement,
-        requireRoles: [USER_ROLE.EDIT_ALL_COMPLIANCE],
+        requireRoles: [],
       },
       {
         path: PATH_NAME.CREATE_NEW_ARTICLES,
@@ -113,7 +113,7 @@ const routesConfig: IRoutes[] = [
       {
         path: PATH_NAME.ACCESS_MANAGEMENT,
         component: AccessManagement,
-        requireRoles: [],
+        requireRoles: [USER_ROLE.EDIT_ALL_COMPLIANCE],
       },
       {
         path: PATH_NAME.REPORT,
