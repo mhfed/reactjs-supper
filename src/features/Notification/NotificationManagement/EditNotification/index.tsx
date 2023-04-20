@@ -21,7 +21,7 @@ import {
 import { LooseObject } from 'models/ICommon';
 import { Trans } from 'react-i18next';
 import moment from 'moment';
-import httpRequest from 'services/httpRequest';
+import { httpRequest } from 'services/initRequest';
 import { getNotificationUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';

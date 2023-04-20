@@ -19,7 +19,7 @@ import { DELIVERY_TYPE, NOTIFICATION_STATUS, NOTIFICATION_TYPE } from '../../Cre
 import FormDirectNotification from './FormDirectNotification';
 import FormSegmentNotification from './FormSegmentNotification';
 import FormSiteNameNotification from './FormSiteNameNotification';
-import httpRequest from 'services/httpRequest';
+import { httpRequest } from 'services/initRequest';
 import { getNotificationUrl } from 'apis/request.url';
 import EditNotification from '../EditNotification';
 import EditIcon from '@mui/icons-material/Edit';

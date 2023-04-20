@@ -62,7 +62,7 @@ export type ISortConfig = {
 
 export type IGridConfig = {
   sort: ISortConfig | null;
-  customSearch?: boolean;
+  customSearch?: LooseObject | null;
 };
 
 export type ITableConfig = MUIDataTableState & IGridConfig;
@@ -113,4 +113,9 @@ export type IFileUpload = {
   name?: string;
   size?: number;
   extension?: string;
+};
+
+export type IBundle = {
+  bundle_id: string;
+  display_name: string;
 };

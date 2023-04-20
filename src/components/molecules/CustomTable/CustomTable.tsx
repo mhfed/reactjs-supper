@@ -366,9 +366,12 @@ function convertColumn({
     case COLUMN_TYPE.BREAK_LINE:
       res.options = {
         ...res.options,
-        customBodyRender: (value = []) => {
-          return value.length ? (
-            <CustomStack data={value} />
+        customBodyRender: (value = [], tableMeta) => {
+          let formatValue = value;
+          const rowData = data[tableMeta.rowIndex];
+          if (column.formatter) formatValue = column.formatter(rowData);
+          return formatValue.length ? (
+            <CustomStack data={formatValue} />
           ) : (
             <Typography component="span" sx={{ minWidth: 360 }} noWrap>
               {process.env.REACT_APP_DEFAULT_VALUE}
@@ -492,7 +495,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
   const editId = React.useRef<number>(0);
   const dataBeforeEdit = React.useRef<any>({});
   const isChangingAll = React.useRef(false);
-  const isCustomSearch = React.useRef(false);
+  const customSearch = React.useRef(null);
   const selectedRows = React.useRef<LooseObject[]>([]);
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -670,7 +673,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
       switch (action) {
         case TABLE_ACTION.SEARCH:
           if (!tableState.searchText || tableState.searchText.length > 1) {
-            config.current.customSearch = isCustomSearch.current;
+            config.current.customSearch = customSearch.current;
             onTableChange();
           }
           break;
@@ -795,8 +798,8 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
                 isNodata={isNodata}
                 editable={editable}
                 searchText={searchText}
-                handleSearch={(text, searchType = false) => {
-                  isCustomSearch.current = searchType;
+                handleSearch={(text, customSearchObj: any) => {
+                  customSearch.current = customSearchObj;
                   handleSearch(text);
                 }}
                 isEditMode={isEditMode}

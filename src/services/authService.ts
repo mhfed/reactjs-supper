@@ -6,7 +6,7 @@
  * Copyright (c) 2023 - Novus Fintech
  */
 
-import httpRequest from 'services/httpRequest';
+import { httpRequest } from 'services/initRequest';
 import {
   getSessionUrl,
   getAuthUrl,

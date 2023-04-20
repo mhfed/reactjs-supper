@@ -31,7 +31,7 @@ import { Trans } from 'react-i18next';
 import { getSearchSitenameUrl, getSearchSecurityCodeUrl, getArticlesUrl, getUploadUrl } from 'apis/request.url';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
-import httpRequest from 'services/httpRequest';
+import { httpRequest } from 'services/initRequest';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { isBlobFile } from 'helpers';

@@ -20,7 +20,7 @@ import Box from '@mui/material/Box';
 import { Trans, useTranslation } from 'react-i18next';
 import { alpha } from '@mui/material';
 import { getUploadUrl } from 'apis/request.url';
-import httpRequest from 'services/httpRequest';
+import { httpRequest } from 'services/initRequest';
 import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({

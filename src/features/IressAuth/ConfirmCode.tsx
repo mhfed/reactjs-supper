@@ -18,7 +18,7 @@ import { useGlobalModalContext } from 'containers/Modal';
 import { Grid } from '@mui/material';
 import { InputCodeField } from 'components/fields';
 import { useTheme } from '@mui/styles';
-import httpRequest from 'services/httpRequest';
+import { httpRequest } from 'services/initRequest';
 import { postLogin } from 'apis/request.url';
 import { useDispatch, useSelector } from 'react-redux';
 import { IAuthActionTypes } from 'models/IAuthState';

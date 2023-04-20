@@ -17,7 +17,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { iressSitenameSelector } from 'selectors/auth.selector';
-import httpRequest from 'services/httpRequest';
+import { httpRequest } from 'services/initRequest';
 import { FIELD, STATUS_OPTIONS, REPORT_STATUS } from './ReportConstants';
 import EditReport, { ReportParam } from './EditReport';
 
@@ -52,11 +52,12 @@ const Report: React.FC<ReportProps> = () => {
     try {
       gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
-      if (config.customSearch) {
-        // handle search by app name
-      }
       config.page = 1;
-      const response: any = await httpRequest.get(getListReportUrl(config));
+      let url = getListReportUrl(config);
+      if (config.customSearch?.bundle_id) {
+        url += `&bundle_id=${config.customSearch.bundle_id}`;
+      }
+      const response: any = await httpRequest.get(url);
       if (response.data?.data?.length) {
         dicData.current = response.data.data.reduce((acc: LooseObject, cur: LooseObject) => {
           acc[cur[FIELD.ID]] = cur;
@@ -92,14 +93,10 @@ const Report: React.FC<ReportProps> = () => {
   const updateStatusReport = async (data: LooseObject, newStatus: string) => {
     try {
       gridRef?.current?.setLoading?.(true);
-      const config: ITableConfig = gridRef?.current?.getConfig?.();
-      if (config.customSearch) {
-        // handle search by app name
-      }
-      config.page = 1;
       await httpRequest.put(getReportUrl('status'), {
         [FIELD.ID]: data[FIELD.ID],
         [FIELD.STATUS]: newStatus,
+        [FIELD.BUNDLE_ID]: data?.application_user?.bundle_id,
       });
       if (dicData.current[data[FIELD.ID]]) {
         dicData.current[data[FIELD.ID]][FIELD.STATUS] = newStatus;

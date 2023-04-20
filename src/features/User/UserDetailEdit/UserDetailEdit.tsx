@@ -15,7 +15,7 @@ import { useFormik } from 'formik';
 import { Box, Grid, Stack } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Trans } from 'react-i18next';
-import httpRequest from 'services/httpRequest';
+import { httpRequest } from 'services/initRequest';
 import { getUserDetailUrl } from 'apis/request.url';
 import EditIcon from '@mui/icons-material/Edit';
 import HeaderModal from 'components/atoms/HeaderModal';

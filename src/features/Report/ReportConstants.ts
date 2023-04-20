@@ -40,4 +40,5 @@ export const FIELD = {
   APP_NAME: 'app_name',
   PARAMETERS: 'params',
   STATUS: 'status',
+  BUNDLE_ID: 'bundle_id',
 };

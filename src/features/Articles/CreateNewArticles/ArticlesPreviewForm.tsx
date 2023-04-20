@@ -17,7 +17,7 @@ import Button from 'components/atoms/ButtonBase';
 import { Trans, useTranslation } from 'react-i18next';
 import { getSearchSitenameUrl, getSearchSecurityCodeUrl, getUploadUrl, getArticlesUrl } from 'apis/request.url';
 import { SITENAME_OPTIONS, SECURITY_TYPE_OPTIONS, SITENAME } from '../ArticlesConstants';
-import httpRequest from 'services/httpRequest';
+import { httpRequest } from 'services/initRequest';
 import { ICreateArticlesBody } from 'models/IArticles';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';

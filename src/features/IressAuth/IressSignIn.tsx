@@ -17,7 +17,7 @@ import { Trans } from 'react-i18next';
 import { useGlobalModalContext } from 'containers/Modal';
 import { Grid } from '@mui/material';
 import { PasswordField, InputField } from 'components/fields';
-import httpRequest from 'services/httpRequest';
+import { httpRequest } from 'services/initRequest';
 import { postLogin } from 'apis/request.url';
 import ConfirmCode from './ConfirmCode';
 import { useDispatch, useSelector } from 'react-redux';

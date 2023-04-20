@@ -16,7 +16,7 @@ import { useFormik } from 'formik';
 import { yup } from 'helpers';
 import { getSearchSubscribersUrl } from 'apis/request.url';
 import { useGlobalModalContext } from 'containers/Modal';
-import httpRequest from 'services/httpRequest';
+import { httpRequest } from 'services/initRequest';
 import { postCreateSegment } from 'apis/request.url';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { useDispatch } from 'react-redux';

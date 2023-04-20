@@ -17,7 +17,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import { LooseObject } from 'models/ICommon';
 import React from 'react';
 import { Trans } from 'react-i18next';
-import httpRequest from 'services/httpRequest';
+import { httpRequest } from 'services/initRequest';
 
 const useStyles = makeStyles((theme) => ({
   container: {

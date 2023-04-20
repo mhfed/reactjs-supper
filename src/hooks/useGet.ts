@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import axios from 'axios';
 
-import httpRequest from 'services/httpRequest';
+import { httpRequest } from 'services/initRequest';
 
 const useGet = (url: string, params = {}, showSpinner = false, delay = process.env.REACT_APP_DELAY_GET_DATA) => {
   const [data, setData] = useState<any>(null);

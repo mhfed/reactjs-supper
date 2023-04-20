@@ -9,7 +9,8 @@
 import React from 'react';
 import { Autocomplete, TextField, Chip } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
-import httpRequest from 'services/httpRequest';
+import { httpRequest } from 'services/initRequest';
+import CancelIcon from '@mui/icons-material/Cancel';
 import makeStyles from '@mui/styles/makeStyles';
 import { Trans } from 'react-i18next';
 import FormHelperText from '@mui/material/FormHelperText';
@@ -46,6 +47,7 @@ type AutocompleteFieldProps = {
   getUrl?: (text: string) => string;
   formatData?: (data: any) => any[];
   multiple?: boolean;
+  disableClearable?: boolean;
 };
 
 const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
@@ -67,6 +69,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   disabled = false,
   readOnly = false,
   multiple = true,
+  disableClearable = true,
 }) => {
   const classes = useStyles();
   const [loading, setLoading] = React.useState(false);
@@ -177,9 +180,10 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
         disabled={disabled}
         readOnly={readOnly}
         multiple={multiple}
-        disableClearable
+        disableClearable={disableClearable}
         // freeSolo={!!inputRef.current?.value && inputRef.current?.value?.length > 1 ? false : true}
         id={name}
+        clearIcon={<CancelIcon style={{ width: 16, height: 16, cursor: 'pointer' }} />}
         onBlur={onBlur}
         value={value}
         defaultValue={[]}
@@ -219,6 +223,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
             required={preview ? false : required}
             {...params}
             id={name}
+            size="small"
             inputRef={inputRef}
             variant={preview ? 'standard' : 'outlined'}
             value={value}

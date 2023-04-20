@@ -21,7 +21,7 @@ import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal/ConfirmEditModal';
 import { InputField, SelectField } from 'components/fields';
-import httpRequest from 'services/httpRequest';
+import { httpRequest } from 'services/initRequest';
 
 const useStyles = makeStyles((theme) => ({
   divCointainer: {
@@ -123,12 +123,15 @@ const EditReport: React.FC<EditSegmentProps> = ({ data = {}, callback }) => {
    */
   const handleFormSubmit = async (values: any) => {
     try {
-      const bodyData: ReportParam[] = values.params.map((e: ReportParam) => ({
+      const params: ReportParam[] = values.params.map((e: ReportParam) => ({
         id: e.id,
         title: e.title,
         type: e.type,
       }));
-      await httpRequest.put(getReportUrl(), bodyData);
+      await httpRequest.put(getReportUrl(), {
+        bundle_id: data?.application_user?.bundle_id,
+        params,
+      });
       hideModal();
       callback?.();
     } catch (error) {

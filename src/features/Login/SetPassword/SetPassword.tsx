@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
 import makeStyles from '@mui/styles/makeStyles';
 import { Trans } from 'react-i18next';
 import { isLoadingSelector, createPasswordTokenSelector, userLoginSelector, errorSelector } from 'selectors/auth.selector';
-import httpRequest from 'services/httpRequest';
+import { httpRequest } from 'services/initRequest';
 import { getCreatePasswordUrl } from 'apis/request.url';
 import { PasswordField } from 'components/fields';
 import { setPinAfterChangePass } from 'actions/auth.action';

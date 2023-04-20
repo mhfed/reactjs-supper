@@ -237,7 +237,7 @@ export const getLogoutUrlV2 = () => {
 
 // Access Management
 
-export function getAccessManagementUrl({
+export function getAccessManagementSearchUrl({
   page = 1,
   rowsPerPage = +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
   searchText = '',
@@ -248,9 +248,17 @@ export function getAccessManagementUrl({
   searchText: string | null;
   sort: ISortConfig | null;
 }) {
-  let url = `v1/access-management/query?page_id=${page}&page_size=${rowsPerPage}`;
+  let url = `v1/access-management?page_id=${page}&page_size=${rowsPerPage}`;
   if (searchText) url += `&search=${searchText}`;
   if (sort?.sortField) url += `&sort_field=${sort.sortField}`;
   if (sort?.sortType) url += `&sort_type=${sort.sortType}`;
   return url;
+}
+
+export function getAccessManagementUrl() {
+  return 'v1/access-management';
+}
+
+export function getSearchAppNameUrl(searchText = '') {
+  return `v1/search/app-name?search=${searchText}`;
 }

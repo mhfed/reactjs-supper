@@ -18,7 +18,7 @@ import { makeStyles } from '@mui/styles';
 import { Trans } from 'react-i18next';
 import { validate } from 'helpers';
 import { USER_STATUS_OPTIONS, SITE_NAME_OPTIONS } from '../UserConstants';
-import httpRequest from 'services/httpRequest';
+import { httpRequest } from 'services/initRequest';
 import { getUserDetailUrl } from 'apis/request.url';
 import useConfirmEdit from 'hooks/useConfirmEdit';
 import { useGlobalModalContext } from 'containers/Modal';

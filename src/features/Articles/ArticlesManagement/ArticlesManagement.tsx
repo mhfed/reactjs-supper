@@ -10,7 +10,7 @@ import React from 'react';
 import { getArticlesListUrl, getArticlesUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
-import httpRequest from 'services/httpRequest';
+import { httpRequest } from 'services/initRequest';
 import { ITableConfig } from 'models/ICommon';
 import CustomTable, { COLUMN_TYPE } from 'components/molecules/CustomTable';
 import makeStyles from '@mui/styles/makeStyles';

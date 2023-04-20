@@ -16,6 +16,9 @@ import Button from 'components/atoms/ButtonBase';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { ACTIONS } from './TableConstants';
 import clsx from 'clsx';
+import { AutocompleteField } from 'components/fields';
+import { getSearchAppNameUrl } from 'apis/request.url';
+import { LooseObject } from 'models/ICommon';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -29,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiFormControl-root': {
       background: theme.palette.mode === 'dark' ? 'transparent' : 'white',
       borderRadius: 4,
-      overflow: 'hidden',
     },
     '& input': {
       padding: theme.spacing(1),
@@ -61,7 +63,7 @@ type TypeButtonHeader = {
 
 type CustomSearchProps = {
   searchText: string;
-  handleSearch: (text: string, isCustomSearch?: boolean) => void;
+  handleSearch: (text: string, customSearch?: LooseObject) => void;
   handleEdit: (action: string) => void;
   isEditMode: boolean;
   listBtn?: Array<TypeButtonHeader>;
@@ -85,18 +87,17 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
   const classes = useStyles();
   const { t } = useTranslation();
   const inputRef = React.useRef<HTMLInputElement | null>(null);
-  const searchAppNameInputRef = React.useRef<HTMLInputElement | null>(null);
   const timeoutId = React.useRef<number | null>(null);
 
   /**
    * Handle search new data with search text
    * @param e input change event
    */
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>, isSearchAppname = false) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchVal = e.target.value.trim();
     timeoutId.current && window.clearTimeout(timeoutId.current);
     timeoutId.current = window.setTimeout(() => {
-      if ((searchVal && searchVal.length >= 2) || e.target.value === '') handleSearch(searchVal, isSearchAppname);
+      if ((searchVal && searchVal.length >= 2) || e.target.value === '') handleSearch(searchVal);
     }, process.env.REACT_APP_DEBOUNCE_TIME);
   };
 
@@ -106,14 +107,6 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
   const clearSearch = () => {
     inputRef.current && (inputRef.current.value = '');
     handleSearch('');
-  };
-
-  /**
-   * Clear custom search text and reset table data
-   */
-  const clearCustomSearch = () => {
-    searchAppNameInputRef.current && (searchAppNameInputRef.current.value = '');
-    handleSearch('', true);
   };
 
   return (
@@ -179,25 +172,17 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
           <></>
         )}
         {customSearch ? (
-          <div>
-            <TextField
-              inputRef={searchAppNameInputRef}
-              variant="outlined"
-              name="search"
-              placeholder={t('lang_search_app_name') + ''}
-              InputLabelProps={{
-                shrink: false,
-              }}
-              sx={{ width: 192 }}
-              InputProps={{
-                endAdornment: searchText ? (
-                  <InputAdornment position="end">
-                    <CancelIcon style={{ width: 16, height: 16, cursor: 'pointer' }} onClick={clearCustomSearch} />
-                  </InputAdornment>
-                ) : null,
-              }}
-              fullWidth
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e, true)}
+          <div style={{ minWidth: 224 }}>
+            <AutocompleteField
+              name="search_app_name"
+              label="lang_app_name"
+              disableClearable={false}
+              getUrl={getSearchAppNameUrl}
+              multiple={false}
+              value={''}
+              isOptionEqualToValue={(opt, select) => opt.bundle_id === select.bundle_id}
+              getOptionLabel={(opt) => opt.display_name || ''}
+              onChange={(value) => handleSearch('', value)}
             />
           </div>
         ) : (

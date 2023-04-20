@@ -13,7 +13,7 @@ import { Trans } from 'react-i18next';
 import { InputField, AutocompleteField } from 'components/fields';
 import { useFormik } from 'formik';
 import { yup } from 'helpers';
-import httpRequest from 'services/httpRequest';
+import { httpRequest } from 'services/initRequest';
 import { putDataUpdateSegmentByID } from 'apis/request.url';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { useDispatch } from 'react-redux';

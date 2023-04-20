@@ -24,7 +24,7 @@ import { Trans } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { iressSitenameSelector } from 'selectors/auth.selector';
-import httpRequest from 'services/httpRequest';
+import { httpRequest } from 'services/initRequest';
 import { PORTFOLIO_PERFORMANCE_INDICATOR } from './PortfolioConstant';
 
 const useStyles = makeStyles((theme) => ({

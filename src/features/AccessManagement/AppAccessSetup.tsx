@@ -16,11 +16,14 @@ import { Stack, Grid, Typography } from '@mui/material';
 import { LooseObject } from 'models/ICommon';
 import HeaderModal from 'components/atoms/HeaderModal';
 import Button from 'components/atoms/ButtonBase';
-import { getSearchSubscribersUrl } from 'apis/request.url';
+import { getSearchAppNameUrl, getAccessManagementUrl } from 'apis/request.url';
 import { useGlobalModalContext } from 'containers/Modal';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal/ConfirmEditModal';
+import { httpRequest } from 'services/initRequest';
+import { IBundle } from 'models/ICommon';
+import { compareArray } from 'helpers/common';
 
 const useStyles = makeStyles((theme) => ({
   divCointainer: {
@@ -71,12 +74,12 @@ const FORM_TYPE = {
 };
 type EditSegmentProps = {
   data?: LooseObject[];
+  listFull?: LooseObject[];
   callback?: () => void;
 };
-const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], callback }) => {
+const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], listFull = [], callback }) => {
   const classes = useStyles();
   const [formType, setFormType] = React.useState(FORM_TYPE.EDIT);
-  const initialValues = {};
   const { hideModal, showSubModal, hideSubModal } = useGlobalModalContext();
   const dispatch = useDispatch();
 
@@ -86,10 +89,16 @@ const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], callback }) => 
    */
   const handleFormSubmit = async (values: any) => {
     try {
+      await httpRequest.put(getAccessManagementUrl(), {
+        user_id: data.map((e) => e.user_id),
+        bundle_id: values.app_name.map((e: IBundle) => e.bundle_id),
+      });
+      hideModal();
+      callback?.();
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_update_segment_unsuccessfully',
+          message: error?.errorCodeLang,
           key: new Date().getTime() + Math.random(),
           variant: 'error',
         }),
@@ -99,7 +108,7 @@ const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], callback }) => 
   };
 
   const { values, errors, touched, handleSubmit, setFieldValue, setFieldTouched } = useFormik({
-    initialValues: initialValues,
+    initialValues: { app_name: listFull },
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,
   });
@@ -115,8 +124,9 @@ const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], callback }) => 
    * back to edit form from preview form
    */
   const onClose = () => {
-    const checkChange = true;
-    if (checkChange) {
+    const curValue = values.app_name.map((e: IBundle) => e.bundle_id);
+    const originValue = listFull.map((e: IBundle) => e.bundle_id);
+    if (compareArray(curValue, originValue)) {
       showSubModal({
         title: 'lang_confirm_cancel',
         component: ConfirmEditModal,
@@ -164,11 +174,11 @@ const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], callback }) => 
                 readOnly
                 disabled
                 isOptionEqualToValue={(option: LooseObject, value: LooseObject) => {
-                  return option.article_id === value.article_id;
+                  return option.user_id === value.user_id;
                 }}
                 value={data}
-                getOptionLabel={(option) => option.article_id}
-                getChipLabel={(option) => option.article_id}
+                getOptionLabel={(option) => option.user_id}
+                getChipLabel={(option) => option.user_id}
               />
             </Grid>
             <Grid item xs={12}>
@@ -176,12 +186,12 @@ const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], callback }) => 
                 name="app_name"
                 label="lang_app_name"
                 required
-                getUrl={getSearchSubscribersUrl}
+                getUrl={getSearchAppNameUrl}
                 isOptionEqualToValue={(option: LooseObject, value: LooseObject) => {
                   return option.bundle_id === value.bundle_id;
                 }}
                 getOptionLabel={(option) => option.display_name}
-                getChipLabel={(option) => option.username}
+                getChipLabel={(option) => option.display_name}
                 value={values.app_name}
                 onChange={(value) => setFieldValue('app_name', value)}
                 onBlur={() => setFieldTouched('app_name', true, true)}
@@ -214,8 +224,8 @@ const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], callback }) => 
             </thead>
             <tbody>
               <tr>
-                <td>{data.map((e) => e.article_id).join(', ')}</td>
-                <td>{data.map((e) => e.security_type).join(', ')}</td>
+                <td>{data.map((e) => e.user_id).join(', ')}</td>
+                <td>{values.app_name.map((e: IBundle) => e.display_name).join(', ')}</td>
               </tr>
             </tbody>
           </table>
@@ -237,7 +247,7 @@ const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], callback }) => 
 };
 
 const validationSchema = yup.object().shape({
-  // app_name: yup.array().min(1, 'lang_app_name_is_required').required('lang_app_name_is_required'),
+  app_name: yup.array().min(1, 'lang_app_name_is_required').required('lang_app_name_is_required'),
 });
 
 export default AppAccessSetup;

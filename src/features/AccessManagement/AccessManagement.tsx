@@ -7,16 +7,18 @@
  */
 
 import React from 'react';
-import { getAccessManagementUrl } from 'apis/request.url';
+import { getAccessManagementSearchUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
-import httpRequest from 'services/httpRequest';
+import { httpRequest } from 'services/initRequest';
 import { ITableConfig } from 'models/ICommon';
 import CustomTable, { COLUMN_TYPE } from 'components/molecules/CustomTable';
 import makeStyles from '@mui/styles/makeStyles';
 import { useGlobalModalContext } from 'containers/Modal';
 import AppAccessSetup from './AppAccessSetup';
 import ConfirmModal from 'components/molecules/ConfirmModal';
+import { IBundle } from 'models/ICommon';
+import { compareArray } from 'helpers/common';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -30,7 +32,7 @@ const useStyles = makeStyles(() => ({
 const FIELD = {
   USER_ID: 'user_id',
   LAST_ACTIVE: 'last_active',
-  LAST_UPDATED: 'last_updated',
+  LAST_UPDATED: 'last_update',
   APP_NAME: 'app_name',
 };
 
@@ -51,7 +53,7 @@ const AccessManagement: React.FC<ArticlesManagementProps> = () => {
     try {
       gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
-      const response: any = await httpRequest.get(getAccessManagementUrl(config));
+      const response: any = await httpRequest.get(getAccessManagementSearchUrl(config));
       gridRef?.current?.setData?.(response.data);
     } catch (error) {
       gridRef?.current?.setData?.();
@@ -97,6 +99,13 @@ const AccessManagement: React.FC<ArticlesManagementProps> = () => {
         name: FIELD.APP_NAME,
         label: 'lang_app_name',
         type: COLUMN_TYPE.BREAK_LINE,
+        formatter: (data: any) => data?.app?.map((e: IBundle) => e.display_name).filter((x: string) => x),
+      },
+      {
+        name: 'ACTION_COLUMN',
+        type: COLUMN_TYPE.ACTION,
+        getActions: () => {},
+        label: ' ',
       },
     ];
   }, []);
@@ -111,20 +120,44 @@ const AccessManagement: React.FC<ArticlesManagementProps> = () => {
   };
 
   const onEdit = () => {
-    const selectedfdRows = gridRef.current?.getRowSelected();
-    if (!selectedfdRows?.length) {
+    const selectedRows = gridRef.current?.getRowSelected();
+    if (!selectedRows?.length) {
       setNotif('lang_please_select_at_least');
     } else {
-      // const listHaveAppName = selectedfdRows.filter((e: any) => e.app_name)
+      let check = false;
+      let listFull: string[] = [];
+      let max = 0;
+      let min = 1;
+      const listHaveAppName = selectedRows.filter((e: any) => {
+        if (e?.app?.length) {
+          if (e.app.length > max) {
+            max = e.app.length;
+            listFull = [...e.app];
+          }
+          if (e.app.length < min) min = e.app.length;
+        }
+        return e?.app?.length;
+      });
+      if (min !== max) check = true;
+      else {
+        const listCheck = listHaveAppName.map((e: any) => e.app.map((e: IBundle) => e.bundle_id));
+        for (let index = 1; index < listCheck.length; index++) {
+          const element = listCheck[index];
+          if (compareArray(element, listCheck[0])) {
+            check = true;
+            break;
+          }
+        }
+      }
       // compare app name
-      const check = true;
-      if (check) {
+      if (check && selectedRows.length > 1) {
         setNotif('lang_cannot_edit_multiple_row_diff_user_id');
       } else {
         showModal({
           component: AppAccessSetup,
           props: {
-            data: selectedfdRows,
+            data: selectedRows,
+            listFull,
             callback: onTableChange,
           },
         });
