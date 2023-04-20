@@ -184,7 +184,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
         // freeSolo={!!inputRef.current?.value && inputRef.current?.value?.length > 1 ? false : true}
         id={name}
         popupIcon={null}
-        clearIcon={<CancelIcon style={{ width: 16, height: 16, cursor: 'pointer' }} />}
+        clearIcon={value || value?.length ? <CancelIcon style={{ width: 16, height: 16, cursor: 'pointer' }} /> : null}
         onBlur={onBlur}
         value={value}
         defaultValue={[]}
