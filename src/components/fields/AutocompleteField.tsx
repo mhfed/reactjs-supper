@@ -183,6 +183,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
         disableClearable={disableClearable}
         // freeSolo={!!inputRef.current?.value && inputRef.current?.value?.length > 1 ? false : true}
         id={name}
+        popupIcon={null}
         clearIcon={<CancelIcon style={{ width: 16, height: 16, cursor: 'pointer' }} />}
         onBlur={onBlur}
         value={value}
@@ -232,7 +233,6 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
             onChange={handleTextChange}
             InputProps={{
               ...params.InputProps,
-              endAdornment: null,
             }}
           ></TextField>
         )}

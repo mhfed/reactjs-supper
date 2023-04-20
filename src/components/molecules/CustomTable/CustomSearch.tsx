@@ -18,7 +18,7 @@ import { ACTIONS } from './TableConstants';
 import clsx from 'clsx';
 import { AutocompleteField } from 'components/fields';
 import { getSearchAppNameUrl } from 'apis/request.url';
-import { LooseObject } from 'models/ICommon';
+import { IBundle, LooseObject } from 'models/ICommon';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -88,6 +88,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
   const { t } = useTranslation();
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const timeoutId = React.useRef<number | null>(null);
+  const [appName, setAppName] = React.useState<any>('');
 
   /**
    * Handle search new data with search text
@@ -107,6 +108,14 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
   const clearSearch = () => {
     inputRef.current && (inputRef.current.value = '');
     handleSearch('');
+  };
+
+  /**
+   * Search by app name
+   */
+  const onSearchAppName = (value: IBundle) => {
+    setAppName(value);
+    handleSearch('', value);
   };
 
   return (
@@ -179,10 +188,10 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
               disableClearable={false}
               getUrl={getSearchAppNameUrl}
               multiple={false}
-              value={''}
+              value={appName}
               isOptionEqualToValue={(opt, select) => opt.bundle_id === select.bundle_id}
               getOptionLabel={(opt) => opt.display_name || ''}
-              onChange={(value) => handleSearch('', value)}
+              onChange={onSearchAppName}
             />
           </div>
         ) : (

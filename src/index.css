@@ -268,3 +268,7 @@ div[class*='MUIDataTableSelectCell-fixedLeft'] {
 ::-webkit-scrollbar-thumb:active {
   background: #6b6c71;
 }
+
+.MuiAutocomplete-clearIndicator {
+  visibility: visible !important;
+}
