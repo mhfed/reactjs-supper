@@ -181,7 +181,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
           <></>
         )}
         {customSearch ? (
-          <div style={{ minWidth: 224 }}>
+          <div style={{ minWidth: 224, marginRight: 8 }}>
             <AutocompleteField
               name="search_app_name"
               label="lang_app_name"
