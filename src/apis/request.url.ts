@@ -210,7 +210,7 @@ export const getListReportUrl = ({
 };
 
 export const getReportUrl = (path = '') => {
-  return `/v1/reports/${path}`;
+  return `/v1/reports${path ? '/' + path : ''}`;
 };
 
 // Profolio - v1
