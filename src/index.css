@@ -246,6 +246,8 @@ div[class*='MUIDataTableToolbarSelect-root'] {
   display: none;
 }
 
+th[class*='MUIDataTableSelectCell-fixedLeft'],
+td[class*='MUIDataTableSelectCell-fixedLeft'],
 div[class*='MUIDataTableSelectCell-fixedLeft'] {
   position: relative;
 }

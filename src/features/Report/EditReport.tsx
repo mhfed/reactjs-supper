@@ -283,6 +283,7 @@ const EditReport: React.FC<EditSegmentProps> = ({ data = {}, callback }) => {
                             name={`params[${i}].title`}
                             label="lang_title"
                             maxLength={100}
+                            required
                             value={values.params[i].title}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -294,9 +295,9 @@ const EditReport: React.FC<EditSegmentProps> = ({ data = {}, callback }) => {
                           <SelectField
                             name={`params[${i}].type`}
                             options={PARAMETER_OPTIONS}
-                            label="lang_parameter_type"
                             required
                             fullWidth
+                            shrink={false}
                             value={values.params[i].type}
                             onChange={handleChange}
                             onBlur={handleBlur}

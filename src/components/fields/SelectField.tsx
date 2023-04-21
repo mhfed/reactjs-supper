@@ -34,6 +34,7 @@ type SelectFieldProps = {
   label?: string;
   name?: string;
   autoWidth?: boolean;
+  shrink?: boolean;
   error?: boolean;
   preview?: boolean;
   value?: string | number;
@@ -56,6 +57,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
   textTransform,
   required,
   error,
+  shrink,
   ...props
 }) => {
   const classes = useStyles();
@@ -70,9 +72,13 @@ const SelectField: React.FC<SelectFieldProps> = ({
         width: props.fullWidth ? '100%' : '',
       }}
     >
-      <InputLabel id={props.id} sx={{ ml: preview ? '-1rem' : 0, mt: preview ? 1 : 0 }}>
-        <Trans>{label}</Trans>
-      </InputLabel>
+      {shrink === false ? (
+        <></>
+      ) : (
+        <InputLabel id={props.id} sx={{ ml: preview ? '-1rem' : 0, mt: preview ? 1 : 0 }}>
+          <Trans>{label}</Trans>
+        </InputLabel>
+      )}
       <Select
         {...props}
         labelId={props.id}
