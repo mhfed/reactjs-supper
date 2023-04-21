@@ -1,4 +1,4 @@
 export const USER_ROLE = {
-  EDIT_COMPLIANCE: 'edit_compliance',
-  EDIT_ALL_COMPLIANCE: 'edit_all_compliance',
+  EDIT_COMPLIANCE: 'cms_portal_basic_user',
+  EDIT_ALL_COMPLIANCE: 'cms_portal_power_user',
 };
