@@ -132,6 +132,13 @@ const EditReport: React.FC<EditSegmentProps> = ({ data = {}, callback }) => {
         bundle_id: data?.application_user?.bundle_id,
         params,
       });
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_report_updated_successfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
       hideModal();
       callback?.();
     } catch (error) {
@@ -150,7 +157,7 @@ const EditReport: React.FC<EditSegmentProps> = ({ data = {}, callback }) => {
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,
   });
-  const { values, errors, touched, handleSubmit, handleChange, handleBlur, setFieldValue, setFieldTouched } = formik;
+  const { values, errors, touched, handleSubmit, handleChange, handleBlur, validateForm, setTouched } = formik;
 
   /**
    * back to edit form from preview form
@@ -203,7 +210,13 @@ const EditReport: React.FC<EditSegmentProps> = ({ data = {}, callback }) => {
    * back to edit form from preview form
    */
   const onPreview = () => {
-    setFormType(FORM_TYPE.PREVIEW);
+    validateForm().then((errors) => {
+      if (errors && Object.keys(errors).length) {
+        setTouched(errors as any);
+      } else {
+        setFormType(FORM_TYPE.PREVIEW);
+      }
+    });
   };
 
   /**

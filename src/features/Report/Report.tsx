@@ -98,6 +98,13 @@ const Report: React.FC<ReportProps> = () => {
         [FIELD.STATUS]: newStatus,
         [FIELD.BUNDLE_ID]: data?.application_user?.bundle_id,
       });
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_report_updated_successfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
       if (dicData.current[data[FIELD.ID]]) {
         dicData.current[data[FIELD.ID]][FIELD.STATUS] = newStatus;
         gridRef?.current?.setData?.(Object.values(dicData.current));
