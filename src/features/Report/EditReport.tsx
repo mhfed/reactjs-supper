@@ -282,6 +282,7 @@ const EditReport: React.FC<EditSegmentProps> = ({ data = {}, callback }) => {
                           <InputField
                             name={`params[${i}].title`}
                             label="lang_title"
+                            maxLength={100}
                             value={values.params[i].title}
                             onChange={handleChange}
                             onBlur={handleBlur}
