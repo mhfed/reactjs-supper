@@ -33,7 +33,7 @@ const FIELD = {
   USER_ID: 'user_id',
   LAST_ACTIVE: 'last_active',
   LAST_UPDATED: 'last_update',
-  APP_NAME: 'app_name',
+  APP_NAME: 'display_name',
 };
 
 type TableHandle = React.ElementRef<typeof CustomTable>;

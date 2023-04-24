@@ -52,7 +52,6 @@ const Report: React.FC<ReportProps> = () => {
     try {
       gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
-      config.page = 1;
       let url = getListReportUrl(config);
       if (config.customSearch?.bundle_id) {
         url += `&bundle_id=${config.customSearch.bundle_id}`;
@@ -163,7 +162,6 @@ const Report: React.FC<ReportProps> = () => {
       {
         name: FIELD.TEMPLATE_ID,
         label: 'lang_template_id',
-        sort: false,
       },
       {
         name: FIELD.APP_NAME,
@@ -174,7 +172,7 @@ const Report: React.FC<ReportProps> = () => {
         name: FIELD.PARAMETERS,
         label: 'lang_parameters',
         formatter: (data: any) =>
-          data?.[FIELD.PARAMETERS]
+          data?.params
             .filter((x: ReportParam) => !!x.title)
             .map((e: ReportParam) => e.title)
             .join(', '),

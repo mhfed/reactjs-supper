@@ -37,8 +37,8 @@ export const FIELD = {
   ID: 'id',
   TEMPLATE_ID: 'template_id',
   SITE_NAME: 'site_name',
-  APP_NAME: 'app_name',
-  PARAMETERS: 'params',
+  APP_NAME: 'display_name',
+  PARAMETERS: 'title',
   STATUS: 'status',
   BUNDLE_ID: 'bundle_id',
 };
