@@ -204,8 +204,8 @@ const Portfolio: React.FC<PortfolioProps> = () => {
 
       const initValues = {
         site_name: data.site_name,
-        bundle_id: data.list_configuration[0].bundle_id,
-        portfolio_performance_indicator: data.list_configuration[0].portfolio_performance_indicator,
+        bundle_id: data.list_configuration?.[0]?.bundle_id || '',
+        portfolio_performance_indicator: data.list_configuration?.[0]?.portfolio_performance_indicator || '',
       };
       resetForm({
         values: initValues,
