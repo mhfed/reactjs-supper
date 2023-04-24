@@ -276,9 +276,9 @@ div[class*='MUIDataTableSelectCell-fixedLeft'] {
 }
 
 .SnackbarItem-lessPadding {
-  padding-left: unset;
+  padding-left: 16px !important;
 }
 
 .SnackbarContent-root {
-  min-width: unset;
+  min-width: unset !important;
 }

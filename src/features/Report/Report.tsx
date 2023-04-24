@@ -182,7 +182,6 @@ const Report: React.FC<ReportProps> = () => {
         label: 'lang_status',
         dataOptions: STATUS_OPTIONS,
         type: COLUMN_TYPE.DROPDOWN_WITH_BG,
-        sort: false,
       },
       {
         name: 'ACTION_COLUMN',
