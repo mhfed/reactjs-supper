@@ -207,6 +207,13 @@ const Report: React.FC<ReportProps> = () => {
    */
   React.useEffect(() => {
     getData();
+    dispatch(
+      enqueueSnackbarAction({
+        message: 'lang_report_updated_successfully',
+        key: new Date().getTime() + Math.random(),
+        variant: 'success',
+      }),
+    );
   }, []);
 
   return (

@@ -276,7 +276,7 @@ const EditReport: React.FC<EditSegmentProps> = ({ data = {}, callback }) => {
                     {values.params.map((e: ReportParam, i: number) => (
                       <React.Fragment key={`edit_report_params_${i}`}>
                         <Grid item xs={4}>
-                          <InputField disabled readOnly label={e.name} name={`params[${i}].name`} shrink={false} value={e.name} />
+                          <InputField preview disabled readOnly label={e.name} name={`params[${i}].name`} value={e.name} />
                         </Grid>
                         <Grid item xs={4}>
                           <InputField

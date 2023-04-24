@@ -10,7 +10,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import makeStyles from '@mui/styles/makeStyles';
-import { loginIress } from 'actions/auth.action';
+import { loginIress, clearError } from 'actions/auth.action';
 import Button from 'components/atoms/ButtonBase';
 import { InputField } from 'components/fields';
 import ErrorCollapse from 'components/molecules/ErrorExpandable';
@@ -118,7 +118,7 @@ export default function SignIn() {
    * if error disabled button signin
    */
   React.useEffect(() => {
-    setDisabled(true);
+    setDisabled(!!error);
   }, [error]);
 
   const { values, errors, touched, handleBlur, handleSubmit, handleChange, setFieldValue } = useFormik({
@@ -157,7 +157,7 @@ export default function SignIn() {
             inputProps={{ maxLength: 255 }}
             value={values.site_name}
             onChange={(e) => {
-              setDisabled(false);
+              !!error && dispatch(clearError());
               handleChange(e);
             }}
             onBlur={handleBlur}

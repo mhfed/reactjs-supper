@@ -274,3 +274,11 @@ div[class*='MUIDataTableSelectCell-fixedLeft'] {
 .MuiAutocomplete-clearIndicator {
   visibility: visible !important;
 }
+
+.SnackbarItem-lessPadding {
+  padding-left: unset;
+}
+
+.SnackbarContent-root {
+  min-width: unset;
+}
