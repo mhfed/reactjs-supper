@@ -107,7 +107,7 @@ const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], listFull = [], 
     }
   };
 
-  const { values, errors, touched, handleSubmit, setFieldValue, setFieldTouched } = useFormik({
+  const { values, errors, touched, handleSubmit, setFieldValue, setFieldTouched, validateForm, setTouched } = useFormik({
     initialValues: { app_name: listFull },
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,
@@ -149,7 +149,13 @@ const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], listFull = [], 
    * back to edit form from preview form
    */
   const onPreview = () => {
-    setFormType(FORM_TYPE.PREVIEW);
+    validateForm().then((errors) => {
+      if (errors && Object.keys(errors).length) {
+        setTouched(errors as any);
+      } else {
+        setFormType(FORM_TYPE.PREVIEW);
+      }
+    });
   };
 
   /**
