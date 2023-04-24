@@ -242,7 +242,7 @@ const Portfolio: React.FC<PortfolioProps> = () => {
                 required
                 options={optionBundleID}
                 name="bundle_id"
-                label="lang_bundle_id"
+                label="lang_app_name"
                 id="bundle_id"
                 fullWidth
                 onBlur={handleBlur}
@@ -316,7 +316,7 @@ const Portfolio: React.FC<PortfolioProps> = () => {
                 required
                 options={optionBundleID}
                 name="bundle_id"
-                label="lang_bundle_id"
+                label="lang_app_name"
                 id="bundle_id"
                 fullWidth
                 onBlur={handleBlur}
