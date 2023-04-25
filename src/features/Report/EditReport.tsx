@@ -283,7 +283,6 @@ const EditReport: React.FC<EditSegmentProps> = ({ data = {}, callback }) => {
                           <InputField
                             name={`params[${i}].title`}
                             label="lang_title"
-                            maxLength={100}
                             required
                             value={values.params[i].title}
                             onChange={handleChange}
@@ -370,7 +369,7 @@ const EditReport: React.FC<EditSegmentProps> = ({ data = {}, callback }) => {
 const validationSchema = yup.object().shape({
   params: yup.array().of(
     yup.object().shape({
-      title: yup.string().required('lang_title_required'),
+      title: yup.string().required('lang_title_required').max(100, 'lang_title_max_length_error'),
     }),
   ),
 });
