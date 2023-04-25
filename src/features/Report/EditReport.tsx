@@ -173,7 +173,8 @@ const EditReport: React.FC<EditSegmentProps> = ({ data = {}, callback }) => {
       return acc;
     }, {});
     for (let index = 0; index < data.params.length; index++) {
-      const element = data.params[index];
+      const element = { ...(data?.params?.[index] || {}) };
+      if (!element.title) element.title = '';
       if (element.title !== dicCur[element.id].title || element.type !== dicCur[element.id].type) {
         isChange = true;
         break;

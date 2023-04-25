@@ -181,7 +181,7 @@ const AccessManagement: React.FC<ArticlesManagementProps> = () => {
     <div className={classes.container}>
       <CustomTable
         listBtn={listBtnHeader}
-        name="articles"
+        name="access_management"
         fnKey={getRowId}
         ref={gridRef}
         onTableChange={onTableChange}
