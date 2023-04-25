@@ -130,7 +130,7 @@ const AccessManagement: React.FC<ArticlesManagementProps> = () => {
       let min = max;
       const listHaveAppName = selectedRows.filter((e: any) => {
         if (e?.app?.length) {
-          if (e.app.length > max) {
+          if (e.app.length >= max) {
             max = e.app.length;
             listFull = [...e.app];
           }

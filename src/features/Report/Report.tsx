@@ -176,6 +176,7 @@ const Report: React.FC<ReportProps> = () => {
             .filter((x: ReportParam) => !!x.title)
             .map((e: ReportParam) => e.title)
             .join(', '),
+        sort: false,
       },
       {
         name: FIELD.STATUS,
