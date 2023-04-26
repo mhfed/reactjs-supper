@@ -129,6 +129,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
                 network
                 disabled={btn.disabledEditMode && isEditMode}
                 variant={btn.variant || 'contained'}
+                startIcon={btn.icon || null}
                 sx={{ mr: 1 }}
                 color={btn.color || 'primary'}
                 onClick={btn.onClick}

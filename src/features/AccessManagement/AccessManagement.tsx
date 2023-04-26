@@ -19,6 +19,7 @@ import AppAccessSetup from './AppAccessSetup';
 import ConfirmModal from 'components/molecules/ConfirmModal';
 import { IBundle } from 'models/ICommon';
 import { compareArray } from 'helpers/common';
+import EditIcon from '@mui/icons-material/Edit';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -171,6 +172,7 @@ const AccessManagement: React.FC<ArticlesManagementProps> = () => {
   const listBtnHeader = [
     {
       label: 'lang_edit',
+      icon: <EditIcon />,
       onClick: onEdit,
       isShow: true,
       disabledEditMode: true,

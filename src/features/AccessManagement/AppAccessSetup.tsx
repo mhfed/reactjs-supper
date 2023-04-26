@@ -231,7 +231,11 @@ const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], listFull = [], 
             <tbody>
               <tr>
                 <td>{data.map((e) => e.user_id).join(', ')}</td>
-                <td>{values.app_name.map((e: IBundle) => e.display_name).join(', ')}</td>
+                <td>
+                  {values.app_name.map((e: IBundle) => {
+                    return <div key={e.bundle_id}>{e.display_name}</div>;
+                  })}
+                </td>
               </tr>
             </tbody>
           </table>
