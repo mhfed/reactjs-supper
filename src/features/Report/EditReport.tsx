@@ -211,24 +211,23 @@ const EditReport: React.FC<EditSegmentProps> = ({ data = {}, callback }) => {
    * back to edit form from preview form
    */
   const onPreview = () => {
-    const isChange = checkChangeParam();
-    if (isChange) {
-      validateForm().then((errors) => {
-        if (errors && Object.keys(errors).length) {
-          setTouched(errors as any);
-        } else {
+    validateForm().then((errors) => {
+      if (errors && Object.keys(errors).length) {
+        setTouched(errors as any);
+      } else {
+        if (checkChangeParam()) {
           setFormType(FORM_TYPE.PREVIEW);
+        } else {
+          dispatch(
+            enqueueSnackbarAction({
+              message: 'lang_there_is_no_change_in_the_report',
+              key: new Date().getTime() + Math.random(),
+              variant: 'warning',
+            }),
+          );
         }
-      });
-    } else {
-      dispatch(
-        enqueueSnackbarAction({
-          message: 'lang_there_is_no_change_in_the_report',
-          key: new Date().getTime() + Math.random(),
-          variant: 'warning',
-        }),
-      );
-    }
+      }
+    });
   };
 
   /**

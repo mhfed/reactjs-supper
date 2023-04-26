@@ -157,23 +157,23 @@ const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], listFull = [], 
    * back to edit form from preview form
    */
   const onPreview = () => {
-    if (checkChange()) {
-      validateForm().then((errors) => {
-        if (errors && Object.keys(errors).length) {
-          setTouched(errors as any);
-        } else {
+    validateForm().then((errors) => {
+      if (errors && Object.keys(errors).length) {
+        setTouched(errors as any);
+      } else {
+        if (checkChange()) {
           setFormType(FORM_TYPE.PREVIEW);
+        } else {
+          dispatch(
+            enqueueSnackbarAction({
+              message: 'lang_there_is_no_change_in_the_app_access',
+              key: new Date().getTime() + Math.random(),
+              variant: 'warning',
+            }),
+          );
         }
-      });
-    } else {
-      dispatch(
-        enqueueSnackbarAction({
-          message: 'lang_there_is_no_change_in_the_app_access',
-          key: new Date().getTime() + Math.random(),
-          variant: 'warning',
-        }),
-      );
-    }
+      }
+    });
   };
 
   /**
