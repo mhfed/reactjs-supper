@@ -139,7 +139,7 @@ const AccessManagement: React.FC<ArticlesManagementProps> = () => {
         }
         return e?.app?.length;
       });
-      if (min !== max) check = true;
+      if (min && min !== max) check = true;
       else {
         const listCheck = listHaveAppName.map((e: any) => e.app.map((e: IBundle) => e.bundle_id));
         for (let index = 1; index < listCheck.length; index++) {
