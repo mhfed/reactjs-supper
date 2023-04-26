@@ -223,7 +223,7 @@ const EditReport: React.FC<EditSegmentProps> = ({ data = {}, callback }) => {
     } else {
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_there_is_no_change_in_the_report_information',
+          message: 'lang_there_is_no_change_in_the_report',
           key: new Date().getTime() + Math.random(),
           variant: 'warning',
         }),
