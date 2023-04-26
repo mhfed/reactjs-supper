@@ -317,7 +317,7 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
 
   return (
     <div className={classes.divCointainer}>
-      <HeaderModal title={stateForm === STATE_FORM.DETAIL ? 'lang_segment_details' : 'lang_edit_segment'} onClose={handleClose} />
+      <HeaderModal title={stateForm === STATE_FORM.DETAIL ? 'lang_segment_details' : 'lang_edit_segment'} onClose={hideModal} />
       {renderContent()}
     </div>
   );

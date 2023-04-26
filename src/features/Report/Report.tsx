@@ -14,9 +14,7 @@ import { useGlobalModalContext } from 'containers/Modal';
 import useConfirmEdit from 'hooks/useConfirmEdit';
 import { ITableConfig, LooseObject } from 'models/ICommon';
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { iressSitenameSelector } from 'selectors/auth.selector';
 import { httpRequest } from 'services/initRequest';
 import { FIELD, STATUS_OPTIONS, REPORT_STATUS } from './ReportConstants';
 import EditReport, { ReportParam } from './EditReport';
@@ -40,9 +38,9 @@ const Report: React.FC<ReportProps> = () => {
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
   const dicData = React.useRef<DicDataReport>({});
-  const { showModal, hideModal } = useGlobalModalContext();
+  const { showModal } = useGlobalModalContext();
   const confirmEdit = useConfirmEdit(() => !!gridRef?.current?.checkChange?.()); // eslint-disable-line
-  const sitename = useSelector(iressSitenameSelector);
+
   /**
    * Get list report byb default or with iress auth
    * @param token iress token

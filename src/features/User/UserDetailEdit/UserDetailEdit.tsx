@@ -181,13 +181,6 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm, callback }: any) => {
     }
   };
 
-  /**
-   * Handle close modal button x
-   */
-  const handleClose = () => {
-    handleBackOrClose(true);
-  };
-
   const renderContent = (editMode: boolean) => {
     if (!editMode) {
       return (
@@ -366,7 +359,7 @@ const UserDetail: React.FC<UserDetailProps> = ({ dataForm, callback }: any) => {
   };
   return (
     <>
-      <HeaderModal title={editMode ? 'lang_edit_user' : 'lang_user_details'} onClose={handleClose} />
+      <HeaderModal title={editMode ? 'lang_edit_user' : 'lang_user_details'} onClose={hideModal} />
       <form className={classes.form} noValidate onSubmit={handleSubmit}>
         {renderContent(editMode)}
         {renderButton(editMode)}

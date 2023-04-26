@@ -80,7 +80,7 @@ type EditSegmentProps = {
 const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], listFull = [], callback }) => {
   const classes = useStyles();
   const [formType, setFormType] = React.useState(FORM_TYPE.EDIT);
-  const { hideModal, showSubModal, hideSubModal } = useGlobalModalContext();
+  const { hideModal, showSubModal } = useGlobalModalContext();
   const dispatch = useDispatch();
 
   /**
@@ -185,7 +185,10 @@ const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], listFull = [], 
 
   return (
     <div className={classes.divCointainer}>
-      <HeaderModal title={formType === FORM_TYPE.EDIT ? 'lang_app_access_setup' : 'lang_preview_edit_access'} />
+      <HeaderModal
+        title={formType === FORM_TYPE.EDIT ? 'lang_app_access_setup' : 'lang_preview_edit_access'}
+        onClose={hideModal}
+      />
       {formType === FORM_TYPE.EDIT ? (
         <form className={classes.container} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>

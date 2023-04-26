@@ -114,7 +114,7 @@ const EditReport: React.FC<EditSegmentProps> = ({ data = {}, callback }) => {
       name: e.name || '',
     })),
   });
-  const { hideModal, showSubModal, hideSubModal } = useGlobalModalContext();
+  const { hideModal, showSubModal } = useGlobalModalContext();
   const dispatch = useDispatch();
 
   /**
@@ -241,7 +241,7 @@ const EditReport: React.FC<EditSegmentProps> = ({ data = {}, callback }) => {
   const errorsObj = { ...errors } as any;
   return (
     <div className={classes.divCointainer}>
-      <HeaderModal title={formType === FORM_TYPE.EDIT ? 'lang_report_setup' : 'lang_preview_edit_report'} />
+      <HeaderModal title={formType === FORM_TYPE.EDIT ? 'lang_report_setup' : 'lang_preview_edit_report'} onClose={hideModal} />
       <table style={{ width: '100%', maxWidth: 500 }}>
         <thead>
           <tr>

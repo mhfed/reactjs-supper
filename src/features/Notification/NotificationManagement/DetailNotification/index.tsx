@@ -133,7 +133,7 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
 
   return (
     <div className={classes.divCointainer}>
-      <HeaderModal title="lang_notifications_details" onClose={handleClose} />
+      <HeaderModal title="lang_notifications_details" onClose={hideModal} />
       <Formik initialValues={dataForm} onSubmit={() => {}}>
         {(form: FormikProps<initialValuesType>) => {
           return (

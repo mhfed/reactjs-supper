@@ -184,7 +184,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
 
   return (
     <>
-      <HeaderModal title="lang_edit_articles" onClose={() => handleCancel()} />
+      <HeaderModal title="lang_edit_articles" onClose={hideModal} />
       <Paper className={classes.container}>
         <form noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
