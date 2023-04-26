@@ -50,29 +50,28 @@ function formatDataBeforeExportCsv(curColumn: any, rawColumns: any, curData: any
     (curColumn || []).forEach((c: any) => {
       const column = dicColumn[c.name];
       const formatter = column?.formatter;
-      const rawValue = rawData[index][c.name] || ` ${process.env.REACT_APP_DEFAULT_VALUE}`;
-      let value = rawValue;
+      let value = rawData[index][c.name] || process.env.REACT_APP_DEFAULT_VALUE;
       if (formatter && typeof formatter === 'function') {
         value = formatter(rawData[index]);
-      } else {
-        switch (column.type) {
-          case COLUMN_TYPE.DATETIME:
-            value =
-              rawValue && moment(rawValue).isValid()
-                ? moment(rawValue).local().format('DD/MM/YY HH:mm:ss')
-                : ` ${process.env.REACT_APP_DEFAULT_VALUE}`;
-            break;
-          case COLUMN_TYPE.DROPDOWN:
-          case COLUMN_TYPE.DROPDOWN_WITH_BG:
-            const option = column.dataOptions.find((e: any) => e.value === rawValue);
-            value = option?.label ? translate(option.label) : ` ${process.env.REACT_APP_DEFAULT_VALUE}`;
-            break;
-          case COLUMN_TYPE.MULTIPLE_TAG:
-            value = rawValue.join(';');
-            break;
-          default:
-            break;
-        }
+      }
+      switch (column.type) {
+        case COLUMN_TYPE.DATETIME:
+          value =
+            value && moment(value).isValid()
+              ? moment(value).local().format('DD/MM/YY HH:mm:ss')
+              : process.env.REACT_APP_DEFAULT_VALUE;
+          break;
+        case COLUMN_TYPE.DROPDOWN:
+        case COLUMN_TYPE.DROPDOWN_WITH_BG:
+          const option = column.dataOptions.find((e: any) => e.value === value);
+          value = option?.label ? translate(option.label) : process.env.REACT_APP_DEFAULT_VALUE;
+          break;
+        case COLUMN_TYPE.MULTIPLE_TAG:
+        case COLUMN_TYPE.BREAK_LINE:
+          value = value.join('; ');
+          break;
+        default:
+          break;
       }
       if (column.type !== COLUMN_TYPE.ACTION) obj.data.push(value);
     });

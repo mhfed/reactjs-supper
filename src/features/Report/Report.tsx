@@ -172,10 +172,7 @@ const Report: React.FC<ReportProps> = () => {
         name: FIELD.PARAMETERS,
         label: 'lang_parameters',
         formatter: (data: any) =>
-          data?.params
-            .filter((x: ReportParam) => !!x.title)
-            .map((e: ReportParam) => e.title)
-            .join(', '),
+          data?.params.map((e: ReportParam) => `[${e.title || process.env.REACT_APP_DEFAULT_VALUE}}]`).join(', '),
         sort: false,
       },
       {

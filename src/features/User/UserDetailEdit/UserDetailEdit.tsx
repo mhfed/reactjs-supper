@@ -53,7 +53,7 @@ type UserDetailProps = {
 
 // format date to display on ui
 const formatDate = (valueFormat: number | string) => {
-  if (!valueFormat) return '--';
+  if (!valueFormat) return process.env.REACT_APP_DEFAULT_VALUE;
   return moment(valueFormat).format('DD/MM/YYYY HH:mm:ss');
 };
 

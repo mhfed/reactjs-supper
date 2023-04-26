@@ -80,7 +80,7 @@ const InputField: React.FC<TextFieldProps> = ({
       disabled={disabled}
       required={preview ? false : required}
       variant={!disabled && preview && !variant ? 'standard' : variant}
-      value={preview ? value || '--' : value}
+      value={value}
       label={<Trans>{label}</Trans>}
       inputProps={{
         maxLength: maxLength || 255,
