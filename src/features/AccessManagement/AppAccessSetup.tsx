@@ -121,12 +121,20 @@ const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], listFull = [], 
   };
 
   /**
+   * Check change information
+   * @returns boolean change or unchange
+   */
+  const checkChange = () => {
+    const curValue = values.app_name.map((e: IBundle) => e.bundle_id);
+    const originValue = listFull.map((e: IBundle) => e.bundle_id);
+    return compareArray(curValue, originValue);
+  };
+
+  /**
    * back to edit form from preview form
    */
   const onClose = () => {
-    const curValue = values.app_name.map((e: IBundle) => e.bundle_id);
-    const originValue = listFull.map((e: IBundle) => e.bundle_id);
-    if (compareArray(curValue, originValue)) {
+    if (checkChange()) {
       showSubModal({
         title: 'lang_confirm_cancel',
         component: ConfirmEditModal,
@@ -149,13 +157,23 @@ const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], listFull = [], 
    * back to edit form from preview form
    */
   const onPreview = () => {
-    validateForm().then((errors) => {
-      if (errors && Object.keys(errors).length) {
-        setTouched(errors as any);
-      } else {
-        setFormType(FORM_TYPE.PREVIEW);
-      }
-    });
+    if (checkChange()) {
+      validateForm().then((errors) => {
+        if (errors && Object.keys(errors).length) {
+          setTouched(errors as any);
+        } else {
+          setFormType(FORM_TYPE.PREVIEW);
+        }
+      });
+    } else {
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_there_is_no_change_in_the_app_access',
+          key: new Date().getTime() + Math.random(),
+          variant: 'warning',
+        }),
+      );
+    }
   };
 
   /**
