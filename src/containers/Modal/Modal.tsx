@@ -31,6 +31,11 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     background: theme.palette.background.contentModal,
     minWidth: '40vw',
+    maxWidth: '80vw',
+    [theme.breakpoints.down('sm')]: {
+      width: 'calc(100% - 32px)',
+      maxWidth: '100vw',
+    },
   },
 }));
 

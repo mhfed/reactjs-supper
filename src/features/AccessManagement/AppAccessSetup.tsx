@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
-    maxWidth: '80vw',
+    maxWidth: 800,
   },
   container: {
     display: 'flex',
