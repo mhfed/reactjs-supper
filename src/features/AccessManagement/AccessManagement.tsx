@@ -101,6 +101,7 @@ const AccessManagement: React.FC<ArticlesManagementProps> = () => {
         label: 'lang_app_name',
         type: COLUMN_TYPE.BREAK_LINE,
         formatter: (data: any) => data?.app?.map((e: IBundle) => e.display_name).filter((x: string) => x),
+        sort: false,
       },
       {
         name: 'ACTION_COLUMN',

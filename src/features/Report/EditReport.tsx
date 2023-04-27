@@ -255,7 +255,7 @@ const EditReport: React.FC<EditSegmentProps> = ({ data = {}, callback }) => {
         </thead>
         <tbody>
           <tr>
-            <td>{data.name}</td>
+            <td>{data.description}</td>
             <td>{data?.application_user?.display_name}</td>
           </tr>
         </tbody>
