@@ -214,10 +214,10 @@ export const getReportUrl = (path = '') => {
 };
 
 // Profolio - v1
-export const getPPIndicatorUrl = () => {
+export const getPPIndicatorUpdateUrl = () => {
   return `/v1/config/portfolio-performance-indicator`;
 };
-export const getPPIndicatorUpdateUrl = (sitename: string) => {
+export const getPPIndicatorUrl = (sitename: string) => {
   return `/v1/config/portfolio-performance-indicator?site_name=${sitename}`;
 };
 

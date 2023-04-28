@@ -65,6 +65,7 @@ const Portfolio: React.FC<PortfolioProps> = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [editMode, setEditMode] = React.useState(false);
+  const [disabledEdit, setDisabledEdit] = React.useState(false);
   const { showSubModal, hideModal, hideSubModal } = useGlobalModalContext();
   const sitename = useSelector(iressSitenameSelector) ?? '';
   const [optionBundleID, setOptionBundleID] = React.useState([]);
@@ -123,7 +124,7 @@ const Portfolio: React.FC<PortfolioProps> = () => {
         site_name: values.site_name,
         ...newConfiguration,
       };
-      await httpRequest.put(getPPIndicatorUrl(), body);
+      await httpRequest.put(getPPIndicatorUpdateUrl(), body);
       dataListConfigRef.current = dataListConfigRef.current
         .filter((item) => item.bundle_id !== newConfiguration.bundle_id)
         .concat(newConfiguration);
@@ -195,12 +196,14 @@ const Portfolio: React.FC<PortfolioProps> = () => {
   };
   const getData = async function () {
     try {
-      const { data }: LooseObject = await httpRequest.get(getPPIndicatorUpdateUrl(sitename));
+      const { data }: LooseObject = await httpRequest.get(getPPIndicatorUrl(sitename));
       const dataOptionBundleID = data?.list_configuration.map((e: any) => {
         return { label: e.display_name, value: e.bundle_id };
       });
       setOptionBundleID(dataOptionBundleID);
       dataListConfigRef.current = data?.list_configuration;
+
+      if (data?.list_configuration.length === 0) setDisabledEdit(true);
 
       const initValues = {
         site_name: data.site_name,
@@ -278,7 +281,7 @@ const Portfolio: React.FC<PortfolioProps> = () => {
           </Grid>
         </Box>
         <Stack direction="row" justifyContent="end" alignItems="center">
-          <Button variant="contained" startIcon={<EditIcon />} network onClick={handleTurnOnEditMode}>
+          <Button variant="contained" disabled={disabledEdit} startIcon={<EditIcon />} network onClick={handleTurnOnEditMode}>
             <Trans>lang_edit</Trans>
           </Button>
         </Stack>
