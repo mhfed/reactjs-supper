@@ -7,6 +7,10 @@
  */
 
 export const FIELD = {
+  CREATED_BY: 'created_by',
+  APP_NAME: 'display_name',
+  LAST_UPDATED_BY: 'last_updated_by',
+  NOTIFICATION_ENABLED: 'notification',
   AUDIENCES: 'subscribers',
   NOTIFICATION_ID: 'notification_id',
   DELIVERY_TYPE: 'delivery_type',
@@ -46,6 +50,28 @@ export const NOTIFICATION_STATUS = {
   TRIGGERED: 'Triggered',
   PENDING: 'Pending',
 };
+
+export const ARTICLE_STATUS = {
+  SCHEDULED: 'Scheduled',
+  COMPLETED: 'Completed',
+  DRAFT: 'draft',
+};
+
+export const ARTICLE_STATUS_OPTIONS = [
+  { label: 'lang_draft', value: ARTICLE_STATUS.DRAFT, color: 'warning' },
+  { label: 'lang_scheduled', value: ARTICLE_STATUS.SCHEDULED, color: 'error' },
+  { label: 'lang_completed', value: ARTICLE_STATUS.COMPLETED, color: 'success' },
+];
+
+export const NOTIFICATION_ENABLED = {
+  YES: 'yes',
+  NO: 'no',
+};
+
+export const NOTIFICATION_ENABLED_OPTIONS = [
+  { label: 'lang_yes', value: NOTIFICATION_ENABLED.YES, color: 'success' },
+  { label: 'lang_no', value: NOTIFICATION_ENABLED.NO, color: 'error' },
+];
 
 export const NOTIFICATION_STATUS_OPTIONS = [
   { label: 'lang_triggered', value: NOTIFICATION_STATUS.TRIGGERED },

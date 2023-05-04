@@ -18,7 +18,13 @@ import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import ArticlesDetail from '../CreateNewArticles/ArticlesDetail';
 import { convertArticlesDataToDetailForm } from 'helpers';
-import { FIELD } from '../../Notification/NotificationConstants';
+import {
+  FIELD,
+  ARTICLE_STATUS,
+  ARTICLE_STATUS_OPTIONS,
+  NOTIFICATION_ENABLED_OPTIONS,
+} from '../../Notification/NotificationConstants';
+import ArticleAdvancedFilter from './ArticleAdvancedFilter';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -100,7 +106,9 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
    * Get action for table row
    * @returns action list
    */
-  const getActions = () => {
+  const getActions = (data: any) => {
+    const isLinkedNotification =
+      [ARTICLE_STATUS.COMPLETED, ARTICLE_STATUS.SCHEDULED].includes(data.status) && data[FIELD.NOTIFICATION_ENABLED] === 'Yes';
     return [
       {
         label: 'lang_view_detail',
@@ -146,6 +154,10 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
           });
         },
       },
+      {
+        label: isLinkedNotification ? 'lang_resend_notification' : 'lang_setup_notification',
+        onClick: (data: any) => console.log('YOLO: ', isLinkedNotification),
+      },
     ];
   };
 
@@ -153,17 +165,15 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
   const columns = React.useMemo(() => {
     return [
       {
-        name: FIELD.ACTOR,
-        label: 'lang_actor',
+        name: FIELD.CREATED_BY,
+        label: 'lang_created_by',
       },
       {
-        name: FIELD.SITENAME,
-        label: 'lang_sitename',
-        type: COLUMN_TYPE.BREAK_LINE,
-        sort: false,
+        name: FIELD.APP_NAME,
+        label: 'lang_app_name',
       },
       {
-        name: FIELD.SUBJECT,
+        name: FIELD.TITLE,
         label: 'lang_title',
       },
       {
@@ -173,7 +183,27 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
         sort: false,
       },
       {
-        name: FIELD.CREATED_DATE,
+        name: FIELD.ARTICLES_ID,
+        label: 'lang_article_id',
+      },
+      {
+        name: FIELD.LAST_UPDATED_BY,
+        label: 'lang_last_updated_by',
+      },
+      {
+        name: FIELD.NOTIFICATION_ENABLED,
+        label: 'lang_notification_enabled',
+        dataOptions: NOTIFICATION_ENABLED_OPTIONS,
+        type: COLUMN_TYPE.DROPDOWN_WITH_BG,
+      },
+      {
+        name: FIELD.STATUS,
+        label: 'lang_status',
+        dataOptions: ARTICLE_STATUS_OPTIONS,
+        type: COLUMN_TYPE.DROPDOWN_WITH_BG,
+      },
+      {
+        name: FIELD.CREATED_TIME,
         label: 'lang_created_time',
         type: COLUMN_TYPE.DATETIME,
       },
@@ -200,6 +230,11 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
     return data[FIELD.ARTICLES_ID];
   };
 
+  /**
+   * Apply new advanced filter
+   */
+  const onApplyFilter = () => {};
+
   return (
     <div className={classes.container}>
       <CustomTable
@@ -209,6 +244,9 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
         onTableChange={onTableChange}
         columns={columns}
         noDataText="lang_no_matching_records_found"
+        showSitename
+        advancedFilter={<ArticleAdvancedFilter />}
+        onApplyFilter={onApplyFilter}
       />
     </div>
   );

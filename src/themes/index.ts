@@ -33,6 +33,7 @@ declare module '@mui/material/styles' {
   interface PaletteColor {
     success: string;
     warning: string;
+    waiting: string;
     error: string;
     info: string;
   }
@@ -41,6 +42,7 @@ declare module '@mui/material/styles/createPalette' {
   interface PaletteColor {
     success?: string;
     warning?: string;
+    waiting?: string;
     error?: string;
     info?: string;
   }
@@ -50,6 +52,7 @@ declare module '@mui/material/styles/createPalette' {
   interface SimplePaletteColorOptions {
     success?: string;
     warning?: string;
+    waiting?: string;
     error?: string;
     info?: string;
   }

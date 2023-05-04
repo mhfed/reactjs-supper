@@ -91,6 +91,12 @@ const useStyles = (props: TableProps) =>
           },
           color: theme.palette.warning.main,
         },
+        '& .waiting': {
+          '&.bg': {
+            background: theme.palette.hover.waiting,
+          },
+          color: theme.palette.info.main,
+        },
         '& .error': {
           '&.bg': {
             background: theme.palette.hover.error,
@@ -451,6 +457,7 @@ type TypeButtonHeader = {
 
 type TableProps = {
   onTableChange: () => void;
+  onApplyFilter?: (filterObj?: any) => void;
   onRowDbClick?: (index: number) => void;
   columns: MUIDataTableColumnDef[];
   rowsPerPageOptions?: number[];
@@ -466,6 +473,7 @@ type TableProps = {
   defaultSort?: LooseObject;
   selectedRow?: boolean;
   showSitename?: boolean;
+  advancedFilter?: JSX.Element | React.ReactNode | null;
   searchAppName?: boolean;
 };
 
@@ -476,6 +484,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     noChangeKey,
     columns = [],
     onTableChange,
+    onApplyFilter,
     onRowDbClick = null,
     onSave,
     rowsPerPageOptions = [15, 25, 50, 100],
@@ -485,6 +494,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     defaultSort,
     selectedRow = false,
     showSitename = false,
+    advancedFilter = null,
     searchAppName = false,
   } = props;
   const [data, setData] = React.useState<ITableData>(props.data || DATA_DEFAULT);
@@ -802,10 +812,12 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
                   customSearch.current = customSearchObj;
                   handleSearch(text);
                 }}
+                handleFilter={onApplyFilter}
                 isEditMode={isEditMode}
                 listBtn={listBtn}
                 handleEdit={handleEdit}
                 showSitename={showSitename}
+                advancedFilter={advancedFilter}
                 customSearch={searchAppName}
               />
             );

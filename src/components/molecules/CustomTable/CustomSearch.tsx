@@ -8,6 +8,7 @@
 
 import React from 'react';
 import TextField from '@mui/material/TextField';
+import Paper from '@mui/material/Paper';
 import InputAdornment from '@mui/material/InputAdornment';
 import makeStyles from '@mui/styles/makeStyles';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -19,6 +20,10 @@ import clsx from 'clsx';
 import { AutocompleteField } from 'components/fields';
 import { getSearchAppNameUrl } from 'apis/request.url';
 import { IBundle, LooseObject } from 'models/ICommon';
+import AdvancedFilterIcon from 'assets/icons/AdvancedFilter';
+import Popover from '@mui/material/Popover';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -52,6 +57,21 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  advancedFilterBtn: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    width: 40,
+    height: 40,
+    marginRight: -14,
+    background: theme.palette.primary.main,
+  },
+  buttonWrapper: {
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    width: '100%',
+  },
 }));
 type TypeButtonHeader = {
   label: string;
@@ -64,12 +84,14 @@ type TypeButtonHeader = {
 type CustomSearchProps = {
   searchText: string;
   handleSearch: (text: string, customSearch?: LooseObject) => void;
+  handleFilter?: (filterObj?: any) => void;
   handleEdit: (action: string) => void;
   isEditMode: boolean;
   listBtn?: Array<TypeButtonHeader>;
   editable: boolean;
   isNodata: boolean;
   showSitename: boolean;
+  advancedFilter: JSX.Element | React.ReactNode | null;
   customSearch: boolean;
 };
 
@@ -79,9 +101,11 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
   searchText = '',
   customSearch = false,
   handleSearch,
+  handleFilter,
   handleEdit,
   isEditMode,
   listBtn,
+  advancedFilter: AdvancedFilter = null,
   showSitename = false,
 }) => {
   const classes = useStyles();
@@ -89,6 +113,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const timeoutId = React.useRef<number | null>(null);
   const [appName, setAppName] = React.useState<any>('');
+  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 
   /**
    * Handle search new data with search text
@@ -116,6 +141,36 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
   const onSearchAppName = (value: IBundle) => {
     setAppName(value);
     handleSearch('', value);
+  };
+
+  /**
+   * Clear all advanced filter
+   */
+  const onClearAll = () => {
+    // setAnchorEl(null);
+    handleFilter?.(null);
+  };
+
+  /**
+   * Apply new advanced filter
+   */
+  const onApplyFilter = () => {
+    // setAnchorEl(null);
+    handleFilter?.();
+  };
+
+  /**
+   * Close advanced filter popup
+   */
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  /**
+   * Open advanced filter popup
+   */
+  const openAdvancedFilter = (e: React.MouseEvent<HTMLDivElement>) => {
+    setAnchorEl(e.currentTarget);
   };
 
   return (
@@ -208,15 +263,65 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
           shrink: false,
         }}
         InputProps={{
-          endAdornment: searchText ? (
+          endAdornment: (
             <InputAdornment position="end">
-              <CancelIcon style={{ width: 16, height: 16, cursor: 'pointer' }} onClick={clearSearch} />
+              <>
+                {searchText ? (
+                  <CancelIcon
+                    style={{ width: 16, height: 16, cursor: 'pointer', marginRight: AdvancedFilter ? 8 : 0 }}
+                    onClick={clearSearch}
+                  />
+                ) : (
+                  <></>
+                )}
+                {AdvancedFilter ? (
+                  <div className={classes.advancedFilterBtn} onClick={(e) => openAdvancedFilter(e)}>
+                    <AdvancedFilterIcon />
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </>
             </InputAdornment>
-          ) : null,
+          ),
         }}
         fullWidth
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e)}
       />
+      <Popover
+        open={!!anchorEl}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'center',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        PaperProps={{
+          style: { background: 'transparent' },
+        }}
+      >
+        <Paper sx={{ p: 2, mt: 2 }}>
+          <Typography sx={{ textTransform: 'uppercase', fontWeight: 'bold' }}>
+            <Trans>lang_advanced_filter</Trans>
+          </Typography>
+          {AdvancedFilter}
+          <Stack className={classes.buttonWrapper} direction="row" spacing={2} sx={{ mt: 2 }}>
+            <Button variant="text" color="error" sx={{ textTransform: 'uppercase !important' }} scrollToTop onClick={onClearAll}>
+              <Trans>lang_clear_all</Trans>
+            </Button>
+            <Button variant="outlined" scrollToTop onClick={handleClose}>
+              <Trans>lang_cancel</Trans>
+            </Button>
+            <Button network variant="contained" onClick={onApplyFilter}>
+              <Trans>lang_apply</Trans>
+            </Button>
+          </Stack>
+        </Paper>
+      </Popover>
     </div>
   );
 };
