@@ -8,6 +8,7 @@
 
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
+import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import makeStyles from '@mui/styles/makeStyles';
 import { loginIress, clearError } from 'actions/auth.action';
@@ -176,6 +177,16 @@ export default function SignIn() {
           >
             <Trans>lang_sign_in</Trans>
           </Button>
+          <div className={classes.termsContainer} style={{ marginTop: 16 }}>
+            <Trans
+              components={[
+                <Link key="termsOfService" target="_blank" href={`/novus-fintech-privacy-policy.pdf?${+new Date()}`} />,
+                <Link key="privacyPolicy" target="_blank" href={`/novus-fintech-privacy-policy.pdf?${+new Date()}`} />,
+              ]}
+            >
+              lang_terms_of_service_and_privacy_policy
+            </Trans>
+          </div>
         </form>
       </Box>
     </Paper>
