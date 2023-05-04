@@ -23,7 +23,14 @@ import RadioGroupField from 'components/fields/RadioGroupField';
 import { AutocompleteField, InputField, SelectField, DatePickerField } from 'components/fields';
 import { initialValuesType, isOptionEqualToValue } from '../CreateNewNotification';
 import { ClassNameMap } from 'notistack';
-import { getListSiteNametUrl, getSearchSegment, getSearchSubscribersUrl } from 'apis/request.url';
+import {
+  getListSiteNametUrl,
+  getSearchAppNameUrl,
+  getSearchClientCategoryUrl,
+  getSearchSegment,
+  getSearchSubscribersUrl,
+  getSearchUserGroupUrl,
+} from 'apis/request.url';
 import { LooseObject } from 'models/ICommon';
 
 interface FormCreateNotifiactionProps {
@@ -56,59 +63,57 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             helperText={touched.notification_type && errors.notification_type}
           />
         </Grid>
+        <Grid item xs={12} style={{ paddingBottom: 3 }}>
+          <AutocompleteField
+            name="bundle_id"
+            label="lang_app_name"
+            required
+            getUrl={getSearchAppNameUrl}
+            isOptionEqualToValue={isOptionEqualToValue}
+            getOptionLabel={(option) => `${option.display_name}`}
+            getChipLabel={(option) => option.display_name}
+            value={values.bundle_id}
+            onChange={(value) => setFieldValue('bundle_id', value)}
+            onBlur={() => setFieldTouched('bundle_id', true, true)}
+            error={touched.bundle_id && Boolean(errors.bundle_id)}
+            helperText={(touched.bundle_id && errors.bundle_id) as string}
+          />
+        </Grid>
         {values.notification_type === Segment && (
           <Grid item xs={12} style={{ paddingBottom: 3 }}>
             <AutocompleteField
-              name="segment"
-              label="lang_segment"
+              name="user_group_id"
+              label="lang_user_group"
               required
               multiple={false}
-              getUrl={getSearchSegment}
+              getUrl={getSearchUserGroupUrl}
               isOptionEqualToValue={(option: LooseObject, value: LooseObject) => option?.name === value?.name}
               getOptionLabel={(option) => option?.name || ''}
               getChipLabel={(option) => option?.name || ''}
-              value={values.segment}
-              onChange={(value) => setFieldValue('segment', value)}
-              onBlur={() => setFieldTouched('segment', true, true)}
-              error={touched.segment && Boolean(errors.segment)}
-              helperText={(touched.segment && errors.segment) as string}
+              value={values.user_group_id}
+              onChange={(value) => setFieldValue('user_group_id', value)}
+              onBlur={() => setFieldTouched('user_group_id', true, true)}
+              error={touched.user_group_id && Boolean(errors.user_group_id)}
+              helperText={(touched.user_group_id && errors.user_group_id) as string}
             />
           </Grid>
         )}
         {values.notification_type === Sitename && (
           <Grid item xs={12} style={{ paddingBottom: 3 }}>
             <AutocompleteField
-              name="site_name"
-              label="lang_sitename"
+              name="client_category_id"
+              label="lang_client_category"
               required
-              getUrl={getListSiteNametUrl}
+              getUrl={getSearchClientCategoryUrl}
               isOptionEqualToValue={isOptionEqualToValueSiteName}
               getOptionLabel={(option) => `${option || ''}`}
               getChipLabel={(option: any) => option}
-              value={values.site_name}
-              formatData={(data = []) => data?.map((e: { site_name: string }) => e.site_name)}
-              onChange={(value) => setFieldValue('site_name', value)}
-              onBlur={() => setFieldTouched('site_name', true, true)}
-              error={touched.site_name && Boolean(errors.site_name)}
-              helperText={(touched.site_name && errors.site_name) as string}
-            />
-          </Grid>
-        )}
-        {values.notification_type === Direct && (
-          <Grid item xs={12} style={{ paddingBottom: 3 }}>
-            <AutocompleteField
-              name="subscribers"
-              label="lang_app_name"
-              required
-              getUrl={getSearchSubscribersUrl}
-              isOptionEqualToValue={isOptionEqualToValue}
-              getOptionLabel={(option) => `${option.username} (${option.site_name})`}
-              getChipLabel={(option) => option.username}
-              value={values.subscribers}
-              onChange={(value) => setFieldValue('subscribers', value)}
-              onBlur={() => setFieldTouched('subscribers', true, true)}
-              error={touched.subscribers && Boolean(errors.subscribers)}
-              helperText={(touched.subscribers && errors.subscribers) as string}
+              value={values.client_category_id}
+              formatData={(data = []) => data?.map((e: { client_category_id: string }) => e.client_category_id)}
+              onChange={(value) => setFieldValue('client_category_id', value)}
+              onBlur={() => setFieldTouched('client_category_id', true, true)}
+              error={touched.client_category_id && Boolean(errors.client_category_id)}
+              helperText={(touched.client_category_id && errors.client_category_id) as string}
             />
           </Grid>
         )}

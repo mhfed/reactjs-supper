@@ -26,14 +26,14 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
   const sitenames = React.useMemo(() => {
     const dicCheck: string[] = [];
     const res: LooseObject[] = [];
-    values.subscribers.forEach((e) => {
+    values.bundle_id.forEach((e) => {
       if (!dicCheck.includes(e.site_name)) {
         dicCheck.push(e.site_name);
         res.push(e);
       }
     });
     return res;
-  }, [values.subscribers]);
+  }, [values.bundle_id]);
 
   return (
     <React.Fragment>

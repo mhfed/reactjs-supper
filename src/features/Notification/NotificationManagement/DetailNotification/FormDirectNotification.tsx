@@ -111,7 +111,7 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
                 required
                 isOptionEqualToValue={(opt, select) => opt.subscriber === select.subscriber}
                 getOptionLabel={(opt) => opt.subscriber}
-                value={values.subscribers}
+                value={values.bundle_id}
               />
             </Grid>
           </Grid>

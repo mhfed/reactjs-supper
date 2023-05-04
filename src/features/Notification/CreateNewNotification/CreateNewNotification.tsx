@@ -88,7 +88,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
         message,
         url: 'https://abc.com/',
         mobile_push: true,
-        subscribers: (values?.subscribers || []).map((x) => {
+        bundle_id: (values?.bundle_id || []).map((x) => {
           const { username, site_name } = x || {};
           return {
             username,
@@ -109,7 +109,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
 
     if (values.notification_type === NOTIFICATION_TYPE.Segment) {
       const { title, message } = values;
-      urlSendNoti = postDataUpdateSegmentByID((values?.segment as any)?.segment_id || '');
+      urlSendNoti = postDataUpdateSegmentByID((values?.user_group_id as any)?.segment_id || '');
       bodySendNoti = {
         title,
         message,
@@ -243,7 +243,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
 
 export interface initialValuesType {
   notification_type: string;
-  subscribers: Array<any>;
+  bundle_id: Array<any>;
   title: string;
   site_name: string;
   message: string;
@@ -251,7 +251,7 @@ export interface initialValuesType {
   delivery_type: string;
   expire: string;
   type_expired: string;
-  segment?: string;
+  user_group_id?: string;
   schedule: string;
   expire_time?: string;
   schedule_time?: number;
@@ -259,26 +259,28 @@ export interface initialValuesType {
   segment_name?: string;
   notification_category?: string;
   url?: string;
+  client_category_id: Array<any>;
 }
 
 const initialValues: initialValuesType = {
   notification_type: NOTIFICATION_TYPE.Direct,
-  subscribers: [],
+  bundle_id: [],
   title: '',
   message: '',
   type_url: 'Article',
   delivery_type: DELIVERY_TYPE.Instant,
   expire: '4',
   type_expired: EXPIRE.Weeks,
-  segment: '',
+  user_group_id: '',
   schedule: '',
   site_name: localStorage.getItem('sitename') || '',
   notification_category: '',
   url: '',
+  client_category_id: [],
 };
 
 const validationSchema = yup.object().shape({
-  // subscribers: yup.array().when(['notification_type'], (value, schema) => {
+  // bundle_id: yup.array().when(['notification_type'], (value, schema) => {
   //   return value === NOTIFICATION_TYPE.Direct
   //     ? schema.min(1, 'lang_select_segment_subcriber').required('lang_select_segment_subcriber')
   //     : schema;

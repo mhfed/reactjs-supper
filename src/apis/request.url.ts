@@ -152,6 +152,15 @@ export function getArticlesListUrl({
 export function getSearchSubscribersUrl(searchText = '') {
   return `v1/subscriber/subscribers/query?page_id=1&page_size=50&search=${searchText}`;
 }
+
+export function getSearchUserGroupUrl(searchText = '') {
+  return `v1/dynamic-push/user-group/search?search=${searchText}`;
+}
+
+export function getSearchClientCategoryUrl(searchText = '') {
+  return `v1/dynamic-push/client-category/search?search=${searchText}`;
+}
+
 export function getListSubscriberSegmenttUrl({
   page = 1,
   rowsPerPage = 50,

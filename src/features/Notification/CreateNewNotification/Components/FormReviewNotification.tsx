@@ -35,7 +35,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
     ? `${values?.expire} ${EXPIRE_OPTION_FILTER[values?.type_expired]}`
     : `4 ${EXPIRE_OPTION_FILTER[EXPIRE.Weeks]}`;
 
-  let defaultArray = Array.isArray(values.subscribers) ? values.subscribers.map((x: any) => x?.username) : [];
+  let defaultArray = Array.isArray(values.bundle_id) ? values.bundle_id.map((x: any) => x?.username) : [];
   const { Segment, Sitename } = NOTIFICATION_TYPE;
 
   const renderField = () => {
@@ -48,7 +48,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
             preview
             fullWidth
             variant={'standard'}
-            value={(values.segment as any)?.name}
+            value={(values.user_group_id as any)?.name}
           />
         </React.Fragment>
       );
@@ -88,7 +88,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
         <Autocomplete
           multiple
           id="tags-readOnly"
-          options={values.subscribers}
+          options={values.bundle_id}
           defaultValue={defaultArray}
           readOnly
           freeSolo
@@ -99,7 +99,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
               variant="standard"
               label={
                 <Typography>
-                  <Trans>lang_subscribers</Trans>
+                  <Trans>lang_bundle_id</Trans>
                 </Typography>
               }
             ></TextField>
