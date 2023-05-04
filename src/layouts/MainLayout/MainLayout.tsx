@@ -41,7 +41,7 @@ const MainLayout: FC = () => {
             <Outlet />
           </ErrorBoundary>
         </div>
-        <Footer style={{ position: 'relative' }} />
+        {/* <Footer style={{ position: 'relative' }} /> */}
       </main>
     </div>
   );

@@ -87,7 +87,7 @@ export default function SignIn() {
                 </Typography>
               </div>
             </Box>
-            <Footer />
+            {/* <Footer /> */}
           </Container>
         </div>
       </ThemeProvider>
