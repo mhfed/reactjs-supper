@@ -55,31 +55,32 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
     }
 
     if (values.notification_type === Sitename) {
-      return (
-        <React.Fragment>
-          <Autocomplete
-            multiple
-            id="tags-readOnly"
-            // options={values.sitename}
-            options={[]}
-            value={values.sitename}
-            readOnly
-            freeSolo
-            // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                variant="standard"
-                label={
-                  <Typography>
-                    <Trans>lang_sitename</Trans>
-                  </Typography>
-                }
-              ></TextField>
-            )}
-          />
-        </React.Fragment>
-      );
+      return <React.Fragment>xinchao</React.Fragment>;
+      // return (
+      //   <React.Fragment>
+      //     <Autocomplete
+      //       multiple
+      //       id="tags-readOnly"
+      //       // options={values.sitename}
+      //       options={[]}
+      //       value={values.sitename}
+      //       readOnly
+      //       freeSolo
+      //       // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
+      //       renderInput={(params) => (
+      //         <TextField
+      //           {...params}
+      //           variant="standard"
+      //           label={
+      //             <Typography>
+      //               <Trans>lang_sitename</Trans>
+      //             </Typography>
+      //           }
+      //         ></TextField>
+      //       )}
+      //     />
+      //   </React.Fragment>
+      // );
     }
 
     return (
@@ -142,9 +143,6 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
               value={values.message}
               multiline
             />
-          </Grid>
-          <Grid item xs={12}>
-            <InputField name="type_url" label="lang_type_url" preview fullWidth variant={'standard'} value={values.type_url} />
           </Grid>
         </Grid>
         <Grid item container xs={12} md={6} spacing={2} style={{ height: 'fit-content' }}>

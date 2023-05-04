@@ -121,14 +121,14 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
     //Body and url type sitename
 
     if (values.notification_type === NOTIFICATION_TYPE.Sitename) {
-      const { title, message, sitename } = values;
+      const { title, message, site_name } = values;
       urlSendNoti = postSiteNameSend();
       bodySendNoti = {
         title,
         message,
         url: 'https://abc.com/',
         mobile_push: true,
-        site_name: sitename,
+        site_name: site_name,
       };
     }
 
@@ -245,6 +245,7 @@ export interface initialValuesType {
   notification_type: string;
   subscribers: Array<any>;
   title: string;
+  site_name: string;
   message: string;
   type_url: string;
   delivery_type: string;
@@ -252,11 +253,12 @@ export interface initialValuesType {
   type_expired: string;
   segment?: string;
   schedule: string;
-  sitename?: Array<any>;
   expire_time?: string;
   schedule_time?: number;
   segment_id?: string;
   segment_name?: string;
+  notification_category?: string;
+  url?: string;
 }
 
 const initialValues: initialValuesType = {
@@ -270,15 +272,17 @@ const initialValues: initialValuesType = {
   type_expired: EXPIRE.Weeks,
   segment: '',
   schedule: '',
-  sitename: [],
+  site_name: localStorage.getItem('sitename') || '',
+  notification_category: '',
+  url: '',
 };
 
 const validationSchema = yup.object().shape({
-  subscribers: yup.array().when(['notification_type'], (value, schema) => {
-    return value === NOTIFICATION_TYPE.Direct
-      ? schema.min(1, 'lang_select_segment_subcriber').required('lang_select_segment_subcriber')
-      : schema;
-  }),
+  // subscribers: yup.array().when(['notification_type'], (value, schema) => {
+  //   return value === NOTIFICATION_TYPE.Direct
+  //     ? schema.min(1, 'lang_select_segment_subcriber').required('lang_select_segment_subcriber')
+  //     : schema;
+  // }),
   title: yup.string().trim().required('lang_please_enter_title').max(64, 'lang_validate_title'),
   message: yup.string().trim().required('lang_please_enter_message').max(192, 'lang_validate_message'),
   expire: yup.string().trim().required('lang_enter_expire'),
@@ -296,11 +300,11 @@ const validationSchema = yup.object().shape({
   segment: yup.mixed().when('notification_type', (value, schema) => {
     return value === NOTIFICATION_TYPE.Segment ? schema.required('lang_please_select_segment') : schema;
   }),
-  sitename: yup.array().when('notification_type', (value, schema) => {
-    return value === NOTIFICATION_TYPE.Sitename
-      ? schema.min(1, 'lang_please_select_sitename').required('lang_please_select_sitename')
-      : schema;
-  }),
+  // sitename: yup.array().when('notification_type', (value, schema) => {
+  //   return value === NOTIFICATION_TYPE.Sitename
+  //     ? schema.min(1, 'lang_please_select_sitename').required('lang_please_select_sitename')
+  //     : schema;
+  // }),
   type_url: yup.string().required('lang_url_require'),
 });
 

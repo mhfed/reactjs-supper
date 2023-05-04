@@ -16,6 +16,8 @@ import {
   NOTIFICATION_TYPE,
   EXPIRE_OPTION,
   DELIVERY_TYPE,
+  NOTIFICATION_CATEGORY_OPTIONS,
+  LINKED_SCREEN_OPTIONS,
 } from '../NotificationConstant';
 import RadioGroupField from 'components/fields/RadioGroupField';
 import { AutocompleteField, InputField, SelectField, DatePickerField } from 'components/fields';
@@ -37,8 +39,8 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
   const { values, handleChange, handleBlur, touched, errors, setFieldValue, setFieldTouched } = form || {};
   const { Segment, Sitename, Direct } = NOTIFICATION_TYPE;
 
-  return (
-    <Grid container spacing={2}>
+  const leftSideContainer = () => {
+    return (
       <Grid item container xs={12} md={6} spacing={2}>
         <Grid item xs={12}>
           <RadioGroupField
@@ -76,19 +78,19 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
         {values.notification_type === Sitename && (
           <Grid item xs={12} style={{ paddingBottom: 3 }}>
             <AutocompleteField
-              name="sitename"
+              name="site_name"
               label="lang_sitename"
               required
               getUrl={getListSiteNametUrl}
               isOptionEqualToValue={isOptionEqualToValueSiteName}
               getOptionLabel={(option) => `${option || ''}`}
               getChipLabel={(option: any) => option}
-              value={values.sitename}
+              value={values.site_name}
               formatData={(data = []) => data?.map((e: { site_name: string }) => e.site_name)}
-              onChange={(value) => setFieldValue('sitename', value)}
-              onBlur={() => setFieldTouched('sitename', true, true)}
-              error={touched.sitename && Boolean(errors.sitename)}
-              helperText={(touched.sitename && errors.sitename) as string}
+              onChange={(value) => setFieldValue('site_name', value)}
+              onBlur={() => setFieldTouched('site_name', true, true)}
+              error={touched.site_name && Boolean(errors.site_name)}
+              helperText={(touched.site_name && errors.site_name) as string}
             />
           </Grid>
         )}
@@ -96,7 +98,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
           <Grid item xs={12} style={{ paddingBottom: 3 }}>
             <AutocompleteField
               name="subscribers"
-              label="lang_subscribers"
+              label="lang_app_name"
               required
               getUrl={getSearchSubscribersUrl}
               isOptionEqualToValue={isOptionEqualToValue}
@@ -138,114 +140,109 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             rows={5}
           />
         </Grid>
+      </Grid>
+    );
+  };
+
+  const rightSideContainer = () => {
+    return (
+      <Grid item container xs={12} md={6} spacing={2} style={{ height: 'fit-content' }}>
+        <Grid item xs={12}>
+          <InputField
+            name="site_name"
+            label="lang_sitename"
+            required
+            fullWidth
+            value={values.site_name}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            readOnly={true}
+            error={touched.site_name && Boolean(errors.site_name)}
+            helperText={touched.site_name && errors.site_name}
+          />
+        </Grid>
+        {/* 123 */}
         <Grid item xs={12}>
           <SelectField
-            options={TYPE_URL_OPTIONS}
-            name="type_url"
-            label="lang_type_url"
-            id="type_url"
+            options={NOTIFICATION_CATEGORY_OPTIONS}
+            name="notification_category"
+            label="lang_notification_category"
+            id="notification_category"
             fullWidth
             required
             onBlur={handleBlur}
-            value={values.type_url}
+            value={values.notification_category}
             onChange={handleChange}
-            error={touched.type_url && Boolean(errors.type_url)}
-            helperText={touched.type_url && errors.type_url}
+            error={touched.notification_category && Boolean(errors.notification_category)}
+            helperText={touched.notification_category && errors.notification_category}
           />
         </Grid>
-      </Grid>
-      <Grid item container xs={12} md={6} spacing={2} style={{ height: 'fit-content' }}>
-        {[Segment, Sitename].includes(values.notification_type) ? (
-          <React.Fragment>
+        {/* 123 */}
+        <Grid item xs={12}>
+          <SelectField
+            options={LINKED_SCREEN_OPTIONS}
+            name="url"
+            label="lang_linked_screen"
+            id="url"
+            fullWidth
+            required
+            onBlur={handleBlur}
+            value={values.url}
+            onChange={handleChange}
+            error={touched.url && Boolean(errors.url)}
+            helperText={touched.url && errors.url}
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <Grid item container xs={12}>
             <Grid item xs={12}>
-              <InputField
-                name="expire"
-                label="lang_expire"
+              <RadioGroupField
+                name="delivery_type"
+                label="lang_delivery_type"
+                data={DELIVERY_TYPE_OPTION}
                 required
-                fullWidth
-                value={values.expire}
-                style={{ visibility: 'hidden' }}
+                rowItems
+                value={values?.delivery_type}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched?.delivery_type && Boolean(errors?.delivery_type)}
+                helperText={touched.delivery_type && errors.delivery_type}
               />
             </Grid>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <Grid item xs={12}>
-              <Grid item container xs={12}>
-                <Grid item xs={12}>
-                  <RadioGroupField
-                    name="delivery_type"
-                    label="lang_delivery_type"
-                    data={DELIVERY_TYPE_OPTION}
-                    required
-                    rowItems
-                    value={values?.delivery_type}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched?.delivery_type && Boolean(errors?.delivery_type)}
-                    helperText={touched.delivery_type && errors.delivery_type}
-                  />
-                </Grid>
-              </Grid>
-            </Grid>
+          </Grid>
+        </Grid>
 
-            <Grid item xs={12}>
-              <Grid item container xs={12} spacing={2}>
-                <Grid item xs={6} xl={3}>
-                  <Grid item xs={12}>
-                    <InputField
-                      name="expire"
-                      label="lang_expire"
-                      required
-                      fullWidth
-                      value={values.expire}
-                      onChange={(e) => {
-                        if (/^[1-9]{1}[0-9]{0,2}$/.test(e.target.value) || e.target.value === '') handleChange(e);
-                      }}
-                      onBlur={handleBlur}
-                      error={touched.expire && Boolean(errors.expire)}
-                      helperText={touched.expire && errors.expire}
-                    />
-                  </Grid>
-                </Grid>
-                <Grid item xs={6} xl={3}>
-                  <SelectField
-                    options={EXPIRE_OPTION}
-                    name="type_expired"
-                    label="lang_type"
-                    id="type_expired"
-                    fullWidth
-                    onBlur={handleBlur}
-                    value={values.type_expired}
-                    onChange={handleChange}
-                    error={touched.type_expired && Boolean(errors.type_expired)}
-                    helperText={touched.type_expired && errors.type_expired}
-                  />
-                </Grid>
-                <Grid item xs={12} xl={6} style={{ paddingBottom: 16 }}>
-                  {values?.delivery_type === DELIVERY_TYPE.Instant ? (
-                    <></>
-                  ) : (
-                    <DatePickerField
-                      name="schedule"
-                      required
-                      value={values.schedule}
-                      label={'lang_schedule_time'}
-                      inputFormat={'DD/MM/YYYY HH:mm'}
-                      onChange={(v) => setFieldValue('schedule', v ? new Date(v) : v)}
-                      fullWidth
-                      onBlur={handleBlur}
-                      minDate={new Date()}
-                      error={touched.schedule && Boolean(errors.schedule)}
-                      helperText={touched.schedule && errors.schedule}
-                    />
-                  )}
-                </Grid>
-              </Grid>
+        <Grid item xs={12}>
+          <Grid item container xs={12} spacing={2}>
+            <Grid item xs={12} xl={6} style={{ paddingBottom: 16 }}>
+              {values?.delivery_type === DELIVERY_TYPE.Instant ? (
+                <></>
+              ) : (
+                <DatePickerField
+                  name="schedule"
+                  required
+                  value={values.schedule}
+                  label={'lang_schedule_time'}
+                  inputFormat={'DD/MM/YYYY HH:mm'}
+                  onChange={(v) => setFieldValue('schedule', v ? new Date(v) : v)}
+                  fullWidth
+                  onBlur={handleBlur}
+                  minDate={new Date()}
+                  error={touched.schedule && Boolean(errors.schedule)}
+                  helperText={touched.schedule && errors.schedule}
+                />
+              )}
             </Grid>
-          </React.Fragment>
-        )}
+          </Grid>
+        </Grid>
       </Grid>
+    );
+  };
+  return (
+    <Grid container spacing={2}>
+      {leftSideContainer()}
+      {rightSideContainer()}
     </Grid>
   );
 };

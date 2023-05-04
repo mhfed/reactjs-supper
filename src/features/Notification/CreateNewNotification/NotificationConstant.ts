@@ -17,15 +17,15 @@ const { Direct, Segment, Sitename } = NOTIFICATION_TYPE;
 export const NOTIFICATION_TYPE_OPTION = [
   {
     value: Direct,
-    label: 'lang_direct',
+    label: 'lang_app',
   },
   {
     value: Segment,
-    label: 'lang_segment',
+    label: 'lang_user_group',
   },
   {
     value: Sitename,
-    label: 'lang_sitename',
+    label: 'lang_client_category',
   },
 ];
 
@@ -90,6 +90,38 @@ export const TYPE_URL_OPTIONS = [
   {
     label: 'lang_article',
     value: 'Article',
+  },
+];
+
+// Linked Screen
+
+export const LINKED_SCREEN_OPTIONS = [
+  {
+    label: 'lang_notifications',
+    value: 'Notifications',
+  },
+];
+
+export const NOTIFICATION_CATEGORY_OPTIONS = [
+  {
+    label: 'lang_insights',
+    value: 'Insights',
+  },
+  {
+    label: 'lang_site_maintenance',
+    value: 'Site Maintenance',
+  },
+  {
+    label: 'lang_client_events',
+    value: 'Client Events',
+  },
+  {
+    label: 'lang_products',
+    value: 'Products',
+  },
+  {
+    label: 'lang_others',
+    value: 'lang_others',
   },
 ];
 
