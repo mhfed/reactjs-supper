@@ -196,6 +196,7 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
                 <AutocompleteField
                   name="sitename_custom"
                   label="lang_enter_sitename"
+                  sizeInput="small"
                   required
                   getUrl={getSearchSitenameUrl}
                   isOptionEqualToValue={(opt, select) => opt.site_name === select.site_name}

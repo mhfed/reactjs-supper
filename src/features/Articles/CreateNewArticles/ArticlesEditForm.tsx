@@ -261,6 +261,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
                 <AutocompleteField
                   name="sitename_custom"
                   label="lang_enter_sitename"
+                  sizeInput="small"
                   required
                   getUrl={getSearchSitenameUrl}
                   isOptionEqualToValue={(opt, select) => opt.site_name === select.site_name}

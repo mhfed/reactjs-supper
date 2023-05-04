@@ -48,6 +48,7 @@ type AutocompleteFieldProps = {
   formatData?: (data: any) => any[];
   multiple?: boolean;
   disableClearable?: boolean;
+  sizeInput?: 'small' | 'medium';
 };
 
 const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
@@ -70,6 +71,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   readOnly = false,
   multiple = true,
   disableClearable = true,
+  sizeInput = 'medium',
 }) => {
   const classes = useStyles();
   const [loading, setLoading] = React.useState(false);
@@ -224,7 +226,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
             required={preview ? false : required}
             {...params}
             id={name}
-            size="small"
+            size={sizeInput}
             inputRef={inputRef}
             variant={preview ? 'standard' : 'outlined'}
             value={value}
