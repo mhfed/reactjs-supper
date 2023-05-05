@@ -6,45 +6,45 @@
  * Copyright (c) 2023 - Novus Fintech
  */
 
-export type Notification_Type = 'Direct' | 'Segment' | 'Sitename';
+export type Notification_Type = 'App' | 'UserGroup' | 'ClientCategory';
 
-export const NOTIFICATION_TYPE = { Direct: 'Direct', Segment: 'Segment', Sitename: 'Sitename' };
+export const NOTIFICATION_TYPE = { App: 'App', UserGroup: 'UserGroup', ClientCategory: 'ClientCategory' };
 export const DELIVERY_TYPE = { Instant: 'Instant', Schedule: 'Schedule' };
 export const EXPIRE = { Hours: 'H', Days: 'D', Weeks: 'W' };
 
-const { Direct, Segment, Sitename } = NOTIFICATION_TYPE;
+const { App, UserGroup, ClientCategory } = NOTIFICATION_TYPE;
 
 export const NOTIFICATION_TYPE_OPTION = [
   {
-    value: Direct,
+    value: App,
     label: 'lang_app',
   },
   {
-    value: Segment,
+    value: UserGroup,
     label: 'lang_user_group',
   },
   {
-    value: Sitename,
+    value: ClientCategory,
     label: 'lang_client_category',
   },
 ];
 
 export const NOTIFICATION_TYPE_OPTION_FILTER = {
-  [Direct]: [
+  [App]: [
     {
-      value: Direct,
+      value: App,
       label: 'lang_direct',
     },
   ],
-  [Segment]: [
+  [UserGroup]: [
     {
-      value: Segment,
+      value: UserGroup,
       label: 'lang_segment',
     },
   ],
-  [Sitename]: [
+  [ClientCategory]: [
     {
-      value: Sitename,
+      value: ClientCategory,
       label: 'lang_sitename',
     },
   ],

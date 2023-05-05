@@ -22,11 +22,11 @@ interface FormDirectNotificationProps {
 
 const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, classes }) => {
   const { values } = form;
-  const { Segment, Sitename, Direct } = NOTIFICATION_TYPE;
+  const { UserGroup, ClientCategory, App } = NOTIFICATION_TYPE;
 
   let delivery_type_preview = `${values?.delivery_type || ''}`;
 
-  if (values.notification_type === Direct) {
+  if (values.notification_type === App) {
     delivery_type_preview += ` ${
       values?.schedule_time
         ? moment(values?.schedule_time || '')
@@ -62,7 +62,7 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
           </Grid>
         </Grid>
         <Grid item container xs={12} md={6} spacing={3} style={{ height: 'fit-content' }}>
-          {[Segment, Sitename].includes(values.notification_type) ? (
+          {[UserGroup, ClientCategory].includes(values.notification_type) ? (
             <React.Fragment>
               <Grid item xs={12} style={{ height: 81 }}>
                 <InputField

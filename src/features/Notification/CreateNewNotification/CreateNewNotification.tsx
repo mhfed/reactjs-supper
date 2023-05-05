@@ -80,7 +80,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
 
     //Body and url type Direct
 
-    if (values.notification_type === NOTIFICATION_TYPE.Direct) {
+    if (values.notification_type === NOTIFICATION_TYPE.App) {
       const { title, message, expire, type_expired, delivery_type } = values;
       urlSendNoti = postDirectSend();
       bodySendNoti = {
@@ -107,7 +107,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
 
     //Body and url type Segment
 
-    if (values.notification_type === NOTIFICATION_TYPE.Segment) {
+    if (values.notification_type === NOTIFICATION_TYPE.UserGroup) {
       const { title, message } = values;
       urlSendNoti = postDataUpdateSegmentByID((values?.user_group_id as any)?.segment_id || '');
       bodySendNoti = {
@@ -120,7 +120,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
 
     //Body and url type sitename
 
-    if (values.notification_type === NOTIFICATION_TYPE.Sitename) {
+    if (values.notification_type === NOTIFICATION_TYPE.ClientCategory) {
       const { title, message, site_name } = values;
       urlSendNoti = postSiteNameSend();
       bodySendNoti = {
@@ -263,7 +263,7 @@ export interface initialValuesType {
 }
 
 const initialValues: initialValuesType = {
-  notification_type: NOTIFICATION_TYPE.Direct,
+  notification_type: NOTIFICATION_TYPE.App,
   bundle_id: [],
   title: '',
   message: '',
@@ -280,17 +280,22 @@ const initialValues: initialValuesType = {
 };
 
 const validationSchema = yup.object().shape({
-  // bundle_id: yup.array().when(['notification_type'], (value, schema) => {
-  //   return value === NOTIFICATION_TYPE.Direct
-  //     ? schema.min(1, 'lang_select_segment_subcriber').required('lang_select_segment_subcriber')
-  //     : schema;
-  // }),
+  bundle_id: yup.array().min(1, 'lang_app_name_require').required('lang_app_name_require'),
+  user_group_id: yup.array().when(['notification_type'], (value, schema) => {
+    return value === NOTIFICATION_TYPE.UserGroup
+      ? schema.min(1, 'lang_user_group_require').required('lang_user_group_require')
+      : schema;
+  }),
+  client_category_id: yup.array().when(['notification_type'], (value, schema) => {
+    return value === NOTIFICATION_TYPE.ClientCategory
+      ? schema.min(1, 'lang_client_category_id_require').required('lang_client_category_id_require')
+      : schema;
+  }),
   title: yup.string().trim().required('lang_please_enter_title').max(64, 'lang_validate_title'),
   message: yup.string().trim().required('lang_please_enter_message').max(192, 'lang_validate_message'),
-  expire: yup.string().trim().required('lang_enter_expire'),
   schedule: yup.string().when(['delivery_type', 'notification_type'], {
     is: (delivery_type: 'Instant' | 'Schedule', notification_type: Notification_Type) => {
-      return delivery_type === DELIVERY_TYPE.Schedule && notification_type === NOTIFICATION_TYPE.Direct;
+      return delivery_type === DELIVERY_TYPE.Schedule && notification_type === NOTIFICATION_TYPE.App;
     },
     then: yup
       .string()
@@ -299,12 +304,8 @@ const validationSchema = yup.object().shape({
       .compareTimesLocal()
       .compareTimes('error_code_INVALID_TIME'),
   }),
-  // sitename: yup.array().when('notification_type', (value, schema) => {
-  //   return value === NOTIFICATION_TYPE.Sitename
-  //     ? schema.min(1, 'lang_please_select_sitename').required('lang_please_select_sitename')
-  //     : schema;
-  // }),
-  type_url: yup.string().required('lang_url_require'),
+  notification_category: yup.string().required('lang_notification_category_require'),
+  url: yup.string().required('lang_linked_screen_require'),
 });
 
 export default CreateNewNotification;

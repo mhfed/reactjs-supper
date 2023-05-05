@@ -146,7 +146,7 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
 
     //Body and url type Direct
     else {
-      if (values.notification_type === NOTIFICATION_TYPE.Direct) {
+      if (values.notification_type === NOTIFICATION_TYPE.App) {
         const { title, message, expire, type_expired, delivery_type } = values;
         urlSendNoti = getNotificationUrl(props.dataForm.notification_id);
         bodySendNoti = {
@@ -339,7 +339,7 @@ export interface initialValuesType {
 }
 
 const initialValuesDefault: initialValuesType = {
-  notification_type: NOTIFICATION_TYPE.Direct,
+  notification_type: NOTIFICATION_TYPE.App,
   subscribers: [],
   title: '',
   message: '',
@@ -354,7 +354,7 @@ const initialValuesDefault: initialValuesType = {
 
 const validationSchema = yup.object().shape({
   subscribers: yup.array().when(['notification_type'], (value, schema) => {
-    return value === NOTIFICATION_TYPE.Direct
+    return value === NOTIFICATION_TYPE.App
       ? schema.min(1, 'lang_select_segment_subcriber').required('lang_select_segment_subcriber')
       : schema;
   }),
@@ -362,7 +362,7 @@ const validationSchema = yup.object().shape({
   message: yup.string().required('lang_please_enter_message').max(192, 'lang_validate_message'),
   schedule: yup.string().when(['delivery_type', 'notification_type'], {
     is: (delivery_type: 'Instant' | 'Schedule', notification_type: Notification_Type) => {
-      return delivery_type === DELIVERY_TYPE.Schedule && notification_type === NOTIFICATION_TYPE.Direct;
+      return delivery_type === DELIVERY_TYPE.Schedule && notification_type === NOTIFICATION_TYPE.App;
     },
     then: yup
       .string()
@@ -373,10 +373,10 @@ const validationSchema = yup.object().shape({
     // .checkValidField('lang_schedule_time_required'),
   }),
   segment: yup.mixed().when('notification_type', (value, schema) => {
-    return value === NOTIFICATION_TYPE.Segment ? schema.required('lang_please_select_segment') : schema;
+    return value === NOTIFICATION_TYPE.UserGroup ? schema.required('lang_please_select_segment') : schema;
   }),
   sitename: yup.array().when('notification_type', (value, schema) => {
-    return value === NOTIFICATION_TYPE.Sitename
+    return value === NOTIFICATION_TYPE.ClientCategory
       ? schema.min(1, 'lang_please_select_sitename').required('lang_please_select_sitename')
       : schema;
   }),

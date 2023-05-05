@@ -63,29 +63,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const STATE_FORM = {
-  DETAIL: 'DETAIL',
-  EDIT: 'EDIT',
-};
-
 const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataForm, reCallChangeTable }) => {
   const classes = useStyles();
   const { hideModal, showModal } = useGlobalModalContext();
   const dispatch = useDispatch();
-  const { Segment, Direct } = NOTIFICATION_TYPE;
-  const handleClose = () => {
-    if (typePage === STATE_FORM.DETAIL) {
-      hideModal();
-    }
-  };
+  const { UserGroup, App } = NOTIFICATION_TYPE;
 
   const renderContent = (form: FormikProps<initialValuesType>) => {
     const { values } = form;
     switch (values.notification_type) {
-      case Direct: {
+      case App: {
         return <FormDirectNotification form={form} classes={classes} />;
       }
-      case Segment: {
+      case UserGroup: {
         return <FormSegmentNotification form={form} classes={classes} />;
       }
       default: {

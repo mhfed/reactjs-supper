@@ -12,9 +12,7 @@ import { FormikProps } from 'formik';
 import {
   DELIVERY_TYPE_OPTION,
   NOTIFICATION_TYPE_OPTION,
-  TYPE_URL_OPTIONS,
   NOTIFICATION_TYPE,
-  EXPIRE_OPTION,
   DELIVERY_TYPE,
   NOTIFICATION_CATEGORY_OPTIONS,
   LINKED_SCREEN_OPTIONS,
@@ -23,16 +21,8 @@ import RadioGroupField from 'components/fields/RadioGroupField';
 import { AutocompleteField, InputField, SelectField, DatePickerField } from 'components/fields';
 import { initialValuesType, isOptionEqualToValue } from '../CreateNewNotification';
 import { ClassNameMap } from 'notistack';
-import {
-  getListSiteNametUrl,
-  getSearchAppNameUrl,
-  getSearchClientCategoryUrl,
-  getSearchSegment,
-  getSearchSubscribersUrl,
-  getSearchUserGroupUrl,
-} from 'apis/request.url';
+import { getSearchAppNameUrl, getSearchClientCategoryUrl, getSearchUserGroupUrl } from 'apis/request.url';
 import { LooseObject } from 'models/ICommon';
-
 interface FormCreateNotifiactionProps {
   form: FormikProps<initialValuesType>;
   classes: ClassNameMap<'wrapper' | 'radioField' | 'formContainer'>;
@@ -44,7 +34,7 @@ export const isOptionEqualToValueSiteName = (option: any, value: any) => {
 
 const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, classes, ...rest }) => {
   const { values, handleChange, handleBlur, touched, errors, setFieldValue, setFieldTouched } = form || {};
-  const { Segment, Sitename, Direct } = NOTIFICATION_TYPE;
+  const { UserGroup, ClientCategory } = NOTIFICATION_TYPE;
 
   const leftSideContainer = () => {
     return (
@@ -79,7 +69,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             helperText={(touched.bundle_id && errors.bundle_id) as string}
           />
         </Grid>
-        {values.notification_type === Segment && (
+        {values.notification_type === UserGroup && (
           <Grid item xs={12} style={{ paddingBottom: 3 }}>
             <AutocompleteField
               name="user_group_id"
@@ -98,7 +88,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             />
           </Grid>
         )}
-        {values.notification_type === Sitename && (
+        {values.notification_type === ClientCategory && (
           <Grid item xs={12} style={{ paddingBottom: 3 }}>
             <AutocompleteField
               name="client_category_id"

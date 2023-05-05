@@ -1,4 +1,9 @@
 {
+  "lang_linked_screen_require": "Please select linked screen",
+  "lang_notification_category_require": "Please select notification  category",
+  "lang_client_category_id_require": "Please select client category",
+  "lang_user_group_require": "Please select user group(s)",
+  "lang_app_name_require": "Please select App Name",
   "lang_client_category": "Client Category",
   "lang_user_group": "User Group(s)",
   "lang_app": "App",

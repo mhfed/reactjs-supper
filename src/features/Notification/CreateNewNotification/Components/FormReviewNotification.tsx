@@ -7,18 +7,11 @@
  */
 
 import React from 'react';
-import { Grid, Autocomplete, TextField, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 import { FormikProps } from 'formik';
-import {
-  NOTIFICATION_TYPE,
-  NOTIFICATION_TYPE_OPTION_FILTER,
-  EXPIRE_OPTION_FILTER,
-  EXPIRE,
-  DELIVERY_TYPE,
-} from '../NotificationConstant';
+import { NOTIFICATION_TYPE, NOTIFICATION_TYPE_OPTION_FILTER, DELIVERY_TYPE } from '../NotificationConstant';
 import RadioGroupField from 'components/fields/RadioGroupField';
 import { AutocompleteField, InputField } from 'components/fields';
-import { Trans } from 'react-i18next';
 import { initialValuesType } from '../CreateNewNotification';
 import { ClassNameMap } from 'notistack';
 import moment from 'moment';
@@ -40,10 +33,10 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
   }`;
 
   let defaultArray = Array.isArray(values.bundle_id) ? values.bundle_id.map((x: any) => x?.display_name) : [];
-  const { Segment, Sitename } = NOTIFICATION_TYPE;
+  const { UserGroup, ClientCategory } = NOTIFICATION_TYPE;
 
   const renderField = () => {
-    if (values.notification_type === Segment) {
+    if (values.notification_type === UserGroup) {
       return (
         <Grid item xs={12}>
           <AutocompleteField
@@ -61,7 +54,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
       );
     }
 
-    if (values.notification_type === Sitename) {
+    if (values.notification_type === ClientCategory) {
       return (
         <Grid item xs={12}>
           <AutocompleteField
