@@ -13,7 +13,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import ErrorBoundary from 'containers/ErrorBoundary';
 import NavBar from './NavBar';
 import TopBar from './TopBar';
-import Footer from './Footer';
 
 // styles
 import useStyles from './styles';
@@ -41,7 +40,6 @@ const MainLayout: FC = () => {
             <Outlet />
           </ErrorBoundary>
         </div>
-        {/* <Footer style={{ position: 'relative' }} /> */}
       </main>
     </div>
   );

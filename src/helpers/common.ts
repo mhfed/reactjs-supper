@@ -49,7 +49,7 @@ export const convertArticlesDataToDetailForm = (data: IArticlesDataManagement) =
     site_name: typeof data.site_name === 'string' || checkSiteName(data.site_name) ? SITENAME.ALL_SITES : SITENAME.CUSTOM,
     appname_custom:
       data.site_name?.length && !checkSiteName(data.site_name) ? data.site_name.map((e: string) => ({ site_name: e })) : [],
-    subject: data.subject,
+    title: data.title,
   };
 };
 
@@ -75,7 +75,7 @@ export const compareArray = (arr1: string[], arr2: string[]) => {
  * @returns true if diff
  */
 export const checkDiffArticlesEdit = (oldData: IArticlesFormData, newData: IArticlesFormData) => {
-  if (oldData.subject !== newData.subject) return true;
+  if (oldData.title !== newData.title) return true;
   if (oldData.content !== newData.content) return true;
   if (oldData.security_type !== newData.security_type) return true;
   if ((typeof oldData.site_name === 'string' || typeof newData.site_name === 'string') && oldData.site_name !== newData.site_name)

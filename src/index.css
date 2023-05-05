@@ -216,6 +216,9 @@ input[type='number']::-webkit-outer-spin-button {
   width: 100%;
   margin: 8px 0;
 }
+.rdw-image-imagewrapper img {
+  width: 100%;
+}
 
 .rdw-image-alignment-options-popup {
   color: #000000;
@@ -287,10 +290,10 @@ div[class*='MUIDataTableSelectCell-fixedLeft'] {
   pointer-events: none;
 }
 
-.MuiButton-text.Mui-disabled {
+.customBtnDisable.Mui-disabled {
   background: transparent !important;
 }
 
-::-webkit-scrollbar-track {
+::-webkit-scrollbar-corner {
   background: transparent;
 }

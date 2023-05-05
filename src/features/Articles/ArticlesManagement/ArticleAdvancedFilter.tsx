@@ -97,6 +97,7 @@ const ArticleAdvancedFilter: React.FC<ArticleAdvancedFilterProps> = ({ onClose, 
         <Button
           variant="text"
           color="error"
+          className="customBtnDisable"
           disabled={!values.app_name?.length}
           sx={{ textTransform: 'uppercase !important' }}
           scrollToTop

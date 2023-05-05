@@ -265,10 +265,10 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
             </Grid>
           </Grid>
           <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button variant="outlined" disabled={!isChange} onClick={onSaveDraft}>
+            <Button variant="outlined" className="customBtnDisable" disabled={!isChange} network onClick={onSaveDraft}>
               <Trans>lang_save_draft</Trans>
             </Button>
-            <Button variant="outlined" onClick={onClear}>
+            <Button variant="outlined" sx={{ ml: 2 }} onClick={onClear}>
               <Trans>lang_clear</Trans>
             </Button>
             <Button type="submit" variant="contained" sx={{ ml: 2 }} network scrollToTop>

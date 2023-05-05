@@ -29,13 +29,14 @@ import Button from 'components/atoms/ButtonBase';
 import { Trans } from 'react-i18next';
 import { getSearchAppNameUrl, getSearchSecurityCodeUrl, getArticlesUrl, getUploadUrl } from 'apis/request.url';
 import { useGlobalModalContext } from 'containers/Modal';
-import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
+import ConfirmModal from 'components/molecules/ConfirmModal';
 import { httpRequest } from 'services/initRequest';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { isBlobFile } from 'helpers';
 import { STEP } from '../ArticlesConstants';
 import ArticlesPreviewForm from './ArticlesPreviewForm';
+import { ARTICLE_STATUS } from '../../Notification/NotificationConstants';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -70,7 +71,6 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
    * Check data change and show popup confirm
    */
   const handleBeforeSubmit = (values: LooseObject) => {
-    const isDiff = checkDiffArticlesEdit(initValues, values);
     if (!isDiff) {
       dispatch(
         enqueueSnackbarAction({
@@ -80,31 +80,28 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
         }),
       );
     } else {
-      showSubModal({
-        title: 'lang_confirm',
-        component: ConfirmEditModal,
-        props: {
-          title: 'lang_enter_your_email_to_edit_article',
-          emailConfirm: true,
-          titleTransValues: { user: values.user_login },
-          onSubmit: () => handleFormSubmit(values),
-        },
-      });
+      setStep(STEP.PREVIEW);
     }
   };
+
+  const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, setFieldTouched } = useFormik({
+    initialValues: { ...initialValues, ...initValues },
+    validationSchema: validationSchema,
+    onSubmit: handleBeforeSubmit,
+  });
 
   /**
    * Come back to create form from preview mode
    */
   const onReturn = () => {
-    setStep(STEP.CREATE);
+    setStep(STEP.EDIT);
   };
 
   /**
    * Handle submit edit articles
    * @param values Form value
    */
-  const handleFormSubmit = async (values: LooseObject) => {
+  const onSubmit = async (cb: () => void) => {
     try {
       const body: ICreateArticlesBody = {
         title: values.title,
@@ -145,9 +142,11 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
           variant: 'success',
         }),
       );
+      cb?.();
       onSuccess?.();
       hideModal();
     } catch (error) {
+      cb?.();
       dispatch(
         enqueueSnackbarAction({
           message: 'lang_update_articles_unsuccessfully',
@@ -165,13 +164,13 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
     const isDiff = checkDiffArticlesEdit(initValues, values);
     if (isDiff) {
       showSubModal({
-        title: 'lang_confirm_cancel',
-        component: ConfirmEditModal,
+        title: 'lang_confirm',
+        component: ConfirmModal,
         props: {
-          title: 'lang_confirm_cancel_text',
-          cancelText: 'lang_no',
-          confirmText: 'lang_yes',
-          emailConfirm: false,
+          open: true,
+          alertTitle: 'lang_confirm_cancel',
+          alertContent: 'lang_confirm_cancel_text',
+          onClose: () => hideSubModal(),
           onSubmit: () => {
             if (editFirst) hideModal();
             else {
@@ -179,6 +178,8 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
               onCancel();
             }
           },
+          textCancel: 'lang_no',
+          textSubmit: 'lang_yes',
         },
       });
     } else if (editFirst) {
@@ -188,12 +189,15 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
     }
   };
 
-  const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, setFieldTouched } = useFormik({
-    initialValues: { ...initialValues, ...initValues },
-    validationSchema: validationSchema,
-    onSubmit: handleBeforeSubmit,
-  });
+  /**
+   * Hanle save draft, switch to preview with draft mode
+   */
+  const onSaveDraft = () => {
+    setStep(STEP.PREVIEW);
+  };
 
+  const isDiff = checkDiffArticlesEdit(initValues, values);
+  const isTriggered = initValues.status === ARTICLE_STATUS.TRIGGERED;
   return (
     <>
       {step === STEP.EDIT ? (
@@ -243,38 +247,41 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <SelectField
-                    options={SECURITY_TYPE_OPTIONS}
-                    name="security_type"
-                    label="lang_security_type"
-                    required
-                    fullWidth
-                    value={values?.security_type}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched?.security_type && Boolean(errors?.security_type)}
-                    helperText={touched.security_type && errors.security_type}
-                  />
-                </Grid>
-                <Grid item xs={12}>
                   <RadioGroupField
-                    name="site_name"
-                    label="lang_sitename"
+                    name="app"
+                    label="lang_app"
                     data={APPNAME_OPTIONS}
                     required
                     rowItems
-                    value={values.site_name}
+                    disabled={isTriggered}
+                    value={values.app}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={touched?.site_name && Boolean(errors?.site_name)}
-                    helperText={touched.site_name && errors.site_name}
+                    error={touched?.app && Boolean(errors?.app)}
+                    helperText={touched.app && errors.app}
                   />
                 </Grid>
-                {values.site_name === APPNAME.CUSTOM ? (
+                <Grid item xs={12}>
+                  <InputField
+                    name="sitename"
+                    label="lang_sitename"
+                    required
+                    fullWidth
+                    disabled
+                    maxLength={255}
+                    value={values.sitename}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.sitename && Boolean(errors.sitename)}
+                    helperText={touched.sitename && errors.sitename}
+                  />
+                </Grid>
+                {values.app === APPNAME.CUSTOM ? (
                   <Grid item xs={12}>
                     <AutocompleteField
+                      disabled={isTriggered}
                       name="appname_custom"
-                      label="lang_enter_sitename"
+                      label="lang_app_name"
                       required
                       getUrl={getSearchAppNameUrl}
                       isOptionEqualToValue={(opt, select) => opt.bundle_id === select.bundle_id}
@@ -289,6 +296,20 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
                 ) : (
                   <></>
                 )}
+                <Grid item xs={12}>
+                  <SelectField
+                    options={SECURITY_TYPE_OPTIONS}
+                    name="security_type"
+                    label="lang_security_type"
+                    required
+                    fullWidth
+                    value={values?.security_type}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched?.security_type && Boolean(errors?.security_type)}
+                    helperText={touched.security_type && errors.security_type}
+                  />
+                </Grid>
                 <Grid item xs={12}>
                   <AutocompleteField
                     name="securities"
@@ -315,7 +336,14 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
                   />
                 </Grid>
                 <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end', pb: 3 }}>
-                  <Button variant="outlined" onClick={() => handleCancel()} scrollToTop>
+                  {!isTriggered ? (
+                    <Button variant="outlined" className="customBtnDisable" disabled={!isDiff} network onClick={onSaveDraft}>
+                      <Trans>lang_save_draft</Trans>
+                    </Button>
+                  ) : (
+                    <></>
+                  )}
+                  <Button variant="outlined" sx={{ ml: 2 }} onClick={() => handleCancel()} scrollToTop>
                     <Trans>{editFirst ? 'lang_cancel' : 'lang_back'}</Trans>
                   </Button>
                   <Button type="submit" variant="contained" sx={{ ml: 2 }} network scrollToTop>
@@ -327,7 +355,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
           </Paper>
         </>
       ) : (
-        <ArticlesPreviewForm isSaveDraft={initValues.article_type === 'draft'} onReturn={onReturn} values={values} />
+        <ArticlesPreviewForm onReturn={onReturn} values={values} onSubmit={onSubmit} />
       )}
     </>
   );
@@ -341,6 +369,7 @@ const initialValues = {
   image: '',
   file: '',
   app: APPNAME.ALL_APPS,
+  sitename: localStorage.getItem('sitename'),
   appname_custom: [],
   securities: [],
   security_type: '',

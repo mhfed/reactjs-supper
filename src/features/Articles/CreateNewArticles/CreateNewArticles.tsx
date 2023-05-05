@@ -11,11 +11,19 @@ import ArticlesCreateForm from './ArticlesCreateForm';
 import ArticlesPreviewForm from './ArticlesPreviewForm';
 import { STEP } from '../ArticlesConstants';
 import { LooseObject } from 'models/ICommon';
+import { httpRequest } from 'services/initRequest';
+import { ICreateArticlesBody } from 'models/IArticles';
+import { IBundle } from 'models/ICommon';
+import { useDispatch } from 'react-redux';
+import { enqueueSnackbarAction } from 'actions/app.action';
+import { getUploadUrl, getArticlesUrl } from 'apis/request.url';
+import { APPNAME } from '../ArticlesConstants';
 
 const CreateNewArticles = () => {
   const [step, setStep] = React.useState<number>(STEP.CREATE);
   const data = React.useRef<LooseObject>({});
   const isSaveDraft = React.useRef(false);
+  const dispatch = useDispatch();
 
   /**
    * Switch to preview mode from create form
@@ -35,11 +43,54 @@ const CreateNewArticles = () => {
   };
 
   /**
-   * Reset data and come back to create form from preview mode
+   * Submit create article
    */
-  const onReset = () => {
-    data.current = {};
-    setStep(STEP.CREATE);
+  const onSubmit = async (cb: () => void, publishWithNotification: boolean = true) => {
+    try {
+      const formData = new FormData();
+      const values = { ...data.current };
+      formData.append('file', values.image.file);
+      const { data: imageResponse } = await httpRequest.post(getUploadUrl(), formData);
+      const body: ICreateArticlesBody = {
+        title: values.title,
+        content: values.content,
+        image: imageResponse.url,
+        securities: values.securities.map((e: any) => e.securities),
+        security_type: values.security_type,
+        article_type: isSaveDraft.current ? 'draft' : 'publish',
+        notification_enabled: publishWithNotification,
+      };
+      if (values.app === APPNAME.CUSTOM) {
+        body.bundle_id = values.appname_custom.map((e: IBundle) => e.bundle_id);
+      } else delete body.bundle_id;
+      if (values.file?.file) {
+        const formData = new FormData();
+        formData.append('file', values.file.file);
+        const { data: fileResponse } = await httpRequest.post(getUploadUrl(), formData);
+        body.attachment_url = fileResponse.url;
+        body.attachment_name = values.file.name;
+      }
+      await httpRequest.post(getArticlesUrl(), body);
+      cb?.();
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_create_articles_successfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
+      data.current = {};
+      setStep(STEP.CREATE);
+    } catch (error) {
+      cb?.();
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_create_articles_unsuccessfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        }),
+      );
+    }
   };
 
   return (
@@ -47,7 +98,7 @@ const CreateNewArticles = () => {
       {step === STEP.CREATE ? (
         <ArticlesCreateForm onCreate={onCreate} values={data.current} />
       ) : (
-        <ArticlesPreviewForm isSaveDraft={isSaveDraft.current} onReturn={onReturn} values={data.current} onReset={onReset} />
+        <ArticlesPreviewForm onReturn={onReturn} values={data.current} onSubmit={onSubmit} />
       )}
     </>
   );

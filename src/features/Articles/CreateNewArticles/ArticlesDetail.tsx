@@ -16,7 +16,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import Button from 'components/atoms/ButtonBase';
 import { Trans, useTranslation } from 'react-i18next';
 import { getSearchSitenameUrl, getSearchSecurityCodeUrl } from 'apis/request.url';
-import { SITENAME_OPTIONS, SECURITY_TYPE_OPTIONS } from '../ArticlesConstants';
+import { APPNAME_OPTIONS, SECURITY_TYPE_OPTIONS } from '../ArticlesConstants';
 import { IArticlesFormData } from 'models/IArticles';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { useGlobalModalContext } from 'containers/Modal';
@@ -66,9 +66,6 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
     setEditMode(true);
   };
 
-  const sitenameOption = SITENAME_OPTIONS.find((e) => e.value === values.site_name);
-  const sitename = sitenameOption?.label ? t(sitenameOption.label) : '';
-
   /**
    * render detail form
    * @returns HTML
@@ -80,7 +77,7 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
         <Box className={classes.container}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <InputField preview name="subject" label="lang_title" fullWidth value={values.subject} />
+              <InputField preview name="title" label="lang_title" fullWidth value={values.title} />
             </Grid>
             {values.file?.name || values.file?.url ? (
               <Grid item xs={12}>
@@ -107,6 +104,33 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
               />
             </Grid>
             <Grid item xs={12}>
+              {values.appname_custom?.length ? (
+                <AutocompleteField
+                  preview
+                  name="appname_custom"
+                  label="lang_app_name"
+                  required
+                  getUrl={getSearchSitenameUrl}
+                  isOptionEqualToValue={(opt, select) => opt.bundle_id === select.bundle_id}
+                  getOptionLabel={(opt) => opt.display_name || ''}
+                  value={values.appname_custom}
+                />
+              ) : (
+                <></>
+              )}
+            </Grid>
+            <Grid item xs={12}>
+              <InputField
+                preview
+                name="sitename"
+                label="lang_sitename"
+                required
+                fullWidth
+                maxLength={255}
+                value={values.sitename}
+              />
+            </Grid>
+            <Grid item xs={12}>
               <SelectField
                 preview
                 options={SECURITY_TYPE_OPTIONS}
@@ -118,26 +142,10 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
               />
             </Grid>
             <Grid item xs={12}>
-              {values.appname_custom?.length ? (
-                <AutocompleteField
-                  preview
-                  name="appname_custom"
-                  label="lang_sitename"
-                  required
-                  getUrl={getSearchSitenameUrl}
-                  isOptionEqualToValue={(opt, select) => opt.site_name === select.site_name}
-                  getOptionLabel={(opt) => opt.site_name}
-                  value={values.appname_custom}
-                />
-              ) : (
-                <InputField preview name="site_name" label="lang_sitename" required fullWidth value={sitename} />
-              )}
-            </Grid>
-            <Grid item xs={12}>
               <AutocompleteField
                 preview
                 name="securities"
-                label="lang_security_code"
+                label="lang_security_codes"
                 required
                 getUrl={getSearchSecurityCodeUrl}
                 isOptionEqualToValue={(opt, select) => opt.securities === select.securities}

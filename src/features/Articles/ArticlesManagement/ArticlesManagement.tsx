@@ -150,6 +150,7 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
             component: ConfirmModal,
             props: {
               open: true,
+              alertTitle: 'lang_confirm',
               alertContent: 'lang_ask_confirm_delete_article',
               onClose: () => hideModal(),
               onSubmit: () => confirmDeleteArticles(data[FIELD.ARTICLES_ID]),

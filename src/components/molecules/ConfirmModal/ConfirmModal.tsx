@@ -54,13 +54,13 @@ const AlertConfirm = ({
     <Dialog open={open} fullWidth maxWidth="sm" className={classes.container}>
       {alertTitle && (
         <DialogTitle>
-          <Typography variant="h5">
+          <Typography>
             <Trans>{alertTitle}</Trans>
           </Typography>
         </DialogTitle>
       )}
       <DialogContent>
-        <Typography sx={{ textAlign: 'center' }}>
+        <Typography>
           <Trans values={{ time: minutesRemain }}>{alertContent}</Trans>
         </Typography>
       </DialogContent>

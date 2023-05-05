@@ -18,6 +18,7 @@ type ButtonBaseProps = ButtonProps & {
   isLoading?: boolean;
   scrollToTop?: boolean;
   children?: React.ReactNode;
+  className?: string;
 };
 
 const ButtonBase: React.FC<ButtonBaseProps> = ({
@@ -25,6 +26,7 @@ const ButtonBase: React.FC<ButtonBaseProps> = ({
   children,
   isLoading = false,
   debounce = true,
+  className = '',
   disabled,
   sx = {},
   onClick,
@@ -53,6 +55,7 @@ const ButtonBase: React.FC<ButtonBaseProps> = ({
   return (
     <Button
       {...props}
+      className={className}
       onClick={handleClick}
       sx={{ whiteSpace: 'nowrap', ...sx }}
       disabled={isLoading || disabled || (network && isConnecting)}

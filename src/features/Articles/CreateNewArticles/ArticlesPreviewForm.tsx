@@ -17,13 +17,8 @@ import makeStyles from '@mui/styles/makeStyles';
 import { LooseObject } from 'models/ICommon';
 import Button from 'components/atoms/ButtonBase';
 import { Trans, useTranslation } from 'react-i18next';
-import { getSearchSitenameUrl, getSearchSecurityCodeUrl, getUploadUrl, getArticlesUrl } from 'apis/request.url';
-import { SITENAME_OPTIONS, SECURITY_TYPE_OPTIONS, APPNAME } from '../ArticlesConstants';
-import { httpRequest } from 'services/initRequest';
-import { ICreateArticlesBody } from 'models/IArticles';
-import { IBundle } from 'models/ICommon';
-import { useDispatch } from 'react-redux';
-import { enqueueSnackbarAction } from 'actions/app.action';
+import { getSearchSitenameUrl, getSearchSecurityCodeUrl } from 'apis/request.url';
+import { SITENAME_OPTIONS, SECURITY_TYPE_OPTIONS } from '../ArticlesConstants';
 import { Typography } from '@mui/material';
 import useConfirmEdit from 'hooks/useConfirmEdit';
 
@@ -38,16 +33,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type ArticlesPreviewFormProps = {
-  isSaveDraft: boolean;
   values: LooseObject;
   onReturn: () => void;
-  onReset?: () => void;
+  onSubmit: (cb: () => void) => void;
 };
 
-const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ isSaveDraft, values, onReturn, onReset }) => {
+const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onReturn, onSubmit }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const confirmEdit = useConfirmEdit(() => true); // eslint-disable-line
   const publishWithNotification = React.useRef<boolean>(true);
   const [loading, setLoading] = React.useState(false);
@@ -55,51 +48,9 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ isSaveDraft, 
   /**
    * Handle create new articles
    */
-  const onConfirm = async () => {
-    try {
-      setLoading(true);
-      const formData = new FormData();
-      formData.append('file', values.image.file);
-      const { data: imageResponse } = await httpRequest.post(getUploadUrl(), formData);
-      const body: ICreateArticlesBody = {
-        title: values.title,
-        content: values.content,
-        image: imageResponse.url,
-        securities: values.securities.map((e: any) => e.securities),
-        security_type: values.security_type,
-        article_type: isSaveDraft ? 'draft' : 'publish',
-        notification_enabled: publishWithNotification.current,
-      };
-      if (values.app === APPNAME.CUSTOM) {
-        body.bundle_id = values.appname_custom.map((e: IBundle) => e.bundle_id);
-      } else delete body.bundle_id;
-      if (values.file?.file) {
-        const formData = new FormData();
-        formData.append('file', values.file.file);
-        const { data: fileResponse } = await httpRequest.post(getUploadUrl(), formData);
-        body.attachment_url = fileResponse.url;
-        body.attachment_name = values.file.name;
-      }
-      await httpRequest.post(getArticlesUrl(), body);
-      setLoading(false);
-      dispatch(
-        enqueueSnackbarAction({
-          message: 'lang_create_articles_successfully',
-          key: new Date().getTime() + Math.random(),
-          variant: 'success',
-        }),
-      );
-      onReset?.();
-    } catch (error) {
-      setLoading(false);
-      dispatch(
-        enqueueSnackbarAction({
-          message: 'lang_create_articles_unsuccessfully',
-          key: new Date().getTime() + Math.random(),
-          variant: 'error',
-        }),
-      );
-    }
+  const onConfirm = () => {
+    setLoading(true);
+    onSubmit(() => setLoading(false));
   };
 
   /**
@@ -139,6 +90,25 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ isSaveDraft, 
           />
         </Grid>
         <Grid item xs={12}>
+          {values.appname_custom?.length ? (
+            <AutocompleteField
+              preview
+              name="appname_custom"
+              label="lang_app_name"
+              required
+              getUrl={getSearchSitenameUrl}
+              isOptionEqualToValue={(opt, select) => opt.bundle_id === select.bundle_id}
+              getOptionLabel={(opt) => opt.display_name || ''}
+              value={values.appname_custom}
+            />
+          ) : (
+            <></>
+          )}
+        </Grid>
+        <Grid item xs={12}>
+          <InputField preview name="sitename" label="lang_sitename" required fullWidth maxLength={255} value={values.sitename} />
+        </Grid>
+        <Grid item xs={12}>
           <SelectField
             preview
             options={SECURITY_TYPE_OPTIONS}
@@ -150,26 +120,10 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ isSaveDraft, 
           />
         </Grid>
         <Grid item xs={12}>
-          {values.appname_custom?.length ? (
-            <AutocompleteField
-              preview
-              name="appname_custom"
-              label="lang_sitename"
-              required
-              getUrl={getSearchSitenameUrl}
-              isOptionEqualToValue={(opt, select) => opt.site_name === select.site_name}
-              getOptionLabel={(opt) => opt.site_name}
-              value={values.appname_custom}
-            />
-          ) : (
-            <InputField preview name="site_name" label="lang_sitename" required fullWidth value={sitename} />
-          )}
-        </Grid>
-        <Grid item xs={12}>
           <AutocompleteField
             preview
             name="securities"
-            label="lang_security_code"
+            label="lang_security_codes"
             required
             getUrl={getSearchSecurityCodeUrl}
             isOptionEqualToValue={(opt, select) => opt.securities === select.securities}

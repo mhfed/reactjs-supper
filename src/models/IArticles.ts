@@ -48,6 +48,6 @@ export type IArticlesFormData = {
   security_type?: string;
   site_name?: string;
   appname_custom?: string[];
-  subject?: string;
+  title?: string;
   [key: string]: any;
 };
