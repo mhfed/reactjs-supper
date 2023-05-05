@@ -473,7 +473,7 @@ type TableProps = {
   defaultSort?: LooseObject;
   selectedRow?: boolean;
   showSitename?: boolean;
-  advancedFilter?: JSX.Element | React.ReactNode | null;
+  advancedFilter?: any;
   searchAppName?: boolean;
 };
 

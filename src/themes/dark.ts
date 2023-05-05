@@ -105,7 +105,7 @@ const darkTheme = createTheme({
     MuiButtonBase: {
       styleOverrides: {
         root: {
-          '&.Mui-disabled:not(.MuiRadio-root):not(.MuiChip-root)': {
+          '&.Mui-disabled:not(.MuiRadio-root):not(.MuiChip-root):not(.MuiButton-text)': {
             backgroundColor: '#758695 !important',
             color: '#c5cbce !important',
             pointerEvents: 'unset',

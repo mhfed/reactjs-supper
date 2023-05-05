@@ -235,6 +235,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
             onChange={handleTextChange}
             InputProps={{
               ...params.InputProps,
+              style: { minHeight: 100 },
             }}
           ></TextField>
         )}

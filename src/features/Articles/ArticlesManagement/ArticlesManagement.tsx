@@ -233,7 +233,11 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
   /**
    * Apply new advanced filter
    */
-  const onApplyFilter = () => {};
+  const onApplyFilter = (filterObj: any) => {
+    if (filterObj?.app_name?.length) {
+    } else {
+    }
+  };
 
   return (
     <div className={classes.container}>
@@ -245,7 +249,7 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
         columns={columns}
         noDataText="lang_no_matching_records_found"
         showSitename
-        advancedFilter={<ArticleAdvancedFilter />}
+        advancedFilter={ArticleAdvancedFilter}
         onApplyFilter={onApplyFilter}
       />
     </div>

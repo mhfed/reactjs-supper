@@ -23,7 +23,6 @@ import { IBundle, LooseObject } from 'models/ICommon';
 import AdvancedFilterIcon from 'assets/icons/AdvancedFilter';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -67,11 +66,6 @@ const useStyles = makeStyles((theme) => ({
     marginRight: -14,
     background: theme.palette.primary.main,
   },
-  buttonWrapper: {
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
-    width: '100%',
-  },
 }));
 type TypeButtonHeader = {
   label: string;
@@ -91,7 +85,7 @@ type CustomSearchProps = {
   editable: boolean;
   isNodata: boolean;
   showSitename: boolean;
-  advancedFilter: JSX.Element | React.ReactNode | null;
+  advancedFilter?: any;
   customSearch: boolean;
 };
 
@@ -114,6 +108,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
   const timeoutId = React.useRef<number | null>(null);
   const [appName, setAppName] = React.useState<any>('');
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+  const filterObj = React.useRef<any>(null);
 
   /**
    * Handle search new data with search text
@@ -136,27 +131,20 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
   };
 
   /**
+   * Apply new advanced filter
+   */
+  const onApplyFilter = (values: any) => {
+    setAnchorEl(null);
+    filterObj.current = values;
+    handleFilter?.(values);
+  };
+
+  /**
    * Search by app name
    */
   const onSearchAppName = (value: IBundle) => {
     setAppName(value);
     handleSearch('', value);
-  };
-
-  /**
-   * Clear all advanced filter
-   */
-  const onClearAll = () => {
-    // setAnchorEl(null);
-    handleFilter?.(null);
-  };
-
-  /**
-   * Apply new advanced filter
-   */
-  const onApplyFilter = () => {
-    // setAnchorEl(null);
-    handleFilter?.();
   };
 
   /**
@@ -305,21 +293,10 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
         }}
       >
         <Paper sx={{ p: 2, mt: 2 }}>
-          <Typography sx={{ textTransform: 'uppercase', fontWeight: 'bold' }}>
+          <Typography sx={{ textTransform: 'uppercase', fontWeight: 'bold', mb: 2 }}>
             <Trans>lang_advanced_filter</Trans>
           </Typography>
-          {AdvancedFilter}
-          <Stack className={classes.buttonWrapper} direction="row" spacing={2} sx={{ mt: 2 }}>
-            <Button variant="text" color="error" sx={{ textTransform: 'uppercase !important' }} scrollToTop onClick={onClearAll}>
-              <Trans>lang_clear_all</Trans>
-            </Button>
-            <Button variant="outlined" scrollToTop onClick={handleClose}>
-              <Trans>lang_cancel</Trans>
-            </Button>
-            <Button network variant="contained" onClick={onApplyFilter}>
-              <Trans>lang_apply</Trans>
-            </Button>
-          </Stack>
+          {<AdvancedFilter onClose={handleClose} onApply={onApplyFilter} initialValues={filterObj.current} />}
         </Paper>
       </Popover>
     </div>

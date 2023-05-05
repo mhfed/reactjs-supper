@@ -282,3 +282,11 @@ div[class*='MUIDataTableSelectCell-fixedLeft'] {
 .SnackbarContent-root {
   min-width: unset !important;
 }
+
+.MuiBackdrop-invisible {
+  pointer-events: none;
+}
+
+.MuiButton-text.Mui-disabled {
+  background: transparent !important;
+}
