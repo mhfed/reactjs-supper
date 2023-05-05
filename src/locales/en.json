@@ -1,4 +1,9 @@
 {
+  "lang_from": "From",
+  "lang_to": "To",
+  "lang_scheduled_time": "Scheduled time",
+  "lang_search_by": "Search by",
+  "lang_search_by_app_name": "Search by App Name",
   "lang_linked_screen_require": "Please select linked screen",
   "lang_notification_category_require": "Please select notification  category",
   "lang_client_category_id_require": "Please select client category",

@@ -56,10 +56,12 @@ type DatePickerFieldProps = {
   style?: React.CSSProperties | undefined;
   inputFormat?: string;
   minDate?: Date;
+  hideTabs?: boolean;
+  maxDate?: Date;
 };
 
 const DatePickerField: React.FC<DatePickerFieldProps> = (props) => {
-  const { label, ...rest } = props;
+  const { label, hideTabs, ...rest } = props;
   const isError = rest?.error || false;
   const helperText = rest?.helperText || false;
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
@@ -114,7 +116,7 @@ const DatePickerField: React.FC<DatePickerFieldProps> = (props) => {
             helperText={isError && helperText ? <Trans>{helperText}</Trans> : ''}
           />
         )}
-        hideTabs={false}
+        hideTabs={Boolean(hideTabs)}
         components={{ Tabs: CustomTabs }}
         componentsProps={{
           tabs: {

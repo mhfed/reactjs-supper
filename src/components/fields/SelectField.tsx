@@ -23,6 +23,12 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
+  customSelect: {
+    '& .MuiInputBase-input': {
+      backgroundColor: theme.palette.background.attachment,
+      padding: '4px 8px',
+    },
+  },
 }));
 
 type Options = {
@@ -47,6 +53,7 @@ type SelectFieldProps = {
   onChange?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   options?: Array<Options>;
+  customSelect?: boolean;
 };
 
 const SelectField: React.FC<SelectFieldProps> = ({
@@ -58,13 +65,20 @@ const SelectField: React.FC<SelectFieldProps> = ({
   required,
   error,
   shrink,
+  customSelect,
   ...props
 }) => {
   const classes = useStyles();
 
+  const classesSelect = () => {
+    if (preview) return classes.previewContainer;
+    if (customSelect) return classes.customSelect;
+    return '';
+  };
+
   return (
     <FormControl
-      className={clsx(preview && classes.previewContainer)}
+      className={clsx(classesSelect())}
       required={preview ? false : required}
       error={error}
       sx={{

@@ -11,6 +11,7 @@ export type Notification_Type = 'App' | 'UserGroup' | 'ClientCategory';
 export const NOTIFICATION_TYPE = { App: 'App', UserGroup: 'UserGroup', ClientCategory: 'ClientCategory' };
 export const DELIVERY_TYPE = { Instant: 'Instant', Schedule: 'Schedule' };
 export const EXPIRE = { Hours: 'H', Days: 'D', Weeks: 'W' };
+export const SEARCH_BY_TYPE = { created_by: 'created_by', schedule_time: 'schedule_time' };
 
 const { App, UserGroup, ClientCategory } = NOTIFICATION_TYPE;
 
@@ -109,6 +110,17 @@ export const NOTIFICATION_CATEGORY_TYPE: any = {
   Products: 'products',
   Others: 'others',
 };
+
+export const SEARCH_BY_DROPDOWN = [
+  {
+    label: 'lang_created_time',
+    value: 'created_by',
+  },
+  {
+    label: 'lang_scheduled_time',
+    value: 'schedule_time',
+  },
+];
 
 export const NOTIFICATION_CATEGORY_OPTIONS = [
   {

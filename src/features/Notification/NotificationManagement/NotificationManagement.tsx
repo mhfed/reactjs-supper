@@ -20,6 +20,7 @@ import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import DetailNotification from './DetailNotification';
 import EditNotification from './EditNotification';
 import { Inotifiaction } from 'models/INotification';
+import NotificationAdvancedFilter from './Components/NotificationAdvancedFilter';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -268,9 +269,22 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     return data[FIELD.NOTIFICATION_ID];
   };
 
+  const onApplyFilter = () => {
+    console.log('xin chao');
+  };
+
   return (
     <div className={classes.container}>
-      <CustomTable name="notification" fnKey={getRowId} ref={gridRef} onTableChange={onTableChange} columns={columns} />
+      <CustomTable
+        name="notification"
+        fnKey={getRowId}
+        ref={gridRef}
+        onTableChange={onTableChange}
+        columns={columns}
+        showSitename
+        advancedFilter={NotificationAdvancedFilter}
+        onApplyFilter={onApplyFilter}
+      />
     </div>
   );
 };
