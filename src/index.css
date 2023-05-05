@@ -283,10 +283,14 @@ div[class*='MUIDataTableSelectCell-fixedLeft'] {
   min-width: unset !important;
 }
 
-.MuiBackdrop-invisible {
+.MuiPopover-root:not(.MuiMenu-root) .MuiBackdrop-invisible {
   pointer-events: none;
 }
 
 .MuiButton-text.Mui-disabled {
   background: transparent !important;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
 }
