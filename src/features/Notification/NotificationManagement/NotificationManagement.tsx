@@ -14,7 +14,7 @@ import { httpRequest } from 'services/initRequest';
 import CustomTable, { COLUMN_TYPE } from 'components/molecules/CustomTable';
 import makeStyles from '@mui/styles/makeStyles';
 import { FIELD, NOTIFICATION_STATUS, NOTIFICATION_STATUS_OPTIONS } from '../NotificationConstants';
-import { ITableConfig } from 'models/ICommon';
+import { IBundle, ITableConfig } from 'models/ICommon';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import DetailNotification from './DetailNotification';
@@ -39,6 +39,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
   const { showModal, hideModal } = useGlobalModalContext();
+  const filterObjApi = React.useRef<any>({});
 
   /**
    * Get list notification
@@ -47,7 +48,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     try {
       gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
-      const response: any = await httpRequest.get(getListNotificationUrl(config));
+      const response: any = await httpRequest.get(getListNotificationUrl(config, filterObjApi.current));
       gridRef?.current?.setData?.(response);
     } catch (error) {
       gridRef?.current?.setData?.();
@@ -269,8 +270,24 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     return data[FIELD.NOTIFICATION_ID];
   };
 
-  const onApplyFilter = () => {
-    console.log('xin chao');
+  const onApplyFilter = (filterObj: any) => {
+    let currentFilter = {};
+
+    if (filterObj.from && filterObj.to) {
+      currentFilter = {
+        from: filterObj.from.getTime(),
+        to: filterObj.to.getTime(),
+        date_search: filterObj.notification_category,
+      };
+    }
+
+    if (filterObj.app_name?.length) {
+      const listBundleId = filterObj.app_name?.length ? filterObj.app_name.map((e: IBundle) => e.bundle_id).join(',') : [];
+      currentFilter = { ...currentFilter, bundle_id: listBundleId };
+    }
+
+    filterObjApi.current = currentFilter;
+    getData();
   };
 
   return (

@@ -93,21 +93,31 @@ export function getReports() {
 }
 
 // Notification - v1
-export const getListNotificationUrl = ({
-  page = 1,
-  rowsPerPage = +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
-  searchText = '',
-  sort,
-}: {
-  page: number;
-  rowsPerPage: number;
-  searchText: string | null;
-  sort: ISortConfig | null;
-}) => {
+export const getListNotificationUrl = (
+  {
+    page = 1,
+    rowsPerPage = +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
+    searchText = '',
+    sort,
+  }: {
+    page: number;
+    rowsPerPage: number;
+    searchText: string | null;
+    sort: ISortConfig | null;
+  },
+  filterObj?: any,
+) => {
   let url = `/v1/dynamic-push/notifications/query?page_id=${page}&page_size=${rowsPerPage}`;
   if (searchText) url += `&search=${searchText}`;
   if (sort?.sortField) url += `&sort_field=${sort.sortField}`;
   if (sort?.sortType) url += `&sort_type=${sort.sortType}`;
+
+  // filter advanced
+  if (filterObj.from) url += `&from=${filterObj.from}`;
+  if (filterObj.to) url += `&to=${filterObj.to}`;
+  if (filterObj.date_search) url += `&date_search=${filterObj.date_search}`;
+  if (filterObj.bundle_id) url += `&bundle_id=${filterObj.bundle_id}`;
+
   return url;
 };
 export function getListSegmentUrl({

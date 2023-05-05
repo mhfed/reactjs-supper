@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   labelField: {
     fontSize: 14,
+    color: theme.palette.background.disabled,
   },
 }));
 
