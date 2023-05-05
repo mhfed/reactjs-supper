@@ -25,6 +25,7 @@ import {
   NOTIFICATION_ENABLED_OPTIONS,
 } from '../../Notification/NotificationConstants';
 import ArticleAdvancedFilter from './ArticleAdvancedFilter';
+import NotificationSetup from './NotificationSetup';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -161,7 +162,13 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
       },
       {
         label: isLinkedNotification ? 'lang_resend_notification' : 'lang_setup_notification',
-        onClick: (data: any) => console.log('YOLO: ', isLinkedNotification),
+        onClick: (data: any) => {
+          if (isLinkedNotification) return;
+          showModal({
+            component: NotificationSetup,
+            props: {},
+          });
+        },
       },
     ];
   };

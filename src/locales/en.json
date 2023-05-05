@@ -1,4 +1,6 @@
 {
+  "lang_notification_setup": "Notification setup",
+  "lang_preview_notification_setup": "Preview notification setup",
   "lang_from": "From",
   "lang_to": "To",
   "lang_scheduled_time": "Scheduled time",
