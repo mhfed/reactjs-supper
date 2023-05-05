@@ -166,6 +166,8 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
           if (isLinkedNotification) return;
           showModal({
             component: NotificationSetup,
+            showBtnClose: true,
+            fullScreen: true,
             props: {},
           });
         },
