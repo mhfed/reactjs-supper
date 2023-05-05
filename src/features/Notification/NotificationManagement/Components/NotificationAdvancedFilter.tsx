@@ -68,7 +68,6 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
     setFieldTouched,
     setValues,
     setTouched,
-    isValid,
   } = useFormik({
     initialValues: initialValues || defaultValues,
     validationSchema: validationSchema,
@@ -171,6 +170,7 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
         <Button
           variant="text"
           color="error"
+          className="customBtnDisable"
           disabled={!diff(defaultValues, values)}
           sx={{ textTransform: 'uppercase !important' }}
           scrollToTop
