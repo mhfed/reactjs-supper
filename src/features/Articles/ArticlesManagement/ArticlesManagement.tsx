@@ -11,7 +11,7 @@ import { getArticlesListUrl, getArticlesUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { httpRequest } from 'services/initRequest';
-import { ITableConfig } from 'models/ICommon';
+import { ITableConfig, IBundle } from 'models/ICommon';
 import CustomTable, { COLUMN_TYPE } from 'components/molecules/CustomTable';
 import makeStyles from '@mui/styles/makeStyles';
 import { useGlobalModalContext } from 'containers/Modal';
@@ -42,6 +42,7 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
+  const filterObj = React.useRef<any>({});
   const { showModal, hideModal } = useGlobalModalContext();
 
   /**
@@ -51,7 +52,8 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
     try {
       gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
-      const response: any = await httpRequest.get(getArticlesListUrl(config));
+      const listBundleId = filterObj.current?.app_name?.length ? filterObj.current.app_name.map((e: IBundle) => e.bundle_id) : [];
+      const response: any = await httpRequest.get(getArticlesListUrl(config, listBundleId));
       gridRef?.current?.setData?.(response.data);
     } catch (error) {
       gridRef?.current?.setData?.();
@@ -233,10 +235,9 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
   /**
    * Apply new advanced filter
    */
-  const onApplyFilter = (filterObj: any) => {
-    if (filterObj?.app_name?.length) {
-    } else {
-    }
+  const onApplyFilter = (values: any) => {
+    filterObj.current = values;
+    getData();
   };
 
   return (

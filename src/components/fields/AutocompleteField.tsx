@@ -42,6 +42,7 @@ type AutocompleteFieldProps = {
   onChange?: (e: any) => void;
   onBlur?: () => void;
   options?: LooseObject[];
+  InputProps?: LooseObject;
   getOptionLabel?: (opt: LooseObject) => string;
   getChipLabel?: (opt: LooseObject) => string;
   getUrl?: (text: string) => string;
@@ -67,6 +68,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   getChipLabel,
   getUrl,
   formatData,
+  InputProps = {},
   disabled = false,
   readOnly = false,
   multiple = true,
@@ -235,7 +237,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
             onChange={handleTextChange}
             InputProps={{
               ...params.InputProps,
-              style: { minHeight: 100 },
+              ...InputProps,
             }}
           ></TextField>
         )}

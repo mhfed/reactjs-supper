@@ -79,6 +79,9 @@ const ArticleAdvancedFilter: React.FC<ArticleAdvancedFilterProps> = ({ onClose, 
               isOptionEqualToValue={(option: LooseObject, value: LooseObject) => {
                 return option.bundle_id === value.bundle_id;
               }}
+              InputProps={{
+                style: { minHeight: 112 },
+              }}
               getOptionLabel={(option) => option.display_name}
               getChipLabel={(option) => option.display_name}
               value={values.app_name}

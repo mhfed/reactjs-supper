@@ -132,21 +132,25 @@ export function getListSubscribertUrl({
   if (sort?.sortType) url += `&sort_type=${sort.sortType}`;
   return url;
 }
-export function getArticlesListUrl({
-  page = 1,
-  rowsPerPage = +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
-  searchText = '',
-  sort,
-}: {
-  page: number;
-  rowsPerPage: number;
-  searchText: string | null;
-  sort: ISortConfig | null;
-}) {
+export function getArticlesListUrl(
+  {
+    page = 1,
+    rowsPerPage = +process.env.REACT_APP_DEFAULT_PAGE_SIZE,
+    searchText = '',
+    sort,
+  }: {
+    page: number;
+    rowsPerPage: number;
+    searchText: string | null;
+    sort: ISortConfig | null;
+  },
+  listAppName = [],
+) {
   let url = `v1/articles/query?page_id=${page}&page_size=${rowsPerPage}`;
   if (searchText) url += `&search=${searchText}`;
   if (sort?.sortField) url += `&sort_field=${sort.sortField}`;
   if (sort?.sortType) url += `&sort_type=${sort.sortType}`;
+  if (listAppName?.length) url += listAppName.join(',');
   return url;
 }
 export function getSearchSubscribersUrl(searchText = '') {
