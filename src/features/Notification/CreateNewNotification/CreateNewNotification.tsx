@@ -12,12 +12,19 @@ import { Paper, Stack, Typography } from '@mui/material';
 import Button from 'components/atoms/ButtonBase';
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { yup } from 'helpers';
-import { STATE_FORM, NOTIFICATION_TYPE, DELIVERY_TYPE, EXPIRE, Notification_Type } from './NotificationConstant';
+import {
+  STATE_FORM,
+  NOTIFICATION_TYPE,
+  DELIVERY_TYPE,
+  EXPIRE,
+  Notification_Type,
+  NOTIFICATION_CATEGORY_TYPE,
+} from './NotificationConstant';
 import { LooseObject } from 'models/ICommon';
 import { Trans } from 'react-i18next';
 import moment from 'moment';
 import { httpRequest } from 'services/initRequest';
-import { postDataUpdateSegmentByID, postDirectSend, postSiteNameSend } from 'apis/request.url';
+import { postAppNameSend, postClientCategorySend, postUserGroupSend } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
@@ -78,58 +85,42 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
     let urlSendNoti = '';
     let bodySendNoti = {};
 
-    //Body and url type Direct
+    const { title, message, site_name, url, notification_category } = values;
+
+    bodySendNoti = {
+      title,
+      message,
+      url,
+      mobile_push: true,
+      site_name,
+      bundle_id: (values?.bundle_id || []).map((x) => x?.bundle_id || ''),
+      notification_category: NOTIFICATION_CATEGORY_TYPE?.[notification_category] || '',
+    };
+
+    if (values.delivery_type === DELIVERY_TYPE.Schedule) {
+      bodySendNoti = { ...bodySendNoti, schedule_time: moment(values?.schedule).toDate().getTime() };
+    }
+
+    //Body and url type App
 
     if (values.notification_type === NOTIFICATION_TYPE.App) {
-      const { title, message, expire, type_expired, delivery_type } = values;
-      urlSendNoti = postDirectSend();
-      bodySendNoti = {
-        title,
-        message,
-        url: 'https://abc.com/',
-        mobile_push: true,
-        bundle_id: (values?.bundle_id || []).map((x) => {
-          const { username, site_name } = x || {};
-          return {
-            username,
-            site_name,
-          };
-        }),
-      };
-
-      let expireTime = Number(expire);
-      if (expireTime) bodySendNoti = { ...bodySendNoti, expire_time: `${expireTime}${type_expired}` };
-
-      if (delivery_type === DELIVERY_TYPE.Schedule) {
-        bodySendNoti = { ...bodySendNoti, schedule_time: moment(values?.schedule).toDate().getTime() };
-      }
+      urlSendNoti = postAppNameSend();
     }
 
-    //Body and url type Segment
+    //Body and url type User Group
 
     if (values.notification_type === NOTIFICATION_TYPE.UserGroup) {
-      const { title, message } = values;
-      urlSendNoti = postDataUpdateSegmentByID((values?.user_group_id as any)?.segment_id || '');
+      urlSendNoti = postUserGroupSend();
       bodySendNoti = {
-        title,
-        message,
-        url: 'https://abc.com/',
-        mobile_push: true,
+        ...bodySendNoti,
+        user_group_id: (values?.user_group_id || []).map((x) => x?.user_group_id || ''),
       };
     }
 
-    //Body and url type sitename
+    //Body and url type Client Category
 
     if (values.notification_type === NOTIFICATION_TYPE.ClientCategory) {
-      const { title, message, site_name } = values;
-      urlSendNoti = postSiteNameSend();
-      bodySendNoti = {
-        title,
-        message,
-        url: 'https://abc.com/',
-        mobile_push: true,
-        site_name: site_name,
-      };
+      urlSendNoti = postClientCategorySend('');
     }
 
     httpRequest
@@ -155,7 +146,6 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
             variant: 'error',
           }),
         );
-        console.log(err);
       });
   };
 
@@ -257,7 +247,7 @@ export interface initialValuesType {
   schedule_time?: number;
   segment_id?: string;
   segment_name?: string;
-  notification_category?: string;
+  notification_category: string;
   url?: string;
   client_category_id: Array<any>;
 }

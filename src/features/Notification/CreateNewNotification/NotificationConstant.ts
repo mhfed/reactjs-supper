@@ -102,6 +102,14 @@ export const LINKED_SCREEN_OPTIONS = [
   },
 ];
 
+export const NOTIFICATION_CATEGORY_TYPE: any = {
+  Insights: 'insights',
+  'Site Maintenance': 'site_maintenance',
+  'Client Events': 'client_events',
+  Products: 'products',
+  Others: 'others',
+};
+
 export const NOTIFICATION_CATEGORY_OPTIONS = [
   {
     label: 'lang_insights',
@@ -121,7 +129,7 @@ export const NOTIFICATION_CATEGORY_OPTIONS = [
   },
   {
     label: 'lang_others',
-    value: 'lang_others',
+    value: 'Others',
   },
 ];
 

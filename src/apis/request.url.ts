@@ -57,6 +57,18 @@ export function postDirectSend() {
   return '/v1/dynamic-push/direct/send';
 }
 
+export function postAppNameSend() {
+  return '/v1/dynamic-push/app/send';
+}
+
+export function postUserGroupSend() {
+  return '/v1/dynamic-push/user-group/send';
+}
+
+export function postClientCategorySend(client_category_id: string) {
+  return `/v1/dynamic-push/client-category/${client_category_id}/send`;
+}
+
 export function getUserGroupUrl(roleGroupId: string) {
   return `/v1/user/role-group/${roleGroupId}`;
 }
