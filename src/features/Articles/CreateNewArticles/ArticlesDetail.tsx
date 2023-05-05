@@ -104,20 +104,16 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
               />
             </Grid>
             <Grid item xs={12}>
-              {values.appname_custom?.length ? (
-                <AutocompleteField
-                  preview
-                  name="appname_custom"
-                  label="lang_app_name"
-                  required
-                  getUrl={getSearchSitenameUrl}
-                  isOptionEqualToValue={(opt, select) => opt.bundle_id === select.bundle_id}
-                  getOptionLabel={(opt) => opt.display_name || ''}
-                  value={values.appname_custom}
-                />
-              ) : (
-                <></>
-              )}
+              <AutocompleteField
+                preview
+                name="appname_custom"
+                label="lang_app_name"
+                required
+                getUrl={getSearchSitenameUrl}
+                isOptionEqualToValue={(opt, select) => opt.bundle_id === select.bundle_id}
+                getOptionLabel={(opt) => opt.display_name || ''}
+                value={values.appname_custom}
+              />
             </Grid>
             <Grid item xs={12}>
               <InputField
@@ -127,7 +123,7 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
                 required
                 fullWidth
                 maxLength={255}
-                value={values.sitename}
+                value={localStorage.getItem('sitename') || ''}
               />
             </Grid>
             <Grid item xs={12}>

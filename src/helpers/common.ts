@@ -7,8 +7,8 @@
  */
 import { lazy } from 'react';
 import { IArticlesDataManagement, IArticlesFormData } from 'models/IArticles';
-import { IFileUpload } from 'models/ICommon';
-import { SITENAME } from 'features/Articles/ArticlesConstants';
+import { IBundle, IFileUpload } from 'models/ICommon';
+import { APPNAME } from 'features/Articles/ArticlesConstants';
 
 /**
  * clear all local storage but keep theme
@@ -25,7 +25,7 @@ export const clearStorage = () => {
  * @returns if site name only contain all sites
  */
 const checkSiteName = (data?: string[]) => {
-  return data?.length === 1 && data[0] === SITENAME.ALL_SITES;
+  return data?.length === 1 && data[0] === APPNAME.ALL_APPS;
 };
 
 /**
@@ -46,9 +46,8 @@ export const convertArticlesDataToDetailForm = (data: IArticlesDataManagement) =
     },
     securities: data?.securities?.map((e: string) => ({ securities: e })),
     security_type: data.security_type,
-    site_name: typeof data.site_name === 'string' || checkSiteName(data.site_name) ? SITENAME.ALL_SITES : SITENAME.CUSTOM,
-    appname_custom:
-      data.site_name?.length && !checkSiteName(data.site_name) ? data.site_name.map((e: string) => ({ site_name: e })) : [],
+    app: typeof data.app === 'string' || checkSiteName(data.site_name) ? APPNAME.ALL_APPS : APPNAME.CUSTOM,
+    appname_custom: data.app?.length && !checkSiteName(data.app) ? data.app : [],
     title: data.title,
   };
 };
@@ -81,8 +80,8 @@ export const checkDiffArticlesEdit = (oldData: IArticlesFormData, newData: IArti
   if ((typeof oldData.site_name === 'string' || typeof newData.site_name === 'string') && oldData.site_name !== newData.site_name)
     return true;
   if (
-    oldData.site_name === SITENAME.CUSTOM &&
-    newData.site_name === SITENAME.CUSTOM &&
+    oldData.app === APPNAME.CUSTOM &&
+    newData.app === APPNAME.CUSTOM &&
     oldData.appname_custom &&
     newData.appname_custom &&
     compareArray(oldData.appname_custom, newData.appname_custom)

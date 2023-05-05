@@ -52,9 +52,9 @@ export const NOTIFICATION_STATUS = {
 };
 
 export const ARTICLE_STATUS = {
-  TRIGGERED: 'Triggered',
-  SCHEDULED: 'Scheduled',
-  COMPLETED: 'Completed',
+  TRIGGERED: 'triggered',
+  SCHEDULED: 'scheduled',
+  COMPLETED: 'completed',
   DRAFT: 'draft',
 };
 
