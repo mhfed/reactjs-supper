@@ -61,7 +61,7 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
         <Grid item xs={12}>
           <AutocompleteField
             preview
-            name="sitename_custom"
+            name="appname_custom"
             label="lang_sitename"
             required
             isOptionEqualToValue={(opt, select) => opt.site_name === select.site_name}

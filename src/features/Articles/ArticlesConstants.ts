@@ -9,6 +9,7 @@
 export const STEP = {
   CREATE: 0,
   PREVIEW: 1,
+  EDIT: 2,
 };
 
 export const SECURITY_TYPE_OPTIONS = [
@@ -44,6 +45,11 @@ export const SITENAME = {
   CUSTOM: 'CUSTOM',
 };
 
+export const APPNAME = {
+  ALL_APPS: 'ALL_APPS',
+  CUSTOM: 'CUSTOM',
+};
+
 export const SITENAME_OPTIONS = [
   {
     value: SITENAME.ALL_SITES,
@@ -51,6 +57,17 @@ export const SITENAME_OPTIONS = [
   },
   {
     value: SITENAME.CUSTOM,
+    label: 'lang_custom',
+  },
+];
+
+export const APPNAME_OPTIONS = [
+  {
+    value: APPNAME.ALL_APPS,
+    label: 'lang_all_apps',
+  },
+  {
+    value: APPNAME.CUSTOM,
     label: 'lang_custom',
   },
 ];

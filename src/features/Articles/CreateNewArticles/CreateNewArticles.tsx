@@ -15,13 +15,15 @@ import { LooseObject } from 'models/ICommon';
 const CreateNewArticles = () => {
   const [step, setStep] = React.useState<number>(STEP.CREATE);
   const data = React.useRef<LooseObject>({});
+  const isSaveDraft = React.useRef(false);
 
   /**
    * Switch to preview mode from create form
    * @param values form data
    */
-  const onCreate = (values: LooseObject) => {
+  const onCreate = (values: LooseObject, saveDraft: boolean = false) => {
     data.current = values;
+    isSaveDraft.current = saveDraft;
     setStep(STEP.PREVIEW);
   };
 
@@ -45,7 +47,7 @@ const CreateNewArticles = () => {
       {step === STEP.CREATE ? (
         <ArticlesCreateForm onCreate={onCreate} values={data.current} />
       ) : (
-        <ArticlesPreviewForm onReturn={onReturn} values={data.current} onReset={onReset} />
+        <ArticlesPreviewForm isSaveDraft={isSaveDraft.current} onReturn={onReturn} values={data.current} onReset={onReset} />
       )}
     </>
   );

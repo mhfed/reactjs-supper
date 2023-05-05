@@ -15,18 +15,17 @@ import {
   FileField,
   SelectField,
   AutocompleteField,
-  AuthAutocompleteField,
 } from 'components/fields';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { useFormik } from 'formik';
 import { yup } from 'helpers';
 import makeStyles from '@mui/styles/makeStyles';
-import { SITENAME_OPTIONS, SECURITY_TYPE_OPTIONS, SITENAME } from '../ArticlesConstants';
+import { APPNAME_OPTIONS, SECURITY_TYPE_OPTIONS, APPNAME } from '../ArticlesConstants';
 import { IFileUpload, LooseObject } from 'models/ICommon';
 import Button from 'components/atoms/ButtonBase';
 import { Trans } from 'react-i18next';
-import { getSearchSitenameUrl, getSearchSecurityCodeUrl } from 'apis/request.url';
+import { getSearchAppNameUrl, getSearchSecurityCodeUrl } from 'apis/request.url';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import useConfirmEdit from 'hooks/useConfirmEdit';
@@ -48,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
 type ArticlesCreateFormProps = {
   values: LooseObject;
-  onCreate: (values: LooseObject) => void;
+  onCreate: (values: LooseObject, isSaveDraft?: boolean) => void;
 };
 
 const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, values: initValues }) => {
@@ -60,7 +59,7 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
    * Handle articles create submit
    * @param values form data
    */
-  const handleFormSubmit = async (values: LooseObject) => {
+  const handleFormSubmit = (values: LooseObject) => {
     onCreate(values);
   };
 
@@ -86,19 +85,17 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
   }, [values]);
 
   /**
+   * Hanle save draft, switch to preview with draft mode
+   */
+  const onSaveDraft = () => {
+    onCreate(values, true);
+  };
+
+  /**
    * Hanle clear form data
    */
   const onClear = () => {
-    if (
-      values.subject ||
-      values.content ||
-      values.image?.file ||
-      values.file?.file ||
-      values.site_name !== SITENAME.ALL_SITES ||
-      values.sitename_custom?.length ||
-      values.securities?.length ||
-      values.security_type
-    ) {
+    if (isChange) {
       showSubModal({
         title: 'lang_confirm_cancel',
         component: ConfirmEditModal,
@@ -117,6 +114,19 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
     }
   };
 
+  const isChange = React.useMemo(() => {
+    return (
+      values.title ||
+      values.content ||
+      values.image?.file ||
+      values.file?.file ||
+      values.app !== APPNAME.ALL_APPS ||
+      values.appname_custom?.length ||
+      values.securities?.length ||
+      values.security_type
+    );
+  }, [values]);
+
   return (
     <Paper className={classes.container}>
       <form noValidate onSubmit={handleSubmit}>
@@ -124,16 +134,16 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
           <Grid item container spacing={2} xs={12} md={6}>
             <Grid item xs={12}>
               <InputField
-                name="subject"
+                name="title"
                 label="lang_title"
                 required
                 fullWidth
                 maxLength={255}
-                value={values.subject}
+                value={values.title}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={touched.subject && Boolean(errors.subject)}
-                helperText={touched.subject && errors.subject}
+                error={touched.title && Boolean(errors.title)}
+                helperText={touched.title && errors.title}
               />
             </Grid>
             <Grid item xs={12}>
@@ -179,49 +189,62 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
           <Grid item container spacing={2} xs={12} md={6}>
             <Grid item xs={12}>
               <RadioGroupField
-                name="site_name"
-                label="lang_sitename"
-                data={SITENAME_OPTIONS}
+                name="app"
+                label="lang_app"
+                data={APPNAME_OPTIONS}
                 required
                 rowItems
-                value={values.site_name}
+                value={values.app}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={touched?.site_name && Boolean(errors?.site_name)}
-                helperText={touched.site_name && errors.site_name}
+                error={touched?.app && Boolean(errors?.app)}
+                helperText={touched.app && errors.app}
               />
             </Grid>
-            {values.site_name === SITENAME.CUSTOM ? (
+            <Grid item xs={12}>
+              <InputField
+                name="sitename"
+                label="lang_sitename"
+                required
+                fullWidth
+                disabled
+                maxLength={255}
+                value={values.sitename}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.sitename && Boolean(errors.sitename)}
+                helperText={touched.sitename && errors.sitename}
+              />
+            </Grid>
+            {values.app === APPNAME.CUSTOM ? (
               <Grid item xs={12}>
                 <AutocompleteField
-                  name="sitename_custom"
-                  label="lang_enter_sitename"
-                  sizeInput="small"
+                  name="appname_custom"
+                  label="lang_app_name"
                   required
-                  getUrl={getSearchSitenameUrl}
-                  isOptionEqualToValue={(opt, select) => opt.site_name === select.site_name}
-                  getOptionLabel={(opt) => opt.site_name}
-                  value={values.sitename_custom}
-                  onChange={(value) => setFieldValue('sitename_custom', value)}
-                  onBlur={() => setFieldTouched('sitename_custom', true, true)}
-                  error={touched.sitename_custom && Boolean(errors.sitename_custom)}
-                  helperText={(touched.sitename_custom && errors.sitename_custom) as string}
+                  getUrl={getSearchAppNameUrl}
+                  isOptionEqualToValue={(opt, select) => opt.bundle_id === select.bundle_id}
+                  getOptionLabel={(opt) => opt.display_name || ''}
+                  value={values.appname_custom}
+                  onChange={(value) => setFieldValue('appname_custom', value)}
+                  onBlur={() => setFieldTouched('appname_custom', true, true)}
+                  error={touched.appname_custom && Boolean(errors.appname_custom)}
+                  helperText={(touched.appname_custom && errors.appname_custom) as string}
                 />
               </Grid>
             ) : (
               <></>
             )}
             <Grid item xs={12}>
-              <AuthAutocompleteField
+              <AutocompleteField
                 name="securities"
-                label="lang_security_code"
-                required
+                label="lang_security_codes"
                 getUrl={getSearchSecurityCodeUrl}
                 isOptionEqualToValue={(opt, select) => opt.securities === select.securities}
                 getOptionLabel={(opt) => opt.securities}
                 value={values.securities}
                 onChange={(value) => setFieldValue('securities', value)}
-                onBlur={handleBlur}
+                onBlur={() => setFieldTouched('securities', true, true)}
                 error={touched.securities && Boolean(errors.securities)}
                 helperText={(touched.securities && errors.securities) as string}
               />
@@ -242,6 +265,9 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
             </Grid>
           </Grid>
           <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Button variant="outlined" disabled={!isChange} onClick={onSaveDraft}>
+              <Trans>lang_save_draft</Trans>
+            </Button>
             <Button variant="outlined" onClick={onClear}>
               <Trans>lang_clear</Trans>
             </Button>
@@ -258,27 +284,25 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
 export default ArticlesCreateForm;
 
 const initialValues = {
-  subject: '',
+  title: '',
   content: '',
   image: '',
   file: '',
-  site_name: SITENAME.ALL_SITES,
-  sitename_custom: [],
+  sitename: localStorage.getItem('sitename'),
+  app: APPNAME.ALL_APPS,
+  appname_custom: [],
   securities: [],
   security_type: '',
 };
 
 const validationSchema = yup.object().shape({
-  subject: yup.string().trim().checkRequired('lang_please_enter_title'),
+  title: yup.string().trim().checkRequired('lang_please_enter_title').max(255, 'lang_title_must_includes_255'),
   content: yup.string().trim().checkRequired('lang_please_enter_content'),
   image: yup.mixed().checkFile('lang_please_choose_image'),
   file: yup.mixed().checkFile('', 10000000, '.pdf'),
-  site_name: yup.string().required('lang_please_enter_sitename'),
-  sitename_custom: yup.array().when(['site_name'], (sitename, schema) => {
-    return sitename === SITENAME.CUSTOM
-      ? schema.min(1, 'lang_please_enter_sitename').required('lang_please_enter_sitename')
-      : schema;
+  appname_custom: yup.array().when(['app'], (app, schema) => {
+    return app === APPNAME.CUSTOM ? schema.min(1, 'lang_app_name_is_required').required('lang_app_name_is_required') : schema;
   }),
-  securities: yup.array().min(1, 'lang_please_select_security_code').required('lang_please_select_security_code'),
+  // securities: yup.array().min(1, 'lang_please_select_security_code').required('lang_please_select_security_code'),
   security_type: yup.string().required('lang_please_select_security_type'),
 });

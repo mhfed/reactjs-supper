@@ -9,6 +9,8 @@
 import React from 'react';
 import { InputField, RichTextboxField, ImageField, FileField, SelectField, AutocompleteField } from 'components/fields';
 import Grid from '@mui/material/Grid';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import makeStyles from '@mui/styles/makeStyles';
@@ -16,9 +18,10 @@ import { LooseObject } from 'models/ICommon';
 import Button from 'components/atoms/ButtonBase';
 import { Trans, useTranslation } from 'react-i18next';
 import { getSearchSitenameUrl, getSearchSecurityCodeUrl, getUploadUrl, getArticlesUrl } from 'apis/request.url';
-import { SITENAME_OPTIONS, SECURITY_TYPE_OPTIONS, SITENAME } from '../ArticlesConstants';
+import { SITENAME_OPTIONS, SECURITY_TYPE_OPTIONS, APPNAME } from '../ArticlesConstants';
 import { httpRequest } from 'services/initRequest';
 import { ICreateArticlesBody } from 'models/IArticles';
+import { IBundle } from 'models/ICommon';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { Typography } from '@mui/material';
@@ -35,16 +38,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type ArticlesPreviewFormProps = {
+  isSaveDraft: boolean;
   values: LooseObject;
   onReturn: () => void;
-  onReset: () => void;
+  onReset?: () => void;
 };
 
-const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onReturn, onReset }) => {
+const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ isSaveDraft, values, onReturn, onReset }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const confirmEdit = useConfirmEdit(() => true); // eslint-disable-line
+  const publishWithNotification = React.useRef<boolean>(true);
   const [loading, setLoading] = React.useState(false);
 
   /**
@@ -57,14 +62,17 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
       formData.append('file', values.image.file);
       const { data: imageResponse } = await httpRequest.post(getUploadUrl(), formData);
       const body: ICreateArticlesBody = {
-        subject: values.subject,
+        title: values.title,
         content: values.content,
         image: imageResponse.url,
-        site_name:
-          values.site_name === SITENAME.CUSTOM ? values.sitename_custom.map((e: any) => e.site_name) : [values.site_name],
         securities: values.securities.map((e: any) => e.securities),
         security_type: values.security_type,
+        article_type: isSaveDraft ? 'draft' : 'publish',
+        notification_enabled: publishWithNotification.current,
       };
+      if (values.app === APPNAME.CUSTOM) {
+        body.bundle_id = values.appname_custom.map((e: IBundle) => e.bundle_id);
+      } else delete body.bundle_id;
       if (values.file?.file) {
         const formData = new FormData();
         formData.append('file', values.file.file);
@@ -81,7 +89,7 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
           variant: 'success',
         }),
       );
-      onReset();
+      onReset?.();
     } catch (error) {
       setLoading(false);
       dispatch(
@@ -94,6 +102,14 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
     }
   };
 
+  /**
+   * Storage publish with notification value for use late
+   * @param e checkbox event
+   */
+  const onChangePublish = (e: React.ChangeEvent<HTMLInputElement>) => {
+    publishWithNotification.current = e.target.checked;
+  };
+
   const sitenameOption = SITENAME_OPTIONS.find((e) => e.value === values.site_name);
   const sitename = sitenameOption?.label ? t(sitenameOption.label) : '';
   return (
@@ -103,7 +119,7 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
       </Typography>
       <Grid container spacing={2} sx={{ flex: 1, justifyContent: 'flex-start' }}>
         <Grid item xs={12}>
-          <InputField preview name="subject" label="lang_title" fullWidth value={values.subject} />
+          <InputField preview name="title" label="lang_title" fullWidth value={values.title} />
         </Grid>
         {values.file?.file ? (
           <Grid item xs={12}>
@@ -134,16 +150,16 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
           />
         </Grid>
         <Grid item xs={12}>
-          {values.sitename_custom?.length ? (
+          {values.appname_custom?.length ? (
             <AutocompleteField
               preview
-              name="sitename_custom"
+              name="appname_custom"
               label="lang_sitename"
               required
               getUrl={getSearchSitenameUrl}
               isOptionEqualToValue={(opt, select) => opt.site_name === select.site_name}
               getOptionLabel={(opt) => opt.site_name}
-              value={values.sitename_custom}
+              value={values.appname_custom}
             />
           ) : (
             <InputField preview name="site_name" label="lang_sitename" required fullWidth value={sitename} />
@@ -163,6 +179,12 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
         </Grid>
         <Grid item xs={12}>
           <RichTextboxField preview placeholder="lang_enter_your_content" label="lang_content" value={values.content} />
+        </Grid>
+        <Grid item xs={12}>
+          <FormControlLabel
+            control={<Checkbox checked={publishWithNotification.current} onChange={onChangePublish} />}
+            label={<Trans>lang_publish_with_notification</Trans>}
+          />
         </Grid>
       </Grid>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>

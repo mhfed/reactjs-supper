@@ -15,7 +15,7 @@ import { ITableConfig, IBundle } from 'models/ICommon';
 import CustomTable, { COLUMN_TYPE } from 'components/molecules/CustomTable';
 import makeStyles from '@mui/styles/makeStyles';
 import { useGlobalModalContext } from 'containers/Modal';
-import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
+import ConfirmModal from 'components/molecules/ConfirmModal';
 import ArticlesDetail from '../CreateNewArticles/ArticlesDetail';
 import { convertArticlesDataToDetailForm } from 'helpers';
 import {
@@ -147,11 +147,13 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
         onClick: (data: any) => {
           showModal({
             title: 'lang_confirm',
-            component: ConfirmEditModal,
+            component: ConfirmModal,
             props: {
-              emailConfirm: true,
-              title: 'lang_enter_your_email_to_delete_article',
+              open: true,
+              alertContent: 'lang_ask_confirm_delete_article',
+              onClose: () => hideModal(),
               onSubmit: () => confirmDeleteArticles(data[FIELD.ARTICLES_ID]),
+              textSubmit: 'lang_delete',
             },
           });
         },

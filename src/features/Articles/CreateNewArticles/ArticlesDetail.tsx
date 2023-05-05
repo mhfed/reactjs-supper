@@ -118,16 +118,16 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
               />
             </Grid>
             <Grid item xs={12}>
-              {values.sitename_custom?.length ? (
+              {values.appname_custom?.length ? (
                 <AutocompleteField
                   preview
-                  name="sitename_custom"
+                  name="appname_custom"
                   label="lang_sitename"
                   required
                   getUrl={getSearchSitenameUrl}
                   isOptionEqualToValue={(opt, select) => opt.site_name === select.site_name}
                   getOptionLabel={(opt) => opt.site_name}
-                  value={values.sitename_custom}
+                  value={values.appname_custom}
                 />
               ) : (
                 <InputField preview name="site_name" label="lang_sitename" required fullWidth value={sitename} />

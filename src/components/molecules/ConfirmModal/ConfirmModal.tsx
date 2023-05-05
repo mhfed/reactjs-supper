@@ -72,7 +72,13 @@ const AlertConfirm = ({
         ) : (
           <></>
         )}
-        <Button network onClick={onSubmit} variant="contained" autoFocus>
+        <Button
+          network
+          onClick={onSubmit}
+          variant="contained"
+          autoFocus
+          color={textSubmit === 'lang_delete' ? 'error' : 'primary'}
+        >
           <Trans>{textSubmit}</Trans>
         </Button>
       </DialogActions>

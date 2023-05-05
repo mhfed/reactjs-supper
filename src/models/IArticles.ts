@@ -1,12 +1,14 @@
 export type ICreateArticlesBody = {
-  subject: string;
+  title: string;
   content: string;
   image?: string;
   attachment_url?: string;
   attachment_name?: string;
-  site_name: string[];
+  bundle_id?: string[];
   securities: string[];
   security_type: string;
+  article_type: string;
+  notification_enabled: boolean;
 };
 
 export type IArticlesDataManagement = {
@@ -22,8 +24,8 @@ export type IArticlesDataManagement = {
   securities?: string[];
   security_type?: string;
   site_name?: string[];
-  sitename_custom?: string[];
-  subject?: string;
+  appname_custom?: string[];
+  title?: string;
   [key: string]: any;
 };
 
@@ -45,7 +47,7 @@ export type IArticlesFormData = {
   securities?: { securities: string }[];
   security_type?: string;
   site_name?: string;
-  sitename_custom?: string[];
+  appname_custom?: string[];
   subject?: string;
   [key: string]: any;
 };
