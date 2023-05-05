@@ -9,9 +9,15 @@
 import React from 'react';
 import { Grid, Autocomplete, TextField, Typography } from '@mui/material';
 import { FormikProps } from 'formik';
-import { NOTIFICATION_TYPE, NOTIFICATION_TYPE_OPTION_FILTER, EXPIRE_OPTION_FILTER, EXPIRE } from '../NotificationConstant';
+import {
+  NOTIFICATION_TYPE,
+  NOTIFICATION_TYPE_OPTION_FILTER,
+  EXPIRE_OPTION_FILTER,
+  EXPIRE,
+  DELIVERY_TYPE,
+} from '../NotificationConstant';
 import RadioGroupField from 'components/fields/RadioGroupField';
-import { InputField } from 'components/fields';
+import { AutocompleteField, InputField } from 'components/fields';
 import { Trans } from 'react-i18next';
 import { initialValuesType } from '../CreateNewNotification';
 import { ClassNameMap } from 'notistack';
@@ -24,167 +30,137 @@ interface FormReviewNotificationProps {
 
 const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, classes }) => {
   const { values, handleChange, handleBlur, touched, errors } = form || {};
+
   const delivery_type_preview = `${values?.delivery_type || ''} ${
-    values?.schedule
+    values?.delivery_type === DELIVERY_TYPE.Schedule
       ? moment(values?.schedule || '')
           .local()
           .format('DD/MM/YYYY HH:mm')
       : ''
   }`;
-  const expired_preview = values?.expire
-    ? `${values?.expire} ${EXPIRE_OPTION_FILTER[values?.type_expired]}`
-    : `4 ${EXPIRE_OPTION_FILTER[EXPIRE.Weeks]}`;
 
-  let defaultArray = Array.isArray(values.bundle_id) ? values.bundle_id.map((x: any) => x?.username) : [];
+  let defaultArray = Array.isArray(values.bundle_id) ? values.bundle_id.map((x: any) => x?.display_name) : [];
   const { Segment, Sitename } = NOTIFICATION_TYPE;
 
   const renderField = () => {
     if (values.notification_type === Segment) {
       return (
-        <React.Fragment>
-          <InputField
-            name="segment"
-            label="lang_segment"
+        <Grid item xs={12}>
+          <AutocompleteField
+            multiple
+            name="user_group_id"
+            options={values.user_group_id}
+            defaultValue={[]}
             preview
-            fullWidth
-            variant={'standard'}
-            value={(values.user_group_id as any)?.name}
+            label="lang_user_group"
+            isOptionEqualToValue={(opt, select) => opt.user_group_id === select.user_group_id}
+            getOptionLabel={(opt: any | string) => opt}
+            changeDisplayInput={true}
           />
-        </React.Fragment>
+        </Grid>
       );
     }
 
     if (values.notification_type === Sitename) {
-      return <React.Fragment>xinchao</React.Fragment>;
-      // return (
-      //   <React.Fragment>
-      //     <Autocomplete
-      //       multiple
-      //       id="tags-readOnly"
-      //       // options={values.sitename}
-      //       options={[]}
-      //       value={values.sitename}
-      //       readOnly
-      //       freeSolo
-      //       // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
-      //       renderInput={(params) => (
-      //         <TextField
-      //           {...params}
-      //           variant="standard"
-      //           label={
-      //             <Typography>
-      //               <Trans>lang_sitename</Trans>
-      //             </Typography>
-      //           }
-      //         ></TextField>
-      //       )}
-      //     />
-      //   </React.Fragment>
-      // );
+      return (
+        <Grid item xs={12}>
+          <AutocompleteField
+            multiple
+            name="client_category_id"
+            options={values.client_category_id}
+            defaultValue={[]}
+            preview
+            label="lang_client_category"
+            isOptionEqualToValue={(opt, select) => opt.client_category_id === select.client_category_id}
+            getOptionLabel={(opt: any | string) => opt}
+            changeDisplayInput={true}
+          />
+        </Grid>
+      );
     }
+    return null;
+  };
 
+  const leftSideContainer = () => {
     return (
-      <React.Fragment>
-        <Autocomplete
-          multiple
-          id="tags-readOnly"
-          options={values.bundle_id}
-          defaultValue={defaultArray}
-          readOnly
-          freeSolo
-          // renderOption={(props, option, { selected }) => <li {...props}>{option.title}</li>}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              variant="standard"
-              label={
-                <Typography>
-                  <Trans>lang_bundle_id</Trans>
-                </Typography>
-              }
-            ></TextField>
-          )}
-        />
-      </React.Fragment>
+      <Grid item container xs={12} md={6} spacing={2}>
+        <Grid item xs={12}>
+          <RadioGroupField
+            name="notification_type"
+            label="lang_notification_type"
+            data={NOTIFICATION_TYPE_OPTION_FILTER[values.notification_type] || []}
+            rowItems
+            value={values?.notification_type}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            disabled
+            error={touched?.notification_type && Boolean(errors?.notification_type)}
+            helperText={touched.notification_type && errors.notification_type}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <AutocompleteField
+            multiple
+            name="bundle_id"
+            options={values.bundle_id}
+            defaultValue={defaultArray}
+            preview
+            label="lang_bundle_id"
+            isOptionEqualToValue={(opt, select) => opt.bundle_id === select.bundle_id}
+            getOptionLabel={(opt: any | string) => opt}
+            changeDisplayInput={true}
+          />
+        </Grid>
+        {renderField()}
+        <Grid item xs={12}>
+          <InputField name="title" label="lang_title" preview multiline fullWidth variant={'standard'} value={values.title} />
+        </Grid>
+        <Grid item xs={12}>
+          <InputField
+            name="message"
+            label="lang_message"
+            preview
+            fullWidth
+            variant={'standard'}
+            value={values.message}
+            multiline
+          />
+        </Grid>
+      </Grid>
+    );
+  };
+
+  const rightSideContainer = () => {
+    return (
+      <Grid item container xs={12} md={6} spacing={2} style={{ height: 'fit-content' }}>
+        <Grid item xs={12} style={{ height: 81 }}>
+          <InputField name="site_name" label="lang_sitename" preview fullWidth variant={'standard'} value={values.site_name} />
+        </Grid>
+        <Grid item xs={12}>
+          <InputField
+            name="notification_category"
+            label="lang_notification_category"
+            preview
+            fullWidth
+            variant={'standard'}
+            value={values.notification_category}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <InputField name="url" label="lang_linked_screen" preview fullWidth variant={'standard'} value={values.url} />
+        </Grid>
+        <Grid item xs={12}>
+          <InputField label="lang_delivery_type" preview fullWidth variant={'standard'} value={delivery_type_preview} />
+        </Grid>
+      </Grid>
     );
   };
 
   return (
     <React.Fragment>
       <Grid container spacing={2}>
-        <Grid item container xs={12} md={6} spacing={2}>
-          <Grid item xs={12}>
-            <RadioGroupField
-              name="notification_type"
-              label="lang_notification_type"
-              data={NOTIFICATION_TYPE_OPTION_FILTER[values.notification_type] || []}
-              rowItems
-              value={values?.notification_type}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              disabled
-              error={touched?.notification_type && Boolean(errors?.notification_type)}
-              helperText={touched.notification_type && errors.notification_type}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            {renderField()}
-          </Grid>
-          <Grid item xs={12}>
-            <InputField name="title" label="lang_title" preview multiline fullWidth variant={'standard'} value={values.title} />
-          </Grid>
-          <Grid item xs={12}>
-            <InputField
-              name="message"
-              label="lang_message"
-              preview
-              fullWidth
-              variant={'standard'}
-              value={values.message}
-              multiline
-            />
-          </Grid>
-        </Grid>
-        <Grid item container xs={12} md={6} spacing={2} style={{ height: 'fit-content' }}>
-          {[Segment, Sitename].includes(values.notification_type) ? (
-            <React.Fragment>
-              <Grid item xs={12} style={{ height: 81 }}>
-                <InputField
-                  // name="message"
-                  label="lang_delivery_type"
-                  preview
-                  fullWidth
-                  variant={'standard'}
-                  value={delivery_type_preview}
-                  style={{ visibility: 'hidden' }}
-                />
-              </Grid>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <Grid item xs={12} style={{ height: 81 }}>
-                <InputField
-                  // name="message"
-                  label="lang_delivery_type"
-                  preview
-                  fullWidth
-                  variant={'standard'}
-                  value={delivery_type_preview}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <InputField
-                  // name="message"
-                  label="lang_expire"
-                  preview
-                  fullWidth
-                  variant={'standard'}
-                  value={expired_preview}
-                />
-              </Grid>
-            </React.Fragment>
-          )}
-        </Grid>
+        {leftSideContainer()}
+        {rightSideContainer()}
       </Grid>
     </React.Fragment>
   );

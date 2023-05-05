@@ -251,7 +251,7 @@ export interface initialValuesType {
   delivery_type: string;
   expire: string;
   type_expired: string;
-  user_group_id?: string;
+  user_group_id?: Array<any>;
   schedule: string;
   expire_time?: string;
   schedule_time?: number;
@@ -271,7 +271,7 @@ const initialValues: initialValuesType = {
   delivery_type: DELIVERY_TYPE.Instant,
   expire: '4',
   type_expired: EXPIRE.Weeks,
-  user_group_id: '',
+  user_group_id: [],
   schedule: '',
   site_name: localStorage.getItem('sitename') || '',
   notification_category: '',
@@ -298,9 +298,6 @@ const validationSchema = yup.object().shape({
       .checkValidField('lang_schedule_time_invalid')
       .compareTimesLocal()
       .compareTimes('error_code_INVALID_TIME'),
-  }),
-  segment: yup.mixed().when('notification_type', (value, schema) => {
-    return value === NOTIFICATION_TYPE.Segment ? schema.required('lang_please_select_segment') : schema;
   }),
   // sitename: yup.array().when('notification_type', (value, schema) => {
   //   return value === NOTIFICATION_TYPE.Sitename

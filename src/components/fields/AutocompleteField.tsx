@@ -26,6 +26,12 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
+  previewContainerVisible: {
+    paddingBottom: 4,
+    '& input': {
+      visibility: 'hidden',
+    },
+  },
 }));
 
 type AutocompleteFieldProps = {
@@ -50,6 +56,8 @@ type AutocompleteFieldProps = {
   multiple?: boolean;
   disableClearable?: boolean;
   sizeInput?: 'small' | 'medium';
+  defaultValue?: Array<any>;
+  changeDisplayInput?: boolean;
 };
 
 const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
@@ -74,6 +82,8 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   multiple = true,
   disableClearable = true,
   sizeInput = 'medium',
+  defaultValue = [],
+  changeDisplayInput = false,
 }) => {
   const classes = useStyles();
   const [loading, setLoading] = React.useState(false);
@@ -165,12 +175,21 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
     }
   };
 
+  /**
+   * Choose class to change way to display input when previewing
+   */
+
+  const renderClasses = () => {
+    if (!preview) return null;
+    return changeDisplayInput ? classes.previewContainerVisible : classes.previewContainer;
+  };
+
   return (
     <FormControl
       required={preview ? false : required}
       fullWidth
       error={error}
-      className={clsx(classes.container, preview && classes.previewContainer)}
+      className={clsx(classes.container, renderClasses())}
     >
       <Autocomplete
         filterOptions={(x) => x}
@@ -191,7 +210,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
         clearIcon={value || value?.length ? <CancelIcon style={{ width: 16, height: 16, cursor: 'pointer' }} /> : null}
         onBlur={onBlur}
         value={value}
-        defaultValue={[]}
+        defaultValue={defaultValue}
         onChange={handleChange}
         options={options}
         getOptionLabel={_getOptionLabel}
