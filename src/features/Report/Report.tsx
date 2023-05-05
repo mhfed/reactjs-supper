@@ -11,7 +11,6 @@ import { enqueueSnackbarAction } from 'actions/app.action';
 import { getListReportUrl, getReportUrl } from 'apis/request.url';
 import CustomTable, { COLUMN_TYPE } from 'components/molecules/CustomTable';
 import { useGlobalModalContext } from 'containers/Modal';
-import useConfirmEdit from 'hooks/useConfirmEdit';
 import { ITableConfig, LooseObject } from 'models/ICommon';
 import React from 'react';
 import { useDispatch } from 'react-redux';
@@ -39,12 +38,9 @@ const Report: React.FC<ReportProps> = () => {
   const gridRef = React.useRef<TableHandle>(null);
   const dicData = React.useRef<DicDataReport>({});
   const { showModal } = useGlobalModalContext();
-  const confirmEdit = useConfirmEdit(() => !!gridRef?.current?.checkChange?.()); // eslint-disable-line
 
   /**
    * Get list report byb default or with iress auth
-   * @param token iress token
-   * @param sn sitename
    */
   const getData = async () => {
     try {

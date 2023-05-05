@@ -11,6 +11,7 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 import VerifyUserIcon from 'assets/icons/VerifyUser';
+import AuditTrailIcon from 'assets/icons/AuditTrail';
 import { PATH_NAME, USER_ROLE } from 'configs';
 
 export const navBarTitle = {
@@ -26,6 +27,7 @@ export const navBarTitle = {
   [PATH_NAME.ARTICLES_MANAGEMENT]: 'lang_articles_management',
   [PATH_NAME.REPORT]: 'lang_report',
   [PATH_NAME.ACCESS_MANAGEMENT]: 'lang_access_management',
+  [PATH_NAME.AUDIT_TRAIL]: 'lang_audit_trail',
 };
 
 export const navBarCommon = [
@@ -107,5 +109,10 @@ export const navBarCommon = [
     title: 'lang_report',
     icon: AssessmentIcon,
     href: PATH_NAME.REPORT,
+  },
+  {
+    title: 'lang_audit_trail',
+    icon: AuditTrailIcon,
+    href: PATH_NAME.AUDIT_TRAIL,
   },
 ];

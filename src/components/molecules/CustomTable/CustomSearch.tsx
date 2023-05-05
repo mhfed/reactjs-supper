@@ -289,7 +289,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
           horizontal: 'right',
         }}
         PaperProps={{
-          style: { background: 'transparent' },
+          style: { background: 'transparent', boxShadow: 'none' },
         }}
       >
         <Paper sx={{ p: 2, mt: 2 }}>

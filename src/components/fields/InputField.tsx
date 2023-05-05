@@ -106,7 +106,7 @@ const InputField: React.FC<TextFieldProps> = ({
           </Box>
         ),
       }}
-      helperText={<Trans>{helperText}</Trans>}
+      helperText={helperText ? <Trans>{helperText}</Trans> : ''}
     ></TextField>
   );
 };

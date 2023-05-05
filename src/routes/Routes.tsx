@@ -29,6 +29,7 @@ const Subscribers = lazy(() => import('features/Notification/Subscribers'));
 const ArticlesManagement = lazy(() => import('features/Articles/ArticlesManagement'));
 const CreateNewArticles = lazy(() => import('features/Articles/CreateNewArticles'));
 const Report = lazy(() => import('features/Report'));
+const AuditTrail = lazy(() => import('features/AuditTrail'));
 const AccessManagement = lazy(() => import('features/AccessManagement'));
 const Login = lazy(() => import('features/Login'));
 const DenyView = lazy(() => import('features/DenyView'));
@@ -118,6 +119,11 @@ const routesConfig: IRoutes[] = [
       {
         path: PATH_NAME.REPORT,
         component: Report,
+        requireRoles: [],
+      },
+      {
+        path: PATH_NAME.AUDIT_TRAIL,
+        component: AuditTrail,
         requireRoles: [],
       },
       {

@@ -27,4 +27,5 @@ export const PATH_NAME = {
   ARTICLES_MANAGEMENT: '/article/articles_management',
   REPORT: '/report',
   ACCESS_MANAGEMENT: '/access_management',
+  AUDIT_TRAIL: '/audit_trail',
 };

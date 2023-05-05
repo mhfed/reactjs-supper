@@ -17,6 +17,7 @@ import FileField from './FileField';
 import InputCodeField from './InputCodeField';
 import AutocompleteField from './AutocompleteField';
 import AuthAutocompleteField from './AuthAutocompleteField';
+import RangeDate from './RangeDate';
 export {
   InputField,
   PasswordField,
@@ -29,4 +30,5 @@ export {
   AutocompleteField,
   AuthAutocompleteField,
   InputCodeField,
+  RangeDate,
 };
