@@ -17,8 +17,6 @@ import HeaderModal from 'components/atoms/HeaderModal';
 import { initialValuesType } from '../../CreateNewNotification/CreateNewNotification';
 import { DELIVERY_TYPE, NOTIFICATION_STATUS, NOTIFICATION_TYPE } from '../../CreateNewNotification/NotificationConstant';
 import FormDirectNotification from './FormDirectNotification';
-import FormSegmentNotification from './FormSegmentNotification';
-import FormSiteNameNotification from './FormSiteNameNotification';
 import { httpRequest } from 'services/initRequest';
 import { getNotificationUrl } from 'apis/request.url';
 import EditNotification from '../EditNotification';
@@ -48,8 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonWrapper: {
     marginTop: 'auto',
-    paddingRight: 24,
-    paddingBottom: 24,
+    padding: '24px 24px 24px 0px',
   },
   iconClose: {
     cursor: 'pointer',
@@ -68,21 +65,6 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
   const { hideModal, showModal } = useGlobalModalContext();
   const dispatch = useDispatch();
   const { UserGroup, App } = NOTIFICATION_TYPE;
-
-  const renderContent = (form: FormikProps<initialValuesType>) => {
-    const { values } = form;
-    switch (values.notification_type) {
-      case App: {
-        return <FormDirectNotification form={form} classes={classes} />;
-      }
-      case UserGroup: {
-        return <FormSegmentNotification form={form} classes={classes} />;
-      }
-      default: {
-        return <FormSiteNameNotification form={form} classes={classes} />;
-      }
-    }
-  };
 
   const onEdit = async () => {
     const response: any = await httpRequest.get(getNotificationUrl(dataForm?.notification_id));
@@ -112,7 +94,7 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
   const submitButton = (form: FormikProps<initialValuesType>) => {
     return (
       <Stack direction="row" justifyContent="end" alignItems="center" spacing={3} className={classes.buttonWrapper}>
-        {form.values.delivery_type === DELIVERY_TYPE.Instant || dataForm?.status === NOTIFICATION_STATUS.TRIGGERED ? null : (
+        {form.values.status === NOTIFICATION_STATUS.TRIGGERED ? null : (
           <Button variant="contained" startIcon={<EditIcon />} network onClick={onEdit}>
             <Trans>lang_edit</Trans>
           </Button>
@@ -128,7 +110,7 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
         {(form: FormikProps<initialValuesType>) => {
           return (
             <React.Fragment>
-              {renderContent(form)}
+              <FormDirectNotification form={form} classes={classes} />
               {submitButton(form)}
             </React.Fragment>
           );

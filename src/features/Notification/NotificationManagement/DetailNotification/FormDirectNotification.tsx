@@ -11,7 +11,7 @@ import Grid from '@mui/material/Grid';
 import { InputField, AutocompleteField } from 'components/fields';
 import { FormikProps } from 'formik';
 import { initialValuesType } from '../../CreateNewNotification/CreateNewNotification';
-import { EXPIRE_OPTION_FILTER, NOTIFICATION_TYPE } from '../../CreateNewNotification/NotificationConstant';
+import { DELIVERY_TYPE, EXPIRE_OPTION_FILTER, NOTIFICATION_TYPE } from '../../CreateNewNotification/NotificationConstant';
 import moment from 'moment';
 import { ClassNameMap } from '@mui/styles';
 
@@ -24,98 +24,128 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
   const { values } = form;
   const { UserGroup, ClientCategory, App } = NOTIFICATION_TYPE;
 
-  let delivery_type_preview = `${values?.delivery_type || ''}`;
+  const delivery_type_preview = `${values?.delivery_type || ''} ${
+    values?.delivery_type === DELIVERY_TYPE.Schedule
+      ? moment(values?.schedule_time || '')
+          .local()
+          .format('DD/MM/YYYY HH:mm')
+      : ''
+  }`;
 
-  if (values.notification_type === App) {
-    delivery_type_preview += ` ${
-      values?.schedule_time
-        ? moment(values?.schedule_time || '')
-            .local()
-            .format('DD/MM/YYYY HH:mm')
-        : ''
-    }`;
-  }
-  const valueExpire = (values?.expire_time || '').replace(/[A-z]/g, '');
-  const typeExpire = (values?.expire_time || '').replace(/[0-9]/g, '');
-  const expired_preview = `${valueExpire || '0'} ${EXPIRE_OPTION_FILTER[typeExpire]}`;
-  values.type_url = 'Articles';
+  const renderField = () => {
+    if (values.notification_type === UserGroup) {
+      return (
+        <Grid item xs={12}>
+          <AutocompleteField
+            multiple
+            name="user_group_id"
+            options={values.user_group_id}
+            defaultValue={[]}
+            preview
+            label="lang_user_group"
+            isOptionEqualToValue={(opt, select) => opt === select}
+            getOptionLabel={(opt: any | string) => opt}
+            changeDisplayInput={true}
+          />
+        </Grid>
+      );
+    }
+
+    if (values.notification_type === ClientCategory) {
+      return (
+        <Grid item xs={12}>
+          <AutocompleteField
+            multiple
+            name="client_category_id"
+            options={values.client_category_id}
+            defaultValue={[]}
+            preview
+            label="lang_client_category"
+            isOptionEqualToValue={(opt, select) => opt === select}
+            getOptionLabel={(opt: any | string) => opt}
+            changeDisplayInput={true}
+          />
+        </Grid>
+      );
+    }
+    return null;
+  };
+
+  const leftSideContainer = () => {
+    return (
+      <Grid item container xs={12} md={6} spacing={3}>
+        <Grid item xs={12}>
+          <InputField
+            name="notification_type"
+            label="lang_notification_type"
+            preview
+            fullWidth
+            variant={'standard'}
+            value={values.notification_type}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <AutocompleteField
+            multiple
+            name="bundle_id"
+            options={values.bundle_id}
+            defaultValue={values.bundle_id}
+            preview
+            label="lang_app_name"
+            isOptionEqualToValue={(opt, select) => opt === select}
+            getOptionLabel={(opt: any | string) => opt}
+            changeDisplayInput={true}
+          />
+        </Grid>
+        {renderField()}
+        <Grid item xs={12}>
+          <InputField name="site_name" label="lang_sitename" preview fullWidth variant={'standard'} value={values.site_name} />
+        </Grid>
+        <Grid item xs={12}>
+          <InputField name="title" label="lang_title" preview multiline fullWidth variant={'standard'} value={values.title} />
+        </Grid>
+      </Grid>
+    );
+  };
+
+  const rightSideContainer = () => {
+    return (
+      <Grid item container xs={12} md={6} spacing={3} style={{ height: 'fit-content' }}>
+        <Grid item xs={12}>
+          <InputField
+            name="notification_category"
+            label="lang_notification_category"
+            preview
+            fullWidth
+            variant={'standard'}
+            value={values.notification_category}
+          />
+        </Grid>
+        {values.article_id ? (
+          <Grid item xs={12}>
+            <InputField
+              name="article_id"
+              label="lang_article_id"
+              preview
+              fullWidth
+              variant={'standard'}
+              value={values.article_id}
+            />
+          </Grid>
+        ) : null}
+
+        <Grid item xs={12}>
+          <InputField label="lang_delivery_type" preview fullWidth variant={'standard'} value={delivery_type_preview} />
+        </Grid>
+      </Grid>
+    );
+  };
 
   return (
     <React.Fragment>
       <Grid container spacing={3} className={classes.containerForm}>
-        <Grid item container xs={12} md={6} spacing={3}>
-          <Grid item xs={12}>
-            <InputField
-              name="notification_type"
-              label="lang_notification_type"
-              preview
-              fullWidth
-              variant={'standard'}
-              value={values.notification_type}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <InputField name="title" label="lang_title" preview fullWidth multiline variant={'standard'} value={values.title} />
-          </Grid>
-          <Grid item xs={12}>
-            <InputField name="type_url" label="lang_type_url" preview fullWidth variant={'standard'} value={values?.type_url} />
-          </Grid>
-        </Grid>
-        <Grid item container xs={12} md={6} spacing={3} style={{ height: 'fit-content' }}>
-          {[UserGroup, ClientCategory].includes(values.notification_type) ? (
-            <React.Fragment>
-              <Grid item xs={12} style={{ height: 81 }}>
-                <InputField
-                  // name="message"
-                  label="lang_delivery_type"
-                  preview
-                  fullWidth
-                  variant={'standard'}
-                  value={delivery_type_preview}
-                  style={{ visibility: 'hidden' }}
-                />
-              </Grid>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <Grid item xs={12}>
-                <InputField
-                  // name="message"
-                  label="lang_delivery_type"
-                  preview
-                  fullWidth
-                  variant={'standard'}
-                  value={delivery_type_preview}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <InputField
-                  // name="message"
-                  label="lang_expire"
-                  preview
-                  fullWidth
-                  variant={'standard'}
-                  value={expired_preview}
-                />
-              </Grid>
-            </React.Fragment>
-          )}
-        </Grid>
-        <Grid item container xs={12} spacing={3}>
-          <Grid item xs={12}>
-            <Grid item xs={12}>
-              <AutocompleteField
-                preview
-                name="appname_custom"
-                label="lang_subscribers"
-                required
-                isOptionEqualToValue={(opt, select) => opt.subscriber === select.subscriber}
-                getOptionLabel={(opt) => opt.subscriber}
-                value={values.bundle_id}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
+        {leftSideContainer()}
+        {rightSideContainer()}
         <Grid item container xs={12} spacing={3}>
           <Grid item xs={12}>
             <InputField

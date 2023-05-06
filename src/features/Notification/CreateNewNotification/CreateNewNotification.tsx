@@ -250,6 +250,8 @@ export interface initialValuesType {
   notification_category: string;
   url?: string;
   client_category_id: Array<any>;
+  article_id?: string;
+  status?: string;
 }
 
 const initialValues: initialValuesType = {

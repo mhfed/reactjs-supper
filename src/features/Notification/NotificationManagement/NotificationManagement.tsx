@@ -111,13 +111,15 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     actions.push({
       label: 'lang_view_detail',
       onClick: (data: any) => {
+        const parseArr = JSON.parse(data.bundle_id);
+
         showModal({
           component: DetailNotification,
           fullScreen: true,
           showBtnClose: true,
           props: {
             typePage: 'DETAIL',
-            dataForm: data,
+            dataForm: { ...data, bundle_id: parseArr },
             reCallChangeTable: onTableChange,
           },
         });
