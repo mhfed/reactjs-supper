@@ -70,18 +70,6 @@ export const navBarCommon = [
         title: 'lang_notifications_management',
         href: PATH_NAME.NOTIFICATION_MANAGEMENT,
       },
-      {
-        title: 'lang_create_new_segments',
-        href: PATH_NAME.CREATE_NEW_SEGMENT,
-      },
-      {
-        title: 'lang_segments_management',
-        href: PATH_NAME.SEGMENT_MANAGEMENT,
-      },
-      {
-        title: 'lang_subscribers',
-        href: PATH_NAME.SUBSCRIBERS,
-      },
     ],
   },
   {

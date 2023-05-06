@@ -23,9 +23,6 @@ const CreateNewUser = lazy(() => import('features/User/CreateNewUser'));
 const UserDetailEdit = lazy(() => import('features/User/UserDetailEdit'));
 const NotificationManagement = lazy(() => import('features/Notification/NotificationManagement'));
 const CreateNewNotification = lazy(() => import('features/Notification/CreateNewNotification'));
-const SegmentManagement = lazy(() => import('features/Notification/SegmentManagement'));
-const CreateNewSegment = lazy(() => import('features/Notification/CreateNewSegment'));
-const Subscribers = lazy(() => import('features/Notification/Subscribers'));
 const ArticlesManagement = lazy(() => import('features/Articles/ArticlesManagement'));
 const CreateNewArticles = lazy(() => import('features/Articles/CreateNewArticles'));
 const Report = lazy(() => import('features/Report'));
@@ -84,21 +81,6 @@ const routesConfig: IRoutes[] = [
       {
         path: PATH_NAME.NOTIFICATION_MANAGEMENT,
         component: NotificationManagement,
-        requireRoles: [],
-      },
-      {
-        path: PATH_NAME.SEGMENT_MANAGEMENT,
-        component: SegmentManagement,
-        requireRoles: [],
-      },
-      {
-        path: PATH_NAME.CREATE_NEW_SEGMENT,
-        component: CreateNewSegment,
-        requireRoles: [],
-      },
-      {
-        path: PATH_NAME.SUBSCRIBERS,
-        component: Subscribers,
         requireRoles: [],
       },
       {
