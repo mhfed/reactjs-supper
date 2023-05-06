@@ -12,45 +12,36 @@ import { FormikProps } from 'formik';
 import {
   DELIVERY_TYPE_OPTION,
   NOTIFICATION_TYPE_OPTION,
-  TYPE_URL_OPTIONS,
-  EXPIRE_OPTION,
   DELIVERY_TYPE,
+  NOTIFICATION_CATEGORY_OPTIONS,
+  NOTIFICATION_TYPE,
 } from 'features/Notification/CreateNewNotification/NotificationConstant';
 import RadioGroupField from 'components/fields/RadioGroupField';
 import { AutocompleteField, InputField, SelectField, DatePickerField } from 'components/fields';
-import { initialValuesType, isOptionEqualToValue } from './index';
+import { isOptionEqualToValue } from './index';
 import { ClassNameMap } from 'notistack';
-import { getSearchSubscribersUrl } from 'apis/request.url';
+import { initialValuesType } from 'features/Notification/CreateNewNotification/CreateNewNotification';
+import { LooseObject } from 'models/ICommon';
+import { getSearchAppNameUrl, getSearchClientCategoryUrl, getSearchUserGroupUrl } from 'apis/request.url';
 
 interface FormCreateNotifiactionProps {
   form: FormikProps<initialValuesType>;
   classes: ClassNameMap<'wrapper' | 'radioField' | 'formContainer'>;
 }
 
+export const isOptionEqualToValueSiteName = (option: any, value: any) => {
+  return option === value;
+};
+
 const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, classes, ...rest }) => {
   const { values, handleChange, handleBlur, touched, errors, setFieldValue, setFieldTouched } = form || {};
+  const { UserGroup, ClientCategory } = NOTIFICATION_TYPE;
 
   const renderAutocompleteField = () => {
     switch (values.notification_type) {
       default: {
         return (
           <React.Fragment>
-            <Grid item xs={12} style={{ paddingBottom: 3 }}>
-              <AutocompleteField
-                name="subscribers"
-                label="lang_subscribers"
-                required
-                getUrl={getSearchSubscribersUrl}
-                isOptionEqualToValue={isOptionEqualToValue}
-                getOptionLabel={(option) => `${option.username} (${option.site_name})`}
-                getChipLabel={(option) => option.username}
-                value={values.subscribers}
-                onChange={(value) => setFieldValue('subscribers', value)}
-                onBlur={() => setFieldTouched('subscribers', true, true)}
-                error={touched.subscribers && Boolean(errors.subscribers)}
-                helperText={(touched.subscribers && errors.subscribers) as string}
-              />
-            </Grid>
             <Grid item xs={12}>
               <InputField
                 name="message"
@@ -72,8 +63,8 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
     }
   };
 
-  return (
-    <Grid container spacing={2}>
+  const leftSideContainer = () => {
+    return (
       <Grid item container xs={12} md={6} spacing={2}>
         <Grid item xs={12} className="lineWidthField">
           <RadioGroupField
@@ -90,6 +81,76 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             helperText={touched.notification_type && errors.notification_type}
           />
         </Grid>
+
+        <Grid item xs={12}>
+          <AutocompleteField
+            name="bundle_id"
+            label="lang_app_name"
+            required
+            getUrl={getSearchAppNameUrl}
+            isOptionEqualToValue={isOptionEqualToValue}
+            getOptionLabel={(option) => `${option.display_name}`}
+            getChipLabel={(option) => option.display_name}
+            value={values.bundle_id}
+            onChange={(value) => setFieldValue('bundle_id', value)}
+            onBlur={() => setFieldTouched('bundle_id', true, true)}
+            error={touched.bundle_id && Boolean(errors.bundle_id)}
+            helperText={(touched.bundle_id && errors.bundle_id) as string}
+          />
+        </Grid>
+        {values.notification_type === UserGroup && (
+          <Grid item xs={12} style={{ paddingBottom: 3 }}>
+            <AutocompleteField
+              name="user_group_id"
+              label="lang_user_group"
+              required
+              multiple={false}
+              getUrl={getSearchUserGroupUrl}
+              isOptionEqualToValue={(option: LooseObject, value: LooseObject) => option?.name === value?.name}
+              getOptionLabel={(option) => option?.name || ''}
+              getChipLabel={(option) => option?.name || ''}
+              value={values.user_group_id}
+              onChange={(value) => setFieldValue('user_group_id', value)}
+              onBlur={() => setFieldTouched('user_group_id', true, true)}
+              error={touched.user_group_id && Boolean(errors.user_group_id)}
+              helperText={(touched.user_group_id && errors.user_group_id) as string}
+            />
+          </Grid>
+        )}
+        {values.notification_type === ClientCategory && (
+          <Grid item xs={12} style={{ paddingBottom: 3 }}>
+            <AutocompleteField
+              name="client_category_id"
+              label="lang_client_category"
+              required
+              getUrl={getSearchClientCategoryUrl}
+              isOptionEqualToValue={isOptionEqualToValueSiteName}
+              getOptionLabel={(option) => `${option || ''}`}
+              getChipLabel={(option: any) => option}
+              value={values.client_category_id}
+              formatData={(data = []) => data?.map((e: { client_category_id: string }) => e.client_category_id)}
+              onChange={(value) => setFieldValue('client_category_id', value)}
+              onBlur={() => setFieldTouched('client_category_id', true, true)}
+              error={touched.client_category_id && Boolean(errors.client_category_id)}
+              helperText={(touched.client_category_id && errors.client_category_id) as string}
+            />
+          </Grid>
+        )}
+        <Grid item xs={12}>
+          <InputField
+            name="site_name"
+            label="lang_sitename"
+            required
+            fullWidth
+            value={values.site_name}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            readOnly={true}
+            error={touched.site_name && Boolean(errors.site_name)}
+            helperText={touched.site_name && errors.site_name}
+          />
+        </Grid>
+
         <Grid item xs={12}>
           <InputField
             name="title"
@@ -103,99 +164,87 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             helperText={touched.title && errors.title}
           />
         </Grid>
-        <Grid item xs={12}>
-          <SelectField
-            options={TYPE_URL_OPTIONS}
-            name="type_url"
-            label="lang_type_url"
-            id="type_url"
-            fullWidth
-            required
-            onBlur={handleBlur}
-            value={values.type_url}
-            onChange={handleChange}
-            error={touched.type_url && Boolean(errors.type_url)}
-            helperText={touched.type_url && errors.type_url}
-          />
-        </Grid>
       </Grid>
+    );
+  };
+
+  const rightSideContainer = () => {
+    return (
       <Grid item container xs={12} md={6} spacing={2} style={{ height: 'fit-content' }}>
         <React.Fragment>
           <Grid item xs={12}>
-            <Grid item container xs={12}>
-              <Grid item xs={12}>
-                <RadioGroupField
-                  name="delivery_type"
-                  label="lang_delivery_type"
-                  data={DELIVERY_TYPE_OPTION}
-                  required
-                  rowItems
-                  value={values?.delivery_type}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched?.delivery_type && Boolean(errors?.delivery_type)}
-                  helperText={touched.delivery_type && errors.delivery_type}
-                />
-              </Grid>
-            </Grid>
+            <SelectField
+              options={NOTIFICATION_CATEGORY_OPTIONS}
+              name="notification_category"
+              label="lang_notification_category"
+              id="notification_category"
+              fullWidth
+              required
+              readOnly
+              onBlur={handleBlur}
+              value={values.notification_category}
+              onChange={handleChange}
+              error={touched.notification_category && Boolean(errors.notification_category)}
+              helperText={touched.notification_category && errors.notification_category}
+            />
           </Grid>
 
           <Grid item xs={12}>
-            <Grid item container xs={12} spacing={2}>
-              <Grid item xs={6} xl={3}>
-                <Grid item xs={12}>
-                  <InputField
-                    name="expire"
-                    label="lang_expire"
-                    required
-                    fullWidth
-                    value={values.expire}
-                    onChange={(e) => {
-                      if (/^[1-9]{1}[0-9]{0,2}$/.test(e.target.value) || e.target.value === '') handleChange(e);
-                    }}
-                    onBlur={handleBlur}
-                    error={touched.expire && Boolean(errors.expire)}
-                    helperText={touched.expire && errors.expire}
-                  />
-                </Grid>
-              </Grid>
-              <Grid item xs={6} xl={3}>
-                <SelectField
-                  options={EXPIRE_OPTION}
-                  name="type_expired"
-                  label="lang_type"
-                  id="type_expired"
-                  fullWidth
-                  onBlur={handleBlur}
-                  value={values.type_expired}
-                  onChange={handleChange}
-                  error={touched.type_expired && Boolean(errors.type_expired)}
-                  helperText={touched.type_expired && errors.type_expired}
-                />
-              </Grid>
-              <Grid item xs={12} xl={6}>
-                {values?.delivery_type === DELIVERY_TYPE.Instant ? (
-                  <></>
-                ) : (
-                  <DatePickerField
-                    name="schedule"
-                    required
-                    value={values.schedule}
-                    label={'lang_schedule_time'}
-                    inputFormat={'DD/MM/YYYY HH:mm'}
-                    onChange={(v: string) => setFieldValue('schedule', v ? new Date(v) : v)}
-                    fullWidth
-                    onBlur={handleBlur}
-                    minDate={new Date()}
-                    error={touched.schedule && Boolean(errors.schedule)}
-                    helperText={touched.schedule && errors.schedule}
-                  />
-                )}
-              </Grid>
-            </Grid>
+            <InputField
+              name="url"
+              label="lang_article_id"
+              required
+              fullWidth
+              value={values.url}
+              readOnly
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.url && Boolean(errors.url)}
+              helperText={touched.url && errors.url}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <RadioGroupField
+              name="delivery_type"
+              label="lang_delivery_type"
+              data={DELIVERY_TYPE_OPTION}
+              required
+              rowItems
+              value={values?.delivery_type}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched?.delivery_type && Boolean(errors?.delivery_type)}
+              helperText={touched.delivery_type && errors.delivery_type}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            {values?.delivery_type === DELIVERY_TYPE.Instant ? null : (
+              <DatePickerField
+                name="schedule"
+                required
+                value={values.schedule}
+                label={'lang_schedule_time'}
+                inputFormat={'DD/MM/YYYY HH:mm'}
+                onChange={(v: string) => setFieldValue('schedule', v ? new Date(v) : v)}
+                fullWidth
+                onBlur={handleBlur}
+                minDate={new Date()}
+                error={touched.schedule && Boolean(errors.schedule)}
+                helperText={touched.schedule && errors.schedule}
+              />
+            )}
           </Grid>
         </React.Fragment>
       </Grid>
+    );
+  };
+
+  return (
+    <Grid container spacing={2}>
+      {leftSideContainer()}
+      {rightSideContainer()}
       <Grid item container xs={12} spacing={2}>
         {renderAutocompleteField()}
       </Grid>

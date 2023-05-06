@@ -32,6 +32,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { diff } from 'deep-diff';
 import DetailNotification from '../DetailNotification';
 import { Inotifiaction, ISubscriber } from 'models/INotification';
+import { initialValuesType } from 'features/Notification/CreateNewNotification/CreateNewNotification';
 
 interface EditNotificationProps {
   dataForm: Inotifiaction;
@@ -157,13 +158,13 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
           desktop_push: true,
           email_push: true,
           sms_push: true,
-          subscribers: (values?.subscribers || []).map((x) => {
-            const { subscriber, site_name, username } = x || {};
-            return {
-              username: subscriber || username,
-              site_name,
-            };
-          }),
+          // subscribers: (values?.subscribers || []).map((x) => {
+          //   const { subscriber, site_name, username } = x || {};
+          //   return {
+          //     username: subscriber || username,
+          //     site_name,
+          //   };
+          // }),
         };
         let expireTime = Number(expire);
         if (expireTime) bodySendNoti = { ...bodySendNoti, expire_time: `${expireTime}${type_expired}` };
@@ -321,45 +322,37 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
   );
 };
 
-export interface initialValuesType {
-  notification_type: string;
-  subscribers: Array<any>;
-  title: string;
-  message: string;
-  type_url: string;
-  delivery_type: string;
-  expire: string;
-  type_expired: string;
-  segment?: string;
-  schedule: string;
-  sitename?: Array<any>;
-  expire_time?: string;
-  schedule_time?: number;
-  segment_id?: string;
-}
-
 const initialValuesDefault: initialValuesType = {
   notification_type: NOTIFICATION_TYPE.App,
-  subscribers: [],
+  bundle_id: [],
   title: '',
   message: '',
   type_url: 'Article',
   delivery_type: DELIVERY_TYPE.Instant,
-  expire: '',
-  type_expired: EXPIRE.Hours,
-  segment: '',
+  expire: '4',
+  type_expired: EXPIRE.Weeks,
+  user_group_id: [],
   schedule: '',
-  sitename: [],
+  site_name: '',
+  notification_category: '',
+  url: '',
+  client_category_id: [],
 };
 
 const validationSchema = yup.object().shape({
-  subscribers: yup.array().when(['notification_type'], (value, schema) => {
-    return value === NOTIFICATION_TYPE.App
-      ? schema.min(1, 'lang_select_segment_subcriber').required('lang_select_segment_subcriber')
+  bundle_id: yup.array().min(1, 'lang_app_name_require').required('lang_app_name_require'),
+  user_group_id: yup.array().when(['notification_type'], (value, schema) => {
+    return value === NOTIFICATION_TYPE.UserGroup
+      ? schema.min(1, 'lang_user_group_require').required('lang_user_group_require')
       : schema;
   }),
-  title: yup.string().required('lang_please_enter_title').max(64, 'lang_validate_title'),
-  message: yup.string().required('lang_please_enter_message').max(192, 'lang_validate_message'),
+  client_category_id: yup.array().when(['notification_type'], (value, schema) => {
+    return value === NOTIFICATION_TYPE.ClientCategory
+      ? schema.min(1, 'lang_client_category_id_require').required('lang_client_category_id_require')
+      : schema;
+  }),
+  title: yup.string().trim().required('lang_please_enter_title').max(64, 'lang_validate_title'),
+  message: yup.string().trim().required('lang_please_enter_message').max(192, 'lang_validate_message'),
   schedule: yup.string().when(['delivery_type', 'notification_type'], {
     is: (delivery_type: 'Instant' | 'Schedule', notification_type: Notification_Type) => {
       return delivery_type === DELIVERY_TYPE.Schedule && notification_type === NOTIFICATION_TYPE.App;
@@ -370,17 +363,9 @@ const validationSchema = yup.object().shape({
       .checkValidField('lang_schedule_time_invalid')
       .compareTimesLocal()
       .compareTimes('error_code_INVALID_TIME'),
-    // .checkValidField('lang_schedule_time_required'),
   }),
-  segment: yup.mixed().when('notification_type', (value, schema) => {
-    return value === NOTIFICATION_TYPE.UserGroup ? schema.required('lang_please_select_segment') : schema;
-  }),
-  sitename: yup.array().when('notification_type', (value, schema) => {
-    return value === NOTIFICATION_TYPE.ClientCategory
-      ? schema.min(1, 'lang_please_select_sitename').required('lang_please_select_sitename')
-      : schema;
-  }),
-  type_url: yup.string().required('lang_url_require'),
+  // notification_category: yup.string().required('lang_notification_category_require'),
+  url: yup.string().required('lang_linked_screen_require'),
 });
 
 export default EditNotification;

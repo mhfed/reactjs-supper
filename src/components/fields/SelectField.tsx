@@ -54,6 +54,7 @@ type SelectFieldProps = {
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   options?: Array<Options>;
   customSelect?: boolean;
+  readOnly?: boolean;
 };
 
 const SelectField: React.FC<SelectFieldProps> = ({
@@ -66,6 +67,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
   error,
   shrink,
   customSelect,
+  readOnly,
   ...props
 }) => {
   const classes = useStyles();
@@ -79,7 +81,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
   return (
     <FormControl
       className={clsx(classesSelect())}
-      required={preview ? false : required}
+      required={preview || readOnly ? false : required}
       error={error}
       sx={{
         minWidth: 120,
@@ -96,12 +98,12 @@ const SelectField: React.FC<SelectFieldProps> = ({
       <Select
         {...props}
         labelId={props.id}
-        required={preview ? false : required}
-        variant={preview ? 'standard' : 'outlined'}
+        required={preview || readOnly ? false : required}
+        variant={preview && !readOnly ? 'standard' : 'outlined'}
         id={props.id}
         label={label ? <Trans>{label}</Trans> : ''}
         value={value}
-        readOnly={preview}
+        readOnly={preview || readOnly}
         sx={{ textTransform: textTransform ? textTransform : 'none' }}
         MenuProps={{
           PaperProps: {
