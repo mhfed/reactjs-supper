@@ -124,6 +124,8 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
                 onBlur={handleBlur}
                 maxDate={values.to}
                 hideTabs={true}
+                size="small"
+                typeDatePicker="DatePicker"
               />
             </Grid>
             <Grid item xs={6}>
@@ -136,6 +138,8 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
                 onBlur={handleBlur}
                 minDate={values.from}
                 hideTabs={true}
+                size="small"
+                typeDatePicker="DatePicker"
               />
             </Grid>
           </Grid>

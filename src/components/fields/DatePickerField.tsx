@@ -9,9 +9,10 @@
 import * as React from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import TextField from '@mui/material/TextField';
+import TextField, { TextFieldProps } from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { DateTimePicker, DateTimePickerTabs, DateTimePickerTabsProps } from '@mui/x-date-pickers/DateTimePicker';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import EventIcon from '@mui/icons-material/Event';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import { Trans } from 'react-i18next';
@@ -58,10 +59,12 @@ type DatePickerFieldProps = {
   minDate?: Date;
   hideTabs?: boolean;
   maxDate?: Date;
+  size?: 'small' | 'medium';
+  typeDatePicker?: 'DateTimePicker' | 'DatePicker';
 };
 
 const DatePickerField: React.FC<DatePickerFieldProps> = (props) => {
-  const { label, hideTabs, ...rest } = props;
+  const { label, hideTabs, size, typeDatePicker = 'DateTimePicker', ...rest } = props;
   const isError = rest?.error || false;
   const helperText = rest?.helperText || false;
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
@@ -95,27 +98,32 @@ const DatePickerField: React.FC<DatePickerFieldProps> = (props) => {
     }
   }
 
-  return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
+  const renderInput = (params: TextFieldProps): React.ReactElement<any, string | React.JSXElementConstructor<any>> => {
+    return (
+      <TextField
+        required={Boolean(props?.required)}
+        name={rest.name}
+        value={rest.value}
+        onBlur={rest.onBlur}
+        fullWidth={Boolean(props?.fullWidth)}
+        {...params}
+        className={classes.inputField}
+        label={label ? <Trans>{label}</Trans> : null}
+        error={isError}
+        size={size}
+        helperText={isError && helperText ? <Trans>{helperText}</Trans> : ''}
+      />
+    );
+  };
+
+  const renderDateTimeField = () => {
+    return (
       <DateTimePicker
-        {...props}
+        {...rest}
         onChange={_onChange}
         value={selectedDate}
         label={label}
-        renderInput={(params) => (
-          <TextField
-            required={Boolean(props?.required)}
-            name={rest.name}
-            value={rest.value}
-            onBlur={rest.onBlur}
-            fullWidth={Boolean(props?.fullWidth)}
-            {...params}
-            className={classes.inputField}
-            label={label ? <Trans>{label}</Trans> : null}
-            error={isError}
-            helperText={isError && helperText ? <Trans>{helperText}</Trans> : ''}
-          />
-        )}
+        renderInput={renderInput}
         hideTabs={Boolean(hideTabs)}
         components={{ Tabs: CustomTabs }}
         componentsProps={{
@@ -125,6 +133,16 @@ const DatePickerField: React.FC<DatePickerFieldProps> = (props) => {
           },
         }}
       />
+    );
+  };
+
+  const renderDateField = () => {
+    return <DatePicker {...rest} onChange={_onChange} value={selectedDate} label={label} renderInput={renderInput} />;
+  };
+
+  return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      {typeDatePicker === 'DateTimePicker' ? renderDateTimeField() : renderDateField()}
     </LocalizationProvider>
   );
 };
