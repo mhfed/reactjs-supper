@@ -46,12 +46,12 @@ const useStyles = makeStyles((theme) => ({
   wrapper: {
     display: 'flex',
     borderRadius: 8,
-    overflow: 'hidden',
     flex: 1,
     flexDirection: 'column',
     alignItems: 'flex-end',
     padding: theme.spacing(3),
     justifyContent: 'space-between',
+    overflowY: 'auto',
   },
   radioField: {
     display: 'flex',
@@ -78,6 +78,17 @@ const useStyles = makeStyles((theme) => ({
   },
   iconClose: {
     cursor: 'pointer',
+  },
+  footer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'end',
+    alignItems: 'center',
+    paddingTop: theme.spacing(3),
+    gap: theme.spacing(2),
+    '& > buttom': {
+      margin: 0,
+    },
   },
 }));
 
@@ -283,7 +294,7 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
    */
   const submitButton = (form: FormikProps<initialValuesType>) => {
     return (
-      <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
+      <Stack className={classes.footer}>
         <Button variant="outlined" onClick={() => onCancel(form)} scrollToTop>
           <Trans>{props.typePage === 'EDIT' ? 'lang_cancel' : 'lang_back'}</Trans>
         </Button>
