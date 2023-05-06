@@ -300,5 +300,5 @@ export function getSearchAppNameUrl(searchText = '') {
 
 // Audit Trail
 export const getAuditTrailUrl = ({ page = 1, rowsPerPage = +process.env.REACT_APP_DEFAULT_PAGE_SIZE }) => {
-  return `/v1/search/user?page_id=${page}&page_size=${rowsPerPage}`;
+  return `/v1/search/audit-trail?page_id=${page}&page_size=${rowsPerPage}`;
 };

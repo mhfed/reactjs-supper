@@ -1,5 +1,8 @@
 {
   "lang_recall": "Recall",
+  "lang_successful": "Successful",
+  "lang_unsuccessful": "Unsuccessful",
+  "lang_reports": "Reports",
   "lang_notification_setup": "Notification setup",
   "lang_preview_notification_setup": "Preview notification setup",
   "lang_from": "From",

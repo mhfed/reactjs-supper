@@ -106,7 +106,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
         MenuProps={{
           PaperProps: {
             style: {
-              maxHeight: 228,
+              maxHeight: 232,
             },
           },
           disableScrollLock: true,

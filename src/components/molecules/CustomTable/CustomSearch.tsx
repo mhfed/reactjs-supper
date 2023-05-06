@@ -230,6 +230,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
               name="search_app_name"
               label="lang_app_name"
               disableClearable={false}
+              sizeInput="small"
               getUrl={getSearchAppNameUrl}
               multiple={false}
               value={appName}

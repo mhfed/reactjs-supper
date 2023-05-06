@@ -1,7 +1,7 @@
 /*
  * Created on Fri Jan 06 2023
  *
- * Date picker modal
+ * From and to date picker
  *
  * Copyright (c) 2023 - Novus Fintech
  */
@@ -23,6 +23,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Button from 'components/atoms/ButtonBase';
 import { v4 as uuidv4 } from 'uuid';
+import { LooseObject } from 'models/ICommon';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -48,15 +49,18 @@ type RangeDateProps = {
   helperText?: string | boolean | undefined | FormikErrors<any>[] | FormikErrors<any> | string[];
   fullWidth?: boolean;
   sx?: any;
-  onChange: (e: Date | string) => void;
+  onChange: (e: { from: Date; to: Date }) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   required?: boolean;
 };
 
 const RangeDate: React.FC<RangeDateProps> = (props) => {
   const classes = useStyles();
-  const { label, required = false, from, to, helperText = '' } = props;
+  const { label, required = false, from, to, onChange, helperText = '' } = props;
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+  const [fromDate, setFromDate] = React.useState<Date>(from);
+  const [toDate, setToDate] = React.useState<Date>(to);
+  const [error, setError] = React.useState<LooseObject>({});
   const datePickerId = uuidv4();
 
   /**
@@ -74,9 +78,35 @@ const RangeDate: React.FC<RangeDateProps> = (props) => {
   };
 
   /**
+   * Handle from date change
+   */
+  const onChangeFromDate = (value: any) => {
+    setFromDate(value.toDate());
+    if (!value.isValid() && !error?.from) {
+      setError((old) => ({ ...old, from: true }));
+    } else if (value.isValid() && error?.from) {
+      setError((old) => ({ ...old, from: false }));
+    }
+  };
+
+  /**
+   * Handle to date change
+   */
+  const onChangeToDate = (value: any) => {
+    setToDate(value.toDate());
+    if (!value.isValid() && !error?.from) {
+      setError((old) => ({ ...old, to: true }));
+    } else if (value.isValid() && error?.from) {
+      setError((old) => ({ ...old, to: false }));
+    }
+  };
+
+  /**
    * Apply new date range
    */
-  const onApply = () => {};
+  const onApply = () => {
+    onChange?.({ from: fromDate, to: toDate });
+  };
 
   const value = `${moment(props.from).format('DD/MM/YYYY')} - ${moment(props.to).format('DD/MM/YYYY')}`;
   return (
@@ -120,10 +150,18 @@ const RangeDate: React.FC<RangeDateProps> = (props) => {
             <Grid item xs={6}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
-                  onChange={() => {}}
-                  value={from}
+                  onChange={onChangeFromDate}
+                  inputFormat="DD/MM/YYYY"
+                  value={fromDate}
                   renderInput={(params) => (
-                    <TextField {...params} required={Boolean(props?.required)} name={'from'} value={from} fullWidth />
+                    <TextField
+                      {...params}
+                      required={Boolean(props?.required)}
+                      error={error.from}
+                      name={'from'}
+                      value={fromDate}
+                      fullWidth
+                    />
                   )}
                 />
               </LocalizationProvider>
@@ -131,10 +169,18 @@ const RangeDate: React.FC<RangeDateProps> = (props) => {
             <Grid item xs={6}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
-                  onChange={() => {}}
-                  value={to}
+                  onChange={onChangeToDate}
+                  inputFormat="DD/MM/YYYY"
+                  value={toDate}
                   renderInput={(params) => (
-                    <TextField {...params} required={Boolean(props?.required)} name={'to'} value={to} fullWidth />
+                    <TextField
+                      {...params}
+                      required={Boolean(props?.required)}
+                      error={error.to}
+                      name={'to'}
+                      value={toDate}
+                      fullWidth
+                    />
                   )}
                 />
               </LocalizationProvider>
@@ -144,7 +190,7 @@ const RangeDate: React.FC<RangeDateProps> = (props) => {
             <Button variant="outlined" scrollToTop onClick={handleClose}>
               <Trans>lang_cancel</Trans>
             </Button>
-            <Button network variant="contained" onClick={onApply}>
+            <Button network variant="contained" disabled={error?.from || error?.to} onClick={onApply}>
               <Trans>lang_apply</Trans>
             </Button>
           </Stack>
