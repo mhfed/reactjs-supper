@@ -164,12 +164,15 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
       });
     }
     actions.push({
-      label: 'lang_delete',
+      label: 'lang_recall',
       onClick: (data: any) =>
         showModal({
           title: 'lang_confirm',
           component: ConfirmEditModal,
           props: {
+            emailConfirm: false,
+            confirmText: 'lang_recall',
+            colorButtonConfirm: 'error',
             title: 'lang_confirm_delete_notification',
             titleTransValues: { notification: data[FIELD.NOTIFICATION_ID] },
             onSubmit: () => confirmDeleteNotification(data[FIELD.NOTIFICATION_ID]),

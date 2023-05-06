@@ -43,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-end',
     alignItems: 'center',
     marginTop: theme.spacing(2),
+    '& button': {
+      fontWeight: 700,
+    },
   },
   thead: {
     fontWeight: 700,
@@ -72,6 +75,7 @@ type ConfirmEditUserModalProps = {
   centerButton?: boolean;
   centerTitle?: boolean;
   styleContainer?: React.CSSProperties;
+  colorButtonConfirm?: 'inherit' | 'warning' | 'error' | 'success' | 'info' | 'primary' | 'secondary';
 };
 
 const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
@@ -89,6 +93,7 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
   centerButton,
   centerTitle,
   styleContainer,
+  colorButtonConfirm,
 }) => {
   const classes = useStyles();
   const [email, setEmail] = React.useState('');
@@ -224,7 +229,13 @@ const ConfirmEditModal: React.FC<ConfirmEditUserModalProps> = ({
         <Button variant="outlined" onClick={onClose} sx={{ mr: 2 }}>
           <Trans>{cancelText}</Trans>
         </Button>
-        <Button network variant="contained" disabled={(emailConfirm && !email) || !!error} onClick={handleConfirm}>
+        <Button
+          color={colorButtonConfirm}
+          network
+          variant="contained"
+          disabled={(emailConfirm && !email) || !!error}
+          onClick={handleConfirm}
+        >
           <Trans>{confirmText}</Trans>
         </Button>
       </div>

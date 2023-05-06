@@ -1,4 +1,5 @@
 {
+  "lang_recall": "Recall",
   "lang_notification_setup": "Notification setup",
   "lang_preview_notification_setup": "Preview notification setup",
   "lang_from": "From",
@@ -293,7 +294,7 @@
   "error_code_5001": "Unable to delete active user",
   "lang_sending_reset_password_success": "Send reset password request successfully",
   "lang_sending_reset_password_request": "Sending reset password request...",
-  "lang_confirm_delete_notification": "Enter your User ID to delete notification <0>{{notification}}</0>?",
+  "lang_confirm_delete_notification": "Are you sure want to recall notification <0>{{notification}}</0>?",
   "lang_confirm_delete_user": "Enter your User ID to delete user <0>{{user}}</0>?",
   "lang_confirm_delete_segment": "Enter your User ID to delete segment <0>{{segment}}</0>?",
   "lang_confirm_reset_password_for_user": "Do you want to reset password for user login <0>{{user}}</0>?",
