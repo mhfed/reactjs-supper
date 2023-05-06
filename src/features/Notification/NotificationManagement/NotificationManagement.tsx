@@ -110,19 +110,27 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     const actions = [];
     actions.push({
       label: 'lang_view_detail',
-      onClick: (data: any) => {
-        const parseArr = JSON.parse(data.bundle_id);
+      onClick: (data: Inotifiaction) => {
+        httpRequest
+          .get(getNotificationUrl(data.notification_id))
+          .then((res) => {
+            const currentRes: any = res;
+            const parseArr = JSON.parse(currentRes.bundle_id);
 
-        showModal({
-          component: DetailNotification,
-          fullScreen: true,
-          showBtnClose: true,
-          props: {
-            typePage: 'DETAIL',
-            dataForm: { ...data, bundle_id: parseArr },
-            reCallChangeTable: onTableChange,
-          },
-        });
+            showModal({
+              component: DetailNotification,
+              fullScreen: true,
+              showBtnClose: true,
+              props: {
+                typePage: 'DETAIL',
+                dataForm: { ...currentRes, bundle_id: parseArr },
+                reCallChangeTable: onTableChange,
+              },
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       },
     });
     if (data[FIELD.STATUS] !== NOTIFICATION_STATUS.TRIGGERED) {

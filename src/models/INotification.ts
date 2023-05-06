@@ -37,4 +37,5 @@ export type Inotifiaction = {
   create_time: number;
   attempted: number;
   ctr: number;
+  bundle_id: any;
 };
