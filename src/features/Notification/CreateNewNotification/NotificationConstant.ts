@@ -6,9 +6,9 @@
  * Copyright (c) 2023 - Novus Fintech
  */
 
-export type Notification_Type = 'App' | 'UserGroup' | 'ClientCategory';
+export type Notification_Type = 'Direct' | 'Segment' | 'Sitename';
 
-export const NOTIFICATION_TYPE = { App: 'App', UserGroup: 'UserGroup', ClientCategory: 'ClientCategory' };
+export const NOTIFICATION_TYPE = { App: 'Direct', UserGroup: 'Segment', ClientCategory: 'Sitename' };
 export const DELIVERY_TYPE = { Instant: 'Instant', Schedule: 'Schedule' };
 export const EXPIRE = { Hours: 'H', Days: 'D', Weeks: 'W' };
 export const SEARCH_BY_TYPE = { created_by: 'created_by', schedule_time: 'schedule_time' };
