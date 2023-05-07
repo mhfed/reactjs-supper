@@ -78,3 +78,8 @@ export const NOTIFICATION_STATUS_OPTIONS = [
   { label: 'lang_triggered', value: NOTIFICATION_STATUS.TRIGGERED },
   { label: 'lang_pending', value: NOTIFICATION_STATUS.PENDING, color: 'warning' },
 ];
+
+export const STEP_EDIT_NOTI = {
+  EDIT_NOTI: 1,
+  REVIEW_NOTI: 2,
+};

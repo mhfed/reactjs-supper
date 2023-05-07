@@ -27,12 +27,14 @@ import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import { useGlobalModalContext } from 'containers/Modal';
-import FormCreateNotifiaction from './FormEditNotifiaction';
+import FormEditNotifiaction from './FormEditNotifiaction';
+import FormReviewNotifiaction from './FormReviewNotifiaction';
 import CloseIcon from '@mui/icons-material/Close';
 import { diff } from 'deep-diff';
 import DetailNotification from '../DetailNotification';
 import { Inotifiaction, ISubscriber } from 'models/INotification';
 import { initialValuesType } from 'features/Notification/CreateNewNotification/CreateNewNotification';
+import { STEP_EDIT_NOTI } from 'features/Notification/NotificationConstants';
 
 interface EditNotificationProps {
   dataForm: Inotifiaction;
@@ -107,6 +109,8 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
   const dispatch = useDispatch();
   const { showModal, hideModal, showSubModal, hideSubModal } = useGlobalModalContext();
   const formRef = React.useRef<any>();
+  const [step, setStep] = React.useState(STEP_EDIT_NOTI.EDIT_NOTI);
+
   let initialValues: any = initialValuesDefault;
 
   if (props.dataForm) {
@@ -144,6 +148,8 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
    * @param values form data
    */
   const submitForm = (values: initialValuesType) => {
+    if (step === STEP_EDIT_NOTI.EDIT_NOTI) return setStep(STEP_EDIT_NOTI.REVIEW_NOTI);
+
     let urlSendNoti = '';
     let bodySendNoti = {};
     if (!diff(values, initialValues)) {
@@ -284,7 +290,16 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
   };
 
   const renderContent = (form: FormikProps<initialValuesType>) => {
-    return <FormCreateNotifiaction classes={classes} form={form} />;
+    switch (step) {
+      case STEP_EDIT_NOTI.EDIT_NOTI: {
+        return <FormEditNotifiaction classes={classes} form={form} />;
+      }
+      case STEP_EDIT_NOTI.REVIEW_NOTI: {
+        return <FormReviewNotifiaction classes={classes} form={form} />;
+      }
+      default:
+        return <>not found</>;
+    }
   };
 
   /**
@@ -293,6 +308,19 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
    * @returns HTML
    */
   const submitButton = (form: FormikProps<initialValuesType>) => {
+    if (step === STEP_EDIT_NOTI.REVIEW_NOTI) {
+      return (
+        <Stack className={classes.footer}>
+          <Button variant="outlined" onClick={() => setStep(STEP_EDIT_NOTI.EDIT_NOTI)} scrollToTop>
+            <Trans>lang_no</Trans>
+          </Button>
+          <Button network variant="contained" type="submit">
+            <Trans>lang_yes</Trans>
+          </Button>
+        </Stack>
+      );
+    }
+
     return (
       <Stack className={classes.footer}>
         <Button variant="outlined" onClick={() => onCancel(form)} scrollToTop>
@@ -309,7 +337,7 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
     <React.Fragment>
       <Box className={classes.header}>
         <Typography className={classes.title} variant="h6">
-          <Trans>{'lang_edit_notification'}</Trans>
+          <Trans>{step === STEP_EDIT_NOTI.REVIEW_NOTI ? 'lang_review_edit_notification' : 'lang_edit_notification'}</Trans>
         </Typography>
         <CloseIcon className={classes.iconClose} onClick={handleClose} />
       </Box>

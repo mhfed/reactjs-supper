@@ -98,7 +98,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
             options={values.bundle_id}
             defaultValue={defaultArray}
             preview
-            label="lang_bundle_id"
+            label="lang_app_name"
             isOptionEqualToValue={(opt, select) => opt.bundle_id === select.bundle_id}
             getOptionLabel={(opt: any | string) => opt}
             changeDisplayInput={true}

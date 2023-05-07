@@ -123,12 +123,13 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
               name="client_category_id"
               label="lang_client_category"
               required
+              multiple={false}
               getUrl={getSearchClientCategoryUrl}
               isOptionEqualToValue={isOptionEqualToValueSiteName}
               getOptionLabel={(option) => `${option || ''}`}
               getChipLabel={(option: any) => option}
               value={values.client_category_id}
-              formatData={(data = []) => data?.map((e: { client_category_id: string }) => e.client_category_id)}
+              formatData={(data = []) => data?.map((e: { client_category_id: string }) => e?.client_category_id)}
               onChange={(value) => setFieldValue('client_category_id', value)}
               onBlur={() => setFieldTouched('client_category_id', true, true)}
               error={touched.client_category_id && Boolean(errors.client_category_id)}
