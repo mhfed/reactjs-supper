@@ -18,9 +18,11 @@ import { LooseObject } from 'models/ICommon';
 import Button from 'components/atoms/ButtonBase';
 import { Trans, useTranslation } from 'react-i18next';
 import { getSearchSitenameUrl, getSearchSecurityCodeUrl } from 'apis/request.url';
-import { SITENAME_OPTIONS, SECURITY_TYPE_OPTIONS } from '../ArticlesConstants';
+import { APPNAME, SECURITY_TYPE_OPTIONS } from '../ArticlesConstants';
 import { Typography } from '@mui/material';
 import useConfirmEdit from 'hooks/useConfirmEdit';
+import { useGlobalModalContext } from 'containers/Modal';
+import NotificationSetup from '../ArticlesManagement/NotificationSetup';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -33,24 +35,42 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type ArticlesPreviewFormProps = {
+  isCreate?: boolean;
   values: LooseObject;
   onReturn: () => void;
-  onSubmit: (cb: () => void) => void;
+  onSubmit: (isPublish?: boolean, successCb?: () => void, errorCb?: () => void) => void;
 };
 
-const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onReturn, onSubmit }) => {
+const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ isCreate, values, onReturn, onSubmit }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const confirmEdit = useConfirmEdit(() => true); // eslint-disable-line
-  const publishWithNotification = React.useRef<boolean>(true);
+  const publishWithNotification = React.useRef<boolean>(!!isCreate);
   const [loading, setLoading] = React.useState(false);
+  const { showModal, hideModal } = useGlobalModalContext();
 
   /**
    * Handle create new articles
    */
   const onConfirm = () => {
-    setLoading(true);
-    onSubmit(() => setLoading(false));
+    if (publishWithNotification.current) {
+      showModal({
+        component: NotificationSetup,
+        showBtnClose: true,
+        fullScreen: true,
+        props: {
+          beforeSubmit: isCreate ? onSubmit : null,
+          data: values,
+        },
+      });
+    } else {
+      setLoading(true);
+      onSubmit(
+        publishWithNotification.current,
+        () => setLoading(false),
+        () => setLoading(false),
+      );
+    }
   };
 
   /**
@@ -61,8 +81,6 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
     publishWithNotification.current = e.target.checked;
   };
 
-  const sitenameOption = SITENAME_OPTIONS.find((e) => e.value === values.site_name);
-  const sitename = sitenameOption?.label ? t(sitenameOption.label) : '';
   return (
     <Paper className={classes.container}>
       <Typography variant="h6" sx={{ textTransform: 'uppercase', mb: 2 }}>
@@ -90,10 +108,10 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
           />
         </Grid>
         <Grid item xs={12}>
-          {values.appname_custom?.length ? (
+          {values.app === APPNAME.CUSTOM ? (
             <AutocompleteField
               preview
-              name="appname_custom"
+              name="app"
               label="lang_app_name"
               required
               getUrl={getSearchSitenameUrl}
@@ -102,7 +120,7 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
               value={values.appname_custom}
             />
           ) : (
-            <></>
+            <InputField preview name="app" label="lang_app_name" fullWidth value={t('lang_all_apps') as string} />
           )}
         </Grid>
         <Grid item xs={12}>
@@ -119,27 +137,36 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ values, onRet
             value={values.security_type}
           />
         </Grid>
-        <Grid item xs={12}>
-          <AutocompleteField
-            preview
-            name="securities"
-            label="lang_security_codes"
-            required
-            getUrl={getSearchSecurityCodeUrl}
-            isOptionEqualToValue={(opt, select) => opt.securities === select.securities}
-            getOptionLabel={(opt) => opt.securities}
-            value={values.securities}
-          />
-        </Grid>
+        {values.securities?.length ? (
+          <Grid item xs={12}>
+            <AutocompleteField
+              preview
+              name="securities"
+              label="lang_security_codes"
+              required
+              getUrl={getSearchSecurityCodeUrl}
+              isOptionEqualToValue={(opt, select) => opt.securities === select.securities}
+              getOptionLabel={(opt) => opt.securities}
+              value={values.securities}
+            />
+          </Grid>
+        ) : (
+          <></>
+        )}
         <Grid item xs={12}>
           <RichTextboxField preview placeholder="lang_enter_your_content" label="lang_content" value={values.content} />
         </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox checked={publishWithNotification.current} onChange={onChangePublish} />}
-            label={<Trans>lang_publish_with_notification</Trans>}
-          />
-        </Grid>
+        {isCreate ? (
+          <Grid item xs={12} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <FormControlLabel
+              sx={{ mr: 0 }}
+              control={<Checkbox checked={publishWithNotification.current} onChange={onChangePublish} />}
+              label={<Trans>lang_publish_with_notification</Trans>}
+            />
+          </Grid>
+        ) : (
+          <></>
+        )}
       </Grid>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
         <Button variant="outlined" onClick={onReturn} scrollToTop>

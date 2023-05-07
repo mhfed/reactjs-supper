@@ -101,7 +101,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
    * Handle submit edit articles
    * @param values Form value
    */
-  const onSubmit = async (cb: () => void) => {
+  const onSubmit = async (isPublish?: boolean, successCb?: () => void, errorCb?: () => void) => {
     try {
       const body: ICreateArticlesBody = {
         title: values.title,
@@ -109,7 +109,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
         securities: values.securities.map((e: any) => e.securities),
         security_type: values.security_type,
         article_type: values.article_type,
-        notification_enabled: values.notification_enabled,
+        notification_enabled: isPublish || values.notification_enabled,
       };
       if (values.app === APPNAME.CUSTOM) {
         body.bundle_id = values.appname_custom.map((e: IBundle) => e.bundle_id);
@@ -142,11 +142,11 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
           variant: 'success',
         }),
       );
-      cb?.();
+      successCb?.();
       onSuccess?.();
       hideModal();
     } catch (error) {
-      cb?.();
+      errorCb?.();
       dispatch(
         enqueueSnackbarAction({
           message: 'lang_update_articles_unsuccessfully',
@@ -197,7 +197,8 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
   };
 
   const isDiff = checkDiffArticlesEdit(initValues, values);
-  const isTriggered = initValues.status === ARTICLE_STATUS.TRIGGERED;
+  const haveSaveDraft = [ARTICLE_STATUS.DRAFT, ARTICLE_STATUS.SCHEDULED].includes(initValues.status);
+  const isCompleted = initValues.status === ARTICLE_STATUS.COMPLETED;
   return (
     <>
       {step === STEP.EDIT ? (
@@ -253,7 +254,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
                     data={APPNAME_OPTIONS}
                     required
                     rowItems
-                    disabled={isTriggered}
+                    disabled={isCompleted}
                     value={values.app}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -279,7 +280,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
                 {values.app === APPNAME.CUSTOM ? (
                   <Grid item xs={12}>
                     <AutocompleteField
-                      disabled={isTriggered}
+                      disabled={isCompleted}
                       name="appname_custom"
                       label="lang_app_name"
                       required
@@ -336,7 +337,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
                   />
                 </Grid>
                 <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end', pb: 3 }}>
-                  {!isTriggered ? (
+                  {!haveSaveDraft ? (
                     <Button variant="outlined" className="customBtnDisable" disabled={!isDiff} network onClick={onSaveDraft}>
                       <Trans>lang_save_draft</Trans>
                     </Button>

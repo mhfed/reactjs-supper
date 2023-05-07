@@ -153,6 +153,7 @@ const RangeDate: React.FC<RangeDateProps> = (props) => {
                   onChange={onChangeFromDate}
                   inputFormat="DD/MM/YYYY"
                   value={fromDate}
+                  maxDate={toDate}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -172,6 +173,7 @@ const RangeDate: React.FC<RangeDateProps> = (props) => {
                   onChange={onChangeToDate}
                   inputFormat="DD/MM/YYYY"
                   value={toDate}
+                  minDate={fromDate}
                   renderInput={(params) => (
                     <TextField
                       {...params}

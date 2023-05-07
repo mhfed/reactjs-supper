@@ -45,7 +45,7 @@ const CreateNewArticles = () => {
   /**
    * Submit create article
    */
-  const onSubmit = async (cb: () => void, publishWithNotification: boolean = true) => {
+  const onSubmit = async (publishWithNotification: boolean = true, successCb?: () => void, errorCb?: () => void) => {
     try {
       const formData = new FormData();
       const values = { ...data.current };
@@ -71,7 +71,7 @@ const CreateNewArticles = () => {
         body.attachment_name = values.file.name;
       }
       await httpRequest.post(getArticlesUrl(), body);
-      cb?.();
+      successCb?.();
       dispatch(
         enqueueSnackbarAction({
           message: 'lang_create_articles_successfully',
@@ -82,7 +82,7 @@ const CreateNewArticles = () => {
       data.current = {};
       setStep(STEP.CREATE);
     } catch (error) {
-      cb?.();
+      errorCb?.();
       dispatch(
         enqueueSnackbarAction({
           message: 'lang_create_articles_unsuccessfully',
@@ -98,7 +98,7 @@ const CreateNewArticles = () => {
       {step === STEP.CREATE ? (
         <ArticlesCreateForm onCreate={onCreate} values={data.current} />
       ) : (
-        <ArticlesPreviewForm onReturn={onReturn} values={data.current} onSubmit={onSubmit} />
+        <ArticlesPreviewForm isCreate onReturn={onReturn} values={data.current} onSubmit={onSubmit} />
       )}
     </>
   );

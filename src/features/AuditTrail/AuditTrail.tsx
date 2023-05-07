@@ -137,6 +137,9 @@ const AuditTrail: React.FC<ReportProps> = () => {
         requestBody.query.bool.must.push({ term: { bundle_id: values.app_name } });
       }
       requestBody.query.bool.must.push({ range: { datetime: { gte: +moment(values.fromDate), lte: +moment(values.toDate) } } });
+      if (config.searchText) {
+        requestBody.query.bool.must.push({ query_string: { query: `*${config.searchText}*` } });
+      }
       console.log('YOLO: ', requestBody);
       return requestBody;
     } catch (error) {

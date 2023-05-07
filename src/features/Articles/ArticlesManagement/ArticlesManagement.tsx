@@ -110,9 +110,8 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
    * @returns action list
    */
   const getActions = (data: any) => {
-    const isLinkedNotification =
-      [ARTICLE_STATUS.COMPLETED, ARTICLE_STATUS.SCHEDULED].includes(data.status) && data[FIELD.NOTIFICATION_ENABLED] === 'Yes';
-    return [
+    const isLinkedNotification = [ARTICLE_STATUS.COMPLETED].includes(data.status) && data[FIELD.NOTIFICATION_ENABLED] === 'Yes';
+    const actions = [
       {
         label: 'lang_view_detail',
         onClick: (data: any) => {
@@ -121,22 +120,6 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
             showBtnClose: true,
             fullScreen: true,
             props: {
-              data: convertArticlesDataToDetailForm(data),
-              successCb: () => getData(),
-            },
-          });
-        },
-      },
-      {
-        label: 'lang_edit',
-        onClick: async (data: any) => {
-          showModal({
-            component: ArticlesDetail,
-            showBtnClose: true,
-            fullScreen: true,
-            props: {
-              isEdit: true,
-              editFirst: true,
               data: convertArticlesDataToDetailForm(data),
               successCb: () => getData(),
             },
@@ -163,7 +146,6 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
       {
         label: isLinkedNotification ? 'lang_resend_notification' : 'lang_setup_notification',
         onClick: (data: any) => {
-          if (isLinkedNotification) return;
           showModal({
             component: NotificationSetup,
             showBtnClose: true,
@@ -173,6 +155,25 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
         },
       },
     ];
+    if (data.status !== ARTICLE_STATUS.COMPLETED) {
+      const editAction = {
+        label: 'lang_edit',
+        onClick: async (data: any) => {
+          showModal({
+            component: ArticlesDetail,
+            showBtnClose: true,
+            fullScreen: true,
+            props: {
+              isEdit: true,
+              editFirst: true,
+              data: convertArticlesDataToDetailForm(data),
+              successCb: () => getData(),
+            },
+          });
+        },
+      };
+      actions.splice(1, 0, editAction);
+    }
   };
 
   // table column schema

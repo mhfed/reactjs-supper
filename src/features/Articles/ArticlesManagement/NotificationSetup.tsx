@@ -19,11 +19,13 @@ import { DELIVERY_TYPE } from 'features/Notification/CreateNewNotification/Notif
 import { DELIVERY_TYPE_OPTION } from 'features/Notification/CreateNewNotification/NotificationConstant';
 import { useFormik } from 'formik';
 import { yup } from 'helpers';
+import { LooseObject } from 'models/ICommon';
 import moment from 'moment';
 import React from 'react';
 import { Trans } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { httpRequest } from 'services/initRequest';
+import { postAppNameSend } from 'apis/request.url';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -50,17 +52,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type NotificationSetupProps = {
-  callback: () => void;
+  data: LooseObject;
+  beforeSubmit?: (isPublish?: boolean, successCb?: () => void, errorCb?: () => void) => void;
 };
 
-const NotificationSetup: React.FC<NotificationSetupProps> = ({ dataForm, callback }: any) => {
+const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmit }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [editMode, setEditMode] = React.useState(true);
-  const { showSubModal, hideModal, hideSubModal } = useGlobalModalContext();
+  const { hideModal } = useGlobalModalContext();
 
   const initialValues = {
-    title: '',
+    title: data?.title ? data.title.slice(0, 64) : '',
     message: '',
     delivery_type: DELIVERY_TYPE.Instant,
     schedule: '',
@@ -70,40 +73,42 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ dataForm, callbac
    * Handle submit update user
    */
   const handleFormSubmit = async () => {
-    try {
-      const body = {
-        data: {
-          title: values.title,
-          message: values.message,
-          schedule: values.schedule,
-        },
-      };
-      // await httpRequest.put(getNotificationSetupUrl(), body);
+    const onPublishNotification = async () => {
+      try {
+        const body = {
+          data: {
+            title: values.title,
+            message: values.message,
+            schedule: values.schedule,
+          },
+        };
+        await httpRequest.post(postAppNameSend(), body);
 
-      dispatch(
-        enqueueSnackbarAction({
-          message: 'lang_send_notification_successfully',
-          key: new Date().getTime() + Math.random(),
-          variant: 'success',
-        }),
-      );
-      hideModal();
-      callback?.();
-    } catch (error) {
-      dispatch(
-        enqueueSnackbarAction({
-          message: error?.errorCodeLang || 'lang_send_notification_unsuccessfully',
-          key: new Date().getTime() + Math.random(),
-          variant: 'error',
-        }),
-      );
-      hideModal();
-      console.error('Update user handleFormSubmit error: ', error);
-    }
+        dispatch(
+          enqueueSnackbarAction({
+            message: 'lang_send_notification_successfully',
+            key: new Date().getTime() + Math.random(),
+            variant: 'success',
+          }),
+        );
+        hideModal();
+      } catch (error) {
+        dispatch(
+          enqueueSnackbarAction({
+            message: error?.errorCodeLang || 'lang_send_notification_unsuccessfully',
+            key: new Date().getTime() + Math.random(),
+            variant: 'error',
+          }),
+        );
+      }
+    };
+    if (beforeSubmit) {
+      beforeSubmit(true, onPublishNotification);
+    } else onPublishNotification();
   };
 
   const { values, errors, touched, handleChange, handleBlur, handleSubmit, resetForm, setFieldValue } = useFormik({
-    initialValues: { ...initialValues },
+    initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,
   });
@@ -220,7 +225,7 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ dataForm, callbac
           <Button variant="outlined" onClick={() => setEditMode(true)} scrollToTop>
             <Trans>lang_return</Trans>
           </Button>
-          <Button variant="contained" type="submit">
+          <Button variant="contained" type="submit" network>
             <Trans>lang_confirm</Trans>
           </Button>
         </Stack>
