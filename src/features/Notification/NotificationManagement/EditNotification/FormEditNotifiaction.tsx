@@ -142,12 +142,11 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
           <InputField
             name="site_name"
             label="lang_sitename"
-            required
             fullWidth
             value={values.site_name}
             onChange={handleChange}
             onBlur={handleBlur}
-            readOnly={true}
+            disabled={true}
             error={touched.site_name && Boolean(errors.site_name)}
             helperText={touched.site_name && errors.site_name}
           />
@@ -181,8 +180,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
               label="lang_notification_category"
               id="notification_category"
               fullWidth
-              required
-              readOnly
+              disabled={true}
               onBlur={handleBlur}
               value={values.notification_category}
               onChange={handleChange}
@@ -193,7 +191,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
 
           <Grid item xs={12}>
             {values.article_id ? (
-              <InputField name="article_id" label="lang_article_id" fullWidth value={values.article_id} readOnly />
+              <InputField name="article_id" label="lang_article_id" fullWidth value={values.article_id} disabled />
             ) : (
               <Grid item xs={12}>
                 <SelectField
@@ -202,7 +200,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                   label="lang_linked_screen"
                   id="url"
                   fullWidth
-                  readOnly
+                  disabled={true}
                   value={'Notifications'}
                 />
               </Grid>

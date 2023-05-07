@@ -152,7 +152,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             value={values.site_name}
             onChange={handleChange}
             onBlur={handleBlur}
-            readOnly={true}
+            disabled={true}
             error={touched.site_name && Boolean(errors.site_name)}
             helperText={touched.site_name && errors.site_name}
           />

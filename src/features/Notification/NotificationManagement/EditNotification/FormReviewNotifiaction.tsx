@@ -150,9 +150,22 @@ const FormReviewNotifiaction: React.FC<FormReviewNotifiactionProps> = ({ form, c
             />
           </Grid>
 
-          <Grid item xs={12} height={68}>
-            <InputField name="url" label="lang_linked_screen" preview fullWidth variant={'standard'} value={values.url} />
-          </Grid>
+          {values.article_id ? (
+            <Grid item xs={12}>
+              <InputField
+                name="article_id"
+                label="lang_article_id"
+                preview
+                fullWidth
+                variant={'standard'}
+                value={values.article_id}
+              />
+            </Grid>
+          ) : (
+            <Grid item xs={12}>
+              <InputField name="url" label="lang_linked_screen" preview fullWidth variant={'standard'} value={'Notifications'} />
+            </Grid>
+          )}
 
           <Grid item xs={12}>
             <InputField label="lang_delivery_type" preview fullWidth variant={'standard'} value={delivery_type_preview} />

@@ -55,6 +55,7 @@ type SelectFieldProps = {
   options?: Array<Options>;
   customSelect?: boolean;
   readOnly?: boolean;
+  disabled?: boolean;
 };
 
 const SelectField: React.FC<SelectFieldProps> = ({
