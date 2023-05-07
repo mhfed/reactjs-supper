@@ -49,6 +49,13 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
       gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
       const response: any = await httpRequest.get(getListNotificationUrl(config, filterObjApi.current));
+
+      if (response.data) {
+        response.data = (response?.data || []).map((e: any) => {
+          return { ...e, display_name: e?.app?.display_name || '' };
+        });
+      }
+
       gridRef?.current?.setData?.(response);
     } catch (error) {
       gridRef?.current?.setData?.();
@@ -224,12 +231,13 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
         type: COLUMN_TYPE.DATETIME,
       },
       {
-        name: FIELD.EXPIRATION_TIME,
-        label: 'lang_expiration_time',
+        name: FIELD.APP_NAME,
+        label: 'lang_app_name',
+        type: COLUMN_TYPE.BREAK_LINE,
       },
       {
         name: FIELD.SCHEDULE,
-        label: 'lang_schedule',
+        label: 'lang_scheduled',
         type: COLUMN_TYPE.DATETIME,
       },
       {
@@ -243,6 +251,10 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
         dataOptions: NOTIFICATION_STATUS_OPTIONS,
         type: COLUMN_TYPE.DROPDOWN,
         textTransform: 'unset',
+      },
+      {
+        name: FIELD.CREATED_BY,
+        label: 'lang_created_by',
       },
       {
         name: FIELD.ATTEMPTED,
