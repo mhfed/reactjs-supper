@@ -94,6 +94,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
               name="client_category_id"
               label="lang_client_category"
               required
+              multiple={false}
               getUrl={getSearchClientCategoryUrl}
               isOptionEqualToValue={isOptionEqualToValueSiteName}
               getOptionLabel={(option) => `${option || ''}`}

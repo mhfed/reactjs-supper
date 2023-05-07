@@ -57,16 +57,13 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
     if (values.notification_type === ClientCategory) {
       return (
         <Grid item xs={12}>
-          <AutocompleteField
-            multiple
+          <InputField
             name="client_category_id"
-            options={values.client_category_id}
-            defaultValue={[]}
-            preview
             label="lang_client_category"
-            isOptionEqualToValue={(opt, select) => opt.client_category_id === select.client_category_id}
-            getOptionLabel={(opt: any | string) => opt}
-            changeDisplayInput={true}
+            preview
+            fullWidth
+            variant={'standard'}
+            value={(values.client_category_id as any)?.name}
           />
         </Grid>
       );

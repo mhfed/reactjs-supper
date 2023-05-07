@@ -375,7 +375,7 @@ const initialValuesDefault: initialValuesType = {
   site_name: '',
   notification_category: '',
   url: '',
-  client_category_id: [],
+  client_category_id: '',
 };
 
 const validationSchema = yup.object().shape({
@@ -385,10 +385,8 @@ const validationSchema = yup.object().shape({
       ? schema.min(1, 'lang_user_group_require').required('lang_user_group_require')
       : schema;
   }),
-  client_category_id: yup.array().when(['notification_type'], (value, schema) => {
-    return value === NOTIFICATION_TYPE.ClientCategory
-      ? schema.min(1, 'lang_client_category_id_require').required('lang_client_category_id_require')
-      : schema;
+  client_category_id: yup.string().when(['notification_type'], (value, schema) => {
+    return value === NOTIFICATION_TYPE.ClientCategory ? schema.required('lang_client_category_id_require') : schema;
   }),
   title: yup.string().trim().required('lang_please_enter_title').max(64, 'lang_validate_title'),
   message: yup.string().trim().required('lang_please_enter_message').max(192, 'lang_validate_message'),

@@ -54,16 +54,13 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
     if (values.notification_type === ClientCategory) {
       return (
         <Grid item xs={12}>
-          <AutocompleteField
-            multiple
+          <InputField
             name="client_category_id"
-            options={values.client_category_id}
-            defaultValue={[]}
-            preview
             label="lang_client_category"
-            isOptionEqualToValue={(opt, select) => opt === select}
-            getOptionLabel={(opt: any | string) => opt}
-            changeDisplayInput={true}
+            preview
+            fullWidth
+            variant={'standard'}
+            value={(values.client_category_id as any)?.name}
           />
         </Grid>
       );
