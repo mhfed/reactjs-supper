@@ -129,7 +129,11 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
               value={values.article_id}
             />
           </Grid>
-        ) : null}
+        ) : (
+          <Grid item xs={12}>
+            <InputField name="url" label="lang_linked_screen" preview fullWidth variant={'standard'} value={'Notifications'} />
+          </Grid>
+        )}
 
         <Grid item xs={12}>
           <InputField label="lang_delivery_type" preview fullWidth variant={'standard'} value={delivery_type_preview} />

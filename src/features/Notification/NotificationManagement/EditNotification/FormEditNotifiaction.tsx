@@ -15,6 +15,7 @@ import {
   DELIVERY_TYPE,
   NOTIFICATION_CATEGORY_OPTIONS,
   NOTIFICATION_TYPE,
+  LINKED_SCREEN_OPTIONS,
 } from 'features/Notification/CreateNewNotification/NotificationConstant';
 import RadioGroupField from 'components/fields/RadioGroupField';
 import { AutocompleteField, InputField, SelectField, DatePickerField } from 'components/fields';
@@ -191,18 +192,21 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
           </Grid>
 
           <Grid item xs={12}>
-            <InputField
-              name="url"
-              label="lang_article_id"
-              required
-              fullWidth
-              value={values.url}
-              readOnly
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={touched.url && Boolean(errors.url)}
-              helperText={touched.url && errors.url}
-            />
+            {values.article_id ? (
+              <InputField name="article_id" label="lang_article_id" fullWidth value={values.article_id} readOnly />
+            ) : (
+              <Grid item xs={12}>
+                <SelectField
+                  options={LINKED_SCREEN_OPTIONS}
+                  name="url"
+                  label="lang_linked_screen"
+                  id="url"
+                  fullWidth
+                  readOnly
+                  value={'Notifications'}
+                />
+              </Grid>
+            )}
           </Grid>
 
           <Grid item xs={12}>
