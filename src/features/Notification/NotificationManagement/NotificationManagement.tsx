@@ -122,7 +122,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
         httpRequest
           .get(getNotificationUrl(data.notification_id))
           .then((res) => {
-            const currentRes: any = res;
+            const currentRes: any = res.data;
             const parseArr = JSON.parse(currentRes.bundle_id);
             showModal({
               component: DetailNotification,
@@ -165,12 +165,15 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
               },
             });
           } else {
+            const currentRes: any = response?.data;
+            const parseArr = JSON.parse(currentRes.bundle_id);
+
             showModal({
               component: EditNotification,
               fullScreen: true,
               props: {
                 typePage: 'EDIT',
-                dataForm: { ...data, subscribers: formatData },
+                dataForm: { ...data, subscribers: formatData, bundle_id: parseArr },
                 reCallChangeTable: onTableChange,
               },
             });

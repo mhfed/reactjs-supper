@@ -130,6 +130,29 @@ export const SEARCH_BY_DROPDOWN = [
   },
 ];
 
+export const NOTIFICATION_CATEGORY_EDIT = [
+  {
+    label: 'lang_insights',
+    value: 'insights',
+  },
+  {
+    label: 'lang_site_maintenance',
+    value: 'site_maintenance',
+  },
+  {
+    label: 'lang_client_events',
+    value: 'client_events',
+  },
+  {
+    label: 'lang_products',
+    value: 'products',
+  },
+  {
+    label: 'lang_others',
+    value: 'others',
+  },
+];
+
 export const NOTIFICATION_CATEGORY_OPTIONS = [
   {
     label: 'lang_insights',

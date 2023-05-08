@@ -9,11 +9,16 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import { FormikProps } from 'formik';
-import { DELIVERY_TYPE, NOTIFICATION_TYPE } from 'features/Notification/CreateNewNotification/NotificationConstant';
+import {
+  DELIVERY_TYPE,
+  NOTIFICATION_CATEGORY_TYPE_LABEL,
+  NOTIFICATION_TYPE,
+} from 'features/Notification/CreateNewNotification/NotificationConstant';
 import { AutocompleteField, InputField } from 'components/fields';
 import { ClassNameMap } from 'notistack';
 import { initialValuesType } from 'features/Notification/CreateNewNotification/CreateNewNotification';
 import moment from 'moment';
+import { LooseObject } from 'models/ICommon';
 
 interface FormReviewNotifiactionProps {
   form: FormikProps<initialValuesType>;
@@ -28,7 +33,7 @@ const FormReviewNotifiaction: React.FC<FormReviewNotifiactionProps> = ({ form, c
   const { values } = form || {};
   const { UserGroup, ClientCategory } = NOTIFICATION_TYPE;
 
-  let defaultArray = Array.isArray(values.bundle_id) ? values.bundle_id.map((x: any) => x?.display_name) : [];
+  let defaultArray = Array.isArray(values.bundle_id) ? values.bundle_id.map((x: any) => x?.display_name || x) : [];
 
   const delivery_type_preview = `${values?.delivery_type || ''} ${
     values?.delivery_type === DELIVERY_TYPE.Schedule
@@ -67,12 +72,15 @@ const FormReviewNotifiaction: React.FC<FormReviewNotifiactionProps> = ({ form, c
           <AutocompleteField
             multiple
             name="user_group_id"
+            formatData={(data = []) => data.user_group}
             options={values.user_group_id}
             defaultValue={[]}
             preview
             label="lang_user_group"
-            isOptionEqualToValue={(opt, select) => opt.user_group_id === select.user_group_id}
-            getOptionLabel={(opt: any | string) => opt}
+            isOptionEqualToValue={(option: LooseObject, value: LooseObject) => option?.id === value?.id}
+            getOptionLabel={(option) => option?.name || ''}
+            getChipLabel={(option) => option?.name || ''}
+            value={values.user_group_id}
             changeDisplayInput={true}
           />
         </Grid>
@@ -146,7 +154,7 @@ const FormReviewNotifiaction: React.FC<FormReviewNotifiactionProps> = ({ form, c
               preview
               fullWidth
               variant={'standard'}
-              value={values.notification_category}
+              value={NOTIFICATION_CATEGORY_TYPE_LABEL[values.notification_category]}
             />
           </Grid>
 

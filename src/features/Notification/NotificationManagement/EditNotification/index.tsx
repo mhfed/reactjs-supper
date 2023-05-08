@@ -120,7 +120,10 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
     initialValues.schedule = initialValues.schedule_time as any;
     if (!initialValues.client_category_id) {
       initialValues = { ...initialValues, client_category_id: '' };
+    } else {
+      initialValues = { ...initialValues, client_category_id: initialValues?.client_category?.[0] || {} };
     }
+    initialValues = { ...initialValues, user_group_id: initialValues.user_group };
   }
 
   /**
@@ -172,6 +175,7 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
         url,
         mobile_push: true,
         site_name,
+        bundle_id: (values?.bundle_id || []).map((x) => x?.bundle_id || x),
         notification_category: NOTIFICATION_CATEGORY_TYPE?.[notification_category] || notification_category || '',
       };
 
@@ -184,14 +188,14 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
       if (values.notification_type === NOTIFICATION_TYPE.UserGroup) {
         bodySendNoti = {
           ...bodySendNoti,
-          user_group_id: (values?.user_group_id || []).map((x) => x?.user_group_id || ''),
+          user_group: (values?.user_group_id || []).map((x) => x?.id || ''),
         };
       }
 
       if (values.notification_type === NOTIFICATION_TYPE.ClientCategory) {
         bodySendNoti = {
           ...bodySendNoti,
-          client_category: values?.client_category_id,
+          client_category: (values.client_category_id as any)?.id || values?.client_category_id,
         };
       }
 
@@ -210,8 +214,8 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
             hideSubModal();
             hideModal();
           } else {
-            const response: any = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
-            onBack(response);
+            const response = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
+            onBack(response.data);
           }
         })
         .catch(async (err) => {
@@ -224,8 +228,8 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
                 variant: 'error',
               }),
             );
-            const response: any = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
-            onBack(response);
+            const response = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
+            onBack(response.data);
           } else {
             dispatch(
               enqueueSnackbarAction({
@@ -379,7 +383,7 @@ const validationSchema = yup.object().shape({
       ? schema.min(1, 'lang_user_group_require').required('lang_user_group_require')
       : schema;
   }),
-  client_category_id: yup.string().when(['notification_type'], (value, schema) => {
+  client_category_id: yup.mixed().when(['notification_type'], (value, schema) => {
     return value === NOTIFICATION_TYPE.ClientCategory ? schema.required('lang_client_category_id_require') : schema;
   }),
   title: yup.string().trim().required('lang_please_enter_title').max(64, 'lang_validate_title'),

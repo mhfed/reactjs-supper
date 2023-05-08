@@ -16,6 +16,7 @@ import {
   NOTIFICATION_CATEGORY_OPTIONS,
   NOTIFICATION_TYPE,
   LINKED_SCREEN_OPTIONS,
+  NOTIFICATION_CATEGORY_EDIT,
 } from 'features/Notification/CreateNewNotification/NotificationConstant';
 import RadioGroupField from 'components/fields/RadioGroupField';
 import { AutocompleteField, InputField, SelectField, DatePickerField } from 'components/fields';
@@ -90,8 +91,8 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             required
             getUrl={getSearchAppNameUrl}
             isOptionEqualToValue={isOptionEqualToValue}
-            getOptionLabel={(option) => `${option.display_name}`}
-            getChipLabel={(option) => option.display_name}
+            getOptionLabel={(option) => `${option?.display_name || option}`}
+            getChipLabel={(option) => option?.display_name || option}
             value={values.bundle_id}
             onChange={(value) => setFieldValue('bundle_id', value)}
             onBlur={() => setFieldTouched('bundle_id', true, true)}
@@ -104,10 +105,10 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             <AutocompleteField
               name="user_group_id"
               label="lang_user_group"
+              formatData={(data = []) => data.user_group}
               required
-              multiple={false}
               getUrl={getSearchUserGroupUrl}
-              isOptionEqualToValue={(option: LooseObject, value: LooseObject) => option?.name === value?.name}
+              isOptionEqualToValue={(option: LooseObject, value: LooseObject) => option?.id === value?.id}
               getOptionLabel={(option) => option?.name || ''}
               getChipLabel={(option) => option?.name || ''}
               value={values.user_group_id}
@@ -127,10 +128,10 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
               multiple={false}
               getUrl={getSearchClientCategoryUrl}
               isOptionEqualToValue={isOptionEqualToValueSiteName}
-              getOptionLabel={(option) => `${option || ''}`}
-              getChipLabel={(option: any) => option}
+              getOptionLabel={(option) => `${option?.name || ''}`}
+              getChipLabel={(option: any) => option?.name || ''}
               value={values.client_category_id}
-              formatData={(data = []) => data?.map((e: { client_category_id: string }) => e?.client_category_id)}
+              formatData={(data = []) => data.app}
               onChange={(value) => setFieldValue('client_category_id', value)}
               onBlur={() => setFieldTouched('client_category_id', true, true)}
               error={touched.client_category_id && Boolean(errors.client_category_id)}
@@ -175,7 +176,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
         <React.Fragment>
           <Grid item xs={12}>
             <SelectField
-              options={NOTIFICATION_CATEGORY_OPTIONS}
+              options={NOTIFICATION_CATEGORY_EDIT}
               name="notification_category"
               label="lang_notification_category"
               id="notification_category"
