@@ -130,7 +130,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
         <Grid item xs={12} style={{ height: 81 }}>
           <InputField name="site_name" label="lang_sitename" preview fullWidth variant={'standard'} value={values.site_name} />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} style={{ height: 68 }}>
           <InputField
             name="notification_category"
             label="lang_notification_category"
