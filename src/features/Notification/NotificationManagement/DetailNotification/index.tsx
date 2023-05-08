@@ -66,8 +66,17 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
   const dispatch = useDispatch();
   const { UserGroup, App } = NOTIFICATION_TYPE;
 
+  let initialValues: any = {};
+
+  if (dataForm) {
+    initialValues = { ...dataForm };
+    initialValues = { ...initialValues, user_group_id: dataForm.user_group };
+    initialValues.client_category_id =
+      (initialValues?.client_category || []).find((e: any) => e.id === initialValues.client_category_id)?.name || '';
+  }
+
   const onEdit = async () => {
-    const response: any = await httpRequest.get(getNotificationUrl(dataForm?.notification_id));
+    const response: any = await httpRequest.get(getNotificationUrl(initialValues?.notification_id));
     const formatData = (response?.subscribers || []).map((e: any) => ({ ...e, username: e.subscriber }));
     if (response.status === NOTIFICATION_STATUS.TRIGGERED) {
       dispatch(
@@ -106,7 +115,7 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
   return (
     <div className={classes.divCointainer}>
       <HeaderModal title="lang_notifications_details" onClose={hideModal} />
-      <Formik initialValues={dataForm} onSubmit={() => {}}>
+      <Formik initialValues={initialValues} onSubmit={() => {}}>
         {(form: FormikProps<initialValuesType>) => {
           return (
             <React.Fragment>

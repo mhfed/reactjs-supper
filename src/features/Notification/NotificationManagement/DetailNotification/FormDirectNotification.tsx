@@ -11,9 +11,14 @@ import Grid from '@mui/material/Grid';
 import { InputField, AutocompleteField } from 'components/fields';
 import { FormikProps } from 'formik';
 import { initialValuesType } from '../../CreateNewNotification/CreateNewNotification';
-import { DELIVERY_TYPE, EXPIRE_OPTION_FILTER, NOTIFICATION_TYPE } from '../../CreateNewNotification/NotificationConstant';
+import {
+  DELIVERY_TYPE,
+  NOTIFICATION_CATEGORY_TYPE_LABEL,
+  NOTIFICATION_TYPE,
+} from '../../CreateNewNotification/NotificationConstant';
 import moment from 'moment';
 import { ClassNameMap } from '@mui/styles';
+import { LooseObject } from 'models/ICommon';
 
 interface FormDirectNotificationProps {
   form: FormikProps<initialValuesType>;
@@ -43,8 +48,10 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
             defaultValue={[]}
             preview
             label="lang_user_group"
-            isOptionEqualToValue={(opt, select) => opt === select}
-            getOptionLabel={(opt: any | string) => opt}
+            value={values.user_group_id}
+            isOptionEqualToValue={(option: LooseObject, value: LooseObject) => option?.id === value?.id}
+            getOptionLabel={(option) => option?.name || ''}
+            getChipLabel={(option) => option?.name || ''}
             changeDisplayInput={true}
           />
         </Grid>
@@ -60,7 +67,7 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
             preview
             fullWidth
             variant={'standard'}
-            value={(values.client_category_id as any)?.name}
+            value={values.client_category_id}
           />
         </Grid>
       );
@@ -115,7 +122,7 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
             preview
             fullWidth
             variant={'standard'}
-            value={values.notification_category}
+            value={NOTIFICATION_CATEGORY_TYPE_LABEL[values.notification_category]}
           />
         </Grid>
         {values.article_id ? (

@@ -6,12 +6,12 @@
  * Copyright (c) 2023 - Novus Fintech
  */
 
-export type Notification_Type = 'Direct' | 'Segment' | 'Sitename';
+export type Notification_Type = 'App' | 'UserGroup' | 'ClientCategory';
 
-export const NOTIFICATION_TYPE = { App: 'Direct', UserGroup: 'Segment', ClientCategory: 'Sitename' };
+export const NOTIFICATION_TYPE = { App: 'App', UserGroup: 'UserGroup', ClientCategory: 'ClientCategory' };
 export const DELIVERY_TYPE = { Instant: 'Instant', Schedule: 'Schedule' };
 export const EXPIRE = { Hours: 'H', Days: 'D', Weeks: 'W' };
-export const SEARCH_BY_TYPE = { created_by: 'created_by', schedule_time: 'schedule_time' };
+export const SEARCH_BY_TYPE = { created_by: 'create_date', schedule_time: 'schedule_date' };
 
 const { App, UserGroup, ClientCategory } = NOTIFICATION_TYPE;
 
@@ -111,14 +111,22 @@ export const NOTIFICATION_CATEGORY_TYPE: any = {
   Others: 'others',
 };
 
+export const NOTIFICATION_CATEGORY_TYPE_LABEL: any = {
+  insights: 'Insights',
+  site_maintenance: 'Site Maintenance',
+  client_events: 'Client Events',
+  products: 'Products',
+  others: 'Others',
+};
+
 export const SEARCH_BY_DROPDOWN = [
   {
     label: 'lang_created_time',
-    value: 'created_by',
+    value: SEARCH_BY_TYPE.created_by,
   },
   {
     label: 'lang_scheduled_time',
-    value: 'schedule_time',
+    value: SEARCH_BY_TYPE.schedule_time,
   },
 ];
 
