@@ -10,7 +10,7 @@ export const FIELD = {
   CREATED_BY: 'created_by',
   APP_NAME: 'display_name',
   LAST_UPDATED_BY: 'last_updated_by',
-  NOTIFICATION_ENABLED: 'notification',
+  NOTIFICATION_ENABLED: 'notification_enabled',
   AUDIENCES: 'subscribers',
   NOTIFICATION_ID: 'notification_id',
   DELIVERY_TYPE: 'delivery_type',
@@ -65,8 +65,8 @@ export const ARTICLE_STATUS_OPTIONS = [
 ];
 
 export const NOTIFICATION_ENABLED = {
-  YES: 'yes',
-  NO: 'no',
+  YES: true,
+  NO: false,
 };
 
 export const NOTIFICATION_ENABLED_OPTIONS = [

@@ -23,6 +23,7 @@ import { Typography } from '@mui/material';
 import useConfirmEdit from 'hooks/useConfirmEdit';
 import { useGlobalModalContext } from 'containers/Modal';
 import NotificationSetup from '../ArticlesManagement/NotificationSetup';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -31,6 +32,10 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     width: '100%',
     padding: theme.spacing(3),
+  },
+  modalContainer: {
+    background: theme.palette.background.contentModal,
+    overflow: 'auto',
   },
 }));
 
@@ -54,13 +59,15 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ isCreate, val
    */
   const onConfirm = () => {
     if (publishWithNotification.current) {
+      const contentElement = document.getElementsByClassName('richtextboxPreviewContainer')?.[0];
+      const message = contentElement ? (contentElement as HTMLElement).innerText?.replaceAll('\n', ' ') : '';
       showModal({
         component: NotificationSetup,
         showBtnClose: true,
         fullScreen: true,
         props: {
           beforeSubmit: isCreate ? onSubmit : null,
-          data: values,
+          data: { ...values, message },
         },
       });
     } else {
@@ -82,10 +89,14 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ isCreate, val
   };
 
   return (
-    <Paper className={classes.container}>
-      <Typography variant="h6" sx={{ textTransform: 'uppercase', mb: 2 }}>
-        <Trans>lang_preview_new_article</Trans>
-      </Typography>
+    <Paper className={clsx(classes.container, isCreate || classes.modalContainer)}>
+      {isCreate ? (
+        <Typography variant="h6" sx={{ textTransform: 'uppercase', mb: 2 }}>
+          <Trans>lang_preview_new_article</Trans>
+        </Typography>
+      ) : (
+        <></>
+      )}
       <Grid container spacing={2} sx={{ flex: 1, justifyContent: 'flex-start' }}>
         <Grid item xs={12}>
           <InputField preview name="title" label="lang_title" fullWidth value={values.title} />

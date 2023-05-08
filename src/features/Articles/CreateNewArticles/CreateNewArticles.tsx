@@ -45,7 +45,11 @@ const CreateNewArticles = () => {
   /**
    * Submit create article
    */
-  const onSubmit = async (publishWithNotification: boolean = true, successCb?: () => void, errorCb?: () => void) => {
+  const onSubmit = async (
+    publishWithNotification: boolean = true,
+    successCb?: (articleId?: string, bundleId?: string[] | null) => void,
+    errorCb?: () => void,
+  ) => {
     try {
       const formData = new FormData();
       const values = { ...data.current };
@@ -55,13 +59,15 @@ const CreateNewArticles = () => {
         title: values.title,
         content: values.content,
         image: imageResponse.url,
-        securities: values.securities.map((e: any) => e.securities),
         security_type: values.security_type,
         article_type: isSaveDraft.current ? 'draft' : 'publish',
         notification_enabled: publishWithNotification,
       };
+      if (values.securities?.length) {
+        body.securities = values.securities.map((e: any) => e.securities);
+      } else delete body.securities;
       if (values.app === APPNAME.CUSTOM) {
-        body.bundle_id = values.appname_custom.map((e: IBundle) => e.bundle_id);
+        body.bundle_id = values.appname_custom.map((e: IBundle) => e.bundle_id).join(',');
       } else delete body.bundle_id;
       if (values.file?.file) {
         const formData = new FormData();
@@ -70,8 +76,8 @@ const CreateNewArticles = () => {
         body.attachment_url = fileResponse.url;
         body.attachment_name = values.file.name;
       }
-      await httpRequest.post(getArticlesUrl(), body);
-      successCb?.();
+      const { data: createResponse } = await httpRequest.post(getArticlesUrl(), body);
+      successCb?.(createResponse?.article_id, body.bundle_id);
       dispatch(
         enqueueSnackbarAction({
           message: 'lang_create_articles_successfully',

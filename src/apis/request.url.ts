@@ -172,7 +172,7 @@ export function getArticlesListUrl(
   if (searchText) url += `&search=${searchText}`;
   if (sort?.sortField) url += `&sort_field=${sort.sortField}`;
   if (sort?.sortType) url += `&sort_type=${sort.sortType}`;
-  if (listAppName?.length) url += listAppName.join(',');
+  if (listAppName?.length) url += `&bundle_id=${listAppName.join(',')}`;
   return url;
 }
 export function getSearchSubscribersUrl(searchText = '') {

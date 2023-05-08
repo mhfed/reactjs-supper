@@ -146,11 +146,14 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
       {
         label: isLinkedNotification ? 'lang_resend_notification' : 'lang_setup_notification',
         onClick: (data: any) => {
+          const message = '';
           showModal({
             component: NotificationSetup,
             showBtnClose: true,
             fullScreen: true,
-            props: {},
+            props: {
+              data: { ...data, message },
+            },
           });
         },
       },
@@ -174,6 +177,7 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
       };
       actions.splice(1, 0, editAction);
     }
+    return actions;
   };
 
   // table column schema
@@ -186,6 +190,9 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
       {
         name: FIELD.APP_NAME,
         label: 'lang_app_name',
+        type: COLUMN_TYPE.BREAK_LINE,
+        formatter: (data: any) => data?.app?.map((e: IBundle) => e.display_name).filter((x: string) => x),
+        sort: false,
       },
       {
         name: FIELD.TITLE,
@@ -218,7 +225,7 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
         type: COLUMN_TYPE.DROPDOWN_WITH_BG,
       },
       {
-        name: FIELD.CREATED_TIME,
+        name: FIELD.CREATED_DATE,
         label: 'lang_created_time',
         type: COLUMN_TYPE.DATETIME,
       },

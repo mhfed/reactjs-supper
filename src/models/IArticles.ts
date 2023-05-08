@@ -5,7 +5,7 @@ export type ICreateArticlesBody = {
   attachment_url?: string;
   attachment_name?: string;
   bundle_id?: string[];
-  securities: string[];
+  securities?: string[];
   security_type: string;
   article_type: string;
   notification_enabled: boolean;

@@ -6,7 +6,7 @@
  * Copyright (c) 2023 - Novus Fintech
  */
 
-import { Box, Grid, Paper, Stack } from '@mui/material';
+import { Box, Grid, Stack } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import Button from 'components/atoms/ButtonBase';
@@ -25,7 +25,7 @@ import React from 'react';
 import { Trans } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { httpRequest } from 'services/initRequest';
-import { postAppNameSend } from 'apis/request.url';
+import { postAppNameSend, getSearchAppNameUrl } from 'apis/request.url';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -53,7 +53,11 @@ const useStyles = makeStyles((theme) => ({
 
 type NotificationSetupProps = {
   data: LooseObject;
-  beforeSubmit?: (isPublish?: boolean, successCb?: () => void, errorCb?: () => void) => void;
+  beforeSubmit?: (
+    isPublish?: boolean,
+    successCb?: (articleId?: string, bundleId?: string[]) => void,
+    errorCb?: () => void,
+  ) => void;
 };
 
 const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmit }) => {
@@ -64,7 +68,7 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
 
   const initialValues = {
     title: data?.title ? data.title.slice(0, 64) : '',
-    message: '',
+    message: data?.message || '',
     delivery_type: DELIVERY_TYPE.Instant,
     schedule: '',
   };
@@ -73,13 +77,16 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
    * Handle submit update user
    */
   const handleFormSubmit = async () => {
-    const onPublishNotification = async () => {
+    const onPublishNotification = async (articleId: string, bundleId: string[]) => {
       try {
         const body = {
           data: {
+            bundle_id: bundleId,
             title: values.title,
             message: values.message,
             schedule: values.schedule,
+            notification_category: 'insights',
+            article_id: articleId,
           },
         };
         await httpRequest.post(postAppNameSend(), body);
@@ -104,7 +111,11 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
     };
     if (beforeSubmit) {
       beforeSubmit(true, onPublishNotification);
-    } else onPublishNotification();
+    } else {
+      const { data: allAppAccess } = await httpRequest.get(getSearchAppNameUrl());
+      console.log('YOLO: ', allAppAccess);
+      onPublishNotification(data.article_id, []);
+    }
   };
 
   const { values, errors, touched, handleChange, handleBlur, handleSubmit, resetForm, setFieldValue } = useFormik({

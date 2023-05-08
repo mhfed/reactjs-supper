@@ -106,11 +106,13 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
       const body: ICreateArticlesBody = {
         title: values.title,
         content: values.content,
-        securities: values.securities.map((e: any) => e.securities),
         security_type: values.security_type,
         article_type: values.article_type,
         notification_enabled: isPublish || values.notification_enabled,
       };
+      if (values.securities?.length) {
+        body.securities = values.securities.map((e: any) => e.securities);
+      } else delete body.securities;
       if (values.app === APPNAME.CUSTOM) {
         body.bundle_id = values.appname_custom.map((e: IBundle) => e.bundle_id);
       } else delete body.bundle_id;
@@ -203,7 +205,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
     <>
       {step === STEP.EDIT ? (
         <>
-          <HeaderModal title="lang_edit_articles" onClose={hideModal} />
+          <HeaderModal title="lang_edit_article" onClose={hideModal} />
           <Paper className={classes.container}>
             <form noValidate onSubmit={handleSubmit}>
               <Grid container spacing={2}>
@@ -356,7 +358,10 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
           </Paper>
         </>
       ) : (
-        <ArticlesPreviewForm onReturn={onReturn} values={values} onSubmit={onSubmit} />
+        <>
+          <HeaderModal title="lang_preview_edit_article" onClose={hideModal} />
+          <ArticlesPreviewForm onReturn={onReturn} values={values} onSubmit={onSubmit} />
+        </>
       )}
     </>
   );
