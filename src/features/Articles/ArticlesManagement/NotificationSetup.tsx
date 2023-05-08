@@ -1,7 +1,7 @@
 /*
- * Created on Fri Jan 06 2023
+ * Created on Mon May 08 2023
  *
- * User detail and edit user
+ * Setup notification for publist with article
  *
  * Copyright (c) 2023 - Novus Fintech
  */
@@ -74,7 +74,7 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
   };
 
   /**
-   * Handle submit update user
+   * Handle publish notification after create article success or resend noti
    */
   const handleFormSubmit = async () => {
     const onPublishNotification = async (articleId: string, bundleId: string[]) => {
@@ -119,12 +119,16 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
     }
   };
 
+  /**
+   * register formik form
+   */
   const { values, errors, touched, handleChange, handleBlur, handleSubmit, validateForm, setFieldValue, setTouched } = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,
   });
 
+  // get delivery type display
   const delivery_type_preview = `${values?.delivery_type || ''} ${
     values?.delivery_type === DELIVERY_TYPE.Schedule
       ? moment(values?.schedule || '')
@@ -133,6 +137,9 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
       : ''
   }`;
 
+  /**
+   * onCreate noti, validate form before switch to preview form
+   */
   const onCreate = () => {
     validateForm().then((errors) => {
       if (errors && Object.keys(errors).length) {
@@ -143,6 +150,10 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
     });
   };
 
+  /**
+   *
+   * @returns Notification setup form
+   */
   const renderEditScreen = () => {
     //==============Edit Screen=============//
     return (
@@ -226,6 +237,11 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
       </>
     );
   };
+
+  /**
+   *
+   * @returns Notification setup preview form
+   */
   const renderPreviewScreen = () => {
     //==============Preview Screen=============//
     return (
@@ -265,6 +281,9 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
   );
 };
 
+/**
+ * Formik validate schema
+ */
 const validationSchema = yup.object().shape({
   title: yup.string().trim().required('lang_please_enter_title').max(64, 'lang_validate_title'),
   message: yup.string().trim().required('lang_please_enter_message').max(192, 'lang_validate_message'),
