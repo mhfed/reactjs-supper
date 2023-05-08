@@ -79,14 +79,17 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
   const handleFormSubmit = async () => {
     const onPublishNotification = async (articleId: string, bundleId: string[]) => {
       try {
-        const body = {
+        const body: any = {
           bundle_id: bundleId,
           title: values.title,
           message: values.message,
-          schedule: values.schedule,
+          delivery_type: values.delivery_type,
           notification_category: 'insights',
           article_id: articleId,
         };
+        if (values.delivery_type === DELIVERY_TYPE.Schedule) {
+          body.schedule_time = +moment(values.schedule);
+        }
         await httpRequest.post(postAppNameSend(), body);
 
         dispatch(
