@@ -80,14 +80,12 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
     const onPublishNotification = async (articleId: string, bundleId: string[]) => {
       try {
         const body = {
-          data: {
-            bundle_id: bundleId,
-            title: values.title,
-            message: values.message,
-            schedule: values.schedule,
-            notification_category: 'insights',
-            article_id: articleId,
-          },
+          bundle_id: bundleId,
+          title: values.title,
+          message: values.message,
+          schedule: values.schedule,
+          notification_category: 'insights',
+          article_id: articleId,
         };
         await httpRequest.post(postAppNameSend(), body);
 
