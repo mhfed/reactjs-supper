@@ -105,6 +105,7 @@ const RangeDate: React.FC<RangeDateProps> = (props) => {
    * Apply new date range
    */
   const onApply = () => {
+    setAnchorEl(null);
     onChange?.({ from: fromDate, to: toDate });
   };
 

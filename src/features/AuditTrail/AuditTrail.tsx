@@ -156,7 +156,7 @@ const AuditTrail: React.FC<ReportProps> = () => {
       const config: ITableConfig = gridRef?.current?.getConfig?.();
       const url = getAuditTrailUrl(config);
       const response: any = await httpRequest.post(url, getQueryBody(config));
-      gridRef?.current?.setData?.(response.data);
+      gridRef?.current?.setData?.(response);
     } catch (error) {
       gridRef?.current?.setData?.();
       dispatch(
