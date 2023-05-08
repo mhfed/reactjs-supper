@@ -110,7 +110,7 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
    * @returns action list
    */
   const getActions = (data: any) => {
-    const isLinkedNotification = [ARTICLE_STATUS.COMPLETED].includes(data.status) && data[FIELD.NOTIFICATION_ENABLED] === 'Yes';
+    const isLinkedNotification = data[FIELD.NOTIFICATION_ENABLED];
     const actions = [
       {
         label: 'lang_view_detail',
@@ -143,20 +143,6 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
           });
         },
       },
-      {
-        label: isLinkedNotification ? 'lang_resend_notification' : 'lang_setup_notification',
-        onClick: (data: any) => {
-          const message = '';
-          showModal({
-            component: NotificationSetup,
-            showBtnClose: true,
-            fullScreen: true,
-            props: {
-              data: { ...data, message },
-            },
-          });
-        },
-      },
     ];
     if (data.status !== ARTICLE_STATUS.COMPLETED) {
       const editAction = {
@@ -176,6 +162,21 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
         },
       };
       actions.splice(1, 0, editAction);
+    } else {
+      actions.push({
+        label: isLinkedNotification ? 'lang_resend_notification' : 'lang_setup_notification',
+        onClick: (data: any) => {
+          const message = '';
+          showModal({
+            component: NotificationSetup,
+            showBtnClose: true,
+            fullScreen: true,
+            props: {
+              data: { ...data, message },
+            },
+          });
+        },
+      });
     }
     return actions;
   };
