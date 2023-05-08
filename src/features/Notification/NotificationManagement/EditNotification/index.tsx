@@ -215,7 +215,10 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
             hideModal();
           } else {
             const response = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
-            onBack(response.data);
+            let converData = { ...response.data };
+            converData.bundle_id && (converData.bundle_id = JSON.parse(converData.bundle_id));
+
+            onBack(converData);
           }
         })
         .catch(async (err) => {
@@ -229,7 +232,10 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
               }),
             );
             const response = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
-            onBack(response.data);
+            let converData = { ...response.data };
+            converData.bundle_id && (converData.bundle_id = JSON.parse(converData.bundle_id));
+
+            onBack(converData);
           } else {
             dispatch(
               enqueueSnackbarAction({
@@ -396,8 +402,8 @@ const validationSchema = yup.object().shape({
       .string()
       .required('lang_please_select_schedule_time')
       .checkValidField('lang_schedule_time_invalid')
-      .compareTimesLocal()
-      .compareTimes('error_code_INVALID_TIME'),
+      .compareTimesLocal(),
+    // .compareTimes('error_code_INVALID_TIME'),
   }),
   // notification_category: yup.string().required('lang_notification_category_require'),
   url: yup.string().required('lang_linked_screen_require'),
