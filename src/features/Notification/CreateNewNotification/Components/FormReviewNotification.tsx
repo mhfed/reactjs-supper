@@ -15,6 +15,7 @@ import { AutocompleteField, InputField } from 'components/fields';
 import { initialValuesType } from '../CreateNewNotification';
 import { ClassNameMap } from 'notistack';
 import moment from 'moment';
+import { LooseObject } from 'models/ICommon';
 
 interface FormReviewNotificationProps {
   form: FormikProps<initialValuesType>;
@@ -42,12 +43,15 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
           <AutocompleteField
             multiple
             name="user_group_id"
+            formatData={(data = []) => data.user_group}
             options={values.user_group_id}
             defaultValue={[]}
             preview
             label="lang_user_group"
-            isOptionEqualToValue={(opt, select) => opt.user_group_id === select.user_group_id}
-            getOptionLabel={(opt: any | string) => opt}
+            isOptionEqualToValue={(option: LooseObject, value: LooseObject) => option?.id === value?.id}
+            getOptionLabel={(option) => option?.name || ''}
+            getChipLabel={(option) => option?.name || ''}
+            value={values.user_group_id}
             changeDisplayInput={true}
           />
         </Grid>

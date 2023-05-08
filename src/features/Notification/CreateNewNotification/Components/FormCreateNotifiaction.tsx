@@ -53,6 +53,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             helperText={touched.notification_type && errors.notification_type}
           />
         </Grid>
+
         <Grid item xs={12} style={{ paddingBottom: 3 }}>
           <AutocompleteField
             name="bundle_id"
@@ -74,10 +75,10 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             <AutocompleteField
               name="user_group_id"
               label="lang_user_group"
+              formatData={(data = []) => data.user_group}
               required
-              multiple={false}
               getUrl={getSearchUserGroupUrl}
-              isOptionEqualToValue={(option: LooseObject, value: LooseObject) => option?.name === value?.name}
+              isOptionEqualToValue={(option: LooseObject, value: LooseObject) => option?.id === value?.id}
               getOptionLabel={(option) => option?.name || ''}
               getChipLabel={(option) => option?.name || ''}
               value={values.user_group_id}
@@ -97,10 +98,10 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
               multiple={false}
               getUrl={getSearchClientCategoryUrl}
               isOptionEqualToValue={isOptionEqualToValueSiteName}
-              getOptionLabel={(option) => `${option || ''}`}
-              getChipLabel={(option: any) => option}
+              getOptionLabel={(option) => `${option?.name || ''}`}
+              getChipLabel={(option: any) => option?.name || ''}
               value={values.client_category_id}
-              formatData={(data = []) => data?.map((e: { client_category_id: string }) => e.client_category_id)}
+              formatData={(data = []) => data.app}
               onChange={(value) => setFieldValue('client_category_id', value)}
               onBlur={() => setFieldTouched('client_category_id', true, true)}
               error={touched.client_category_id && Boolean(errors.client_category_id)}

@@ -100,8 +100,11 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
       if (getUrl) {
         setLoading(true);
         const response: any = await httpRequest.get(getUrl(searchText));
-        if (formatData) return setOptions(formatData(response));
-        setOptions(response?.data || response || []);
+        if (formatData) {
+          setOptions(formatData(response));
+        } else {
+          setOptions(response?.data || response || []);
+        }
         setLoading(false);
       } else {
         return;

@@ -64,6 +64,17 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     fontWeight: 700,
   },
+  footer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'end',
+    alignItems: 'center',
+    paddingTop: theme.spacing(3),
+    gap: theme.spacing(2),
+    '& > buttom': {
+      margin: 0,
+    },
+  },
 }));
 
 export const isOptionEqualToValue = (option: LooseObject, value: LooseObject) => {
@@ -85,12 +96,12 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
     let urlSendNoti = '';
     let bodySendNoti = {};
 
-    const { title, message, site_name, url, notification_category } = values;
+    const { title, message, site_name, notification_category } = values;
 
     bodySendNoti = {
       title,
       message,
-      url,
+      url: 'https://dev1.equix.app/?type=order_detail&order-id=1234',
       mobile_push: true,
       site_name,
       bundle_id: (values?.bundle_id || []).map((x) => x?.bundle_id || ''),
@@ -113,14 +124,14 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
       urlSendNoti = postUserGroupSend();
       bodySendNoti = {
         ...bodySendNoti,
-        user_group_id: (values?.user_group_id || []).map((x) => x?.user_group_id || ''),
+        user_group_id: (values?.user_group_id || []).map((x) => x?.id || ''),
       };
     }
 
     //Body and url type Client Category
 
     if (values.notification_type === NOTIFICATION_TYPE.ClientCategory) {
-      urlSendNoti = postClientCategorySend('');
+      urlSendNoti = postClientCategorySend((values.client_category_id as any)?.id);
     }
 
     httpRequest
@@ -183,7 +194,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
 
   const submitButton = (form: FormikProps<initialValuesType>) => {
     return (
-      <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
+      <Stack className={classes.footer}>
         {stateForm === STATE_FORM.PREVIEW ? (
           <Button variant="outlined" onClick={onReturnPreviousPage} scrollToTop>
             <Trans>lang_return</Trans>
@@ -278,7 +289,7 @@ const validationSchema = yup.object().shape({
       ? schema.min(1, 'lang_user_group_require').required('lang_user_group_require')
       : schema;
   }),
-  client_category_id: yup.string().when(['notification_type'], (value, schema) => {
+  client_category_id: yup.mixed().when(['notification_type'], (value, schema) => {
     return value === NOTIFICATION_TYPE.ClientCategory ? schema.required('lang_client_category_id_require') : schema;
   }),
   title: yup.string().trim().required('lang_please_enter_title').max(64, 'lang_validate_title'),
