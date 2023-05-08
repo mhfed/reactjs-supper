@@ -679,11 +679,10 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     timeoutId.current = window.setTimeout(() => {
       hideTooltip();
       const filterObj = getFilterObj(tableState);
-      config.current = { ...tableState, ...filterObj };
+      config.current = { ...tableState, ...filterObj, customSearch: customSearch.current || null };
       switch (action) {
         case TABLE_ACTION.SEARCH:
           if (!tableState.searchText || tableState.searchText.length > 1) {
-            config.current.customSearch = customSearch.current;
             onTableChange();
           }
           break;
@@ -809,7 +808,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
                 editable={editable}
                 searchText={searchText}
                 handleSearch={(text, customSearchObj: any) => {
-                  customSearch.current = customSearchObj;
+                  if (![null, undefined].includes(customSearchObj)) customSearch.current = customSearchObj;
                   handleSearch(text);
                 }}
                 handleFilter={onApplyFilter}
