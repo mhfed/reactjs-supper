@@ -21,6 +21,7 @@ import DetailNotification from './DetailNotification';
 import EditNotification from './EditNotification';
 import { Inotifiaction } from 'models/INotification';
 import NotificationAdvancedFilter from './Components/NotificationAdvancedFilter';
+import moment from 'moment';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -52,7 +53,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
 
       if (response.data) {
         response.data = (response?.data || []).map((e: any) => {
-          return { ...e, display_name: e?.app?.display_name || '' };
+          return { ...e, display_name: e?.app?.map((e: any) => e.display_name) || '' };
         });
       }
 
@@ -123,7 +124,8 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
           .get(getNotificationUrl(data.notification_id))
           .then((res) => {
             const currentRes: any = res.data;
-            const parseArr = JSON.parse(currentRes.bundle_id);
+            //
+            const parseArr = currentRes.bundle_id ? JSON.parse(currentRes.bundle_id) : [];
             showModal({
               component: DetailNotification,
               fullScreen: true,
@@ -166,7 +168,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
             });
           } else {
             const currentRes: any = response?.data;
-            const parseArr = JSON.parse(currentRes.bundle_id);
+            const parseArr = currentRes.bundle_id ? JSON.parse(currentRes.bundle_id) : [];
 
             showModal({
               component: EditNotification,
@@ -303,8 +305,8 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
 
     if (filterObj.from && filterObj.to) {
       currentFilter = {
-        from: filterObj.from.getTime(),
-        to: filterObj.to.getTime(),
+        from: moment(filterObj.from).format('DDMMYYYY'),
+        to: moment(filterObj.to).format('DDMMYYYY'),
         date_search: filterObj.notification_category,
       };
     }
