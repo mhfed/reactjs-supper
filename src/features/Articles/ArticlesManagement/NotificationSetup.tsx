@@ -118,7 +118,7 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
     }
   };
 
-  const { values, errors, touched, handleChange, handleBlur, handleSubmit, resetForm, setFieldValue } = useFormik({
+  const { values, errors, touched, handleChange, handleBlur, handleSubmit, validateForm, setFieldValue, setTouched } = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,
@@ -131,6 +131,16 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
           .format('DD/MM/YYYY HH:mm')
       : ''
   }`;
+
+  const onCreate = () => {
+    validateForm().then((errors) => {
+      if (errors && Object.keys(errors).length) {
+        setTouched(errors as any);
+      } else {
+        setEditMode(false);
+      }
+    });
+  };
 
   const renderEditScreen = () => {
     //==============Edit Screen=============//
@@ -208,7 +218,7 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
           <Button variant="outlined" onClick={() => hideModal()} scrollToTop>
             <Trans>lang_cancel</Trans>
           </Button>
-          <Button variant="contained" onClick={() => setEditMode(false)}>
+          <Button variant="contained" onClick={onCreate}>
             <Trans>lang_create</Trans>
           </Button>
         </Stack>

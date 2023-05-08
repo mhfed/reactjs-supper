@@ -67,7 +67,7 @@ const CreateNewArticles = () => {
         body.securities = values.securities.map((e: any) => e.securities);
       } else delete body.securities;
       if (values.app === APPNAME.CUSTOM) {
-        body.bundle_id = values.appname_custom.map((e: IBundle) => e.bundle_id).join(',');
+        body.bundle_id = values.appname_custom.map((e: IBundle) => e.bundle_id);
       } else delete body.bundle_id;
       if (values.file?.file) {
         const formData = new FormData();
