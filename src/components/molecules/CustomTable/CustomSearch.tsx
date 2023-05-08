@@ -297,7 +297,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
           <Typography sx={{ textTransform: 'uppercase', fontWeight: 'bold', mb: 2 }}>
             <Trans>lang_advanced_filter</Trans>
           </Typography>
-          {<AdvancedFilter onClose={handleClose} onApply={onApplyFilter} initialValues={filterObj.current} />}
+          {!!AdvancedFilter && <AdvancedFilter onClose={handleClose} onApply={onApplyFilter} initialValues={filterObj.current} />}
         </Paper>
       </Popover>
     </div>

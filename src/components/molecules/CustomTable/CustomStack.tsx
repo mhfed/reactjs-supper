@@ -30,9 +30,10 @@ const useStyles = makeStyles((theme) => ({
 
 type CustomStackProps = {
   data: string[];
+  translate?: boolean;
 };
 
-const CustomChip: React.FC<CustomStackProps> = ({ data = [] }) => {
+const CustomChip: React.FC<CustomStackProps> = ({ data = [], translate = true }) => {
   const classes = useStyles();
   const [show, setShow] = React.useState(false);
 
@@ -54,7 +55,7 @@ const CustomChip: React.FC<CustomStackProps> = ({ data = [] }) => {
     <Stack direction="column">
       {displayData.map((e: string) => (
         <Typography key={e} noWrap>
-          <Trans>{e}</Trans>
+          {translate ? <Trans>{e}</Trans> : e}
         </Typography>
       ))}
       {isLargeData && (

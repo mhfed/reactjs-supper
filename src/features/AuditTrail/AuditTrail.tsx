@@ -119,7 +119,6 @@ const AuditTrail: React.FC<ReportProps> = () => {
     handleBlur,
   } = useFormik({
     initialValues: initialValues,
-    validationSchema: {},
     onSubmit: handleFormSubmit,
   });
 

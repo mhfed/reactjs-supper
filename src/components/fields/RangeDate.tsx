@@ -158,7 +158,7 @@ const RangeDate: React.FC<RangeDateProps> = (props) => {
                     <TextField
                       {...params}
                       required={Boolean(props?.required)}
-                      error={error.from}
+                      error={!!error.from}
                       name={'from'}
                       value={fromDate}
                       fullWidth
@@ -178,7 +178,7 @@ const RangeDate: React.FC<RangeDateProps> = (props) => {
                     <TextField
                       {...params}
                       required={Boolean(props?.required)}
-                      error={error.to}
+                      error={!!error.to}
                       name={'to'}
                       value={toDate}
                       fullWidth

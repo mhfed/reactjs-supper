@@ -194,6 +194,7 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
         type: COLUMN_TYPE.BREAK_LINE,
         formatter: (data: any) => data?.app?.map((e: IBundle) => e.display_name).filter((x: string) => x),
         sort: false,
+        translate: false,
       },
       {
         name: FIELD.TITLE,

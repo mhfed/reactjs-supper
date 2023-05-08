@@ -45,6 +45,7 @@ export type IColumn = {
   name: string;
   label: string;
   type?: string;
+  translate?: boolean;
   dataOptions?: DropdownOption[];
   dataOptionsHeader?: DropdownOption[];
   actions?: IKebabItem[];
