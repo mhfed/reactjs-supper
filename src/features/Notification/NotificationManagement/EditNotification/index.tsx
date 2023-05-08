@@ -17,12 +17,13 @@ import {
   DELIVERY_TYPE,
   EXPIRE,
   Notification_Type,
+  NOTIFICATION_CATEGORY_TYPE,
 } from 'features/Notification/CreateNewNotification/NotificationConstant';
 import { LooseObject } from 'models/ICommon';
 import { Trans } from 'react-i18next';
 import moment from 'moment';
 import { httpRequest } from 'services/initRequest';
-import { getNotificationUrl } from 'apis/request.url';
+import { getNotificationUrl, putNotificationUrl } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
@@ -164,84 +165,78 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
 
     //Body and url type Direct
     else {
-      if (values.notification_type === NOTIFICATION_TYPE.App) {
-        const { title, message, expire, type_expired, delivery_type } = values;
-        urlSendNoti = getNotificationUrl(props.dataForm.notification_id);
-        bodySendNoti = {
-          title,
-          message,
-          url: 'https://abc.com/',
-          mobile_push: true,
-          desktop_push: true,
-          email_push: true,
-          sms_push: true,
-          // subscribers: (values?.subscribers || []).map((x) => {
-          //   const { subscriber, site_name, username } = x || {};
-          //   return {
-          //     username: subscriber || username,
-          //     site_name,
-          //   };
-          // }),
-        };
-        let expireTime = Number(expire);
-        if (expireTime) bodySendNoti = { ...bodySendNoti, expire_time: `${expireTime}${type_expired}` };
+      const { title, message, delivery_type, site_name, notification_category, url } = values;
+      urlSendNoti = putNotificationUrl(props.dataForm.notification_id);
+      bodySendNoti = {
+        title,
+        message,
+        url,
+        mobile_push: true,
+        site_name,
+        notification_category: NOTIFICATION_CATEGORY_TYPE?.[notification_category] || notification_category || '',
+      };
 
-        if (delivery_type === DELIVERY_TYPE.Schedule) {
-          bodySendNoti = { ...bodySendNoti, schedule_time: moment(values?.schedule).toDate().getTime() };
-        }
+      if (delivery_type === DELIVERY_TYPE.Schedule) {
+        bodySendNoti = { ...bodySendNoti, schedule_time: moment(values?.schedule).toDate().getTime() };
       }
 
-      showSubModal({
-        title: 'lang_confirm',
-        component: ConfirmEditModal,
-        props: {
-          title: 'lang_describe_confirm_edit',
-          titleTransValues: { segment: values.segment_id },
-          onSubmit: () => {
-            httpRequest
-              .put(urlSendNoti, bodySendNoti)
-              .then(async () => {
-                dispatch(
-                  enqueueSnackbarAction({
-                    message: 'lang_update_notification_successfully',
-                    key: new Date().getTime() + Math.random(),
-                    variant: 'success',
-                  }),
-                );
-                props.reCallChangeTable && props.reCallChangeTable();
-                if (props.typePage === 'EDIT') {
-                  hideSubModal();
-                  hideModal();
-                } else {
-                  const response: any = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
-                  onBack(response);
-                }
-              })
-              .catch(async (err) => {
-                hideSubModal();
-                if (err?.errorCode === 'INVALID_NOTIFICATION_STATUS') {
-                  dispatch(
-                    enqueueSnackbarAction({
-                      message: 'lang_noti_has_been_sent',
-                      key: new Date().getTime() + Math.random(),
-                      variant: 'error',
-                    }),
-                  );
-                  const response: any = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
-                  onBack(response);
-                } else {
-                  dispatch(
-                    enqueueSnackbarAction({
-                      message: err?.errorCodeLang || 'lang_update_notification_unsuccessfully',
-                      key: new Date().getTime() + Math.random(),
-                      variant: 'error',
-                    }),
-                  );
-                }
-              });
-          },
-        },
-      });
+      //Body and url type User Group
+
+      if (values.notification_type === NOTIFICATION_TYPE.UserGroup) {
+        bodySendNoti = {
+          ...bodySendNoti,
+          user_group_id: (values?.user_group_id || []).map((x) => x?.user_group_id || ''),
+        };
+      }
+
+      if (values.notification_type === NOTIFICATION_TYPE.ClientCategory) {
+        bodySendNoti = {
+          ...bodySendNoti,
+          client_category: values?.client_category_id,
+        };
+      }
+
+      httpRequest
+        .put(urlSendNoti, bodySendNoti)
+        .then(async () => {
+          dispatch(
+            enqueueSnackbarAction({
+              message: 'lang_update_notification_successfully',
+              key: new Date().getTime() + Math.random(),
+              variant: 'success',
+            }),
+          );
+          props.reCallChangeTable && props.reCallChangeTable();
+          if (props.typePage === 'EDIT') {
+            hideSubModal();
+            hideModal();
+          } else {
+            const response: any = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
+            onBack(response);
+          }
+        })
+        .catch(async (err) => {
+          hideSubModal();
+          if (err?.errorCode === 'INVALID_NOTIFICATION_STATUS') {
+            dispatch(
+              enqueueSnackbarAction({
+                message: 'lang_noti_has_been_sent',
+                key: new Date().getTime() + Math.random(),
+                variant: 'error',
+              }),
+            );
+            const response: any = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
+            onBack(response);
+          } else {
+            dispatch(
+              enqueueSnackbarAction({
+                message: err?.errorCodeLang || 'lang_update_notification_unsuccessfully',
+                key: new Date().getTime() + Math.random(),
+                variant: 'error',
+              }),
+            );
+          }
+        });
     }
   };
 
@@ -385,9 +380,9 @@ const validationSchema = yup.object().shape({
       ? schema.min(1, 'lang_user_group_require').required('lang_user_group_require')
       : schema;
   }),
-  client_category_id: yup.string().when(['notification_type'], (value, schema) => {
-    return value === NOTIFICATION_TYPE.ClientCategory ? schema.required('lang_client_category_id_require') : schema;
-  }),
+  // client_category_id: yup.string().when(['notification_type'], (value, schema) => {
+  //   return value === NOTIFICATION_TYPE.ClientCategory ? schema.required('lang_client_category_id_require') : schema;
+  // }),
   title: yup.string().trim().required('lang_please_enter_title').max(64, 'lang_validate_title'),
   message: yup.string().trim().required('lang_please_enter_message').max(192, 'lang_validate_message'),
   schedule: yup.string().when(['delivery_type', 'notification_type'], {

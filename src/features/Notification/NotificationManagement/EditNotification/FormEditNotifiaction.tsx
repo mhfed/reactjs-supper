@@ -180,7 +180,6 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
               label="lang_notification_category"
               id="notification_category"
               fullWidth
-              disabled={true}
               onBlur={handleBlur}
               value={values.notification_category}
               onChange={handleChange}
@@ -200,7 +199,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                   label="lang_linked_screen"
                   id="url"
                   fullWidth
-                  disabled={true}
+                  // disabled={true}
                   value={'Notifications'}
                 />
               </Grid>
