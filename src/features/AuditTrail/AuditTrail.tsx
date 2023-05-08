@@ -211,7 +211,7 @@ const AuditTrail: React.FC<ReportProps> = () => {
       {
         name: 'ACTION_COLUMN',
         type: COLUMN_TYPE.ACTION,
-        label: '',
+        label: ' ',
       },
     ];
   }, []);
