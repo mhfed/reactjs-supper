@@ -9,6 +9,7 @@
 import React from 'react';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 import Button from 'components/atoms/ButtonBase';
 import { Trans } from 'react-i18next';
 import makeStyles from '@mui/styles/makeStyles';
@@ -78,6 +79,11 @@ const ArticleAdvancedFilter: React.FC<ArticleAdvancedFilterProps> = ({ onClose, 
     <div>
       <form className={classes.container} noValidate onSubmit={handleSubmit}>
         <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="body2">
+              <Trans>lang_search_by_app_name</Trans>
+            </Typography>
+          </Grid>
           <Grid item xs={12}>
             <AutocompleteField
               name="app_name"
