@@ -295,6 +295,10 @@ div[class*='MUIDataTableSelectCell-fixedLeft'] {
   color: #758695;
 }
 
+.buttonClear.Mui-disabled {
+  background: transparent !important;
+}
+
 ::-webkit-scrollbar-corner {
   background: transparent;
 }

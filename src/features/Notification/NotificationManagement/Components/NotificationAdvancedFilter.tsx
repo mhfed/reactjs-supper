@@ -175,7 +175,7 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
         <Button
           variant="text"
           color="error"
-          className="customBtnDisable"
+          className="buttonClear"
           disabled={!diff(defaultValues, values)}
           sx={{ textTransform: 'uppercase !important' }}
           scrollToTop
