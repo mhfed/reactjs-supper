@@ -86,7 +86,6 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
           message: values.message,
           site_name: localStorage.getItem('sitename'),
           url: `${window.location.origin}?type=insights&article_id=${articleId}`,
-          delivery_type: values.delivery_type,
           notification_category: 'insights',
           article_id: articleId,
         };
