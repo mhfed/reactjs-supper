@@ -155,9 +155,10 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
           variant: 'warning',
         }),
       );
+    } else {
+      setAnchorEl(null);
     }
 
-    setAnchorEl(null);
     filterObj.current = values;
     handleFilter?.(values);
   };
