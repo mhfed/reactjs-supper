@@ -93,6 +93,10 @@ const useStyles = makeStyles((theme) => ({
       margin: 0,
     },
   },
+  alertProcess: {
+    color: theme.palette.success.main,
+    paddingTop: theme.spacing(3),
+  },
 }));
 
 /**
@@ -314,14 +318,19 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
   const submitButton = (form: FormikProps<initialValuesType>) => {
     if (step === STEP_EDIT_NOTI.REVIEW_NOTI) {
       return (
-        <Stack className={classes.footer}>
-          <Button variant="outlined" onClick={() => setStep(STEP_EDIT_NOTI.EDIT_NOTI)} scrollToTop>
-            <Trans>lang_no</Trans>
-          </Button>
-          <Button network variant="contained" type="submit">
-            <Trans>lang_yes</Trans>
-          </Button>
-        </Stack>
+        <div>
+          <Typography className={classes.alertProcess}>
+            <Trans>lang_do_you_want_to_process</Trans>
+          </Typography>
+          <Stack className={classes.footer}>
+            <Button variant="outlined" onClick={() => setStep(STEP_EDIT_NOTI.EDIT_NOTI)} scrollToTop>
+              <Trans>lang_no</Trans>
+            </Button>
+            <Button network variant="contained" type="submit">
+              <Trans>lang_yes</Trans>
+            </Button>
+          </Stack>
+        </div>
       );
     }
 
