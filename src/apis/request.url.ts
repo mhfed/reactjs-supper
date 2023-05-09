@@ -108,7 +108,7 @@ export const getListNotificationUrl = (
   filterObj?: any,
 ) => {
   let url = `/v1/dynamic-push/notifications/query?page_id=${page}&page_size=${rowsPerPage}`;
-  if (searchText) url += `&search=${searchText}`;
+  if (searchText) url += `&quick_search=${searchText}`;
   if (sort?.sortField) url += `&sort_field=${sort.sortField}`;
   if (sort?.sortType) url += `&sort_type=${sort.sortType}`;
 
