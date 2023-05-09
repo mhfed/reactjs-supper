@@ -323,7 +323,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
           style: { background: 'transparent', boxShadow: 'none' },
         }}
       >
-        <Paper sx={{ p: 2, mt: 2 }}>
+        <Paper sx={{ p: 2, marginTop: '22px' }}>
           <Typography sx={{ textTransform: 'uppercase', fontWeight: 'bold', mb: 2 }}>
             <Trans>lang_advanced_filter</Trans>
           </Typography>
