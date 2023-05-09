@@ -106,7 +106,13 @@ const CreateNewArticles = () => {
       {step === STEP.CREATE ? (
         <ArticlesCreateForm onCreate={onCreate} values={data.current} />
       ) : (
-        <ArticlesPreviewForm isCreate onReturn={onReturn} values={data.current} onSubmit={onSubmit} />
+        <ArticlesPreviewForm
+          isCreate
+          isDraft={isSaveDraft.current}
+          onReturn={onReturn}
+          values={data.current}
+          onSubmit={onSubmit}
+        />
       )}
     </>
   );
