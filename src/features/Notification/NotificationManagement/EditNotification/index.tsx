@@ -412,7 +412,7 @@ const validationSchema = yup.object().shape({
       .string()
       .required('lang_please_select_schedule_time')
       .checkValidField('lang_schedule_time_invalid')
-      .compareTimesLocal(),
+      .compareTimesLocal('lang_schedule_time_invalid'),
     // .compareTimes('error_code_INVALID_TIME'),
   }),
   // notification_category: yup.string().required('lang_notification_category_require'),
