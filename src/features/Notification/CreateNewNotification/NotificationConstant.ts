@@ -34,19 +34,19 @@ export const NOTIFICATION_TYPE_OPTION_FILTER = {
   [App]: [
     {
       value: App,
-      label: 'lang_direct',
+      label: 'lang_app',
     },
   ],
   [UserGroup]: [
     {
       value: UserGroup,
-      label: 'lang_segment',
+      label: 'lang_user_group',
     },
   ],
   [ClientCategory]: [
     {
       value: ClientCategory,
-      label: 'lang_sitename',
+      label: 'lang_client_category',
     },
   ],
 };
