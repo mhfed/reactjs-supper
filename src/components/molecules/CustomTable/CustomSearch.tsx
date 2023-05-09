@@ -143,8 +143,20 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
   /**
    * Apply new advanced filter
    */
-  const onApplyFilter = (values: any, initialValues: any) => {
-    const checkDiff = diff(initialValues, values);
+  const onApplyFilter = (values: any, initialValues: any, unIncludes: any) => {
+    const initValues = { ...initialValues };
+    const currentValues = { ...values };
+
+    if (Object.values(unIncludes).length) {
+      for (const key in initValues) {
+        if (unIncludes[key]) {
+          delete initValues[key];
+          delete currentValues[key];
+        }
+      }
+    }
+
+    const checkDiff = diff(initValues, currentValues);
 
     statusFilter.current = Boolean(checkDiff);
     if (!statusFilter.current) {
@@ -157,10 +169,9 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
       );
     } else {
       setAnchorEl(null);
+      handleFilter?.(values);
     }
-
     filterObj.current = values;
-    handleFilter?.(values);
   };
 
   /**

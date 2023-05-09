@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 type NotificationAdvancedFilterProps = {
   initialValues?: LooseObject;
   onClose: () => void;
-  onApply: (values: LooseObject, initialValues: LooseObject) => void;
+  onApply: (values: LooseObject, initialValues: LooseObject, unIncludes: LooseObject) => void;
 };
 
 const defaultValues = {
@@ -86,7 +86,7 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
    * Apply new advanced filter
    */
   const onApplyFilter = () => {
-    onApply(values, defaultValues);
+    onApply(values, defaultValues, { notification_category: true });
   };
 
   return (
