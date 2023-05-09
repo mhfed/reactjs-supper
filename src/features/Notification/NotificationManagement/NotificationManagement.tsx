@@ -301,13 +301,39 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
   };
 
   const onApplyFilter = (filterObj: any) => {
-    let currentFilter = {};
+    let currentFilter: any = {
+      date_search: filterObj.notification_category,
+    };
 
-    if (filterObj.from && filterObj.to) {
+    if (filterObj.from) {
       currentFilter = {
+        ...currentFilter,
         from: moment(filterObj.from).format('DDMMYYYY'),
+      };
+    }
+
+    if (filterObj.to) {
+      currentFilter = {
+        ...currentFilter,
         to: moment(filterObj.to).format('DDMMYYYY'),
-        date_search: filterObj.notification_category,
+      };
+    }
+
+    //  If only [To] is selected then click Apply button => Filter date from the newest date to selected [To]
+
+    if (!filterObj.from && filterObj.to) {
+      currentFilter = {
+        ...currentFilter,
+        from: moment().startOf('year').format('DDMMYYYY'),
+      };
+    }
+
+    // If only [From] is selected then click Apply button => Filter date from selected [From] to the latest date
+
+    if (!filterObj.to && filterObj.from) {
+      currentFilter = {
+        ...currentFilter,
+        to: moment().format('DDMMYYYY'),
       };
     }
 
