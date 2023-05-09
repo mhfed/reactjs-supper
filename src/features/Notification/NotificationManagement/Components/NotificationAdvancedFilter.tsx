@@ -194,10 +194,6 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
   );
 };
 
-const validationSchema = yup.object().shape({
-  app_name: yup.array().min(1, 'lang_app_name_is_required').required('lang_app_name_is_required'),
-  from: yup.string().required('from is require'),
-  to: yup.string().required('to is require'),
-});
+const validationSchema = yup.object().shape({});
 
 export default NotificationAdvancedFilter;
