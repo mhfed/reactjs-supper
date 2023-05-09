@@ -24,6 +24,8 @@ import AdvancedFilterIcon from 'assets/icons/AdvancedFilter';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import { diff } from 'deep-diff';
+import { useDispatch } from 'react-redux';
+import { enqueueSnackbarAction } from 'actions/app.action';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -116,6 +118,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const filterObj = React.useRef<any>(null);
   const statusFilter = React.useRef(false);
+  const dispatch = useDispatch();
 
   /**
    * Handle search new data with search text
@@ -144,6 +147,16 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
     const checkDiff = diff(initialValues, values);
 
     statusFilter.current = Boolean(checkDiff);
+    if (!statusFilter.current) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_filter_no_change',
+          key: new Date().getTime() + Math.random(),
+          variant: 'warning',
+        }),
+      );
+    }
+
     setAnchorEl(null);
     filterObj.current = values;
     handleFilter?.(values);
