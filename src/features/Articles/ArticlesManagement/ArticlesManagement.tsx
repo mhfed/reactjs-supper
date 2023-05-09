@@ -139,6 +139,7 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
               onClose: () => hideModal(),
               onSubmit: () => confirmDeleteArticles(data[FIELD.ARTICLES_ID]),
               textSubmit: 'lang_delete',
+              textCancel: 'lang_cancel',
             },
           });
         },

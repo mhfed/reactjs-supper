@@ -36,7 +36,7 @@ const AlertConfirm = ({
   open,
   type = 'warning',
   textSubmit = 'lang_confirm',
-  textCancel = 'lang_cancel',
+  textCancel,
   alertTitle,
   alertContent,
   timeRemaining,
@@ -65,7 +65,7 @@ const AlertConfirm = ({
         </Typography>
       </DialogContent>
       <DialogActions>
-        {onClose ? (
+        {textCancel ? (
           <Button onClick={onClose} variant="outlined">
             <Trans>{textCancel}</Trans>
           </Button>

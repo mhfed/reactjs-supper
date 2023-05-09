@@ -14,9 +14,6 @@ import AlertCircleOutline from 'assets/icons/AlertCircleOutline';
 import AlertOutline from 'assets/icons/AlertOutline';
 
 const useStyles = makeStyles((theme) => ({
-  contentRoot: {
-    // backgroundColor: `${theme.palette.info.main} !important`,
-  },
   variantSuccess: {
     backgroundColor: `${theme.palette.success.main} !important`,
   },
@@ -24,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: `${theme.palette.error.main} !important`,
   },
   variantInfo: {
-    backgroundColor: `${theme.palette.info.main} !important`,
+    backgroundColor: `${theme.palette.secondary.main} !important`,
   },
   variantWarning: {
     backgroundColor: `${theme.palette.warning.main} !important`,

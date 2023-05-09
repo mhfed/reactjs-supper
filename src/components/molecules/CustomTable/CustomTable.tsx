@@ -95,7 +95,7 @@ const useStyles = (props: TableProps) =>
           '&.bg': {
             background: theme.palette.hover.waiting,
           },
-          color: theme.palette.info.main,
+          color: theme.palette.secondary.main,
         },
         '& .error': {
           '&.bg': {

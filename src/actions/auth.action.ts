@@ -12,6 +12,8 @@ import authService from 'services/authService';
 import { axiosInstance } from 'services/initRequest';
 import { PATH_NAME } from 'configs';
 import { NavigateFunction } from 'react-router-dom';
+import { getSearchAppNameUrl } from 'apis/request.url';
+import { httpRequest } from 'services/initRequest';
 
 /**
  * Set axios auth config, get user detail, handle auto refresh token after login
@@ -273,6 +275,9 @@ export const loginIress =
     } else {
       const timeBeginLogin = Date.now();
       if (authService.checkPermissionLogin(capability)) {
+        const { data: allAppAccess } = await httpRequest.get(getSearchAppNameUrl());
+        // all apps user manage
+        window.apps = allAppAccess;
         // login successfully
         dispatch({
           type: IAuthActionTypes.LOGIN_SUCCESS,

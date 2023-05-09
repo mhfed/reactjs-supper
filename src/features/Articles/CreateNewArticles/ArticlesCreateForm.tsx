@@ -30,6 +30,7 @@ import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import useConfirmEdit from 'hooks/useConfirmEdit';
 import { diff } from 'deep-diff';
+import ConfirmModal from 'components/molecules/ConfirmModal';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -88,7 +89,21 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
    * Hanle save draft, switch to preview with draft mode
    */
   const onSaveDraft = () => {
-    onCreate(values, true);
+    if (isChange) {
+      onCreate(values, true);
+    } else {
+      showSubModal({
+        title: 'lang_confirm',
+        component: ConfirmModal,
+        props: {
+          open: true,
+          alertTitle: 'lang_confirm',
+          alertContent: 'lang_required_draft_change',
+          onSubmit: () => hideSubModal(),
+          textSubmit: 'lang_ok',
+        },
+      });
+    }
   };
 
   /**
@@ -121,7 +136,7 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
       values.image?.file ||
       values.file?.file ||
       values.app !== APPNAME.ALL_APPS ||
-      values.appname_custom?.length ||
+      (values.app === APPNAME.CUSTOM && values.appname_custom?.length) ||
       values.securities?.length ||
       values.security_type
     );
@@ -138,7 +153,6 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
                 label="lang_title"
                 required
                 fullWidth
-                maxLength={255}
                 value={values.title}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -208,7 +222,6 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
                 required
                 fullWidth
                 disabled
-                maxLength={255}
                 value={values.sitename}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -265,7 +278,7 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
             </Grid>
           </Grid>
           <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button variant="outlined" className="customBtnDisable" disabled={!isChange} network onClick={onSaveDraft}>
+            <Button variant="outlined" className="customBtnDisable" network onClick={onSaveDraft}>
               <Trans>lang_save_draft</Trans>
             </Button>
             <Button variant="outlined" sx={{ ml: 2 }} onClick={onClear}>
@@ -290,7 +303,7 @@ const initialValues = {
   file: '',
   sitename: localStorage.getItem('sitename'),
   app: APPNAME.ALL_APPS,
-  appname_custom: [],
+  appname_custom: window.apps?.length === 1 ? window.apps : [],
   securities: [],
   security_type: '',
 };

@@ -290,8 +290,9 @@ div[class*='MUIDataTableSelectCell-fixedLeft'] {
   pointer-events: none;
 }
 
-.customBtnDisable.Mui-disabled {
-  background: transparent !important;
+.customBtnDisable {
+  border-color: #758695;
+  color: #758695;
 }
 
 ::-webkit-scrollbar-corner {

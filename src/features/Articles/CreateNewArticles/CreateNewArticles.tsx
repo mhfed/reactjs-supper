@@ -80,7 +80,7 @@ const CreateNewArticles = () => {
       successCb?.(createResponse?.article_id, body.bundle_id);
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_create_articles_successfully',
+          message: isSaveDraft.current ? 'lang_draft_save_successfully' : 'lang_create_articles_successfully',
           key: new Date().getTime() + Math.random(),
           variant: 'success',
         }),
@@ -91,7 +91,7 @@ const CreateNewArticles = () => {
       errorCb?.();
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_create_articles_unsuccessfully',
+          message: isSaveDraft.current ? 'lang_save_draft_unsuccessfully' : 'lang_create_articles_unsuccessfully',
           key: new Date().getTime() + Math.random(),
           variant: 'error',
         }),
