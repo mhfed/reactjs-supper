@@ -171,7 +171,7 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ isCreate, val
           <Grid item xs={12} style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <FormControlLabel
               sx={{ mr: 0 }}
-              control={<Checkbox checked={publishWithNotification.current} onChange={onChangePublish} />}
+              control={<Checkbox defaultChecked onChange={onChangePublish} />}
               label={<Trans>lang_publish_with_notification</Trans>}
             />
           </Grid>
