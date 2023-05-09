@@ -23,6 +23,7 @@ import { IBundle, LooseObject } from 'models/ICommon';
 import AdvancedFilterIcon from 'assets/icons/AdvancedFilter';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
+import { diff } from 'deep-diff';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -64,6 +65,11 @@ const useStyles = makeStyles((theme) => ({
     width: 40,
     height: 40,
     marginRight: -14,
+  },
+  filterInactive: {
+    background: theme.palette.background.disabled,
+  },
+  filterActive: {
     background: theme.palette.primary.main,
   },
 }));
@@ -109,6 +115,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
   const [appName, setAppName] = React.useState<any>('');
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const filterObj = React.useRef<any>(null);
+  const statusFilter = React.useRef(false);
 
   /**
    * Handle search new data with search text
@@ -133,7 +140,10 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
   /**
    * Apply new advanced filter
    */
-  const onApplyFilter = (values: any) => {
+  const onApplyFilter = (values: any, initialValues: any) => {
+    const checkDiff = diff(initialValues, values);
+
+    statusFilter.current = Boolean(checkDiff);
     setAnchorEl(null);
     filterObj.current = values;
     handleFilter?.(values);
@@ -264,7 +274,13 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
                   <></>
                 )}
                 {AdvancedFilter ? (
-                  <div className={classes.advancedFilterBtn} onClick={(e) => openAdvancedFilter(e)}>
+                  <div
+                    className={clsx(
+                      classes.advancedFilterBtn,
+                      statusFilter.current ? classes.filterActive : classes.filterInactive,
+                    )}
+                    onClick={(e) => openAdvancedFilter(e)}
+                  >
                     <AdvancedFilterIcon />
                   </div>
                 ) : (
