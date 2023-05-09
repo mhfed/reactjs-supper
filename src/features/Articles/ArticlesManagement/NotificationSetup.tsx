@@ -80,9 +80,12 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
     const onPublishNotification = async (articleId: string, bundleId: string[]) => {
       try {
         const body: any = {
+          mobile_push: true,
           bundle_id: bundleId,
           title: values.title,
           message: values.message,
+          site_name: localStorage.getItem('sitename'),
+          url: `${window.location.origin}?type=notification`,
           delivery_type: values.delivery_type,
           notification_category: 'insights',
           article_id: articleId,
