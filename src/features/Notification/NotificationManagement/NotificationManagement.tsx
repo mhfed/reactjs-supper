@@ -239,6 +239,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
         name: FIELD.APP_NAME,
         label: 'lang_app_name',
         type: COLUMN_TYPE.BREAK_LINE,
+        sort: false,
       },
       {
         name: FIELD.ARTICLES_ID,
