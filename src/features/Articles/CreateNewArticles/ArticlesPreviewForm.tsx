@@ -51,7 +51,7 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ isCreate, isD
   const classes = useStyles();
   const { t } = useTranslation();
   const confirmEdit = useConfirmEdit(() => true); // eslint-disable-line
-  const publishWithNotification = React.useRef<boolean>(!!isCreate);
+  const publishWithNotification = React.useRef<boolean>(!!isCreate && !isDraft);
   const [loading, setLoading] = React.useState(false);
   const { showModal, hideModal } = useGlobalModalContext();
 
