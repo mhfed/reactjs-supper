@@ -21,6 +21,15 @@ import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   container: {},
+  customContainer: {
+    '& .MuiInputBase-root': {
+      display: 'flex',
+      alignItems: 'flex-start',
+      '& input': {
+        paddingTop: '2px !important',
+      },
+    },
+  },
   previewContainer: {
     '& input': {
       display: 'none',
@@ -58,6 +67,7 @@ type AutocompleteFieldProps = {
   sizeInput?: 'small' | 'medium';
   defaultValue?: Array<any>;
   changeDisplayInput?: boolean;
+  customSearch?: boolean;
 };
 
 const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
@@ -84,6 +94,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   sizeInput = 'medium',
   defaultValue = [],
   changeDisplayInput = false,
+  customSearch,
 }) => {
   const classes = useStyles();
   const [loading, setLoading] = React.useState(false);
@@ -192,7 +203,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
       required={preview ? false : required}
       fullWidth
       error={error}
-      className={clsx(classes.container, renderClasses())}
+      className={clsx(customSearch ? classes.customContainer : classes.container, renderClasses())}
     >
       <Autocomplete
         filterOptions={(x) => x}

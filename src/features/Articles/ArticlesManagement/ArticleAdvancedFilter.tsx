@@ -89,6 +89,7 @@ const ArticleAdvancedFilter: React.FC<ArticleAdvancedFilterProps> = ({ onClose, 
               name="app_name"
               label="lang_app_name"
               required
+              customSearch={true}
               getUrl={getSearchAppNameUrl}
               isOptionEqualToValue={(option: LooseObject, value: LooseObject) => {
                 return option.bundle_id === value.bundle_id;
