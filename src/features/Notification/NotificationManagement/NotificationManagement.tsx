@@ -278,10 +278,10 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
       //   name: FIELD.CLICKED,
       //   label: 'lang_clicked',
       // },
-      {
-        name: FIELD.ACTOR,
-        label: 'lang_actor',
-      },
+      // {
+      //   name: FIELD.ACTOR,
+      //   label: 'lang_actor',
+      // },
       {
         name: FIELD.LAST_UPDATED,
         label: 'lang_last_update',
