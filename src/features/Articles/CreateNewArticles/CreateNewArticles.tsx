@@ -51,18 +51,20 @@ const CreateNewArticles = () => {
     errorCb?: () => void,
   ) => {
     try {
-      const formData = new FormData();
       const values = { ...data.current };
-      formData.append('file', values.image.file);
-      const { data: imageResponse } = await httpRequest.post(getUploadUrl(), formData);
-      const body: ICreateArticlesBody = {
-        title: values.title,
-        content: values.content,
-        image: imageResponse.url,
-        security_type: values.security_type,
+      const body: any = {
+        title: values.title || '',
+        content: values.content || '',
+        security_type: values.security_type || '',
         article_type: isSaveDraft.current ? 'draft' : 'publish',
         notification_enabled: publishWithNotification,
       };
+      if (values.image?.file) {
+        const formData = new FormData();
+        formData.append('file', values.image.file);
+        const { data: imageResponse } = await httpRequest.post(getUploadUrl(), formData);
+        body.image = imageResponse.url;
+      }
       if (values.securities?.length) {
         body.securities = values.securities.map((e: any) => e.securities);
       } else delete body.securities;
