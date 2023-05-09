@@ -148,7 +148,6 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
           <InputField
             name="site_name"
             label="lang_sitename"
-            required
             fullWidth
             value={values.site_name}
             onChange={handleChange}

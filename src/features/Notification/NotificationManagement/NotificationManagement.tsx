@@ -261,18 +261,18 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
         name: FIELD.CREATED_BY,
         label: 'lang_created_by',
       },
-      {
-        name: FIELD.ATTEMPTED,
-        label: 'lang_attempted',
-      },
-      {
-        name: FIELD.DELIVERED,
-        label: 'lang_delivered',
-      },
-      {
-        name: FIELD.CLICKED,
-        label: 'lang_clicked',
-      },
+      // {
+      //   name: FIELD.ATTEMPTED,
+      //   label: 'lang_attempted',
+      // },
+      // {
+      //   name: FIELD.DELIVERED,
+      //   label: 'lang_delivered',
+      // },
+      // {
+      //   name: FIELD.CLICKED,
+      //   label: 'lang_clicked',
+      // },
       {
         name: FIELD.ACTOR,
         label: 'lang_actor',
