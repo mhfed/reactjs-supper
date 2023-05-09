@@ -131,8 +131,6 @@ const ArticleAdvancedFilter: React.FC<ArticleAdvancedFilterProps> = ({ onClose, 
   );
 };
 
-const validationSchema = yup.object().shape({
-  app_name: yup.array().min(1, 'lang_app_name_is_required').required('lang_app_name_is_required'),
-});
+const validationSchema = yup.object().shape({});
 
 export default ArticleAdvancedFilter;
