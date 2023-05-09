@@ -66,6 +66,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
   const [step, setStep] = React.useState<number>(STEP.EDIT);
   const { showSubModal, hideSubModal, hideModal } = useGlobalModalContext();
   const dispatch = useDispatch();
+  const isSaveDraft = React.useRef(false);
 
   /**
    * Check data change and show popup confirm
@@ -80,6 +81,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
         }),
       );
     } else {
+      isSaveDraft.current = false;
       setStep(STEP.PREVIEW);
     }
   };
@@ -139,7 +141,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
       await httpRequest.put(getArticlesUrl(initValues.article_id), body);
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_update_articles_successfully',
+          message: isSaveDraft.current ? 'lang_draft_save_successfully' : 'lang_update_articles_successfully',
           key: new Date().getTime() + Math.random(),
           variant: 'success',
         }),
@@ -151,7 +153,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
       errorCb?.();
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_update_articles_unsuccessfully',
+          message: isSaveDraft.current ? 'lang_save_draft_unsuccessfully' : 'lang_update_articles_unsuccessfully',
           key: new Date().getTime() + Math.random(),
           variant: 'error',
         }),
@@ -195,6 +197,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
    * Hanle save draft, switch to preview with draft mode
    */
   const onSaveDraft = () => {
+    isSaveDraft.current = true;
     setStep(STEP.PREVIEW);
   };
 
@@ -340,7 +343,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
                 </Grid>
                 <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end', pb: 3 }}>
                   {!haveSaveDraft ? (
-                    <Button variant="outlined" className="customBtnDisable" disabled={!isDiff} network onClick={onSaveDraft}>
+                    <Button variant="outlined" className="customBtnDisable" network onClick={onSaveDraft}>
                       <Trans>lang_save_draft</Trans>
                     </Button>
                   ) : (
