@@ -35,12 +35,6 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
-  previewContainerVisible: {
-    paddingBottom: 4,
-    '& input': {
-      visibility: 'hidden',
-    },
-  },
 }));
 
 type AutocompleteFieldProps = {
@@ -194,8 +188,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
    */
 
   const renderClasses = () => {
-    if (!preview) return null;
-    return changeDisplayInput ? classes.previewContainerVisible : classes.previewContainer;
+    return preview ? classes.previewContainer : null;
   };
 
   return (

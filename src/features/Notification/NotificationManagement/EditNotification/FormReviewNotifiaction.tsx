@@ -81,7 +81,6 @@ const FormReviewNotifiaction: React.FC<FormReviewNotifiactionProps> = ({ form, c
             getOptionLabel={(option) => option?.name || ''}
             getChipLabel={(option) => option?.name || ''}
             value={values.user_group_id}
-            changeDisplayInput={true}
           />
         </Grid>
       );
@@ -128,7 +127,6 @@ const FormReviewNotifiaction: React.FC<FormReviewNotifiactionProps> = ({ form, c
             label="lang_app_name"
             isOptionEqualToValue={(opt, select) => opt === select}
             getOptionLabel={(opt: any | string) => opt}
-            changeDisplayInput={true}
           />
         </Grid>
         {renderField()}

@@ -52,7 +52,6 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
             isOptionEqualToValue={(option: LooseObject, value: LooseObject) => option?.id === value?.id}
             getOptionLabel={(option) => option?.name || ''}
             getChipLabel={(option) => option?.name || ''}
-            changeDisplayInput={true}
           />
         </Grid>
       );
@@ -98,7 +97,6 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
             label="lang_app_name"
             isOptionEqualToValue={(opt, select) => opt === select}
             getOptionLabel={(opt: any | string) => opt}
-            changeDisplayInput={true}
           />
         </Grid>
         {renderField()}
