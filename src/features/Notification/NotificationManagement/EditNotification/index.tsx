@@ -127,7 +127,8 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
     } else {
       initialValues = { ...initialValues, client_category_id: initialValues?.client_category?.[0] || {} };
     }
-    initialValues = { ...initialValues, user_group_id: initialValues.user_group };
+
+    initialValues = { ...initialValues, user_group_id: initialValues.user_group, bundle_id: initialValues.app };
   }
 
   /**
