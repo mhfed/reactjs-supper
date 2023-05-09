@@ -241,6 +241,10 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
         type: COLUMN_TYPE.BREAK_LINE,
       },
       {
+        name: FIELD.ARTICLES_ID,
+        label: 'lang_article_id',
+      },
+      {
         name: FIELD.SCHEDULE,
         label: 'lang_scheduled',
         type: COLUMN_TYPE.DATETIME,
