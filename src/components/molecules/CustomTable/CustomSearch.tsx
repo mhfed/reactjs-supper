@@ -143,7 +143,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
   /**
    * Apply new advanced filter
    */
-  const onApplyFilter = (values: any, initialValues: any, unIncludes: any) => {
+  const onApplyFilter = (values: any, initialValues: any, unIncludes: any = {}) => {
     const initValues = { ...initialValues };
     const currentValues = { ...values };
 
