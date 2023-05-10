@@ -155,11 +155,8 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
         }),
       );
     } else {
-<<<<<<< HEAD
       filterObj.current = values;
-=======
       resetIndex && resetIndex();
->>>>>>> 717a553 (IWM-914 reset index when user use advanced filter.)
       setAnchorEl(null);
       handleFilter?.(values);
     }
