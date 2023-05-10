@@ -30,7 +30,8 @@ import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import useConfirmEdit from 'hooks/useConfirmEdit';
 import { diff } from 'deep-diff';
-import ConfirmModal from 'components/molecules/ConfirmModal';
+import { useDispatch } from 'react-redux';
+import { enqueueSnackbarAction } from 'actions/app.action';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -53,6 +54,7 @@ type ArticlesCreateFormProps = {
 
 const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, values: initValues }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const { showSubModal, hideSubModal } = useGlobalModalContext();
   const valuesClone = React.useRef({});
   const confirmEdit = useConfirmEdit(() => !!diff(initialValues, valuesClone.current)); // eslint-disable-line
@@ -92,17 +94,13 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
     if (isChange) {
       onCreate(values, true);
     } else {
-      showSubModal({
-        title: 'lang_confirm',
-        component: ConfirmModal,
-        props: {
-          open: true,
-          alertTitle: 'lang_confirm',
-          alertContent: 'lang_required_draft_change',
-          onSubmit: () => hideSubModal(),
-          textSubmit: 'lang_ok',
-        },
-      });
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_required_draft_change',
+          key: new Date().getTime() + Math.random(),
+          variant: 'warning',
+        }),
+      );
     }
   };
 

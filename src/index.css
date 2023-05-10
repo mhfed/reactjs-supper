@@ -290,7 +290,7 @@ div[class*='MUIDataTableSelectCell-fixedLeft'] {
   pointer-events: none;
 }
 
-.customBtnDisable {
+.customBtnDisable:not(:hover) {
   border-color: #758695;
   color: #758695;
 }
