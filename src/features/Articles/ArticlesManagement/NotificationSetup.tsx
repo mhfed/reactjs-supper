@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    overflow: 'auto',
     padding: theme.spacing(3),
     '& .MuiGrid-item': {
       paddingTop: theme.spacing(3),
@@ -189,7 +190,7 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
                 rows={5}
               />
             </Grid>
-            <Grid item xs={12} style={{ minHeight: '200px' }}>
+            <Grid item xs={12}>
               <RadioGroupField
                 name="delivery_type"
                 label="lang_delivery_type"
@@ -203,27 +204,25 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
                 helperText={touched.delivery_type && errors.delivery_type}
               />
 
-              <Grid item container xs={12} spacing={2}>
-                <Grid item xs={4} xl={6} style={{ paddingBottom: 16 }}>
-                  {values?.delivery_type === DELIVERY_TYPE.Instant ? (
-                    <></>
-                  ) : (
-                    <DatePickerField
-                      name="schedule"
-                      required
-                      value={values.schedule}
-                      label={'lang_schedule_time'}
-                      inputFormat={'DD/MM/YYYY HH:mm'}
-                      onChange={(v) => setFieldValue('schedule', v ? new Date(v) : v)}
-                      fullWidth
-                      onBlur={handleBlur}
-                      minDate={new Date()}
-                      error={touched.schedule && Boolean(errors.schedule)}
-                      helperText={touched.schedule && errors.schedule}
-                    />
-                  )}
+              {values?.delivery_type === DELIVERY_TYPE.Instant ? (
+                <></>
+              ) : (
+                <Grid item xs={6} lg={4} style={{ paddingBottom: 16 }}>
+                  <DatePickerField
+                    name="schedule"
+                    required
+                    value={values.schedule}
+                    label={'lang_schedule_time'}
+                    inputFormat={'DD/MM/YYYY HH:mm'}
+                    onChange={(v) => setFieldValue('schedule', v ? new Date(v) : v)}
+                    fullWidth
+                    onBlur={handleBlur}
+                    minDate={new Date()}
+                    error={touched.schedule && Boolean(errors.schedule)}
+                    helperText={touched.schedule && errors.schedule}
+                  />
                 </Grid>
-              </Grid>
+              )}
             </Grid>
           </Grid>
         </Box>
