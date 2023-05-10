@@ -18,6 +18,7 @@ import ScheduleIcon from '@mui/icons-material/Schedule';
 import { Trans } from 'react-i18next';
 import { FormikErrors } from 'formik';
 import { makeStyles } from '@mui/styles';
+import { t } from 'i18next';
 
 const CustomTabs = (props: DateTimePickerTabsProps) => (
   <React.Fragment>
@@ -61,10 +62,11 @@ type DatePickerFieldProps = {
   maxDate?: Date;
   size?: 'small' | 'medium';
   typeDatePicker?: 'DateTimePicker' | 'DatePicker';
+  placeholder?: string;
 };
 
 const DatePickerField: React.FC<DatePickerFieldProps> = (props) => {
-  const { label, hideTabs, size, typeDatePicker = 'DateTimePicker', ...rest } = props;
+  const { label, hideTabs, size, typeDatePicker = 'DateTimePicker', placeholder, ...rest } = props;
   const isError = rest?.error || false;
   const helperText = rest?.helperText || false;
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
@@ -99,6 +101,7 @@ const DatePickerField: React.FC<DatePickerFieldProps> = (props) => {
   }
 
   const renderInput = (params: TextFieldProps): React.ReactElement<any, string | React.JSXElementConstructor<any>> => {
+    const placeHolderField = placeholder && t(placeholder) + '';
     return (
       <TextField
         required={Boolean(props?.required)}
@@ -108,6 +111,20 @@ const DatePickerField: React.FC<DatePickerFieldProps> = (props) => {
         fullWidth={Boolean(props?.fullWidth)}
         {...params}
         className={classes.inputField}
+        inputProps={
+          placeHolderField
+            ? {
+                ...params.inputProps,
+                placeholder: placeHolderField,
+              }
+            : { ...params.inputProps }
+        }
+        sx={{
+          '& input::-webkit-input-placeholder, & input:-moz-placeholder, & input::-moz-placeholder, & input:-ms-input-placeholder':
+            {
+              textTransform: 'none !important',
+            },
+        }}
         label={label ? <Trans>{label}</Trans> : null}
         error={isError}
         size={size}

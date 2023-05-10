@@ -118,7 +118,7 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
               <DatePickerField
                 name="from"
                 value={values.from}
-                label={'lang_from'}
+                placeholder={'lang_from'}
                 inputFormat={'DD/MM/YYYY'}
                 onChange={(v) => setFieldValue('from', v ? new Date(v) : v)}
                 onBlur={handleBlur}
@@ -132,7 +132,7 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
               <DatePickerField
                 name="to"
                 value={values.to}
-                label={'lang_to'}
+                placeholder={'lang_to'}
                 inputFormat={'DD/MM/YYYY'}
                 onChange={(v) => setFieldValue('to', v ? new Date(v) : v)}
                 onBlur={handleBlur}
@@ -150,7 +150,6 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
             </Typography>
             <AutocompleteField
               name="app_name"
-              label="lang_app_name"
               required
               customSearch={true}
               getUrl={getSearchAppNameUrl}
