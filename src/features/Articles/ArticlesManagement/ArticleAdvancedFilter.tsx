@@ -18,6 +18,7 @@ import { yup } from 'helpers';
 import { AutocompleteField } from 'components/fields';
 import { getSearchAppNameUrl } from 'apis/request.url';
 import { LooseObject } from 'models/ICommon';
+import { diff } from 'deep-diff';
 
 const useStyles = makeStyles((theme) => ({
   buttonWrapper: {
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 type ArticleAdvancedFilterProps = {
   initialValues?: LooseObject;
   onClose: () => void;
-  onApply: (values: LooseObject) => void;
+  onApply: (values: LooseObject, isNoChange: boolean) => void;
 };
 
 const defaultValues = {
@@ -74,7 +75,7 @@ const ArticleAdvancedFilter: React.FC<ArticleAdvancedFilterProps> = ({ onClose, 
   const onApplyFilter = () => {
     let filterValues = { ...values };
     if (values?.app_name?.length === 0 && values?.app_name?.length === defaultValues.app_name.length) filterValues = {};
-    onApply(filterValues);
+    onApply(filterValues, !diff(values, defaultValues));
   };
 
   return (

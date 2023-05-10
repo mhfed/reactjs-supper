@@ -144,21 +144,31 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
   /**
    * Apply new advanced filter
    */
-  const onApplyFilter = (values: any) => {
+  const onApplyFilter = (values: any, isNoChange = false) => {
     const checkDiff = diff(values, filterObj.current);
-    if (!checkDiff) {
-      dispatch(
-        enqueueSnackbarAction({
-          message: 'lang_filter_no_change',
-          key: new Date().getTime() + Math.random(),
-          variant: 'warning',
-        }),
-      );
-    } else {
+    if (checkDiff) {
       filterObj.current = values;
       resetIndex && resetIndex();
       setAnchorEl(null);
       handleFilter?.(values);
+    } else {
+      if (isNoChange) {
+        dispatch(
+          enqueueSnackbarAction({
+            message: 'lang_filter_invalid',
+            key: new Date().getTime() + Math.random(),
+            variant: 'warning',
+          }),
+        );
+      } else {
+        dispatch(
+          enqueueSnackbarAction({
+            message: 'lang_filter_no_change',
+            key: new Date().getTime() + Math.random(),
+            variant: 'warning',
+          }),
+        );
+      }
     }
   };
 
