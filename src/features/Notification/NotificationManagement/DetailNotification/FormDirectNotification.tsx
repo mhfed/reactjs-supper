@@ -95,8 +95,8 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
             defaultValue={values.bundle_id}
             preview
             label="lang_app_name"
-            isOptionEqualToValue={(opt, select) => opt === select}
-            getOptionLabel={(opt: any | string) => opt}
+            isOptionEqualToValue={(opt, select) => opt.bundle_id === select.bundle_id}
+            getOptionLabel={(opt: any | string) => opt.display_name}
           />
         </Grid>
         {renderField()}

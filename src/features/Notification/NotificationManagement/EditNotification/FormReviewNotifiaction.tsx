@@ -123,11 +123,11 @@ const FormReviewNotifiaction: React.FC<FormReviewNotifiactionProps> = ({ form, c
             multiple
             name="bundle_id"
             options={values.bundle_id}
-            defaultValue={defaultArray}
+            defaultValue={values.bundle_id}
             preview
             label="lang_app_name"
-            isOptionEqualToValue={(opt, select) => opt === select}
-            getOptionLabel={(opt: any | string) => opt}
+            isOptionEqualToValue={(opt, select) => opt.bundle_id === select.bundle_id}
+            getOptionLabel={(opt: any | string) => opt.display_name}
           />
         </Grid>
         {renderField()}

@@ -70,7 +70,7 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
 
   if (dataForm) {
     initialValues = { ...dataForm };
-    initialValues = { ...initialValues, user_group_id: dataForm.user_group };
+    initialValues = { ...initialValues, user_group_id: dataForm.user_group, bundle_id: initialValues.app };
     initialValues.client_category_id =
       (initialValues?.client_category || []).find((e: any) => e.id === initialValues.client_category_id)?.name || '';
   }
