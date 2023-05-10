@@ -32,7 +32,11 @@ const CreateNewArticles = () => {
   const onCreate = (values: LooseObject, saveDraft: boolean = false) => {
     data.current = values;
     isSaveDraft.current = saveDraft;
-    setStep(STEP.PREVIEW);
+    if (saveDraft) {
+      onSubmit(false);
+    } else {
+      setStep(STEP.PREVIEW);
+    }
   };
 
   /**
@@ -106,13 +110,7 @@ const CreateNewArticles = () => {
       {step === STEP.CREATE ? (
         <ArticlesCreateForm onCreate={onCreate} values={data.current} />
       ) : (
-        <ArticlesPreviewForm
-          isCreate
-          isDraft={isSaveDraft.current}
-          onReturn={onReturn}
-          values={data.current}
-          onSubmit={onSubmit}
-        />
+        <ArticlesPreviewForm isCreate onReturn={onReturn} values={data.current} onSubmit={onSubmit} />
       )}
     </>
   );

@@ -41,17 +41,16 @@ const useStyles = makeStyles((theme) => ({
 
 type ArticlesPreviewFormProps = {
   isCreate?: boolean;
-  isDraft?: boolean;
   values: LooseObject;
   onReturn: () => void;
   onSubmit: (isPublish?: boolean, successCb?: () => void, errorCb?: () => void) => void;
 };
 
-const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ isCreate, isDraft, values, onReturn, onSubmit }) => {
+const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ isCreate, values, onReturn, onSubmit }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const confirmEdit = useConfirmEdit(() => true); // eslint-disable-line
-  const publishWithNotification = React.useRef<boolean>(!!isCreate && !isDraft);
+  const publishWithNotification = React.useRef<boolean>(!!isCreate);
   const [loading, setLoading] = React.useState(false);
   const { showModal, hideModal } = useGlobalModalContext();
 
@@ -93,7 +92,7 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ isCreate, isD
     <Paper className={clsx(classes.container, isCreate || classes.modalContainer)}>
       {isCreate ? (
         <Typography variant="h6" sx={{ textTransform: 'uppercase', mb: 2 }}>
-          <Trans>{isDraft ? 'lang_preview_draft_article' : 'lang_preview_new_article'}</Trans>
+          <Trans>lang_preview_new_article</Trans>
         </Typography>
       ) : (
         <></>
@@ -168,7 +167,7 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ isCreate, isD
         <Grid item xs={12}>
           <RichTextboxField preview placeholder="lang_enter_your_content" label="lang_content" value={values.content} />
         </Grid>
-        {isCreate && !isDraft ? (
+        {isCreate ? (
           <Grid item xs={12} style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <FormControlLabel
               sx={{ mr: 0 }}
