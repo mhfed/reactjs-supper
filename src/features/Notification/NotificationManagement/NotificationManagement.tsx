@@ -324,24 +324,6 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
       };
     }
 
-    //  If only [To] is selected then click Apply button => Filter date from the newest date to selected [To]
-
-    if (!filterObj.from && filterObj.to) {
-      currentFilter = {
-        ...currentFilter,
-        from: moment().startOf('year').format('DDMMYYYY'),
-      };
-    }
-
-    // If only [From] is selected then click Apply button => Filter date from selected [From] to the latest date
-
-    if (!filterObj.to && filterObj.from) {
-      currentFilter = {
-        ...currentFilter,
-        to: moment().format('DDMMYYYY'),
-      };
-    }
-
     if (filterObj.app_name?.length) {
       const listBundleId = filterObj.app_name?.length ? filterObj.app_name.map((e: IBundle) => e.bundle_id).join(',') : [];
       currentFilter = { ...currentFilter, bundle_id: listBundleId };
