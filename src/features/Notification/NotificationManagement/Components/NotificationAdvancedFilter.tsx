@@ -89,6 +89,8 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
     onApply(values, defaultValues, { notification_category: true });
   };
 
+  const isCreateBy = values.notification_category === SEARCH_BY_TYPE.created_by;
+
   return (
     <div>
       <form className={classes.container} noValidate onSubmit={handleSubmit}>
@@ -122,7 +124,7 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
                 inputFormat={'DD/MM/YYYY'}
                 onChange={(v) => setFieldValue('from', v ? new Date(v) : v)}
                 onBlur={handleBlur}
-                maxDate={values.to || new Date()}
+                maxDate={isCreateBy ? values.to || new Date() : values.to}
                 hideTabs={true}
                 size="small"
                 typeDatePicker="DatePicker"
@@ -137,7 +139,7 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
                 onChange={(v) => setFieldValue('to', v ? new Date(v) : v)}
                 onBlur={handleBlur}
                 minDate={values.from}
-                maxDate={new Date()}
+                maxDate={isCreateBy ? new Date() : undefined}
                 hideTabs={true}
                 size="small"
                 typeDatePicker="DatePicker"
