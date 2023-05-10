@@ -103,7 +103,7 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
   const submitButton = (form: FormikProps<initialValuesType>) => {
     return (
       <Stack direction="row" justifyContent="end" alignItems="center" spacing={3} className={classes.buttonWrapper}>
-        {form.values.status === NOTIFICATION_STATUS.TRIGGERED ? null : (
+        {form.values.status === NOTIFICATION_STATUS.TRIGGERED || !form.values.editable ? null : (
           <Button variant="contained" startIcon={<EditIcon />} network onClick={onEdit}>
             <Trans>lang_edit</Trans>
           </Button>

@@ -283,6 +283,7 @@ export interface initialValuesType {
   client_category_id: string;
   article_id?: string;
   status?: string;
+  editable?: boolean;
 }
 
 const initialValues: initialValuesType = {
