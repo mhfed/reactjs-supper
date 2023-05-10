@@ -69,7 +69,7 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
 
   const initialValues = {
     title: data?.title ? data.title.slice(0, 64) : '',
-    message: data?.message || '',
+    message: data?.message ? data.message.slice(0, 191) : '',
     delivery_type: DELIVERY_TYPE.Instant,
     schedule: '',
   };
