@@ -13,6 +13,7 @@ import {
   DELIVERY_TYPE,
   NOTIFICATION_CATEGORY_TYPE_LABEL,
   NOTIFICATION_TYPE,
+  NOTIFICATION_TYPE_OPTION_FILTER,
 } from 'features/Notification/CreateNewNotification/NotificationConstant';
 import { AutocompleteField, InputField } from 'components/fields';
 import { ClassNameMap } from 'notistack';
@@ -20,6 +21,7 @@ import { initialValuesType } from 'features/Notification/CreateNewNotification/C
 import moment from 'moment';
 import { LooseObject } from 'models/ICommon';
 import { changeLabel } from 'features/Notification/CreateNewNotification/Components/FormReviewNotification';
+import { t } from 'i18next';
 
 interface FormReviewNotifiactionProps {
   form: FormikProps<initialValuesType>;
@@ -114,7 +116,7 @@ const FormReviewNotifiaction: React.FC<FormReviewNotifiactionProps> = ({ form, c
             preview
             fullWidth
             variant={'standard'}
-            value={values.notification_type}
+            value={t(NOTIFICATION_TYPE_OPTION_FILTER[values.notification_type][0].label) || ''}
           />
         </Grid>
 

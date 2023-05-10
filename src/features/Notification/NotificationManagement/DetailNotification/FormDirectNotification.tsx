@@ -15,10 +15,12 @@ import {
   DELIVERY_TYPE,
   NOTIFICATION_CATEGORY_TYPE_LABEL,
   NOTIFICATION_TYPE,
+  NOTIFICATION_TYPE_OPTION_FILTER,
 } from '../../CreateNewNotification/NotificationConstant';
 import moment from 'moment';
 import { ClassNameMap } from '@mui/styles';
 import { LooseObject } from 'models/ICommon';
+import { t } from 'i18next';
 
 interface FormDirectNotificationProps {
   form: FormikProps<initialValuesType>;
@@ -84,7 +86,7 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
             preview
             fullWidth
             variant={'standard'}
-            value={values.notification_type}
+            value={t(NOTIFICATION_TYPE_OPTION_FILTER[values.notification_type][0].label) || ''}
           />
         </Grid>
         <Grid item xs={12}>
