@@ -122,7 +122,7 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
                 inputFormat={'DD/MM/YYYY'}
                 onChange={(v) => setFieldValue('from', v ? new Date(v) : v)}
                 onBlur={handleBlur}
-                maxDate={values.to}
+                maxDate={values.to || new Date()}
                 hideTabs={true}
                 size="small"
                 typeDatePicker="DatePicker"
@@ -137,6 +137,7 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
                 onChange={(v) => setFieldValue('to', v ? new Date(v) : v)}
                 onBlur={handleBlur}
                 minDate={values.from}
+                maxDate={new Date()}
                 hideTabs={true}
                 size="small"
                 typeDatePicker="DatePicker"
