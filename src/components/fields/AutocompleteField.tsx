@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
       alignItems: 'flex-start',
       '& input': {
-        paddingTop: '0px !important',
+        paddingTop: '2px !important',
       },
     },
   },

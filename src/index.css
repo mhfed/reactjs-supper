@@ -178,7 +178,7 @@ fieldset.MuiFormControl-root .MuiFormGroup-root > label:last-child {
 }
 
 .MuiChip-root {
-  margin: 0 8px 8px 0;
+  margin: 3px;
 }
 
 .MuiTypography-noWrap {
