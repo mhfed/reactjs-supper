@@ -295,7 +295,10 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
         <Trans>{label}</Trans>
       </InputLabel>
       {preview ? (
-        <div dangerouslySetInnerHTML={{ __html: value }} className={classes.previewContainer}></div>
+        <div
+          dangerouslySetInnerHTML={{ __html: value }}
+          className={classes.previewContainer + ' richtextboxPreviewContainer'}
+        ></div>
       ) : (
         <Box className={clsx(classes.container, error && classes.errorContainer)}>
           <Editor
