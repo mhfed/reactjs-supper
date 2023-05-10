@@ -116,8 +116,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
   const timeoutId = React.useRef<number | null>(null);
   const [appName, setAppName] = React.useState<any>('');
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
-  const filterObj = React.useRef<any>(null);
-  const statusFilter = React.useRef(false);
+  const filterObj = React.useRef<any>({});
   const dispatch = useDispatch();
 
   /**
@@ -143,23 +142,9 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
   /**
    * Apply new advanced filter
    */
-  const onApplyFilter = (values: any, initialValues: any, unIncludes: any = {}) => {
-    const initValues = { ...initialValues };
-    const currentValues = { ...values };
-
-    if (Object.values(unIncludes).length) {
-      for (const key in initValues) {
-        if (unIncludes[key]) {
-          delete initValues[key];
-          delete currentValues[key];
-        }
-      }
-    }
-
-    const checkDiff = diff(initValues, currentValues);
-
-    statusFilter.current = Boolean(checkDiff);
-    if (!statusFilter.current) {
+  const onApplyFilter = (values: any) => {
+    const checkDiff = diff(values, filterObj.current);
+    if (!checkDiff) {
       dispatch(
         enqueueSnackbarAction({
           message: 'lang_filter_no_change',
@@ -168,10 +153,10 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
         }),
       );
     } else {
+      filterObj.current = values;
       setAnchorEl(null);
       handleFilter?.(values);
     }
-    filterObj.current = values;
   };
 
   /**
@@ -302,7 +287,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
                   <div
                     className={clsx(
                       classes.advancedFilterBtn,
-                      statusFilter.current ? classes.filterActive : classes.filterInactive,
+                      Object.keys(filterObj?.current || {})?.length ? classes.filterActive : classes.filterInactive,
                     )}
                     onClick={(e) => openAdvancedFilter(e)}
                   >

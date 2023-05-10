@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 type ArticleAdvancedFilterProps = {
   initialValues?: LooseObject;
   onClose: () => void;
-  onApply: (values: LooseObject, initialValues: LooseObject) => void;
+  onApply: (values: LooseObject) => void;
 };
 
 const defaultValues = {
@@ -72,7 +72,9 @@ const ArticleAdvancedFilter: React.FC<ArticleAdvancedFilterProps> = ({ onClose, 
    * Apply new advanced filter
    */
   const onApplyFilter = () => {
-    onApply(values, defaultValues);
+    let filterValues = { ...values };
+    if (values?.app_name?.length === 0 && values?.app_name?.length === defaultValues.app_name.length) filterValues = {};
+    onApply(filterValues);
   };
 
   return (
