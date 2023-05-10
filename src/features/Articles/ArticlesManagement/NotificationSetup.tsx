@@ -13,8 +13,7 @@ import Button from 'components/atoms/ButtonBase';
 import HeaderModal from 'components/atoms/HeaderModal';
 import { DatePickerField, InputField, RadioGroupField } from 'components/fields';
 import { useGlobalModalContext } from 'containers/Modal';
-import { NOTIFICATION_TYPE } from 'features/Notification/CreateNewNotification/NotificationConstant';
-import { Notification_Type } from 'features/Notification/CreateNewNotification/NotificationConstant';
+import { NOTIFICATION_TYPE, Notification_Type } from 'features/Notification/CreateNewNotification/NotificationConstant';
 import { DELIVERY_TYPE } from 'features/Notification/CreateNewNotification/NotificationConstant';
 import { DELIVERY_TYPE_OPTION } from 'features/Notification/CreateNewNotification/NotificationConstant';
 import { useFormik } from 'formik';
@@ -287,9 +286,9 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
 const validationSchema = yup.object().shape({
   title: yup.string().trim().required('lang_please_enter_title').max(64, 'lang_validate_title'),
   message: yup.string().trim().required('lang_please_enter_message').max(192, 'lang_validate_message'),
-  schedule: yup.string().when(['delivery_type', 'notification_type'], {
-    is: (delivery_type: 'Instant' | 'Schedule', notification_type: Notification_Type) => {
-      return delivery_type === DELIVERY_TYPE.Schedule && notification_type === NOTIFICATION_TYPE.App;
+  schedule: yup.string().when(['delivery_type'], {
+    is: (delivery_type: 'Instant' | 'Schedule') => {
+      return delivery_type === DELIVERY_TYPE.Schedule;
     },
     then: yup
       .string()
