@@ -9,7 +9,8 @@
 export type Notification_Type = 'App' | 'UserGroup' | 'ClientCategory';
 
 export const NOTIFICATION_TYPE = { App: 'App', UserGroup: 'UserGroup', ClientCategory: 'ClientCategory' };
-export const DELIVERY_TYPE = { Instant: 'Instant', Schedule: 'Scheduled' };
+export const DELIVERY_TYPE = { Instant: 'Instant', Schedule: 'Schedule' };
+
 export const EXPIRE = { Hours: 'H', Days: 'D', Weeks: 'W' };
 export const SEARCH_BY_TYPE = { created_by: 'create_date', schedule_time: 'schedule_date' };
 
