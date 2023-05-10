@@ -15,7 +15,7 @@ import { Formik, FormikProps } from 'formik';
 import { useGlobalModalContext } from 'containers/Modal';
 import HeaderModal from 'components/atoms/HeaderModal';
 import { initialValuesType } from '../../CreateNewNotification/CreateNewNotification';
-import { DELIVERY_TYPE, NOTIFICATION_STATUS, NOTIFICATION_TYPE } from '../../CreateNewNotification/NotificationConstant';
+import { NOTIFICATION_STATUS, NOTIFICATION_TYPE_OPTION_FILTER } from '../../CreateNewNotification/NotificationConstant';
 import FormDirectNotification from './FormDirectNotification';
 import { httpRequest } from 'services/initRequest';
 import { getNotificationUrl } from 'apis/request.url';
@@ -23,6 +23,7 @@ import EditNotification from '../EditNotification';
 import EditIcon from '@mui/icons-material/Edit';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
+import { t } from 'i18next';
 
 interface DetailNotificationProps {
   dataForm: any;
@@ -64,13 +65,19 @@ const DetailNotification: React.FC<DetailNotificationProps> = ({ typePage, dataF
   const classes = useStyles();
   const { hideModal, showModal } = useGlobalModalContext();
   const dispatch = useDispatch();
-  const { UserGroup, App } = NOTIFICATION_TYPE;
 
   let initialValues: any = {};
 
   if (dataForm) {
     initialValues = { ...dataForm };
-    initialValues = { ...initialValues, user_group_id: dataForm.user_group, bundle_id: initialValues.app };
+    const renderLabel = t(NOTIFICATION_TYPE_OPTION_FILTER[initialValues.notification_type][0].label) || '';
+
+    initialValues = {
+      ...initialValues,
+      user_group_id: dataForm.user_group,
+      bundle_id: initialValues.app,
+      notification_type: renderLabel,
+    };
     initialValues.client_category_id =
       (initialValues?.client_category || []).find((e: any) => e.id === initialValues.client_category_id)?.name || '';
   }
