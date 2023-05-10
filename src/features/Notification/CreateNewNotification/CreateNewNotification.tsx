@@ -95,7 +95,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
     httpRequest
       .get(getSearchAppNameUrl())
       .then((res) => {
-        if (Object.values(res.data).length) {
+        if (Object.values(res.data).length === 1) {
           currform.current?.setFieldValue('bundle_id', res.data);
           initialValues.bundle_id = res.data;
         }
