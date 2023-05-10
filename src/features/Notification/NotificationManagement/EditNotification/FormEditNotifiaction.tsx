@@ -90,6 +90,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             label="lang_app_name"
             required
             getUrl={getSearchAppNameUrl}
+            disabled={Boolean(values.article_id)}
             isOptionEqualToValue={(option: LooseObject, value: LooseObject) => option?.bundle_id === value?.bundle_id}
             getOptionLabel={(option) => `${option?.display_name || option}`}
             getChipLabel={(option) => option?.display_name || option}
