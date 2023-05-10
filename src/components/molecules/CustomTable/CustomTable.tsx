@@ -586,6 +586,10 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
     };
   };
 
+  const resetIndex = () => {
+    config.current && (config.current.page = 0);
+  };
+
   /**
    * Get table config data as page id, sort field....to request new data at parent component
    * @returns config data
@@ -818,6 +822,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
                 showSitename={showSitename}
                 advancedFilter={advancedFilter}
                 customSearch={searchAppName}
+                resetIndex={resetIndex}
               />
             );
           },

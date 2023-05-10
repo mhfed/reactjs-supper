@@ -95,6 +95,7 @@ type CustomSearchProps = {
   showSitename: boolean;
   advancedFilter?: any;
   customSearch: boolean;
+  resetIndex: () => void;
 };
 
 const CustomSearch: React.FC<CustomSearchProps> = ({
@@ -109,6 +110,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
   listBtn,
   advancedFilter: AdvancedFilter = null,
   showSitename = false,
+  resetIndex,
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -153,7 +155,11 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
         }),
       );
     } else {
+<<<<<<< HEAD
       filterObj.current = values;
+=======
+      resetIndex && resetIndex();
+>>>>>>> 717a553 (IWM-914 reset index when user use advanced filter.)
       setAnchorEl(null);
       handleFilter?.(values);
     }
