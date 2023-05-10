@@ -408,7 +408,7 @@ const validationSchema = yup.object().shape({
   message: yup.string().trim().required('lang_please_enter_message').max(192, 'lang_validate_message'),
   schedule: yup.string().when(['delivery_type', 'notification_type'], {
     is: (delivery_type: 'Instant' | 'Schedule', notification_type: Notification_Type) => {
-      return delivery_type === DELIVERY_TYPE.Schedule && notification_type === NOTIFICATION_TYPE.App;
+      return delivery_type === DELIVERY_TYPE.Schedule;
     },
     then: yup
       .string()
