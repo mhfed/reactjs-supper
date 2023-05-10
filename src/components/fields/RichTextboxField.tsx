@@ -240,6 +240,12 @@ const RichTextboxField = forwardRef<RichTextboxHandle, RichTextboxProps>((props,
   function handleChange(v: any) {
     try {
       const rawContent = convertToRaw(v.getCurrentContent());
+      if (rawContent?.blocks?.length) {
+        for (let index = 0; index < rawContent.blocks.length; index++) {
+          const element = rawContent.blocks[index];
+          if (element?.type === 'article') element.type = 'unstyled';
+        }
+      }
       setEditorState(v);
       const strValue = draftToHtml(rawContent, {}, false, customEntityTransform);
       onChange?.(strValue);
