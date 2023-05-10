@@ -120,10 +120,9 @@ const DatePickerField: React.FC<DatePickerFieldProps> = (props) => {
             : { ...params.inputProps }
         }
         sx={{
-          '& input::-webkit-input-placeholder, & input:-moz-placeholder, & input::-moz-placeholder, & input:-ms-input-placeholder':
-            {
-              textTransform: 'none !important',
-            },
+          '& input::-webkit-input-placeholder': {
+            textTransform: 'none !important',
+          },
         }}
         label={label ? <Trans>{label}</Trans> : null}
         error={isError}
