@@ -156,10 +156,6 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
    * @param values form data
    */
   const submitForm = (values: initialValuesType) => {
-    if (step === STEP_EDIT_NOTI.EDIT_NOTI) return setStep(STEP_EDIT_NOTI.REVIEW_NOTI);
-
-    let urlSendNoti = '';
-    let bodySendNoti = {};
     if (!diff(values, initialValues)) {
       dispatch(
         enqueueSnackbarAction({
@@ -168,92 +164,96 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
           variant: 'warning',
         }),
       );
+      return;
     }
 
+    if (step === STEP_EDIT_NOTI.EDIT_NOTI) return setStep(STEP_EDIT_NOTI.REVIEW_NOTI);
+
+    let urlSendNoti = '';
+    let bodySendNoti = {};
+
     //Body and url type Direct
-    else {
-      const { title, message, delivery_type, site_name, notification_category, url } = values;
-      urlSendNoti = putNotificationUrl(props.dataForm.notification_id);
+    const { title, message, delivery_type, site_name, notification_category, url } = values;
+    urlSendNoti = putNotificationUrl(props.dataForm.notification_id);
+    bodySendNoti = {
+      title,
+      message,
+      url,
+      mobile_push: true,
+      site_name,
+      bundle_id: (values?.bundle_id || []).map((x) => x?.bundle_id || x),
+      notification_category: NOTIFICATION_CATEGORY_TYPE?.[notification_category] || notification_category || '',
+    };
+
+    if (delivery_type === DELIVERY_TYPE.Schedule) {
+      bodySendNoti = { ...bodySendNoti, schedule_time: moment(values?.schedule).toDate().getTime() };
+    }
+
+    //Body and url type User Group
+
+    if (values.notification_type === NOTIFICATION_TYPE.UserGroup) {
       bodySendNoti = {
-        title,
-        message,
-        url,
-        mobile_push: true,
-        site_name,
-        bundle_id: (values?.bundle_id || []).map((x) => x?.bundle_id || x),
-        notification_category: NOTIFICATION_CATEGORY_TYPE?.[notification_category] || notification_category || '',
+        ...bodySendNoti,
+        user_group: (values?.user_group_id || []).map((x) => x?.id || ''),
       };
+    }
 
-      if (delivery_type === DELIVERY_TYPE.Schedule) {
-        bodySendNoti = { ...bodySendNoti, schedule_time: moment(values?.schedule).toDate().getTime() };
-      }
+    if (values.notification_type === NOTIFICATION_TYPE.ClientCategory) {
+      bodySendNoti = {
+        ...bodySendNoti,
+        client_category: (values.client_category_id as any)?.id || values?.client_category_id,
+      };
+    }
 
-      //Body and url type User Group
-
-      if (values.notification_type === NOTIFICATION_TYPE.UserGroup) {
-        bodySendNoti = {
-          ...bodySendNoti,
-          user_group: (values?.user_group_id || []).map((x) => x?.id || ''),
-        };
-      }
-
-      if (values.notification_type === NOTIFICATION_TYPE.ClientCategory) {
-        bodySendNoti = {
-          ...bodySendNoti,
-          client_category: (values.client_category_id as any)?.id || values?.client_category_id,
-        };
-      }
-
-      httpRequest
-        .put(urlSendNoti, bodySendNoti)
-        .then(() => {
-          dispatch(
-            enqueueSnackbarAction({
-              message: 'lang_update_notification_successfully',
-              key: new Date().getTime() + Math.random(),
-              variant: 'success',
-            }),
-          );
-          setTimeout(async () => {
-            props.reCallChangeTable && props.reCallChangeTable();
-            if (props.typePage === 'EDIT') {
-              hideSubModal();
-              hideModal();
-            } else {
-              const response = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
-              let converData = { ...response.data };
-              converData.bundle_id && (converData.bundle_id = JSON.parse(converData.bundle_id));
-
-              onBack(converData);
-            }
-          }, 500);
-        })
-        .catch(async (err) => {
-          hideSubModal();
-          if (err?.errorCode === 'INVALID_NOTIFICATION_STATUS') {
-            dispatch(
-              enqueueSnackbarAction({
-                message: 'lang_noti_has_been_sent',
-                key: new Date().getTime() + Math.random(),
-                variant: 'error',
-              }),
-            );
+    httpRequest
+      .put(urlSendNoti, bodySendNoti)
+      .then(() => {
+        dispatch(
+          enqueueSnackbarAction({
+            message: 'lang_update_notification_successfully',
+            key: new Date().getTime() + Math.random(),
+            variant: 'success',
+          }),
+        );
+        setTimeout(async () => {
+          props.reCallChangeTable && props.reCallChangeTable();
+          if (props.typePage === 'EDIT') {
+            hideSubModal();
+            hideModal();
+          } else {
             const response = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
             let converData = { ...response.data };
             converData.bundle_id && (converData.bundle_id = JSON.parse(converData.bundle_id));
 
             onBack(converData);
-          } else {
-            dispatch(
-              enqueueSnackbarAction({
-                message: err?.errorCodeLang || 'lang_update_notification_unsuccessfully',
-                key: new Date().getTime() + Math.random(),
-                variant: 'error',
-              }),
-            );
           }
-        });
-    }
+        }, 500);
+      })
+      .catch(async (err) => {
+        hideSubModal();
+        if (err?.errorCode === 'INVALID_NOTIFICATION_STATUS') {
+          dispatch(
+            enqueueSnackbarAction({
+              message: 'lang_noti_has_been_sent',
+              key: new Date().getTime() + Math.random(),
+              variant: 'error',
+            }),
+          );
+          const response = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
+          let converData = { ...response.data };
+          converData.bundle_id && (converData.bundle_id = JSON.parse(converData.bundle_id));
+
+          onBack(converData);
+        } else {
+          dispatch(
+            enqueueSnackbarAction({
+              message: err?.errorCodeLang || 'lang_update_notification_unsuccessfully',
+              key: new Date().getTime() + Math.random(),
+              variant: 'error',
+            }),
+          );
+        }
+      });
   };
 
   /**
