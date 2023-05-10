@@ -17,6 +17,10 @@ import { ClassNameMap } from 'notistack';
 import moment from 'moment';
 import { LooseObject } from 'models/ICommon';
 
+export const changeLabel = (valueDelivery = '') => {
+  return valueDelivery === DELIVERY_TYPE.Schedule ? 'Scheduled' : valueDelivery;
+};
+
 interface FormReviewNotificationProps {
   form: FormikProps<initialValuesType>;
   classes: ClassNameMap<'wrapper' | 'radioField' | 'formContainer' | 'title'>;
@@ -25,7 +29,7 @@ interface FormReviewNotificationProps {
 const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, classes }) => {
   const { values, handleChange, handleBlur, touched, errors } = form || {};
 
-  const delivery_type_preview = `${values?.delivery_type || ''} ${
+  const delivery_type_preview = `${changeLabel(values?.delivery_type)} ${
     values?.delivery_type === DELIVERY_TYPE.Schedule
       ? moment(values?.schedule || '')
           .local()

@@ -22,6 +22,7 @@ import EditNotification from './EditNotification';
 import { Inotifiaction } from 'models/INotification';
 import NotificationAdvancedFilter from './Components/NotificationAdvancedFilter';
 import moment from 'moment';
+import { changeLabel } from '../CreateNewNotification/Components/FormReviewNotification';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -215,6 +216,9 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
       {
         name: FIELD.DELIVERY_TYPE,
         label: 'lang_delivery_type',
+        formatter: (rowData: any) => {
+          return changeLabel(rowData.delivery_type);
+        },
       },
       {
         name: FIELD.TITLE,
