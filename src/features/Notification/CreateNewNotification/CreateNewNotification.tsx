@@ -24,7 +24,7 @@ import { LooseObject } from 'models/ICommon';
 import { Trans } from 'react-i18next';
 import moment from 'moment';
 import { httpRequest } from 'services/initRequest';
-import { postAppNameSend, postClientCategorySend, postUserGroupSend } from 'apis/request.url';
+import { getSearchAppNameUrl, postAppNameSend, postClientCategorySend, postUserGroupSend } from 'apis/request.url';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
@@ -88,7 +88,26 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
   const dispatch = useDispatch();
   const { showModal, hideModal } = useGlobalModalContext();
   const valuesClone = React.useRef(initialValues);
+  const currform = React.useRef<FormikProps<initialValuesType>>();
   const confirmEdit = useConfirmEdit(() => !!diff(initialValues, valuesClone.current)); // eslint-disable-line
+
+  const getDataAccess = () => {
+    httpRequest
+      .get(getSearchAppNameUrl())
+      .then((res) => {
+        if (Object.values(res.data).length) {
+          currform.current?.setFieldValue('bundle_id', res.data);
+          initialValues.bundle_id = res.data;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  React.useEffect(() => {
+    getDataAccess();
+  }, []);
 
   const submitForm = (values: initialValuesType, formikHelpers: FormikHelpers<{}>) => {
     if (stateForm === STATE_FORM.CREATE) return setStateForm(STATE_FORM.PREVIEW);
@@ -227,6 +246,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={submitForm}>
         {(form: FormikProps<initialValuesType>) => {
           valuesClone.current = { ...form.values };
+          currform.current = form;
           return (
             <React.Fragment>
               {HeaderTitle()}
