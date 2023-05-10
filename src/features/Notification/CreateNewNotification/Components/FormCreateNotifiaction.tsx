@@ -70,45 +70,44 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             helperText={(touched.bundle_id && errors.bundle_id) as string}
           />
         </Grid>
-        {values.notification_type === UserGroup && (
-          <Grid item xs={12} style={{ paddingBottom: 3 }}>
-            <AutocompleteField
-              name="user_group_id"
-              label="lang_user_group"
-              formatData={(data = []) => data.user_group}
-              required
-              getUrl={getSearchUserGroupUrl}
-              isOptionEqualToValue={(option: LooseObject, value: LooseObject) => option?.id === value?.id}
-              getOptionLabel={(option) => option?.name || ''}
-              getChipLabel={(option) => option?.name || ''}
-              value={values.user_group_id}
-              onChange={(value) => setFieldValue('user_group_id', value)}
-              onBlur={() => setFieldTouched('user_group_id', true, true)}
-              error={touched.user_group_id && Boolean(errors.user_group_id)}
-              helperText={(touched.user_group_id && errors.user_group_id) as string}
-            />
-          </Grid>
-        )}
-        {values.notification_type === ClientCategory && (
-          <Grid item xs={12} style={{ paddingBottom: 3 }}>
-            <AutocompleteField
-              name="client_category_id"
-              label="lang_client_category"
-              required
-              multiple={false}
-              getUrl={getSearchClientCategoryUrl}
-              isOptionEqualToValue={isOptionEqualToValueSiteName}
-              getOptionLabel={(option) => `${option?.name || ''}`}
-              getChipLabel={(option: any) => option?.name || ''}
-              value={values.client_category_id}
-              formatData={(data = []) => data.app}
-              onChange={(value) => setFieldValue('client_category_id', value)}
-              onBlur={() => setFieldTouched('client_category_id', true, true)}
-              error={touched.client_category_id && Boolean(errors.client_category_id)}
-              helperText={(touched.client_category_id && errors.client_category_id) as string}
-            />
-          </Grid>
-        )}
+
+        <Grid item xs={12} style={{ paddingBottom: 3, display: values.notification_type === UserGroup ? 'block' : 'none' }}>
+          <AutocompleteField
+            name="user_group_id"
+            label="lang_user_group"
+            formatData={(data = []) => data.user_group}
+            required
+            getUrl={getSearchUserGroupUrl}
+            isOptionEqualToValue={(option: LooseObject, value: LooseObject) => option?.id === value?.id}
+            getOptionLabel={(option) => option?.name || ''}
+            getChipLabel={(option) => option?.name || ''}
+            value={values.user_group_id}
+            onChange={(value) => setFieldValue('user_group_id', value)}
+            onBlur={() => setFieldTouched('user_group_id', true, true)}
+            error={touched.user_group_id && Boolean(errors.user_group_id)}
+            helperText={(touched.user_group_id && errors.user_group_id) as string}
+          />
+        </Grid>
+
+        <Grid item xs={12} style={{ paddingBottom: 3, display: values.notification_type === ClientCategory ? 'block' : 'none' }}>
+          <AutocompleteField
+            name="client_category_id"
+            label="lang_client_category"
+            required
+            multiple={false}
+            getUrl={getSearchClientCategoryUrl}
+            isOptionEqualToValue={isOptionEqualToValueSiteName}
+            getOptionLabel={(option) => `${option?.name || ''}`}
+            getChipLabel={(option: any) => option?.name || ''}
+            value={values.client_category_id}
+            formatData={(data = []) => data.app}
+            onChange={(value) => setFieldValue('client_category_id', value)}
+            onBlur={() => setFieldTouched('client_category_id', true, true)}
+            error={touched.client_category_id && Boolean(errors.client_category_id)}
+            helperText={(touched.client_category_id && errors.client_category_id) as string}
+          />
+        </Grid>
+
         <Grid item xs={12}>
           <InputField
             name="title"
