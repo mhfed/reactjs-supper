@@ -87,7 +87,6 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
           site_name: localStorage.getItem('sitename'),
           url: `${window.location.origin}?type=insights&article_id=${articleId}`,
           notification_category: 'insights',
-          article_id: articleId,
         };
         if (values.delivery_type === DELIVERY_TYPE.Schedule) {
           body.schedule_time = +moment(values.schedule);
