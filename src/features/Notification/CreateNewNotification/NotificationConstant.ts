@@ -61,7 +61,7 @@ export const DELIVERY_TYPE_OPTION = [
   },
   {
     value: Schedule,
-    label: 'lang_schedule',
+    label: 'lang_scheduled',
   },
 ];
 
