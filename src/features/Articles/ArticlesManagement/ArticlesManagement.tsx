@@ -114,13 +114,14 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
     const actions = [
       {
         label: 'lang_view_detail',
-        onClick: (data: any) => {
+        onClick: async (data: any) => {
+          const { data: response } = await httpRequest.get(getArticlesUrl(data[FIELD.ARTICLES_ID]));
           showModal({
             component: ArticlesDetail,
             showBtnClose: true,
             fullScreen: true,
             props: {
-              data: convertArticlesDataToDetailForm(data),
+              data: convertArticlesDataToDetailForm(response),
               successCb: () => getData(),
             },
           });
@@ -145,7 +146,7 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
         },
       },
     ];
-    if (data.status !== ARTICLE_STATUS.COMPLETED) {
+    if (data.status !== ARTICLE_STATUS.COMPLETED && data.editable) {
       const editAction = {
         label: 'lang_edit',
         onClick: async (data: any) => {

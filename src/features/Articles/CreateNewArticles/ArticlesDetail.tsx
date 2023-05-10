@@ -16,11 +16,12 @@ import makeStyles from '@mui/styles/makeStyles';
 import Button from 'components/atoms/ButtonBase';
 import { Trans, useTranslation } from 'react-i18next';
 import { getSearchSitenameUrl, getSearchSecurityCodeUrl } from 'apis/request.url';
-import { APPNAME_OPTIONS, SECURITY_TYPE_OPTIONS } from '../ArticlesConstants';
+import { SECURITY_TYPE_OPTIONS } from '../ArticlesConstants';
 import { IArticlesFormData } from 'models/IArticles';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { useGlobalModalContext } from 'containers/Modal';
 import ArticlesEditForm from './ArticlesEditForm';
+import { ARTICLE_STATUS } from 'features/Notification/NotificationConstants';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -153,11 +154,15 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
               <RichTextboxField preview placeholder="lang_enter_your_content" label="lang_content" value={values.content} />
             </Grid>
           </Grid>
-          <Box className={classes.btnContainer}>
-            <Button variant="contained" sx={{ ml: 2 }} startIcon={<ModeEditIcon />} network onClick={onEdit}>
-              <Trans>lang_edit</Trans>
-            </Button>
-          </Box>
+          {values.status !== ARTICLE_STATUS.COMPLETED && values.editable ? (
+            <Box className={classes.btnContainer}>
+              <Button variant="contained" sx={{ ml: 2 }} startIcon={<ModeEditIcon />} network onClick={onEdit}>
+                <Trans>lang_edit</Trans>
+              </Button>
+            </Box>
+          ) : (
+            <></>
+          )}
         </Box>
       </>
     );
