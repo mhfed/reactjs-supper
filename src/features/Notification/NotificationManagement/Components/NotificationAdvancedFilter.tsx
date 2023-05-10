@@ -157,6 +157,7 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
               name="app_name"
               required
               customSearch={true}
+              placeholder="lang_app_name"
               getUrl={getSearchAppNameUrl}
               isOptionEqualToValue={(option: LooseObject, value: LooseObject) => {
                 return option.bundle_id === value.bundle_id;

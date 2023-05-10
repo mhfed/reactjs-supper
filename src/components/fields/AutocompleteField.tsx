@@ -18,6 +18,7 @@ import FormControl from '@mui/material/FormControl';
 import { LooseObject } from 'models/ICommon';
 import Box from '@mui/material/Box';
 import clsx from 'clsx';
+import { t } from 'i18next';
 
 const useStyles = makeStyles((theme) => ({
   container: {},
@@ -60,8 +61,8 @@ type AutocompleteFieldProps = {
   disableClearable?: boolean;
   sizeInput?: 'small' | 'medium';
   defaultValue?: Array<any>;
-  changeDisplayInput?: boolean;
   customSearch?: boolean;
+  placeholder?: string;
 };
 
 const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
@@ -87,8 +88,8 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
   disableClearable = true,
   sizeInput = 'medium',
   defaultValue = [],
-  changeDisplayInput = false,
   customSearch,
+  placeholder,
 }) => {
   const classes = useStyles();
   const [loading, setLoading] = React.useState(false);
@@ -249,24 +250,32 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
               )}
           </Box>
         )}
-        renderInput={(params) => (
-          <TextField
-            required={preview ? false : required}
-            {...params}
-            id={name}
-            size={sizeInput}
-            inputRef={inputRef}
-            variant={preview ? 'standard' : 'outlined'}
-            value={value}
-            label={label ? <Trans>{label}</Trans> : null}
-            error={error}
-            onChange={handleTextChange}
-            InputProps={{
-              ...params.InputProps,
-              ...InputProps,
-            }}
-          ></TextField>
-        )}
+        renderInput={(params) => {
+          const placeHolderField = placeholder && !value?.length ? t(placeholder) : '';
+          return (
+            <TextField
+              required={preview ? false : required}
+              {...params}
+              id={name}
+              size={sizeInput}
+              inputRef={inputRef}
+              variant={preview ? 'standard' : 'outlined'}
+              value={value}
+              label={label ? <Trans>{label}</Trans> : null}
+              error={error}
+              onChange={handleTextChange}
+              InputProps={
+                placeHolderField
+                  ? {
+                      ...params.InputProps,
+                      ...InputProps,
+                      placeholder: placeHolderField,
+                    }
+                  : { ...params.InputProps, ...InputProps }
+              }
+            ></TextField>
+          );
+        }}
       />
       {error && (
         <FormHelperText error>
