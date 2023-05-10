@@ -18,12 +18,14 @@ import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { getUploadUrl, getArticlesUrl } from 'apis/request.url';
 import { APPNAME } from '../ArticlesConstants';
+import useForceUpdate from 'hooks/useForceUpdate';
 
 const CreateNewArticles = () => {
   const [step, setStep] = React.useState<number>(STEP.CREATE);
   const data = React.useRef<LooseObject>({});
   const isSaveDraft = React.useRef(false);
   const dispatch = useDispatch();
+  const triggerForceUpdate = useForceUpdate();
 
   /**
    * Switch to preview mode from create form
@@ -92,7 +94,8 @@ const CreateNewArticles = () => {
         }),
       );
       data.current = {};
-      setStep(STEP.CREATE);
+      if (step !== STEP.CREATE) setStep(STEP.CREATE);
+      else triggerForceUpdate();
     } catch (error) {
       errorCb?.();
       dispatch(
