@@ -36,13 +36,17 @@ const useStyles = makeStyles(() => ({
 type TableHandle = React.ElementRef<typeof CustomTable>;
 type NotificationManagementProps = {};
 
+const converData = window.apps.reduce((pre: any, curr: any) => {
+  return { ...pre, [curr.bundle_id]: true };
+}, {});
+
 const NotificationManagement: React.FC<NotificationManagementProps> = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
   const { showModal, hideModal } = useGlobalModalContext();
   const filterObjApi = React.useRef<any>({});
-
+  const appAccess = React.useRef(converData);
   /**
    * Get list notification
    */
@@ -117,6 +121,9 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
    */
   const getActions = (data: any) => {
     const actions = [];
+
+    // const filterApps = (data?.app || []).filter((e: any) => appAccess.current?.[e.bundle_id]);
+
     actions.push({
       label: 'lang_view_detail',
       onClick: (data: Inotifiaction) => {

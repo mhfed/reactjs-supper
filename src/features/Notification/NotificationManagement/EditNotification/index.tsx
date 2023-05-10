@@ -206,7 +206,7 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
 
       httpRequest
         .put(urlSendNoti, bodySendNoti)
-        .then(async () => {
+        .then(() => {
           dispatch(
             enqueueSnackbarAction({
               message: 'lang_update_notification_successfully',
@@ -214,17 +214,19 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
               variant: 'success',
             }),
           );
-          props.reCallChangeTable && props.reCallChangeTable();
-          if (props.typePage === 'EDIT') {
-            hideSubModal();
-            hideModal();
-          } else {
-            const response = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
-            let converData = { ...response.data };
-            converData.bundle_id && (converData.bundle_id = JSON.parse(converData.bundle_id));
+          setTimeout(async () => {
+            props.reCallChangeTable && props.reCallChangeTable();
+            if (props.typePage === 'EDIT') {
+              hideSubModal();
+              hideModal();
+            } else {
+              const response = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
+              let converData = { ...response.data };
+              converData.bundle_id && (converData.bundle_id = JSON.parse(converData.bundle_id));
 
-            onBack(converData);
-          }
+              onBack(converData);
+            }
+          }, 500);
         })
         .catch(async (err) => {
           hideSubModal();
