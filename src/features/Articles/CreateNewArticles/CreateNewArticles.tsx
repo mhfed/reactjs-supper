@@ -59,12 +59,12 @@ const CreateNewArticles = () => {
     try {
       const values = { ...data.current };
       const body: any = {
-        title: values.title || '',
-        content: values.content || '',
-        security_type: values.security_type || '',
         article_type: isSaveDraft.current ? 'draft' : 'publish',
         notification_enabled: publishWithNotification,
       };
+      values.security_type && (body.security_type = values.security_type);
+      values.title && (body.title = values.title);
+      values.content && (body.content = values.content);
       if (values.image?.file) {
         const formData = new FormData();
         formData.append('file', values.image.file);
