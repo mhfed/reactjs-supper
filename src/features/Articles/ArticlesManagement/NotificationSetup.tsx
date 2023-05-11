@@ -13,7 +13,6 @@ import Button from 'components/atoms/ButtonBase';
 import HeaderModal from 'components/atoms/HeaderModal';
 import { DatePickerField, InputField, RadioGroupField } from 'components/fields';
 import { useGlobalModalContext } from 'containers/Modal';
-import { NOTIFICATION_TYPE, Notification_Type } from 'features/Notification/CreateNewNotification/NotificationConstant';
 import { DELIVERY_TYPE } from 'features/Notification/CreateNewNotification/NotificationConstant';
 import { DELIVERY_TYPE_OPTION } from 'features/Notification/CreateNewNotification/NotificationConstant';
 import { useFormik } from 'formik';

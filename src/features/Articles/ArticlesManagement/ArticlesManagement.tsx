@@ -26,6 +26,7 @@ import {
 } from '../../Notification/NotificationConstants';
 import ArticleAdvancedFilter from './ArticleAdvancedFilter';
 import NotificationSetup from './NotificationSetup';
+import { extractContent } from 'helpers/common';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -168,7 +169,7 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
       actions.push({
         label: isLinkedNotification ? 'lang_resend_notification' : 'lang_setup_notification',
         onClick: (data: any) => {
-          const message = '';
+          const message = extractContent(data?.content);
           showModal({
             component: NotificationSetup,
             showBtnClose: true,

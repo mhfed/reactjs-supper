@@ -185,3 +185,14 @@ export function checkTimeExpired(timeBeginLogin: number, timeTokenExpired: numbe
   if (timeTokenRemaining < 0) return 0;
   return timeTokenRemaining;
 }
+
+/**
+ * Get inner text from html string
+ * @param s html string
+ * @returns inner text
+ */
+export function extractContent(s: string) {
+  var span = document.createElement('span');
+  span.innerHTML = s;
+  return span.textContent || span.innerText;
+}
