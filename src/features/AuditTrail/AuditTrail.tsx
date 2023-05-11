@@ -139,18 +139,21 @@ const AuditTrail: React.FC<ReportProps> = () => {
   /**
    * get elastic search query
    */
-  const getQueryBody = (config: ITableConfig) => {
+  const getQueryBody = (config: ITableConfig, data?: LooseObject) => {
     try {
+      const formData = { ...(data || values) };
       const requestBody: any = { query: { bool: { must: [] } }, sort: [] };
       if (config?.sort?.sortField) {
         requestBody.sort.push({ [config.sort.sortField]: config.sort.sortType });
       }
       requestBody.sort.push({ [FIELD.DATETIME]: 'desc' });
-      requestBody.query.bool.must.push({ term: { function: values.function } });
-      if (values.function !== FUNCTION.ACCESS_MANAGEMENT && values.app_name) {
-        requestBody.query.bool.must.push({ match: { bundle_id: values.app_name?.bundle_id || values.app_name } });
+      requestBody.query.bool.must.push({ term: { function: formData.function } });
+      if (formData.function !== FUNCTION.ACCESS_MANAGEMENT && formData.app_name) {
+        requestBody.query.bool.must.push({ match: { bundle_id: formData.app_name?.bundle_id || formData.app_name } });
       }
-      requestBody.query.bool.must.push({ range: { datetime: { gte: +moment(values.fromDate), lte: +moment(values.toDate) } } });
+      requestBody.query.bool.must.push({
+        range: { datetime: { gte: +moment(formData.fromDate), lte: +moment(formData.toDate) } },
+      });
       if (config.searchText) {
         requestBody.query.bool.must.push({ query_string: { query: `*${config.searchText}*` } });
       }
@@ -165,12 +168,12 @@ const AuditTrail: React.FC<ReportProps> = () => {
   /**
    * Get list audit trail
    */
-  const getData = async () => {
+  const getData = async (data?: LooseObject) => {
     try {
       gridRef?.current?.setLoading?.(true);
       const config: ITableConfig = gridRef?.current?.getConfig?.();
       const url = getAuditTrailUrl(config);
-      const response: any = await httpRequest.post(url, getQueryBody(config));
+      const response: any = await httpRequest.post(url, getQueryBody(config, data));
       gridRef?.current?.setData?.(response);
     } catch (error) {
       gridRef?.current?.setData?.();
@@ -250,9 +253,8 @@ const AuditTrail: React.FC<ReportProps> = () => {
    * Handle reset filter and recall data
    */
   const onReset = () => {
-    setValues(initialValues, false).then(() => {
-      getData();
-    });
+    setValues(initialValues, false);
+    getData(initialValues);
   };
 
   /**
