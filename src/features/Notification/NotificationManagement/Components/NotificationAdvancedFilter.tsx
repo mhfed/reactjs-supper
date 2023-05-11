@@ -129,7 +129,7 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
                 inputFormat={'DD/MM/YYYY'}
                 onChange={(v) => setFieldValue('from', v ? new Date(v) : v)}
                 onBlur={handleBlur}
-                readOnly={true}
+                // readOnly={true}
                 maxDate={isCreateBy ? values.to || new Date() : values.to}
                 hideTabs={true}
                 size="small"
@@ -141,7 +141,7 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
                 name="to"
                 value={values.to}
                 placeholder={'lang_to'}
-                readOnly={true}
+                // readOnly={true}
                 inputFormat={'DD/MM/YYYY'}
                 onChange={(v) => setFieldValue('to', v ? new Date(v) : v)}
                 onBlur={handleBlur}
