@@ -153,7 +153,6 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
 
     const cb = async () => {
       hideModal();
-      if (props.typePage !== 'EDIT') await backPreStep();
     };
 
     if (diff(values, initialValues))
