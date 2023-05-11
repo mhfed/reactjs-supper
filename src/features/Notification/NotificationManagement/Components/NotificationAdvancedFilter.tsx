@@ -32,6 +32,7 @@ type NotificationAdvancedFilterProps = {
   initialValues?: LooseObject;
   onClose: () => void;
   onApply: (values: LooseObject, isNoChange: boolean) => void;
+  resetFilter?: () => void;
 };
 
 const defaultValues = {
@@ -45,6 +46,7 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
   onClose,
   onApply,
   initialValues = defaultValues,
+  resetFilter,
 }) => {
   const classes = useStyles();
 
@@ -80,6 +82,7 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
   const onClearAll = () => {
     setValues(defaultValues, false);
     setTouched({});
+    resetFilter && resetFilter();
   };
 
   /**
@@ -88,7 +91,7 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
   const onApplyFilter = () => {
     let filterValues = { ...values };
     if (values?.app_name?.length === 0 && !values.from && !values.to) filterValues = {};
-    onApply(filterValues, !diff(values, defaultValues));
+    onApply(filterValues, Boolean(diff(values, defaultValues)));
   };
 
   const isCreateBy = values.notification_category === SEARCH_BY_TYPE.created_by;
