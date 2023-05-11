@@ -16,6 +16,7 @@ import Select from '@mui/material/Select';
 import { FormikErrors } from 'formik';
 import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 const useStyles = makeStyles((theme) => ({
   previewContainer: {
@@ -24,9 +25,33 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   customSelect: {
-    '& .MuiInputBase-input': {
-      backgroundColor: theme.palette.background.attachment,
-      padding: '4px 8px',
+    maxWidth: 160,
+    '& *': {
+      fontSize: 14,
+    },
+    '& svg': {
+      fontSize: 16,
+    },
+    '& .MuiInputBase-root': {
+      '& .MuiInputBase-input': {
+        backgroundColor: theme.palette.background.attachment,
+        padding: '4px 8px',
+      },
+      '& fieldset': {
+        borderColor: 'transparent',
+      },
+    },
+    '& .MuiInputBase-root.Mui-focused': {
+      '& .MuiInputBase-input': {
+        backgroundColor: '#08D98D',
+        color: theme.palette.common.white,
+      },
+      '& svg': {
+        fill: 'white',
+      },
+      '& fieldset': {
+        borderColor: 'transparent',
+      },
     },
   },
 }));
@@ -106,6 +131,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
         value={value}
         readOnly={preview || readOnly}
         sx={{ textTransform: textTransform ? textTransform : 'none' }}
+        IconComponent={customSelect ? (props) => <ExpandLessIcon {...props} /> : undefined}
         MenuProps={{
           PaperProps: {
             style: {

@@ -103,7 +103,7 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
                 <Trans>lang_search_by</Trans>:
               </Typography>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={6} justifyContent={'flex-end'}>
               <SelectField
                 options={SEARCH_BY_DROPDOWN}
                 name="notification_category"
