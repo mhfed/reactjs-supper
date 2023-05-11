@@ -135,7 +135,7 @@ const Report: React.FC<ReportProps> = () => {
         },
       },
       {
-        label: isEnabled ? 'lang_disabled' : 'lang_enabled',
+        label: isEnabled ? 'lang_disable' : 'lang_enable',
         onClick: (data: any) => updateStatusReport(data, isEnabled ? REPORT_STATUS.DISABLED : REPORT_STATUS.ENABLED),
       },
     ];
