@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   customSelect: {
-    maxWidth: 160,
+    maxWidth: 165,
     '& *': {
       fontSize: 14,
     },
