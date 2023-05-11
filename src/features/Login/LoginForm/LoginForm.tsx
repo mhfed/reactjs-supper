@@ -23,7 +23,7 @@ import React, { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { errorSelector, isLoadingSelector } from 'selectors/auth.selector';
+import { errorSelector, isLoadingSelector, iressTokenSelector } from 'selectors/auth.selector';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -75,6 +75,7 @@ export default function SignIn() {
   const error = useSelector(errorSelector);
   const dispatch = useDispatch();
   const isLoading = useSelector(isLoadingSelector);
+  const accessToken = useSelector(iressTokenSelector);
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [disabled, setDisabled] = useState(false);
@@ -109,7 +110,7 @@ export default function SignIn() {
     const loginCode = url.searchParams.get('code') ?? '';
     const sitename = localStorage.getItem('sitename') ?? '';
 
-    if (loginCode && sitename) {
+    if (loginCode && sitename && !accessToken) {
       setFieldValue('site_name', sitename);
       dispatch(loginIress(loginCode, redirectUrL, sitename, navigate) as any);
     }

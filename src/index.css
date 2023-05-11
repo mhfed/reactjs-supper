@@ -295,6 +295,10 @@ div[class*='MUIDataTableSelectCell-fixedLeft'] {
   color: #758695;
 }
 
+.customBtnTextDisable.Mui-disabled {
+  background: transparent !important;
+}
+
 .buttonClear.Mui-disabled {
   background: transparent !important;
 }

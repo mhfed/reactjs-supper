@@ -138,18 +138,22 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
                 value={values.security_type}
               />
             </Grid>
-            <Grid item xs={12}>
-              <AutocompleteField
-                preview
-                name="securities"
-                label="lang_security_codes"
-                required
-                getUrl={getSearchSecurityCodeUrl}
-                isOptionEqualToValue={(opt, select) => opt.securities === select.securities}
-                getOptionLabel={(opt) => opt.securities}
-                value={values.securities}
-              />
-            </Grid>
+            {values.securities?.length ? (
+              <Grid item xs={12}>
+                <AutocompleteField
+                  preview
+                  name="securities"
+                  label="lang_security_codes"
+                  required
+                  getUrl={getSearchSecurityCodeUrl}
+                  isOptionEqualToValue={(opt, select) => opt.securities === select.securities}
+                  getOptionLabel={(opt) => opt.securities}
+                  value={values.securities}
+                />
+              </Grid>
+            ) : (
+              <></>
+            )}
             <Grid item xs={12}>
               <RichTextboxField preview placeholder="lang_enter_your_content" label="lang_content" value={values.content} />
             </Grid>

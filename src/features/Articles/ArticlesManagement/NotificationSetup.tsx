@@ -130,13 +130,12 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
   });
 
   // get delivery type display
-  const delivery_type_preview = `${values?.delivery_type || ''} ${
+  const delivery_type_preview =
     values?.delivery_type === DELIVERY_TYPE.Schedule
-      ? moment(values?.schedule || '')
+      ? `Scheduled ${moment(values?.schedule || '')
           .local()
-          .format('DD/MM/YYYY HH:mm')
-      : ''
-  }`;
+          .format('DD/MM/YYYY HH:mm')}`
+      : 'Instant';
 
   /**
    * onCreate noti, validate form before switch to preview form

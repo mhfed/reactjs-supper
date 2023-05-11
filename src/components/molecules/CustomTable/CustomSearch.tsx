@@ -118,7 +118,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
   const timeoutId = React.useRef<number | null>(null);
   const [appName, setAppName] = React.useState<any>('');
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
-  const filterObj = React.useRef<any>({});
+  const filterObj = React.useRef<any>(null);
   const dispatch = useDispatch();
 
   /**
@@ -145,17 +145,17 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
    * Apply new advanced filter
    */
   const onApplyFilter = (values: any, isNoChange = false) => {
-    const checkDiff = diff(values, filterObj.current);
+    const checkDiff = diff(values, filterObj.current || {});
     if (checkDiff) {
       filterObj.current = values;
       resetIndex && resetIndex();
       setAnchorEl(null);
       handleFilter?.(values);
     } else {
-      if (isNoChange) {
+      if (isNoChange && Object.keys(filterObj.current || {}).length) {
         dispatch(
           enqueueSnackbarAction({
-            message: 'lang_filter_invalid',
+            message: 'lang_filter_no_change',
             key: new Date().getTime() + Math.random(),
             variant: 'warning',
           }),
@@ -163,7 +163,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
       } else {
         dispatch(
           enqueueSnackbarAction({
-            message: 'lang_filter_no_change',
+            message: 'lang_filter_invalid',
             key: new Date().getTime() + Math.random(),
             variant: 'warning',
           }),

@@ -54,7 +54,7 @@ const AlertConfirm = ({
     <Dialog open={open} fullWidth maxWidth="sm" className={classes.container}>
       {alertTitle && (
         <DialogTitle>
-          <Typography>
+          <Typography sx={{ textTransform: 'uppercase' }}>
             <Trans>{alertTitle}</Trans>
           </Typography>
         </DialogTitle>

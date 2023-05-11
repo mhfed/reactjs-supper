@@ -83,7 +83,7 @@ const InputField: React.FC<TextFieldProps> = ({
       value={value}
       label={<Trans>{label}</Trans>}
       inputProps={{
-        maxLength: maxLength || 255,
+        maxLength: maxLength || 100000,
       }}
       InputLabelProps={
         shrink === false
