@@ -120,7 +120,7 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
     bodySendNoti = {
       title,
       message,
-      url: 'https://iress-wealth-dev.equix.app/?type=notifications',
+      url: `${process.env.REACT_APP_BASE_URL}/?type=notifications`,
       mobile_push: true,
       site_name,
       bundle_id: (values?.bundle_id || []).map((x) => x?.bundle_id || ''),

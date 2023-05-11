@@ -98,7 +98,7 @@ function Account({ ...classes }) {
       >
         {/* <div className={classes.textRole}>{user.group_name}</div>
         <Divider /> */}
-        <MenuItem>My account</MenuItem>
+        {/* <MenuItem>My account</MenuItem> */}
         <MenuItem className={classes.menuProfile} onClick={onShowLogoutConfirm}>
           {translate('lang_sign_out')}
         </MenuItem>
