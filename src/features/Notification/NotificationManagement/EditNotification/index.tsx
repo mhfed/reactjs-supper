@@ -131,11 +131,29 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
     initialValues = { ...initialValues, user_group_id: initialValues.user_group, bundle_id: initialValues.app };
   }
 
+  const backPreStep = async () => {
+    try {
+      const response = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
+      let converData = { ...response.data };
+      converData.bundle_id && (converData.bundle_id = JSON.parse(converData.bundle_id));
+
+      onBack(converData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   /**
    * Check diff and show popup confirm close modal
    */
   const handleClose = () => {
     const { values } = formRef?.current;
+
+    const cb = async () => {
+      hideModal();
+      if (props.typePage !== 'EDIT') await backPreStep();
+    };
+
     if (diff(values, initialValues))
       return showSubModal({
         title: 'lang_confirm_cancel',
@@ -145,10 +163,10 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
           cancelText: 'lang_no',
           confirmText: 'lang_yes',
           emailConfirm: false,
-          onSubmit: () => hideModal(),
+          onSubmit: cb,
         },
       });
-    hideModal();
+    cb();
   };
 
   /**
@@ -221,11 +239,7 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
             hideSubModal();
             hideModal();
           } else {
-            const response = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
-            let converData = { ...response.data };
-            converData.bundle_id && (converData.bundle_id = JSON.parse(converData.bundle_id));
-
-            onBack(converData);
+            await backPreStep();
           }
         }, 500);
       })
@@ -239,11 +253,7 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
               variant: 'error',
             }),
           );
-          const response = await httpRequest.get(getNotificationUrl(props.dataForm.notification_id));
-          let converData = { ...response.data };
-          converData.bundle_id && (converData.bundle_id = JSON.parse(converData.bundle_id));
-
-          onBack(converData);
+          await backPreStep();
         } else {
           dispatch(
             enqueueSnackbarAction({
