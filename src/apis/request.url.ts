@@ -169,7 +169,7 @@ export function getArticlesListUrl(
   listAppName = [],
 ) {
   let url = `v1/articles/query?page_id=${page}&page_size=${rowsPerPage}`;
-  if (searchText) url += `&search=${searchText}`;
+  if (searchText) url += `&quick_search=${searchText}`;
   if (sort?.sortField) url += `&sort_field=${sort.sortField}`;
   if (sort?.sortType) url += `&sort_type=${sort.sortType}`;
   if (listAppName?.length) url += `&bundle_id=${listAppName.join(',')}`;
