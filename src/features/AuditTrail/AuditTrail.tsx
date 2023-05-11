@@ -141,10 +141,11 @@ const AuditTrail: React.FC<ReportProps> = () => {
    */
   const getQueryBody = (config: ITableConfig) => {
     try {
-      const requestBody: any = { query: { bool: { must: [] } } };
+      const requestBody: any = { query: { bool: { must: [] } }, sort: [] };
       if (config?.sort?.sortField) {
-        requestBody.sort = { [config.sort.sortField]: config.sort.sortType };
+        requestBody.sort.push({ [config.sort.sortField]: config.sort.sortType });
       }
+      requestBody.sort.push({ [FIELD.DATETIME]: 'desc' });
       requestBody.query.bool.must.push({ term: { function: values.function } });
       if (values.function !== FUNCTION.ACCESS_MANAGEMENT && values.app_name) {
         requestBody.query.bool.must.push({ term: { bundle_id: values.app_name?.bundle_id || values.app_name } });
