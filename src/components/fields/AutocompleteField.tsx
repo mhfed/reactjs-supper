@@ -192,6 +192,18 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
     return preview ? classes.previewContainer : null;
   };
 
+  const renderOptionsText = () => {
+    let isDisplay;
+
+    if (multiple) {
+      isDisplay = inputRef.current?.value;
+    } else {
+      // when input searching not exist in options previous show message no match
+      isDisplay = !Object.values(value || {}).includes(inputRef.current?.value);
+    }
+    return isDisplay ? <Trans>lang_no_matching_records_found</Trans> : '';
+  };
+
   return (
     <FormControl
       required={preview ? false : required}
@@ -202,7 +214,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
       <Autocomplete
         filterOptions={(x) => x}
         loading={loading}
-        noOptionsText={inputRef.current?.value ? <Trans>lang_no_matching_records_found</Trans> : ''}
+        noOptionsText={renderOptionsText()}
         loadingText={
           <Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
             <CircularProgress color="secondary" size={24} />
