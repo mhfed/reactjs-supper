@@ -10,9 +10,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Box, Grid, Stack, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { enqueueSnackbarAction } from 'actions/app.action';
-import { getPPIndicatorUpdateUrl, getPPIndicatorUrl } from 'apis/request.url';
+import { getPPIndicatorUpdateUrl, getPPIndicatorUrl, getSearchAppNameUrl } from 'apis/request.url';
 import Button from 'components/atoms/ButtonBase';
-import { InputField, SelectField } from 'components/fields';
+import { AutocompleteField, InputField, SelectField } from 'components/fields';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import { useGlobalModalContext } from 'containers/Modal';
 import { diff } from 'deep-diff';
@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 type PortfolioProps = {};
 
 type ConfigurationType = {
-  bundle_id: string;
+  bundle_id: any;
   portfolio_performance_indicator: string;
 };
 
@@ -117,7 +117,7 @@ const Portfolio: React.FC<PortfolioProps> = () => {
   const handleFormSubmit = async () => {
     try {
       const newConfiguration = {
-        bundle_id: values.bundle_id,
+        bundle_id: (values.bundle_id as any)?.bundle_id || '',
         portfolio_performance_indicator: values.portfolio_performance_indicator,
       };
       const body = {
@@ -150,11 +150,12 @@ const Portfolio: React.FC<PortfolioProps> = () => {
     }
   };
 
-  const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, resetForm } = useFormik({
-    initialValues: { ...initialValues },
-    validationSchema: validationSchema,
-    onSubmit: handleBeforeSubmit,
-  });
+  const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, setFieldTouched, resetForm } =
+    useFormik({
+      initialValues: { ...initialValues },
+      validationSchema: validationSchema,
+      onSubmit: handleBeforeSubmit,
+    });
 
   /**
    * turn on edit mode
@@ -175,7 +176,7 @@ const Portfolio: React.FC<PortfolioProps> = () => {
           cancelText: 'lang_no',
           confirmText: 'lang_yes',
           onSubmit: () => {
-            handleResetValues(values.bundle_id);
+            handleResetValues((values.bundle_id as any).bundle_id);
             hideSubModal();
             setEditMode(false);
           },
@@ -191,9 +192,6 @@ const Portfolio: React.FC<PortfolioProps> = () => {
     setFieldValue('portfolio_performance_indicator', configSelected?.portfolio_performance_indicator);
     viewValuesRef.current = { ...viewValuesRef.current, ...configSelected };
   };
-  const handleChangeBundleID = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    handleResetValues(e.target.value);
-  };
   const getData = async function () {
     try {
       const { data }: LooseObject = await httpRequest.get(getPPIndicatorUrl(sitename));
@@ -205,9 +203,11 @@ const Portfolio: React.FC<PortfolioProps> = () => {
 
       if (data?.list_configuration.length === 0) setDisabledEdit(true);
 
+      const getListBundleId = data.list_configuration?.length === 1 ? data.list_configuration[0] : {};
+
       const initValues = {
         site_name: data.site_name,
-        bundle_id: data.list_configuration?.[0]?.bundle_id || '',
+        bundle_id: getListBundleId,
         portfolio_performance_indicator: data.list_configuration?.[0]?.portfolio_performance_indicator || '',
       };
       resetForm({
@@ -241,22 +241,20 @@ const Portfolio: React.FC<PortfolioProps> = () => {
               <InputField id="site_name" preview label="lang_sitename" fullWidth value={values.site_name} />
             </Grid>
             <Grid item xs={6}>
-              <SelectField
-                required
-                options={optionBundleID}
+              <AutocompleteField
                 name="bundle_id"
                 label="lang_app_name"
-                id="bundle_id"
-                fullWidth
-                onBlur={handleBlur}
+                required
+                multiple={false}
+                getUrl={getSearchAppNameUrl}
+                isOptionEqualToValue={(option: LooseObject, value: LooseObject) => option?.bundle_id === value?.bundle_id}
+                getOptionLabel={(option) => `${option?.display_name || ''}`}
+                getChipLabel={(option) => option?.display_name || ''}
                 value={values.bundle_id}
-                onChange={(e: any) => {
-                  handleChangeBundleID(e);
-                  handleChange(e);
-                }}
+                onChange={(value) => setFieldValue('bundle_id', value)}
+                onBlur={() => setFieldTouched('bundle_id', true, true)}
                 error={touched.bundle_id && Boolean(errors.bundle_id)}
-                helperText={touched.bundle_id && errors.bundle_id}
-                textTransform="uppercase"
+                helperText={(touched.bundle_id && errors.bundle_id) as string}
               />
             </Grid>
             <Grid item xs={6}>
@@ -315,22 +313,20 @@ const Portfolio: React.FC<PortfolioProps> = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              <SelectField
-                required
-                options={optionBundleID}
+              <AutocompleteField
                 name="bundle_id"
                 label="lang_app_name"
-                id="bundle_id"
-                fullWidth
-                onBlur={handleBlur}
+                required
+                multiple={false}
+                getUrl={getSearchAppNameUrl}
+                isOptionEqualToValue={(option: LooseObject, value: LooseObject) => option?.bundle_id === value?.bundle_id}
+                getOptionLabel={(option) => `${option?.display_name || ''}`}
+                getChipLabel={(option) => option?.display_name || ''}
                 value={values.bundle_id}
-                onChange={(e: any) => {
-                  handleChangeBundleID(e);
-                  handleChange(e);
-                }}
+                onChange={(value) => setFieldValue('bundle_id', value)}
+                onBlur={() => setFieldTouched('bundle_id', true, true)}
                 error={touched.bundle_id && Boolean(errors.bundle_id)}
-                helperText={touched.bundle_id && errors.bundle_id}
-                textTransform="uppercase"
+                helperText={(touched.bundle_id && errors.bundle_id) as string}
               />
             </Grid>
             <Grid item xs={6}>
@@ -380,12 +376,12 @@ const Portfolio: React.FC<PortfolioProps> = () => {
 
 const initialValues = {
   site_name: '',
-  bundle_id: '',
+  bundle_id: {},
   portfolio_performance_indicator: '',
 };
 const validationSchema = yup.object().shape({
   site_name: yup.string().required('lang_site_name_required').max(255, 'lang_full_name_max_length'),
-  bundle_id: yup.string().required(''),
+  bundle_id: yup.mixed().required('lang_app_name_require'),
   portfolio_performance_indicator: yup.string().required('lang_status_required'),
 });
 
