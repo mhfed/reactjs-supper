@@ -58,7 +58,7 @@ function formatDataBeforeExportCsv(curColumn: any, rawColumns: any, curData: any
         case COLUMN_TYPE.DATETIME:
           value =
             value && moment(value).isValid()
-              ? moment(value).local().format('DD/MM/YY HH:mm:ss')
+              ? moment(value).local().format('DD/MM/YYYY HH:mm:ss')
               : process.env.REACT_APP_DEFAULT_VALUE;
           break;
         case COLUMN_TYPE.DROPDOWN:

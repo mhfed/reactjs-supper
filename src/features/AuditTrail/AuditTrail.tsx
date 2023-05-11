@@ -84,8 +84,22 @@ const FUNCTION_OPTIONS = [
   { label: 'lang_login', value: FUNCTION.LOGIN },
 ];
 
+const ACTION = {
+  CREATE: 'create',
+  EDIT: 'edit',
+  DELETE: 'delete',
+  LOGIN: 'login',
+};
+
+const ACTION_OPTIONS = [
+  { label: 'lang_create', value: ACTION.CREATE },
+  { label: 'lang_edit', value: ACTION.EDIT },
+  { label: 'lang_delete', value: ACTION.DELETE },
+  { label: 'lang_login', value: ACTION.LOGIN },
+];
+
 const initialValues = {
-  app_name: '',
+  app_name: window.apps?.[0] || '',
   sitename: localStorage.getItem('sitename'),
   function: FUNCTION_OPTIONS[0].value,
   fromDate: moment().add(-7, 'days').startOf('day'),
@@ -133,7 +147,7 @@ const AuditTrail: React.FC<ReportProps> = () => {
       }
       requestBody.query.bool.must.push({ term: { function: values.function } });
       if (values.function !== FUNCTION.ACCESS_MANAGEMENT && values.app_name) {
-        requestBody.query.bool.must.push({ term: { bundle_id: values.app_name } });
+        requestBody.query.bool.must.push({ term: { bundle_id: values.app_name?.bundle_id || values.app_name } });
       }
       requestBody.query.bool.must.push({ range: { datetime: { gte: +moment(values.fromDate), lte: +moment(values.toDate) } } });
       if (config.searchText) {
@@ -188,11 +202,17 @@ const AuditTrail: React.FC<ReportProps> = () => {
       {
         name: FIELD.ACTION,
         label: 'lang_action',
+        dataOptions: ACTION_OPTIONS,
+        textTransform: 'capitalize',
+        type: COLUMN_TYPE.DROPDOWN,
       },
       {
         name: FIELD.FUNCTION,
         label: 'lang_function',
         sort: false,
+        textTransform: 'capitalize',
+        dataOptions: FUNCTION_OPTIONS,
+        type: COLUMN_TYPE.DROPDOWN,
       },
       {
         name: FIELD.DESCRIPTION,
