@@ -96,7 +96,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
             required
             multiple={false}
             getUrl={getSearchClientCategoryUrl}
-            isOptionEqualToValue={isOptionEqualToValueSiteName}
+            isOptionEqualToValue={(option: any, value: any) => option?.id === value?.id}
             getOptionLabel={(option) => `${option?.name || ''}`}
             getChipLabel={(option: any) => option?.name || ''}
             value={values.client_category_id}
