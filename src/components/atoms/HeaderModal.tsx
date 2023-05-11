@@ -9,9 +9,8 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import { Trans } from 'react-i18next';
 import CloseIcon from '@mui/icons-material/Close';
+import { Trans } from 'react-i18next';
 import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
@@ -20,9 +19,15 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    padding: theme.spacing(1, 2),
+    padding: theme.spacing(1),
     zIndex: 99,
     background: theme.palette.background.headerModal,
+    '& h6': {
+      fontWeight: 700,
+    },
+  },
+  iconClose: {
+    cursor: 'pointer',
   },
 }));
 
@@ -39,11 +44,7 @@ const HeaderModal: React.FC<HeaderModalProps> = ({ title, onClose }) => {
       <Typography variant="h6" sx={{ textTransform: 'uppercase' }}>
         <Trans>{title}</Trans>
       </Typography>
-      {onClose && (
-        <IconButton onClick={onClose} edge="end">
-          <CloseIcon />
-        </IconButton>
-      )}
+      {onClose && <CloseIcon className={classes.iconClose} onClick={onClose} />}
     </Box>
   );
 };

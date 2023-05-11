@@ -78,6 +78,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     width: '100%',
     padding: theme.spacing(1),
+    background: theme.palette.background.headerModal,
+    alignItems: 'center',
   },
   iconClose: {
     cursor: 'pointer',
