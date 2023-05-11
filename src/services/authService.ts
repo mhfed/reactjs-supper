@@ -19,7 +19,7 @@ import {
   getAuthUrlV2,
   getRefreshUrlV2,
 } from 'apis/request.url';
-import CryptoJS from 'react-native-crypto-js';
+import CryptoJS from 'crypto-js';
 import store from 'stores';
 import { IAuthType, IAuthActionTypes } from 'models/IAuthState';
 import { updateUserInfo, updateToken } from 'actions/auth.action';

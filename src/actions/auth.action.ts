@@ -35,7 +35,7 @@ const updateAxiosAuthConfig = (baseUrl: string, accessToken: string, pin: string
 };
 
 const updateAxiosAuthConfig2 = (accessToken: string, refreshToken?: string, sitename?: string) => {
-  axiosInstance.defaults.baseURL = process.env.REACT_APP_ENDPOINT_URL;
+  axiosInstance.defaults.baseURL = window.env?.REACT_APP_ENDPOINT_URL || process.env.REACT_APP_ENDPOINT_URL;
   axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
   axiosInstance.defaults.headers.common['environment'] = 'iress-wealth-app';
   axiosInstance.defaults.headers.common['site-name'] = sitename;
@@ -45,7 +45,7 @@ const updateAxiosAuthConfig2 = (accessToken: string, refreshToken?: string, site
  * Clear axios auth config when logout
  */
 const clearAxiosAuthConfig = () => {
-  axiosInstance.defaults.baseURL = process.env.REACT_APP_ENDPOINT_URL;
+  axiosInstance.defaults.baseURL = window.env?.REACT_APP_ENDPOINT_URL || process.env.REACT_APP_ENDPOINT_URL;
   delete axiosInstance.defaults.headers.common['Authorization'];
 };
 

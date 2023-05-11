@@ -5,5 +5,6 @@ declare global {
     confirmEdit: any;
     staySignedin: boolean;
     apps: any;
+    env: any;
   }
 }

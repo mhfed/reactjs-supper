@@ -83,7 +83,7 @@ export default function SignIn() {
   // fixed CLIENT_ID & RESPONSE_TYPE
   const CLIENT_ID = 'swq7xlOvB8qD4iPqxpNn';
   const RESPONSE_TYPE = 'code';
-  const redirectUrL = process.env.REACT_APP_REDIRECT_URL ?? '';
+  const redirectUrL = window.env?.REACT_APP_REDIRECT_URL || process.env.REACT_APP_REDIRECT_URL || '';
   /**
    * Handle login by login Xpan Iress
    * @param values form data

@@ -40,6 +40,7 @@ const requestConfig: IConfig = {
 export const axiosInstance = axios.create(requestConfig);
 
 export default function initRequest(store: any) {
+  requestConfig.baseURL = window.env?.REACT_APP_ENDPOINT_URL || process.env.REACT_APP_ENDPOINT_URL;
   let requestCount = 0;
 
   function decreaseRequestCount() {
