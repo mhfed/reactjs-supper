@@ -2,6 +2,21 @@
   "name": "wealth-management",
   "version": "1.1.1",
   "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "build:dev": "chmod +x ./scripts/build-dev.sh && ./scripts/build-dev.sh && env-cmd -f .env.development react-scripts build",
+    "build:uat": "chmod +x ./scripts/build-uat.sh && ./scripts/build-uat.sh && env-cmd -f .env.uat react-scripts build",
+    "build:prod": "chmod +x ./scripts/build-prod.sh && ./scripts/build-prod.sh && env-cmd -f .env.production react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint --ext .ts,.tsx src --color",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "isready": "npm run format && npm run lint && npm run build",
+    "docker": "docker build -t react-docker .",
+    "react-docker": "docker run -p 3000:80 react-docker",
+    "analyze": "source-map-explorer 'build/static/js/*.js'"
+  },
   "dependencies": {
     "@casl/ability": "^6.3.3",
     "@emotion/react": "^11.10.5",
@@ -57,21 +72,6 @@
     "uuid": "^9.0.0",
     "web-vitals": "^3.1.0",
     "yup": "^0.32.11"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "build:dev": "chmod +x ./scripts/build-dev.sh && ./scripts/build-dev.sh && env-cmd -f .env.development react-scripts build",
-    "build:uat": "chmod +x ./scripts/build-uat.sh && ./scripts/build-uat.sh && env-cmd -f .env.uat react-scripts build",
-    "build:prod": "chmod +x ./scripts/build-prod.sh && ./scripts/build-prod.sh && env-cmd -f .env.production react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint": "eslint --ext .ts,.tsx src --color",
-    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
-    "isready": "npm run format && npm run lint && npm run build",
-    "docker": "docker build -t react-docker .",
-    "react-docker": "docker run -p 3000:80 react-docker",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "eslintConfig": {
     "extends": [
