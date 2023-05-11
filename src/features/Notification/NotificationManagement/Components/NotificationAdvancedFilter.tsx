@@ -69,7 +69,7 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
     setValues,
     setTouched,
   } = useFormik({
-    initialValues: Object.values(initialValues).length ? initialValues : defaultValues,
+    initialValues: Object.values(initialValues || {})?.length ? initialValues : defaultValues,
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,
   });
