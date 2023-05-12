@@ -150,7 +150,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
           });
       },
     });
-    if (data[FIELD.STATUS] !== NOTIFICATION_STATUS.TRIGGERED && data.editable) {
+    if (data.editable) {
       actions.push({
         label: 'lang_edit',
         onClick: async (data: Inotifiaction) => {
