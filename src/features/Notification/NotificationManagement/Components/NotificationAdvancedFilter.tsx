@@ -130,10 +130,15 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
                 onChange={(v) => setFieldValue('from', v ? new Date(v) : v)}
                 onBlur={handleBlur}
                 // readOnly={true}
+                onClose={() => {
+                  setFieldTouched('from', true);
+                }}
                 maxDate={isCreateBy ? values.to || new Date() : values.to}
                 hideTabs={true}
                 size="small"
                 typeDatePicker="DatePicker"
+                error={touched.from && Boolean(errors.from)}
+                helperText={touched.from && errors.from}
               />
             </Grid>
             <Grid item xs={6}>
@@ -144,12 +149,17 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
                 // readOnly={true}
                 inputFormat={'DD/MM/YYYY'}
                 onChange={(v) => setFieldValue('to', v ? new Date(v) : v)}
+                onClose={() => {
+                  setFieldTouched('to', true);
+                }}
                 onBlur={handleBlur}
                 minDate={values.from}
                 maxDate={isCreateBy ? new Date() : undefined}
                 hideTabs={true}
                 size="small"
                 typeDatePicker="DatePicker"
+                error={touched.to && Boolean(errors.to)}
+                helperText={touched.to && errors.to}
               />
             </Grid>
           </Grid>
@@ -204,6 +214,9 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
   );
 };
 
-const validationSchema = yup.object().shape({});
+const validationSchema = yup.object().shape({
+  to: yup.string().checkValidField('lang_to_invalid'),
+  from: yup.string().checkValidField('lang_from_invalid'),
+});
 
 export default NotificationAdvancedFilter;
