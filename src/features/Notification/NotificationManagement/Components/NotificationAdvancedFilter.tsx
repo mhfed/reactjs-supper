@@ -130,7 +130,7 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
                 inputFormat={'DD/MM/YYYY'}
                 onChange={(v) => setFieldValue('from', v ? new Date(v) : v)}
                 onBlur={handleBlur}
-                // readOnly={true}
+                readOnly={true}
                 onClose={() => {
                   setFieldTouched('from', true, true);
                 }}
@@ -147,7 +147,7 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
                 name="to"
                 value={values.to}
                 placeholder={'lang_to'}
-                // readOnly={true}
+                readOnly={true}
                 inputFormat={'DD/MM/YYYY'}
                 onChange={(v) => setFieldValue('to', v ? new Date(v) : v)}
                 onClose={() => {
