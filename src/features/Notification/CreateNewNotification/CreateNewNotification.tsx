@@ -97,8 +97,10 @@ const CreateNewNotification: React.FC<CreateNewNotificationProps> = (props) => {
       .then((res) => {
         if (Object.values(res.data).length === 1) {
           currform.current?.setFieldValue('bundle_id', res.data);
-          initialValues.bundle_id = res.data;
+          return (initialValues.bundle_id = res.data);
         }
+        currform.current?.setFieldValue('bundle_id', []);
+        initialValues.bundle_id = [];
       })
       .catch((err) => {
         console.log(err);
