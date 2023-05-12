@@ -107,7 +107,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_recall_notification_unsuccessfully',
+          message: error.error === 160002 ? `error_code_${error.error}` : 'lang_recall_notification_unsuccessfully',
           key: new Date().getTime() + Math.random(),
           variant: 'error',
         }),

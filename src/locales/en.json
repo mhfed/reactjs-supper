@@ -440,7 +440,7 @@
   "error_code_100000": "Your session has expired",
   "error_code_160000": "You cannot create this notification right now",
   "error_code_160001": "You cannot edit this notification right now",
-  "error_code_160002": "You cannot delete this notification right now",
+  "error_code_160002": "You cannot recall this notification right now",
   "error_code_160003": "Create notification unsuccessfully",
   "error_code_160004": "Update notification unsuccessfully",
   "error_code_160005": "Recall notification unsuccessfully",
