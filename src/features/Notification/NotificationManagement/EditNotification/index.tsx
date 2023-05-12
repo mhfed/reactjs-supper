@@ -234,15 +234,9 @@ const EditNotification: React.FC<EditNotificationProps> = (props) => {
             variant: 'success',
           }),
         );
-        setTimeout(async () => {
-          props.reCallChangeTable && props.reCallChangeTable();
-          if (props.typePage === 'EDIT') {
-            hideSubModal();
-            hideModal();
-          } else {
-            await backPreStep();
-          }
-        }, 500);
+        props.reCallChangeTable && props.reCallChangeTable();
+        hideSubModal();
+        hideModal();
       })
       .catch(async (err) => {
         hideSubModal();
