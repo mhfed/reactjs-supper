@@ -1,4 +1,6 @@
 {
+  "lang_recall_notification_successfully": "Recall notification successfully",
+  "lang_recall_notification_unsuccessfully": "Recall notification unsuccessfully",
   "lang_preview_draft_article": "Preview Draft Article",
   "lang_filter_no_change": "There is no change in the filter",
   "lang_filter_invalid": "Please input at least one field to apply filter",

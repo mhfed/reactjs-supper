@@ -97,7 +97,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
       await httpRequest.delete(getNotificationUrl(notificationId));
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_delete_notification_successfully',
+          message: 'lang_recall_notification_successfully',
           key: new Date().getTime() + Math.random(),
           variant: 'success',
         }),
@@ -107,7 +107,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     } catch (error) {
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_delete_notification_unsuccessfully',
+          message: 'lang_recall_notification_unsuccessfully',
           key: new Date().getTime() + Math.random(),
           variant: 'error',
         }),
