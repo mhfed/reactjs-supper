@@ -98,9 +98,14 @@ const CreateNewArticles = () => {
       else triggerForceUpdate();
     } catch (error) {
       errorCb?.();
+      const message = [120002].includes(error?.errorCode)
+        ? error?.errorCodeLang
+        : isSaveDraft.current
+        ? 'lang_save_draft_unsuccessfully'
+        : 'lang_create_articles_unsuccessfully';
       dispatch(
         enqueueSnackbarAction({
-          message: isSaveDraft.current ? 'lang_save_draft_unsuccessfully' : 'lang_create_articles_unsuccessfully',
+          message,
           key: new Date().getTime() + Math.random(),
           variant: 'error',
         }),

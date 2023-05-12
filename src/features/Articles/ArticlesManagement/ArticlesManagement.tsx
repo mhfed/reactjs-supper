@@ -96,9 +96,10 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
       onTableChange();
       hideModal();
     } catch (error) {
+      const message = [120004].includes(error?.errorCode) ? error?.errorCodeLang : 'lang_delete_article_unsuccessfully';
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_delete_article_unsuccessfully',
+          message,
           key: new Date().getTime() + Math.random(),
           variant: 'error',
         }),
@@ -165,7 +166,9 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
         },
       };
       actions.splice(1, 0, editAction);
-    } else {
+    }
+    if (data.status !== ARTICLE_STATUS.DRAFT) {
+      if (data.status === ARTICLE_STATUS.SCHEDULED && isLinkedNotification) return actions;
       actions.push({
         label: isLinkedNotification ? 'lang_resend_notification' : 'lang_setup_notification',
         onClick: (data: any) => {

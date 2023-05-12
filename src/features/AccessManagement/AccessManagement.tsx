@@ -160,7 +160,10 @@ const AccessManagement: React.FC<ArticlesManagementProps> = () => {
           props: {
             data: selectedRows,
             listFull,
-            callback: onTableChange,
+            callback: () => {
+              onTableChange();
+              gridRef.current?.setRowSelected();
+            },
           },
         });
       }

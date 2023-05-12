@@ -17,7 +17,7 @@ import { DELIVERY_TYPE } from 'features/Notification/CreateNewNotification/Notif
 import { DELIVERY_TYPE_OPTION } from 'features/Notification/CreateNewNotification/NotificationConstant';
 import { useFormik } from 'formik';
 import { yup } from 'helpers';
-import { LooseObject } from 'models/ICommon';
+import { IBundle, LooseObject } from 'models/ICommon';
 import moment from 'moment';
 import React from 'react';
 import { Trans } from 'react-i18next';
@@ -115,7 +115,10 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
     } else {
       const { data: allAppAccess } = await httpRequest.get(getSearchAppNameUrl());
       console.log('YOLO: ', allAppAccess);
-      onPublishNotification(data.article_id, []);
+      onPublishNotification(
+        data.article_id,
+        data.app?.map((e: IBundle) => e.bundle_id),
+      );
     }
   };
 

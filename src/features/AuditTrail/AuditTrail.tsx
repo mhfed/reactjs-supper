@@ -102,7 +102,7 @@ const initialValues = {
   app_name: window.apps?.[0] || '',
   sitename: localStorage.getItem('sitename'),
   function: FUNCTION_OPTIONS[0].value,
-  fromDate: moment().add(-7, 'days').startOf('day'),
+  fromDate: moment().add(-6, 'days').startOf('day'),
   toDate: moment().endOf('day'),
 };
 
@@ -323,7 +323,7 @@ const AuditTrail: React.FC<ReportProps> = () => {
           <Button variant="outlined" sx={{ ml: 2 }} network onClick={onReset}>
             <Trans>lang_reset</Trans>
           </Button>
-          <Button variant="contained" sx={{ ml: 2 }} onClick={getData} network>
+          <Button variant="contained" sx={{ ml: 2 }} onClick={() => getData()} network>
             <Trans>lang_apply</Trans>
           </Button>
         </div>

@@ -444,6 +444,7 @@ type TableHandle = {
   getQuery: any;
   getConfig: any;
   getRowSelected: any;
+  setRowSelected: any;
   checkChange: () => boolean;
 };
 type TypeButtonHeader = {
@@ -599,6 +600,14 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
   };
 
   /**
+   * Get table config data as page id, sort field....to request new data at parent component
+   * @returns config data
+   */
+  const setRowSelected = (value: LooseObject[] = []) => {
+    selectedRows.current = value;
+  };
+
+  /**
    * Get elastic search query body with search text, sort column and can extend both filter
    * @returns elastic search query body use for parent component request
    */
@@ -666,6 +675,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
       setLoading: setLoading,
       getConfig: getConfig,
       getRowSelected: getRowSelected,
+      setRowSelected: setRowSelected,
       getQuery: getQuery,
       checkChange: checkChange,
     }),
