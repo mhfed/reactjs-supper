@@ -69,7 +69,7 @@ const Portfolio: React.FC<PortfolioProps> = () => {
   const { showSubModal, hideModal, hideSubModal } = useGlobalModalContext();
   const sitename = useSelector(iressSitenameSelector) ?? '';
   const dataListConfigRef = React.useRef<ConfigurationType[]>([]);
-  const viewValuesRef = React.useRef(initialValues);
+  const viewValuesRef = React.useRef<any>(initialValues);
 
   /**
    * Check data change and show popup confirm
@@ -115,8 +115,9 @@ const Portfolio: React.FC<PortfolioProps> = () => {
    */
   const handleFormSubmit = async () => {
     try {
-      const newConfiguration = {
-        bundle_id: (values.bundle_id as any)?.bundle_id || '',
+      const { bundle_id, display_name } = values?.bundle_id || {};
+      const newConfiguration: any = {
+        bundle_id: bundle_id || '',
         portfolio_performance_indicator: values.portfolio_performance_indicator,
       };
       const body = {
@@ -126,8 +127,14 @@ const Portfolio: React.FC<PortfolioProps> = () => {
       await httpRequest.put(getPPIndicatorUpdateUrl(), body);
       dataListConfigRef.current = dataListConfigRef.current
         .filter((item) => item.bundle_id !== newConfiguration.bundle_id)
-        .concat(newConfiguration);
-      viewValuesRef.current = { ...values };
+        .concat({ ...newConfiguration, display_name: display_name || '' });
+
+      const bundleId = { ...newConfiguration, display_name: display_name || '' };
+      viewValuesRef.current = {
+        ...values,
+        bundle_id: bundleId,
+      };
+      setFieldValue('bundle_id', bundleId);
       dispatch(
         enqueueSnackbarAction({
           message: 'lang_update_user_successfully',
@@ -175,7 +182,7 @@ const Portfolio: React.FC<PortfolioProps> = () => {
           cancelText: 'lang_no',
           confirmText: 'lang_yes',
           onSubmit: () => {
-            handleResetValues((values.bundle_id as any).bundle_id);
+            handleResetValues(values.bundle_id?.bundle_id || '');
             hideSubModal();
             setEditMode(false);
           },
@@ -189,7 +196,7 @@ const Portfolio: React.FC<PortfolioProps> = () => {
   const handleResetValues = (bundleId: string) => {
     const configSelected = dataListConfigRef.current?.find((element) => element.bundle_id === bundleId);
     setFieldValue('portfolio_performance_indicator', configSelected?.portfolio_performance_indicator);
-    viewValuesRef.current = { ...viewValuesRef.current, ...configSelected };
+    viewValuesRef.current = { ...viewValuesRef.current, bundle_id: configSelected };
   };
   const getData = async function () {
     try {
@@ -198,12 +205,12 @@ const Portfolio: React.FC<PortfolioProps> = () => {
 
       if (data?.list_configuration.length === 0) setDisabledEdit(true);
 
-      const getListBundleId = data.list_configuration?.length === 1 ? data.list_configuration[0] : {};
+      const getListBundleId = data.list_configuration?.length === 1 ? data.list_configuration[0] : '';
 
       const initValues = {
         site_name: data.site_name,
         bundle_id: getListBundleId,
-        portfolio_performance_indicator: data.list_configuration?.[0]?.portfolio_performance_indicator || '',
+        portfolio_performance_indicator: getListBundleId?.portfolio_performance_indicator || '',
       };
       resetForm({
         values: initValues,
@@ -369,14 +376,14 @@ const Portfolio: React.FC<PortfolioProps> = () => {
   );
 };
 
-const initialValues = {
+const initialValues: any = {
   site_name: '',
-  bundle_id: {},
+  bundle_id: '',
   portfolio_performance_indicator: '',
 };
 const validationSchema = yup.object().shape({
   site_name: yup.string().required('lang_site_name_required').max(255, 'lang_full_name_max_length'),
-  bundle_id: yup.mixed().required('lang_app_name_require'),
+  bundle_id: yup.mixed().required('lang_app_name_is_required'),
   portfolio_performance_indicator: yup.string().required('lang_status_required'),
 });
 
