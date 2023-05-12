@@ -16,7 +16,7 @@ import Select from '@mui/material/Select';
 import { FormikErrors } from 'formik';
 import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const useStyles = makeStyles((theme) => ({
   previewContainer: {
@@ -130,7 +130,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
         value={value}
         readOnly={preview || readOnly}
         sx={{ textTransform: textTransform ? textTransform : 'none' }}
-        IconComponent={customSelect ? (props) => <ExpandLessIcon {...props} /> : undefined}
+        IconComponent={customSelect ? (props) => <ExpandMoreIcon {...props} /> : undefined}
         MenuProps={{
           PaperProps: {
             style: {
