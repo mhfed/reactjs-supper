@@ -14,7 +14,7 @@ import HeaderModal from 'components/atoms/HeaderModal';
 import Paper from '@mui/material/Paper';
 import makeStyles from '@mui/styles/makeStyles';
 import Button from 'components/atoms/ButtonBase';
-import { Trans, useTranslation } from 'react-i18next';
+import { Trans } from 'react-i18next';
 import { getSearchSitenameUrl, getSearchSecurityCodeUrl } from 'apis/request.url';
 import { SECURITY_TYPE_OPTIONS } from '../ArticlesConstants';
 import { IArticlesFormData } from 'models/IArticles';
@@ -56,7 +56,6 @@ type ArticlesDetailProps = {
 
 const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = false, editFirst = false, successCb }) => {
   const classes = useStyles();
-  const { t } = useTranslation();
   const [isEditMode, setEditMode] = React.useState(isEdit);
   const { hideModal } = useGlobalModalContext();
 

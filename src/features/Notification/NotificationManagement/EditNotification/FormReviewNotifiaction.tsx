@@ -36,8 +36,6 @@ const FormReviewNotifiaction: React.FC<FormReviewNotifiactionProps> = ({ form, c
   const { values } = form || {};
   const { UserGroup, ClientCategory } = NOTIFICATION_TYPE;
 
-  let defaultArray = Array.isArray(values.bundle_id) ? values.bundle_id.map((x: any) => x?.display_name || x) : [];
-
   const delivery_type_preview = `${changeLabel(values?.delivery_type)} ${
     values?.delivery_type === DELIVERY_TYPE.Schedule
       ? moment(values?.schedule || '')

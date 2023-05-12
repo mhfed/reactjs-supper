@@ -7,7 +7,7 @@
  */
 import { lazy } from 'react';
 import { IArticlesDataManagement, IArticlesFormData } from 'models/IArticles';
-import { IBundle, IFileUpload } from 'models/ICommon';
+import { IFileUpload } from 'models/ICommon';
 import { APPNAME } from 'features/Articles/ArticlesConstants';
 
 /**

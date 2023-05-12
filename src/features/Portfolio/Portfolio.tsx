@@ -68,7 +68,6 @@ const Portfolio: React.FC<PortfolioProps> = () => {
   const [disabledEdit, setDisabledEdit] = React.useState(false);
   const { showSubModal, hideModal, hideSubModal } = useGlobalModalContext();
   const sitename = useSelector(iressSitenameSelector) ?? '';
-  const [optionBundleID, setOptionBundleID] = React.useState([]);
   const dataListConfigRef = React.useRef<ConfigurationType[]>([]);
   const viewValuesRef = React.useRef(initialValues);
 
@@ -195,10 +194,6 @@ const Portfolio: React.FC<PortfolioProps> = () => {
   const getData = async function () {
     try {
       const { data }: LooseObject = await httpRequest.get(getPPIndicatorUrl(sitename));
-      const dataOptionBundleID = data?.list_configuration.map((e: any) => {
-        return { label: e.display_name, value: e.bundle_id };
-      });
-      setOptionBundleID(dataOptionBundleID);
       dataListConfigRef.current = data?.list_configuration;
 
       if (data?.list_configuration.length === 0) setDisabledEdit(true);

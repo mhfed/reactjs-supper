@@ -12,7 +12,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { responsiveFontSizes, StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import makeStyles from '@mui/styles/makeStyles';
-import Footer from 'layouts/MainLayout/Footer';
 import { Trans } from 'react-i18next';
 import themes from 'themes';
 import LoginForm from './LoginForm';
@@ -87,7 +86,6 @@ export default function SignIn() {
                 </Typography>
               </div>
             </Box>
-            {/* <Footer /> */}
           </Container>
         </div>
       </ThemeProvider>

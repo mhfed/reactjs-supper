@@ -15,7 +15,7 @@ import { Formik, FormikProps } from 'formik';
 import { useGlobalModalContext } from 'containers/Modal';
 import HeaderModal from 'components/atoms/HeaderModal';
 import { initialValuesType } from '../../CreateNewNotification/CreateNewNotification';
-import { NOTIFICATION_STATUS, NOTIFICATION_TYPE_OPTION_FILTER } from '../../CreateNewNotification/NotificationConstant';
+import { NOTIFICATION_STATUS } from '../../CreateNewNotification/NotificationConstant';
 import FormDirectNotification from './FormDirectNotification';
 import { httpRequest } from 'services/initRequest';
 import { getNotificationUrl } from 'apis/request.url';
@@ -23,7 +23,6 @@ import EditNotification from '../EditNotification';
 import EditIcon from '@mui/icons-material/Edit';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
-import { t } from 'i18next';
 
 interface DetailNotificationProps {
   dataForm: any;

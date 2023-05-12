@@ -120,21 +120,11 @@ const AuditTrail: React.FC<ReportProps> = () => {
   /**
    * Register formik form handle
    */
-  const {
-    values,
-    errors,
-    touched,
-    handleSubmit,
-    setFieldValue,
-    setFieldTouched,
-    setValues,
-    setTouched,
-    handleChange,
-    handleBlur,
-  } = useFormik({
-    initialValues: initialValues,
-    onSubmit: handleFormSubmit,
-  });
+  const { values, errors, touched, handleSubmit, setFieldValue, setFieldTouched, setValues, handleChange, handleBlur } =
+    useFormik({
+      initialValues: initialValues,
+      onSubmit: handleFormSubmit,
+    });
 
   /**
    * get elastic search query

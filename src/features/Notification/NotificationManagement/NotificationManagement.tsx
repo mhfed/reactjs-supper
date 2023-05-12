@@ -46,7 +46,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
   const gridRef = React.useRef<TableHandle>(null);
   const { showModal, hideModal } = useGlobalModalContext();
   const filterObjApi = React.useRef<any>({});
-  const appAccess = React.useRef(converData);
+
   /**
    * Get list notification
    */

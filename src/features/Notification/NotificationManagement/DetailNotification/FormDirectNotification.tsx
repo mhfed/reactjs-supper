@@ -29,7 +29,7 @@ interface FormDirectNotificationProps {
 
 const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, classes }) => {
   const { values } = form;
-  const { UserGroup, ClientCategory, App } = NOTIFICATION_TYPE;
+  const { UserGroup, ClientCategory } = NOTIFICATION_TYPE;
 
   const delivery_type_preview = `${values?.delivery_type || ''} ${
     values?.delivery_type === DELIVERY_TYPE.Schedule

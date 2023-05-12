@@ -12,7 +12,6 @@ import ArticlesPreviewForm from './ArticlesPreviewForm';
 import { STEP } from '../ArticlesConstants';
 import { LooseObject } from 'models/ICommon';
 import { httpRequest } from 'services/initRequest';
-import { ICreateArticlesBody } from 'models/IArticles';
 import { IBundle } from 'models/ICommon';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
