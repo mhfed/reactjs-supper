@@ -40,6 +40,7 @@ export type INavBarItem = {
   label?: string;
   children?: any;
   requireRoles?: string | string[];
+  requiredApps?: boolean;
 };
 
 export type INavBarExpandItem = {

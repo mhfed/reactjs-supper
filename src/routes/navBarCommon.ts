@@ -69,6 +69,7 @@ export const navBarCommon = [
       {
         title: 'lang_notifications_management',
         href: PATH_NAME.NOTIFICATION_MANAGEMENT,
+        requiredApps: true,
       },
     ],
   },
@@ -80,6 +81,7 @@ export const navBarCommon = [
       {
         title: 'lang_create_new_article',
         href: PATH_NAME.CREATE_NEW_ARTICLES,
+        requiredApps: true,
       },
       {
         title: 'lang_articles_management',
@@ -102,5 +104,6 @@ export const navBarCommon = [
     title: 'lang_audit_trail',
     icon: AuditTrailIcon,
     href: PATH_NAME.AUDIT_TRAIL,
+    requiredApps: true,
   },
 ];

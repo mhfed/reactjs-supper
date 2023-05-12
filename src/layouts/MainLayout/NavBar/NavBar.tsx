@@ -63,6 +63,7 @@ function NavBar({ isDrawer }: IProps) {
           title={curr.title}
           href={curr.href}
           requireRoles={curr.requireRoles}
+          requiredApps={curr.requiredApps}
         >
           {renderNavItems({
             depth: depth + 1,
@@ -80,6 +81,7 @@ function NavBar({ isDrawer }: IProps) {
           depth={depth}
           href={curr.href}
           requireRoles={curr.requireRoles}
+          requiredApps={curr.requiredApps}
           icon={curr.icon}
           title={curr.title}
         />,

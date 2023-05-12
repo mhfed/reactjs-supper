@@ -98,18 +98,17 @@ const ACTION_OPTIONS = [
   { label: 'lang_login', value: ACTION.LOGIN },
 ];
 
-const initialValues = {
-  app_name: window.apps?.[0] || '',
-  sitename: localStorage.getItem('sitename'),
-  function: FUNCTION_OPTIONS[0].value,
-  fromDate: moment().add(-6, 'days').startOf('day'),
-  toDate: moment().endOf('day'),
-};
-
 const AuditTrail: React.FC<ReportProps> = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const gridRef = React.useRef<TableHandle>(null);
+  const initialValues = {
+    app_name: window.apps?.[0] || '',
+    sitename: localStorage.getItem('sitename'),
+    function: FUNCTION_OPTIONS[0].value,
+    fromDate: moment().add(-6, 'days').startOf('day'),
+    toDate: moment().endOf('day'),
+  };
 
   /**
    * Handle submit form

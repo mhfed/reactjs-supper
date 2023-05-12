@@ -16,6 +16,8 @@ import NavBarExpandItem from './NavBarExpandItem';
 import useStyles from './styles';
 import { Trans, useTranslation } from 'react-i18next';
 import checkRole from 'helpers/checkRole';
+import { httpRequest } from 'services/initRequest';
+import { getSearchAppNameUrl } from 'apis/request.url';
 
 const NavBarItem: FC<INavBarItem> = ({
   active,
@@ -27,6 +29,7 @@ const NavBarItem: FC<INavBarItem> = ({
   href,
   children,
   requireRoles,
+  requiredApps,
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -48,14 +51,19 @@ const NavBarItem: FC<INavBarItem> = ({
     );
   }
 
-  const onMenuClick = () => {
+  const onMenuClick = async () => {
     if (pathname === href) return;
     if (window.confirmEdit) {
       window.confirmEdit(() => {
         navigate(href);
       });
     } else {
-      navigate(href);
+      if (requiredApps) {
+        const { data: allAppAccess } = await httpRequest.get(getSearchAppNameUrl());
+        // all apps user manage
+        window.apps = allAppAccess;
+        navigate(href);
+      } else navigate(href);
     }
   };
 
