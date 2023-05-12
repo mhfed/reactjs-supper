@@ -147,7 +147,9 @@ const DatePickerField: React.FC<DatePickerFieldProps> = (props) => {
         value={selectedDate}
         label={label}
         onClose={() => {
-          onClose && onClose();
+          setTimeout(() => {
+            onClose && onClose();
+          }, 300);
         }}
         renderInput={renderInput}
         hideTabs={Boolean(hideTabs)}

@@ -231,7 +231,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                 inputFormat={'DD/MM/YYYY HH:mm'}
                 onChange={(v: string) => setFieldValue('schedule', v ? new Date(v) : v)}
                 onClose={() => {
-                  setFieldTouched('schedule', true);
+                  setFieldTouched('schedule', true, true);
                 }}
                 fullWidth
                 onBlur={handleBlur}

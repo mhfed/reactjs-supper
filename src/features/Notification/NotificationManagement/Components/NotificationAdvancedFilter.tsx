@@ -131,7 +131,7 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
                 onBlur={handleBlur}
                 // readOnly={true}
                 onClose={() => {
-                  setFieldTouched('from', true);
+                  setFieldTouched('from', true, true);
                 }}
                 maxDate={isCreateBy ? values.to || new Date() : values.to}
                 hideTabs={true}
@@ -150,7 +150,7 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
                 inputFormat={'DD/MM/YYYY'}
                 onChange={(v) => setFieldValue('to', v ? new Date(v) : v)}
                 onClose={() => {
-                  setFieldTouched('to', true);
+                  setFieldTouched('to', true, true);
                 }}
                 onBlur={handleBlur}
                 minDate={values.from}
