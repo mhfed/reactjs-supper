@@ -81,7 +81,7 @@ const RangeDate: React.FC<RangeDateProps> = (props) => {
    * Handle from date change
    */
   const onChangeFromDate = (value: any) => {
-    setFromDate(moment(value.toDate()).startOf('day').toDate());
+    setFromDate(moment(value?.toDate()).startOf('day')?.toDate());
     validateDate('from', value);
   };
 
@@ -90,25 +90,29 @@ const RangeDate: React.FC<RangeDateProps> = (props) => {
    * @param type from or to
    */
   const validateDate = (type: string, value: any) => {
-    let error = '';
-    const isFrom = type === 'from';
-    if (!value.isValid()) {
-      error = isFrom ? 'lang_from_date_is_invalid' : 'lang_to_date_is_invalid';
-    } else {
-      if (isFrom && +value.toDate() > +toDate) {
-        error = 'lang_from_date_error_greater_to_date';
-      } else if (!isFrom && +value.toDate() < +fromDate) {
-        error = 'lang_to_date_error_smaller_to_date';
+    try {
+      let error = '';
+      const isFrom = type === 'from';
+      if (!value.isValid()) {
+        error = isFrom ? 'lang_from_date_is_invalid' : 'lang_to_date_is_invalid';
+      } else {
+        if (isFrom && +value.toDate() > +toDate) {
+          error = 'lang_from_date_error_greater_to_date';
+        } else if (!isFrom && +value.toDate() < +fromDate) {
+          error = 'lang_to_date_error_smaller_to_date';
+        }
       }
+      setError((old) => ({ ...old, [type]: error }));
+    } catch (error) {
+      console.log(error);
     }
-    setError((old) => ({ ...old, [type]: error }));
   };
 
   /**
    * Handle to date change
    */
   const onChangeToDate = (value: any) => {
-    setToDate(moment(value.toDate()).endOf('day').toDate());
+    setToDate(moment(value?.toDate())?.endOf('day')?.toDate());
     validateDate('to', value);
   };
 
