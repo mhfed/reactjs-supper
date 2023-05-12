@@ -12,6 +12,7 @@ import { LooseObject } from 'models/ICommon';
 import { Typography } from '@mui/material';
 import { SEARCH_BY_DROPDOWN, SEARCH_BY_TYPE } from 'features/Notification/CreateNewNotification/NotificationConstant';
 import { diff } from 'deep-diff';
+import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
   buttonWrapper: {
@@ -215,8 +216,29 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
 };
 
 const validationSchema = yup.object().shape({
-  to: yup.string().checkValidField('lang_to_invalid'),
-  from: yup.string().checkValidField('lang_from_invalid'),
+  to: yup
+    .string()
+    .checkValidField('lang_to_invalid')
+    .checkDateValid('lang_to_invalid')
+    .test('checkDateTo', 'lang_invalid_from_to', (a, testContext) => {
+      const { from, to, notification_category } = testContext.parent;
+      const currentFrom = +moment(from).toDate();
+      const currentTo = +moment(to).toDate();
+
+      const isCreateBy = notification_category === SEARCH_BY_TYPE.created_by;
+      return isCreateBy ? currentFrom >= currentTo : currentFrom <= currentTo;
+    }),
+  from: yup
+    .string()
+    .checkValidField('lang_from_invalid')
+    .checkDateValid('lang_from_invalid')
+    .test('checkDateFrom', 'lang_invalid_from_to', (a, testContext) => {
+      const { from, to } = testContext.parent;
+      const currentFrom = +moment(from).toDate();
+      const currentTo = +moment(to).toDate();
+
+      return currentFrom <= currentTo;
+    }),
 });
 
 export default NotificationAdvancedFilter;

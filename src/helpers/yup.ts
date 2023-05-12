@@ -11,6 +11,7 @@ import * as yup from 'yup';
 import { MixedSchema } from 'yup/lib/mixed';
 import { AnyObject } from 'yup/lib/types';
 import validate from './validate';
+import { SEARCH_BY_TYPE } from 'features/Notification/CreateNewNotification/NotificationConstant';
 
 // eslint-disable-next-line no-useless-escape
 const urlPattern = /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
@@ -22,6 +23,7 @@ declare module 'yup' {
   interface MixedSchema {}
   interface StringSchema {
     checkRequired(message: string): methodString;
+    checkDateValid(message: string): methodString;
     checkEmail(message: string): methodString;
     checkValidField(message: string): methodString;
     compareTimesLocal(message?: string): methodString;
@@ -41,6 +43,22 @@ yup.addMethod(yup.string, 'checkRequired', function (message) {
       return createError({ path, message });
     }
     return true;
+  });
+});
+
+/**
+ * Custom required method with check trim value
+ */
+yup.addMethod(yup.string, 'checkDateValid', function (message) {
+  return this.test('checkDateValid', message, (value, testContext) => {
+    const { notification_category } = testContext.parent;
+    const isCreateBy = notification_category === SEARCH_BY_TYPE.created_by;
+    if (!isCreateBy) return true;
+
+    const localTime = +moment().toDate();
+    const currentTo = +moment(value).toDate();
+
+    return localTime > currentTo;
   });
 });
 
