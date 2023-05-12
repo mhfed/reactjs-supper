@@ -64,10 +64,11 @@ type DatePickerFieldProps = {
   typeDatePicker?: 'DateTimePicker' | 'DatePicker';
   placeholder?: string;
   readOnly?: boolean;
+  onClose?: () => void;
 };
 
 const DatePickerField: React.FC<DatePickerFieldProps> = (props) => {
-  const { label, hideTabs, size, typeDatePicker = 'DateTimePicker', placeholder, readOnly = false, ...rest } = props;
+  const { label, hideTabs, size, typeDatePicker = 'DateTimePicker', placeholder, readOnly = false, onClose, ...rest } = props;
   const isError = rest?.error || false;
   const helperText = rest?.helperText || false;
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
@@ -145,6 +146,9 @@ const DatePickerField: React.FC<DatePickerFieldProps> = (props) => {
         onChange={_onChange}
         value={selectedDate}
         label={label}
+        onClose={() => {
+          onClose && onClose();
+        }}
         renderInput={renderInput}
         hideTabs={Boolean(hideTabs)}
         components={{ Tabs: CustomTabs }}

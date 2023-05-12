@@ -19,7 +19,7 @@ import {
 } from '../NotificationConstant';
 import RadioGroupField from 'components/fields/RadioGroupField';
 import { AutocompleteField, InputField, SelectField, DatePickerField } from 'components/fields';
-import { initialValuesType, isOptionEqualToValue } from '../CreateNewNotification';
+import { initialValuesType } from '../CreateNewNotification';
 import { ClassNameMap } from 'notistack';
 import { getSearchAppNameUrl, getSearchClientCategoryUrl, getSearchUserGroupUrl } from 'apis/request.url';
 import { LooseObject } from 'models/ICommon';
@@ -220,7 +220,12 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
                   value={values.schedule}
                   label={'lang_schedule_time'}
                   inputFormat={'DD/MM/YYYY HH:mm'}
-                  onChange={(v) => setFieldValue('schedule', v ? new Date(v) : v)}
+                  onChange={(v) => {
+                    setFieldValue('schedule', v ? new Date(v) : v);
+                  }}
+                  onClose={() => {
+                    setFieldTouched('schedule', true);
+                  }}
                   fullWidth
                   onBlur={handleBlur}
                   minDate={new Date()}
