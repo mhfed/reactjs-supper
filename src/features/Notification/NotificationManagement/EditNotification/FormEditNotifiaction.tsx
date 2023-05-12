@@ -130,7 +130,7 @@ const FormCreateNotifiaction: React.FC<FormCreateNotifiactionProps> = ({ form, c
               getOptionLabel={(option) => `${option?.name || ''}`}
               getChipLabel={(option: any) => option?.name || ''}
               value={values.client_category_id}
-              formatData={(data = []) => data.app}
+              formatData={(data = []) => data?.client_category || []}
               onChange={(value) => setFieldValue('client_category_id', value)}
               onBlur={() => setFieldTouched('client_category_id', true, true)}
               error={touched.client_category_id && Boolean(errors.client_category_id)}
