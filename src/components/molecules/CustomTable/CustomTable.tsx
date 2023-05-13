@@ -822,7 +822,7 @@ const Table: React.ForwardRefRenderFunction<TableHandle, TableProps> = (props, r
                 editable={editable}
                 searchText={searchText}
                 handleSearch={(text, customSearchObj: any) => {
-                  if (![null, undefined].includes(customSearchObj)) customSearch.current = customSearchObj;
+                  customSearch.current = customSearchObj;
                   handleSearch(text);
                 }}
                 handleFilter={onApplyFilter}
