@@ -191,6 +191,7 @@ const RangeDate: React.FC<RangeDateProps> = (props) => {
                   inputFormat="DD/MM/YYYY"
                   value={toDate}
                   minDate={fromDate}
+                  maxDate={moment()}
                   renderInput={(params) => (
                     <TextField
                       {...params}
