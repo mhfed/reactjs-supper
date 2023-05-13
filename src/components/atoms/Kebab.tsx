@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     padding: 2,
     background: theme.palette.background.iconButton,
-    '&:hover': {
+    '&:hover,&[aria-expanded="true"]': {
       backgroundColor: theme.palette.mode === 'dark' ? '#08D98D' : '#E1FFF4',
       color: theme.palette.mode === 'dark' ? '#FFFFFF' : '#08D98D',
     },
