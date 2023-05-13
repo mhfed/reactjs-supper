@@ -51,6 +51,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
             options={values.user_group_id}
             defaultValue={[]}
             preview
+            readOnly
             label="lang_user_group"
             isOptionEqualToValue={(option: LooseObject, value: LooseObject) => option?.id === value?.id}
             getOptionLabel={(option) => option?.name || ''}
@@ -102,6 +103,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
             options={values.bundle_id}
             defaultValue={defaultArray}
             preview
+            readOnly
             label="lang_app_name"
             isOptionEqualToValue={(opt, select) => opt.bundle_id === select.bundle_id}
             getOptionLabel={(opt: any | string) => opt}
