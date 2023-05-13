@@ -133,7 +133,6 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
         label: 'lang_delete',
         onClick: (data: any) => {
           showModal({
-            title: 'lang_confirm',
             component: ConfirmModal,
             props: {
               open: true,
