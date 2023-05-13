@@ -137,7 +137,7 @@ const AuditTrail: React.FC<ReportProps> = () => {
       }
       requestBody.sort.push({ [FIELD.DATETIME]: 'desc' });
       requestBody.query.bool.must.push({ term: { function: formData.function } });
-      if (formData.function !== FUNCTION.ACCESS_MANAGEMENT && formData.app_name) {
+      if (formData.function !== FUNCTION.LOGIN && formData.app_name) {
         requestBody.query.bool.must.push({ match: { bundle_id: formData.app_name?.bundle_id || formData.app_name } });
       }
       requestBody.query.bool.must.push({
