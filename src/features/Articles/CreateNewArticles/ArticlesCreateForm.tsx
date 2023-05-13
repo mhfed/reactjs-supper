@@ -53,11 +53,23 @@ type ArticlesCreateFormProps = {
 };
 
 const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, values: initValues }) => {
+  const initialValues = {
+    title: '',
+    content: '',
+    image: '',
+    file: '',
+    sitename: localStorage.getItem('sitename'),
+    app: APPNAME.ALL_APPS,
+    appname_custom: window.apps?.length === 1 ? window.apps : [],
+    securities: [],
+    security_type: '',
+  };
   const classes = useStyles();
   const dispatch = useDispatch();
   const { showSubModal, hideSubModal } = useGlobalModalContext();
   const valuesClone = React.useRef({});
   const confirmEdit = useConfirmEdit(() => !!diff(initialValues, valuesClone.current)); // eslint-disable-line
+
   /**
    * Handle articles create submit
    * @param values form data
@@ -293,18 +305,6 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
 };
 
 export default ArticlesCreateForm;
-
-const initialValues = {
-  title: '',
-  content: '',
-  image: '',
-  file: '',
-  sitename: localStorage.getItem('sitename'),
-  app: APPNAME.ALL_APPS,
-  appname_custom: window.apps?.length === 1 ? window.apps : [],
-  securities: [],
-  security_type: '',
-};
 
 const validationSchema = yup.object().shape({
   title: yup.string().trim().checkRequired('lang_please_enter_title').max(255, 'lang_title_must_includes_255'),

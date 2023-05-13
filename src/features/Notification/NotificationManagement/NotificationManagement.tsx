@@ -36,10 +36,6 @@ const useStyles = makeStyles(() => ({
 type TableHandle = React.ElementRef<typeof CustomTable>;
 type NotificationManagementProps = {};
 
-const converData = window.apps.reduce((pre: any, curr: any) => {
-  return { ...pre, [curr.bundle_id]: true };
-}, {});
-
 const NotificationManagement: React.FC<NotificationManagementProps> = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
