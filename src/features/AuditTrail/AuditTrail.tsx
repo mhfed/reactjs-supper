@@ -131,20 +131,43 @@ const AuditTrail: React.FC<ReportProps> = () => {
   const getQueryBody = (config: ITableConfig, data?: LooseObject) => {
     try {
       const formData = { ...(data || values) };
-      const requestBody: any = { query: { bool: { must: [] } }, sort: [] };
+      const requestBody: any = {
+        query: {
+          bool: {
+            should: [
+              { bool: { must: [] } },
+              {
+                bool: {
+                  must_not: [
+                    {
+                      exists: {
+                        field: 'bundle_id',
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+        sort: [],
+      };
       if (config?.sort?.sortField) {
         requestBody.sort.push({ [config.sort.sortField]: config.sort.sortType });
       }
       requestBody.sort.push({ [FIELD.DATETIME]: 'desc' });
-      requestBody.query.bool.must.push({ term: { function: formData.function } });
-      if (formData.function !== FUNCTION.LOGIN && formData.app_name) {
-        requestBody.query.bool.must.push({ match: { bundle_id: formData.app_name?.bundle_id || formData.app_name } });
+      requestBody.query.bool.should[0].bool.must.push({ term: { function: formData.function } });
+      if (formData.app_name) {
+        requestBody.query.bool.should[0].bool.must.push(
+          { exists: { field: 'bundle_id' } },
+          { match: { bundle_id: formData.app_name?.bundle_id || formData.app_name } },
+        );
       }
-      requestBody.query.bool.must.push({
+      requestBody.query.bool.should[0].bool.must.push({
         range: { datetime: { gte: +moment(formData.fromDate), lte: +moment(formData.toDate) } },
       });
       if (config.searchText) {
-        requestBody.query.bool.must.push({ query_string: { query: `*${config.searchText}*` } });
+        requestBody.query.bool.should[0].bool.must.push({ query_string: { query: `*${config.searchText}*` } });
       }
       console.log('YOLO: ', requestBody);
       return requestBody;
