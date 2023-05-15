@@ -92,7 +92,7 @@ const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], listFull = [], 
     try {
       await httpRequest.put(getAccessManagementUrl(), {
         user_id: data.map((e) => e.user_id),
-        bundle_id: values.app_name.map((e: IBundle) => e.bundle_id),
+        bundle_id: values.app_name?.length ? values.app_name.map((e: IBundle) => e.bundle_id) : null,
       });
       hideModal();
       callback?.();
@@ -126,7 +126,7 @@ const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], listFull = [], 
    * @returns boolean change or unchange
    */
   const checkChange = () => {
-    const curValue = values.app_name.map((e: IBundle) => e.bundle_id);
+    const curValue = values.app_name?.length ? values.app_name.map((e: IBundle) => e.bundle_id) : [];
     const originValue = listFull.map((e: IBundle) => e.bundle_id);
     return compareArray(curValue, originValue);
   };
@@ -213,7 +213,7 @@ const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], listFull = [], 
               <AutocompleteField
                 name="app_name"
                 label="lang_app_name"
-                required
+                // required
                 getUrl={getSearchAppNameUrl}
                 isOptionEqualToValue={(option: LooseObject, value: LooseObject) => {
                   return option.bundle_id === value.bundle_id;
@@ -279,7 +279,7 @@ const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], listFull = [], 
 };
 
 const validationSchema = yup.object().shape({
-  app_name: yup.array().min(1, 'lang_app_name_is_required').required('lang_app_name_is_required'),
+  // app_name: yup.array().min(1, 'lang_app_name_is_required').required('lang_app_name_is_required'),
 });
 
 export default AppAccessSetup;
