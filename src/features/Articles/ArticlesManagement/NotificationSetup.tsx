@@ -125,7 +125,18 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
   /**
    * register formik form
    */
-  const { values, errors, touched, handleChange, handleBlur, handleSubmit, validateForm, setFieldValue, setTouched } = useFormik({
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    validateForm,
+    setFieldValue,
+    setTouched,
+    setFieldTouched,
+  } = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,
@@ -214,10 +225,13 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
                     value={values.schedule}
                     label={'lang_schedule_time'}
                     inputFormat={'DD/MM/YYYY HH:mm'}
-                    onChange={(v) => setFieldValue('schedule', v ? new Date(v) : v)}
+                    onChange={(v) => {
+                      setFieldTouched('schedule', true);
+                      setFieldValue('schedule', v ? new Date(v) : v);
+                    }}
+                    disablePast
                     fullWidth
                     onBlur={handleBlur}
-                    minDate={new Date()}
                     error={touched.schedule && Boolean(errors.schedule)}
                     helperText={touched.schedule && errors.schedule}
                   />

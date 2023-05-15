@@ -70,6 +70,11 @@ const RangeDate: React.FC<RangeDateProps> = (props) => {
     setAnchorEl(document.getElementById(`datePickerRange_${datePickerId}`));
   };
 
+  React.useEffect(() => {
+    if (from) setFromDate(from);
+    if (to) setToDate(to);
+  }, [from, to]);
+
   /**
    * Close date picker popup
    */

@@ -145,6 +145,7 @@ const AuditTrail: React.FC<ReportProps> = () => {
                       },
                     },
                   ],
+                  must: [],
                 },
               },
             ],
@@ -157,6 +158,7 @@ const AuditTrail: React.FC<ReportProps> = () => {
       }
       requestBody.sort.push({ [FIELD.DATETIME]: 'desc' });
       requestBody.query.bool.should[0].bool.must.push({ term: { function: formData.function } });
+      requestBody.query.bool.should[1].bool.must.push({ term: { function: formData.function } });
       if (formData.app_name) {
         requestBody.query.bool.should[0].bool.must.push(
           { exists: { field: 'bundle_id' } },
@@ -166,8 +168,12 @@ const AuditTrail: React.FC<ReportProps> = () => {
       requestBody.query.bool.should[0].bool.must.push({
         range: { datetime: { gte: +moment(formData.fromDate), lte: +moment(formData.toDate) } },
       });
+      requestBody.query.bool.should[1].bool.must.push({
+        range: { datetime: { gte: +moment(formData.fromDate), lte: +moment(formData.toDate) } },
+      });
       if (config.searchText) {
         requestBody.query.bool.should[0].bool.must.push({ query_string: { query: `*${config.searchText}*` } });
+        requestBody.query.bool.should[1].bool.must.push({ query_string: { query: `*${config.searchText}*` } });
       }
       console.log('YOLO: ', requestBody);
       return requestBody;
@@ -296,7 +302,7 @@ const AuditTrail: React.FC<ReportProps> = () => {
                 disableClearable={false}
                 getOptionLabel={(option) => option.display_name || ''}
                 value={values.app_name}
-                onChange={(value) => setFieldValue('app_name', value || '')}
+                onChange={(value) => setFieldValue('app_name', value || window?.apps?.[0] || '')}
                 onBlur={() => setFieldTouched('app_name', true, true)}
                 error={touched.app_name && Boolean(errors.app_name)}
                 helperText={(touched.app_name && errors.app_name) as string}
