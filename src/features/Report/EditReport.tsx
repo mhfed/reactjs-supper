@@ -22,6 +22,7 @@ import { enqueueSnackbarAction } from 'actions/app.action';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal/ConfirmEditModal';
 import { InputField, SelectField } from 'components/fields';
 import { httpRequest } from 'services/initRequest';
+import { diff } from 'deep-diff';
 
 const useStyles = makeStyles((theme) => ({
   divCointainer: {
@@ -166,28 +167,11 @@ const EditReport: React.FC<EditSegmentProps> = ({ data = {}, callback }) => {
     setFormType(FORM_TYPE.EDIT);
   };
 
-  const checkChangeParam = () => {
-    let isChange = false;
-    const dicCur = values.params.reduce((acc: LooseObject, cur: ReportParam) => {
-      acc[cur.id] = cur;
-      return acc;
-    }, {});
-    for (let index = 0; index < data.params.length; index++) {
-      const element = { ...(data?.params?.[index] || {}) };
-      if (!element.title) element.title = '';
-      if (element.title !== dicCur[element.id].title || element.type !== dicCur[element.id].type) {
-        isChange = true;
-        break;
-      }
-    }
-    return isChange;
-  };
-
   /**
    * back to edit form from preview form
    */
   const onClose = () => {
-    const isChange = checkChangeParam();
+    const isChange = diff(initialValues.current, values);
     if (isChange) {
       showSubModal({
         title: 'lang_confirm_cancel',
@@ -215,7 +199,7 @@ const EditReport: React.FC<EditSegmentProps> = ({ data = {}, callback }) => {
       if (errors && Object.keys(errors).length) {
         setTouched(errors as any);
       } else {
-        if (checkChangeParam()) {
+        if (diff(initialValues.current, values)) {
           setFormType(FORM_TYPE.PREVIEW);
         } else {
           dispatch(
@@ -241,7 +225,7 @@ const EditReport: React.FC<EditSegmentProps> = ({ data = {}, callback }) => {
   const errorsObj = { ...errors } as any;
   return (
     <div className={classes.divCointainer}>
-      <HeaderModal title={formType === FORM_TYPE.EDIT ? 'lang_report_setup' : 'lang_preview_edit_report'} onClose={hideModal} />
+      <HeaderModal title={formType === FORM_TYPE.EDIT ? 'lang_report_setup' : 'lang_preview_edit_report'} onClose={onClose} />
       <table style={{ width: '100%', maxWidth: 500 }}>
         <thead>
           <tr>
