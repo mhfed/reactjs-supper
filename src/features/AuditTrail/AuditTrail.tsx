@@ -293,6 +293,7 @@ const AuditTrail: React.FC<ReportProps> = () => {
                 isOptionEqualToValue={(option: LooseObject, value: LooseObject) => {
                   return option.bundle_id === value.bundle_id;
                 }}
+                disableClearable={false}
                 getOptionLabel={(option) => option.display_name || ''}
                 value={values.app_name}
                 onChange={(value) => setFieldValue('app_name', value || '')}
