@@ -26,6 +26,7 @@ import Typography from '@mui/material/Typography';
 import { diff } from 'deep-diff';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
+import { httpRequest } from 'services/initRequest';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -120,6 +121,22 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const filterObj = React.useRef<any>(null);
   const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    if (customSearch) {
+      httpRequest
+        .get(getSearchAppNameUrl())
+        .then((res) => {
+          window.apps = res.data;
+          if (customSearch && window.apps?.length === 1) {
+            onSearchAppName(window.apps[0]);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
 
   /**
    * Handle search new data with search text
