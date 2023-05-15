@@ -376,7 +376,7 @@ function convertColumn({
           let formatValue = value;
           const rowData = data[tableMeta.rowIndex];
           if (column.formatter) formatValue = column.formatter(rowData);
-          return formatValue.length ? (
+          return formatValue?.length ? (
             <CustomStack data={formatValue} translate={column.translate} />
           ) : (
             <Typography component="span" sx={{ minWidth: 360 }} noWrap>
