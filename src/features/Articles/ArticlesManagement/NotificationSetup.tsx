@@ -295,7 +295,7 @@ const validationSchema = yup.object().shape({
       .string()
       .required('lang_please_select_schedule_time')
       .checkValidField('lang_schedule_time_invalid')
-      .compareTimesLocal(),
+      .compareTimesLocal('lang_schedule_time_invalid'),
   }),
 });
 
