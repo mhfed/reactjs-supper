@@ -27,6 +27,12 @@ import { iressSitenameSelector } from 'selectors/auth.selector';
 import { httpRequest } from 'services/initRequest';
 import { PORTFOLIO_PERFORMANCE_INDICATOR } from './PortfolioConstant';
 
+const convertData = (dataList: Array<any>) => {
+  return dataList.reduce((pre, curr) => {
+    return curr?.bundle_id ? { ...pre, [curr.bundle_id]: curr } : pre;
+  }, {});
+};
+
 const useStyles = makeStyles((theme) => ({
   title: {
     textTransform: 'uppercase',
@@ -56,11 +62,6 @@ const useStyles = makeStyles((theme) => ({
 
 type PortfolioProps = {};
 
-type ConfigurationType = {
-  bundle_id: any;
-  portfolio_performance_indicator: string;
-};
-
 const Portfolio: React.FC<PortfolioProps> = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -68,7 +69,7 @@ const Portfolio: React.FC<PortfolioProps> = () => {
   const [disabledEdit, setDisabledEdit] = React.useState(false);
   const { showSubModal, hideModal, hideSubModal } = useGlobalModalContext();
   const sitename = useSelector(iressSitenameSelector) ?? '';
-  const dataListConfigRef = React.useRef<ConfigurationType[]>([]);
+  const dataListConfigRef = React.useRef<any>({});
   const viewValuesRef = React.useRef<any>(initialValues);
 
   /**
@@ -125,9 +126,11 @@ const Portfolio: React.FC<PortfolioProps> = () => {
         ...newConfiguration,
       };
       await httpRequest.put(getPPIndicatorUpdateUrl(), body);
-      dataListConfigRef.current = dataListConfigRef.current
-        .filter((item) => item.bundle_id !== newConfiguration.bundle_id)
-        .concat({ ...newConfiguration, display_name: display_name || '' });
+
+      dataListConfigRef.current[newConfiguration.bundle_id] = {
+        ...newConfiguration,
+        display_name: display_name || '',
+      };
 
       const bundleId = { ...newConfiguration, display_name: display_name || '' };
       viewValuesRef.current = {
@@ -194,14 +197,15 @@ const Portfolio: React.FC<PortfolioProps> = () => {
   };
 
   const handleResetValues = (bundleId: string) => {
-    const configSelected = dataListConfigRef.current?.find((element) => element.bundle_id === bundleId);
+    const configSelected = dataListConfigRef.current?.[bundleId];
     setFieldValue('portfolio_performance_indicator', configSelected?.portfolio_performance_indicator);
     viewValuesRef.current = { ...viewValuesRef.current, bundle_id: configSelected };
   };
   const getData = async function () {
     try {
       const { data }: LooseObject = await httpRequest.get(getPPIndicatorUrl(sitename));
-      dataListConfigRef.current = data?.list_configuration;
+
+      dataListConfigRef.current = convertData(data?.list_configuration);
 
       if (data?.list_configuration.length === 0) setDisabledEdit(true);
 
@@ -253,7 +257,11 @@ const Portfolio: React.FC<PortfolioProps> = () => {
                 getOptionLabel={(option) => `${option?.display_name || ''}`}
                 getChipLabel={(option) => option?.display_name || ''}
                 value={values.bundle_id}
-                onChange={(value) => setFieldValue('bundle_id', value)}
+                onChange={(value) => {
+                  const { portfolio_performance_indicator } = dataListConfigRef.current?.[value.bundle_id] || {};
+                  setFieldValue('bundle_id', value);
+                  setFieldValue('portfolio_performance_indicator', portfolio_performance_indicator);
+                }}
                 onBlur={() => setFieldTouched('bundle_id', true, true)}
                 error={touched.bundle_id && Boolean(errors.bundle_id)}
                 helperText={(touched.bundle_id && errors.bundle_id) as string}
