@@ -178,7 +178,7 @@ export default function SignIn() {
           >
             <Trans>lang_sign_in</Trans>
           </Button>
-          <div className={classes.termsContainer} style={{ marginTop: 16 }}>
+          {/* <div className={classes.termsContainer} style={{ marginTop: 16 }}>
             <Trans
               components={[
                 <Link key="termsOfService" target="_blank" href={`/novus-fintech-privacy-policy.pdf?${+new Date()}`} />,
@@ -187,7 +187,7 @@ export default function SignIn() {
             >
               lang_terms_of_service_and_privacy_policy
             </Trans>
-          </div>
+          </div> */}
         </form>
       </Box>
     </Paper>
