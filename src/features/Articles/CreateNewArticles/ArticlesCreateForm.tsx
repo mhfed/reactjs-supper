@@ -78,6 +78,11 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
     onCreate(values);
   };
 
+  React.useEffect(() => {
+    setTouched({});
+    setValues({ ...initialValues, ...initValues }, false);
+  }, [initValues]);
+
   const {
     values,
     errors,
