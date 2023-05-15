@@ -60,7 +60,7 @@ export const ARTICLE_STATUS = {
 
 export const ARTICLE_STATUS_OPTIONS = [
   { label: 'lang_draft', value: ARTICLE_STATUS.DRAFT, color: 'warning' },
-  { label: 'lang_scheduled', value: ARTICLE_STATUS.SCHEDULED, color: 'error' },
+  { label: 'lang_scheduled', value: ARTICLE_STATUS.SCHEDULED, color: 'info' },
   { label: 'lang_completed', value: ARTICLE_STATUS.COMPLETED, color: 'success' },
 ];
 

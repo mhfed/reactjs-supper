@@ -85,6 +85,12 @@ const useStyles = (props: TableProps) =>
         '&:not(.MuiTableCell-footer)': {
           maxWidth: 600,
         },
+        '& .info': {
+          '&.bg': {
+            background: theme.palette.hover.error,
+          },
+          color: theme.palette.secondary.main,
+        },
         '& .warning': {
           '&.bg': {
             background: theme.palette.hover.warning,
