@@ -302,8 +302,11 @@ const AuditTrail: React.FC<ReportProps> = () => {
                 disableClearable={false}
                 getOptionLabel={(option) => option.display_name || ''}
                 value={values.app_name}
-                onChange={(value) => setFieldValue('app_name', value || window?.apps?.[0] || '')}
-                onBlur={() => setFieldTouched('app_name', true, true)}
+                onChange={(value) => setFieldValue('app_name', value || '')}
+                onBlur={() => {
+                  if (!values.app_name && window?.apps?.[0]) setFieldValue('app_name', window.apps[0]);
+                  setFieldTouched('app_name', true, true);
+                }}
                 error={touched.app_name && Boolean(errors.app_name)}
                 helperText={(touched.app_name && errors.app_name) as string}
               />

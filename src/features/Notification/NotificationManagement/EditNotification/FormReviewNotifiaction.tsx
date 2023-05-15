@@ -36,13 +36,12 @@ const FormReviewNotifiaction: React.FC<FormReviewNotifiactionProps> = ({ form, c
   const { values } = form || {};
   const { UserGroup, ClientCategory } = NOTIFICATION_TYPE;
 
-  const delivery_type_preview = `${changeLabel(values?.delivery_type)} ${
+  const delivery_type_preview =
     values?.delivery_type === DELIVERY_TYPE.Schedule
-      ? moment(values?.schedule || '')
+      ? `Scheduled ${moment(values?.schedule || '')
           .local()
-          .format('DD/MM/YYYY HH:mm')
-      : ''
-  }`;
+          .format('DD/MM/YYYY HH:mm')}`
+      : 'Instant';
 
   const renderAutocompleteField = () => {
     switch (values.notification_type) {

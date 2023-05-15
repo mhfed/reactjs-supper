@@ -29,13 +29,12 @@ interface FormReviewNotificationProps {
 const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, classes }) => {
   const { values, handleChange, handleBlur, touched, errors } = form || {};
 
-  const delivery_type_preview = `${changeLabel(values?.delivery_type)} ${
+  const delivery_type_preview =
     values?.delivery_type === DELIVERY_TYPE.Schedule
-      ? moment(values?.schedule || '')
+      ? `Scheduled ${moment(values?.schedule || '')
           .local()
-          .format('DD/MM/YYYY HH:mm')
-      : ''
-  }`;
+          .format('DD/MM/YYYY HH:mm')}`
+      : 'Instant';
 
   let defaultArray = Array.isArray(values.bundle_id) ? values.bundle_id.map((x: any) => x?.display_name) : [];
   const { UserGroup, ClientCategory } = NOTIFICATION_TYPE;

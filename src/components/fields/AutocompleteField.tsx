@@ -274,6 +274,7 @@ const AutocompleteField: React.FC<AutocompleteFieldProps> = ({
               value={value}
               label={label ? <Trans>{label}</Trans> : null}
               error={error}
+              placeholder=""
               onChange={handleTextChange}
               InputProps={
                 placeHolderField

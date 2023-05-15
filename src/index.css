@@ -306,3 +306,7 @@ div[class*='MUIDataTableSelectCell-fixedLeft'] {
 ::-webkit-scrollbar-corner {
   background: transparent;
 }
+
+input:placeholder-shown ~ .MuiAutocomplete-clearIndicator {
+  display: none;
+}
