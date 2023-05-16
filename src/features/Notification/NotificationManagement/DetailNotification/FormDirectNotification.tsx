@@ -33,7 +33,7 @@ const FormDirectNotification: React.FC<FormDirectNotificationProps> = ({ form, c
 
   const delivery_type_preview =
     values?.delivery_type === DELIVERY_TYPE.Schedule
-      ? `Scheduled ${moment(values?.schedule || '')
+      ? `Scheduled ${moment(values?.schedule_time || '')
           .local()
           .format('DD/MM/YYYY HH:mm')}`
       : 'Instant';

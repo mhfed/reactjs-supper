@@ -77,6 +77,7 @@ const InputField: React.FC<TextFieldProps> = ({
       fullWidth={fullWidth}
       onBlur={_onBlur}
       onChange={onChange}
+      multiline
       disabled={disabled}
       required={preview ? false : required}
       variant={!disabled && preview && !variant ? 'standard' : variant}

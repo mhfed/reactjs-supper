@@ -95,6 +95,13 @@ const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], listFull = [], 
         bundle_id: values.app_name?.length ? values.app_name.map((e: IBundle) => e.bundle_id) : null,
       });
       hideModal();
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_access_updated_successfully',
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        }),
+      );
       callback?.();
     } catch (error) {
       dispatch(

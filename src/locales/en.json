@@ -1,4 +1,5 @@
 {
+  "lang_access_updated_successfully": "Access updated successfully",
   "lang_from_date_error_greater_to_date": "From date must be equal or smaller than To date",
   "lang_to_date_error_smaller_to_date": "To date must be equal or greater than From date",
   "lang_from_date_is_invalid": "From date is invalid",
