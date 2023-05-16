@@ -193,10 +193,7 @@ const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], listFull = [], 
 
   return (
     <div className={classes.divCointainer}>
-      <HeaderModal
-        title={formType === FORM_TYPE.EDIT ? 'lang_app_access_setup' : 'lang_preview_edit_access'}
-        onClose={hideModal}
-      />
+      <HeaderModal title={formType === FORM_TYPE.EDIT ? 'lang_app_access_setup' : 'lang_preview_edit_access'} onClose={onClose} />
       {formType === FORM_TYPE.EDIT ? (
         <form className={classes.container} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
