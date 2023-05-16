@@ -83,19 +83,12 @@ const RangeDate: React.FC<RangeDateProps> = (props) => {
   };
 
   /**
-   * Handle from date change
-   */
-  const onChangeFromDate = (value: any) => {
-    setFromDate(moment(value?.toDate()).startOf('day')?.toDate());
-    validateDate('from', value);
-  };
-
-  /**
    * Check validate input date
    * @param type from or to
    */
   const validateDate = (type: string, value: any) => {
     try {
+      if (!value) return setError((old) => ({ ...old, [type]: '' }));
       let error = '';
       const isFrom = type === 'from';
       if (!value.isValid() || +value.toDate() > +moment().toDate()) {
@@ -111,6 +104,18 @@ const RangeDate: React.FC<RangeDateProps> = (props) => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  /**
+   * Handle from date change
+   */
+  const onChangeFromDate = (value: any) => {
+    if (!value) {
+      setFromDate(moment(from).toDate());
+    } else {
+      setFromDate(moment(value?.toDate()).startOf('day')?.toDate());
+    }
+    validateDate('from', value);
   };
 
   /**
