@@ -92,7 +92,7 @@ const AppAccessSetup: React.FC<EditSegmentProps> = ({ data = [], listFull = [], 
     try {
       await httpRequest.put(getAccessManagementUrl(), {
         user_id: data.map((e) => e.user_id),
-        bundle_id: values.app_name?.length ? values.app_name.map((e: IBundle) => e.bundle_id) : null,
+        bundle_id: values.app_name?.length ? values.app_name.map((e: IBundle) => e.bundle_id) : [],
       });
       hideModal();
       dispatch(
