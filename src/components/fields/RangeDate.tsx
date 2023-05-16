@@ -98,7 +98,7 @@ const RangeDate: React.FC<RangeDateProps> = (props) => {
     try {
       let error = '';
       const isFrom = type === 'from';
-      if (!value.isValid()) {
+      if (!value.isValid() || +value.toDate() > +moment().toDate()) {
         error = isFrom ? 'lang_from_date_is_invalid' : 'lang_to_date_is_invalid';
       } else {
         if (isFrom && +value.toDate() > +toDate) {
