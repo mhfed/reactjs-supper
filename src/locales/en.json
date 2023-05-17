@@ -309,7 +309,7 @@
   "lang_clicked": "Clicked",
   "lang_delete": "Delete",
   "lang_delete_user": "Delete User",
-  "lang_view_detail": "View detail",
+  "lang_view_detail": "View Detail",
   "lang_force_to_change_password_unsuccessfully": "Force to change password unsuccessfully",
   "lang_force_to_change_password_successfully": "Force to change password  successfully",
   "lang_confirm_force_change_password": "Enter your email to force user login <0>{{user}}</0> to change password",
