@@ -35,6 +35,7 @@ const checkSiteName = (data?: string[]) => {
  */
 export const convertArticlesDataToDetailForm = (data: IArticlesDataManagement) => {
   return {
+    ...data,
     article_id: data.article_id,
     file: {
       name: data.attachment_name,
