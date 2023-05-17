@@ -342,7 +342,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
                   />
                 </Grid>
                 <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end', pb: 3 }}>
-                  {!haveSaveDraft ? (
+                  {haveSaveDraft ? (
                     <Button variant="outlined" className="customBtnDisable" network onClick={onSaveDraft}>
                       <Trans>lang_save_draft</Trans>
                     </Button>
