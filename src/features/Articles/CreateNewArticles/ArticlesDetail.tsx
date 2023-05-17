@@ -157,7 +157,7 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
               <RichTextboxField preview placeholder="lang_enter_your_content" label="lang_content" value={values.content} />
             </Grid>
           </Grid>
-          {values.status !== ARTICLE_STATUS.COMPLETED && values.editable ? (
+          {values.editable ? (
             <Box className={classes.btnContainer}>
               <Button variant="contained" sx={{ ml: 2 }} startIcon={<ModeEditIcon />} network onClick={onEdit}>
                 <Trans>lang_edit</Trans>
