@@ -52,6 +52,7 @@ type RangeDateProps = {
   onChange: (e: { from: Date; to: Date }) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   required?: boolean;
+  clearBackToOriginalValue?: boolean;
 };
 
 const RangeDate: React.FC<RangeDateProps> = (props) => {
@@ -88,7 +89,7 @@ const RangeDate: React.FC<RangeDateProps> = (props) => {
    */
   const validateDate = (type: string, value: any) => {
     try {
-      if (!value) return setError((old) => ({ ...old, [type]: '' }));
+      if (props.clearBackToOriginalValue && !value) return setError((old) => ({ ...old, [type]: '' }));
       let error = '';
       const isFrom = type === 'from';
       if (!value.isValid() || +value.toDate() > +moment().toDate()) {
@@ -110,7 +111,7 @@ const RangeDate: React.FC<RangeDateProps> = (props) => {
    * Handle from date change
    */
   const onChangeFromDate = (value: any) => {
-    if (!value) {
+    if (props.clearBackToOriginalValue && !value) {
       setFromDate(moment(from).toDate());
     } else {
       setFromDate(moment(value?.toDate()).startOf('day')?.toDate());
@@ -122,7 +123,11 @@ const RangeDate: React.FC<RangeDateProps> = (props) => {
    * Handle to date change
    */
   const onChangeToDate = (value: any) => {
-    setToDate(moment(value?.toDate())?.endOf('day')?.toDate());
+    if (props.clearBackToOriginalValue && !value) {
+      setToDate(moment(to).toDate());
+    } else {
+      setToDate(moment(value?.toDate())?.endOf('day')?.toDate());
+    }
     validateDate('to', value);
   };
 

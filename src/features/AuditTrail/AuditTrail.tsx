@@ -337,6 +337,7 @@ const AuditTrail: React.FC<ReportProps> = () => {
                 }}
                 error={touched.date && Boolean(errors.date)}
                 helperText={touched.date && errors.date}
+                clearBackToOriginalValue
               />
             </Grid>
           </Grid>
