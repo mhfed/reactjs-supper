@@ -30,6 +30,7 @@ import { Trans } from 'react-i18next';
 import { getSearchAppNameUrl, getSearchSecurityCodeUrl, getArticlesUrl, getUploadUrl } from 'apis/request.url';
 import { useGlobalModalContext } from 'containers/Modal';
 import ConfirmModal from 'components/molecules/ConfirmModal';
+import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import { httpRequest } from 'services/initRequest';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
@@ -168,13 +169,13 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
     const isDiff = checkDiffArticlesEdit(initValues, values);
     if (isDiff) {
       showSubModal({
-        title: 'lang_confirm',
-        component: ConfirmModal,
+        title: 'lang_confirm_cancel',
+        component: ConfirmEditModal,
         props: {
-          open: true,
-          alertTitle: 'lang_confirm_cancel',
-          alertContent: 'lang_confirm_cancel_text',
-          onClose: () => hideSubModal(),
+          title: 'lang_confirm_cancel_text',
+          emailConfirm: false,
+          cancelText: 'lang_no',
+          confirmText: 'lang_yes',
           onSubmit: () => {
             if (editFirst) hideModal();
             else {
@@ -182,8 +183,6 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
               onCancel();
             }
           },
-          textCancel: 'lang_no',
-          textSubmit: 'lang_yes',
         },
       });
     } else if (editFirst) {
@@ -203,6 +202,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
 
   const isDiff = checkDiffArticlesEdit(initValues, values);
   const haveSaveDraft = [ARTICLE_STATUS.DRAFT, ARTICLE_STATUS.SCHEDULED].includes(initValues.status);
+  const isDraft = initValues.status === ARTICLE_STATUS.DRAFT;
   const isCompleted = initValues.status === ARTICLE_STATUS.COMPLETED;
   return (
     <>
@@ -353,7 +353,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
                     <Trans>{editFirst ? 'lang_cancel' : 'lang_back'}</Trans>
                   </Button>
                   <Button type="submit" variant="contained" sx={{ ml: 2 }} network scrollToTop>
-                    <Trans>lang_save</Trans>
+                    <Trans>{isDraft ? 'lang_create' : 'lang_save'}</Trans>
                   </Button>
                 </Grid>
               </Grid>
