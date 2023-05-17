@@ -148,7 +148,7 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
         },
       },
     ];
-    if (data.status !== ARTICLE_STATUS.COMPLETED && data.editable) {
+    if (data.editable) {
       const editAction = {
         label: 'lang_edit',
         onClick: async (data: any) => {
