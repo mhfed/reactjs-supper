@@ -58,6 +58,7 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ isCreate, val
    * Handle create new articles
    */
   const onConfirm = () => {
+    setLoading(true);
     if (publishWithNotification.current) {
       const contentElement = document.getElementsByClassName('richtextboxPreviewContainer')?.[0];
       const message = contentElement ? (contentElement as HTMLElement).innerText?.replaceAll('\n', ' ') : '';
@@ -68,6 +69,7 @@ const ArticlesPreviewForm: React.FC<ArticlesPreviewFormProps> = ({ isCreate, val
         props: {
           beforeSubmit: isCreate ? onSubmit : null,
           data: { ...values, message },
+          callback: () => setLoading(false),
         },
       });
     } else {

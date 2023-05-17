@@ -23,6 +23,7 @@ export type IStyles = {
 type IProps = IStyles & {
   open: boolean;
   type?: string;
+  color?: 'error' | 'warning' | 'info' | 'primary' | 'inherit' | 'secondary';
   textSubmit?: string | React.ReactNode;
   textCancel?: string | React.ReactNode;
   alertTitle?: React.ReactNode | string;
@@ -40,6 +41,7 @@ const AlertConfirm = ({
   alertTitle,
   alertContent,
   timeRemaining,
+  color = 'primary',
   onClose,
   onSubmit,
   ...styles
@@ -61,7 +63,9 @@ const AlertConfirm = ({
       )}
       <DialogContent>
         <Typography>
-          <Trans values={{ time: minutesRemain }}>{alertContent}</Trans>
+          <Trans values={{ time: minutesRemain }} components={[<strong key="strong" />]}>
+            {alertContent}
+          </Trans>
         </Typography>
       </DialogContent>
       <DialogActions>
@@ -72,13 +76,7 @@ const AlertConfirm = ({
         ) : (
           <></>
         )}
-        <Button
-          network
-          onClick={onSubmit}
-          variant="contained"
-          autoFocus
-          color={textSubmit === 'lang_delete' ? 'error' : 'primary'}
-        >
+        <Button network onClick={onSubmit} variant="contained" autoFocus color={color}>
           <Trans>{textSubmit}</Trans>
         </Button>
       </DialogActions>

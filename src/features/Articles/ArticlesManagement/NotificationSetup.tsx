@@ -52,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 type NotificationSetupProps = {
   data: LooseObject;
+  callback: () => void;
   beforeSubmit?: (
     isPublish?: boolean,
     successCb?: (articleId?: string, bundleId?: string[]) => void,
@@ -59,10 +60,11 @@ type NotificationSetupProps = {
   ) => void;
 };
 
-const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmit }) => {
+const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmit, callback }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [editMode, setEditMode] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
   const { hideModal } = useGlobalModalContext();
 
   const initialValues = {
@@ -76,6 +78,7 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
    * Handle publish notification after create article success or resend noti
    */
   const handleFormSubmit = async () => {
+    setLoading(true);
     const onPublishNotification = async (articleId: string, bundleId: string[]) => {
       try {
         const body: any = {
@@ -99,8 +102,12 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
             variant: 'success',
           }),
         );
+        setLoading(false);
+        callback?.();
         hideModal();
       } catch (error) {
+        setLoading(false);
+        callback?.();
         dispatch(
           enqueueSnackbarAction({
             message: error?.errorCodeLang || 'lang_send_notification_unsuccessfully',
@@ -114,7 +121,6 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
       beforeSubmit(true, onPublishNotification);
     } else {
       const { data: allAppAccess } = await httpRequest.get(getSearchAppNameUrl());
-      console.log('YOLO: ', allAppAccess);
       onPublishNotification(
         data.article_id,
         data.app?.map((e: IBundle) => e.bundle_id),
@@ -277,7 +283,7 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
           <Button variant="outlined" onClick={() => setEditMode(true)} scrollToTop>
             <Trans>lang_return</Trans>
           </Button>
-          <Button variant="contained" type="submit" network>
+          <Button variant="contained" type="submit" network isLoading={loading}>
             <Trans>lang_confirm</Trans>
           </Button>
         </Stack>

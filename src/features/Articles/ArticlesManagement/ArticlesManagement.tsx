@@ -142,6 +142,7 @@ const ArticlesManagement: React.FC<ArticlesManagementProps> = () => {
               onSubmit: () => confirmDeleteArticles(data[FIELD.ARTICLES_ID]),
               textSubmit: 'lang_delete',
               textCancel: 'lang_cancel',
+              color: 'error',
             },
           });
         },

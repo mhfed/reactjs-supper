@@ -16,11 +16,12 @@ import makeStyles from '@mui/styles/makeStyles';
 import { FIELD, NOTIFICATION_STATUS, NOTIFICATION_STATUS_OPTIONS } from '../NotificationConstants';
 import { IBundle, ITableConfig } from 'models/ICommon';
 import { useGlobalModalContext } from 'containers/Modal';
-import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
+import ConfirmModal from 'components/molecules/ConfirmModal';
 import DetailNotification from './DetailNotification';
 import EditNotification from './EditNotification';
 import { Inotifiaction } from 'models/INotification';
 import NotificationAdvancedFilter from './Components/NotificationAdvancedFilter';
+import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { changeLabel } from '../CreateNewNotification/Components/FormReviewNotification';
 
@@ -42,6 +43,7 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
   const gridRef = React.useRef<TableHandle>(null);
   const { showModal, hideModal } = useGlobalModalContext();
   const filterObjApi = React.useRef<any>({});
+  const { t } = useTranslation();
 
   /**
    * Get list notification
@@ -189,19 +191,21 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     }
     actions.push({
       label: 'lang_recall',
-      onClick: (data: any) =>
+      onClick: (data: any) => {
         showModal({
-          title: 'lang_confirm',
-          component: ConfirmEditModal,
+          component: ConfirmModal,
           props: {
-            emailConfirm: false,
-            confirmText: 'lang_recall',
-            colorButtonConfirm: 'error',
-            title: 'lang_confirm_delete_notification',
-            titleTransValues: { notification: data[FIELD.NOTIFICATION_ID] },
+            open: true,
+            alertTitle: 'lang_confirm',
+            alertContent: t('lang_confirm_delete_notification', { notification: data[FIELD.NOTIFICATION_ID] }),
+            onClose: () => hideModal(),
             onSubmit: () => confirmDeleteNotification(data[FIELD.NOTIFICATION_ID]),
+            textSubmit: 'lang_recall',
+            textCancel: 'lang_cancel',
+            color: 'error',
           },
-        }),
+        });
+      },
     });
     return actions;
   };
