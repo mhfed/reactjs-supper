@@ -80,8 +80,6 @@ export default function SignIn() {
   const { t } = useTranslation();
   const [disabled, setDisabled] = useState(false);
 
-  // fixed CLIENT_ID & RESPONSE_TYPE
-  const CLIENT_ID = 'swq7xlOvB8qD4iPqxpNn';
   const RESPONSE_TYPE = 'code';
   const redirectUrL = window.env?.REACT_APP_REDIRECT_URL || process.env.REACT_APP_REDIRECT_URL || '';
   /**
@@ -91,7 +89,13 @@ export default function SignIn() {
   const handleFormSubmit = async (values: ILoginValues, { setFieldError }: any) => {
     const sitename = (values.site_name + '').replace(/\s/g, '').toLocaleLowerCase();
     const loginXplanURl =
-      sitename + '/oauth2/auth?client_id=' + CLIENT_ID + '&response_type=' + RESPONSE_TYPE + '&redirect_uri=' + redirectUrL;
+      sitename +
+      '/oauth2/auth?client_id=' +
+      process.env.REACT_APP_CLIENT_ID +
+      '&response_type=' +
+      RESPONSE_TYPE +
+      '&redirect_uri=' +
+      redirectUrL;
 
     const existURL = await checkExistURL(sitename);
     if (existURL) {
