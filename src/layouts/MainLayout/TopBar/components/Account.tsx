@@ -107,6 +107,7 @@ function Account({ ...classes }) {
         open={open}
         alertTitle="lang_sign_out"
         alertContent="lang_confirm_logout"
+        textCancel="lang_cancel"
         onClose={onCloseLogout}
         onSubmit={onConfirmLogout}
       />
