@@ -301,7 +301,13 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
 
   return (
     <>
-      <HeaderModal title={editMode ? 'lang_notification_setup' : 'lang_preview_notification_setup'} onClose={hideModal} />
+      <HeaderModal
+        title={editMode ? 'lang_notification_setup' : 'lang_preview_notification_setup'}
+        onClose={() => {
+          callback?.();
+          hideModal();
+        }}
+      />
       <form className={classes.form} noValidate onSubmit={handleSubmit}>
         {editMode ? renderEditScreen() : renderPreviewScreen()}
       </form>
