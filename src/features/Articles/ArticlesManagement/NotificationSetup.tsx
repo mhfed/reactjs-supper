@@ -108,6 +108,7 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
       } catch (error) {
         setLoading(false);
         callback?.();
+        hideModal();
         dispatch(
           enqueueSnackbarAction({
             message: error?.errorCodeLang || 'lang_send_notification_unsuccessfully',
@@ -247,7 +248,14 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
           </Grid>
         </Box>
         <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
-          <Button variant="outlined" onClick={() => hideModal()} scrollToTop>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              callback?.();
+              hideModal();
+            }}
+            scrollToTop
+          >
             <Trans>lang_cancel</Trans>
           </Button>
           <Button variant="contained" onClick={onCreate}>
