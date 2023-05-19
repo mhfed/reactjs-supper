@@ -73,17 +73,22 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
    * Check data change and show popup confirm
    */
   const handleBeforeSubmit = (values: LooseObject) => {
-    if (!isDiff) {
-      dispatch(
-        enqueueSnackbarAction({
-          message: 'lang_there_is_no_change_in_the_article_information',
-          key: new Date().getTime() + Math.random(),
-          variant: 'warning',
-        }),
-      );
-    } else {
+    if (isDraft) {
       isSaveDraft.current = false;
       setStep(STEP.PREVIEW);
+    } else {
+      if (!isDiff) {
+        dispatch(
+          enqueueSnackbarAction({
+            message: 'lang_there_is_no_change_in_the_article_information',
+            key: new Date().getTime() + Math.random(),
+            variant: 'warning',
+          }),
+        );
+      } else {
+        isSaveDraft.current = false;
+        setStep(STEP.PREVIEW);
+      }
     }
   };
 
@@ -166,7 +171,6 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
    * Handle cancel edit, show confirm if user changed data
    */
   const handleCancel = () => {
-    const isDiff = checkDiffArticlesEdit(initValues, values);
     if (isDiff) {
       showSubModal({
         title: 'lang_confirm_cancel',
