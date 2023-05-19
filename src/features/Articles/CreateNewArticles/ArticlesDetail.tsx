@@ -76,9 +76,13 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
         <HeaderModal title="lang_articles_details" onClose={hideModal} />
         <Box className={classes.container}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <InputField preview name="title" label="lang_title" fullWidth value={values.title} />
-            </Grid>
+            {values.title ? (
+              <Grid item xs={12}>
+                <InputField preview name="title" label="lang_title" fullWidth value={values.title} />
+              </Grid>
+            ) : (
+              <></>
+            )}
             {values.file?.name || values.file?.url ? (
               <Grid item xs={12}>
                 <FileField
@@ -93,28 +97,36 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
             ) : (
               <></>
             )}
-            <Grid item xs={12}>
-              <ImageField
-                preview
-                name="image"
-                label="lang_thumbnail_image"
-                helperText="(JPEG, JPG, PNG, HEIC)"
-                accept=".png, .heic, .jpeg, .jpg"
-                value={values.image}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <AutocompleteField
-                preview
-                name="appname_custom"
-                label="lang_app_name"
-                required
-                getUrl={getSearchSitenameUrl}
-                isOptionEqualToValue={(opt, select) => opt.bundle_id === select.bundle_id}
-                getOptionLabel={(opt) => opt.display_name || ''}
-                value={values.appname_custom}
-              />
-            </Grid>
+            {values.image ? (
+              <Grid item xs={12}>
+                <ImageField
+                  preview
+                  name="image"
+                  label="lang_thumbnail_image"
+                  helperText="(JPEG, JPG, PNG, HEIC)"
+                  accept=".png, .heic, .jpeg, .jpg"
+                  value={values.image}
+                />
+              </Grid>
+            ) : (
+              <></>
+            )}
+            {values.appname_custom?.length ? (
+              <Grid item xs={12}>
+                <AutocompleteField
+                  preview
+                  name="appname_custom"
+                  label="lang_app_name"
+                  required
+                  getUrl={getSearchSitenameUrl}
+                  isOptionEqualToValue={(opt, select) => opt.bundle_id === select.bundle_id}
+                  getOptionLabel={(opt) => opt.display_name || ''}
+                  value={values.appname_custom}
+                />
+              </Grid>
+            ) : (
+              <></>
+            )}
             <Grid item xs={12}>
               <InputField
                 preview
@@ -126,17 +138,21 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
                 value={localStorage.getItem('sitename') || ''}
               />
             </Grid>
-            <Grid item xs={12}>
-              <SelectField
-                preview
-                options={SECURITY_TYPE_OPTIONS}
-                name="security_type"
-                label="lang_security_type"
-                required
-                fullWidth
-                value={values.security_type}
-              />
-            </Grid>
+            {values.security_type ? (
+              <Grid item xs={12}>
+                <SelectField
+                  preview
+                  options={SECURITY_TYPE_OPTIONS}
+                  name="security_type"
+                  label="lang_security_type"
+                  required
+                  fullWidth
+                  value={values.security_type}
+                />
+              </Grid>
+            ) : (
+              <></>
+            )}
             {values.securities?.length ? (
               <Grid item xs={12}>
                 <AutocompleteField
@@ -153,9 +169,13 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
             ) : (
               <></>
             )}
-            <Grid item xs={12}>
-              <RichTextboxField preview placeholder="lang_enter_your_content" label="lang_content" value={values.content} />
-            </Grid>
+            {values.content ? (
+              <Grid item xs={12}>
+                <RichTextboxField preview placeholder="lang_enter_your_content" label="lang_content" value={values.content} />
+              </Grid>
+            ) : (
+              <></>
+            )}
           </Grid>
           {values.editable ? (
             <Box className={classes.btnContainer}>

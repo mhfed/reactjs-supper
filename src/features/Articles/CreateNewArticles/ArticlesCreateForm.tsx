@@ -150,7 +150,6 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
       values.content ||
       values.image?.file ||
       values.file?.file ||
-      values.app !== APPNAME.ALL_APPS ||
       (values.app === APPNAME.CUSTOM && values.appname_custom?.length) ||
       values.securities?.length ||
       values.security_type

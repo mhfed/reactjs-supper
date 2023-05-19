@@ -34,23 +34,25 @@ const checkSiteName = (data?: string[]) => {
  * @returns converted data suitable with form data
  */
 export const convertArticlesDataToDetailForm = (data: IArticlesDataManagement) => {
-  return {
+  const res: any = {
     ...data,
     article_id: data.article_id,
-    file: {
-      name: data.attachment_name,
-      url: data.attachment_url,
-    },
+    file: '',
+    image: '',
     content: data.content,
-    image: {
-      url: data.image,
-    },
     securities: data?.securities?.map((e: string) => ({ securities: e })),
     security_type: data.security_type,
     app: typeof data.app === 'string' || checkSiteName(data.site_name) ? APPNAME.ALL_APPS : APPNAME.CUSTOM,
     appname_custom: data.app?.length && !checkSiteName(data.app) ? data.app : [],
     title: data.title,
   };
+  if (data.attachment_name || data.attachment_url)
+    res.file = {
+      name: data.attachment_name,
+      url: data.attachment_url,
+    };
+  if (data.image) res.image = { url: data.image };
+  return res;
 };
 
 /**

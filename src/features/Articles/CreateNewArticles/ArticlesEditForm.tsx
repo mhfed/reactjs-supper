@@ -110,7 +110,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
         title: values.title,
         content: values.content,
         security_type: values.security_type,
-        article_type: values.article_type,
+        article_type: isSaveDraft.current ? 'draft' : 'publish',
         notification_enabled: isPublish || values.notification_enabled,
       };
       if (values.securities?.length) {
