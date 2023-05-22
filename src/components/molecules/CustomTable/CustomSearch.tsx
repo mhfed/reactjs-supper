@@ -146,7 +146,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
     const searchVal = e.target.value.trim();
     timeoutId.current && window.clearTimeout(timeoutId.current);
     timeoutId.current = window.setTimeout(() => {
-      if ((searchVal && searchVal.length >= 2) || e.target.value === '') handleSearch(searchVal);
+      if ((searchVal && searchVal.length >= 2) || e.target.value === '') handleSearch(searchVal, appName);
     }, process.env.REACT_APP_DEBOUNCE_TIME);
   };
 
@@ -155,7 +155,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
    */
   const clearSearch = () => {
     inputRef.current && (inputRef.current.value = '');
-    handleSearch('');
+    handleSearch('', appName);
   };
 
   const resetFilter = () => {
@@ -198,7 +198,8 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
    */
   const onSearchAppName = (value: IBundle) => {
     setAppName(value);
-    handleSearch('', value);
+    const searchText = inputRef?.current?.value || '';
+    handleSearch(searchText, value);
   };
 
   /**
