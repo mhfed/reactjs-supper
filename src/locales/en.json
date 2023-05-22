@@ -1,4 +1,5 @@
 {
+  "lang_delete_article": "Delete article",
   "lang_notification_id": "Notification ID",
   "lang_access_updated_successfully": "Access updated successfully",
   "lang_from_date_error_greater_to_date": "From date must be equal or smaller than To date",
@@ -40,7 +41,7 @@
   "lang_client_category_id_require": "Please select client category",
   "lang_user_group_require": "Please select user group(s)",
   "lang_app_name_require": "Please select app name",
-  "lang_ask_confirm_delete_article": "Article will be deleted permanently and cannot be restored. Do you want to proceed?",
+  "lang_ask_confirm_delete_article": "Article will be deleted permanently and cannot be restored.<br/> Do you want to proceed?",
   "lang_publish_with_notification": "Publish with notification",
   "lang_save_draft": "Save Draft",
   "lang_title_must_includes_255": "Title must include 1 - 255 characters",
