@@ -197,6 +197,27 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
   };
 
   /**
+   * Handle close edit form, show confirm if user changed data
+   */
+  const handleCloseModal = () => {
+    if (!isDiff) return hideModal();
+
+    return showSubModal({
+      title: 'lang_confirm_cancel',
+      component: ConfirmEditModal,
+      props: {
+        title: 'lang_confirm_cancel_text',
+        emailConfirm: false,
+        cancelText: 'lang_no',
+        confirmText: 'lang_yes',
+        onSubmit: () => {
+          hideModal();
+        },
+      },
+    });
+  };
+
+  /**
    * Hanle save draft, switch to preview with draft mode
    */
   const onSaveDraft = () => {
@@ -212,7 +233,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
     <>
       {step === STEP.EDIT ? (
         <>
-          <HeaderModal title="lang_edit_article" onClose={hideModal} />
+          <HeaderModal title="lang_edit_article" onClose={handleCloseModal} />
           <Paper className={classes.container}>
             <form noValidate onSubmit={handleSubmit}>
               <Grid container spacing={2}>
@@ -366,7 +387,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
         </>
       ) : (
         <>
-          <HeaderModal title="lang_preview_edit_article" onClose={hideModal} />
+          <HeaderModal title="lang_preview_edit_article" onClose={handleCloseModal} />
           <ArticlesPreviewForm onReturn={onReturn} values={values} onSubmit={onSubmit} />
         </>
       )}

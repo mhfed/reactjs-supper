@@ -30,11 +30,18 @@ const initWebsite = () => {
   );
 };
 
+const DOMAIN_DEV = 'iress-wealth-dev.equix.app';
+const getDomainConfig = () => {
+  const isLocalHost = ['localhost', '127.0.0.1', ''].includes(window.location.hostname);
+
+  return isLocalHost ? DOMAIN_DEV : window.location.host;
+};
+
 const initConfig = () => {
-  fetch(`https://web-config.equix.app/${window.location.host}/web.txt`)
+  fetch(`https://web-config.equix.app/${getDomainConfig()}/web.txt`)
     .then((response) => response.text())
     .then((config) => {
-      const bytes = CryptoJS.AES.decrypt(config, window.location.host);
+      const bytes = CryptoJS.AES.decrypt(config, getDomainConfig());
       const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
       window.env = {};
       window.env['REACT_APP_ENDPOINT_URL'] = decryptedData?.endpointUrl;
