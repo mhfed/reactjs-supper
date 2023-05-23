@@ -68,6 +68,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
   const { showSubModal, hideSubModal, hideModal } = useGlobalModalContext();
   const dispatch = useDispatch();
   const isSaveDraft = React.useRef(false);
+  const [loading, setLoading] = React.useState(false);
 
   /**
    * Check data change and show popup confirm
@@ -111,6 +112,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
    */
   const onSubmit = async (isPublish?: boolean, successCb?: () => void, errorCb?: () => void) => {
     try {
+      setLoading(true);
       const body: ICreateArticlesBody = {
         title: values.title,
         content: values.content,
@@ -155,7 +157,9 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
       successCb?.();
       onSuccess?.();
       hideModal();
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       errorCb?.();
       const message = [120003].includes(error?.errorCode)
         ? error?.errorCodeLang
@@ -226,8 +230,18 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
    * Hanle save draft, switch to preview with draft mode
    */
   const onSaveDraft = () => {
-    isSaveDraft.current = true;
-    setStep(STEP.PREVIEW);
+    if (!isDiff) {
+      dispatch(
+        enqueueSnackbarAction({
+          message: 'lang_there_is_no_change_in_the_article_information',
+          key: new Date().getTime() + Math.random(),
+          variant: 'warning',
+        }),
+      );
+    } else {
+      isSaveDraft.current = true;
+      onSubmit(false);
+    }
   };
 
   const isDiff = checkDiffArticlesEdit(initValues, values);
@@ -373,7 +387,7 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
                 </Grid>
                 <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end', pb: 3 }}>
                   {haveSaveDraft ? (
-                    <Button variant="outlined" className="customBtnDisable" network onClick={onSaveDraft}>
+                    <Button variant="outlined" className="customBtnDisable" network onClick={onSaveDraft} isLoading={loading}>
                       <Trans>lang_save_draft</Trans>
                     </Button>
                   ) : (
