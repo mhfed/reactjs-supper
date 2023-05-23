@@ -118,8 +118,11 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
         );
       }
     };
+    const errorCb = () => {
+      setLoading(false);
+    };
     if (beforeSubmit) {
-      beforeSubmit(true, onPublishNotification);
+      beforeSubmit(true, onPublishNotification, errorCb);
     } else {
       const { data: allAppAccess } = await httpRequest.get(getSearchAppNameUrl());
       onPublishNotification(
