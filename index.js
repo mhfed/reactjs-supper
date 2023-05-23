@@ -1,38 +1,28 @@
-// Constructor function
-function Cat(name, color, type) {
-    this.name = name;
-    this.color = color
-    this.type = type
 
-    this.meow = function () {
-        console.log(`${this.name} meow meow`);
+//==================== Callback function  ================//
+// Là tham số - nhưng mà tham số này là function nên người ta gọi là callback function
+const nums = [1, 2, 3, 4, 5];
+
+const callback = (item, index) => {
+    console.log(`STT ${index} la ${item}`);
+}
+
+nums.forEach(callback)
+
+//==================== Currying function ================//
+// Đơn giản là function return về function
+
+function findNumber(num) {
+    return function (func) {
+        const result = [];
+        for (let i = 0; i < num; i++) {
+            if (func(i)) {
+                result.push[i]
+            }
+        }
+        return result;
     }
 }
 
-Cat.prototype.run = function () {
-    handle(this.meow)
-}
-
-let meow = new Cat('Meow', 'White', 'Bengal');
-meow.run();
-
-function handle(cb) {
-    cb();
-}
-
-// class
-class Car {
-    constructor(name, color, type) {
-        this.name = name;
-        this.color = color;
-        this.type = type;
-    };
-    bip() {
-        console.log(`${this.name} bipbip`);
-    }
-    run() {
-        handle(this.meow)
-    }
-}
-let car = new Cat('BMW', 'Black', 'Audi');
-car.run();
+const value = findNumber(10)(num => num % 2 === 0);
+console.log(value);
