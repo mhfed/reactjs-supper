@@ -157,9 +157,14 @@ const ArticlesEditForm: React.FC<ArticlesEditFormProps> = ({ data: initValues, o
       hideModal();
     } catch (error) {
       errorCb?.();
+      const message = [120003].includes(error?.errorCode)
+        ? error?.errorCodeLang
+        : isSaveDraft.current
+        ? 'lang_save_draft_unsuccessfully'
+        : 'lang_update_articles_unsuccessfully';
       dispatch(
         enqueueSnackbarAction({
-          message: isSaveDraft.current ? 'lang_save_draft_unsuccessfully' : 'lang_update_articles_unsuccessfully',
+          message,
           key: new Date().getTime() + Math.random(),
           variant: 'error',
         }),

@@ -419,6 +419,7 @@
   "lang_confirm_your_new_pin": "Confirm Your New PIN",
   "error_code_ERR_NETWORK": "Network Error",
   "error_code_120004": "You cannot delete this article right now",
+  "error_code_120003": "You cannot edit this article right now",
   "error_code_120002": "You cannot create this article right now",
   "error_code_110001": "You cannot edit this report right now",
   "error_code_110002": "Report cannot be enabled",
