@@ -23,6 +23,7 @@ const CreateNewArticles = () => {
   const [step, setStep] = React.useState<number>(STEP.CREATE);
   const data = React.useRef<LooseObject>({});
   const isSaveDraft = React.useRef(false);
+  const [loading, setLoading] = React.useState(false);
   const dispatch = useDispatch();
   const triggerForceUpdate = useForceUpdate();
 
@@ -56,6 +57,7 @@ const CreateNewArticles = () => {
     errorCb?: () => void,
   ) => {
     try {
+      setLoading(true);
       const values = { ...data.current };
       const body: any = {
         article_type: isSaveDraft.current ? 'draft' : 'publish',
@@ -95,7 +97,9 @@ const CreateNewArticles = () => {
       data.current = {};
       if (step !== STEP.CREATE) setStep(STEP.CREATE);
       else triggerForceUpdate();
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       errorCb?.();
       const message = [120002].includes(error?.errorCode)
         ? error?.errorCodeLang
@@ -115,7 +119,7 @@ const CreateNewArticles = () => {
   return (
     <>
       {step === STEP.CREATE ? (
-        <ArticlesCreateForm onCreate={onCreate} values={data.current} />
+        <ArticlesCreateForm onCreate={onCreate} values={data.current} isLoading={loading} />
       ) : (
         <ArticlesPreviewForm isCreate onReturn={onReturn} values={data.current} onSubmit={onSubmit} />
       )}

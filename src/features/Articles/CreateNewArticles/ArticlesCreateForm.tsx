@@ -50,9 +50,10 @@ const useStyles = makeStyles((theme) => ({
 type ArticlesCreateFormProps = {
   values: LooseObject;
   onCreate: (values: LooseObject, isSaveDraft?: boolean) => void;
+  isLoading: boolean;
 };
 
-const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, values: initValues }) => {
+const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, values: initValues, isLoading }) => {
   const initialValues = {
     title: '',
     content: '',
@@ -292,7 +293,7 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
             </Grid>
           </Grid>
           <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button variant="outlined" className="customBtnDisable" network onClick={onSaveDraft}>
+            <Button variant="outlined" className="customBtnDisable" network isLoading={isLoading} onClick={onSaveDraft}>
               <Trans>lang_save_draft</Trans>
             </Button>
             <Button variant="outlined" sx={{ ml: 2 }} onClick={onClear}>
