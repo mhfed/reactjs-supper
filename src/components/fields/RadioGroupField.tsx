@@ -30,10 +30,11 @@ type RadioGroupFieldProps = {
   disabled?: boolean;
   style?: React.CSSProperties | undefined;
   translate?: boolean;
+  preview?: boolean;
 };
 
 const RadioGroupField: React.FC<RadioGroupFieldProps> = (props) => {
-  const { label, data, style, translate = true, rowItems, helperText, ...rest } = props;
+  const { label, data, style, translate = true, rowItems, helperText, preview, ...rest } = props;
 
   const isError = rest?.error || false;
 
@@ -54,13 +55,25 @@ const RadioGroupField: React.FC<RadioGroupFieldProps> = (props) => {
   return (
     <FormControl {...rest} error={!!isError}>
       {label ? (
-        <FormLabel component="legend" sx={{ fontSize: '14px !important' }}>
+        <FormLabel component="legend" sx={{ fontSize: '16px !important', color: preview ? '#758695 !important' : '' }}>
           {translate ? <Trans>{label}</Trans> : label}
         </FormLabel>
       ) : (
         <React.Fragment />
       )}
-      <RadioGroup row={Boolean(rowItems)} style={style} {...rest}>
+      <RadioGroup
+        row={Boolean(rowItems)}
+        style={style}
+        sx={{
+          '& .Mui-checked.Mui-disabled': {
+            color: preview ? '#758695 !important' : '',
+          },
+          '& .MuiFormControlLabel-label': {
+            color: preview ? '#272B3B !important' : '',
+          },
+        }}
+        {...rest}
+      >
         {data.map((item, index: React.Key | null | undefined) => (
           <FormControlLabel
             key={index}

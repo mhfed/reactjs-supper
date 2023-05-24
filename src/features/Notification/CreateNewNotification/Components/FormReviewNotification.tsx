@@ -90,6 +90,7 @@ const FormReviewNotification: React.FC<FormReviewNotificationProps> = ({ form, c
             value={values?.notification_type}
             onChange={handleChange}
             onBlur={handleBlur}
+            preview
             disabled
             error={touched?.notification_type && Boolean(errors?.notification_type)}
             helperText={touched.notification_type && errors.notification_type}
