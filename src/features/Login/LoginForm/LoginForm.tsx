@@ -81,7 +81,8 @@ export default function SignIn() {
   const [disabled, setDisabled] = useState(false);
 
   const RESPONSE_TYPE = 'code';
-  const redirectUrL = window.env?.REACT_APP_REDIRECT_URL || process.env.REACT_APP_REDIRECT_URL || '';
+  const redirectUrL = window.env?.REACT_APP_REDIRECT_URL || '';
+  const clientId = window.env?.REACT_APP_CLIENT_ID || '';
   /**
    * Handle login by login Xpan Iress
    * @param values form data
@@ -89,13 +90,7 @@ export default function SignIn() {
   const handleFormSubmit = async (values: ILoginValues, { setFieldError }: any) => {
     const sitename = (values.site_name + '').replace(/\s/g, '').toLocaleLowerCase();
     const loginXplanURl =
-      sitename +
-      '/oauth2/auth?client_id=' +
-      process.env.REACT_APP_CLIENT_ID +
-      '&response_type=' +
-      RESPONSE_TYPE +
-      '&redirect_uri=' +
-      redirectUrL;
+      sitename + '/oauth2/auth?client_id=' + clientId + '&response_type=' + RESPONSE_TYPE + '&redirect_uri=' + redirectUrL;
 
     const existURL = await checkExistURL(sitename);
     if (existURL) {

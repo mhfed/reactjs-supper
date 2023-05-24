@@ -4,10 +4,7 @@
   "private": true,
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "build:dev": "chmod +x ./scripts/build-dev.sh && ./scripts/build-dev.sh && env-cmd -f .env.development react-scripts build",
-    "build:uat": "chmod +x ./scripts/build-uat.sh && ./scripts/build-uat.sh && env-cmd -f .env.uat react-scripts build",
-    "build:prod": "chmod +x ./scripts/build-prod.sh && ./scripts/build-prod.sh && env-cmd -f .env.production react-scripts build",
+    "build": "set GENERATE_SOURCEMAP=false chmod +x ./scripts/build.sh && ./scripts/build.sh && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .ts,.tsx src --color",

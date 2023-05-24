@@ -47,6 +47,7 @@ const initConfig = () => {
       window.env['REACT_APP_ENDPOINT_URL'] = decryptedData?.endpointUrl;
       window.env['REACT_APP_REDIRECT_URL'] = decryptedData?.redirectUrl;
       window.env['REACT_APP_BASE_URL'] = decryptedData?.baseUrl;
+      window.env['REACT_APP_CLIENT_ID'] = decryptedData?.clientId;
       initWebsite();
     })
     .catch((error) => {

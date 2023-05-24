@@ -32,7 +32,7 @@ type IAxiosResponse = AxiosError & {
 } & IError;
 
 const requestConfig: IConfig = {
-  baseURL: process.env.REACT_APP_ENDPOINT_URL,
+  baseURL: window.env?.REACT_APP_ENDPOINT_URL,
   timeout: 500000,
   showSpinner: false,
 };
@@ -40,7 +40,7 @@ const requestConfig: IConfig = {
 export const axiosInstance = axios.create(requestConfig);
 
 export default function initRequest(store: any) {
-  requestConfig.baseURL = window.env?.REACT_APP_ENDPOINT_URL || process.env.REACT_APP_ENDPOINT_URL;
+  axiosInstance.defaults.baseURL = window.env?.REACT_APP_ENDPOINT_URL;
   let requestCount = 0;
 
   function decreaseRequestCount() {
