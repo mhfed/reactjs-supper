@@ -32,7 +32,7 @@ export const STATUS_OPTIONS = [
   },
 ];
 export const FIELD = {
-  REPORT_NAME: 'description',
+  REPORT_NAME: 'name',
   REPORT_TYPE: 'report_type',
   ID: 'id',
   TEMPLATE_ID: 'template_id',
