@@ -93,13 +93,36 @@ const lightTheme = createTheme({
       styleOverrides: {
         root: {
           '&.Mui-disabled': {
+            color: 'rgba(0, 0, 0, 0.6)',
             '.MuiFormLabel-asterisk': {
               color: 'rgba(0, 0, 0, 0.38)',
+            },
+            '.Mui-checked': {
+              color: '#758695 !important',
             },
           },
         },
         asterisk: {
           color: '#FF435F !important',
+        },
+      },
+    },
+    MuiRadio: {
+      styleOverrides: {
+        root: {
+          '&.Mui-disabled.Mui-checked': {
+            color: '#758695',
+          },
+        },
+      },
+    },
+    MuiFormControlLabel: {
+      styleOverrides: {
+        root: {},
+        label: {
+          '&.Mui-disabled': {
+            color: '#272B3B',
+          },
         },
       },
     },

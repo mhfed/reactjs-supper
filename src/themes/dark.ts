@@ -92,6 +92,7 @@ const darkTheme = createTheme({
       styleOverrides: {
         root: {
           '&.Mui-disabled': {
+            color: 'rgba(255, 255, 255, 0.7)',
             '.MuiFormLabel-asterisk': {
               color: 'rgba(255, 255, 255, 0.5)',
             },
@@ -99,6 +100,25 @@ const darkTheme = createTheme({
         },
         asterisk: {
           color: '#FF435F !important',
+        },
+      },
+    },
+    MuiRadio: {
+      styleOverrides: {
+        root: {
+          '&.Mui-disabled.Mui-checked': {
+            color: '#758695',
+          },
+        },
+      },
+    },
+    MuiFormControlLabel: {
+      styleOverrides: {
+        root: {},
+        label: {
+          '&.Mui-disabled': {
+            color: '#ffffff',
+          },
         },
       },
     },
