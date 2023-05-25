@@ -328,14 +328,14 @@ const NotificationManagement: React.FC<NotificationManagementProps> = () => {
     if (filterObj.from) {
       currentFilter = {
         ...currentFilter,
-        from: moment(filterObj.from).format('DDMMYYYY'),
+        from: moment(filterObj.from, 'DD/MM/YYYY').unix(),
       };
     }
 
     if (filterObj.to) {
       currentFilter = {
         ...currentFilter,
-        to: moment(filterObj.to).format('DDMMYYYY'),
+        to: moment(filterObj.to, 'DD/MM/YYYY').unix(),
       };
     }
 
