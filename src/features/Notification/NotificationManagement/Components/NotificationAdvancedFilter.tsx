@@ -83,7 +83,7 @@ const NotificationAdvancedFilter: React.FC<NotificationAdvancedFilterProps> = ({
   const onClearAll = () => {
     setValues(defaultValues, false);
     setTouched({});
-    resetFilter && resetFilter();
+    // resetFilter && resetFilter();
   };
 
   /**
