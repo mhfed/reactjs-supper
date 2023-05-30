@@ -92,7 +92,10 @@ const RangeDate: React.FC<RangeDateProps> = (props) => {
       if (props.clearBackToOriginalValue && !value) return setError((old) => ({ ...old, [type]: '' }));
       let error = '';
       const isFrom = type === 'from';
-      if (!value.isValid() || +value.toDate() > +moment().toDate()) {
+      const now = new Date().getTime();
+      const endOfCurrentDay = moment(now).endOf('day').valueOf();
+
+      if (!value.isValid() || +value.toDate() > endOfCurrentDay) {
         error = isFrom ? 'lang_from_date_is_invalid' : 'lang_to_date_is_invalid';
       } else {
         if (isFrom && +value.toDate() > +toDate) {
