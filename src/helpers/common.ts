@@ -163,7 +163,7 @@ function isValidUrl(url: string) {
  * @param url is sitename user enter to login
  * @returns url valid or invalid
  */
-export const checkExistURL = async (url: string) => {
+export const checkExistURL = (url: string) => {
   try {
     const myURL = new URL(url);
     if (!['https:', 'http:'].includes(myURL.protocol)) return false;

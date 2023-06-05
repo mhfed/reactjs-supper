@@ -92,9 +92,8 @@ export default function SignIn() {
     const loginXplanURl =
       sitename + '/oauth2/auth?client_id=' + clientId + '&response_type=' + RESPONSE_TYPE + '&redirect_uri=' + redirectUrL;
 
-    const existURL = await checkExistURL(sitename);
+    const existURL = checkExistURL(sitename);
     if (existURL) {
-      localStorage.setItem('sitename', sitename);
       window.open(loginXplanURl, '_self');
     } else {
       setFieldError('site_name', t('lang_sitename_is_invalid'));
@@ -107,9 +106,13 @@ export default function SignIn() {
   React.useEffect(() => {
     const url = new URL(window.location.href);
     const loginCode = url.searchParams.get('code') ?? '';
-    const sitename = localStorage.getItem('sitename') ?? '';
 
-    if (loginCode && sitename && !accessToken) {
+    const sitename = formatSitename(window.document.referrer ?? '');
+    if (sitename && window.env['REACT_APP_BASE_URL'] !== sitename) {
+      localStorage.setItem('sitename', sitename);
+    }
+
+    if (loginCode && !accessToken) {
       setFieldValue('site_name', sitename);
       dispatch(loginIress(loginCode, redirectUrL, sitename, navigate) as any);
     }
@@ -122,11 +125,25 @@ export default function SignIn() {
     setDisabled(!!error);
   }, [error]);
 
-  const { values, errors, touched, handleBlur, handleSubmit, handleChange, setFieldValue } = useFormik({
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue } = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,
   });
+  const formatSitename = (sitename: string) => {
+    if (!sitename.startsWith('https://')) return sitename;
+
+    const splited = sitename.split('//');
+    const afterHttp = splited[1];
+    const afterHttpHandled = afterHttp.split('/')[0];
+    const completedSitename = [splited[0], afterHttpHandled].join('//');
+    return completedSitename;
+  };
+  //handle change sitename field & auto remove last character if it = "/"
+  const handleBlurSitename = (e: React.FocusEvent<HTMLInputElement, Element>) => {
+    const value = formatSitename(e.target.value);
+    setFieldValue('site_name', value);
+  };
 
   return (
     <Paper className={classes.container}>
@@ -161,7 +178,7 @@ export default function SignIn() {
               !!error && dispatch(clearError());
               handleChange(e);
             }}
-            onBlur={handleBlur}
+            onBlur={handleBlurSitename}
             error={(touched.site_name && Boolean(errors.site_name)) || !!error}
             helperText={touched.site_name && errors.site_name}
           />
