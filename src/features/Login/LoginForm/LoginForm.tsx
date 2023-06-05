@@ -108,11 +108,8 @@ export default function SignIn() {
     const loginCode = url.searchParams.get('code') ?? '';
 
     const sitename = formatSitename(window.document.referrer ?? '');
-    if (sitename && window.env['REACT_APP_BASE_URL'] !== sitename) {
-      localStorage.setItem('sitename', sitename);
-    }
 
-    if (loginCode && !accessToken) {
+    if (loginCode && sitename && !accessToken) {
       setFieldValue('site_name', sitename);
       dispatch(loginIress(loginCode, redirectUrL, sitename, navigate) as any);
     }
@@ -130,6 +127,7 @@ export default function SignIn() {
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,
   });
+
   const formatSitename = (sitename: string) => {
     if (!sitename.startsWith('https://')) return sitename;
 
@@ -139,6 +137,7 @@ export default function SignIn() {
     const completedSitename = [splited[0], afterHttpHandled].join('//');
     return completedSitename;
   };
+
   //handle change sitename field & auto remove last character if it = "/"
   const handleBlurSitename = (e: React.FocusEvent<HTMLInputElement, Element>) => {
     const value = formatSitename(e.target.value);

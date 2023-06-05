@@ -20,6 +20,7 @@ import { InputField, SelectField, AutocompleteField, RangeDate } from 'component
 import { Trans } from 'react-i18next';
 import Button from 'components/atoms/ButtonBase';
 import moment from 'moment';
+import authService from 'services/authService';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -104,7 +105,7 @@ const AuditTrail: React.FC<ReportProps> = () => {
   const gridRef = React.useRef<TableHandle>(null);
   const initialValues = {
     app_name: window.apps?.[0] || '',
-    sitename: localStorage.getItem('sitename'),
+    sitename: authService.getSitename(),
     function: FUNCTION_OPTIONS[0].value,
     fromDate: moment().add(-6, 'days').startOf('day'),
     toDate: moment().endOf('day'),

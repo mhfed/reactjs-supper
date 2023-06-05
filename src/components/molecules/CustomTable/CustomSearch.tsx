@@ -27,6 +27,7 @@ import { diff } from 'deep-diff';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
 import { httpRequest } from 'services/initRequest';
+import authService from 'services/authService';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -269,7 +270,7 @@ const CustomSearch: React.FC<CustomSearchProps> = ({
               variant="outlined"
               name="sitename"
               sx={{ minWidth: 336, mr: 1 }}
-              value={localStorage.getItem('sitename') || ''}
+              value={authService.getSitename() || ''}
               InputLabelProps={{
                 shrink: false,
               }}

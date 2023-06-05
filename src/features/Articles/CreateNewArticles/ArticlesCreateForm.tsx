@@ -32,6 +32,7 @@ import useConfirmEdit from 'hooks/useConfirmEdit';
 import { diff } from 'deep-diff';
 import { useDispatch } from 'react-redux';
 import { enqueueSnackbarAction } from 'actions/app.action';
+import authService from 'services/authService';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -59,7 +60,7 @@ const ArticlesCreateForm: React.FC<ArticlesCreateFormProps> = ({ onCreate, value
     content: '',
     image: '',
     file: '',
-    sitename: localStorage.getItem('sitename'),
+    sitename: authService.getSitename(),
     app: APPNAME.ALL_APPS,
     appname_custom: window.apps?.length === 1 ? window.apps : [],
     securities: [],

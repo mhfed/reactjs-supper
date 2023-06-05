@@ -22,6 +22,7 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { useGlobalModalContext } from 'containers/Modal';
 import ArticlesEditForm from './ArticlesEditForm';
 import { ARTICLE_STATUS } from 'features/Notification/NotificationConstants';
+import authService from 'services/authService';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -135,7 +136,7 @@ const ArticlesDetail: React.FC<ArticlesDetailProps> = ({ data: values, isEdit = 
                 required
                 fullWidth
                 maxLength={255}
-                value={localStorage.getItem('sitename') || ''}
+                value={authService.getSitename() || ''}
               />
             </Grid>
             {values.security_type ? (

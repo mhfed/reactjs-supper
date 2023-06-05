@@ -24,6 +24,7 @@ import { Trans } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { httpRequest } from 'services/initRequest';
 import { postAppNameSend, getSearchAppNameUrl } from 'apis/request.url';
+import authService from 'services/authService';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -86,7 +87,7 @@ const NotificationSetup: React.FC<NotificationSetupProps> = ({ data, beforeSubmi
           bundle_id: bundleId,
           title: values.title,
           message: values.message,
-          site_name: localStorage.getItem('sitename'),
+          site_name: authService.getSitename(),
           url: `${window.location.origin}?type=insights&article_id=${articleId}`,
           notification_category: 'insights',
         };

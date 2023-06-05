@@ -228,6 +228,8 @@ class AuthService {
   // get access token from store
   getAccessToken = () => store.getState().auth.accessToken;
 
+  getSitename = () => store.getState().auth.sitename;
+
   // check logined
   isAuthenticated = () => !!this.getAccessToken();
 

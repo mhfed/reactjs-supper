@@ -33,6 +33,7 @@ import FormCreateNotifiaction from './Components/FormCreateNotifiaction';
 import FormReviewNotification from './Components/FormReviewNotification';
 import useConfirmEdit from 'hooks/useConfirmEdit';
 import { diff } from 'deep-diff';
+import authService from 'services/authService';
 
 interface CreateNewNotificationProps {}
 
@@ -299,7 +300,7 @@ const initialValues: initialValuesType = {
   type_expired: EXPIRE.Weeks,
   user_group_id: [],
   schedule: '',
-  site_name: localStorage.getItem('sitename') || '',
+  site_name: authService.getSitename() || '',
   notification_category: '',
   url: '',
   client_category_id: '',
