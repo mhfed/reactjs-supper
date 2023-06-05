@@ -131,11 +131,10 @@ export default function SignIn() {
   const formatSitename = (sitename: string) => {
     if (!sitename.startsWith('https://')) return sitename;
 
-    const splited = sitename.split('//');
-    const afterHttp = splited[1];
-    const afterHttpHandled = afterHttp.split('/')[0];
-    const completedSitename = [splited[0], afterHttpHandled].join('//');
-    return completedSitename;
+    //regex remove special characters at the end sitename
+    const regex = /[^\w\s]{1,}$/;
+    const sitenameHandled = sitename.replace(regex, '');
+    return sitenameHandled;
   };
 
   //handle change sitename field & auto remove last character if it = "/"
