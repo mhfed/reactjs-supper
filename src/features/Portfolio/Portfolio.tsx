@@ -140,7 +140,7 @@ const Portfolio: React.FC<PortfolioProps> = () => {
       setFieldValue('bundle_id', bundleId);
       dispatch(
         enqueueSnackbarAction({
-          message: 'lang_update_user_successfully',
+          message: 'lang_update_portfolio_successfully',
           key: new Date().getTime() + Math.random(),
           variant: 'success',
         }),
