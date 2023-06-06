@@ -512,5 +512,6 @@
   "error_code_854002": "Your account has been signed out due to some unexpected errors. Please try again or contact Customer Support if the problem persists.",
   "error_code_855001": "Your request cannot be processed due to unstable internet connection, please try again.",
   "error_code_856000": "This user has no EKYC result",
+  "error_code_100017": "You cannot update portfolio performance indicator right now",
   "lang_error_code_INVALID_PARAM": "Invalid information, please try again"
 }
