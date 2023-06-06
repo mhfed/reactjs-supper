@@ -30,11 +30,10 @@ type RadioGroupFieldProps = {
   disabled?: boolean;
   style?: React.CSSProperties | undefined;
   translate?: boolean;
-  preview?: boolean;
 };
 
 const RadioGroupField: React.FC<RadioGroupFieldProps> = (props) => {
-  const { label, data, style, translate = true, rowItems, helperText, preview, ...rest } = props;
+  const { label, data, style, translate = true, rowItems, helperText, ...rest } = props;
 
   const isError = rest?.error || false;
 

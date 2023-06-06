@@ -12,7 +12,6 @@ import { LooseObject } from 'models/ICommon';
 import { Typography } from '@mui/material';
 import { SEARCH_BY_DROPDOWN, SEARCH_BY_TYPE } from 'features/Notification/CreateNewNotification/NotificationConstant';
 import { diff } from 'deep-diff';
-import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
   buttonWrapper: {

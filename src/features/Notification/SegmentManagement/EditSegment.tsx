@@ -82,13 +82,13 @@ const EditSegment: React.FC<EditSegmentProps> = ({ typePage, dataForm, listSubsc
   /**
    * Handle close form when detail mode or back to detail at edit mode
    */
-  const handleClose = () => {
-    if (stateForm === STATE_FORM.DETAIL) {
-      hideModal();
-    } else {
-      handleCancelEdit(true);
-    }
-  };
+  // const handleClose = () => {
+  //   if (stateForm === STATE_FORM.DETAIL) {
+  //     hideModal();
+  //   } else {
+  //     handleCancelEdit(true);
+  //   }
+  // };
 
   /**
    * Handle cancel button press, check diff and show confirm cancel popup

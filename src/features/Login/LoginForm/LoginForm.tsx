@@ -8,7 +8,7 @@
 
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import Link from '@mui/material/Link';
+// import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import makeStyles from '@mui/styles/makeStyles';
 import { loginIress, clearError } from 'actions/auth.action';
@@ -135,7 +135,7 @@ export default function SignIn() {
     setDisabled(!!error);
   }, [error]);
 
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue } = useFormik({
+  const { values, errors, touched, handleChange, handleSubmit, setFieldValue } = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: handleFormSubmit,

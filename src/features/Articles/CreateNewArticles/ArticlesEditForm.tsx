@@ -29,7 +29,6 @@ import Button from 'components/atoms/ButtonBase';
 import { Trans } from 'react-i18next';
 import { getSearchAppNameUrl, getSearchSecurityCodeUrl, getArticlesUrl, getUploadUrl } from 'apis/request.url';
 import { useGlobalModalContext } from 'containers/Modal';
-import ConfirmModal from 'components/molecules/ConfirmModal';
 import ConfirmEditModal from 'components/molecules/ConfirmEditModal';
 import { httpRequest } from 'services/initRequest';
 import { useDispatch } from 'react-redux';
