@@ -104,10 +104,23 @@ export default function SignIn() {
    * Handle if URI have code param => call api login
    */
   React.useEffect(() => {
+    // Tạo một key debugger trong localStorage sẽ ko login => lấy code để DEVELOPMENT
+    if (localStorage.getItem('debugger')) return;
+
     const url = new URL(window.location.href);
     const loginCode = url.searchParams.get('code') ?? '';
 
-    const sitename = formatSitename(window.document.referrer ?? '');
+    const isLocalHost = ['localhost', '127.0.0.1', ''].includes(window.location.hostname);
+    const getSiteName = () => {
+      // Fake sitename trong local để by pass login
+      const sitenameLocal = localStorage.getItem('sitename');
+      if (isLocalHost && sitenameLocal) return sitenameLocal;
+
+      // Môi trường thật thì lấy sitename qua document.referrer
+      return formatSitename(window.document.referrer ?? '');
+    };
+
+    const sitename = getSiteName();
 
     if (loginCode && sitename && !accessToken) {
       setFieldValue('site_name', sitename);
