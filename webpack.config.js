@@ -1,4 +1,5 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 console.log('__dirname', __dirname);
 console.log('path.resolve()', path.resolve());
@@ -19,5 +20,12 @@ module.exports = {
                 use: ['style-loader', 'css-loader', 'sass-loader']
             }
         ]
-    }
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            title: 'Hoc Webpack App',
+            filename: 'index.html',
+            template: './src/template.html'
+        })
+    ]
 }
