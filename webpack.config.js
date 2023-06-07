@@ -11,7 +11,8 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: "[name].[contenthash].js"// cái này optional vì trên entry có key là tên file đầu ra rồi,
+        filename: "[name].[contenthash].js",// cái này optional vì trên entry có key là tên file đầu ra rồi,
+        clean: true
     },
     module: {
         rules: [
