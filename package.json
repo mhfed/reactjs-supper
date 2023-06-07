@@ -1,0 +1,27 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "nodemon": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://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@github.com/mhfed/reactjs-supper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mhfed/reactjs-supper/issues"
+  },
+  "homepage": "https://github.com/mhfed/reactjs-supper#readme",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22",
+    "prettier": "^2.8.8"
+  }
+}
