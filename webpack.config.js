@@ -11,7 +11,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: "[name].js"// cái này optional vì trên entry có key là tên file đầu ra rồi,
+        filename: "[name].[contenthash].js"// cái này optional vì trên entry có key là tên file đầu ra rồi,
     },
     module: {
         rules: [
@@ -22,7 +22,9 @@ module.exports = {
         ]
     },
     plugins: [
-        new MiniCssExtractPlugin(),
+        new MiniCssExtractPlugin({
+            filename: "[name].[contenthash].css"
+        }),
         new HtmlWebpackPlugin({
             title: 'Hoc Webpack App',
             filename: 'index.html',
