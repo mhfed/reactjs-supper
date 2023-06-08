@@ -23,6 +23,20 @@ module.exports = (env) => {
           test: /\.s[ac]ss|css$/,
           use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
         },
+        {
+          test: /\.js$ /,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: [['@babel/preset-env', {
+                debug: true, // Hiển thị debug lên terminal để dễ debug
+                useBuiltIns: 'usage', // Dùng cái này thì đơn giản nhát, không cần import corejs vào code
+                corejs: '3.30.2', // Nên quy định version core-js để babel-preset-env nó hoạt động tối ưu
+              }]]
+            }
+          }
+        }
       ],
     },
     plugins: [
