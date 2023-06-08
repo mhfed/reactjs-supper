@@ -15,6 +15,7 @@ module.exports = (env) => {
       path: path.resolve(__dirname, "dist"),
       filename: "[name].[contenthash].js", // cái này optional vì trên entry có key là tên file đầu ra rồi,
       clean: true,
+      assetModuleFilename: '[file][query][fragment]'
     },
     devtool: isDevelopment ? "source-map" : false,
     module: {
@@ -36,6 +37,10 @@ module.exports = (env) => {
               }]]
             }
           }
+        },
+        {
+          test: /\.(png|svg|jpg|gif|pdf)$/i,
+          type: 'asset/resource'
         }
       ],
     },
